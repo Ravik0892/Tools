@@ -491,6 +491,39 @@ export default {
               <div class="tool-guide-step-text"><strong>Apply Filters</strong>: Apply vintage filter settings (Sepia, Hue-rotate, Blur) to backgrounds before exporting or copying PNG files.</div>
             </div>
           </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Cyberpunk Glow</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Sunset Vibes</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Canvas Style</span>
+                <div class="tool-guide-io-value">Cyberpunk Preset: Dark gradient + Neon title overlay</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Visual Design</span>
+                <div class="tool-guide-io-value">Cyberpunk styled preview on canvas</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Canvas Style</span>
+                <div class="tool-guide-io-value">Sunset Preset: Orange-pink gradient + White title overlay</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Visual Design</span>
+                <div class="tool-guide-io-value">Sunset styled preview on canvas</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -1194,10 +1227,25 @@ export default {
     // Setup initial presets and draw canvas
     renderGSPresets();
     
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#gs-guide-load-sample")?.addEventListener("click", () => {
       const presets = container.querySelectorAll(".gs-preset-btn");
-      if (presets.length > 0) {
-        presets[0].click();
+      if (presets.length > activeExampleIndex) {
+        presets[activeExampleIndex].click();
       }
     });
 

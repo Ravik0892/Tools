@@ -46,15 +46,56 @@ export default {
           <div class="tool-guide-steps">
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">1</div>
-              <div class="tool-guide-step-text"><strong>Paste JWT Token</strong>: Enter the full JWT string (Base64Url encoded Header, Payload, and Signature components separated by dots).</div>
+              <div class="tool-guide-step-text"><strong>Paste JWT Token</strong>: Enter the full JWT string (three Base64Url parts separated by dots).</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Inspect Header/Claims</strong>: Review the parsed header (algorithms) and payload metadata structure in real-time.</div>
+              <div class="tool-guide-step-text"><strong>Inspect Header &amp; Claims</strong>: Review the parsed algorithm header and payload claims in real-time.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Verify Expiration</strong>: Double-check issued at, expired status, and validity metadata of the token signature properties.</div>
+              <div class="tool-guide-step-text"><strong>Verify Expiration</strong>: Check the issued-at date, expiry status, subject and issuer fields shown below.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Decoded Payload</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Token Header</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input JWT</span>
+                <div class="tool-guide-io-value">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.xxx</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Payload</span>
+                <div class="tool-guide-io-value">{
+  "sub": "1234",
+  "name": "John Doe",
+  "admin": true
+}</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input JWT</span>
+                <div class="tool-guide-io-value">eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMyIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoMCJ9.xxx</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Header</span>
+                <div class="tool-guide-io-value">{
+  "alg": "RS256",
+  "kid": "123",
+  "typ": "JWT"
+}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -119,15 +160,35 @@ export default {
       runJwtDecoder();
     });
 
-    const loadSample = () => {
-      jwtInput.value = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoyNTI0NjA4MDAwfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-      runJwtDecoder();
-      appInstance.showToast("Sample JWT token loaded!", "info");
-    };
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
 
-    container.querySelector("#jwt-guide-load-sample")?.addEventListener("click", loadSample);
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
+    container.querySelector("#jwt-guide-load-sample")?.addEventListener("click", () => {
+      if (activeExampleIndex === 0) {
+        jwtInput.value = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.xxx";
+        runJwtDecoder();
+        appInstance.showToast("Loaded sample JWT to decode payload!", "info");
+      } else {
+        jwtInput.value = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMyIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoMCJ9.xxx";
+        runJwtDecoder();
+        appInstance.showToast("Loaded sample JWT with custom header!", "info");
+      }
+    });
 
     // Populate a sample JWT token for testing on initial load
-    loadSample();
+    jwtInput.value = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoyNTI0NjA4MDAwfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+    runJwtDecoder();
   }
 };

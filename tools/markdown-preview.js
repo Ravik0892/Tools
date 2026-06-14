@@ -33,15 +33,52 @@ export default {
           <div class="tool-guide-steps">
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">1</div>
-              <div class="tool-guide-step-text"><strong>Write Markdown</strong>: Enter markdown text using hashes for headings, stars for bold/italic, or backticks for code block panels.</div>
+              <div class="tool-guide-step-text"><strong>Write Markdown</strong>: Enter markdown using <code>#</code> for headings, <code>**bold**</code>, <code>*italic*</code>, or <code>&#96;code&#96;</code> blocks.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Review Preview</strong>: Observe live HTML rendering in the right pane as you edit inputs.</div>
+              <div class="tool-guide-step-text"><strong>Live Preview</strong>: The right panel renders your HTML preview instantly as you type — no button click needed.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Format Support</strong>: Standard syntax like blockquotes, un-ordered list bullets, ordered step numbers, and links are fully supported.</div>
+              <div class="tool-guide-step-text"><strong>Supported Syntax</strong>: Headings, lists, blockquotes, links, inline code, bold/italic, and code fences are all supported.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Heading &amp; Bold</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Bullets &amp; Code</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Markdown Input</span>
+                <div class="tool-guide-io-value"># Hello
+**Bold text** and *italic*</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Rendered Preview</span>
+                <div class="tool-guide-io-value"><h1>Hello</h1>
+<p><strong>Bold text</strong> and <em>italic</em></p></div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Markdown Input</span>
+                <div class="tool-guide-io-value">- Item One
+- Item Two with &#96;code&#96;</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Rendered Preview</span>
+                <div class="tool-guide-io-value"><ul><li>Item One</li>
+<li>Item Two with <code>code</code></li></ul></div>
+              </div>
             </div>
           </div>
         </div>
@@ -94,9 +131,31 @@ export default {
     };
 
     container.querySelector("#md-load-sample")?.addEventListener("click", loadSample);
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#md-guide-load-sample")?.addEventListener("click", () => {
-      loadSample();
-      appInstance.showToast("Sample markdown preview loaded!", "info");
+      if (activeExampleIndex === 0) {
+        mdInput.value = "# Hello\n\n**Bold text** and *italic*";
+        renderMarkdown();
+        appInstance.showToast("Loaded heading and bold text sample!", "info");
+      } else {
+        mdInput.value = "- Item One\n- Item Two with \x60code\x60";
+        renderMarkdown();
+        appInstance.showToast("Loaded bullet points and code sample!", "info");
+      }
     });
 
     // Load sample automatically on init

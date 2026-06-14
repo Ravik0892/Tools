@@ -43,15 +43,52 @@ export default {
           <div class="tool-guide-steps">
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">1</div>
-              <div class="tool-guide-step-text"><strong>Input Texts</strong>: Insert base original text on the left, and the updated version on the right.</div>
+              <div class="tool-guide-step-text"><strong>Input Texts</strong>: Paste the original text on the left, and the updated/changed version on the right.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Compare Versions</strong>: Click **Compare Text** to calculate structural line diff changes.</div>
+              <div class="tool-guide-step-text"><strong>Compare Versions</strong>: Click <strong>Compare Text</strong> to calculate line-by-line structural diff changes.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Analyze Differences</strong>: Added lines will highlight in green, while deleted lines highlight in red.</div>
+              <div class="tool-guide-step-text"><strong>Color Highlights</strong>: Added lines show in <strong style="color: #10b981">green (+)</strong>, deleted lines in <strong style="color: #f43f5e">red (-)</strong>.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Line Insertion</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Line Removal</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Original vs Modified</span>
+                <div class="tool-guide-io-value">Orig: Hello World
+Mod: Hello World\nNew Line Added</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Diff Result</span>
+                <div class="tool-guide-io-value">  Hello World
++ New Line Added</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Original vs Modified</span>
+                <div class="tool-guide-io-value">Orig: Hello World\nRemoved Line
+Mod: Hello World</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Diff Result</span>
+                <div class="tool-guide-io-value">  Hello World
+- Removed Line</div>
+              </div>
             </div>
           </div>
         </div>
@@ -87,12 +124,38 @@ export default {
       runDiffCompare();
     };
 
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#diff-guide-load-sample")?.addEventListener("click", () => {
-      loadSample();
-      appInstance.showToast("Sample text comparison loaded!", "info");
+      if (activeExampleIndex === 0) {
+        diffOrig.value = "Hello World";
+        diffMod.value = "Hello World\nNew Line Added";
+        runDiffCompare();
+        appInstance.showToast("Loaded sample representing a line addition!", "info");
+      } else {
+        diffOrig.value = "Hello World\nRemoved Line";
+        diffMod.value = "Hello World";
+        runDiffCompare();
+        appInstance.showToast("Loaded sample representing a line removal!", "info");
+      }
     });
 
     // Populate a sample diff comparison on initial load
-    loadSample();
+    diffOrig.value = "OmniTool Hub v1\nClient-side utility hub\nFull privacy guaranteed";
+    diffMod.value = "OmniTool Hub v2 (Masterpiece Edition)\nClient-side utility hub\n100% serverless and offline\nFull privacy guaranteed";
+    runDiffCompare();
   }
 };

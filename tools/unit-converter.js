@@ -61,6 +61,39 @@ export default {
               <div class="tool-guide-step-text"><strong>Insert Values</strong>: Type a value inside the "Convert From" numeric input to view converted values instantly.</div>
             </div>
           </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Data Size</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Physical Length</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input</span>
+                <div class="tool-guide-io-value">Category: Data Size\nFrom: Gigabytes (GB)\nValue: 1</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Output</span>
+                <div class="tool-guide-io-value">1 GB = 1024 MB</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input</span>
+                <div class="tool-guide-io-value">Category: Length\nFrom: Kilometers (km)\nValue: 1</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Output</span>
+                <div class="tool-guide-io-value">1 km = 1000 m</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -152,14 +185,39 @@ export default {
     unitFromSel?.addEventListener("change", runConvert);
     unitToSel?.addEventListener("change", runConvert);
 
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#unit-guide-load-sample")?.addEventListener("click", () => {
-      unitCat.value = "length";
-      populateUnits();
-      unitFromVal.value = "100";
-      unitFromSel.value = "Kilometers (km)";
-      unitToSel.value = "Miles (mi)";
-      runConvert();
-      appInstance.showToast("Loaded length conversion sample!", "info");
+      if (activeExampleIndex === 0) {
+        unitCat.value = "data";
+        populateUnits();
+        unitFromVal.value = "1";
+        unitFromSel.value = "Gigabytes (GB)";
+        unitToSel.value = "Megabytes (MB)";
+        runConvert();
+        appInstance.showToast("Loaded data size conversion sample!", "info");
+      } else {
+        unitCat.value = "length";
+        populateUnits();
+        unitFromVal.value = "1";
+        unitFromSel.value = "Kilometers (km)";
+        unitToSel.value = "Meters (m)";
+        runConvert();
+        appInstance.showToast("Loaded length conversion sample!", "info");
+      }
     });
 
     // Populate units automatically on init

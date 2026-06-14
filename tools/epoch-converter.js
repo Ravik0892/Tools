@@ -67,11 +67,44 @@ export default {
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Date to Epoch</strong>: Enter an ISO date string (e.g. `YYYY-MM-DD HH:MM:SS`) on the right panel to extract timestamp values.</div>
+              <div class="tool-guide-step-text"><strong>Date to Epoch</strong>: Enter an ISO date string (e.g. <code>YYYY-MM-DD HH:MM:SS</code>) on the right panel to extract timestamp values.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Now Timestamp</strong>: Click **Set Current Time** to quickly retrieve and convert the current system's live timestamp.</div>
+              <div class="tool-guide-step-text"><strong>Now Timestamp</strong>: Click <strong>Set Current Time</strong> to quickly retrieve and convert the current system's live timestamp.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Seconds</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Milliseconds</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Unix Timestamp</span>
+                <div class="tool-guide-io-value">1700000000</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Human Date</span>
+                <div class="tool-guide-io-value">UTC: Tue, 14 Nov 2023 22:13:20 GMT</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Unix Timestamp</span>
+                <div class="tool-guide-io-value">1700000000000</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Human Date</span>
+                <div class="tool-guide-io-value">UTC: Tue, 14 Nov 2023 22:13:20 GMT</div>
+              </div>
             </div>
           </div>
         </div>
@@ -142,12 +175,32 @@ export default {
       });
     });
 
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#epoch-guide-load-sample")?.addEventListener("click", () => {
-      epInput.value = "1774390000";
-      dateInput.value = "2026-03-24 18:06:40";
+      if (activeExampleIndex === 0) {
+        epInput.value = "1700000000";
+        dateInput.value = "2023-11-14 22:13:20";
+      } else {
+        epInput.value = "1700000000000";
+        dateInput.value = "2023-11-14 22:13:20";
+      }
       convertTimestamp();
       container.querySelector("#date-convert-btn")?.click();
-      appInstance.showToast("Loaded standard sample timestamps!", "info");
+      appInstance.showToast("Loaded sample timestamp!", "info");
     });
 
     // Set now initially

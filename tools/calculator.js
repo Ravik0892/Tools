@@ -196,15 +196,48 @@ export default {
           <div class="tool-guide-steps">
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">1</div>
-              <div class="tool-guide-step-text"><strong>Arithmetic Calculations</strong>: Type formulas using buttons or your keyboard (e.g. `2 + 3 * 4` then press `=`).</div>
+              <div class="tool-guide-step-text"><strong>Arithmetic Calculations</strong>: Type formulas using buttons or your keyboard (e.g. <code>2 + 3 * 4</code> then press <code>=</code>).</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Scientific Operations</strong>: Toggle DEG/RAD mode, expand scientific functions pad, or click **Constants** to insert physical constant values.</div>
+              <div class="tool-guide-step-text"><strong>Scientific Operations</strong>: Toggle DEG/RAD mode, expand scientific functions pad, or click <strong>Constants</strong> to insert physical constant values.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>2D Grapher Plotting</strong>: Click **2D Grapher** tab, enter an algebraic function f(x) (e.g. `sin(x) * x`), and click **Plot Function**.</div>
+              <div class="tool-guide-step-text"><strong>2D Grapher Plotting</strong>: Click <strong>2D Grapher</strong> tab, enter an algebraic function f(x) (e.g. <code>sin(x) * x</code>), and click <strong>Plot Function</strong>.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Trig Formula</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Exponent Arithmetic</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input Formula</span>
+                <div class="tool-guide-io-value">sin(30) + cos(60) (DEG Mode)</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Output Result</span>
+                <div class="tool-guide-io-value">1</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input Formula</span>
+                <div class="tool-guide-io-value">2^3 + 5*2 - 4</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Output Result</span>
+                <div class="tool-guide-io-value">14</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1161,15 +1194,38 @@ export default {
         app.showToast("Cleared calculation history", "info");
       });
 
+      let activeExampleIndex = 0;
+      const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+      const rows = container.querySelectorAll(".tool-guide-io-row");
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          tabBtns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+          rows.forEach((row, idx) => {
+            row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+          });
+        });
+      });
+
       // Quick Guide "Try Example" — loads and evaluates a sample scientific expression
       container.querySelector("#calc-guide-load-sample")?.addEventListener("click", () => {
-        isDegrees = true;
-        if (angleBadge) angleBadge.innerText = "DEG";
-        formulaStr = "sin(30) + cos(60) * 10";
-        isResultState = false;
-        updateDisplay();
-        evaluateExpression();
-        app.showToast("Loaded: sin(30) + cos(60) × 10 → try editing and pressing =", "info");
+        if (activeExampleIndex === 0) {
+          isDegrees = true;
+          if (angleBadge) angleBadge.innerText = "DEG";
+          formulaStr = "sin(30) + cos(60)";
+          isResultState = false;
+          updateDisplay();
+          evaluateExpression();
+          app.showToast("Loaded: sin(30) + cos(60) → press =", "info");
+        } else {
+          formulaStr = "2^3 + 5*2 - 4";
+          isResultState = false;
+          updateDisplay();
+          evaluateExpression();
+          app.showToast("Loaded: 2^3 + 5*2 - 4 → press =", "info");
+        }
       });
     };
 

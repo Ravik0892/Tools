@@ -14,6 +14,7 @@ export default {
               <select class="form-select" id="grad-type">
                 <option value="linear">Linear</option>
                 <option value="radial">Radial</option>
+                <option value="conic">Conic</option>
               </select>
             </div>
             <div class="form-group" id="grad-angle-group">
@@ -51,6 +52,41 @@ export default {
               <input type="checkbox" id="grad-repeating" style="width: 16px; height: 16px; cursor: pointer;">
               <label for="grad-repeating" style="margin: 0; cursor: pointer; user-select: none;">Repeating Gradient</label>
             </div>
+          </div>
+
+          <div class="form-row" style="margin-bottom: 12px; grid-template-columns: 2fr 1fr 1fr; align-items: flex-end; gap: 8px;">
+            <div class="form-group">
+              <label for="grad-harmony">Gradient Harmony</label>
+              <select class="form-select" id="grad-harmony">
+                <option value="none" selected>-- Select Harmony --</option>
+                <option value="analogous">Analogous Harmony</option>
+                <option value="monochromatic">Monochromatic Fade</option>
+                <option value="complementary">Complementary Contrast</option>
+                <option value="triadic">Triadic Blend</option>
+                <option value="pastel">Soft Pastels</option>
+                <option value="cyber">Cyberpunk Neon</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="grad-harmony-stops">Stops</label>
+              <select class="form-select" id="grad-harmony-stops">
+                <option value="2">2 Stops</option>
+                <option value="3" selected>3 Stops</option>
+                <option value="4">4 Stops</option>
+                <option value="5">5 Stops</option>
+                <option value="6">6 Stops</option>
+              </select>
+            </div>
+            <div style="display: flex; gap: 4px;">
+              <button class="tool-btn primary" id="grad-harmony-gen-btn" style="flex: 1; height: 38px; padding: 0;" title="Generate Harmony Gradient">Generate</button>
+              <button class="tool-btn secondary" id="grad-randomize-btn" style="height: 38px; padding: 0 10px;" title="Randomize Angles and Colors">🎲</button>
+            </div>
+          </div>
+
+          <div class="form-row" style="margin-bottom: 16px;">
+            <button class="tool-btn secondary" id="grad-save-preset-btn" style="width: 100%; justify-content: center; gap: 8px;">
+              <span>⭐ Save Preset</span>
+            </button>
           </div>
 
           <div class="gradient-stops-control">
@@ -109,6 +145,41 @@ export default {
               <div class="tool-guide-step-text"><strong>Save Styles</strong>: Apply preset gallery templates or copy generated CSS stylesheet rules to clipboard.</div>
             </div>
           </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Linear CSS</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Radial CSS</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Settings</span>
+                <div class="tool-guide-io-value">Type: Linear, Angle: 135°
+Stops: #00f2fe 0%, #9d4edd 100%</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Generated CSS</span>
+                <div class="tool-guide-io-value">background: linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%);</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Settings</span>
+                <div class="tool-guide-io-value">Type: Radial, Ellipse
+Stops: #fb5607 0%, #ff007f 100%</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Generated CSS</span>
+                <div class="tool-guide-io-value">background: radial-gradient(ellipse at center, #fb5607 0%, #ff007f 100%);</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -140,20 +211,162 @@ export default {
       { name: "Retro Stripe", type: "linear", angle: 90, repeating: true, stops: [{ color: "#ffbe0b", position: 0 }, { color: "#ffbe0b", position: 10 }, { color: "#fb5607", position: 10 }, { color: "#fb5607", position: 20 }] }
     ];
 
+    let customPresets = [];
+    try {
+      const stored = localStorage.getItem("omnitool_custom_gradients");
+      if (stored) customPresets = JSON.parse(stored);
+    } catch (err) {
+      console.error("Failed to load custom presets", err);
+    }
+
+    const hslToHex = (hsl) => {
+      const ctx = document.createElement("canvas").getContext("2d");
+      ctx.fillStyle = hsl;
+      return ctx.fillStyle;
+    };
+
+    const generateHarmoniousGradient = () => {
+      const harmonySelect = container.querySelector("#grad-harmony");
+      const stopsSelect = container.querySelector("#grad-harmony-stops");
+      if (!harmonySelect || !stopsSelect) return;
+      
+      const harmony = harmonySelect.value;
+      if (harmony === "none") {
+        return;
+      }
+      
+      const stopCount = parseInt(stopsSelect.value, 10);
+      const seedHue = Math.floor(Math.random() * 360);
+      const newStops = [];
+      
+      if (harmony === "analogous") {
+        const step = 15 + Math.floor(Math.random() * 11); // 15-25 deg
+        const direction = Math.random() < 0.5 ? -1 : 1;
+        for (let i = 0; i < stopCount; i++) {
+          const h = (seedHue + i * step * direction + 360) % 360;
+          const s = 70 + (i % 2) * 10;
+          const l = 45 + (i % 3) * 8;
+          const color = hslToHex(`hsl(${h}, ${s}%, ${l}%)`);
+          const position = Math.round((i / (stopCount - 1)) * 100);
+          newStops.push({ color, position });
+        }
+      } else if (harmony === "monochromatic") {
+        const baseSat = 65 + Math.floor(Math.random() * 16);
+        for (let i = 0; i < stopCount; i++) {
+          const h = seedHue;
+          const s = baseSat;
+          const l = 20 + Math.round((i / (stopCount - 1)) * 60); // 20% to 80%
+          const color = hslToHex(`hsl(${h}, ${s}%, ${l}%)`);
+          const position = Math.round((i / (stopCount - 1)) * 100);
+          newStops.push({ color, position });
+        }
+      } else if (harmony === "complementary") {
+        const compHue = (seedHue + 180) % 360;
+        for (let i = 0; i < stopCount; i++) {
+          const isComp = i % 2 === 1;
+          const h = isComp ? compHue : seedHue;
+          const s = 70 + (i % 2) * 10;
+          const l = 42 + Math.floor(Math.random() * 15);
+          const color = hslToHex(`hsl(${h}, ${s}%, ${l}%)`);
+          const position = Math.round((i / (stopCount - 1)) * 100);
+          newStops.push({ color, position });
+        }
+      } else if (harmony === "triadic") {
+        for (let i = 0; i < stopCount; i++) {
+          const h = (seedHue + (i % 3) * 120) % 360;
+          const s = 70 + (i % 2) * 10;
+          const l = 45 + (i % 3) * 8;
+          const color = hslToHex(`hsl(${h}, ${s}%, ${l}%)`);
+          const position = Math.round((i / (stopCount - 1)) * 100);
+          newStops.push({ color, position });
+        }
+      } else if (harmony === "pastel") {
+        const step = 20 + Math.floor(Math.random() * 16);
+        for (let i = 0; i < stopCount; i++) {
+          const h = (seedHue + i * step) % 360;
+          const s = 35 + Math.floor(Math.random() * 15);
+          const l = 80 + Math.floor(Math.random() * 10);
+          const color = hslToHex(`hsl(${h}, ${s}%, ${l}%)`);
+          const position = Math.round((i / (stopCount - 1)) * 100);
+          newStops.push({ color, position });
+        }
+      } else if (harmony === "cyber") {
+        const cyberColors = [
+          ["#00F2FE", "#9D4EDD", "#FF007F", "#00FF87", "#FFFFFF"],
+          ["#FF007F", "#7928CA", "#00E5FF", "#FFE600", "#E2E8F0"],
+          ["#39FF14", "#00FF87", "#00E5FF", "#FF007F", "#FFFFFF"]
+        ];
+        const selectedSet = cyberColors[seedHue % cyberColors.length];
+        for (let i = 0; i < stopCount; i++) {
+          const color = selectedSet[i % selectedSet.length];
+          const position = Math.round((i / (stopCount - 1)) * 100);
+          newStops.push({ color, position });
+        }
+      }
+      
+      gradientStops = newStops;
+      renderGradientStops();
+      buildGradient();
+      appInstance.showToast(`Generated ${harmony} gradient with ${stopCount} stops`, "success");
+    };
+
+    const randomizeGradient = () => {
+      const harmonySelect = container.querySelector("#grad-harmony");
+      if (!harmonySelect) return;
+      
+      const options = ["analogous", "monochromatic", "complementary", "triadic", "pastel", "cyber"];
+      const randomHarmony = options[Math.floor(Math.random() * options.length)];
+      harmonySelect.value = randomHarmony;
+      
+      generateHarmoniousGradient();
+      
+      if (gradType) {
+        const types = ["linear", "radial", "conic"];
+        gradType.value = types[Math.floor(Math.random() * types.length)];
+      }
+      if (gradAngle) {
+        gradAngle.value = Math.floor(Math.random() * 361);
+      }
+      if (repeatingEl) {
+        repeatingEl.checked = Math.random() < 0.15;
+      }
+      if (shapeEl) {
+        shapeEl.value = Math.random() < 0.5 ? "circle" : "ellipse";
+      }
+      if (posEl) {
+        const positions = ["center", "top", "bottom", "left", "right", "top left", "top right", "bottom left", "bottom right"];
+        posEl.value = positions[Math.floor(Math.random() * positions.length)];
+      }
+      
+      updateGradientControlVisibility();
+      buildGradient();
+      appInstance.showToast("Randomized gradient options!", "info");
+    };
+
     const updateGradientControlVisibility = () => {
-      const isLinear = gradType?.value === "linear";
+      const type = gradType?.value || "linear";
       const angleGroup = container.querySelector("#grad-angle-group");
       const shapeGroup = container.querySelector("#grad-shape-group");
       const positionGroup = container.querySelector("#grad-position-group");
       
-      if (angleGroup) angleGroup.style.display = isLinear ? "block" : "none";
-      if (shapeGroup) shapeGroup.style.display = isLinear ? "none" : "block";
-      if (positionGroup) positionGroup.style.display = isLinear ? "none" : "block";
+      if (angleGroup) {
+        angleGroup.style.display = (type === "linear" || type === "conic") ? "block" : "none";
+        const label = angleGroup.querySelector("label");
+        if (label) {
+          label.innerText = type === "conic" ? "Start Angle" : "Angle";
+        }
+      }
+      if (shapeGroup) {
+        shapeGroup.style.display = type === "radial" ? "block" : "none";
+      }
+      if (positionGroup) {
+        positionGroup.style.display = (type === "radial" || type === "conic") ? "block" : "none";
+      }
     };
 
     const buildGradient = () => {
       if (!gradType) return;
-      const isLinear = gradType.value === "linear";
+      const type = gradType.value;
       
       const sortedStops = gradientStops.slice().sort((a, b) => a.position - b.position);
       const stopsStr = sortedStops.map(s => `${s.color} ${s.position}%`).join(", ");
@@ -161,19 +374,26 @@ export default {
       const isRepeating = repeatingEl ? repeatingEl.checked : false;
       
       let gradString = "";
-      if (isLinear) {
+      if (type === "linear") {
         updateGradientControlVisibility();
         if (gradAngleVal && gradAngle) gradAngleVal.innerText = `${gradAngle.value}°`;
         
         const prefix = isRepeating ? "repeating-linear-gradient" : "linear-gradient";
         gradString = `${prefix}(${gradAngle ? gradAngle.value : 135}deg, ${stopsStr})`;
-      } else {
+      } else if (type === "radial") {
         updateGradientControlVisibility();
         const shape = shapeEl ? shapeEl.value : "circle";
         const pos = posEl ? posEl.value : "center";
         
         const prefix = isRepeating ? "repeating-radial-gradient" : "radial-gradient";
         gradString = `${prefix}(${shape} at ${pos}, ${stopsStr})`;
+      } else if (type === "conic") {
+        updateGradientControlVisibility();
+        if (gradAngleVal && gradAngle) gradAngleVal.innerText = `${gradAngle.value}°`;
+        const pos = posEl ? posEl.value : "center";
+        
+        const prefix = isRepeating ? "repeating-conic-gradient" : "conic-gradient";
+        gradString = `${prefix}(from ${gradAngle ? gradAngle.value : 0}deg at ${pos}, ${stopsStr})`;
       }
       
       if (gradPreview) {
@@ -240,6 +460,9 @@ export default {
       
       if (preset.type === "linear") {
         if (gradAngle) gradAngle.value = preset.angle;
+      } else if (preset.type === "conic") {
+        if (gradAngle) gradAngle.value = preset.angle || 0;
+        if (posEl && preset.position) posEl.value = preset.position;
       } else {
         if (shapeEl && preset.shape) shapeEl.value = preset.shape;
         if (posEl && preset.position) posEl.value = preset.position;
@@ -259,10 +482,13 @@ export default {
       if (!gradPresetsBox) return;
       gradPresetsBox.innerHTML = "";
       
-      gradientPresets.forEach(preset => {
+      const allPresets = [...gradientPresets, ...customPresets];
+      
+      allPresets.forEach((preset, index) => {
         const el = document.createElement("div");
         el.className = "grad-preset-card";
         el.title = preset.name;
+        el.style.position = "relative";
         
         const sortedStops = preset.stops.slice().sort((a, b) => a.position - b.position);
         const stopsStr = sortedStops.map(s => `${s.color} ${s.position}%`).join(", ");
@@ -270,6 +496,9 @@ export default {
         let gradStr = "";
         if (preset.type === "linear") {
           gradStr = `linear-gradient(${preset.angle}deg, ${stopsStr})`;
+        } else if (preset.type === "conic") {
+          const pos = preset.position || "center";
+          gradStr = `conic-gradient(from ${preset.angle || 0}deg at ${pos}, ${stopsStr})`;
         } else {
           const shape = preset.shape || "circle";
           const pos = preset.position || "center";
@@ -280,6 +509,47 @@ export default {
         el.addEventListener("click", () => {
           loadGradientPreset(preset);
         });
+        
+        const isCustom = index >= gradientPresets.length;
+        if (isCustom) {
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "preset-delete-btn";
+          deleteBtn.innerHTML = "✕";
+          deleteBtn.title = "Delete Preset";
+          deleteBtn.style.cssText = `
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent-rose);
+            color: #fff;
+            border: none;
+            font-size: 8px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+            z-index: 5;
+          `;
+          
+          el.addEventListener("mouseenter", () => deleteBtn.style.opacity = "1");
+          el.addEventListener("mouseleave", () => deleteBtn.style.opacity = "0");
+          
+          deleteBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const customIndex = index - gradientPresets.length;
+            customPresets.splice(customIndex, 1);
+            localStorage.setItem("omnitool_custom_gradients", JSON.stringify(customPresets));
+            renderPresets();
+            appInstance.showToast("Deleted custom gradient preset", "success");
+          });
+          el.appendChild(deleteBtn);
+        }
         
         gradPresetsBox.appendChild(el);
       });
@@ -319,8 +589,80 @@ export default {
       if (gradOutput) appInstance.copyText(gradOutput.value);
     });
 
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#grad-guide-load-sample")?.addEventListener("click", () => {
-      loadGradientPreset(gradientPresets[3]); // Load Cyberpunk preset
+      if (activeExampleIndex === 0) {
+        if (gradType) gradType.value = "linear";
+        if (gradAngle) gradAngle.value = 135;
+        if (gradAngleVal) gradAngleVal.innerText = "135°";
+        gradientStops = [
+          { color: "#00f2fe", position: 0 },
+          { color: "#9d4edd", position: 100 }
+        ];
+        updateGradientControlVisibility();
+        renderGradientStops();
+        buildGradient();
+        appInstance.showToast("Loaded linear gradient example!", "info");
+      } else {
+        if (gradType) gradType.value = "radial";
+        if (shapeEl) shapeEl.value = "ellipse";
+        if (posEl) posEl.value = "center";
+        gradientStops = [
+          { color: "#fb5607", position: 0 },
+          { color: "#ff007f", position: 100 }
+        ];
+        updateGradientControlVisibility();
+        renderGradientStops();
+        buildGradient();
+        appInstance.showToast("Loaded radial gradient example!", "info");
+      }
+    });
+
+    // Wire up harmony & preset events
+    container.querySelector("#grad-harmony-gen-btn")?.addEventListener("click", generateHarmoniousGradient);
+    container.querySelector("#grad-randomize-btn")?.addEventListener("click", randomizeGradient);
+    container.querySelector("#grad-harmony")?.addEventListener("change", generateHarmoniousGradient);
+    container.querySelector("#grad-harmony-stops")?.addEventListener("change", generateHarmoniousGradient);
+    
+    container.querySelector("#grad-save-preset-btn")?.addEventListener("click", () => {
+      const name = prompt("Enter a name for your custom gradient preset:", `My Preset ${customPresets.length + 1}`);
+      if (name === null) return;
+      const trimmed = name.trim();
+      if (!trimmed) {
+        appInstance.showToast("Preset name cannot be empty", "warning");
+        return;
+      }
+      
+      const isLinear = gradType ? gradType.value === "linear" : true;
+      const isConic = gradType ? gradType.value === "conic" : false;
+      const newPreset = {
+        name: trimmed,
+        type: gradType ? gradType.value : "linear",
+        angle: (isLinear || isConic) && gradAngle ? parseInt(gradAngle.value, 10) : 135,
+        shape: !isLinear && !isConic && shapeEl ? shapeEl.value : "circle",
+        position: !isLinear && posEl ? posEl.value : "center",
+        repeating: repeatingEl ? repeatingEl.checked : false,
+        stops: JSON.parse(JSON.stringify(gradientStops))
+      };
+      
+      customPresets.push(newPreset);
+      localStorage.setItem("omnitool_custom_gradients", JSON.stringify(customPresets));
+      renderPresets();
+      appInstance.showToast(`Saved custom preset "${trimmed}"`, "success");
     });
 
     // Run initial rendering

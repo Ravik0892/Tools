@@ -69,15 +69,48 @@ export default {
           <div class="tool-guide-steps">
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">1</div>
-              <div class="tool-guide-step-text"><strong>Insert Content</strong>: Paste or type your string inside the main Input Text box.</div>
+              <div class="tool-guide-step-text"><strong>Insert Content</strong>: Paste or type your text into the Input Text box. Live stats update automatically.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Review Metrics</strong>: Watch characters, word counts, and estimated reading time statistics update.</div>
+              <div class="tool-guide-step-text"><strong>Review Metrics</strong>: Character count, words, lines, and reading time appear instantly as you type.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Select Case Style</strong>: Click on any case style transformation button (e.g. Title Case, snake_case) to retrieve converted text.</div>
+              <div class="tool-guide-step-text"><strong>Select Case Style</strong>: Click any transformation button (UPPER, lower, Title Case, camelCase, snake_case, kebab-case).</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Title Case</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">kebab-case</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input</span>
+                <div class="tool-guide-io-value">hello world from omnitool hub</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Output</span>
+                <div class="tool-guide-io-value">Hello World From Omnitool Hub</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input</span>
+                <div class="tool-guide-io-value">hello world from omnitool hub</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Output</span>
+                <div class="tool-guide-io-value">hello-world-from-omnitool-hub</div>
+              </div>
             </div>
           </div>
         </div>
@@ -109,11 +142,31 @@ export default {
       updateTextStats();
     });
     
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#text-guide-load-sample")?.addEventListener("click", () => {
       txtInput.value = "this is an example statement describing omnitool hub capabilities";
       updateTextStats();
-      txtOutput.value = textTitle(txtInput.value);
-      appInstance.showToast("Sample text loaded and converted to Title Case!", "info");
+      if (activeExampleIndex === 0) {
+        txtOutput.value = textTitle(txtInput.value);
+        appInstance.showToast("Loaded sample and converted to Title Case!", "info");
+      } else {
+        txtOutput.value = textKebab(txtInput.value);
+        appInstance.showToast("Loaded sample and converted to kebab-case!", "info");
+      }
     });
 
     container.querySelector("#text-copy-btn")?.addEventListener("click", () => appInstance.copyText(txtOutput.value));

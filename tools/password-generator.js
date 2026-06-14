@@ -70,11 +70,44 @@ export default {
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Generate Password</strong>: Click **Generate Secure Password** to execute secure client-side generation using cryptographically secure random values.</div>
+              <div class="tool-guide-step-text"><strong>Generate Password</strong>: Click <strong>Generate Secure Password</strong> to execute secure client-side generation using cryptographically secure random values.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
               <div class="tool-guide-step-text"><strong>Verify Entropy</strong>: Check the visual strength bar and entropy bit counts before copying the resulting password.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">High Security</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Alphanumeric Only</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input Options</span>
+                <div class="tool-guide-io-value">Length: 20, all option checkboxes: ON</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Password Output</span>
+                <div class="tool-guide-io-value">Tq#8mX!vK2@nLs$9Yw7&amp; (Strong, ~131 bits)</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input Options</span>
+                <div class="tool-guide-io-value">Length: 12, Symbols: OFF, others: ON</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Password Output</span>
+                <div class="tool-guide-io-value">8aF3nK9Pq2wL (Medium, ~71 bits)</div>
+              </div>
             </div>
           </div>
         </div>
@@ -146,15 +179,41 @@ export default {
     container.querySelector("#pass-generate-btn")?.addEventListener("click", generatePassword);
     container.querySelector("#pass-copy-btn")?.addEventListener("click", () => appInstance.copyText(passOutput.value));
 
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#pass-guide-load-sample")?.addEventListener("click", () => {
-      passLength.value = "24";
-      if (passLengthVal) passLengthVal.innerText = "24";
-      passUpper.checked = true;
-      passLower.checked = true;
-      passNums.checked = true;
-      passSymbols.checked = true;
-      generatePassword();
-      appInstance.showToast("Generated high entropy 24-char sample password!", "info");
+      if (activeExampleIndex === 0) {
+        passLength.value = "20";
+        if (passLengthVal) passLengthVal.innerText = "20";
+        passUpper.checked = true;
+        passLower.checked = true;
+        passNums.checked = true;
+        passSymbols.checked = true;
+        generatePassword();
+        appInstance.showToast("Generated high security 20-char sample password!", "info");
+      } else {
+        passLength.value = "12";
+        if (passLengthVal) passLengthVal.innerText = "12";
+        passUpper.checked = true;
+        passLower.checked = true;
+        passNums.checked = true;
+        passSymbols.checked = false;
+        generatePassword();
+        appInstance.showToast("Generated alphanumeric 12-char sample password!", "info");
+      }
     });
 
     // Generate automatically on init

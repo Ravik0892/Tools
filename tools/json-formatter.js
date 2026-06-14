@@ -57,11 +57,50 @@ export default {
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Indentation Settings</strong>: Choose your preferred layout tab spacing (2 spaces, 4 spaces, or tab indentation).</div>
+              <div class="tool-guide-step-text"><strong>Indentation Settings</strong>: Choose your preferred tab spacing (2 spaces, 4 spaces, or tab).</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Process & Prettify</strong>: Click <strong>Format JSON</strong> to validate structure and beautify, or click <strong>Minify JSON</strong> to compress spacing.</div>
+              <div class="tool-guide-step-text"><strong>Process &amp; Prettify</strong>: Click <strong>Format JSON</strong> to beautify, or <strong>Minify JSON</strong> to compress.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Format JSON</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Minify JSON</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input</span>
+                <div class="tool-guide-io-value">{"name":"John","age":30}</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Output</span>
+                <div class="tool-guide-io-value">{
+  "name": "John",
+  "age": 30
+}</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input</span>
+                <div class="tool-guide-io-value">{
+  "name": "John",
+  "age": 30
+}</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Output</span>
+                <div class="tool-guide-io-value">{"name":"John","age":30}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -125,8 +164,34 @@ export default {
       runJsonFormat(false);
     };
 
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
+    container.querySelector("#json-guide-load-sample")?.addEventListener("click", () => {
+      if (activeExampleIndex === 0) {
+        jsonInput.value = '{"name":"John","age":30}';
+        runJsonFormat(false);
+        appInstance.showToast("Loaded unformatted JSON to prettify!", "info");
+      } else {
+        jsonInput.value = '{\n  "name": "John",\n  "age": 30\n}';
+        runJsonFormat(true);
+        appInstance.showToast("Loaded formatted JSON to minify!", "info");
+      }
+    });
+
     container.querySelector("#json-load-sample")?.addEventListener("click", loadSampleData);
-    container.querySelector("#json-guide-load-sample")?.addEventListener("click", loadSampleData);
     container.querySelector("#json-copy-btn")?.addEventListener("click", () => appInstance.copyText(jsonOutput.innerText));
   }
 };

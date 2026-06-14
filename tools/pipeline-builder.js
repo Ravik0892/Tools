@@ -55,6 +55,119 @@ export default {
               <div class="tool-guide-step-text"><strong>See Live Results</strong>: Output updates automatically after each change. Click <strong>Copy Output</strong> to copy the final result to your clipboard.</div>
             </div>
           </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">2-Step Decode</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">4-Step Pipeline</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="pipeline-example-flow example-val-0">
+              <!-- Initial Input -->
+              <div class="pipeline-flow-step">
+                <div class="pipeline-flow-header">
+                  <span class="pipeline-flow-badge input">📥 Input</span>
+                </div>
+                <pre class="pipeline-flow-value">eyJuYW1lIjoiT21uaVRvb2wgSHViIiwidmVyc2lvbiI6Mn0=</pre>
+              </div>
+              
+              <div class="pipeline-flow-arrow-down">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              </div>
+
+              <!-- Step 1 -->
+              <div class="pipeline-flow-step">
+                <div class="pipeline-flow-header">
+                  <span class="pipeline-flow-badge step">Step 1</span>
+                  <span class="pipeline-flow-op">Base64 Decode</span>
+                </div>
+                <pre class="pipeline-flow-value">{"name":"OmniTool Hub","version":2}</pre>
+              </div>
+
+              <div class="pipeline-flow-arrow-down">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              </div>
+
+              <!-- Step 2 (Final) -->
+              <div class="pipeline-flow-step">
+                <div class="pipeline-flow-header">
+                  <span class="pipeline-flow-badge output">Step 2 (Final)</span>
+                  <span class="pipeline-flow-op">UPPERCASE</span>
+                </div>
+                <pre class="pipeline-flow-value">{"NAME":"OMNITOOL HUB","VERSION":2}</pre>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="pipeline-example-flow example-val-1" style="display: none;">
+              <!-- Initial Input -->
+              <div class="pipeline-flow-step">
+                <div class="pipeline-flow-header">
+                  <span class="pipeline-flow-badge input">📥 Input</span>
+                </div>
+                <pre class="pipeline-flow-value">%7B%22name%22%3A%22john%22%2C%22age%22%3A30%7D</pre>
+              </div>
+              
+              <div class="pipeline-flow-arrow-down">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              </div>
+
+              <!-- Step 1 -->
+              <div class="pipeline-flow-step">
+                <div class="pipeline-flow-header">
+                  <span class="pipeline-flow-badge step">Step 1</span>
+                  <span class="pipeline-flow-op">URL Decode</span>
+                </div>
+                <pre class="pipeline-flow-value">{"name":"john","age":30}</pre>
+              </div>
+
+              <div class="pipeline-flow-arrow-down">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="pipeline-flow-step">
+                <div class="pipeline-flow-header">
+                  <span class="pipeline-flow-badge step">Step 2</span>
+                  <span class="pipeline-flow-op">JSON Format</span>
+                </div>
+                <pre class="pipeline-flow-value">{
+  "name": "john",
+  "age": 30
+}</pre>
+              </div>
+
+              <div class="pipeline-flow-arrow-down">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="pipeline-flow-step">
+                <div class="pipeline-flow-header">
+                  <span class="pipeline-flow-badge step">Step 3</span>
+                  <span class="pipeline-flow-op">UPPERCASE</span>
+                </div>
+                <pre class="pipeline-flow-value">{
+  "NAME": "JOHN",
+  "AGE": 30
+}</pre>
+              </div>
+
+              <div class="pipeline-flow-arrow-down">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              </div>
+
+              <!-- Step 4 (Final) -->
+              <div class="pipeline-flow-step">
+                <div class="pipeline-flow-header">
+                  <span class="pipeline-flow-badge output">Step 4 (Final)</span>
+                  <span class="pipeline-flow-op">Base64 Encode</span>
+                </div>
+                <pre class="pipeline-flow-value">ewogICJOQU1FIjogIkpPSE4iLAogICJBR0UiOiAzMAp9</pre>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -169,15 +282,33 @@ export default {
     pipeInput?.addEventListener("input", runPipelineEngine);
     container.querySelector("#pipe-copy-btn")?.addEventListener("click", () => appInstance.copyText(pipeOutput.value));
 
-    // Quick Guide "Try Example" — loads a sample 2-step pipeline demo
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".pipeline-example-flow");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#pipeline-guide-load-sample")?.addEventListener("click", () => {
-      // Reset to a descriptive 2-step chain: Base64 Decode → Convert to UPPERCASE
-      currentPipeline = ["base64Decode", "textUpper"];
-      // Sample: this is base64 for '{"name":"OmniTool Hub","version":2}'
-      pipeInput.value = "eyJuYW1lIjoiT21uaVRvb2wgSHViIiwidmVyc2lvbiI6Mn0=";
+      if (activeExampleIndex === 0) {
+        currentPipeline = ["base64Decode", "textUpper"];
+        pipeInput.value = "eyJuYW1lIjoiT21uaVRvb2wgSHViIiwidmVyc2lvbiI6Mn0=";
+        appInstance.showToast("Loaded example: Base64 Decode → UPPERCASE", "info");
+      } else {
+        currentPipeline = ["urlDecode", "jsonFormat", "textUpper", "base64Encode"];
+        pipeInput.value = "%7B%22name%22%3A%22john%22%2C%22age%22%3A30%7D";
+        appInstance.showToast("Loaded example: URL Decode → JSON Format → UPPERCASE → Base64 Encode", "info");
+      }
       buildPipelineUI();
       runPipelineEngine();
-      appInstance.showToast("Loaded sample: Base64 Decode → UPPERCASE", "info");
     });
 
     // Load sample text and run initially

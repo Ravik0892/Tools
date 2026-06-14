@@ -55,15 +55,53 @@ export default {
           <div class="tool-guide-steps">
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">1</div>
-              <div class="tool-guide-step-text"><strong>Input Pattern</strong>: Type the regular expression pattern (e.g. `[0-9]+` to match digits) and flags (g, i, m).</div>
+              <div class="tool-guide-step-text"><strong>Input Pattern</strong>: Type your regex pattern (e.g. <code>\d+</code> for digits) and any flags (g, i, m).</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Provide Test String</strong>: Paste or type the text you wish to match inside the Test String box.</div>
+              <div class="tool-guide-step-text"><strong>Provide Test String</strong>: Paste the text you want to test the pattern against in the Test String box.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Visual Highlights</strong>: Watch matches highlighted in blue instantly and inspect list indexes in the result panel.</div>
+              <div class="tool-guide-step-text"><strong>Visual Highlights</strong>: Matches are highlighted in cyan. The match list shows each match value and its index position.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Email Pattern</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Digits Pattern</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Pattern + Text</span>
+                <div class="tool-guide-io-value">Pattern: \w+@\w+\.\w+
+Text: contact help@site.com now</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Matches Found</span>
+                <div class="tool-guide-io-value">Match 1: help@site.com (idx 8)
+Total: 1 match</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Pattern + Text</span>
+                <div class="tool-guide-io-value">Pattern: \d+
+Text: year is 2026 and code 404</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Matches Found</span>
+                <div class="tool-guide-io-value">Match 1: 2026 (idx 8)
+Match 2: 404 (idx 22)
+Total: 2 matches</div>
+              </div>
             </div>
           </div>
         </div>
@@ -144,9 +182,35 @@ export default {
       testRegex();
     };
 
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#regex-guide-load-sample")?.addEventListener("click", () => {
-      loadSample();
-      appInstance.showToast("Sample email regex loaded!", "info");
+      if (activeExampleIndex === 0) {
+        regPattern.value = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}";
+        regFlags.value = "g";
+        regText.value = "Hello, please reach out to admin@omnitool.hub or support@example.com for further inquiries.";
+        testRegex();
+        appInstance.showToast("Loaded sample email regex matching!", "info");
+      } else {
+        regPattern.value = "\\d+";
+        regFlags.value = "g";
+        regText.value = "We have 102 apples, 55 oranges, and 200 bananas.";
+        testRegex();
+        appInstance.showToast("Loaded sample digit/number regex matching!", "info");
+      }
     });
 
     // Load sample regex on init

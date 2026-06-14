@@ -224,10 +224,98 @@ const app = {
     this.initClock();
     this.initTheme();
     this.bindEvents();
-    this.renderDashboard();
+    this.handleRouting();
     
     // Pre-load utilities for pipeline builder integration and global helpers
     import('./tools/utils.js').catch(err => console.error("Failed to pre-load utils:", err));
+
+    // Run async module loading diagnostics
+    this.checkAllModules();
+  },
+
+  // Diagnostics check for all module imports
+  async checkAllModules() {
+    console.log("%c=== MODULE DIAGNOSTICS ===", "color: #00f2fe; font-weight: bold; font-size: 14px;");
+    for (const tool of this.tools) {
+      try {
+        const module = await import('./tools/' + tool.id + '.js');
+        if (module && module.default && typeof module.default.renderUI === 'function') {
+          console.log(`%c[OK] Module "${tool.id}" loaded successfully.`, "color: #10b981;");
+        } else {
+          console.warn(`[WARN] Module "${tool.id}" loaded but default export or renderUI is missing.`);
+        }
+      } catch (err) {
+        console.error(`[ERROR] Module "${tool.id}" failed to load:`, err);
+      }
+    }
+    console.log("%c===========================", "color: #00f2fe; font-weight: bold; font-size: 14px;");
+  },
+
+  handleRouting() {
+    const hash = window.location.hash || "";
+    
+    if (hash.startsWith("#tool/")) {
+      const toolId = hash.replace("#tool/", "");
+      const toolExists = this.tools.some(t => t.id === toolId);
+      if (toolExists) {
+        this.navigateToTool(toolId, false);
+        return;
+      }
+    }
+    
+    if (hash === "#favorites") {
+      this.activeCategory = "fav";
+      this.activeSubcategory = "all";
+      this.syncSidebarUI();
+      this.backToDashboard(false);
+      this.renderDashboard();
+      return;
+    }
+    
+    if (hash.startsWith("#category/")) {
+      const filter = hash.replace("#category/", "");
+      this.activeCategory = "subcategory-filter";
+      this.activeSubcategory = filter;
+      this.syncSidebarUI();
+      this.backToDashboard(false);
+      this.renderDashboard();
+      return;
+    }
+    
+    // Default
+    this.activeCategory = "all";
+    this.activeSubcategory = "all";
+    this.syncSidebarUI();
+    this.backToDashboard(false);
+    this.renderDashboard();
+  },
+
+  syncSidebarUI() {
+    document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+    document.querySelectorAll(".subnav-link").forEach(l => l.classList.remove("active"));
+    document.querySelectorAll(".accordion-item").forEach(item => {
+      item.classList.remove("open");
+      const content = item.querySelector(".accordion-content");
+      if (content) content.style.display = "none";
+    });
+
+    if (this.activeCategory === "all") {
+      document.getElementById("cat-all")?.classList.add("active");
+    } else if (this.activeCategory === "fav") {
+      document.getElementById("cat-fav")?.classList.add("active");
+    } else if (this.activeCategory === "subcategory-filter") {
+      const filter = this.activeSubcategory;
+      const activeLink = document.querySelector(`.subnav-link[data-filter="${filter}"]`);
+      if (activeLink) activeLink.classList.add("active");
+      
+      const categoryKey = filter.split("-")[0];
+      const accordion = document.getElementById(`accordion-${categoryKey}`);
+      if (accordion) {
+        accordion.classList.add("open");
+        const content = accordion.querySelector(".accordion-content");
+        if (content) content.style.display = "flex";
+      }
+    }
   },
 
   registerServiceWorker() {
@@ -334,6 +422,9 @@ const app = {
   },
 
   bindEvents() {
+    // Hash routing change handler
+    window.addEventListener("hashchange", () => this.handleRouting());
+
     // Top-Level Navigation links (Dashboard, Favorites)
     document.querySelectorAll(".nav-link").forEach(link => {
       link.addEventListener("click", (e) => {
@@ -395,8 +486,28 @@ const app = {
     const closeBtn = document.getElementById("sidebar-close-btn");
     const sidebar = document.getElementById("app-sidebar");
     
-    if (openBtn && sidebar) openBtn.addEventListener("click", () => sidebar.classList.add("show"));
-    if (closeBtn && sidebar) closeBtn.addEventListener("click", () => sidebar.classList.remove("show"));
+    // Load persisted desktop sidebar state
+    const isCollapsed = localStorage.getItem("omnitool_sidebar_collapsed") === "true";
+    if (isCollapsed && window.innerWidth > 768 && sidebar) {
+      sidebar.classList.add("collapsed");
+    }
+
+    if (openBtn && sidebar) {
+      openBtn.addEventListener("click", () => {
+        sidebar.classList.add("show");
+      });
+    }
+    if (closeBtn && sidebar) {
+      closeBtn.addEventListener("click", () => {
+        if (window.innerWidth <= 768) {
+          sidebar.classList.remove("show");
+        } else {
+          sidebar.classList.toggle("collapsed");
+          const collapsedNow = sidebar.classList.contains("collapsed");
+          localStorage.setItem("omnitool_sidebar_collapsed", collapsedNow ? "true" : "false");
+        }
+      });
+    }
 
     // Quick Search Input
     document.getElementById("tool-search")?.addEventListener("input", (e) => {
@@ -440,6 +551,12 @@ const app = {
       
       const pastedText = e.clipboardData.getData("text");
       this.detectPastedValue(pastedText);
+    });
+
+    // Footer privacy click handler
+    document.getElementById("footer-privacy-btn")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.showToast("🛡️ Privacy Shield: 100% Client-Side. No data ever leaves your device.", "info");
     });
   },
 
@@ -654,17 +771,13 @@ const app = {
   },
 
   // Navigation Filter updates
-  selectCategory(category) {
+  selectCategory(category, updateHash = true) {
+    if (updateHash) {
+      window.location.hash = category === "fav" ? "favorites" : "dashboard";
+      return;
+    }
     this.activeCategory = category;
     this.activeSubcategory = "all";
-
-    // Close all collapsible accordion panels and deselect active subnav links
-    document.querySelectorAll(".accordion-item").forEach(item => {
-      item.classList.remove("open");
-      const content = item.querySelector(".accordion-content");
-      if (content) content.style.display = "none";
-    });
-    document.querySelectorAll(".subnav-link").forEach(l => l.classList.remove("active"));
 
     // Close sidebar on mobile
     const sidebar = document.getElementById("app-sidebar");
@@ -674,23 +787,18 @@ const app = {
     const searchBar = document.getElementById("tool-search");
     if (searchBar) searchBar.value = "";
 
-    // Toggle active stylesheet class for main nav links
-    document.querySelectorAll(".nav-link").forEach(link => {
-      if (link.getAttribute("data-category") === category) {
-        link.classList.add("active");
-      } else {
-        link.classList.remove("active");
-      }
-    });
-
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) titleEl.innerText = this.getCategoryLabel(category);
 
-    this.backToDashboard();
+    this.backToDashboard(false);
     this.renderDashboard();
   },
 
-  selectSubcategory(filter) {
+  selectSubcategory(filter, updateHash = true) {
+    if (updateHash) {
+      window.location.hash = "category/" + filter;
+      return;
+    }
     this.activeCategory = "subcategory-filter";
     this.activeSubcategory = filter;
 
@@ -707,7 +815,7 @@ const app = {
       titleEl.innerText = this.getSubcategoryLabel(filter);
     }
 
-    this.backToDashboard();
+    this.backToDashboard(false);
     this.renderDashboard();
   },
 
@@ -913,7 +1021,11 @@ const app = {
     }
   },
 
-  async navigateToTool(toolId) {
+  async navigateToTool(toolId, updateHash = true) {
+    if (updateHash) {
+      window.location.hash = "tool/" + toolId;
+      return;
+    }
     const dashboard = document.getElementById("dashboard-view");
     if (dashboard) dashboard.style.display = "none";
 
@@ -987,7 +1099,18 @@ const app = {
     }
   },
 
-  backToDashboard() {
+  backToDashboard(updateHash = true) {
+    if (updateHash) {
+      if (this.activeCategory === "fav") {
+        window.location.hash = "favorites";
+      } else if (this.activeCategory === "subcategory-filter") {
+        window.location.hash = "category/" + this.activeSubcategory;
+      } else {
+        window.location.hash = "dashboard";
+      }
+      return;
+    }
+
     const viewport = document.getElementById("active-tool-viewport");
     if (viewport) {
       viewport.style.display = "none";
@@ -1061,23 +1184,32 @@ const app = {
       return;
     }
 
-    navigator.clipboard.writeText(text).then(
-      () => this.showToast("Copied to clipboard!", "success"),
-      () => {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-          document.execCommand("copy");
-          this.showToast("Copied to clipboard!", "success");
-        } catch (err) {
-          this.showToast("Failed to copy", "error");
-        }
-        document.body.removeChild(textarea);
+    const fallbackCopy = () => {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        this.showToast("Copied to clipboard!", "success");
+      } catch (err) {
+        this.showToast("Failed to copy", "error");
       }
-    );
+      document.body.removeChild(textarea);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        () => this.showToast("Copied to clipboard!", "success"),
+        fallbackCopy
+      ).catch(() => {
+        fallbackCopy();
+      });
+    } else {
+      fallbackCopy();
+    }
   }
 };
 

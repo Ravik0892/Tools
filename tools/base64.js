@@ -34,22 +34,55 @@ export default {
           <div class="tool-guide-header">
             <div class="tool-guide-title">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              <span>Quick Guide & Instructions</span>
+              <span>Quick Guide &amp; Instructions</span>
             </div>
             <button class="tool-btn secondary" id="base64-guide-load-sample" style="font-size: 11px;">Try Example</button>
           </div>
           <div class="tool-guide-steps">
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">1</div>
-              <div class="tool-guide-step-text"><strong>Input Value</strong>: Enter raw plain text to encode, or base64 encoded text payload to decode.</div>
+              <div class="tool-guide-step-text"><strong>Input Value</strong>: Enter raw plain text to encode, or a Base64 string to decode.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Select Action</strong>: Click **Encode to Base64** to produce output string, or **Decode from Base64** to retrieve original payload.</div>
+              <div class="tool-guide-step-text"><strong>Select Action</strong>: Click <strong>Encode to Base64</strong> or <strong>Decode from Base64</strong>.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Save Output</strong>: Click the **Copy** action button to instantly copy the output result to your system clipboard.</div>
+              <div class="tool-guide-step-text"><strong>Save Output</strong>: Click <strong>Copy</strong> to copy the result to your clipboard.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Encode Text</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Decode Base64</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input</span>
+                <div class="tool-guide-io-value">Hello World!</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Base64 Output</span>
+                <div class="tool-guide-io-value">SGVsbG8gV29ybGQh</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Base64 Input</span>
+                <div class="tool-guide-io-value">SGVsbG8gV29ybGQh</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Plain Output</span>
+                <div class="tool-guide-io-value">Hello World!</div>
+              </div>
             </div>
           </div>
         </div>
@@ -83,10 +116,31 @@ export default {
       b64Output.value = "";
     });
 
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
     container.querySelector("#base64-guide-load-sample")?.addEventListener("click", () => {
-      b64Input.value = "Welcome to OmniTool Hub!";
-      b64Output.value = base64Encode(b64Input.value);
-      appInstance.showToast("Sample text loaded and encoded!", "info");
+      if (activeExampleIndex === 0) {
+        b64Input.value = "Welcome to OmniTool Hub!";
+        b64Output.value = base64Encode(b64Input.value);
+        appInstance.showToast("Sample text loaded and encoded!", "info");
+      } else {
+        b64Input.value = "V2VsY29tZSB0byBPbW5pVG9vbCBIdWIh";
+        b64Output.value = base64Decode(b64Input.value);
+        appInstance.showToast("Sample Base64 loaded and decoded!", "info");
+      }
     });
 
     container.querySelector("#base64-copy-btn")?.addEventListener("click", () => {
