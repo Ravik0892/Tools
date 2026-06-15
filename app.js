@@ -59,6 +59,17 @@ const app = {
       icon: `<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
     },
     {
+      id: "aes-crypto",
+      name: "AES Symmetric Encryptor & Decryptor",
+      desc: "Securely encrypt plain text or decrypt ciphertext locally in your browser using high-strength AES-GCM 256-bit keys derived via PBKDF2.",
+      category: "dev",
+      subcategory: "dev-crypto",
+      subLabel: "Crypto & Security",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4M12 15v3"></path></svg>`
+    },
+    {
       id: "url-encoder",
       name: "URL Encoder & Decoder",
       desc: "Encode strings to safe URL characters or decode encoded web addresses back.",

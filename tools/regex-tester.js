@@ -10,7 +10,7 @@ export default {
           <div class="panel-header">
             <h3>Expression Settings</h3>
           </div>
-          <div class="form-row">
+           <div class="form-row">
             <div class="form-group" style="grid-column: span 2;">
               <label for="regex-pattern">Pattern</label>
               <input type="text" id="regex-pattern" class="form-input" placeholder="[a-zA-Z0-9]+" style="font-family: var(--font-mono);" aria-label="Regex Pattern Input">
@@ -18,6 +18,16 @@ export default {
             <div class="form-group">
               <label for="regex-flags">Flags</label>
               <input type="text" id="regex-flags" class="form-input" placeholder="g" value="g" style="font-family: var(--font-mono);" aria-label="Regex Flags Input">
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -6px; margin-bottom: 12px;">
+            <label style="font-size: 11px; color: var(--text-muted);">Quick Templates:</label>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;">
+              <button class="tool-btn secondary" id="regex-tpl-email" style="font-size: 10px; padding: 4px 8px; border-radius: 4px;">Email</button>
+              <button class="tool-btn secondary" id="regex-tpl-url" style="font-size: 10px; padding: 4px 8px; border-radius: 4px;">URL</button>
+              <button class="tool-btn secondary" id="regex-tpl-phone" style="font-size: 10px; padding: 4px 8px; border-radius: 4px;">Phone</button>
+              <button class="tool-btn secondary" id="regex-tpl-date" style="font-size: 10px; padding: 4px 8px; border-radius: 4px;">Date (YYYY-MM-DD)</button>
+              <button class="tool-btn secondary" id="regex-tpl-ipv4" style="font-size: 10px; padding: 4px 8px; border-radius: 4px;">IPv4</button>
             </div>
           </div>
           <div class="form-group">
@@ -211,6 +221,47 @@ Total: 2 matches</div>
         testRegex();
         appInstance.showToast("Loaded sample digit/number regex matching!", "info");
       }
+    });
+
+    // Template click handlers
+    container.querySelector("#regex-tpl-email")?.addEventListener("click", () => {
+      regPattern.value = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}";
+      regFlags.value = "g";
+      regText.value = "Send queries to hello@site.com or support@company.org. Contact info@domain.co.uk.";
+      testRegex();
+      appInstance.showToast("Loaded Email regex template", "info");
+    });
+
+    container.querySelector("#regex-tpl-url")?.addEventListener("click", () => {
+      regPattern.value = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)";
+      regFlags.value = "g";
+      regText.value = "Visit our website at https://google.com or check out http://example.org/path/to/resource?id=123.";
+      testRegex();
+      appInstance.showToast("Loaded URL regex template", "info");
+    });
+
+    container.querySelector("#regex-tpl-phone")?.addEventListener("click", () => {
+      regPattern.value = "\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}";
+      regFlags.value = "g";
+      regText.value = "Call us at +1-555-0199 or office number 020 7946 0958. Fax: 555-0123.";
+      testRegex();
+      appInstance.showToast("Loaded Phone regex template", "info");
+    });
+
+    container.querySelector("#regex-tpl-date")?.addEventListener("click", () => {
+      regPattern.value = "\\d{4}-\\d{2}-\\d{2}";
+      regFlags.value = "g";
+      regText.value = "The project was initiated on 2026-05-12 and completed on 2026-06-15.";
+      testRegex();
+      appInstance.showToast("Loaded Date regex template", "info");
+    });
+
+    container.querySelector("#regex-tpl-ipv4")?.addEventListener("click", () => {
+      regPattern.value = "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b";
+      regFlags.value = "g";
+      regText.value = "Router IP is 192.168.1.1, DNS is 8.8.8.8, and local broadcast is 10.0.0.255.";
+      testRegex();
+      appInstance.showToast("Loaded IPv4 regex template", "info");
     });
 
     // Load sample regex on init

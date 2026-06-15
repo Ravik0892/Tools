@@ -31,7 +31,7 @@ export default {
             </div>
 
             <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
-              <input type="color" id="shadow-color-1" value="#000000" style="border: none; width: 40px; height: 32px; cursor: pointer; background: transparent; border-radius: 4px;">
+              <input type="color" id="shadow-color-1" value="#00f2fe" style="border: none; width: 40px; height: 32px; cursor: pointer; background: transparent; border-radius: 4px;">
               <span style="font-size: 12px; color: var(--text-muted);">Shadow Color</span>
             </div>
 
@@ -61,8 +61,8 @@ export default {
 
             <label style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">Opacity</label>
             <div class="slider-group">
-              <input type="range" id="shadow-opacity-1" class="slider-input" min="0" max="100" value="35">
-              <span class="slider-val" id="shadow-opacity-1-val">35%</span>
+              <input type="range" id="shadow-opacity-1" class="slider-input" min="0" max="100" value="60">
+              <span class="slider-val" id="shadow-opacity-1-val">60%</span>
             </div>
           </div>
 

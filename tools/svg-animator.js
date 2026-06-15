@@ -109,10 +109,19 @@ export default {
         <div class="tool-panel">
           <div class="panel-header">
             <h3>Animated Preview</h3>
+            <div style="display: flex; gap: 6px;">
+              <select id="svg-preview-bg-select" class="form-select" style="padding: 4px 8px; font-size: 11px; width: auto; height: auto;">
+                <option value="plain-dark">Dark Minimal</option>
+                <option value="cyber-mesh">Cyber Mesh</option>
+                <option value="polka-dots">Polka Dots</option>
+                <option value="sunset-glow">Sunset Glow</option>
+                <option value="plain-light">Light Minimal</option>
+              </select>
+            </div>
           </div>
           
           <!-- Interactive Preview Screen -->
-          <div style="display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(0,0,0,0.3); border-radius: 8px; min-height: 250px; position: relative; overflow: hidden;">
+          <div id="svg-showcase-container" class="glass-bg-dark" style="display: flex; align-items: center; justify-content: center; padding: 24px; border-radius: 8px; min-height: 250px; position: relative; overflow: hidden; transition: all 0.3s ease;">
             <style id="svg-preview-inline-css"></style>
             <div id="svg-preview-container" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; min-height: 220px; transition: transform 0.2s ease;">
               <!-- Target animated SVG renders here -->
@@ -557,8 +566,55 @@ export default {
       appInstance.copyText(outputCode.innerText);
     });
 
+    // Background selector event
+    const bgSelect = container.querySelector("#svg-preview-bg-select");
+    const showcaseContainer = container.querySelector("#svg-showcase-container");
+    
+    if (!document.getElementById("svg-preview-bg-light-css")) {
+      const lightStyle = document.createElement("style");
+      lightStyle.id = "svg-preview-bg-light-css";
+      lightStyle.innerHTML = `
+        .glass-bg-light {
+          background-color: #f8fafc !important;
+          background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) !important;
+          background-size: 15px 15px !important;
+        }
+      `;
+      document.head.appendChild(lightStyle);
+    }
+
+    bgSelect?.addEventListener("change", (e) => {
+      const bg = e.target.value;
+      showcaseContainer.className = "";
+      
+      if (bg === "cyber-mesh") {
+        showcaseContainer.className = "glass-bg-mesh";
+      } else if (bg === "polka-dots") {
+        showcaseContainer.className = "glass-bg-dots";
+      } else if (bg === "sunset-glow") {
+        showcaseContainer.className = "glass-bg-sunset";
+      } else if (bg === "plain-light") {
+        showcaseContainer.className = "glass-bg-light";
+      } else {
+        showcaseContainer.className = "glass-bg-dark";
+      }
+    });
+
+    // Destructor to clean up style tags on tool switch
+    this._cleanup = () => {
+      const el = document.getElementById("svg-preview-bg-light-css");
+      if (el) el.remove();
+    };
+
     // Load initial sample
     rawInput.value = sampleCyberLogo;
     updateAnimation();
+  },
+
+  destroy() {
+    if (this._cleanup) {
+      this._cleanup();
+    }
   }
 };

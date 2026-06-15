@@ -12,7 +12,18 @@ export default {
               <button class="tool-btn" id="md-clear">Clear</button>
             </div>
           </div>
-          <textarea class="input-textarea" id="md-input" placeholder="Type Markdown here (e.g. # Title, **bold**, *italic*...)" aria-label="Markdown Input"></textarea>
+          <!-- Markdown Helper Toolbar -->
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 12px; background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid var(--border-color); align-items: center;">
+            <button class="tool-btn secondary" id="md-helper-h1" style="font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: bold;">H1</button>
+            <button class="tool-btn secondary" id="md-helper-h2" style="font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: bold;">H2</button>
+            <button class="tool-btn secondary" id="md-helper-bold" style="font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: bold;">Bold</button>
+            <button class="tool-btn secondary" id="md-helper-italic" style="font-size: 10px; padding: 4px 8px; border-radius: 4px; font-style: italic;">Italic</button>
+            <button class="tool-btn secondary" id="md-helper-code" style="font-size: 10px; padding: 4px 8px; border-radius: 4px; font-family: var(--font-mono);">Code</button>
+            <button class="tool-btn secondary" id="md-helper-link" style="font-size: 10px; padding: 4px 8px; border-radius: 4px;">Link</button>
+            <button class="tool-btn secondary" id="md-helper-quote" style="font-size: 10px; padding: 4px 8px; border-radius: 4px;">Quote</button>
+            <button class="tool-btn secondary" id="md-helper-ul" style="font-size: 10px; padding: 4px 8px; border-radius: 4px;">List</button>
+          </div>
+          <textarea class="input-textarea" id="md-input" placeholder="Type Markdown here (e.g. # Title, **bold**, *italic*...)" aria-label="Markdown Input" style="border-top-left-radius: 0; border-top-right-radius: 0;"></textarea>
         </div>
         <div class="tool-panel">
           <div class="panel-header">
@@ -124,6 +135,32 @@ export default {
       mdInput.value = "";
       renderMarkdown();
     });
+    
+    const insertMarkdownHelper = (prefix, suffix = "") => {
+      const start = mdInput.selectionStart;
+      const end = mdInput.selectionEnd;
+      const text = mdInput.value;
+      const selected = text.substring(start, end);
+      const replacement = prefix + selected + suffix;
+      
+      mdInput.value = text.substring(0, start) + replacement + text.substring(end);
+      mdInput.focus();
+      
+      // Select the inserted text/placeholder
+      mdInput.selectionStart = start + prefix.length;
+      mdInput.selectionEnd = start + prefix.length + selected.length;
+      
+      renderMarkdown();
+    };
+
+    container.querySelector("#md-helper-h1")?.addEventListener("click", () => insertMarkdownHelper("# ", ""));
+    container.querySelector("#md-helper-h2")?.addEventListener("click", () => insertMarkdownHelper("## ", ""));
+    container.querySelector("#md-helper-bold")?.addEventListener("click", () => insertMarkdownHelper("**", "**"));
+    container.querySelector("#md-helper-italic")?.addEventListener("click", () => insertMarkdownHelper("*", "*"));
+    container.querySelector("#md-helper-code")?.addEventListener("click", () => insertMarkdownHelper("`", "`"));
+    container.querySelector("#md-helper-link")?.addEventListener("click", () => insertMarkdownHelper("[", "](url)"));
+    container.querySelector("#md-helper-quote")?.addEventListener("click", () => insertMarkdownHelper("> ", ""));
+    container.querySelector("#md-helper-ul")?.addEventListener("click", () => insertMarkdownHelper("- ", ""));
     
     const loadSample = () => {
       mdInput.value = `# Masterpiece OmniTool v2\n\n- Smart **PWA Caching** for fully offline usage\n- Real-time **Smart Chain** transformations\n- Unified **Ctrl + K** command palette search!`;
