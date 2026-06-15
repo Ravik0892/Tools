@@ -235,6 +235,17 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M9 3v18M3 9h18M14 14l3 3m0-3l-3 3"></path></svg>`
     },
     {
+      id: "box-shadow",
+      name: "CSS Box Shadow Builder",
+      desc: "Visually construct simple and complex box shadows with offsets, blur, spread, color, opacity, and inset controls.",
+      category: "design",
+      subcategory: "design-css",
+      subLabel: "CSS Builders",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="12" height="12" rx="1.5"></rect><path d="M16 8h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-2" stroke-dasharray="2 2"></path></svg>`
+    },
+    {
       id: "image-converter",
       name: "Image Optimizer & Converter",
       desc: "Optimize dimensions, adjust quality, and convert image formats (PNG, JPG, WebP) client-side in seconds.",
