@@ -7,6 +7,30 @@
   <meta name="description" content="A premium, cyber-aesthetic developer and utility tools web application running 100% client-side for complete privacy and instant results.">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
+  <script>
+    // Bypass service worker and clear PWA caches during local development
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '127.0.0.1.nip.io' || window.location.hostname === 'host.docker.internal') {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (let registration of registrations) {
+            registration.unregister().then(unregistered => {
+              if (unregistered) console.log('[Dev] Unregistered service worker for localhost.');
+            });
+          }
+        });
+      }
+      if ('caches' in window) {
+        caches.keys().then(keys => {
+          if (keys.length > 0) {
+            Promise.all(keys.map(key => caches.delete(key))).then(() => {
+              console.log('[Dev] Cleared PWA caches for localhost. Reloading...');
+              window.location.reload();
+            });
+          }
+        });
+      }
+    }
+  </script>
 </head>
 <body>
   <!-- Global Command Palette Modal -->

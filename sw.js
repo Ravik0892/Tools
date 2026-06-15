@@ -1,5 +1,5 @@
 // Service Worker for OmniTool Hub PWA
-const CACHE_NAME = "omnitool-v16";
+const CACHE_NAME = "omnitool-v25";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
@@ -24,7 +24,12 @@ const ASSETS_TO_CACHE = [
   "tools/epoch-converter.js",
   "tools/unit-converter.js",
   "tools/graphics-studio.js",
-  "tools/calculator.js"
+  "tools/calculator.js",
+  "tools/glassmorphism-generator.js",
+  "tools/image-converter.js",
+  "tools/qr-generator.js",
+  "tools/seo-previewer.js",
+  "tools/svg-animator.js"
 ];
 
 // Install Event
@@ -55,8 +60,16 @@ self.addEventListener("activate", (e) => {
 
 // Fetch Event (Cache-First, Network Fallback)
 self.addEventListener("fetch", (e) => {
-  // Avoid intercepting non-GET requests or external API calls where applicable
   if (e.request.method !== "GET") return;
+
+  const url = new URL(e.request.url);
+  const isLocal = url.origin === self.location.origin;
+  const isCachableExternal = e.request.url.includes("fonts.googleapis.com") ||
+                             e.request.url.includes("fonts.gstatic.com") ||
+                             e.request.url.includes("icons8.com");
+
+  // Only intercept local requests or specific whitelisted external assets
+  if (!isLocal && !isCachableExternal) return;
 
   e.respondWith(
     caches.match(e.request).then((cachedResponse) => {
@@ -67,11 +80,7 @@ self.addEventListener("fetch", (e) => {
       // If resource not in cache, fetch it from network
       return fetch(e.request).then((networkResponse) => {
         // Cache external fonts or icon assets dynamically
-        if (
-          e.request.url.includes("fonts.googleapis.com") ||
-          e.request.url.includes("fonts.gstatic.com") ||
-          e.request.url.includes("icons8.com")
-        ) {
+        if (isCachableExternal) {
           return caches.open(CACHE_NAME).then((cache) => {
             cache.put(e.request, networkResponse.clone());
             return networkResponse;
@@ -79,11 +88,12 @@ self.addEventListener("fetch", (e) => {
         }
         return networkResponse;
       });
-    }).catch(() => {
+    }).catch((err) => {
       // Offline fallback for navigation requests
       if (e.request.mode === "navigate") {
         return caches.match("index.html");
       }
+      throw err; // Re-throw to propagate network failure to browser correctly
     })
   );
 });

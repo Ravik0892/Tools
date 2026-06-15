@@ -200,6 +200,61 @@ const app = {
       accent: "#f43f5e",
       accentRgb: "244, 63, 94",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="16" y1="10" x2="16" y2="10.01"></line></svg>`
+    },
+    {
+      id: "qr-generator",
+      name: "Dynamic QR Code Studio",
+      desc: "Generate highly customized art QR codes with linear gradients, custom dot patterns, eye styles, and center logos client-side.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Generators",
+      accent: "#f43f5e",
+      accentRgb: "244, 63, 94",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="9" height="9" rx="1"></rect><rect x="12" y="3" width="9" height="9" rx="1"></rect><rect x="3" y="12" width="9" height="9" rx="1"></rect><path d="M14 14h2v2h-2zm4 4h2v2h-2zm2-4h-2v2h2zm-4 4h2v-2h-2zm4-4v2h2v-2zm-4 4h-2v2h2z"></path></svg>`
+    },
+    {
+      id: "seo-previewer",
+      name: "Meta Tag & SEO Previewer",
+      desc: "Design and preview page meta tags with live Google, Facebook, Twitter, and Discord mockup cards.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Generators",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="17" x2="22" y2="17"></line><line x1="12" y1="17" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line></svg>`
+    },
+    {
+      id: "glassmorphism-generator",
+      name: "Frosted Glassmorphism CSS Generator",
+      desc: "Visually build cyber-styled CSS backdrop blurs, border glows, shadow layers, and copy ready-to-use CSS.",
+      category: "design",
+      subcategory: "design-css",
+      subLabel: "CSS Builders",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M9 3v18M3 9h18M14 14l3 3m0-3l-3 3"></path></svg>`
+    },
+    {
+      id: "image-converter",
+      name: "Image Optimizer & Converter",
+      desc: "Optimize dimensions, adjust quality, and convert image formats (PNG, JPG, WebP) client-side in seconds.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Graphics & Screen Studio",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`
+    },
+    {
+      id: "svg-animator",
+      name: "SVG Animation Studio",
+      desc: "Import SVG vectors, visualize paths, apply keyframe presets (self-drawing, spin, float, neon pulse), and export animated SVGs client-side.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Graphics & Screen Studio",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M20.4 12A8.4 8.4 0 0 1 12 20.4c-2.3 0-4.4-.9-6-2.4l1.4-1.4a6.4 6.4 0 0 0 9.2 0l1.4 1.4zM12 3.6c2.3 0 4.4.9 6 2.4l-1.4 1.4a6.4 6.4 0 0 0-9.2 0L6 6a8.4 8.4 0 0 1 8.4-2.4z"></path></svg>`
     }
   ],
 
@@ -224,6 +279,7 @@ const app = {
     this.initClock();
     this.initTheme();
     this.bindEvents();
+    this.buildSidebarToolMenu();
     this.handleRouting();
     
     // Pre-load utilities for pipeline builder integration and global helpers
@@ -290,16 +346,59 @@ const app = {
     this.renderDashboard();
   },
 
+  buildSidebarToolMenu() {
+    document.querySelectorAll(".subnav-link").forEach(link => {
+      const filter = link.getAttribute("data-filter");
+      if (!filter || filter.endsWith("-all")) return;
+
+      const parentLi = link.parentElement;
+      parentLi.classList.add("subnav-item");
+
+      const subList = document.createElement("ul");
+      subList.className = "sidebar-sub-tools";
+
+      const matchingTools = this.tools.filter(t => t.subcategory === filter);
+      matchingTools.forEach(tool => {
+        const toolLi = document.createElement("li");
+        toolLi.innerHTML = `<a class="sidebar-tool-link" data-tool="${tool.id}">${tool.name}</a>`;
+        toolLi.querySelector(".sidebar-tool-link").addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.navigateToTool(tool.id);
+        });
+        subList.appendChild(toolLi);
+      });
+
+      parentLi.appendChild(subList);
+    });
+  },
+
   syncSidebarUI() {
     document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
     document.querySelectorAll(".subnav-link").forEach(l => l.classList.remove("active"));
+    document.querySelectorAll(".sidebar-tool-link").forEach(l => l.classList.remove("active"));
     document.querySelectorAll(".accordion-item").forEach(item => {
       item.classList.remove("open");
       const content = item.querySelector(".accordion-content");
       if (content) content.style.display = "none";
     });
 
-    if (this.activeCategory === "all") {
+    if (this.activeTool) {
+      const toolLink = document.querySelector(`.sidebar-tool-link[data-tool="${this.activeTool}"]`);
+      if (toolLink) {
+        toolLink.classList.add("active");
+        
+        const subnav = toolLink.closest(".subnav-item")?.querySelector(".subnav-link");
+        if (subnav) subnav.classList.add("active");
+
+        const accordion = toolLink.closest(".accordion-item");
+        if (accordion) {
+          accordion.classList.add("open");
+          const content = accordion.querySelector(".accordion-content");
+          if (content) content.style.display = "flex";
+        }
+      }
+    } else if (this.activeCategory === "all") {
       document.getElementById("cat-all")?.classList.add("active");
     } else if (this.activeCategory === "fav") {
       document.getElementById("cat-fav")?.classList.add("active");
@@ -319,10 +418,33 @@ const app = {
   },
 
   registerServiceWorker() {
+    const isLocalhost = window.location.hostname === "localhost" || 
+                        window.location.hostname === "127.0.0.1" || 
+                        window.location.hostname === "127.0.0.1.nip.io" ||
+                        window.location.hostname === "host.docker.internal";
+    if (isLocalhost) {
+      console.log("[Dev] Service Worker bypassed on localhost.");
+      return;
+    }
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("sw.js").then(
-          (reg) => console.log("[PWA] Service Worker registered with scope: ", reg.scope),
+          (reg) => {
+            console.log("[PWA] Service Worker registered with scope: ", reg.scope);
+            if (navigator.serviceWorker.controller) {
+              reg.addEventListener("updatefound", () => {
+                const installingWorker = reg.installing;
+                if (installingWorker) {
+                  installingWorker.addEventListener("statechange", () => {
+                    if (installingWorker.state === "activated") {
+                      console.log("[PWA] New service worker activated, reloading page...");
+                      window.location.reload();
+                    }
+                  });
+                }
+              });
+            }
+          },
           (err) => console.error("[PWA] Service Worker registration failed: ", err)
         );
       });
@@ -1047,7 +1169,12 @@ const app = {
     viewport.style.display = "flex";
 
     try {
-      const module = await import('./tools/' + toolId + '.js');
+      const isLocalhost = window.location.hostname === "localhost" || 
+                          window.location.hostname === "127.0.0.1" || 
+                          window.location.hostname === "127.0.0.1.nip.io" ||
+                          window.location.hostname === "host.docker.internal";
+      const cacheBust = isLocalhost ? `?t=${Date.now()}` : '';
+      const module = await import('./tools/' + toolId + '.js' + cacheBust);
       const toolInstance = module.default;
       
       const isFav = this.favorites.has(toolId);
@@ -1083,6 +1210,7 @@ const app = {
       
       this.activeTool = toolId;
       this.addRecent(toolId);
+      this.syncSidebarUI();
       
       const titleEl = document.getElementById("header-view-title");
       const toolMetadata = this.tools.find(t => t.id === toolId);
@@ -1121,6 +1249,7 @@ const app = {
     if (dashboard) dashboard.style.display = "block";
 
     this.activeTool = null;
+    this.syncSidebarUI();
 
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) {

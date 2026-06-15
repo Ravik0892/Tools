@@ -2263,3 +2263,66 @@ body {
     justify-content: center;
   }
 }
+
+/* Glassmorphism Showcase Backgrounds */
+.glass-bg-mesh {
+  background: radial-gradient(at 0% 0%, #1e1b4b 0px, transparent 50%),
+              radial-gradient(at 50% 0%, #090d16 0px, transparent 50%),
+              radial-gradient(at 100% 0%, #0c1824 0px, transparent 50%),
+              radial-gradient(at 0% 100%, #0f172a 0px, transparent 50%),
+              radial-gradient(at 50% 100%, #180c29 0px, transparent 50%),
+              radial-gradient(at 100% 100%, #2e1065 0px, transparent 50%);
+  background-color: #030712;
+}
+.glass-bg-dots {
+  background-color: #0b0f19;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+.glass-bg-sunset {
+  background: linear-gradient(135deg, #f43f5e 0%, #9d4edd 50%, #00f2fe 100%);
+}
+.glass-bg-dark {
+  background-color: #09090b;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 15px 15px;
+}
+
+/* Sidebar Sub-Tools Nested Navigation Menu */
+.subnav-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sidebar-sub-tools {
+  list-style: none;
+  padding-left: 10px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sidebar-tool-link {
+  display: block;
+  padding: 4px 8px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.sidebar-tool-link:hover, .sidebar-tool-link.active {
+  color: var(--accent-cyan);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.sidebar-tool-link.active {
+  font-weight: 700;
+  border-left: 2px solid var(--accent-cyan);
+  padding-left: 6px;
+}

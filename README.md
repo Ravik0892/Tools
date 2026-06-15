@@ -3,6 +3,19 @@ python -m http.server 8000
 http://localhost:8000/
 http://127.0.0.1:8000/
 
+
+Note: If you want to keep using http-server, run it with the -p 8000 flag to match your existing browser tabs:
+
+powershell
+npx http-server -p 8000
+
+But Python is simpler — no install, no deprecation warnings, same result.
+
+
+powershell
+python -m http.server 8000
+
+
 # OmniTool Hub v2 (Masterpiece Edition) - Complete Project Manual
 
 OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing 16 powerful developer and utility tools. By executing calculations directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
