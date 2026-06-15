@@ -1,5 +1,5 @@
 @echo off
-title Commit + Merge Dev → Main & Push to GitHub
+title Commit + Merge Dev to Main and Push to GitHub
 color 0A
 
 echo.
