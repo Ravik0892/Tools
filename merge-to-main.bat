@@ -105,6 +105,9 @@ echo  ╔═══════════════════════�
 echo  ║   FAILED! Something went wrong (see above)  ║
 echo  ╚══════════════════════════════════════════════╝
 echo.
+echo  [INFO] Returning you to the DEV branch to restore your files...
+git checkout dev
+echo.
 
 :done
 pause
