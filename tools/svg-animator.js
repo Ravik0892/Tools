@@ -28,6 +28,9 @@ export default {
               <option value="spin">Rotational Spin (360°)</option>
               <option value="float">Cyber Float (Hovering)</option>
               <option value="pulse">Neon Heartbeat Pulse</option>
+              <option value="neon-flicker">Neon Flicker (Cyberpunk)</option>
+              <option value="float-rotate">Float &amp; Rotate Combo</option>
+              <option value="pulse-spin">Pulse &amp; Spin Combo</option>
             </select>
           </div>
 
@@ -61,6 +64,36 @@ export default {
             <div style="display: flex; gap: 12px; align-items: center;">
               <input type="color" id="svg-glow-color" value="#00f2fe" style="border: none; width: 45px; height: 35px; cursor: pointer; background: transparent;">
               <span style="font-size: 12px; color: var(--text-muted);">Choose glow color</span>
+            </div>
+          </div>
+
+          <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 10px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="svg-color-override">
+              Override Base Vector Color
+            </label>
+          </div>
+
+          <div class="form-group" id="svg-base-color-box" style="display: none;">
+            <label for="svg-base-color">Primary Vector Color</label>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <input type="color" id="svg-base-color" value="#00f2fe" style="border: none; width: 45px; height: 35px; cursor: pointer; background: transparent;">
+              <span style="font-size: 12px; color: var(--text-muted);">Choose vector color</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="svg-stroke-override">
+              Override Vector Stroke Width
+            </label>
+          </div>
+
+          <div class="form-group" id="svg-stroke-width-box" style="display: none;">
+            <label>Stroke Width</label>
+            <div class="slider-group">
+              <input type="range" id="svg-stroke-width" class="slider-input" min="1" max="10" step="0.5" value="2.5">
+              <span class="slider-val" id="svg-stroke-width-val">2.5px</span>
             </div>
           </div>
 
@@ -134,6 +167,16 @@ export default {
     const glowCheck = container.querySelector("#svg-neon-glow");
     const glowColor = container.querySelector("#svg-glow-color");
     const glowColorBox = container.querySelector("#svg-glow-color-box");
+
+    const colorOverrideCheck = container.querySelector("#svg-color-override");
+    const baseColorInput = container.querySelector("#svg-base-color");
+    const baseColorBox = container.querySelector("#svg-base-color-box");
+
+    const strokeOverrideCheck = container.querySelector("#svg-stroke-override");
+    const strokeWidthSlider = container.querySelector("#svg-stroke-width");
+    const strokeWidthVal = container.querySelector("#svg-stroke-width-val");
+    const strokeWidthBox = container.querySelector("#svg-stroke-width-box");
+
     const scaleSlider = container.querySelector("#svg-scale");
     const scaleVal = container.querySelector("#svg-scale-val");
 
@@ -167,6 +210,23 @@ export default {
     // Toggle glow display
     glowCheck?.addEventListener("change", (e) => {
       glowColorBox.style.display = e.target.checked ? "flex" : "none";
+      updateAnimation();
+    });
+
+    // Toggle color override
+    colorOverrideCheck?.addEventListener("change", (e) => {
+      baseColorBox.style.display = e.target.checked ? "flex" : "none";
+      updateAnimation();
+    });
+
+    // Toggle stroke override
+    strokeOverrideCheck?.addEventListener("change", (e) => {
+      strokeWidthBox.style.display = e.target.checked ? "flex" : "none";
+      updateAnimation();
+    });
+
+    strokeWidthSlider?.addEventListener("input", (e) => {
+      strokeWidthVal.innerText = `${parseFloat(e.target.value).toFixed(1)}px`;
       updateAnimation();
     });
 
@@ -224,6 +284,11 @@ export default {
       const hasGlow = glowCheck.checked;
       const glowCol = glowColor.value;
 
+      const overrideColor = colorOverrideCheck?.checked || false;
+      const baseCol = baseColorInput?.value || "#00f2fe";
+      const overrideStroke = strokeOverrideCheck?.checked || false;
+      const strokeW = parseFloat(strokeWidthSlider?.value || "2.5");
+
       // Reset styles and inject custom class
       adoptedSvg.classList.add(previewClass);
       adoptedSvg.setAttribute("role", "img");
@@ -236,6 +301,23 @@ export default {
       let inlineStyle = "";
       
       const filterStyle = hasGlow ? `filter: drop-shadow(0 0 8px ${glowCol}) drop-shadow(0 0 3px ${glowCol});` : "";
+
+      // Build SVG color and stroke width override CSS rules
+      let overrideCss = "";
+      if (overrideColor) {
+        overrideCss += `
+          .${previewClass} path, .${previewClass} circle, .${previewClass} rect, .${previewClass} ellipse, .${previewClass} line, .${previewClass} polyline, .${previewClass} polygon {
+            stroke: ${baseCol} !important;
+          }
+        `;
+      }
+      if (overrideStroke) {
+        overrideCss += `
+          .${previewClass} path, .${previewClass} circle, .${previewClass} rect, .${previewClass} ellipse, .${previewClass} line, .${previewClass} polyline, .${previewClass} polygon {
+            stroke-width: ${strokeW}px !important;
+          }
+        `;
+      }
 
       if (preset === "stroke-draw") {
         // Measure paths lengths client-side dynamically
@@ -252,7 +334,6 @@ export default {
             if (typeof path.getTotalLength === 'function') {
               length = path.getTotalLength();
             } else {
-              // rough approximation for simple shapes
               length = 300;
             }
           } catch (e) {
@@ -297,10 +378,10 @@ export default {
 
         keyframes = pathStyles;
         inlineStyle = `.${previewClass} {
-          width: 100%;
-          height: 100%;
           max-width: 100%;
           max-height: 220px;
+          min-width: 120px;
+          min-height: 120px;
           overflow: visible;
           ${filterStyle}
         }
@@ -311,10 +392,10 @@ export default {
           to { transform: rotate(360deg); }
         }`;
         inlineStyle = `.${previewClass} {
-          width: 100%;
-          height: 100%;
           max-width: 100%;
           max-height: 220px;
+          min-width: 120px;
+          min-height: 120px;
           transform-origin: center;
           transform-box: fill-box;
           animation: spin-anim ${duration}s ${easing} infinite;
@@ -328,10 +409,10 @@ export default {
           100% { transform: translateY(0px); }
         }`;
         inlineStyle = `.${previewClass} {
-          width: 100%;
-          height: 100%;
           max-width: 100%;
           max-height: 220px;
+          min-width: 120px;
+          min-height: 120px;
           overflow: visible;
           animation: float-anim ${duration}s ${easing} infinite;
           ${filterStyle}
@@ -344,17 +425,74 @@ export default {
           100% { transform: scale(1); opacity: 1; }
         }`;
         inlineStyle = `.${previewClass} {
-          width: 100%;
-          height: 100%;
           max-width: 100%;
           max-height: 220px;
+          min-width: 120px;
+          min-height: 120px;
           transform-origin: center;
           transform-box: fill-box;
           animation: pulse-anim ${duration}s ${easing} infinite;
           ${filterStyle}
         }
         ${keyframes}`;
+      } else if (preset === "neon-flicker") {
+        keyframes = `@keyframes flicker-anim {
+          0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+            opacity: 1;
+            filter: drop-shadow(0 0 8px ${glowCol}) drop-shadow(0 0 3px ${glowCol});
+          }
+          20%, 24%, 55% {
+            opacity: 0.35;
+            filter: none;
+          }
+        }`;
+        inlineStyle = `.${previewClass} {
+          max-width: 100%;
+          max-height: 220px;
+          min-width: 120px;
+          min-height: 120px;
+          overflow: visible;
+          animation: flicker-anim ${duration}s linear infinite;
+        }
+        ${keyframes}`;
+      } else if (preset === "float-rotate") {
+        keyframes = `@keyframes float-rotate-anim {
+          0% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(180deg); }
+          100% { transform: translateY(0px) rotate(360deg); }
+        }`;
+        inlineStyle = `.${previewClass} {
+          max-width: 100%;
+          max-height: 220px;
+          min-width: 120px;
+          min-height: 120px;
+          transform-origin: center;
+          transform-box: fill-box;
+          animation: float-rotate-anim ${duration}s ${easing} infinite;
+          ${filterStyle}
+        }
+        ${keyframes}`;
+      } else if (preset === "pulse-spin") {
+        keyframes = `@keyframes pulse-spin-anim {
+          0% { transform: scale(1) rotate(0deg); }
+          50% { transform: scale(1.08) rotate(180deg); }
+          100% { transform: scale(1) rotate(360deg); }
+        }`;
+        inlineStyle = `.${previewClass} {
+          max-width: 100%;
+          max-height: 220px;
+          min-width: 120px;
+          min-height: 120px;
+          transform-origin: center;
+          transform-box: fill-box;
+          animation: pulse-spin-anim ${duration}s ${easing} infinite;
+          ${filterStyle}
+        }
+        ${keyframes}`;
       }
+
+      // Inject the base/stroke overrides
+      inlineStyle += overrideCss;
 
       // Apply stylesheet
       inlineCss.textContent = inlineStyle;
@@ -387,6 +525,10 @@ export default {
       glowCheck.checked = true;
       glowColor.value = "#00f2fe";
       glowColorBox.style.display = "flex";
+      colorOverrideCheck.checked = false;
+      baseColorBox.style.display = "none";
+      strokeOverrideCheck.checked = false;
+      strokeWidthBox.style.display = "none";
       updateAnimation();
       appInstance.showToast("Loaded Cyber Logo template!", "info");
     });
@@ -397,12 +539,16 @@ export default {
       glowCheck.checked = true;
       glowColor.value = "#f43f5e";
       glowColorBox.style.display = "flex";
+      colorOverrideCheck.checked = false;
+      baseColorBox.style.display = "none";
+      strokeOverrideCheck.checked = false;
+      strokeWidthBox.style.display = "none";
       updateAnimation();
       appInstance.showToast("Loaded Pulse Heart template!", "info");
     });
 
     // Inputs bindings
-    const inputs = [rawInput, presetSelect, durationSlider, easingSelect, glowCheck, glowColor];
+    const inputs = [rawInput, presetSelect, durationSlider, easingSelect, glowCheck, glowColor, colorOverrideCheck, baseColorInput, strokeOverrideCheck, strokeWidthSlider];
     inputs.forEach(el => el?.addEventListener("change", updateAnimation));
     rawInput?.addEventListener("input", updateAnimation);
 

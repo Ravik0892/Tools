@@ -16,7 +16,7 @@ cd /d "%~dp0"
 echo  [1/8] Enter your commit message below:
 echo  (Example: feat: added dark mode toggle)
 echo.
-set /p COMMIT_MSG=  >> 
+set /p COMMIT_MSG=  ^>^> 
 echo.
 
 if "%COMMIT_MSG%"=="" (

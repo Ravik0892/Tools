@@ -27,7 +27,10 @@ export default {
 
           <div class="form-group">
             <label for="seo-url">Page URL</label>
-            <input type="text" id="seo-url" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 13px;" value="https://omnitoolhub.app" placeholder="https://example.com">
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="seo-url" class="search-bar" style="flex: 1; border: 1px solid var(--border-color); font-size: 13px;" value="https://omnitoolhub.app" placeholder="https://example.com">
+              <button type="button" class="tool-btn primary" id="seo-fetch-btn" style="font-size: 11px; padding: 0 12px; white-space: nowrap; height: 38px;">Fetch Tags</button>
+            </div>
           </div>
 
           <div class="form-group">
@@ -45,6 +48,74 @@ export default {
             </div>
             <div id="seo-upload-preview" style="display: none; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.25); max-width: 260px;">
               <img id="seo-upload-thumb" alt="Uploaded Open Graph preview" style="display: block; width: 100%; max-height: 130px; object-fit: cover;">
+            </div>
+          </div>
+
+          <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 14px; margin-top: 14px;">
+            <label for="seo-schema-type">Structured Data (JSON-LD Schema)</label>
+            <select id="seo-schema-type" class="form-select" style="margin-bottom: 12px;">
+              <option value="none">None (Disabled)</option>
+              <option value="article">Article Schema</option>
+              <option value="product">Product Schema</option>
+              <option value="local-business">Local Business Schema</option>
+            </select>
+          </div>
+
+          <!-- Dynamic Schema Forms -->
+          <div id="schema-fields-article" class="schema-fields-group" style="display: none;">
+            <div class="form-group">
+              <label for="schema-art-author">Author Name</label>
+              <input type="text" id="schema-art-author" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="John Doe">
+            </div>
+            <div class="form-group">
+              <label for="schema-art-pub">Publisher Name</label>
+              <input type="text" id="schema-art-pub" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="OmniTool Hub">
+            </div>
+            <div class="form-group">
+              <label for="schema-art-date">Date Published</label>
+              <input type="date" id="schema-art-date" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;">
+            </div>
+          </div>
+
+          <div id="schema-fields-product" class="schema-fields-group" style="display: none;">
+            <div class="form-group">
+              <label for="schema-prod-price">Price</label>
+              <input type="number" id="schema-prod-price" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="49.99" step="0.01">
+            </div>
+            <div class="form-group">
+              <label for="schema-prod-currency">Currency Code</label>
+              <input type="text" id="schema-prod-currency" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="USD">
+            </div>
+            <div class="form-group">
+              <label for="schema-prod-sku">SKU</label>
+              <input type="text" id="schema-prod-sku" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="OTH-1001">
+            </div>
+            <div class="form-group">
+              <label for="schema-prod-avail">Availability</label>
+              <select id="schema-prod-avail" class="form-select">
+                <option value="InStock">In Stock</option>
+                <option value="OutOfStock">Out Of Stock</option>
+                <option value="PreOrder">Pre Order</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="schema-fields-local-business" class="schema-fields-group" style="display: none;">
+            <div class="form-group">
+              <label for="schema-loc-addr">Street Address</label>
+              <input type="text" id="schema-loc-addr" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="123 Cyber Way">
+            </div>
+            <div class="form-group">
+              <label for="schema-loc-city">City</label>
+              <input type="text" id="schema-loc-city" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="San Francisco">
+            </div>
+            <div class="form-group">
+              <label for="schema-loc-post">Postal Code</label>
+              <input type="text" id="schema-loc-post" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="94107">
+            </div>
+            <div class="form-group">
+              <label for="schema-loc-phone">Phone Number</label>
+              <input type="text" id="schema-loc-phone" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 12px;" value="+1-555-0199">
             </div>
           </div>
         </div>
@@ -166,6 +237,9 @@ export default {
     const uploadPreview = container.querySelector("#seo-upload-preview");
     const uploadThumb = container.querySelector("#seo-upload-thumb");
 
+    const fetchBtn = container.querySelector("#seo-fetch-btn");
+    const schemaTypeSelect = container.querySelector("#seo-schema-type");
+
     // Previews Elements
     const googleFav = container.querySelector("#google-fav-mock");
     const googleDomain = container.querySelector("#google-domain-label");
@@ -218,6 +292,62 @@ export default {
       fileInput.value = "";
     };
 
+    // CORS scraper implementation
+    fetchBtn?.addEventListener("click", async () => {
+      const targetUrl = urlInput.value.trim();
+      if (!targetUrl) {
+        appInstance.showToast("Please enter a Page URL first!", "error");
+        return;
+      }
+      
+      fetchBtn.disabled = true;
+      fetchBtn.innerText = "Scraping...";
+      appInstance.showToast("Scraping metadata via proxy...", "info");
+
+      try {
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
+        if (!response.ok) throw new Error("HTTP error " + response.status);
+        const html = await response.text();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        
+        // Extract title
+        const scrapedTitle = doc.querySelector("title")?.innerText || 
+                             doc.querySelector("meta[property='og:title']")?.getAttribute("content") || 
+                             doc.querySelector("meta[name='twitter:title']")?.getAttribute("content") || "";
+                             
+        // Extract description
+        const scrapedDesc = doc.querySelector("meta[name='description']")?.getAttribute("content") || 
+                            doc.querySelector("meta[property='og:description']")?.getAttribute("content") || 
+                            doc.querySelector("meta[name='twitter:description']")?.getAttribute("content") || "";
+                             
+        // Extract og:image
+        const scrapedImage = doc.querySelector("meta[property='og:image']")?.getAttribute("content") || 
+                             doc.querySelector("meta[name='twitter:image']")?.getAttribute("content") || "";
+                             
+        // Extract og:site_name
+        const scrapedSiteName = doc.querySelector("meta[property='og:site_name']")?.getAttribute("content") || "";
+
+        if (scrapedTitle) titleInput.value = scrapedTitle;
+        if (scrapedDesc) descInput.value = scrapedDesc;
+        if (scrapedImage) {
+          ogImageInput.value = scrapedImage;
+          clearLocalUploadPreview();
+        }
+        if (scrapedSiteName) sitenameInput.value = scrapedSiteName;
+
+        updatePreviews();
+        appInstance.showToast("Successfully scraped & loaded meta tags!", "success");
+      } catch (err) {
+        console.error(err);
+        appInstance.showToast("Failed to scrape target URL. Check CORS or URL validity.", "error");
+      } finally {
+        fetchBtn.disabled = false;
+        fetchBtn.innerText = "Fetch Tags";
+      }
+    });
+
     // Local Test Upload Image
     fileBtn?.addEventListener("click", () => fileInput.click());
     fileInput?.addEventListener("change", (e) => {
@@ -266,6 +396,14 @@ export default {
         return "example.com";
       }
     };
+
+    // Toggle Schema field displays
+    schemaTypeSelect?.addEventListener("change", (e) => {
+      container.querySelectorAll(".schema-fields-group").forEach(el => el.style.display = "none");
+      const activeGroup = container.querySelector(`#schema-fields-${e.target.value}`);
+      if (activeGroup) activeGroup.style.display = "block";
+      updatePreviews();
+    });
 
     // Main Update Function
     const updatePreviews = () => {
@@ -329,6 +467,93 @@ export default {
         dcPlaceholder.style.display = "block";
       }
 
+      // Format JSON-LD block
+      const schemaType = schemaTypeSelect?.value || "none";
+      let jsonLdString = "";
+      if (schemaType === "article") {
+        const author = container.querySelector("#schema-art-author").value;
+        const pub = container.querySelector("#schema-art-pub").value;
+        const pubDate = container.querySelector("#schema-art-date").value || new Date().toISOString().split('T')[0];
+        const obj = {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": title || "Article Title",
+          "image": ogImg || "",
+          "datePublished": pubDate,
+          "author": {
+            "@type": "Person",
+            "name": author
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": pub,
+            "logo": {
+              "@type": "ImageObject",
+              "url": ogImg || ""
+            }
+          },
+          "description": desc || ""
+        };
+        jsonLdString = `
+
+<!-- Schema.org JSON-LD (Structured Data) -->
+<script type="application/ld+json">
+${JSON.stringify(obj, null, 2)}
+</script>`;
+      } else if (schemaType === "product") {
+        const price = container.querySelector("#schema-prod-price").value || "0.00";
+        const currency = container.querySelector("#schema-prod-currency").value || "USD";
+        const sku = container.querySelector("#schema-prod-sku").value;
+        const avail = container.querySelector("#schema-prod-avail").value;
+        const obj = {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": title || "Product Name",
+          "image": ogImg || "",
+          "description": desc || "",
+          "sku": sku,
+          "offers": {
+            "@type": "Offer",
+            "url": url || "",
+            "priceCurrency": currency,
+            "price": price,
+            "availability": `https://schema.org/${avail}`
+          }
+        };
+        jsonLdString = `
+
+<!-- Schema.org JSON-LD (Structured Data) -->
+<script type="application/ld+json">
+${JSON.stringify(obj, null, 2)}
+</script>`;
+      } else if (schemaType === "local-business") {
+        const addr = container.querySelector("#schema-loc-addr").value;
+        const city = container.querySelector("#schema-loc-city").value;
+        const post = container.querySelector("#schema-loc-post").value;
+        const phone = container.querySelector("#schema-loc-phone").value;
+        const obj = {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": sitename || title || "Business Name",
+          "image": ogImg || "",
+          "telephone": phone,
+          "url": url || "",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": addr,
+            "addressLocality": city,
+            "postalCode": post,
+            "addressCountry": "US"
+          }
+        };
+        jsonLdString = `
+
+<!-- Schema.org JSON-LD (Structured Data) -->
+<script type="application/ld+json">
+${JSON.stringify(obj, null, 2)}
+</script>`;
+      }
+
       // Generate HTML Tag text
       const htmlString = `<!-- Standard Meta Tags -->
 <title>${title}</title>
@@ -347,7 +572,7 @@ export default {
 <meta property="twitter:url" content="${url}">
 <meta property="twitter:title" content="${title}">
 <meta property="twitter:description" content="${desc}">
-<meta property="twitter:image" content="${ogImg}">`;
+<meta property="twitter:image" content="${ogImg}">${jsonLdString}`;
 
       htmlOutput.innerText = htmlString;
     };
@@ -362,6 +587,12 @@ export default {
     // Inputs bindings
     const elements = [titleInput, descInput, urlInput, sitenameInput];
     elements.forEach(el => el?.addEventListener("input", updatePreviews));
+    
+    // Bind all Schema inputs to auto update previews
+    const schemaInputs = container.querySelectorAll(".schema-fields-group input, .schema-fields-group select");
+    schemaInputs.forEach(el => el?.addEventListener("input", updatePreviews));
+    schemaInputs.forEach(el => el?.addEventListener("change", updatePreviews));
+
     ogImageInput?.addEventListener("input", () => {
       if (localImageUrl && ogImageInput.value !== localImageUrl) {
         clearLocalUploadPreview();
@@ -373,6 +604,12 @@ export default {
     copyBtn?.addEventListener("click", () => {
       appInstance.copyText(htmlOutput.innerText);
     });
+
+    // Set default Article Publish Date to today
+    const dateInput = container.querySelector("#schema-art-date");
+    if (dateInput) {
+      dateInput.value = new Date().toISOString().split('T')[0];
+    }
 
     // Initial draw
     updatePreviews();

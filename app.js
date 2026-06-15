@@ -981,6 +981,47 @@ const app = {
     return subcategories[filter] || "Category Tools";
   },
 
+  getRandomSponsorAd() {
+    const ads = [
+      {
+        brand: "ApexScale DB",
+        slogan: "Serverless SQL database with global replicas and 10ms read times. Start free.",
+        btnText: "Deploy Free",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`
+      },
+      {
+        brand: "HexaCloud Host",
+        slogan: "Secure, lightning-fast PWA hosting and serverless deployments globally.",
+        btnText: "Claim $5 Credit",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`
+      },
+      {
+        brand: "DevSec Shield",
+        slogan: "Automate vulnerability scanning and dependency updates in your repositories.",
+        btnText: "Start Scan",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`
+      }
+    ];
+    const ad = ads[Math.floor(Math.random() * ads.length)];
+    return `
+      <div class="sponsor-ad-block">
+        <div class="ad-horizontal-left">
+          <div class="ad-image-placeholder">
+            ${ad.icon}
+          </div>
+          <div class="ad-info">
+            <div class="ad-title-row">
+              <span class="ad-brand">${ad.brand}</span>
+              <span class="ad-horizontal-badge">SPONSOR</span>
+            </div>
+            <span class="ad-slogan">${ad.slogan}</span>
+          </div>
+        </div>
+        <a href="#" class="ad-action-btn" onclick="event.preventDefault(); app.showToast('Thank you for supporting OmniTool Hub sponsors!', 'success');">${ad.btnText}</a>
+      </div>
+    `;
+  },
+
   // Grouped cards renderer
   renderDashboard() {
     const grid = document.getElementById("tools-card-grid");
@@ -988,16 +1029,20 @@ const app = {
 
     grid.innerHTML = "";
 
-    // Handle Favorites flat display
-    if (this.activeCategory === "fav") {
-      const favTools = this.tools.filter(t => this.favorites.has(t.id));
-      this.renderToolsList(grid, favTools);
-      return;
-    }
+    const dashboardView = document.getElementById("dashboard-view");
+    const hero = document.querySelector(".dashboard-hero");
+    
+    // Clean up existing dynamic category headers and ads inside dashboard-view
+    const existingHeader = document.querySelector(".category-page-header");
+    if (existingHeader) existingHeader.remove();
+    const existingAd = document.querySelector("#dashboard-view > .sponsor-ad-block");
+    if (existingAd) existingAd.remove();
 
     // Filter tools based on selections
     let activeList = [];
-    if (this.activeCategory === "all") {
+    if (this.activeCategory === "fav") {
+      activeList = this.tools.filter(t => this.favorites.has(t.id));
+    } else if (this.activeCategory === "all") {
       activeList = this.tools;
     } else if (this.activeCategory === "subcategory-filter") {
       if (this.activeSubcategory.endsWith("-all")) {
@@ -1005,6 +1050,120 @@ const app = {
         activeList = this.tools.filter(t => t.category === catPrefix);
       } else {
         activeList = this.tools.filter(t => t.subcategory === this.activeSubcategory);
+      }
+    }
+
+    if (this.activeCategory === "all" && this.activeSubcategory === "all") {
+      if (hero) hero.style.display = "block";
+    } else {
+      if (hero) hero.style.display = "none";
+      
+      // Render Category Landing Header Page
+      let catKey = "all";
+      if (this.activeCategory === "fav") {
+        catKey = "fav";
+      } else if (this.activeCategory === "subcategory-filter") {
+        catKey = this.activeSubcategory.split("-")[0];
+      }
+
+      const categoryConfigs = {
+        dev: {
+          title: "Developer Tools",
+          desc: "Beautifiers, builders, decoders, and generators for modern development pipelines. Secure, offline-first client-side calculations.",
+          class: "cat-grad-dev",
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`
+        },
+        text: {
+          title: "Text & Writing Utilities",
+          desc: "Case converters, markdown editors, pattern analyzers, and writing enhancements.",
+          class: "cat-grad-text",
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>`
+        },
+        design: {
+          title: "Design & Styling Studio",
+          desc: "Visual CSS builders, color management palettes, and graphics optimizing utilities.",
+          class: "cat-grad-design",
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`
+        },
+        math: {
+          title: "Math & Converter Suite",
+          desc: "Scientific calculator, metric conversion, and secure password tools.",
+          class: "cat-grad-math",
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>`
+        },
+        fav: {
+          title: "Your Favorites",
+          desc: "Quick access to your most frequently used offline utilities and tools.",
+          class: "cat-grad-dev",
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`
+        }
+      };
+
+      const config = categoryConfigs[catKey] || categoryConfigs.dev;
+      
+      let titleText = config.title;
+      let subtitleText = "";
+      if (this.activeCategory === "subcategory-filter" && !this.activeSubcategory.endsWith("-all")) {
+        const parts = this.getSubcategoryLabel(this.activeSubcategory).split(" / ");
+        if (parts.length > 1) {
+          subtitleText = parts[0];
+          titleText = parts[1];
+        } else {
+          titleText = parts[0];
+        }
+      }
+
+      // Compute stats
+      let catTools = [];
+      if (this.activeCategory === "fav") {
+        catTools = this.tools.filter(t => this.favorites.has(t.id));
+      } else {
+        if (this.activeSubcategory.endsWith("-all")) {
+          const catPrefix = this.activeSubcategory.split("-")[0];
+          catTools = this.tools.filter(t => t.category === catPrefix);
+        } else {
+          catTools = this.tools.filter(t => t.subcategory === this.activeSubcategory);
+        }
+      }
+
+      const totalVal = catTools.length;
+      const favVal = catTools.filter(t => this.favorites.has(t.id)).length;
+
+      // Render landing page header card
+      const headerCard = document.createElement("div");
+      headerCard.className = `category-page-header ${config.class}`;
+      headerCard.innerHTML = `
+        <div class="category-header-info">
+          ${subtitleText ? `<span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; display: block;">${subtitleText}</span>` : ''}
+          <h1 class="category-header-title">
+            ${config.icon}
+            <span>${titleText}</span>
+          </h1>
+          <p class="category-header-desc">${config.desc}</p>
+        </div>
+        <div class="category-header-stats">
+          <div class="category-stat-card">
+            <div class="category-stat-value">${totalVal}</div>
+            <div class="category-stat-label">Utilities</div>
+          </div>
+          <div class="category-stat-card">
+            <div class="category-stat-value">${favVal}</div>
+            <div class="category-stat-label">Favorites</div>
+          </div>
+        </div>
+      `;
+
+      if (dashboardView && grid) {
+        dashboardView.insertBefore(headerCard, grid);
+      }
+
+      // Ingest horizontal sponsor ad below header
+      const horizontalAdHtml = this.getRandomSponsorAd();
+      const adWrapper = document.createElement("div");
+      adWrapper.innerHTML = horizontalAdHtml;
+      const adElement = adWrapper.firstElementChild;
+      if (dashboardView && grid) {
+        dashboardView.insertBefore(adElement, grid);
       }
     }
 
@@ -1021,7 +1180,7 @@ const app = {
     }
 
     // Group activeList by subcategory if rendering "all" dashboard or "<category>-all"
-    const shouldGroup = (this.activeCategory === "all" || this.activeSubcategory.endsWith("-all"));
+    const shouldGroup = (this.activeCategory === "all" || (this.activeCategory === "subcategory-filter" && this.activeSubcategory.endsWith("-all")));
     
     if (shouldGroup) {
       // Find all unique subcategories present in the list
@@ -1195,6 +1354,12 @@ const app = {
       `;
       
       viewport.innerHTML = toolbarHtml + toolInstance.renderUI();
+
+      // Append sponsor bar below tool contents
+      const sponsorBar = document.createElement("div");
+      sponsorBar.className = "tool-sponsor-bar";
+      sponsorBar.innerHTML = this.getRandomSponsorAd();
+      viewport.appendChild(sponsorBar);
       
       // Bind back button
       viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
