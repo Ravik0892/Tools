@@ -277,6 +277,17 @@ const app = {
       accent: "#9d4edd",
       accentRgb: "157, 78, 221",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M20.4 12A8.4 8.4 0 0 1 12 20.4c-2.3 0-4.4-.9-6-2.4l1.4-1.4a6.4 6.4 0 0 0 9.2 0l1.4 1.4zM12 3.6c2.3 0 4.4.9 6 2.4l-1.4 1.4a6.4 6.4 0 0 0-9.2 0L6 6a8.4 8.4 0 0 1 8.4-2.4z"></path></svg>`
+    },
+    {
+      id: "admin-settings",
+      name: "Settings & Ad Control Panel",
+      desc: "Manage ad network codes, toggle locations, edit AdSense/AdMob IDs, and clear local caches.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Admin Center",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>`
     }
   ],
 
@@ -286,14 +297,45 @@ const app = {
   activeTool: null,
   favorites: new Set(),
   recents: [],
+  globalConfig: null,
   
   // Command Palette states
   cpOpen: false,
   cpIndex: 0,
   cpFiltered: [],
 
+  async loadGlobalConfig() {
+    try {
+      const isLocalhost = window.location.hostname === "localhost" || 
+                          window.location.hostname === "127.0.0.1" || 
+                          window.location.hostname === "127.0.0.1.nip.io" ||
+                          window.location.hostname === "host.docker.internal";
+      const cacheBust = isLocalhost ? `?t=${Date.now()}` : '';
+      const response = await fetch('ad-config.json' + cacheBust);
+      if (response.ok) {
+        this.globalConfig = await response.json();
+        console.log("[Config] Loaded global configuration:", this.globalConfig);
+      }
+    } catch (e) {
+      console.log("[Config] No global ad-config.json found or failed to load. Falling back to local storage.", e);
+    }
+  },
+
+  getConfigValue(key, defaultValue) {
+    const localVal = localStorage.getItem(key);
+    if (localVal !== null) {
+      return localVal;
+    }
+    if (this.globalConfig && this.globalConfig.hasOwnProperty(key)) {
+      return this.globalConfig[key];
+    }
+    return defaultValue;
+  },
+
   // Initializer
-  init() {
+  async init() {
+    await this.loadGlobalConfig();
+    this.initSplash();
     this.registerServiceWorker();
     this.loadFavorites();
     this.loadRecents();
@@ -302,13 +344,101 @@ const app = {
     this.initTheme();
     this.bindEvents();
     this.buildSidebarToolMenu();
+    this.buildMegaMenu();
     this.handleRouting();
     
     // Pre-load utilities for pipeline builder integration and global helpers
     import('./tools/utils.js').catch(err => console.error("Failed to pre-load utils:", err));
 
+    // Render sidebar sponsor ad
+    const sidebarAd = document.querySelector(".sidebar-sponsor-container");
+    if (sidebarAd) {
+      sidebarAd.innerHTML = this.getAdHtml("sidebar");
+    }
+
     // Run async module loading diagnostics
     this.checkAllModules();
+  },
+
+  initSplash() {
+    const splash = document.getElementById("app-splash-screen");
+    const logBox = document.getElementById("splash-logs");
+    if (!splash) return;
+    
+    const logs = [
+      "Initializing secure local sandbox...",
+      "Verifying client-side decryption certificates...",
+      "Mounting transformation pipelines...",
+      "System status: 100% SECURE. Launching OmniTool Hub."
+    ];
+    
+    const alreadyVisited = sessionStorage.getItem("omnitool_visited") === "true";
+    if (alreadyVisited) {
+      splash.style.transition = "opacity 0.2s ease, visibility 0.2s";
+      setTimeout(() => {
+        splash.classList.add("fade-out");
+      }, 150);
+      return;
+    }
+    
+    sessionStorage.setItem("omnitool_visited", "true");
+    
+    if (logBox) {
+      logBox.innerHTML = "";
+      logs.forEach((logText, idx) => {
+        setTimeout(() => {
+          const line = document.createElement("div");
+          line.className = "console-line";
+          line.innerText = `> ${logText}`;
+          logBox.appendChild(line);
+          logBox.scrollTop = logBox.scrollHeight;
+        }, idx * 250);
+      });
+    }
+    
+    setTimeout(() => {
+      splash.classList.add("fade-out");
+    }, 1400);
+  },
+
+  buildMegaMenu() {
+    const listDev = document.getElementById("mega-list-dev");
+    const listText = document.getElementById("mega-list-text");
+    const listDesign = document.getElementById("mega-list-design");
+    const listMath = document.getElementById("mega-list-math");
+    
+    if (!listDev || !listText || !listDesign || !listMath) return;
+    
+    listDev.innerHTML = "";
+    listText.innerHTML = "";
+    listDesign.innerHTML = "";
+    listMath.innerHTML = "";
+    
+    this.tools.forEach(tool => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a class="sidebar-tool-link mega-item" data-tool="${tool.id}">
+          ${tool.icon}
+          <span>${tool.name}</span>
+        </a>
+      `;
+      
+      li.querySelector(".sidebar-tool-link").addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.navigateToTool(tool.id);
+      });
+      
+      if (tool.category === "dev") {
+        listDev.appendChild(li);
+      } else if (tool.category === "text") {
+        listText.appendChild(li);
+      } else if (tool.category === "design") {
+        listDesign.appendChild(li);
+      } else if (tool.category === "math") {
+        listMath.appendChild(li);
+      }
+    });
   },
 
   // Diagnostics check for all module imports
@@ -331,6 +461,29 @@ const app = {
 
   handleRouting() {
     const hash = window.location.hash || "";
+    
+    if (hash === "#admin") {
+      this.navigateToTool("admin-settings", false);
+      return;
+    }
+
+    // Legal pages required for AdSense approval
+    if (hash === "#privacy") {
+      this.renderLegalPage("privacy");
+      return;
+    }
+    if (hash === "#about") {
+      this.renderLegalPage("about");
+      return;
+    }
+    if (hash === "#contact") {
+      this.renderLegalPage("contact");
+      return;
+    }
+    if (hash === "#terms") {
+      this.renderLegalPage("terms");
+      return;
+    }
     
     if (hash.startsWith("#tool/")) {
       const toolId = hash.replace("#tool/", "");
@@ -360,9 +513,21 @@ const app = {
       return;
     }
     
-    // Default
-    this.activeCategory = "all";
-    this.activeSubcategory = "all";
+    // Default startup landing view check
+    const defaultView = this.getConfigValue("omnitool_default_view", "dashboard");
+    if (defaultView === "favorites") {
+      this.activeCategory = "fav";
+      this.activeSubcategory = "all";
+    } else if (defaultView === "settings") {
+      this.navigateToTool("admin-settings", false);
+      return;
+    } else if (defaultView.startsWith("category/")) {
+      this.activeCategory = "subcategory-filter";
+      this.activeSubcategory = defaultView.replace("category/", "");
+    } else {
+      this.activeCategory = "all";
+      this.activeSubcategory = "all";
+    }
     this.syncSidebarUI();
     this.backToDashboard(false);
     this.renderDashboard();
@@ -406,8 +571,8 @@ const app = {
     });
 
     if (this.activeTool) {
-      const toolLink = document.querySelector(`.sidebar-tool-link[data-tool="${this.activeTool}"]`);
-      if (toolLink) {
+      const toolLinks = document.querySelectorAll(`.sidebar-tool-link[data-tool="${this.activeTool}"]`);
+      toolLinks.forEach(toolLink => {
         toolLink.classList.add("active");
         
         const subnav = toolLink.closest(".subnav-item")?.querySelector(".subnav-link");
@@ -419,23 +584,27 @@ const app = {
           const content = accordion.querySelector(".accordion-content");
           if (content) content.style.display = "flex";
         }
-      }
+      });
     } else if (this.activeCategory === "all") {
       document.getElementById("cat-all")?.classList.add("active");
+      document.getElementById("desktop-cat-all")?.classList.add("active");
     } else if (this.activeCategory === "fav") {
       document.getElementById("cat-fav")?.classList.add("active");
+      document.getElementById("desktop-cat-fav")?.classList.add("active");
     } else if (this.activeCategory === "subcategory-filter") {
       const filter = this.activeSubcategory;
-      const activeLink = document.querySelector(`.subnav-link[data-filter="${filter}"]`);
-      if (activeLink) activeLink.classList.add("active");
-      
-      const categoryKey = filter.split("-")[0];
-      const accordion = document.getElementById(`accordion-${categoryKey}`);
-      if (accordion) {
-        accordion.classList.add("open");
-        const content = accordion.querySelector(".accordion-content");
-        if (content) content.style.display = "flex";
-      }
+      const activeLinks = document.querySelectorAll(`.subnav-link[data-filter="${filter}"]`);
+      activeLinks.forEach(activeLink => {
+        activeLink.classList.add("active");
+        
+        const categoryKey = filter.split("-")[0];
+        const accordion = document.getElementById(`accordion-${categoryKey}`);
+        if (accordion) {
+          accordion.classList.add("open");
+          const content = accordion.querySelector(".accordion-content");
+          if (content) content.style.display = "flex";
+        }
+      });
     }
   },
 
@@ -512,15 +681,18 @@ const app = {
   },
 
   renderFavoritesCount() {
-    const el = document.getElementById("fav-count");
-    if (el) {
-      if (this.favorites.size > 0) {
-        el.innerText = this.favorites.size;
-        el.style.display = "inline-block";
-      } else {
-        el.style.display = "none";
+    const elMobile = document.getElementById("fav-count");
+    const elDesktop = document.getElementById("desktop-fav-count");
+    [elMobile, elDesktop].forEach(el => {
+      if (el) {
+        if (this.favorites.size > 0) {
+          el.innerText = this.favorites.size;
+          el.style.display = "inline-block";
+        } else {
+          el.style.display = "none";
+        }
       }
-    }
+    });
   },
 
   loadRecents() {
@@ -544,24 +716,30 @@ const app = {
   },
 
   renderRecents() {
-    const container = document.getElementById("recent-tools-box");
-    if (!container) return;
-    
-    if (this.recents.length === 0) {
-      container.innerHTML = `<span class="recent-link" style="font-size: 12px; color: var(--text-muted); cursor: default; padding-left: 8px;">No tools visited yet</span>`;
-      return;
-    }
+    const containers = [
+      document.getElementById("recent-tools-box"),
+      document.getElementById("header-recents-list")
+    ];
 
-    container.innerHTML = "";
-    this.recents.forEach(id => {
-      const tool = this.tools.find(t => t.id === id);
-      if (tool) {
-        const item = document.createElement("a");
-        item.className = "recent-link";
-        item.innerHTML = `${tool.icon} <span>${tool.name}</span>`;
-        item.addEventListener("click", () => this.navigateToTool(id));
-        container.appendChild(item);
+    containers.forEach((container, idx) => {
+      if (!container) return;
+      
+      if (this.recents.length === 0) {
+        container.innerHTML = `<span class="recent-link" style="font-size: 12px; color: var(--text-muted); cursor: default; padding-left: ${idx === 0 ? '8' : '0'}px;">No tools visited yet</span>`;
+        return;
       }
+
+      container.innerHTML = "";
+      this.recents.forEach(id => {
+        const tool = this.tools.find(t => t.id === id);
+        if (tool) {
+          const item = document.createElement("a");
+          item.className = "recent-link";
+          item.innerHTML = `${tool.icon} <span>${tool.name}</span>`;
+          item.addEventListener("click", () => this.navigateToTool(id));
+          container.appendChild(item);
+        }
+      });
     });
   },
 
@@ -572,9 +750,11 @@ const app = {
     // Top-Level Navigation links (Dashboard, Favorites)
     document.querySelectorAll(".nav-link").forEach(link => {
       link.addEventListener("click", (e) => {
-        e.preventDefault();
         const cat = link.getAttribute("data-category");
-        this.selectCategory(cat);
+        if (cat) {
+          e.preventDefault();
+          this.selectCategory(cat);
+        }
       });
     });
 
@@ -625,7 +805,7 @@ const app = {
     // Theme toggler
     document.getElementById("theme-toggle")?.addEventListener("click", () => this.toggleTheme());
 
-    // Sidebar Toggles
+    // Sidebar Toggles (hamburger menu drawer)
     const openBtn = document.getElementById("sidebar-open-btn");
     const closeBtn = document.getElementById("sidebar-close-btn");
     const sidebar = document.getElementById("app-sidebar");
@@ -643,18 +823,16 @@ const app = {
     }
     if (closeBtn && sidebar) {
       closeBtn.addEventListener("click", () => {
-        if (window.innerWidth <= 768) {
-          sidebar.classList.remove("show");
-        } else {
-          sidebar.classList.toggle("collapsed");
-          const collapsedNow = sidebar.classList.contains("collapsed");
-          localStorage.setItem("omnitool_sidebar_collapsed", collapsedNow ? "true" : "false");
-        }
+        sidebar.classList.remove("show");
+        sidebar.classList.remove("collapsed");
       });
     }
 
-    // Quick Search Input
+    // Quick Search Inputs
     document.getElementById("tool-search")?.addEventListener("input", (e) => {
+      this.filterDashboard(e.target.value);
+    });
+    document.getElementById("tool-search-mobile")?.addEventListener("input", (e) => {
       this.filterDashboard(e.target.value);
     });
 
@@ -697,11 +875,176 @@ const app = {
       this.detectPastedValue(pastedText);
     });
 
-    // Footer privacy click handler
-    document.getElementById("footer-privacy-btn")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.showToast("🛡️ Privacy Shield: 100% Client-Side. No data ever leaves your device.", "info");
-    });
+  },
+
+  // ===================================================
+  // Legal Pages — Required for Google AdSense Approval
+  // ===================================================
+  renderLegalPage(page) {
+    const viewport = document.getElementById("active-tool-viewport");
+    const dashView = document.getElementById("dashboard-view");
+    if (!viewport) return;
+
+    if (dashView) dashView.style.display = "none";
+    viewport.style.display = "block";
+    
+    const pages = {
+      privacy: {
+        title: "Privacy Policy",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+        content: `
+          <h2>Privacy Policy</h2>
+          <p><strong>Effective Date:</strong> June 2026 &nbsp;|&nbsp; <strong>Last Updated:</strong> June 2026</p>
+          <p>OmniTool Hub ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we handle your information when you use our website.</p>
+
+          <h3>1. Information We Collect</h3>
+          <p><strong>We do NOT collect any personal data.</strong> OmniTool Hub runs entirely in your browser (client-side). No data you enter into any tool is ever sent to a server. All processing happens locally on your device.</p>
+          <ul>
+            <li><strong>Local Storage:</strong> We use your browser's localStorage to save your preferences (theme, favorites, settings). This data stays on your device only.</li>
+            <li><strong>No Cookies:</strong> We do not use tracking cookies or session cookies.</li>
+            <li><strong>No Analytics:</strong> We do not use Google Analytics or any third-party analytics.</li>
+          </ul>
+
+          <h3>2. Google AdSense</h3>
+          <p>We use Google AdSense to display advertisements. Google AdSense may use cookies and web beacons to serve ads based on a user's prior visits to our website and other websites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to our site.</p>
+          <p>You may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>.</p>
+
+          <h3>3. Third-Party Links</h3>
+          <p>Our website may contain links to external websites. We have no control over the privacy practices of those sites and are not responsible for their content.</p>
+
+          <h3>4. Children's Privacy</h3>
+          <p>OmniTool Hub does not knowingly collect information from children under the age of 13.</p>
+
+          <h3>5. Changes to This Policy</h3>
+          <p>We may update this Privacy Policy periodically. Updates will be reflected on this page with a new effective date.</p>
+
+          <h3>6. Contact Us</h3>
+          <p>If you have questions about this Privacy Policy, please use our <a href="#contact" onclick="app.renderLegalPage('contact')">Contact page</a>.</p>
+        `
+      },
+      about: {
+        title: "About OmniTool Hub",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
+        content: `
+          <h2>About OmniTool Hub</h2>
+          <p>OmniTool Hub is a free, privacy-first, all-in-one utility toolkit built for developers, designers, students, and anyone who needs fast, reliable tools without leaving their browser.</p>
+
+          <h3>Our Mission</h3>
+          <p>We believe powerful tools should be free, fast, and private. Every tool on OmniTool Hub runs 100% in your browser — your data never leaves your device, no accounts needed, no tracking, no subscriptions.</p>
+
+          <h3>What We Offer</h3>
+          <ul>
+            <li>🔧 <strong>Developer Tools:</strong> JSON Formatter, Base64, JWT Decoder, Hash Generator, AES Encryption, URL Encoder, and more</li>
+            <li>✍️ <strong>Text & Writing:</strong> Markdown Editor, Case Converter, Word Counter, Regex Tester, Diff Checker</li>
+            <li>🎨 <strong>Design & Styling:</strong> Color Picker, Gradient Builder, CSS Generators, QR Code Generator</li>
+            <li>🔢 <strong>Math & Converters:</strong> Scientific Calculator, Unit Converter, Password Generator</li>
+          </ul>
+
+          <h3>Privacy By Design</h3>
+          <p>All tools are built with a "client-side first" architecture. We use no backend servers for tool processing. Your inputs stay in your browser and are never transmitted anywhere.</p>
+
+          <h3>Open & Free</h3>
+          <p>OmniTool Hub is free to use for everyone. We support the platform through non-intrusive Google AdSense advertisements.</p>
+        `
+      },
+      contact: {
+        title: "Contact Us",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
+        content: `
+          <h2>Contact Us</h2>
+          <p>We'd love to hear from you! Whether you have a question, bug report, feature suggestion, or just want to say hello — reach out to us.</p>
+
+          <h3>General Inquiries</h3>
+          <p>For general questions about OmniTool Hub:</p>
+          <div class="legal-contact-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <span>contact@omnitoolhub.com</span>
+          </div>
+
+          <h3>Bug Reports & Feature Requests</h3>
+          <p>Found a bug or want a new tool added? We review all feedback:</p>
+          <div class="legal-contact-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span>support@omnitoolhub.com</span>
+          </div>
+
+          <h3>Response Time</h3>
+          <p>We typically respond within <strong>2–3 business days</strong>. For urgent issues, please mention "URGENT" in your email subject.</p>
+
+          <h3>Advertising Inquiries</h3>
+          <p>For advertising partnerships or sponsorship opportunities:</p>
+          <div class="legal-contact-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            <span>ads@omnitoolhub.com</span>
+          </div>
+        `
+      },
+      terms: {
+        title: "Terms of Service",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`,
+        content: `
+          <h2>Terms of Service</h2>
+          <p><strong>Effective Date:</strong> June 2026</p>
+          <p>By using OmniTool Hub, you agree to the following terms.</p>
+
+          <h3>1. Use of Service</h3>
+          <p>OmniTool Hub provides free browser-based utility tools for personal and professional use. You may use these tools for any lawful purpose.</p>
+
+          <h3>2. Prohibited Uses</h3>
+          <ul>
+            <li>You may not use OmniTool Hub for any illegal, harmful, or fraudulent activity</li>
+            <li>You may not attempt to reverse engineer, copy, or redistribute the site's code without permission</li>
+            <li>You may not use automated bots to excessively access the site</li>
+            <li>You may not click on or artificially inflate ad impressions</li>
+          </ul>
+
+          <h3>3. Disclaimer of Warranties</h3>
+          <p>OmniTool Hub is provided "as is" without any warranties. We do not guarantee that tools will be error-free or suitable for every use case. Use results at your own discretion.</p>
+
+          <h3>4. Limitation of Liability</h3>
+          <p>We are not liable for any loss of data, damage to systems, or any other harm resulting from using OmniTool Hub. Always back up important data before processing.</p>
+
+          <h3>5. Intellectual Property</h3>
+          <p>All content, design, and code of OmniTool Hub is owned by OmniTool Hub. Unauthorized reproduction is prohibited.</p>
+
+          <h3>6. Changes to Terms</h3>
+          <p>We reserve the right to update these Terms at any time. Continued use of the site means you accept the updated terms.</p>
+
+          <h3>7. Contact</h3>
+          <p>Questions about these Terms? <a href="#contact" onclick="app.renderLegalPage('contact')">Contact us</a>.</p>
+        `
+      }
+    };
+
+    const pg = pages[page];
+    if (!pg) return;
+
+    const titleEl = document.getElementById("header-view-title");
+    if (titleEl) {
+      titleEl.innerText = pg.title;
+      titleEl.style.display = "block";
+    }
+
+    viewport.innerHTML = `
+      <div class="legal-page-wrapper">
+        <div class="legal-page-header">
+          <div class="legal-icon">${pg.icon}</div>
+          <div>
+            <h1 class="legal-title">${pg.title}</h1>
+            <p class="legal-subtitle">OmniTool Hub — Official Documentation</p>
+          </div>
+        </div>
+        <div class="legal-content">
+          ${pg.content}
+        </div>
+        <div class="legal-back">
+          <button class="legal-back-btn" onclick="window.location.hash = 'dashboard'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    `;
   },
 
   // Smart Paste value auto-detection
@@ -862,9 +1205,10 @@ const app = {
 
   // Theme support
   initTheme() {
-    const saved = localStorage.getItem("omnitool_theme") || "dark";
+    const saved = this.getConfigValue("omnitool_theme", "dark");
     document.documentElement.setAttribute("data-theme", saved);
     this.updateThemeUI(saved);
+    this.applyAccentPreset();
   },
 
   toggleTheme() {
@@ -874,6 +1218,7 @@ const app = {
     localStorage.setItem("omnitool_theme", target);
     this.updateThemeUI(target);
     this.showToast(`Switched to ${target} theme`, "info");
+    this.playSynthSound('click');
   },
 
   updateThemeUI(theme) {
@@ -900,15 +1245,107 @@ const app = {
     }
   },
 
+  applyAccentPreset() {
+    const preset = this.getConfigValue("omnitool_accent_preset", "default");
+    const presets = {
+      default: { cyan: "#00f2fe", cyanRgb: "0, 242, 254", purple: "#9d4edd", purpleRgb: "157, 78, 221" },
+      matrix: { cyan: "#10b981", cyanRgb: "16, 185, 129", purple: "#059669", purpleRgb: "5, 150, 105" },
+      vaporwave: { cyan: "#ff007f", cyanRgb: "255, 0, 127", purple: "#00f2fe", purpleRgb: "0, 242, 254" },
+      sunset: { cyan: "#f43f5e", cyanRgb: "244, 63, 94", purple: "#f59e0b", purpleRgb: "245, 158, 11" },
+      amber: { cyan: "#fbbf24", cyanRgb: "251, 191, 36", purple: "#d97706", purpleRgb: "217, 119, 6" },
+      electric: { cyan: "#3b82f6", cyanRgb: "59, 130, 246", purple: "#00f2fe", purpleRgb: "0, 242, 254" }
+    };
+    const colors = presets[preset] || presets.default;
+    const root = document.documentElement;
+    root.style.setProperty('--accent-cyan', colors.cyan);
+    root.style.setProperty('--accent-cyan-rgb', colors.cyanRgb);
+    root.style.setProperty('--accent-purple', colors.purple);
+    root.style.setProperty('--accent-purple-rgb', colors.purpleRgb);
+  },
+
+  playSynthSound(type = 'click') {
+    const audioEnabled = this.getConfigValue("omnitool_audio_feedback", "false") === "true";
+    if (!audioEnabled) return;
+    
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      
+      const now = ctx.currentTime;
+      
+      if (type === 'click') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1000, now);
+        osc.frequency.exponentialRampToValueAtTime(350, now + 0.04);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.04);
+        osc.start(now);
+        osc.stop(now + 0.05);
+      } else if (type === 'success') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.setValueAtTime(659.25, now + 0.07); // E5
+        osc.frequency.setValueAtTime(783.99, now + 0.14); // G5
+        gain.gain.setValueAtTime(0.03, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } else if (type === 'error') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(80, now + 0.25);
+        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.25);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      } else if (type === 'save') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(392, now); // G4
+        osc.frequency.exponentialRampToValueAtTime(784, now + 0.15); // G5
+        gain.gain.setValueAtTime(0.03, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.18);
+        osc.start(now);
+        osc.stop(now + 0.18);
+      }
+    } catch (e) {
+      console.warn("AudioContext playback failed:", e);
+    }
+  },
+
   // Clock Widget
   initClock() {
+    const clockWidget = document.getElementById("header-clock");
     const clockEl = document.getElementById("clock-text");
     const updateTime = () => {
+      const format = this.getConfigValue("omnitool_clock_format", "24");
+      if (format === "hide") {
+        if (clockWidget) clockWidget.style.display = "none";
+        return;
+      }
+      if (clockWidget) clockWidget.style.display = "flex";
+      
       const now = new Date();
-      const hrs = String(now.getHours()).padStart(2, '0');
+      let hrs = now.getHours();
       const mins = String(now.getMinutes()).padStart(2, '0');
       const secs = String(now.getSeconds()).padStart(2, '0');
-      if (clockEl) clockEl.innerText = `${hrs}:${mins}:${secs}`;
+      
+      if (format === "12") {
+        const ampm = hrs >= 12 ? 'PM' : 'AM';
+        hrs = hrs % 12;
+        hrs = hrs ? hrs : 12;
+        const hrsStr = String(hrs).padStart(2, '0');
+        if (clockEl) clockEl.innerText = `${hrsStr}:${ampm}`;
+      } else {
+        const hrsStr = String(hrs).padStart(2, '0');
+        if (clockEl) clockEl.innerText = `${hrsStr}:${mins}:${secs}`;
+      }
     };
     updateTime();
     setInterval(updateTime, 1000);
@@ -927,9 +1364,11 @@ const app = {
     const sidebar = document.getElementById("app-sidebar");
     if (sidebar) sidebar.classList.remove("show");
 
-    // Clear search bar
+    // Clear search bars
     const searchBar = document.getElementById("tool-search");
+    const searchBarMobile = document.getElementById("tool-search-mobile");
     if (searchBar) searchBar.value = "";
+    if (searchBarMobile) searchBarMobile.value = "";
 
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) titleEl.innerText = this.getCategoryLabel(category);
@@ -950,9 +1389,11 @@ const app = {
     const sidebar = document.getElementById("app-sidebar");
     if (sidebar) sidebar.classList.remove("show");
 
-    // Clear search
+    // Clear search bars
     const searchBar = document.getElementById("tool-search");
+    const searchBarMobile = document.getElementById("tool-search-mobile");
     if (searchBar) searchBar.value = "";
+    if (searchBarMobile) searchBarMobile.value = "";
 
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) {
@@ -1003,45 +1444,148 @@ const app = {
     return subcategories[filter] || "Category Tools";
   },
 
-  getRandomSponsorAd() {
-    const ads = [
-      {
-        brand: "ApexScale DB",
-        slogan: "Serverless SQL database with global replicas and 10ms read times. Start free.",
-        btnText: "Deploy Free",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`
-      },
-      {
-        brand: "HexaCloud Host",
-        slogan: "Secure, lightning-fast PWA hosting and serverless deployments globally.",
-        btnText: "Claim $5 Credit",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`
-      },
-      {
-        brand: "DevSec Shield",
-        slogan: "Automate vulnerability scanning and dependency updates in your repositories.",
-        btnText: "Start Scan",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`
-      }
-    ];
-    const ad = ads[Math.floor(Math.random() * ads.length)];
-    return `
-      <div class="sponsor-ad-block">
-        <div class="ad-horizontal-left">
-          <div class="ad-image-placeholder">
-            ${ad.icon}
-          </div>
-          <div class="ad-info">
-            <div class="ad-title-row">
-              <span class="ad-brand">${ad.brand}</span>
-              <span class="ad-horizontal-badge">SPONSOR</span>
+  getAdHtml(location) {
+    const isGlobalEnabled = this.getConfigValue("omnitool_ad_global", "true") !== "false";
+    if (!isGlobalEnabled) return "";
+
+    // Check if ad location is enabled
+    const showDash = this.getConfigValue("omnitool_ad_show_dash", "true") !== "false";
+    const showTool = this.getConfigValue("omnitool_ad_show_tool", "true") !== "false";
+    const showSide = this.getConfigValue("omnitool_ad_show_side", "true") !== "false";
+
+    if (location === "dashboard" && !showDash) return "";
+    if (location === "tool" && !showTool) return "";
+    if (location === "sidebar" && !showSide) return "";
+
+    const provider = this.getConfigValue("omnitool_ad_network", "dev");
+    
+    // Developer Local Sponsors
+    if (provider === "dev") {
+      const ads = [
+        {
+          brand: "ApexScale DB",
+          slogan: "Serverless SQL database with global replicas and 10ms read times. Start free.",
+          btnText: "Deploy Free",
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`
+        },
+        {
+          brand: "HexaCloud Host",
+          slogan: "Secure, lightning-fast PWA hosting and serverless deployments globally.",
+          btnText: "Claim $5 Credit",
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`
+        },
+        {
+          brand: "DevSec Shield",
+          slogan: "Automate vulnerability scanning and dependency updates in your repositories.",
+          btnText: "Start Scan",
+          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`
+        }
+      ];
+      const ad = ads[Math.floor(Math.random() * ads.length)];
+      return `
+        <div class="sponsor-ad-block">
+          <div class="ad-horizontal-left">
+            <div class="ad-image-placeholder">
+              ${ad.icon}
             </div>
-            <span class="ad-slogan">${ad.slogan}</span>
+            <div class="ad-info">
+              <div class="ad-title-row">
+                <span class="ad-brand">${ad.brand}</span>
+                <span class="ad-horizontal-badge">SPONSOR</span>
+              </div>
+              <span class="ad-slogan">${ad.slogan}</span>
+            </div>
+          </div>
+          <a href="#" class="ad-action-btn" onclick="event.preventDefault(); app.showToast('Thank you for supporting OmniTool Hub sponsors!', 'success');">${ad.btnText}</a>
+        </div>
+      `;
+    }
+
+    // Google AdSense
+    if (provider === "adsense") {
+      const pubId = this.getConfigValue("omnitool_adsense_pub", "ca-pub-XXXXXXXXXX");
+      let slotId = "1111111111";
+      if (location === "tool") {
+        slotId = this.getConfigValue("omnitool_adsense_slot_tool", "2222222222");
+      } else if (location === "sidebar") {
+        slotId = this.getConfigValue("omnitool_adsense_slot_side", "3333333333");
+      } else {
+        slotId = this.getConfigValue("omnitool_adsense_slot_dash", "1111111111");
+      }
+
+      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      if (isLocal) {
+        // Render simulator on localhost
+        return `
+          <div class="admob-adsense-mock adsense">
+            <div class="mock-badge">GOOGLE ADSENSE — LIVE ON DEPLOYED SITE</div>
+            <div class="mock-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <span>Google AdSense (Web Ads)</span>
+            </div>
+            <div class="mock-details">
+              <span><strong>Publisher:</strong> ${pubId}</span>
+              <span>•</span>
+              <span><strong>Slot:</strong> ${slotId}</span>
+            </div>
+            <div class="mock-note">Real ads appear automatically on your live deployed website.</div>
+          </div>
+        `;
+      } else {
+        // Render real production AdSense code
+        return `
+          <div class="adsense-production-container" style="text-align: center; margin: 16px 0; overflow: hidden;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="${pubId}"
+                 data-ad-slot="${slotId}"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+        `;
+      }
+    }
+
+    // AdMob — Mobile Apps Only (Cannot run on websites)
+    if (provider === "admob") {
+      let unitId = "ca-app-pub-XXXXXXXXXX/1111111111";
+      if (location === "tool") {
+        unitId = this.getConfigValue("omnitool_admob_unit_tool", "ca-app-pub-XXXXXXXXXX/2222222222");
+      } else if (location === "sidebar") {
+        unitId = this.getConfigValue("omnitool_admob_unit_side", "ca-app-pub-XXXXXXXXXX/3333333333");
+      } else {
+        unitId = this.getConfigValue("omnitool_admob_unit_dash", "ca-app-pub-XXXXXXXXXX/1111111111");
+      }
+
+      // AdMob CANNOT work on websites — it is for Android/iOS apps only.
+      // Show an informative placeholder in both dev and production
+      return `
+        <div class="admob-adsense-mock admob" style="border-color: rgba(245, 158, 11, 0.3);">
+          <div class="mock-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">⚠️ ADMOB — MOBILE APPS ONLY</div>
+          <div class="mock-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span style="color: #f59e0b;">AdMob cannot display on websites</span>
+          </div>
+          <div class="mock-details">
+            <span><strong>Unit ID:</strong> ${unitId}</span>
+          </div>
+          <div class="mock-note" style="color: #f59e0b; border-color: rgba(245, 158, 11, 0.2);">
+            💡 AdMob works only in Android/iOS apps via the AdMob SDK. For this website, switch to <strong>Google AdSense</strong> instead.
           </div>
         </div>
-        <a href="#" class="ad-action-btn" onclick="event.preventDefault(); app.showToast('Thank you for supporting OmniTool Hub sponsors!', 'success');">${ad.btnText}</a>
-      </div>
-    `;
+      `;
+    }
+
+    // Custom HTML block
+    if (provider === "custom") {
+      const htmlBlock = this.getConfigValue("omnitool_custom_ad_html", "");
+      return `<div class="custom-ad-container">${htmlBlock}</div>`;
+    }
+
+    return "";
   },
 
   // Grouped cards renderer
@@ -1050,6 +1594,14 @@ const app = {
     if (!grid) return;
 
     grid.innerHTML = "";
+
+    // Read density layout config
+    const density = this.getConfigValue("omnitool_layout_density", "comfortable");
+    if (density === "compact") {
+      grid.classList.add("compact-layout");
+    } else {
+      grid.classList.remove("compact-layout");
+    }
 
     const dashboardView = document.getElementById("dashboard-view");
     const hero = document.querySelector(".dashboard-hero");
@@ -1180,12 +1732,14 @@ const app = {
       }
 
       // Ingest horizontal sponsor ad below header
-      const horizontalAdHtml = this.getRandomSponsorAd();
-      const adWrapper = document.createElement("div");
-      adWrapper.innerHTML = horizontalAdHtml;
-      const adElement = adWrapper.firstElementChild;
-      if (dashboardView && grid) {
-        dashboardView.insertBefore(adElement, grid);
+      const horizontalAdHtml = this.getAdHtml("dashboard");
+      if (horizontalAdHtml) {
+        const adWrapper = document.createElement("div");
+        adWrapper.innerHTML = horizontalAdHtml;
+        const adElement = adWrapper.firstElementChild;
+        if (adElement && dashboardView && grid) {
+          dashboardView.insertBefore(adElement, grid);
+        }
       }
     }
 
@@ -1222,6 +1776,9 @@ const app = {
 
           const subGrid = document.createElement("div");
           subGrid.className = "tools-grid";
+          if (density === "compact") {
+            subGrid.classList.add("compact-layout");
+          }
           this.renderToolsList(subGrid, subList);
 
           section.appendChild(subGrid);
@@ -1271,6 +1828,12 @@ const app = {
 
   filterDashboard(query) {
     const cleanQuery = query.toLowerCase().trim();
+    
+    // Sync desktop and mobile search inputs
+    const mainSearch = document.getElementById("tool-search");
+    const mobileSearch = document.getElementById("tool-search-mobile");
+    if (mainSearch && mainSearch.value !== query) mainSearch.value = query;
+    if (mobileSearch && mobileSearch.value !== query) mobileSearch.value = query;
     
     // Switch to Dashboard category for searches to display flat grids
     if (cleanQuery && (this.activeCategory !== "all" || this.activeSubcategory !== "all")) {
@@ -1329,6 +1892,25 @@ const app = {
       window.location.hash = "tool/" + toolId;
       return;
     }
+
+    // Close mobile drawer
+    const sidebarEl = document.getElementById("app-sidebar");
+    if (sidebarEl) sidebarEl.classList.remove("show");
+
+    this.playSynthSound('click');
+
+    // Trigger laser scan line animation
+    const scanLine = document.getElementById("page-scan-line");
+    if (scanLine) {
+      scanLine.style.display = "block";
+      scanLine.style.animation = "none";
+      scanLine.offsetHeight; // trigger reflow
+      scanLine.style.animation = "scanDown 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) forwards";
+      setTimeout(() => {
+        scanLine.style.display = "none";
+      }, 750);
+    }
+
     const dashboard = document.getElementById("dashboard-view");
     if (dashboard) dashboard.style.display = "none";
 
@@ -1348,6 +1930,83 @@ const app = {
       </div>
     `;
     viewport.style.display = "flex";
+
+    // Passcode lock gate for Admin Settings
+    if (toolId === "admin-settings" && sessionStorage.getItem("omnitool_admin_authenticated") !== "true") {
+      this.activeTool = "admin-settings";
+      this.syncSidebarUI();
+      
+      const titleEl = document.getElementById("header-view-title");
+      if (titleEl) {
+        titleEl.innerText = "Developer Tools / Settings & Ad Control Panel";
+      }
+
+      const toolbarHtml = `
+        <div class="tool-bar">
+          <div class="tool-bar-left">
+            <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back</button>
+            <div class="tool-title-info">
+              <h2>Settings & Ad Control Panel</h2>
+            </div>
+          </div>
+          <div class="tool-bar-right">
+          </div>
+        </div>
+      `;
+      
+      const lockScreenHtml = `
+        <div class="admin-lock-screen" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; width: 100%; padding: 40px 20px;">
+          <div class="glass-card" style="max-width: 400px; width: 100%; padding: 32px; border-radius: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); text-align: center; display: flex; flex-direction: column; gap: 20px;">
+            
+            <div class="lock-icon-container" style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+              <div class="lock-glow" style="width: 70px; height: 70px; border-radius: 50%; background: rgba(var(--accent-cyan-rgb), 0.1); border: 1px solid rgba(var(--accent-cyan-rgb), 0.3); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(var(--accent-cyan-rgb), 0.2); display: flex; justify-content: center; align-items: center;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" style="width: 32px; height: 32px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+            </div>
+
+            <div class="lock-header">
+              <h2 style="font-size: 20px; font-weight: 800; color: var(--text-main); margin: 0 0 8px 0; letter-spacing: 0.5px;">Admin Authorization Required</h2>
+              <p style="font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.4;">Enter the administration security passcode to customize global ads and site parameters.</p>
+            </div>
+
+            <form id="admin-auth-form" style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px;">
+              <div class="form-group" style="text-align: left;">
+                <label for="admin-passcode-input" style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-cyan); font-weight: 700; margin-bottom: 6px; display: block;">Security Passcode</label>
+                <input type="password" id="admin-passcode-input" placeholder="••••••••" style="width: 100%; height: 42px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-size: 16px; outline: none; transition: all 0.2s;" required>
+              </div>
+              <button type="submit" class="tool-btn primary" style="width: 100%; justify-content: center; height: 42px; font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.2s;">Unlock Control Panel</button>
+            </form>
+            
+          </div>
+        </div>
+      `;
+
+      viewport.innerHTML = toolbarHtml + lockScreenHtml;
+      
+      // Bind back button
+      viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
+
+      const form = viewport.querySelector("#admin-auth-form");
+      const input = viewport.querySelector("#admin-passcode-input");
+      if (input) input.focus();
+
+      form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const enteredPasscode = input.value;
+        const correctPasscode = this.getConfigValue("omnitool_admin_passcode", "admin123");
+        
+        if (enteredPasscode === correctPasscode) {
+          sessionStorage.setItem("omnitool_admin_authenticated", "true");
+          this.showToast("Authorization successful!", "success");
+          this.navigateToTool(toolId, false);
+        } else {
+          this.showToast("Invalid passcode! Access Denied.", "error");
+          input.value = "";
+          input.focus();
+        }
+      });
+      return;
+    }
 
     try {
       const isLocalhost = window.location.hostname === "localhost" || 
@@ -1378,10 +2037,13 @@ const app = {
       viewport.innerHTML = toolbarHtml + toolInstance.renderUI();
 
       // Append sponsor bar below tool contents
-      const sponsorBar = document.createElement("div");
-      sponsorBar.className = "tool-sponsor-bar";
-      sponsorBar.innerHTML = this.getRandomSponsorAd();
-      viewport.appendChild(sponsorBar);
+      const toolAdHtml = this.getAdHtml("tool");
+      if (toolAdHtml) {
+        const sponsorBar = document.createElement("div");
+        sponsorBar.className = "tool-sponsor-bar";
+        sponsorBar.innerHTML = toolAdHtml;
+        viewport.appendChild(sponsorBar);
+      }
       
       // Bind back button
       viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
@@ -1426,6 +2088,8 @@ const app = {
       return;
     }
 
+    this.playSynthSound('click');
+
     const viewport = document.getElementById("active-tool-viewport");
     if (viewport) {
       viewport.style.display = "none";
@@ -1458,6 +2122,15 @@ const app = {
   showToast(message, type = "success", onClick = null) {
     const container = document.getElementById("toast-container");
     if (!container) return;
+
+    // Play feedback audio chimes
+    if (type === "success") {
+      this.playSynthSound("success");
+    } else if (type === "error" || type === "warn") {
+      this.playSynthSound("error");
+    } else if (type === "info") {
+      this.playSynthSound("click");
+    }
 
     const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;

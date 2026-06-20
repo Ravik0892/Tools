@@ -4,6 +4,12 @@ http://localhost:8000/
 http://127.0.0.1:8000/
 
 
+
+git checkout dev
+
+feat: add category landing pages, sponsor banners, coffee widget, and SVG & SEO tool overrides
+
+
 Note: If you want to keep using http-server, run it with the -p 8000 flag to match your existing browser tabs:
 
 powershell

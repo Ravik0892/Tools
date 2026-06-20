@@ -1,0 +1,17 @@
+{
+  "omnitool_ad_global": "true",
+  "omnitool_ad_network": "adsense",
+  "omnitool_ad_show_dash": "true",
+  "omnitool_ad_show_tool": "true",
+  "omnitool_ad_show_side": "true",
+  "omnitool_adsense_pub": "ca-pub-1234567890123456",
+  "omnitool_adsense_slot_dash": "9999999999",
+  "omnitool_adsense_slot_tool": "8888888888",
+  "omnitool_adsense_slot_side": "7777777777",
+  "omnitool_accent_preset": "vaporwave",
+  "omnitool_layout_density": "comfortable",
+  "omnitool_default_view": "dashboard",
+  "omnitool_clock_format": "12",
+  "omnitool_audio_feedback": "true",
+  "omnitool_admin_passcode": "admin123"
+}

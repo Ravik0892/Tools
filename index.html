@@ -4,11 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OmniTool Hub | The Ultimate All-in-One Utility Suite</title>
-  <meta name="description" content="A premium, cyber-aesthetic developer and utility tools web application running 100% client-side for complete privacy and instant results.">
+  <meta name="description" content="A premium, free, privacy-first developer and utility tools web application. 50+ tools running 100% client-side — no data ever leaves your device.">
+  <meta name="keywords" content="online tools, developer tools, json formatter, base64, text tools, color picker, calculator, unit converter, free utilities">
+  <meta name="author" content="OmniTool Hub">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://omnitoolhub.com/">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OmniTool Hub | All-in-One Utility Suite">
+  <meta property="og:description" content="50+ free developer and utility tools. 100% offline-first, client-side, no tracking.">
+  <meta property="og:url" content="https://omnitoolhub.com/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="OmniTool Hub">
+  <meta name="twitter:description" content="50+ free developer tools. JSON, Base64, Crypto, Color, Math & more. 100% client-side.">
+
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
+
+  <!-- ================================================ -->
+  <!-- Google AdSense — Uncomment after account approval -->
+  <!-- Replace YOUR_PUBLISHER_ID with your ca-pub-XXXX  -->
+  <!-- ================================================ -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID" crossorigin="anonymous"></script> -->
 </head>
 <body>
+  <!-- Premium System Splash Screen -->
+  <div id="app-splash-screen" class="splash-overlay">
+    <div class="splash-content">
+      <div class="splash-logo-container">
+        <svg class="splash-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path class="logo-path" stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+        </svg>
+        <div class="splash-logo-glow"></div>
+      </div>
+      <h2 class="splash-title">OmniTool Hub</h2>
+      <div class="splash-loader-bar">
+        <div class="splash-loader-progress"></div>
+      </div>
+      <div class="splash-console-logs" id="splash-logs">
+        <!-- Logs added dynamically via script -->
+      </div>
+    </div>
+  </div>
+
   <!-- Global Command Palette Modal -->
   <div id="command-palette" class="cp-modal-overlay" style="display: none;">
     <div class="cp-modal-content">
@@ -28,6 +69,9 @@
     </div>
   </div>
 
+  <!-- Interactive Scan line overlay for page opening -->
+  <div id="page-scan-line" class="scan-loader-line" style="display: none;"></div>
+
   <div class="app-container">
     <!-- Glowing background blobs -->
     <div class="bg-glow-blobs">
@@ -36,7 +80,7 @@
       <div class="glow-blob glow-blob-3"></div>
     </div>
 
-    <!-- Collapsible Sidebar -->
+    <!-- Responsive Collapsible Mobile Drawer (Hidden on Desktop) -->
     <aside class="sidebar" id="app-sidebar">
       <div class="sidebar-header">
         <div class="logo">
@@ -52,18 +96,18 @@
         </button>
       </div>
 
-      <!-- Quick Search -->
+      <!-- Quick Search for Mobile -->
       <div class="search-box-container">
         <div class="search-input-wrapper">
           <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="text" id="tool-search" class="search-bar" placeholder="Search tools (e.g. hash, JSON)..." aria-label="Search Tools">
+          <input type="text" id="tool-search-mobile" class="search-bar" placeholder="Search tools..." aria-label="Search Tools">
         </div>
       </div>
 
-      <!-- Navigation Categories -->
+      <!-- Navigation Categories (Mobile Drawer Accordions) -->
       <nav class="sidebar-nav">
         <div>
           <h3 class="nav-section-title">Navigation</h3>
@@ -187,21 +231,126 @@
       </nav>
     </aside>
 
-    <!-- Main Workspace -->
+    <!-- Main Workspace (Stretches across screen on Desktop) -->
     <main class="main-wrapper">
-      <!-- Top Header -->
+      <!-- Premium Top Header Navigation (Desktop Menu is horizontal) -->
       <header class="main-header">
-        <div class="header-title-bar">
-          <button class="sidebar-toggle-btn" id="sidebar-open-btn" style="display: none;" aria-label="Toggle Sidebar">
+        <div class="header-left">
+          <!-- Hamburger menu trigger (visible only on mobile) -->
+          <button class="sidebar-toggle-btn" id="sidebar-open-btn" aria-label="Toggle Sidebar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <h2 id="header-view-title">Dashboard</h2>
-          <span class="theme-badge" id="theme-mode-badge">Default Theme</span>
+
+          <!-- Branding Logo -->
+          <div class="logo header-logo-clickable" onclick="window.location.hash = 'dashboard'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+            </svg>
+            <span>OmniTool Hub</span>
+          </div>
+
+          <!-- Desktop Navigation Items -->
+          <nav class="desktop-nav-menu">
+            <a class="nav-link active" data-category="all" id="desktop-cat-all">Dashboard</a>
+            <a class="nav-link" data-category="fav" id="desktop-cat-fav">
+              Favorites
+              <span class="favorites-indicator" id="desktop-fav-count" style="display: none;">0</span>
+            </a>
+
+            <!-- Mega Menu Trigger -->
+            <div class="nav-dropdown mega-menu-trigger">
+              <button class="nav-dropdown-btn">
+                <span>Tools</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="mega-menu-panel">
+                <div class="mega-menu-grid">
+                  <!-- Developer Tools Column -->
+                  <div class="mega-menu-col">
+                    <h4 class="mega-col-title dev-accent">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                      Developer Tools
+                    </h4>
+                    <ul class="mega-tool-list" id="mega-list-dev">
+                      <!-- Populated via Javascript -->
+                    </ul>
+                  </div>
+
+                  <!-- Text & Writing Column -->
+                  <div class="mega-menu-col">
+                    <h4 class="mega-col-title text-accent">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>
+                      Text &amp; Writing
+                    </h4>
+                    <ul class="mega-tool-list" id="mega-list-text">
+                      <!-- Populated via Javascript -->
+                    </ul>
+                  </div>
+
+                  <!-- Design & Styling Column -->
+                  <div class="mega-menu-col">
+                    <h4 class="mega-col-title design-accent">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+                      Design &amp; Styling
+                    </h4>
+                    <ul class="mega-tool-list" id="mega-list-design">
+                      <!-- Populated via Javascript -->
+                    </ul>
+                  </div>
+
+                  <!-- Math & Converter Column -->
+                  <div class="mega-menu-col">
+                    <h4 class="mega-col-title math-accent">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>
+                      Math &amp; Converter
+                    </h4>
+                    <ul class="mega-tool-list" id="mega-list-math">
+                      <!-- Populated via Javascript -->
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recents Dropdown Trigger -->
+            <div class="nav-dropdown recents-dropdown-trigger">
+              <button class="nav-dropdown-btn">
+                <span>Recent</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="dropdown-panel" id="header-recents-panel">
+                <div class="dropdown-list" id="header-recents-list">
+                  <!-- Populated via Javascript -->
+                </div>
+              </div>
+            </div>
+          </nav>
         </div>
 
-        <div class="header-controls">
+        <div class="header-right">
+          <!-- Active view title details (Hidden on main home screen) -->
+          <div class="header-title-bar-desktop">
+            <h2 id="header-view-title" style="display:none;">Dashboard</h2>
+            <span class="theme-badge" id="theme-mode-badge">Default Theme</span>
+          </div>
+
+          <!-- Quick Search Pill Input -->
+          <div class="search-box-container desktop-search-only">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="tool-search" class="search-bar" placeholder="Search (Ctrl+K)..." aria-label="Search Tools">
+            </div>
+          </div>
+
           <!-- Live Clock Widget -->
           <div class="clock-widget" id="header-clock" title="System Time">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -215,6 +364,14 @@
           <button class="control-btn" id="theme-toggle" title="Toggle Theme" aria-label="Toggle light or dark theme">
             <svg id="theme-sun-icon" viewBox="0 0 24 24" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             <svg id="theme-moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+
+          <!-- Buy me a coffee compact -->
+          <button class="control-btn coffee-btn-compact" title="Support OmniTool Hub" aria-label="Buy Me a Coffee" onclick="app.showToast('☕ Thank you! Your support keeps OmniTool Hub running offline-first.', 'success')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+            </svg>
           </button>
         </div>
       </header>
@@ -256,9 +413,15 @@
                 <span class="footer-divider">•</span>
                 <a href="#favorites" class="footer-link">Favorites</a>
                 <span class="footer-divider">•</span>
-                <a href="#" class="footer-link" id="footer-privacy-btn">Privacy &amp; Security</a>
+                <a href="#about" class="footer-link">About</a>
+                <span class="footer-divider">•</span>
+                <a href="#contact" class="footer-link">Contact</a>
+                <span class="footer-divider">•</span>
+                <a href="#privacy" class="footer-link">Privacy Policy</a>
+                <span class="footer-divider">•</span>
+                <a href="#terms" class="footer-link">Terms</a>
               </div>
-              <div class="footer-copyright">&copy; 2026 OmniTool Hub. All operations run 100% locally.</div>
+              <div class="footer-copyright">&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</div>
             </div>
 
             <div class="footer-right">
