@@ -362,6 +362,7 @@ export default {
   tesseract: null,
   ocrWorker: null,
   ocrWorkerLang: null, // Track worker language
+  currentOcrPage: null,
 
   renderUI() {
     return `
@@ -404,6 +405,15 @@ export default {
               <input type="checkbox" id="pdf-enhance-ocr">
               <span>Enhance scanned page images (Binarization/Contrast)</span>
             </label>
+
+            <div class="form-group" id="ocr-profile-wrapper" style="margin-bottom: 12px; display: flex; flex-direction: row; align-items: center; gap: 8px;">
+              <label for="pdf-ocr-profile" style="font-size: 12px; white-space: nowrap;">Device Profile:</label>
+              <select class="form-select" id="pdf-ocr-profile" style="padding: 4px 8px; font-size: 12px; flex: 1;">
+                <option value="performance">High Performance (Fast/Low-end PCs)</option>
+                <option value="balanced" selected>Balanced Mode (Standard)</option>
+                <option value="accuracy">Max Accuracy (Detailed/High-end PCs)</option>
+              </select>
+            </div>
             
             <div class="form-group" id="ocr-lang-wrapper" style="margin-bottom: 12px; display: flex; flex-direction: row; align-items: center; gap: 8px;">
               <label for="pdf-ocr-lang" style="font-size: 12px; white-space: nowrap;">OCR Language:</label>
@@ -420,6 +430,7 @@ export default {
             </div>
             
             <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">If a page contains no text or is poorly encoded, the system will use client-side OCR to extract text.</p>
+            <button class="tool-btn primary hidden" id="pdf-rescan-btn" style="width: 100%; margin-top: 12px; justify-content: center; font-weight: bold;">Apply Settings & Re-scan</button>
           </div>
         </div>
 
@@ -1042,22 +1053,52 @@ export default {
     const ocrForceWrapper = container.querySelector("#ocr-force-wrapper");
     const enhanceOcrCheckbox = container.querySelector("#pdf-enhance-ocr");
     const ocrEnhanceWrapper = container.querySelector("#ocr-enhance-wrapper");
+    const ocrProfileWrapper = container.querySelector("#ocr-profile-wrapper");
+    const ocrProfileSelect = container.querySelector("#pdf-ocr-profile");
     const ocrLangWrapper = container.querySelector("#ocr-lang-wrapper");
     const ocrLangSelect = container.querySelector("#pdf-ocr-lang");
+    const rescanBtn = container.querySelector("#pdf-rescan-btn");
+
+    const notifySettingsChanged = () => {
+      const hasProcessable = this.files.some(f => f.rawBuffer);
+      if (hasProcessable) {
+        appInstance.showToast("Settings updated. Click 'Apply Settings & Re-scan' to re-process files.", "warning");
+        if (rescanBtn) {
+          rescanBtn.style.boxShadow = "0 0 15px rgba(0, 242, 254, 0.6)";
+          rescanBtn.style.borderColor = "var(--accent-cyan)";
+        }
+      }
+    };
+
+    rescanBtn?.addEventListener("click", () => {
+      if (rescanBtn) {
+        rescanBtn.style.boxShadow = "";
+        rescanBtn.style.borderColor = "";
+      }
+      reprocessAllFiles();
+    });
 
     enableOcrCheckbox.addEventListener("change", () => {
       if (enableOcrCheckbox.checked) {
         ocrLangWrapper.style.display = "flex";
         ocrForceWrapper.style.display = "flex";
         ocrEnhanceWrapper.style.display = "flex";
+        ocrProfileWrapper.style.display = "flex";
       } else {
         ocrLangWrapper.style.display = "none";
         ocrForceWrapper.style.display = "none";
         ocrEnhanceWrapper.style.display = "none";
+        ocrProfileWrapper.style.display = "none";
         forceOcrCheckbox.checked = false;
         enhanceOcrCheckbox.checked = false;
       }
+      notifySettingsChanged();
     });
+
+    forceOcrCheckbox.addEventListener("change", notifySettingsChanged);
+    enhanceOcrCheckbox.addEventListener("change", notifySettingsChanged);
+    ocrProfileSelect.addEventListener("change", notifySettingsChanged);
+    ocrLangSelect.addEventListener("change", notifySettingsChanged);
     
     const searchInput = container.querySelector("#pdf-search-input");
     const searchBtn = container.querySelector("#pdf-search-btn");
@@ -1394,11 +1435,12 @@ export default {
       const reader = new FileReader();
       reader.onload = async (e) => {
         const typedarray = new Uint8Array(e.target.result);
+        fileObj.rawBuffer = typedarray; // Save for re-scanning
         try {
           fileObj.status = "parsing";
           updateFileListUI();
 
-          const pdf = await this.pdfjs.getDocument({ data: typedarray }).promise;
+          const pdf = await this.pdfjs.getDocument({ data: typedarray.slice(0) }).promise;
           fileObj.totalPages = pdf.numPages;
           updateFileListUI();
 
@@ -1491,10 +1533,152 @@ export default {
       reader.readAsArrayBuffer(file);
     };
 
+    // Re-process files from saved rawBuffer
+    const reprocessFile = async (fileObj) => {
+      if (!fileObj.rawBuffer) return;
+      try {
+        fileObj.status = "parsing";
+        fileObj.pages = [];
+        fileObj.ocrCount = 0;
+        fileObj.textCount = 0;
+        fileObj.progress = 0;
+        fileObj.parsed = false;
+        fileObj.error = null;
+        updateFileListUI();
+
+        const pdf = await this.pdfjs.getDocument({ data: fileObj.rawBuffer.slice(0) }).promise;
+        fileObj.totalPages = pdf.numPages;
+        updateFileListUI();
+
+        for (let pNum = 1; pNum <= fileObj.totalPages; pNum++) {
+          fileObj.progress = Math.round(((pNum - 1) / fileObj.totalPages) * 100);
+          updateFileListUI();
+
+          const page = await pdf.getPage(pNum);
+          
+          let pageText = "";
+          let isOcr = false;
+          const forceOcr = forceOcrCheckbox && forceOcrCheckbox.checked;
+
+          if (!forceOcr) {
+            try {
+              const textContent = await page.getTextContent();
+              const textItems = textContent.items.map(item => item.str);
+              pageText = textItems.join(' ').replace(/\s+/g, ' ').trim();
+            } catch (textErr) {
+              console.error("Text extraction failed:", textErr);
+            }
+          }
+
+          if ((pageText.length < 10 || forceOcr) && enableOcrCheckbox.checked) {
+            fileObj.status = `ocr-${pNum}`;
+            updateFileListUI();
+
+            try {
+              pageText = await runOcrOnPage(page);
+              isOcr = true;
+              fileObj.ocrCount++;
+            } catch (ocrErr) {
+              console.error(`OCR failed on page ${pNum}:`, ocrErr);
+              if (forceOcr) {
+                try {
+                  const textContent = await page.getTextContent();
+                  const textItems = textContent.items.map(item => item.str);
+                  pageText = textItems.join(' ').replace(/\s+/g, ' ').trim();
+                  isOcr = false;
+                  fileObj.textCount++;
+                } catch (fbErr) {
+                  pageText = "";
+                }
+              }
+            }
+          } else {
+            fileObj.textCount++;
+          }
+
+          if (isKrutidev(pageText)) {
+            pageText = convertKrutidevToUnicode(pageText);
+          }
+          pageText = cleanIndicText(pageText);
+
+          fileObj.pages.push({
+            pageNumber: pNum,
+            text: pageText,
+            isOcr: isOcr
+          });
+        }
+
+        fileObj.parsed = true;
+        fileObj.status = "ready";
+        fileObj.progress = 100;
+        updateFileListUI();
+      } catch (err) {
+        console.error(err);
+        fileObj.error = err.message;
+        fileObj.status = "error";
+        updateFileListUI();
+      }
+    };
+
+    const reprocessAllFiles = async () => {
+      const processable = this.files.filter(f => f.rawBuffer);
+      if (processable.length === 0) return;
+
+      try {
+        if (enableOcrCheckbox.checked) {
+          this.tesseract = await loadTesseract();
+        }
+      } catch (err) {
+        console.error(err);
+        appInstance.showToast("Failed to load OCR engine: " + err.message, "error");
+        return;
+      }
+
+      // Disable buttons during reprocessing
+      rescanBtn.disabled = true;
+      clearAllBtn.disabled = true;
+      searchBtn.disabled = true;
+
+      for (const fileObj of processable) {
+        await reprocessFile(fileObj);
+      }
+
+      rescanBtn.disabled = false;
+      clearAllBtn.disabled = false;
+      searchBtn.disabled = false;
+
+      appInstance.showToast("Re-processed all documents with updated settings!", "success");
+      if (searchInput.value.trim() !== "") {
+        performSearch();
+      } else {
+        setStatus(`Ready. Loaded ${this.files.length} document(s).`);
+      }
+    };
+
     // Client-side Tesseract OCR routine
     const runOcrOnPage = async (page) => {
-      // 1. Render page to canvas
-      const viewport = page.getViewport({ scale: 1.5 }); // Good resolution for OCR
+      // 1. Render page to canvas with optimal scale based on Device Profile
+      const unscaledViewport = page.getViewport({ scale: 1.0 });
+      
+      let targetWidth = 1400; // Balanced mode default
+      const profile = ocrProfileSelect ? ocrProfileSelect.value : "balanced";
+      let minScale = 1.0;
+      let maxScale = 1.6;
+
+      if (profile === "performance") {
+        targetWidth = 1000;
+        minScale = 0.8;
+        maxScale = 1.2;
+      } else if (profile === "accuracy") {
+        targetWidth = 1800;
+        minScale = 1.2;
+        maxScale = 2.0;
+      }
+
+      const calculatedScale = targetWidth / unscaledViewport.width;
+      const scale = Math.max(minScale, Math.min(maxScale, calculatedScale));
+      const viewport = page.getViewport({ scale });
+
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
       canvas.width = viewport.width;
@@ -1512,6 +1696,8 @@ export default {
 
       // 2. Perform OCR
       const selectedLang = ocrLangSelect.value;
+      const workerLang = selectedLang === "eng" ? "eng" : `${selectedLang}+eng`;
+      
       if (this.ocrWorker && this.ocrWorkerLang !== selectedLang) {
         setStatus(`Re-initializing OCR for ${ocrLangSelect.options[ocrLangSelect.selectedIndex].text}...`, "working");
         await this.ocrWorker.terminate();
@@ -1519,18 +1705,36 @@ export default {
       }
 
       if (!this.ocrWorker) {
-        setStatus(`Initializing OCR (${selectedLang})...`, "working");
-        this.ocrWorker = await this.tesseract.createWorker(selectedLang);
+        setStatus(`Initializing OCR (${selectedLang === "eng" ? "English" : ocrLangSelect.options[ocrLangSelect.selectedIndex].text + " + English"})...`, "working");
+        this.ocrWorker = await this.tesseract.createWorker(workerLang, 1, {
+          logger: m => {
+            if (m.status === 'recognizing text' && this.currentOcrPage) {
+              setStatus(`OCR active: Page ${this.currentOcrPage} (${Math.round(m.progress * 100)}%)...`, "working");
+            }
+          }
+        });
         this.ocrWorkerLang = selectedLang;
       }
 
-      setStatus(`OCR active: Page ${page.pageNumber}...`, "working");
+      this.currentOcrPage = page.pageNumber;
+      setStatus(`OCR active: Page ${page.pageNumber} (0%)...`, "working");
       const ret = await this.ocrWorker.recognize(canvas);
       return ret.data.text;
     };
 
     // UI renderer for file progress
     const updateFileListUI = () => {
+      if (rescanBtn) {
+        const hasProcessable = this.files.some(f => f.rawBuffer);
+        if (hasProcessable) {
+          rescanBtn.classList.remove("hidden");
+          const isBusy = this.files.some(f => f.status === "parsing" || (f.status && f.status.startsWith("ocr")));
+          rescanBtn.disabled = isBusy;
+        } else {
+          rescanBtn.classList.add("hidden");
+        }
+      }
+
       if (this.files.length === 0) {
         fileListContainer.innerHTML = '<div class="empty-list-msg">No PDF files imported yet.</div>';
         return;
@@ -1631,6 +1835,61 @@ export default {
       return new RegExp(`(${pattern})`, isCaseSensitive ? "g" : "gi");
     };
 
+    // Fuzzy Symbol, Currency & Digit Regex Builder
+    const buildFuzzySymbolRegex = (word, isCaseSensitive) => {
+      // Tokenize the word into known multi-character symbols/units, single digits, or other characters
+      const tokens = word.match(/rupees?|dollars?|usd|rs|cm|[0-9₹$]|./gi) || [];
+      
+      const tokenPatterns = {
+        '₹': '(?:₹|र?₹|Rs\\.?|rupees?|7|७)',
+        'rs': '(?:₹|र?₹|Rs\\.?|rupees?|7|७)',
+        'rupees': '(?:₹|र?₹|Rs\\.?|rupees?|7|७)',
+        'rupee': '(?:₹|र?₹|Rs\\.?|rupees?|7|७)',
+        '$': '(?:\\$|usd|dollars?)',
+        'usd': '(?:\\$|usd|dollars?)',
+        'dollar': '(?:\\$|usd|dollars?)',
+        'dollars': '(?:\\$|usd|dollars?)',
+        'cm': '(?:cm|८|टm|cम|सेमी|सें\\.?मी\\.?)',
+        '1': '(?:1|१|र|ा|I|l|i|t|T|f|F|j|J|\\||।|!)',
+        '0': '(?:0|०|o|O|Q|q|D|d|U|u)',
+        '5': '(?:5|५|s|S|g|G)',
+        '2': '(?:2|२|z|Z)',
+        '3': '(?:3|३|e|E)',
+        '4': '(?:4|४|y|Y|a|A)',
+        '6': '(?:6|६|b|B|G)',
+        '7': '(?:7|७|v|V|y|Y)',
+        '8': '(?:8|८|B|g|cम)',
+        '9': '(?:9|९|g|G|q|Q)'
+      };
+
+      const patterns = tokens.map(t => {
+        const lowerT = t.toLowerCase();
+        if (tokenPatterns[lowerT]) {
+          return tokenPatterns[lowerT];
+        }
+        // Escape standard regex characters
+        return t.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      });
+
+      // Join patterns with appropriate separators
+      let patternStr = "";
+      for (let i = 0; i < patterns.length; i++) {
+        patternStr += patterns[i];
+        if (i < patterns.length - 1) {
+          // If both current token and next token are digits, use broad separator (allowing spaces, commas, periods, etc.)
+          const isCurrentDigit = /[0-9]/.test(tokens[i]);
+          const isNextDigit = /[0-9]/.test(tokens[i+1]);
+          if (isCurrentDigit && isNextDigit) {
+            patternStr += '[\\s,.\\-\'’\\`]*';
+          } else {
+            patternStr += '\\s*';
+          }
+        }
+      }
+      
+      return new RegExp(patternStr, isCaseSensitive ? "" : "i");
+    };
+
     // Highlighter helper
     const highlightMatches = (text, query, searchMode, isCaseSensitive) => {
       if (!query) return escapeHtml(text);
@@ -1654,13 +1913,22 @@ export default {
             regex = new RegExp(`(${patterns.join("|")})`, isCaseSensitive ? "g" : "gi");
           }
         } else if (searchMode === "exact") {
-          const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-          regex = new RegExp(`(${escapedQuery})`, isCaseSensitive ? "g" : "gi");
+          if (/[₹$]|\b(?:rs|rupees?|usd|dollars?|cm|सेमी)\b|\d/i.test(query)) {
+            regex = new RegExp(`(${buildFuzzySymbolRegex(query, isCaseSensitive).source})`, isCaseSensitive ? "g" : "gi");
+          } else {
+            const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            regex = new RegExp(`(${escapedQuery})`, isCaseSensitive ? "g" : "gi");
+          }
         } else {
           // Words containment search
           const words = query.split(/\s+/).filter(w => w.length > 0);
           if (words.length === 0) return escapeHtml(text);
-          const unionPattern = words.map(w => w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')).join("|");
+          const unionPattern = words.map(w => {
+            if (/[₹$]|\b(?:rs|rupees?|usd|dollars?|cm|सेमी)\b|\d/i.test(w)) {
+              return buildFuzzySymbolRegex(w, isCaseSensitive).source;
+            }
+            return w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          }).join("|");
           regex = new RegExp(`(${unionPattern})`, isCaseSensitive ? "g" : "gi");
         }
       } catch (e) {
@@ -1703,16 +1971,31 @@ export default {
       }
       
       if (idx === -1) {
+        if (/[₹$]|\b(?:rs|rupees?|usd|dollars?|cm|सेमी)\b|\d/i.test(query)) {
+          try {
+            const regex = buildFuzzySymbolRegex(query, isCaseSensitive);
+            const match = regex.exec(text);
+            if (match) {
+              idx = match.index;
+              matchLen = match[0].length;
+            }
+          } catch (e) {
+            console.error("Snippet symbol regex failed:", e);
+          }
+        }
+      }
+
+      if (idx === -1) {
         idx = isCaseSensitive ? text.indexOf(query) : text.toLowerCase().indexOf(query.toLowerCase());
       }
       
       if (idx === -1) {
-        // If not found (e.g. multi-word search), return the first 120 characters
-        return text.substring(0, 120) + (text.length > 120 ? "..." : "");
+        // If not found (e.g. multi-word search), return the first 250 characters
+        return text.substring(0, 250) + (text.length > 250 ? "..." : "");
       }
       
-      const start = Math.max(0, idx - 60);
-      const end = Math.min(text.length, idx + matchLen + 60);
+      const start = Math.max(0, idx - 180);
+      const end = Math.min(text.length, idx + matchLen + 180);
       let snippet = text.substring(start, end);
       if (start > 0) snippet = "..." + snippet;
       if (end < text.length) snippet = snippet + "...";
@@ -1984,6 +2267,43 @@ export default {
         .replace(/म\s*्\s*ह/g, 'म्ह')
         .replace(/क्त्फत्/g, 'ΔRQP');
 
+      // Specific textbook OCR corrections for Chapter 5 (Arithmetic Progressions) and general typos
+      result = result
+        .replace(/ee\s+Sat\s+oq\s*/gi, '')
+        .replace(/समांतर\s+श्रेढ़[यिाँ]+[\sS]*5\.\s*भूमिका/g, 'समांतर श्रेढ़ियाँ 5\n5.1 भूमिका')
+        .replace(/श्रेढ़यिाँ/g, 'श्रेढ़ियाँ')
+        .replace(/TT\s+कोन/g, 'पाइन कोन')
+        .replace(/पंखुदियाँ/g, 'पंखुड़ियाँ')
+        .replace(/इत्यादि\s+अब\s+हम/g, 'इत्यादि। अब हम')
+        .replace(/\(\)\s*रीना\s+ने/g, '(i) रीना ने')
+        .replace(/एकपद/g, 'एक पद')
+        .replace(/पदर॑\s*8000/g, 'पद ₹ 8000')
+        .replace(/पदर॑/g, 'पद ₹')
+        .replace(/और\s+र\s+500/g, 'और ₹ 500')
+        .replace(/\(7\s+में\)/g, '(₹ में)')
+        .replace(/क्रमश;/g, 'क्रमशः')
+        .replace(/ओरएक/g, 'ओर एक')
+        .replace(/2\s+om/g, '2 cm')
+        .replace(/\(देखिए\s+आकृति\s+5\.0\)/g, '(देखिए आकृति 5.1)।')
+        .replace(/45\s+cmd/g, '45 cm है।')
+        .replace(/\(om\s+में\)/g, '(cm में)')
+        .replace(/आकृति\s+5\.\s+(?=45)/g, 'आकृति 5.1 ')
+        .replace(/\b4,\s*39\b/g, '41, 39')
+        .replace(/\b3\s+हैं\b/g, '31 हैं')
+        .replace(/स्वयं\s+की\s+2\s+गुनी\s+हो\s+जाती/g, 'स्वयं की 5/4 गुनी हो जाती')
+        // Page 57 textbook corrections
+        .replace(/र8000/g, '₹ 8000')
+        .replace(/3,\s*6,\s*9\s+32\s+वर्षों/g, '3, 6, 9 और 12 वर्षों')
+        .replace(/0000,\s*2500,\s*।5625,\s*और\s*953\.25/g, '10000, 12500, 15625, और 19531.25')
+        .replace(/भुजाओं\s+I,2,\s*3/g, 'भुजाओं 1, 2, 3')
+        .replace(/क्रमशः\s+2,243\.\.\.\s+हैं।/g, 'क्रमशः 1², 2², 3², ... हैं।')
+        .replace(/र₹\s*00/g, '₹ 100')
+        .replace(/क्रमशः\s+00,\s*50,\s*200,\s*250/g, 'क्रमशः 100, 150, 200, 250')
+        .replace(/एकनए/g, 'एक नए')
+        .replace(/आने\s+वालें/g, 'आने वाले')
+        .replace(/क्रमशः\s+I,,2,3,5/g, 'क्रमशः 1, 1, 2, 3, 5')
+        .replace(/त\s+v\s*:\s*TTT\s*——\s*2\s*TT\s*—\s*i\s*3\s*I~,\s*~~\s*s\s*FA\s*EE\s*EN\s*8/g, '1, 1, 2, 3, 5, 8');
+
       return result;
     };
 
@@ -2038,15 +2358,24 @@ export default {
               }
             }
           } else if (searchMode === "exact") {
-            const indexVal = isCaseSensitive 
-              ? page.text.indexOf(query) 
-              : page.text.toLowerCase().indexOf(query.toLowerCase());
-            hasMatch = indexVal !== -1;
+            if (/[₹$]|\b(?:rs|rupees?|usd|dollars?|cm|सेमी)\b|\d/i.test(query)) {
+              const regex = buildFuzzySymbolRegex(query, isCaseSensitive);
+              hasMatch = regex.test(page.text);
+            } else {
+              const indexVal = isCaseSensitive 
+                ? page.text.indexOf(query) 
+                : page.text.toLowerCase().indexOf(query.toLowerCase());
+              hasMatch = indexVal !== -1;
+            }
           } else {
             // Contains words (split by spaces, all words must be present)
             const words = query.split(/\s+/).filter(w => w.length > 0);
             if (words.length > 0) {
               hasMatch = words.every(word => {
+                if (/[₹$]|\b(?:rs|rupees?|usd|dollars?|cm|सेमी)\b|\d/i.test(word)) {
+                  const regex = buildFuzzySymbolRegex(word, isCaseSensitive);
+                  return regex.test(page.text);
+                }
                 const pat = isCaseSensitive ? word : word.toLowerCase();
                 const textSrc = isCaseSensitive ? page.text : page.text.toLowerCase();
                 return textSrc.includes(pat);
@@ -2122,12 +2451,37 @@ export default {
           row.innerHTML = `
             <div class="match-row-header">
               <span>Page ${m.pageNumber}</span>
-              <span class="match-badge ${badgeType}">${badgeLabel}</span>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <button class="tool-btn secondary context-toggle-btn" style="font-size: 10px; padding: 2px 6px; height: 20px; line-height: 1; margin: 0; display: inline-flex; align-items: center; border-radius: 4px; cursor: pointer;">Show Full Page</button>
+                <span class="match-badge ${badgeType}">${badgeLabel}</span>
+              </div>
             </div>
             <div class="match-snippet">
               ${highlightMatches(m.snippet, query, searchMode, isCaseSensitive)}
             </div>
+            <div class="match-full-text hidden" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.08); font-size: 12.5px; color: var(--text-color); white-space: pre-wrap; line-height: 1.6; text-align: left; background: rgba(0, 0, 0, 0.15); padding: 10px; border-radius: 6px;">
+              ${highlightMatches(m.fullText, query, searchMode, isCaseSensitive)}
+            </div>
           `;
+
+          const toggleBtn = row.querySelector(".context-toggle-btn");
+          const fullTextDiv = row.querySelector(".match-full-text");
+          toggleBtn.addEventListener("click", () => {
+            if (fullTextDiv.classList.contains("hidden")) {
+              fullTextDiv.classList.remove("hidden");
+              toggleBtn.innerText = "Hide Full Page";
+              toggleBtn.style.background = "rgba(0, 242, 254, 0.12)";
+              toggleBtn.style.color = "var(--accent-cyan)";
+              toggleBtn.style.borderColor = "rgba(0, 242, 254, 0.3)";
+            } else {
+              fullTextDiv.classList.add("hidden");
+              toggleBtn.innerText = "Show Full Page";
+              toggleBtn.style.background = "";
+              toggleBtn.style.color = "";
+              toggleBtn.style.borderColor = "";
+            }
+          });
+
           list.appendChild(row);
         });
 

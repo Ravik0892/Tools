@@ -92,6 +92,17 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`
     },
     {
+      id: "pdf-utilities",
+      name: "PDF Toolbox (Split & Compress)",
+      desc: "Extract pages/ranges and compress scanned PDFs client-side with tailored device performance modes.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Writers & Parsers",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M9 15h6M9 11h6M9 19h6"/></svg>`
+    },
+    {
       id: "regex-tester",
       name: "Visual Regex Tester",
       desc: "Test regular expressions with flags, highlight matches, and view structured match groups.",
@@ -244,6 +255,17 @@ const app = {
       accent: "#10b981",
       accentRgb: "16, 185, 129",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`
+    },
+    {
+      id: "mock-data-generator",
+      name: "Private CSV/JSON Mock Data Generator",
+      desc: "Design custom schemas, configure column types (names, emails, dates, numbers), and bulk-generate up to 50,000 rows of mock data entirely client-side.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Generators",
+      accent: "#f43f5e",
+      accentRgb: "244, 63, 94",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect><path d="M7 7h7M10 16h4" stroke-linecap="round"/></svg>`
     },
     {
       id: "admin-settings",
@@ -2148,7 +2170,7 @@ const app = {
       }
     } catch (err) {
       console.error(`Error loading tool ID: ${toolId}`, err);
-      this.showToast("Failed to load tool module!", "error");
+      this.showToast(`Failed to load tool module: ${err.message}`, "error", 8000);
       this.backToDashboard();
     }
   },
