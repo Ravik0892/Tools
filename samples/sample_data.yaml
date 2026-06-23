@@ -1,0 +1,32 @@
+users:
+  - id: USR-84729
+    name: Alex Mercer
+    email: alex.mercer@cybernet.io
+    role: Systems Architect
+    status: active
+    loginCount: 142
+    lastAccess: 2026-06-22T08:45:12Z
+    profile:
+      department: Infrastructure
+      clearance: level-3
+      bio: Specialist in client-side PWAs and cryptographic sandboxing.
+    tags:
+      - admin
+      - devops
+      - security
+
+  - id: USR-10943
+    name: Elena Rostova
+    email: elena.r@cybernet.io
+    role: Lead Security Researcher
+    status: active
+    loginCount: 89
+    lastAccess: 2026-06-23T11:20:00Z
+    profile:
+      department: SecOps
+      clearance: level-4
+      bio: Researching post-quantum client-side crypto schemes.
+    tags:
+      - security
+      - audit
+      - crypto

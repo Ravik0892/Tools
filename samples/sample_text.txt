@@ -1,0 +1,14 @@
+OMNITOOL HUB: CLIENT-SIDE SANDBOXED UTILITY ARCHITECTURE
+=========================================================
+
+OmniTool Hub is designed to run entirely on the client side inside the user's web browser, using Service Workers for offline PWA capabilities. 
+
+All tools (such as the Cryptography Suite, JSON Data Formatters, and Security tools) run 100% locally in the browser sandbox. This ensures absolute privacy: no data is ever transmitted to external servers.
+
+Key architectural concepts include:
+1. Dynamic Module Imports: Tool modules are loaded asynchronously from the './tools/' directory when requested by the hash routing engine.
+2. Shared State: The central 'app' object coordinates global configs, clock, theme styles, favorites storage, and navigation routing.
+3. Event Delegation: Tool panels attach event listeners dynamically to their viewport containers, maintaining memory efficiency.
+4. Security Boundaries: High-strength cryptographic operations use the native Web Crypto API for secure random number generation, PBKDF2 key derivation, and symmetric AES-GCM encryption.
+
+To test the Text Analyzer, import this file and inspect the readability score and word count statistics. To test the Diff Comparison, copy this text and make slight edits in the second comparison window.

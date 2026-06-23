@@ -15,9 +15,9 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`
     },
     {
-      id: "json-formatter",
-      name: "JSON Formatter & Validator",
-      desc: "Beautify, validate, minify, and parse raw JSON strings instantly with error highlighting.",
+      id: "formatter-suite",
+      name: "Data Formatter & Converter Suite",
+      desc: "Beautify and validate JSON, format messy SQL database queries, and convert data bi-directionally between JSON, YAML, and CSV.",
       category: "dev",
       subcategory: "dev-formatters",
       subLabel: "Formatters & Parsers",
@@ -26,12 +26,12 @@ const app = {
       icon: `<svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6M12 2v20" stroke-linecap="round" stroke-linejoin="round"/></svg>`
     },
     {
-      id: "base64",
-      name: "Base64 Encoder & Decoder",
-      desc: "Encode plain text to Base64 format or decode Base64 back into human-readable text.",
-      category: "dev",
-      subcategory: "dev-encoders",
-      subLabel: "Encoders & Decoders",
+      id: "text-encoder-suite",
+      name: "Text Cases & Encoder Suite",
+      desc: "Convert text case representations (UPPER, lower, camel, snake, kebab) and run Base64 or URL encoding and decoding operations.",
+      category: "text",
+      subcategory: "text-case",
+      subLabel: "Transformations",
       accent: "#9d4edd",
       accentRgb: "157, 78, 221",
       icon: `<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16M10 5l4 14" stroke-linecap="round" stroke-linejoin="round"/></svg>`
@@ -48,59 +48,15 @@ const app = {
       icon: `<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`
     },
     {
-      id: "hash-generator",
-      name: "Hash Generator",
-      desc: "Generate MD5, SHA-1, SHA-256, and SHA-512 cryptographic checksums instantly.",
+      id: "crypto-suite",
+      name: "Cryptography Suite",
+      desc: "Generate MD5, SHA-1, SHA-256, SHA-512 hashes, encrypt/decrypt using AES-256 GCM symmetric cipher, and generate asymmetric RSA private/public keys.",
       category: "dev",
       subcategory: "dev-crypto",
       subLabel: "Crypto & Security",
       accent: "#10b981",
       accentRgb: "16, 185, 129",
       icon: `<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
-    },
-    {
-      id: "aes-crypto",
-      name: "AES Symmetric Encryptor & Decryptor",
-      desc: "Securely encrypt plain text or decrypt ciphertext locally in your browser using high-strength AES-GCM 256-bit keys derived via PBKDF2.",
-      category: "dev",
-      subcategory: "dev-crypto",
-      subLabel: "Crypto & Security",
-      accent: "#f59e0b",
-      accentRgb: "245, 158, 11",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4M12 15v3"></path></svg>`
-    },
-    {
-      id: "url-encoder",
-      name: "URL Encoder & Decoder",
-      desc: "Encode strings to safe URL characters or decode encoded web addresses back.",
-      category: "dev",
-      subcategory: "dev-encoders",
-      subLabel: "Encoders & Decoders",
-      accent: "#f59e0b",
-      accentRgb: "245, 158, 11",
-      icon: `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke-linecap="round"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke-linecap="round"/></svg>`
-    },
-    {
-      id: "uuid-generator",
-      name: "UUID v4 Generator",
-      desc: "Bulk generate RFC 4122 compliant universally unique identifiers (UUIDs) client-side.",
-      category: "dev",
-      subcategory: "dev-generators",
-      subLabel: "Generators",
-      accent: "#f43f5e",
-      accentRgb: "244, 63, 94",
-      icon: `<svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7" stroke-linecap="round" stroke-linejoin="round"/></svg>`
-    },
-    {
-      id: "text-converter",
-      name: "Text Case Converter & Counter",
-      desc: "Convert text cases (UPPER, lower, camel, snake, kebab) and count words, lines, characters.",
-      category: "text",
-      subcategory: "text-case",
-      subLabel: "Transformations",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      icon: `<svg viewBox="0 0 24 24"><path d="M4 7V4h16v3M9 20h6M12 4v16" stroke-linecap="round" stroke-linejoin="round"/></svg>`
     },
     {
       id: "markdown-preview",
@@ -147,20 +103,20 @@ const app = {
       icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
     },
     {
-      id: "gradient-generator",
-      name: "CSS Gradient Creator",
-      desc: "Visually build linear/radial CSS gradients, adjust angles, positions, and export CSS code.",
+      id: "css-studio",
+      name: "CSS Studio Suite",
+      desc: "Visually build linear & radial CSS gradients, complex box shadows with offset layers, and modern frosted glassmorphism cards.",
       category: "design",
       subcategory: "design-css",
       subLabel: "CSS Builders",
-      accent: "#f59e0b",
-      accentRgb: "245, 158, 11",
-      icon: `<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-10 10c0 5.523 4.477 10 10 10a10 10 0 0 0 10-10c0-1.742-.447-3.38-1.231-4.814l-4.542 4.542a4 4 0 0 1-5.656-5.656l4.542-4.542A9.957 9.957 0 0 0 12 2z" /></svg>`
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M9 3v18M3 9h18M14 14l3 3m0-3l-3 3"></path></svg>`
     },
     {
-      id: "color-palette",
-      name: "Color Palette & Contrast Checker",
-      desc: "Generate harmonious palettes and verify background/foreground text accessibility (WCAG).",
+      id: "color-lab",
+      name: "Color Lab & Contrast Suite",
+      desc: "Create WCAG-compliant color palettes, check contrast accessibility ratios, and generate shades, tints, and opacities.",
       category: "design",
       subcategory: "design-color",
       subLabel: "Color Management",
@@ -169,9 +125,9 @@ const app = {
       icon: `<svg viewBox="0 0 24 24"><path d="M12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22ZM12 6C13.1 6 14 6.9 14 8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8C10 6.9 10.9 6 12 6Z" /></svg>`
     },
     {
-      id: "password-generator",
-      name: "Secure Password Generator",
-      desc: "Create strong passwords with custom lengths, character constraints, and entropy meters.",
+      id: "security-suite",
+      name: "Security & Passwords Suite",
+      desc: "Generate highly secure random passwords with entropy strength analysis and create bulk RFC 4122 v4 UUID keys client-side.",
       category: "math",
       subcategory: "math-security",
       subLabel: "Security & Pass",
@@ -180,14 +136,14 @@ const app = {
       icon: `<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4M12 15v3" stroke-linecap="round"/></svg>`
     },
     {
-      id: "epoch-converter",
-      name: "Epoch Timestamp Converter",
-      desc: "Translate Unix epoch timestamps (seconds & milliseconds) to human dates and vice versa.",
+      id: "datetime-suite",
+      name: "Date & Time Suite",
+      desc: "Convert Unix epoch timestamps to human dates, compute durations between two times, and add/subtract time fields dynamically.",
       category: "math",
-      subcategory: "math-conversion",
-      subLabel: "Conversion",
-      accent: "#10b981",
-      accentRgb: "16, 185, 129",
+      subcategory: "math-calc",
+      subLabel: "Calculator",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
       icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`
     },
     {
@@ -246,28 +202,6 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="17" x2="22" y2="17"></line><line x1="12" y1="17" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line></svg>`
     },
     {
-      id: "glassmorphism-generator",
-      name: "Frosted Glassmorphism CSS Generator",
-      desc: "Visually build cyber-styled CSS backdrop blurs, border glows, shadow layers, and copy ready-to-use CSS.",
-      category: "design",
-      subcategory: "design-css",
-      subLabel: "CSS Builders",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M9 3v18M3 9h18M14 14l3 3m0-3l-3 3"></path></svg>`
-    },
-    {
-      id: "box-shadow",
-      name: "CSS Box Shadow Builder",
-      desc: "Visually construct simple and complex box shadows with offsets, blur, spread, color, opacity, and inset controls.",
-      category: "design",
-      subcategory: "design-css",
-      subLabel: "CSS Builders",
-      accent: "#10b981",
-      accentRgb: "16, 185, 129",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="12" height="12" rx="1.5"></rect><path d="M16 8h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-2" stroke-dasharray="2 2"></path></svg>`
-    },
-    {
       id: "image-converter",
       name: "Image Optimizer & Converter",
       desc: "Optimize dimensions, adjust quality, and convert image formats (PNG, JPG, WebP) client-side in seconds.",
@@ -290,28 +224,6 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M20.4 12A8.4 8.4 0 0 1 12 20.4c-2.3 0-4.4-.9-6-2.4l1.4-1.4a6.4 6.4 0 0 0 9.2 0l1.4 1.4zM12 3.6c2.3 0 4.4.9 6 2.4l-1.4 1.4a6.4 6.4 0 0 0-9.2 0L6 6a8.4 8.4 0 0 1 8.4-2.4z"></path></svg>`
     },
     {
-      id: "json-yaml-csv",
-      name: "JSON / YAML / CSV Suite",
-      desc: "Convert data formats bi-directionally between JSON, YAML, and CSV with smart table views.",
-      category: "dev",
-      subcategory: "dev-pipelines",
-      subLabel: "Data Pipelines",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"></path></svg>`
-    },
-    {
-      id: "sql-beautifier",
-      name: "SQL Formatter & Beautifier",
-      desc: "Format messy raw SQL queries with custom indentation, case statements alignment, and color styles.",
-      category: "dev",
-      subcategory: "dev-formatters",
-      subLabel: "Formatters & Parsers",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v6c0 1.66 4 3 9 3s9-1.34 9-3V5M3 11v6c0 1.66 4 3 9 3s9-1.34 9-3v-6"></path></svg>`
-    },
-    {
       id: "url-parser",
       name: "URL Query Parser & Builder",
       desc: "Parse web addresses, extract parameters into a key-value grid, edit variables, and build clean query strings.",
@@ -332,39 +244,6 @@ const app = {
       accent: "#10b981",
       accentRgb: "16, 185, 129",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`
-    },
-    {
-      id: "color-shades",
-      name: "Color Shades & Tint Generator",
-      desc: "Enter a hex color and generate standard monochromatic tints, shadows, and opacity codes.",
-      category: "design",
-      subcategory: "design-color",
-      subLabel: "Color Management",
-      accent: "#f43f5e",
-      accentRgb: "244, 63, 94",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>`
-    },
-    {
-      id: "rsa-generator",
-      name: "RSA Key Pair Generator",
-      desc: "Generate high-entropy cryptographically secure RSA private and public key pairs (512-bit to 4096-bit) client-side.",
-      category: "math",
-      subcategory: "math-security",
-      subLabel: "Security & Pass",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4M12 15v3"></path></svg>`
-    },
-    {
-      id: "date-calculator",
-      name: "Date & Duration Calculator",
-      desc: "Calculate precise days/weeks/hours between two dates, or add/subtract time from any reference date.",
-      category: "math",
-      subcategory: "math-calc",
-      subLabel: "Calculator",
-      accent: "#f43f5e",
-      accentRgb: "244, 63, 94",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`
     },
     {
       id: "admin-settings",
@@ -391,6 +270,29 @@ const app = {
   cpOpen: false,
   cpIndex: 0,
   cpFiltered: [],
+
+  pendingPaste: null,
+
+  toolRedirects: {
+    "password-generator": { suiteId: "security-suite", subtab: "pass" },
+    "uuid-generator": { suiteId: "security-suite", subtab: "uuid" },
+    "hash-generator": { suiteId: "crypto-suite", subtab: "hash" },
+    "aes-crypto": { suiteId: "crypto-suite", subtab: "aes" },
+    "rsa-generator": { suiteId: "crypto-suite", subtab: "rsa" },
+    "text-converter": { suiteId: "text-encoder-suite", subtab: "case" },
+    "base64": { suiteId: "text-encoder-suite", subtab: "base64" },
+    "url-encoder": { suiteId: "text-encoder-suite", subtab: "url" },
+    "json-formatter": { suiteId: "formatter-suite", subtab: "json" },
+    "sql-beautifier": { suiteId: "formatter-suite", subtab: "sql" },
+    "json-yaml-csv": { suiteId: "formatter-suite", subtab: "csv" },
+    "gradient-generator": { suiteId: "css-studio", subtab: "gradient" },
+    "box-shadow": { suiteId: "css-studio", subtab: "shadow" },
+    "glassmorphism-generator": { suiteId: "css-studio", subtab: "glass" },
+    "color-palette": { suiteId: "color-lab", subtab: "palette" },
+    "color-shades": { suiteId: "color-lab", subtab: "shades" },
+    "epoch-converter": { suiteId: "datetime-suite", subtab: "epoch" },
+    "date-calculator": { suiteId: "datetime-suite", subtab: "date" }
+  },
 
   async loadGlobalConfig() {
     try {
@@ -422,6 +324,15 @@ const app = {
 
   // Initializer
   async init() {
+    // Restrict Settings & Ad Control Panel to local development server only
+    const isLocalhost = window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname === "127.0.0.1.nip.io" ||
+      window.location.hostname === "host.docker.internal";
+    if (!isLocalhost) {
+      this.tools = this.tools.filter(t => t.id !== "admin-settings");
+    }
+
     await this.loadGlobalConfig();
     this.initSplash();
     this.registerServiceWorker();
@@ -551,8 +462,14 @@ const app = {
     const hash = window.location.hash || "";
 
     if (hash === "#admin") {
-      this.navigateToTool("admin-settings", false);
-      return;
+      const isLocalhost = window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.hostname === "127.0.0.1.nip.io" ||
+        window.location.hostname === "host.docker.internal";
+      if (isLocalhost) {
+        this.navigateToTool("admin-settings", false);
+        return;
+      }
     }
 
     // Legal pages required for AdSense approval
@@ -575,6 +492,14 @@ const app = {
 
     if (hash.startsWith("#tool/")) {
       const toolId = hash.replace("#tool/", "");
+      
+      const redirect = this.toolRedirects[toolId];
+      if (redirect) {
+        this.activeSubtab = redirect.subtab;
+        this.navigateToTool(redirect.suiteId, false);
+        return;
+      }
+
       const toolExists = this.tools.some(t => t.id === toolId);
       if (toolExists) {
         this.navigateToTool(toolId, false);
@@ -1170,12 +1095,14 @@ const app = {
       try {
         JSON.parse(clean);
         this.showToast("Detected JSON payload. Open Formatter?", "info", () => {
+          this.pendingPaste = {
+            toolId: "formatter-suite",
+            tab: "json",
+            inputSelector: "#formatter-input",
+            value: clean,
+            btnSelector: "#json-format-btn"
+          };
           this.navigateToTool("json-formatter");
-          const input = document.getElementById("json-input");
-          if (input) {
-            input.value = clean;
-            document.getElementById("json-format-btn")?.click();
-          }
         });
         return;
       } catch (e) { }
@@ -1184,12 +1111,12 @@ const app = {
     // 2. JWT
     if (/^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+$/.test(clean)) {
       this.showToast("Detected JWT. Click to decode payload.", "info", () => {
+        this.pendingPaste = {
+          toolId: "jwt-decoder",
+          inputSelector: "#jwt-input",
+          value: clean
+        };
         this.navigateToTool("jwt-decoder");
-        const input = document.getElementById("jwt-input");
-        if (input) {
-          input.value = clean;
-          input.dispatchEvent(new Event("input"));
-        }
       });
       return;
     }
@@ -1197,12 +1124,13 @@ const app = {
     // 3. HEX Color
     if (/^#[0-9A-Fa-f]{6}$|^#[0-9A-Fa-f]{3}$/.test(clean)) {
       this.showToast("Detected HEX color. Open Contrast checker?", "info", () => {
+        this.pendingPaste = {
+          toolId: "color-lab",
+          tab: "palette",
+          inputSelector: "#contrast-bg-hex",
+          value: clean
+        };
         this.navigateToTool("color-palette");
-        const input = document.getElementById("contrast-bg-hex");
-        if (input) {
-          input.value = clean;
-          input.dispatchEvent(new Event("input"));
-        }
       });
       return;
     }
@@ -1210,12 +1138,14 @@ const app = {
     // 4. Epoch Timestamp
     if (/^\d{10}$|^\d{13}$/.test(clean)) {
       this.showToast("Detected Epoch Unix Timestamp. Convert to date?", "info", () => {
+        this.pendingPaste = {
+          toolId: "datetime-suite",
+          tab: "epoch",
+          inputSelector: "#epoch-input",
+          value: clean,
+          btnSelector: "#epoch-convert-btn"
+        };
         this.navigateToTool("epoch-converter");
-        const input = document.getElementById("epoch-input");
-        if (input) {
-          input.value = clean;
-          document.getElementById("epoch-convert-btn")?.click();
-        }
       });
       return;
     }
@@ -1226,12 +1156,14 @@ const app = {
         const decoded = atob(clean);
         if (decoded.length > 3 && /[\x00-\x7F]/.test(decoded)) {
           this.showToast("Detected Base64 string. Decode now?", "info", () => {
+            this.pendingPaste = {
+              toolId: "text-encoder-suite",
+              tab: "base64",
+              inputSelector: "#base64-input",
+              value: clean,
+              btnSelector: "#base64-decode-btn"
+            };
             this.navigateToTool("base64");
-            const input = document.getElementById("base64-input");
-            if (input) {
-              input.value = clean;
-              document.getElementById("base64-decode-btn")?.click();
-            }
           });
           return;
         }
@@ -1722,8 +1654,8 @@ const app = {
     // Clean up existing dynamic category headers and ads inside dashboard-view
     const existingHeader = document.querySelector(".category-page-header");
     if (existingHeader) existingHeader.remove();
-    const existingAd = document.querySelector("#dashboard-view > .sponsor-ad-block");
-    if (existingAd) existingAd.remove();
+    const existingAds = document.querySelectorAll("#dashboard-view > .sponsor-ad-block, #dashboard-view > .admob-adsense-mock, #dashboard-view > .adsense-production-container, #dashboard-view > .custom-ad-container");
+    existingAds.forEach(el => el.remove());
 
     // Filter tools based on selections
     let activeList = [];
@@ -2048,13 +1980,24 @@ const app = {
     viewport.style.display = "flex";
 
     // Passcode lock gate for Admin Settings
-    if (toolId === "admin-settings" && sessionStorage.getItem("omnitool_admin_authenticated") !== "true") {
-      this.activeTool = "admin-settings";
-      this.syncSidebarUI();
+    if (toolId === "admin-settings") {
+      const isLocalhost = window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.hostname === "127.0.0.1.nip.io" ||
+        window.location.hostname === "host.docker.internal";
+      if (!isLocalhost) {
+        this.backToDashboard();
+        return;
+      }
+
+      if (sessionStorage.getItem("omnitool_admin_authenticated") !== "true") {
+        this.activeTool = "admin-settings";
+        this.syncSidebarUI();
 
       const titleEl = document.getElementById("header-view-title");
       if (titleEl) {
         titleEl.innerText = "Developer Tools / Settings & Ad Control Panel";
+        titleEl.style.display = "block";
       }
 
       const toolbarHtml = `
@@ -2123,6 +2066,7 @@ const app = {
       });
       return;
     }
+  }
 
     try {
       const isLocalhost = window.location.hostname === "localhost" ||
@@ -2181,10 +2125,27 @@ const app = {
       const toolMetadata = this.tools.find(t => t.id === toolId);
       if (titleEl && toolMetadata) {
         titleEl.innerText = `${toolMetadata.subLabel} / ${toolMetadata.name}`;
+        titleEl.style.display = "block";
       }
 
       // Initialize tool module
       await toolInstance.init(viewport, this);
+
+      // Handle pending auto-paste values
+      if (this.pendingPaste) {
+        const p = this.pendingPaste;
+        if (p.toolId === toolId || this.toolRedirects[p.toolId]?.suiteId === toolId || (p.toolId === "formatter-suite" && toolId === "formatter-suite")) {
+          const input = viewport.querySelector(p.inputSelector);
+          if (input) {
+            input.value = p.value;
+            input.dispatchEvent(new Event("input"));
+            if (p.btnSelector) {
+              viewport.querySelector(p.btnSelector)?.click();
+            }
+          }
+        }
+        this.pendingPaste = null;
+      }
     } catch (err) {
       console.error(`Error loading tool ID: ${toolId}`, err);
       this.showToast("Failed to load tool module!", "error");
@@ -2220,6 +2181,7 @@ const app = {
 
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) {
+      titleEl.style.display = "none";
       if (this.activeCategory === "all") {
         titleEl.innerText = "Dashboard";
       } else if (this.activeCategory === "fav") {

@@ -112,6 +112,9 @@ export default {
                 </label>
               </div>
             </div>
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+              <button class="tool-btn secondary" id="ad-settings-reset" style="font-size: 12px; padding: 6px 12px; height: auto;">Reset Ads to Default</button>
+            </div>
           </div>
 
           <!-- TAB 2: Theme & Aesthetics Content -->

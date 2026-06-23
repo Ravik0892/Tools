@@ -1,0 +1,62 @@
+[
+  {
+    "id": "USR-84729",
+    "name": "Alex Mercer",
+    "email": "alex.mercer@cybernet.io",
+    "role": "Systems Architect",
+    "status": "active",
+    "loginCount": 142,
+    "lastAccess": "2026-06-22T08:45:12Z",
+    "profile": {
+      "department": "Infrastructure",
+      "clearance": "level-3",
+      "bio": "Specialist in client-side PWAs, client-side cryptographic sandboxing, and performance optimization."
+    },
+    "tags": ["admin", "devops", "security"]
+  },
+  {
+    "id": "USR-10943",
+    "name": "Elena Rostova",
+    "email": "elena.r@cybernet.io",
+    "role": "Lead Security Researcher",
+    "status": "active",
+    "loginCount": 89,
+    "lastAccess": "2026-06-23T11:20:00Z",
+    "profile": {
+      "department": "SecOps",
+      "clearance": "level-4",
+      "bio": "Researching post-quantum client-side crypto schemes and browser security boundaries."
+    },
+    "tags": ["security", "audit", "crypto"]
+  },
+  {
+    "id": "USR-30582",
+    "name": "Kenji Sato",
+    "email": "sato.k@cybernet.io",
+    "role": "Senior UI Designer",
+    "status": "idle",
+    "loginCount": 204,
+    "lastAccess": "2026-06-20T17:34:55Z",
+    "profile": {
+      "department": "Creative Studio",
+      "clearance": "level-2",
+      "bio": "Designing premium dark-neon interfaces, micro-animations, and CSS studio design tokens."
+    },
+    "tags": ["design", "css", "frontend"]
+  },
+  {
+    "id": "USR-40192",
+    "name": "Sarah Connor",
+    "email": "connor.s@cybernet.io",
+    "role": "Operations Manager",
+    "status": "offline",
+    "loginCount": 57,
+    "lastAccess": "2026-06-15T09:12:44Z",
+    "profile": {
+      "department": "Logistics",
+      "clearance": "level-2",
+      "bio": "Coordinating physical security measures and network infrastructure operations."
+    },
+    "tags": ["ops", "admin"]
+  }
+]

@@ -1,0 +1,5 @@
+id,name,email,role,status,loginCount,lastAccess,department,clearance
+USR-84729,Alex Mercer,alex.mercer@cybernet.io,Systems Architect,active,142,2026-06-22T08:45:12Z,Infrastructure,level-3
+USR-10943,Elena Rostova,elena.r@cybernet.io,Lead Security Researcher,active,89,2026-06-23T11:20:00Z,SecOps,level-4
+USR-30582,Kenji Sato,sato.k@cybernet.io,Senior UI Designer,idle,204,2026-06-20T17:34:55Z,Creative Studio,level-2
+USR-40192,Sarah Connor,connor.s@cybernet.io,Operations Manager,offline,57,2026-06-15T09:12:44Z,Logistics,level-2

@@ -1,5 +1,5 @@
 // Service Worker for OmniTool Hub PWA
-const CACHE_NAME = "omnitool-v26";
+const CACHE_NAME = "omnitool-v29";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
@@ -8,38 +8,30 @@ const ASSETS_TO_CACHE = [
   "manifest.json",
   "tools/utils.js",
   "tools/pipeline-builder.js",
-  "tools/json-formatter.js",
-  "tools/base64.js",
+  "tools/pdf-searcher.js",
   "tools/jwt-decoder.js",
-  "tools/hash-generator.js",
-  "tools/url-encoder.js",
-  "tools/uuid-generator.js",
-  "tools/text-converter.js",
   "tools/markdown-preview.js",
   "tools/text-diff.js",
   "tools/regex-tester.js",
-  "tools/gradient-generator.js",
-  "tools/color-palette.js",
-  "tools/password-generator.js",
-  "tools/epoch-converter.js",
   "tools/unit-converter.js",
   "tools/graphics-studio.js",
   "tools/calculator.js",
-  "tools/glassmorphism-generator.js",
   "tools/image-converter.js",
   "tools/qr-generator.js",
   "tools/seo-previewer.js",
   "tools/svg-animator.js",
   "tools/admin-settings.js",
-  "tools/aes-crypto.js",
-  "tools/json-yaml-csv.js",
-  "tools/sql-beautifier.js",
   "tools/url-parser.js",
   "tools/text-analyzer.js",
-  "tools/color-shades.js",
-  "tools/rsa-generator.js",
-  "tools/date-calculator.js"
+  "tools/security-suite.js",
+  "tools/crypto-suite.js",
+  "tools/text-encoder-suite.js",
+  "tools/formatter-suite.js",
+  "tools/css-studio.js",
+  "tools/color-lab.js",
+  "tools/datetime-suite.js"
 ];
+
 
 // Install Event
 self.addEventListener("install", (e) => {

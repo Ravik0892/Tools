@@ -170,8 +170,6 @@ body {
   -webkit-backdrop-filter: var(--glass-blur);
   border-right: 1px solid var(--border-color);
   display: flex;
-  flex-direction: flex-col;
-  display: flex;
   flex-direction: column;
   z-index: 10;
   transition: width var(--transition-normal), background-color var(--transition-normal);
@@ -195,7 +193,18 @@ body {
   letter-spacing: -0.5px;
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.header-logo-clickable {
+  cursor: pointer;
+  user-select: none;
+  transition: filter var(--transition-fast);
+}
+
+.header-logo-clickable:hover {
+  filter: brightness(1.2);
 }
 
 .logo svg {
@@ -401,24 +410,10 @@ body {
   background-color: rgba(244, 246, 249, 0.4);
 }
 
-.header-title-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-title-bar h2 {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.theme-badge {
-  font-size: 11px;
-  background-color: rgba(var(--accent-purple-rgb), 0.15);
-  color: var(--accent-purple);
-  padding: 3px 8px;
-  border-radius: 20px;
-  font-weight: 600;
+#header-view-title,
+.theme-badge,
+.clock-widget {
+  display: none !important;
 }
 
 .header-controls {
@@ -504,6 +499,7 @@ body {
 .dashboard-hero h1 span {
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -512,7 +508,7 @@ body {
   font-size: 15px;
   line-height: 1.6;
   max-width: 600px;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .tools-grid {
@@ -1930,6 +1926,10 @@ body {
   opacity: 0.85;
 }
 
+.dashboard-sub-section .tools-grid {
+  justify-content: start;
+}
+
 /* CSS Gradient Builder Presets */
 .grad-preset-card {
   height: 38px;
@@ -2919,6 +2919,7 @@ body {
 .category-page-header.cat-grad-dev .category-header-title {
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -2929,6 +2930,7 @@ body {
 .category-page-header.cat-grad-text .category-header-title {
   background: linear-gradient(135deg, var(--accent-rose), var(--accent-purple));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -2939,6 +2941,7 @@ body {
 .category-page-header.cat-grad-design .category-header-title {
   background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -2949,6 +2952,7 @@ body {
 .category-page-header.cat-grad-math .category-header-title {
   background: linear-gradient(135deg, var(--accent-orange), var(--accent-rose));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -3850,6 +3854,7 @@ body {
   letter-spacing: -0.5px;
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 30px rgba(0, 242, 254, 0.1);
 }
@@ -4421,6 +4426,7 @@ body {
   letter-spacing: -0.5px;
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 6px;
 }
@@ -4707,4 +4713,9 @@ body {
   .legal-title {
     font-size: 24px;
   }
+}
+
+/* Global utility to hide elements, overriding inline display settings */
+.hidden {
+  display: none !important;
 }
