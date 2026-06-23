@@ -149,7 +149,7 @@ export default {
       jsonOutput.innerText = "";
       jsonAlert.style.display = "none";
     });
-    
+
     const loadSampleData = () => {
       jsonInput.value = JSON.stringify({
         appName: "OmniTool Hub",

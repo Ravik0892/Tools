@@ -333,10 +333,10 @@ export default {
       const bg = e.target.value;
       // Clear previous classes
       showcase.className = "";
-      
+
       // Remove or show deco blobs
       const blobs = showcase.querySelectorAll(".glass-bg-deco-blob");
-      
+
       if (bg === "cyber-mesh") {
         showcase.className = "glass-bg-mesh";
         blobs.forEach(b => b.style.display = "block");

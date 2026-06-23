@@ -168,12 +168,12 @@ export default {
     const cPreviewTxt = container.querySelector("#contrast-preview-text");
     const cPreviewTxtLg = container.querySelector("#contrast-preview-text-large");
     const cRatio = container.querySelector("#contrast-ratio-value");
-    
+
     const normalAA = container.querySelector("#wcag-normal-aa");
     const normalAAA = container.querySelector("#wcag-normal-aaa");
     const largeAA = container.querySelector("#wcag-large-aa");
     const largeAAA = container.querySelector("#wcag-large-aaa");
-    
+
     const paletteTypeSelect = container.querySelector("#palette-type");
 
     let currentColors = [];
@@ -389,7 +389,7 @@ export default {
           } else {
             const isComplement = i >= Math.ceil(count / 2);
             const dispersion = -10 + Math.floor(Math.random() * 21);
-            const hue = ( (isComplement ? compHue : seedHue) + dispersion + 360 ) % 360;
+            const hue = ((isComplement ? compHue : seedHue) + dispersion + 360) % 360;
             const sat = i === 0 ? 85 : (i === 1 ? 60 : 70 + (i % 2) * 10);
             const light = i === 0 ? textL : (i === 1 ? bgL : 45 + (i % 3) * 8);
             const hex = hslToHex(`hsl(${hue}, ${sat}%, ${light}%)`).toUpperCase();
@@ -494,7 +494,7 @@ export default {
         const countToAdd = targetSize - currentColors.length;
         const harmonyType = paletteTypeSelect ? paletteTypeSelect.value : "analogous";
         const seedHue = Math.floor(Math.random() * 360);
-        
+
         for (let i = 0; i < countToAdd; i++) {
           let hex;
           if (harmonyType === "pastel") {
@@ -672,7 +672,7 @@ export default {
         // Right side: delete button
         const actions = document.createElement("div");
         actions.className = "palette-preset-actions";
-        
+
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "palette-preset-delete-btn";
         deleteBtn.innerHTML = "✕";
@@ -697,7 +697,7 @@ export default {
 
     const loadSavedPalette = (palette) => {
       currentColors = palette.colors.map(hex => ({ hex, locked: false }));
-      
+
       const slider = container.querySelector("#palette-count");
       if (slider) {
         slider.value = currentColors.length;

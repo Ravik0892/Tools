@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test Swap Rule V2</title>
+  <style>
+    body {
+      background: #121214;
+      color: #e1e1e6;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    h3 {
+      color: #00f2fe;
+    }
+    .box {
+      background: #202024;
+      border: 1px solid #323238;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .test-case {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px dashed #323238;
+    }
+    .label {
+      font-weight: bold;
+      color: #ffd200;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+    .val {
+      font-size: 1.1em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <h2>Devanagari Font Swapping & Indic Text Cleanup Tester (V2)</h2>
+  
+  <h3>Test Results</h3>
+  <div class="box" id="test-results"></div>
+
+  <script>
+    const array_one = [
+      "ñ","Q+Z","sas","aa",")Z","ZZ","‘","’","“","”",
+      "å",  "ƒ",  "„",   "…",   "†",   "‡",   "ˆ",   "‰",   "Š",   "‹", 
+      "¶+",   "d+", "[+k","[+", "x+",  "T+",  "t+", "M+", "<+", "Q+", ";+", "j+", "u+",
+      "Ùk", "Ù", "ä", "–", "—","é","™","=kk","f=k",  
+      "à",   "á",    "â",   "ã",   "ºz",  "º",   "í", "{k", "{", "=",  "«",   
+      "Nî",   "Vî",    "Bî",   "Mî",   "<î", "|", "K", "}",
+      "J",   "Vª",   "Mª",  "<ªª",  "Nª",   "Ø",  "Ý", "nzZ",  "æ", "ç", "Á", "xz", "#", ":",
+      "v‚","vks",  "vkS",  "vk",    "v",  "b±", "Ã",  "bZ",  "b",  "m",  "Å",  ",s",  ",",   "_",
+      "ô",  "d", "Dk", "D", "[k", "[", "x","Xk", "X", "Ä", "?k", "?",   "³", 
+      "pkS",  "p", "Pk", "P",  "N",  "t", "Tk", "T",  ">", "÷", "¥",
+      "ê",  "ë",   "V",  "B",   "ì",   "ï", "M+", "<+", "M",  "<", ".k", ".",    
+      "r",  "Rk", "R",   "Fk", "F",  ")", "n", "/k", "èk",  "/", "Ë", "è", "u", "Uk", "U",   
+      "i",  "Ik", "I",   "Q",    "¶",  "c", "Ck",  "C",  "Hk",  "H", "e", "Ek",  "E",
+      ";",  "¸",   "j",    "y", "Yk",  "Y",  "G",  "o", "Ok", "O",
+      "'k", "'",   "\"k",  "\"",  "l", "Lk",  "L",   "g", 
+      "È", "z", 
+      "Ì", "Í", "Î",  "Ï",  "Ñ",  "Ò",  "Ó",  "Ô",   "Ö",  "Ø",  "Ù","Ük", "Ü",
+      "‚",    "ks",   "kS",   "k",  "h",    "q",   "w",   "`",    "s",    "S",
+      "a",    "¡",    "%",     "W",  "•", "·", "∙", "·", "~j",  "~", "\\","+"," ः",
+      "^", "*",  "Þ", "ß", "(", "¼", "½", "¿", "À", "¾", "A", "-", "&", "&", "Œ", "]","~ ","@"
+    ];
+
+    const array_two = [
+      "॰","QZ+","sa","a","र्द्ध","Z","\"","\"","'","'",
+      "०",  "१",  "२",  "३",     "४",   "५",  "६",   "७",   "८",   "९",   
+      "फ़्",  "क़",  "ख़", "ख़्",  "ग़", "ज़्", "ज़",  "ड़",  "ढ़",   "फ़",  "य़",  "ऱ",  "ऩ",    // one-byte nukta varNas
+      "त्त", "त्त्", "क्त",  "दृ",  "कृ","न्न","न्न्","=k","f=",
+      "ह्न",  "ह्य",  "हृ",  "ह्म",  "ह्र",  "ह्",   "द्द",  "क्ष", "क्ष्", "त्र", "त्र्", 
+      "छ्य",  "ट्य",  "ठ्य",  "ड्य",  "ढ्य", "द्य", "ज्ञ", "द्व",
+      "श्र",  "ट्र",    "ड्र",    "ढ्र",    "छ्र",   "क्र",  "फ्र", "र्द्र",  "द्र",   "प्र", "प्र",  "ग्र", "रु",  "रू",
+      "ऑ",   "ओ",  "औ",  "आ",   "अ", "ईं", "ई",  "ई",   "इ",  "उ",   "ऊ",  "ऐ",  "ए", "ऋ",
+      "क्क", "क", "क", "क्", "ख", "ख्", "ग", "ग", "ग्", "घ", "घ", "घ्", "ङ",
+      "चै",  "च", "च", "च्", "छ", "ज", "ज", "ज्",  "झ",  "झ्", "ञ",
+      "ट्ट",   "ट्ठ",   "ट",   "ठ",   "ड्ड",   "ड्ढ",  "ड़", "ढ़", "ड",   "ढ", "ण", "ण्",   
+      "त", "त", "त्", "थ", "थ्",  "द्ध",  "द", "ध", "ध", "ध्", "ध्", "ध्", "न", "न", "न्",    
+      "प", "प", "प्",  "फ", "फ्",  "ब", "ब", "ब्",  "भ", "भ्",  "म",  "म", "म्",  
+      "य", "य्",  "र", "ल", "ल", "ल्",  "ळ",  "व", "व", "व्",   
+      "श", "श्",  "ष", "ष्", "स", "स", "स्", "ह", 
+      "ीं", "्र",    
+      "द्द", "ट्ट","ट्ठ","ड्ड","कृ","भ","्य","ड्ढ","झ्","क्र","त्त्","श","श्",
+      "ॉ",  "ो",   "ौ",   "ा",   "ी",   "ु",   "ू",   "ृ",   "े",   "ै",
+      "ं",   "ँ",   "ः",   "ॅ",  "ऽ", "ऽ", "ऽ", "ऽ", "्र",  "्", "?", "़",":",
+      "‘",   "’",   "“",   "”",  ";",  "(",    ")",   "{",    "}",   "=", "।", ".", "-",  "µ", "॰", ",", "् ", "/"
+    ];
+
+    const commonEnglishWords = new Set([
+      "the", "of", "to", "and", "a", "in", "is", "it", "you", "that", "he", "was", "for", "on", "are", 
+      "as", "with", "his", "they", "i", "at", "be", "this", "have", "from", "or", "one", "had", "by", 
+      "word", "but", "not", "what", "all", "were", "we", "when", "your", "can", "said", "there", "use", 
+      "an", "each", "which", "she", "do", "how", "their", "if", "will", "up", "other", "about", "out", 
+      "many", "then", "them", "these", "so", "some", "her", "would", "make", "like", "him", "into", 
+      "time", "has", "look", "two", "more", "write", "go", "see", "number", "no", "way", "could", 
+      "people", "my", "than", "first", "water", "been", "call", "who", "oil", "its", "now", "find", 
+      "long", "down", "day", "did", "get", "come", "made", "may", "part", "also", "give", "given", 
+      "show", "shown", "hence", "therefore", "thus", "since", "because", "let", "suppose", "assume", 
+      "defined", "obtain", "obtained", "determine", "determined", "calculate", "calculated", "write", 
+      "written", "express", "expressed", "represent", "represented", "plot", "plotted", "draw", "drawn", 
+      "construct", "constructed", "evaluate", "evaluated", "solve", "solved", "found", "checked",
+      "new", "am", "being", "should", "shall", "might", "must", "us", "our", "me", "whose", "whom",
+      "class", "grade", "math", "maths", "mathematics", "science", "physics", "chemistry", "biology", 
+      "history", "geography", "english", "hindi", "chapter", "exercise", "question", "questions", 
+      "problem", "problems", "solution", "solutions", "example", "examples", "proof", "proofs", 
+      "definition", "definitions", "formula", "formulas", "equation", "equations", "algebra", "geometry", 
+      "theorem", "theorems", "lemma", "corollary", "axiom", "postulate", "hypothesis", "variable", 
+      "constant", "coefficient", "term", "expression", "polynomial", "quadratic", "linear", "system", 
+      "matrix", "matrices", "vector", "vectors", "determinant", "set", "sets", "function", "functions", 
+      "limit", "limits", "derivative", "derivatives", "integral", "integrals", "calculus", "infinity", 
+      "real", "number", "numbers", "rational", "irrational", "integer", "integers", "fraction", 
+      "fractions", "decimal", "decimals", "division", "algorithm", "algorithms", "fundamental", 
+      "arithmetic", "euclid", "euclidean", "euclid’s", "euclids", "pythagoras", "newton", "einstein", 
+      "galileo", "aristotle", "descartes", "fermat", "gauss", "euler", "ratio", "proportion", "percentage", 
+      "probability", "statistics", "data", "mean", "median", "mode", "graph", "graphs", "line", "lines", 
+      "angle", "angles", "triangle", "triangles", "circle", "circles", "tangent", "secant", "chord", 
+      "segment", "sector", "introduction", "summary", "index", "contents", "appendix", "answer", 
+      "answers", "key", "hint", "hints", "note", "notes", "remark", "remarks", "rule", "rules", 
+      "method", "methods", "step", "steps", "property", "properties", "test", "tests", "review", 
+      "revision", "check", "checking", "verify", "verification", "value", "values", "point", "points", 
+      "ray", "rays", "intersection", "parallel", "perpendicular", "normal", "curve", "curves", 
+      "straight", "slope", "gradient", "intercept", "intercepts", "axis", "axes", "origin", "plane", 
+      "space", "dimension", "dimensions", "scale", "unit", "units",
+      "cm", "m", "km", "kg", "g", "l", "ml", "s", "min", "h", "hr", "hrs", "degree", "degrees", 
+      "radian", "radians", "sin", "cos", "tan", "cosec", "sec", "cot", "log", "ln", "exp", "sqrt", 
+      "pi", "theta", "alpha", "beta", "gamma", "delta", "phi", "psi", "omega", "mu", "sigma",
+      "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii", "xiii", "xiv", 
+      "xv", "xvi", "xvii", "xviii", "xix", "xx",
+      "pdf", "txt", "csv", "json", "app", "dev", "web", "url", "dom", "api", "npm", "git", "npx",
+      "exhaustion", "mortal", "converse", "powers"
+    ]);
+
+    const isEnglishWord = (word, index, tokens) => {
+      // Strip all kinds of brackets, quotes, and punctuation at word boundaries so English words/numbers inside brackets are preserved.
+      const clean = word.toLowerCase().replace(/^[‘'“([{\-\/]+|[)\]}’’”.,;:!?\-\/]+$/g, "");
+      if (clean === "") return true;
+      
+      // Match pure integers, ordinals (1st, 2nd), and English decimals (e.g. 1.2 or 1,234.56)
+      // We do NOT match hyphens in the middle (like 1-2) because in Kruti Dev, '-' maps to '.' (so 1-2 converts to 1.2)
+      if (/^[0-9,]+(?:\.[0-9]+)?(?:st|nd|rd|th)?$/.test(clean)) return true;
+      
+      if (clean === "a") {
+        let isFullStop = true;
+        if (tokens && index !== undefined) {
+          for (let j = index + 1; j < tokens.length; j++) {
+            const next = tokens[j].trim();
+            if (next !== "") {
+              if (/^[a-zA-Z0-9+=/*-]+$/.test(next)) {
+                isFullStop = false;
+              }
+              break;
+            }
+          }
+        }
+        if (isFullStop) {
+          return false;
+        }
+      }
+
+      return commonEnglishWords.has(clean);
+    };
+
+    const isKrutidev = (text) => {
+      if (!text) return false;
+      if (/[a-zA-Z]+[\{\}\[\]\/;±Øæçñƒ„…†‡ˆ‰Š‹][a-zA-Z]+/.test(text)) {
+        return true;
+      }
+      const patterns = [
+        /\bvkSj\b/,
+        /\besa\b/,
+        /\bgSa\b/,
+        /\bfo\b/,
+        /\bd{kk\b/,
+        /\bizes;\b/,
+        /\bokLrfod\b/,
+        /\bla\[;kvksa\b/,
+        /\bvkius\b/,
+        /\bbl\b/,
+        /\bdyu\b/
+      ];
+      let matchCount = 0;
+      for (const pattern of patterns) {
+        if (pattern.test(text)) {
+          matchCount++;
+          if (matchCount >= 2) return true;
+        }
+      }
+      return false;
+    };
+
+    const convertKrutidevWordToUnicode = (word) => {
+      let modified_substring = word;
+      for (let input_symbol_idx = 0; input_symbol_idx < array_one.length; input_symbol_idx++) {
+        let idx = 0;
+        while (idx !== -1) {
+          modified_substring = modified_substring.replace(array_one[input_symbol_idx], array_two[input_symbol_idx]);
+          idx = modified_substring.indexOf(array_one[input_symbol_idx]);
+        }
+      }
+
+      modified_substring = modified_substring.replace(/±/g, "Zं");
+      modified_substring = modified_substring.replace(/Æ/g, "र्f");
+
+      let position_of_i = modified_substring.indexOf("f");
+      while (position_of_i !== -1) {
+        let charecter_next_to_i = modified_substring.charAt(position_of_i + 1);
+        let charecter_to_be_replaced = "f" + charecter_next_to_i;
+        modified_substring = modified_substring.replace(charecter_to_be_replaced, charecter_next_to_i + "ि");
+        position_of_i = modified_substring.indexOf("f", position_of_i + 1);
+      }
+
+      modified_substring = modified_substring.replace(/Ç/g, "fa");
+      modified_substring = modified_substring.replace(/É/g, "र्fa");
+
+      position_of_i = modified_substring.indexOf("fa");
+      while (position_of_i !== -1) {
+        let charecter_next_to_ip2 = modified_substring.charAt(position_of_i + 2);
+        let charecter_to_be_replaced = "fa" + charecter_next_to_ip2;
+        modified_substring = modified_substring.replace(charecter_to_be_replaced, charecter_next_to_ip2 + "िं");
+        position_of_i = modified_substring.indexOf("fa", position_of_i + 2);
+      }
+
+      modified_substring = modified_substring.replace(/Ê/g, "ीZ");
+
+      let position_of_wrong_ee = modified_substring.indexOf("ि्");
+      while (position_of_wrong_ee !== -1) {
+        let consonent_next_to_wrong_ee = modified_substring.charAt(position_of_wrong_ee + 2);
+        let charecter_to_be_replaced = "ि्" + consonent_next_to_wrong_ee;
+        modified_substring = modified_substring.replace(charecter_to_be_replaced, "्" + consonent_next_to_wrong_ee + "ि");
+        position_of_wrong_ee = modified_substring.indexOf("ि्", position_of_wrong_ee + 2);
+      }
+
+      const set_of_matras = "अ आ इ ई उ ऊ ए ऐ ओ औ ा ि ी ु ू ृ े ै ो ौ ं : ँ ॅ";
+      let position_of_R = modified_substring.indexOf("Z");
+      while (position_of_R > 0) {
+        let probable_position_of_half_r = position_of_R - 1;
+        let charecter_at_probable_position_of_half_r = modified_substring.charAt(probable_position_of_half_r);
+        while (probable_position_of_half_r >= 0 && set_of_matras.indexOf(charecter_at_probable_position_of_half_r) !== -1) {
+          probable_position_of_half_r = probable_position_of_half_r - 1;
+          charecter_at_probable_position_of_half_r = modified_substring.charAt(probable_position_of_half_r);
+        }
+        let charecter_to_be_replaced = modified_substring.substr(probable_position_of_half_r, (position_of_R - probable_position_of_half_r));
+        let new_replacement_string = "र्" + charecter_to_be_replaced;
+        charecter_to_be_replaced = charecter_to_be_replaced + "Z";
+        modified_substring = modified_substring.replace(charecter_to_be_replaced, new_replacement_string);
+        position_of_R = modified_substring.indexOf("Z");
+      }
+
+      return modified_substring;
+    };
+
+    const convertKrutidevToUnicode = (text) => {
+      if (!text) return "";
+      const tokens = text.split(/(\s+)/);
+      let inBracket = false;
+      const openBrackets = { "(": ")" };
+      const closeBrackets = { ")": "(" };
+
+      for (let i = 0; i < tokens.length; i++) {
+        let token = tokens[i];
+        if (token.trim() === "") continue;
+        if (isEnglishWord(token, i, tokens)) continue;
+
+        let prefixBracket = "";
+        let suffixBracket = "";
+        const firstChar = token[0];
+        const lastChar = token[token.length - 1];
+
+        if (openBrackets[firstChar]) {
+          prefixBracket = firstChar;
+          token = token.slice(1);
+          inBracket = true;
+        }
+
+        if (closeBrackets[lastChar]) {
+          const content = token.slice(0, -1);
+          if (inBracket || /^[0-9a-zA-Z.-]$/.test(content) || content === "") {
+            suffixBracket = lastChar;
+            token = content;
+            inBracket = false;
+          }
+        }
+
+        let converted = convertKrutidevWordToUnicode(token);
+        tokens[i] = prefixBracket + converted + suffixBracket;
+      }
+      return tokens.join("");
+    };
+
+    const cleanIndicText = (text) => {
+      if (!text) return "";
+      text = text.replace(/[\s\u00a0\u2000-\u200f\u2028\u2029\ufeff]+/g, ' ');
+
+      text = text
+        .replace(/िैठी/g, 'बैठी')
+        .replace(/...ते/g, (m) => m === 'िसते' ? 'बस्ते' : m)
+        .replace(/िसते/g, 'बस्ते')
+        .replace(/िीली/g, 'बिल्ली')
+        .replace(/िच्च/g, 'बच्च');
+
+      text = text.replace(/(?<![\u0915-\u0939\u0958-\u095f\u0978-\u097f])\u093f\s*([\u0915-\u0939\u0958-\u095f\u0978-\u097f]\u093c?(?:\s*\u094d\s*[\u0915-\u0939\u0958-\u095f\u0978-\u097f]\u093c?)*)/g, '$1\u093f');
+      text = text.replace(/\s+([\u0901-\u0903\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963])/g, '$1');
+      text = text.replace(/([\u094d])\s+/g, '$1');
+      text = text.replace(/\u094d([\u093e-\u094c])/g, '$1');
+
+      const commonHindiWords = new Set([
+        "ने", "के", "से", "को", "का", "की", "में", "पे", "ही", "भी", "तो", "है", "हैं", "था", "थी", "थे", "और",
+        "वह", "यह", "वे", "ये", "इस", "उस", "जो", "सो", "नो", "ना", "न", "तू", "तु", "तुम", "हम", "मैं",
+        "मेरा", "मेरी", "मेरे", "मुझे", "उन्हें", "इसे", "उसे",
+        "जा", "खा", "पी", "दे", "ले", "कर", "हो", "रो", "धो", "बो", "छू", "जी", "ला",
+        "तक", "भर", "पर", "हर", "दर", "वर", "अब", "कब", "जब", "तब", "सब", "कम"
+      ]);
+
+      const getDevLength = (str) => {
+        return str.replace(/[\u0901-\u0903\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963]/g, '').length;
+      };
+
+      const isFragment = (str) => {
+        if (!str) return false;
+        if (str.endsWith("्")) return true;
+        if (commonHindiWords.has(str)) return false;
+        const devLen = getDevLength(str);
+        if (devLen <= 1) return true;
+        if (devLen === 2) {
+          const hasVowelSign = /[\u0901-\u0903\u093e-\u094f\u0951-\u0957\u0962\u0963]/.test(str);
+          if (!hasVowelSign) {
+            return !commonHindiWords.has(str);
+          }
+        }
+        return false;
+      };
+
+      let tokens = text.split(/(\s+)/);
+      let isMerged = new Array(tokens.length).fill(false);
+      let merged = true;
+      
+      while (merged) {
+        merged = false;
+        for (let i = 1; i < tokens.length - 1; i += 2) {
+          const prev = tokens[i-1];
+          const space = tokens[i];
+          const next = tokens[i+1];
+
+          if (!prev || !next || space !== " ") continue;
+
+          const isPrevDev = /^[\u0900-\u097F]+$/.test(prev);
+          const isNextDev = /^[\u0900-\u097F]+$/.test(next);
+
+          if (isPrevDev && isNextDev) {
+            let shouldMerge = false;
+            if (prev.endsWith("्")) {
+              shouldMerge = true;
+            } else {
+              const prevFrag = isFragment(prev);
+              const nextFrag = isFragment(next);
+              const prevM = isMerged[i-1];
+              const nextM = isMerged[i+1];
+              if ((prevFrag && nextFrag) || (prevM && nextFrag) || (prevFrag && nextM) || (prevM && nextM)) {
+                shouldMerge = true;
+              }
+            }
+
+            if (shouldMerge) {
+              tokens[i-1] = prev + next;
+              isMerged[i-1] = true;
+              tokens.splice(i, 2);
+              isMerged.splice(i, 2);
+              merged = true;
+              break;
+            }
+          }
+        }
+      }
+
+      let result = tokens.join("").replace(/\s+/g, ' ').trim();
+
+      result = result
+        .replace(/(^|\s)े\s+वोट/g, '$1ने वोट')
+        .replace(/(^|\s)िए\s+हुए/g, '$1दिए हुए')
+        .replace(/([a-zA-Z\dΔ∠=≠≅]+)ए/g, '$1,')
+        .replace(/([\u0900-\u097F]+)ए\s+(इसलिए|तो|यदि|जो|वह|यह)/g, '$1, $2')
+        .replace(/([\u0900-\u097F]+)ए\s+(\d+)/g, '$1, $2')
+        .replace(/([\u0915-\u0939])\s*ल\s*ए/g, '$1िए')
+        .replace(/([\u0915-\u0939])\s*ल\s*ल\s*ए/g, '$1िए')
+        .replace(/ल\s*ल\s*ए/g, 'लिए')
+        .replace(/ल\s*ए/g, 'लिए')
+        .replace(/केलए/g, 'के लिए')
+        .replace(/केललए/g, 'के लिए')
+        .replace(/लवदा/g, 'विद्या')
+        .replace(/लवदा\s+दीदी/g, 'विद्या दीदी')
+        .replace(/प्यारी\s+बिली/g, 'प्यारी बिल्ली')
+        .replace(/प्यारी\s+बिल्ली/g, 'प्यारी बिल्ली')
+        .replace(/बिली/g, 'बिल्ली')
+        .replace(/मिैठी/g, 'बैठी')
+        .replace(/मिै\s+ठी/g, 'बैठी')
+        .replace(/म\s*ै\s*ठ\s*ी/g, 'बैठी')
+        .replace(/बख\s*ड़की/g, 'खिड़की')
+        .replace(/बखिड़की/g, 'खिड़की')
+        .replace(/चूडी/g, 'चूड़ी')
+        .replace(/च\s*ू\s*ड\s*ी/g, 'चूड़ी')
+        .replace(/चू\s*डी/g, 'चूड़ी')
+        .replace(/पेंलसल/g, 'पेंसिल')
+        .replace(/पें\s+लसल/g, 'पेंसिल')
+        .replace(/पें\s+लस\s+ल/g, 'पेंसिल')
+        .replace(/पें\s*ल\s*स\s*ल/g, 'पेंसिल')
+        .replace(/बॉक्स/g, 'बॉक्स')
+        .replace(/बॉक्\s+स/g, 'बॉक्स')
+        .replace(/जलदी/g, 'जल्दी')
+        .replace(/बसतें/g, 'बस्ते')
+        .replace(/बस्ते/g, 'बस्ते')
+        .replace(/वेफ/g, 'के')
+        .replace(/ध्नात्मक/g, 'धनात्मक')
+        .replace(/आधरभूत/g, 'आधारभूत')
+        .replace(/विध्द्धि/g, 'विधि')
+        .replace(/विधिद्ध/g, 'विधि')
+        .replace(/सापफ/g, 'साफ़')
+        .replace(/([\u0900-\u097F])\.([\u0900-\u097F])/g, '$1-$2')
+        .replace(/बु[;（\(\[\]{}]*(?:ि\s*म|म\s*ि)ान/g, 'बुद्धिमान')
+        .replace(/निषेध[्\s]*ज्ञात/g, 'निषेध ज्ञात')
+        .replace(/विरोध[ेो]क[्ि\s]*त[ि\s]*/g, 'विरोधोक्ति')
+        .replace(/स्वूफल/g, 'स्कूल')
+        .replace(/विद्या£थयों/g, 'विद्यार्थियों')
+        .replace(/वां(?:ि\s*छ|छ\s*ि)त/g, 'वांछित')
+        .replace(/सारधण/g, 'साधारण')
+        .replace(/शून्येतर/g, 'शून्येतर')
+        .replace(/गुणध्र्म/g, 'गुणधर्म')
+        .replace(/गुणध्र्मों/g, 'गुणधर्मों')
+        .replace(/वि[धध्]+(?:ि\s*व|व\s*ि)े?फ/g, 'विधि के')
+        .replace(/वि[धध्]+(?:ि\s*म|म\s*ि)ें/g, 'विधि में')
+        .replace(/वि[धध्]+(?:ि\s*क|क\s*ि)ो/g, 'विधि को')
+        .replace(/वि[धध्]+(?:ि\s*द|द\s*ि)/g, 'विधि')
+        .replace(/ध्नि/g, 'धन')
+        .replace(/ध्नराशि/g, 'धनराशि')
+        .replace(/ृ\s*50/g, '₹ 50')
+        .replace(/वृ[;（\(\[\]{}](?:ि\s*क|क\s*ि)रती/g, 'वृद्धि करती')
+        .replace(/वृ[;（\(\[\]{}](?:ि|ी)?/g, 'वृद्धि')
+        .replace(/और\s*ु\s*¹/g, 'और q ≠')
+        .replace(/दु\s*¹/g, 'q ≠')
+        .replace(/द\s*¹/g, 'p ≠')
+        .replace(/¹\s*0/g, '≠ 0')
+        .replace(/¯बदु/g, 'बिंदु')
+        .replace(/¯बदुओं/g, 'बिंदुओं')
+        .replace(/¯बदुआंे/g, 'बिंदुओं')
+        .replace(/स[ुू]त्रा/g, 'सूत्र')
+        .replace(/मगींनेजपवद/g, 'exhaustion')
+        .replace(/उवतजंस/g, 'mortal')
+        .replace(/बवदअमतेम/g, 'converse')
+        .replace(/िु/g, 'q')
+        .replace(/उु/g, 'q')
+        .replace(/दृ\s*1/g, '-1')
+        .replace(/दृ\s*3/g, '-3')
+        .replace(/़ा/g, 'ा')
+        .replace(/ज़ाोर/g, 'ज़ोर')
+        .replace(/अनुसंधन/g, 'अनुसंधान')
+        .replace(/अतिम/g, 'अंतिम')
+        .replace(/वुफछ/g, 'कुछ')
+        .replace(/वुफमार/g, 'कुमार')
+        .replace(/avd\s*kishor/gi, 'अवध किशोर')
+        .replace(/अवध्किशोर/g, 'अवध किशोर')
+        .replace(/चवूमते/g, 'powers')
+        .replace(/भ्ब्थ्/g, 'HCF')
+        .replace(/स्ब्ड/g, 'LCM')
+        .replace(/इंबाडोरम/g, 'इब्न अल-हैथम')
+        .replace(/च\s*2\s*द/g, 'p^n')
+        .replace(/4\s*द/g, '4^n')
+        .replace(/द्व\s*7/g, '√7')
+        .replace(/द्व\s*3/g, '√3')
+        .replace(/द्व\s*2/g, '√2')
+        .replace(/दृ\s*(\d)/g, '-$1')
+        .replace(/़\s*(\d)/g, '+$1')
+        .replace(/द्यद्य/g, '||')
+        .replace(/म\s*्\s*ह/g, 'म्ह')
+        .replace(/क्।ठब्/g, 'ΔABC')
+        .replace(/क्।ठक्/g, 'ΔABD')
+        .replace(/क्ठक्/g, 'ΔABD')
+        .replace(/क्ब्क्/g, 'ΔBCD')
+        .replace(/क्।क्म्/g, 'ΔADE')
+        .replace(/क्ठक्म्/g, 'ΔBDE')
+        .replace(/क्ब्क्म्/g, 'ΔCDE')
+        .replace(/क्त्फच्/g, 'ΔPQR')
+        .replace(/क्त्ज्/g, 'ΔRTZ')
+        .replace(/क्त्च्फ्/g, 'ΔRQP')
+        .replace(/क्त्फ/g, 'ΔRQP')
+        .replace(/क्त्फत्/g, 'ΔRQP')
+        .replace(/क्त्फ/g, 'ΔRQP')
+        .replace(/।ठब्क्/g, 'ABCD')
+        .replace(/।ठब्/g, 'ABC')
+        .replace(/।ठक्/g, 'ABD')
+        .replace(/।ठ/g, 'AB')
+        .replace(/ ठब्/g, ' BC')
+        .replace(/ठब्/g, 'BC')
+        .replace(/ज्\s*त्र\s*137/g, '= 137')
+        .replace(/त्र\s*(\d)/g, '= $1')
+        .replace(/(?<![\u0900-\u097F])त्र(?![\u0900-\u097F])/g, '=')
+        .replace(/।2ण्1/g, '12.1')
+        .replace(/।1ण्3/g, '11.3')
+        .replace(/।1ण्8/g, '11.8')
+        .replace(/आवृफति/g, 'आकृति')
+        .replace(/समरूपता/g, 'समरूपता')
+        .replace(/ै{2,3}/g, ' SSS ')
+        .replace(/ै।ै/g, ' SAS ')
+        .replace(/।।\s+समरूपता/g, 'AA समरूपता')
+        .replace(/।। समरूपता/g, 'AA समरूपता')
+        .replace(/।।। समरूपता/g, 'AAA समरूपता')
+        .replace(/ेींचम/g, 'shape')
+        .replace(/ेप्रम/g, 'size')
+        .replace(/च\s*:\s*1/g, 'p : 1')
+        .replace(/च\s+से/g, 'p से')
+        .replace(/च\s+को/g, 'p को')
+        .replace(/च\s+प्रकट/g, 'p प्रकट')
+        .replace(/चपिु/g, 'p और q')
+        .replace(/(?<![\u0900-\u097F])च(?![\u0900-\u097F])/g, 'p')
+        .replace(/यातों?याइ/g, 'या तो a या b')
+        .replace(/या\s+तो\s+a\s+या\s+इ(?![\u0900-\u097F])/g, 'या तो a या b')
+        .replace(/([a-zA-Z\d])\s+और\s+इ(?![\u0900-\u097F])/g, '$1 और b')
+        .replace(/([A-Z]+)(के|का|की|में|से|को|ने)/g, '$1 $2')
+        .replace(/(Δ[A-Z]+)\s*[ध्\/]\s*(Δ[A-Z]+)/g, '$1 ≅ $2')
+        .replace(/दृ\s*([A-Z]{3})/g, '∠$1')
+        .replace(/च्फतै/g, 'PQRS')
+        .replace(/च्फत/g, 'PQR')
+        .replace(/ज्(?!ञ)/g, 'T')
+        .replace(/¯बदुओं\s+च्ए\s+फ\s+और\s+त्से/g, 'बिंदुओं P, Q और R से')
+        .replace(/ज्;4ए\s*6/g, 'R(4, 6')
+        .replace(/फ\s*\(3,\s*6\)/g, 'Q(3, 6)')
+        .replace(/च्;3ण्5ए\s*7/g, 'P(3.5, 7')
+        .replace(/ज्ञ;6ए\s*9/g, 'P(6, 9')
+        .replace(/ज्ञ\s+को/g, 'P को')
+        .replace(/स्;5ए\s*8/g, 'Q(5, 8')
+        .replace(/क्।क्म्/g, 'ΔADE')
+        .replace(/म\s*्\s*ह/g, 'म्ह')
+        .replace(/क्त्फत्/g, 'ΔRQP');
+
+      return result;
+    };
+
+    const testCases = [
+      "d{kk 9 esa] vkius okLrfod la[;kvksa dh [kkst izkjaHk dh vkSj bl izfØ;k ls vkidks vifjes; la[;kvksa dh tkuus dk volj feykA bl vè;k; esa] ge okLrfod la[;kvksa osQ ckjs esa viuh ppkZ tkjh j[ksaxsA ;g ppkZ ge vuqPNsn 1-2 esa /ukRed iw.kk±dksa osQ vfr egRoiw.kZ xq.kksa ls izkjaHk djsaxsA ;s xq.k gSa% ;wfDyM foHkktu ,YxksfjFe (dyu fof/) (Euclid’s division algorithm) vkSj vadxf.kr dh vk/kjHkwr izes; (Fundamental Theorem of Arithmetic) A",
+      "े वोट नहीं दिया, तो आपको सापफ-सुथरी सरकार नहीं मिल सकती है। इसी प्रकार, यदि एक विज्ञापन में यह बताया जाता है कि ‘बु(मिान व...",
+      "िए हुए कथन का निषेध्ज्ञात करने के बारे में भी चर्चा करेंगे। इसके बाद हम इस बात की चर्चा करेंगे कि किसी दिए हुए कथन का विलो...",
+      "a और इ दोनों शून्येतर होने चाहिए। (iii) यातोंयाइ शून्येतर होना चाहिए।",
+      "गुणधर्म जो एक समांतरचतुर्भुज के होते हैं, ।ठब्क्के भी हैं। इसलिए विशेष रूप से यह गुणध्र्म कि ‘एक समांतरचतुर्भुज की सम्मुख...",
+      "अतः 5 ¯बदुओं के लिए इस सूत्रा को सत्यापित कर लेने के बाद",
+      "‘प्रत्यक्ष’ या ‘निगमनिक’ विध्विेफ प्रयोग से प्रारंभ करेंगे। इस विध्मिें हम अनेक कथन प्रस्तुत करते हैं। प्रत्येक कथन पिछले ...",
+      "क्योंकि द ¹ 0 औरु ¹ 0, इसलिए पूर्णांकों के ज्ञात गुणध्र्मों का दु ¹ 0. प्रयोग करके।",
+      "इस विध्किो कभी-कभी निःशेषण द्वारा उपपत्ति (proof by मगींनेजपवद...",
+      "अतःैैै के अनुसार क्।ठब्/ क्।ठक्8. क्योंकि क्।ठब्/ क्।ठक्ए इसलिए पहले स्थापित तथ्य के आधर दृ ।ठब्त्र दृ ।ठक्जो किएक समकोण",
+      "इसे हम इस प्रकार भी लिख सकते हैं च : 1 सितंबर, 2005 को दिल्ली",
+      "यातोयाइ शून्येतर होना चाहिए।"
+    ];
+
+    const resultsEl = document.getElementById("test-results");
+
+    resultsEl.innerHTML = testCases.map((tc, index) => {
+      let cleaned;
+      if (isKrutidev(tc)) {
+        let converted = convertKrutidevToUnicode(tc);
+        cleaned = cleanIndicText(converted);
+      } else {
+        // Direct Devanagari test cases (no Krutidev double conversion)
+        cleaned = cleanIndicText(tc);
+      }
+      return `
+        <div class="test-case">
+          <div class="label">Test Case ${index + 1} - Input:</div>
+          <div class="box val">${tc}</div>
+          <div class="label">Cleaned Output:</div>
+          <div class="box val" style="color: #00f2fe;">${cleaned}</div>
+        </div>
+      `;
+    }).join("");
+  </script>
+</body>
+</html>

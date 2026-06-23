@@ -134,7 +134,7 @@ SHA-512: 5567554904b6a987d3127814b74542878939c8c116c4f9f4a568a1f81df681534436821
 
       const encoder = new TextEncoder();
       const data = encoder.encode(val);
-      
+
       const hasCryptoSubtle = window.crypto && window.crypto.subtle;
       if (hasCryptoSubtle) {
         try {

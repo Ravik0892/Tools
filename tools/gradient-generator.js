@@ -229,16 +229,16 @@ Stops: #fb5607 0%, #ff007f 100%</div>
       const harmonySelect = container.querySelector("#grad-harmony");
       const stopsSelect = container.querySelector("#grad-harmony-stops");
       if (!harmonySelect || !stopsSelect) return;
-      
+
       const harmony = harmonySelect.value;
       if (harmony === "none") {
         return;
       }
-      
+
       const stopCount = parseInt(stopsSelect.value, 10);
       const seedHue = Math.floor(Math.random() * 360);
       const newStops = [];
-      
+
       if (harmony === "analogous") {
         const step = 15 + Math.floor(Math.random() * 11); // 15-25 deg
         const direction = Math.random() < 0.5 ? -1 : 1;
@@ -303,7 +303,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
           newStops.push({ color, position });
         }
       }
-      
+
       gradientStops = newStops;
       renderGradientStops();
       buildGradient();
@@ -313,13 +313,13 @@ Stops: #fb5607 0%, #ff007f 100%</div>
     const randomizeGradient = () => {
       const harmonySelect = container.querySelector("#grad-harmony");
       if (!harmonySelect) return;
-      
+
       const options = ["analogous", "monochromatic", "complementary", "triadic", "pastel", "cyber"];
       const randomHarmony = options[Math.floor(Math.random() * options.length)];
       harmonySelect.value = randomHarmony;
-      
+
       generateHarmoniousGradient();
-      
+
       if (gradType) {
         const types = ["linear", "radial", "conic"];
         gradType.value = types[Math.floor(Math.random() * types.length)];
@@ -337,7 +337,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
         const positions = ["center", "top", "bottom", "left", "right", "top left", "top right", "bottom left", "bottom right"];
         posEl.value = positions[Math.floor(Math.random() * positions.length)];
       }
-      
+
       updateGradientControlVisibility();
       buildGradient();
       appInstance.showToast("Randomized gradient options!", "info");
@@ -348,7 +348,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
       const angleGroup = container.querySelector("#grad-angle-group");
       const shapeGroup = container.querySelector("#grad-shape-group");
       const positionGroup = container.querySelector("#grad-position-group");
-      
+
       if (angleGroup) {
         angleGroup.style.display = (type === "linear" || type === "conic") ? "block" : "none";
         const label = angleGroup.querySelector("label");
@@ -367,35 +367,35 @@ Stops: #fb5607 0%, #ff007f 100%</div>
     const buildGradient = () => {
       if (!gradType) return;
       const type = gradType.value;
-      
+
       const sortedStops = gradientStops.slice().sort((a, b) => a.position - b.position);
       const stopsStr = sortedStops.map(s => `${s.color} ${s.position}%`).join(", ");
-      
+
       const isRepeating = repeatingEl ? repeatingEl.checked : false;
-      
+
       let gradString = "";
       if (type === "linear") {
         updateGradientControlVisibility();
         if (gradAngleVal && gradAngle) gradAngleVal.innerText = `${gradAngle.value}°`;
-        
+
         const prefix = isRepeating ? "repeating-linear-gradient" : "linear-gradient";
         gradString = `${prefix}(${gradAngle ? gradAngle.value : 135}deg, ${stopsStr})`;
       } else if (type === "radial") {
         updateGradientControlVisibility();
         const shape = shapeEl ? shapeEl.value : "circle";
         const pos = posEl ? posEl.value : "center";
-        
+
         const prefix = isRepeating ? "repeating-radial-gradient" : "radial-gradient";
         gradString = `${prefix}(${shape} at ${pos}, ${stopsStr})`;
       } else if (type === "conic") {
         updateGradientControlVisibility();
         if (gradAngleVal && gradAngle) gradAngleVal.innerText = `${gradAngle.value}°`;
         const pos = posEl ? posEl.value : "center";
-        
+
         const prefix = isRepeating ? "repeating-conic-gradient" : "conic-gradient";
         gradString = `${prefix}(from ${gradAngle ? gradAngle.value : 0}deg at ${pos}, ${stopsStr})`;
       }
-      
+
       if (gradPreview) {
         gradPreview.style.background = gradString;
       }
@@ -407,14 +407,14 @@ Stops: #fb5607 0%, #ff007f 100%</div>
     const renderGradientStops = () => {
       if (!gradStopsContainer) return;
       gradStopsContainer.innerHTML = "";
-      
+
       gradientStops.forEach((stop, index) => {
         const row = document.createElement("div");
         row.className = "gradient-stop-row";
         row.style.display = "flex";
         row.style.alignItems = "center";
         row.style.gap = "8px";
-        
+
         row.innerHTML = `
           <input type="color" class="stop-color-input" value="${stop.color}" title="Color Stop ${index + 1}" style="border: none; background: none; width: 34px; height: 34px; cursor: pointer;">
           <div class="slider-group" style="flex: 1;">
@@ -423,7 +423,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
           </div>
           ${gradientStops.length > 2 ? `<button class="stop-remove-btn" title="Remove Stop" style="background: none; border: none; color: var(--accent-rose); cursor: pointer; font-size: 14px; padding: 4px 8px;">✕</button>` : ''}
         `;
-        
+
         const colorInput = row.querySelector(".stop-color-input");
         colorInput.addEventListener("input", (e) => {
           gradientStops[index].color = e.target.value;
@@ -433,7 +433,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
           gradientStops[index].color = e.target.value;
           buildGradient();
         });
-        
+
         const posSlider = row.querySelector(".stop-pos-slider");
         posSlider.addEventListener("input", (e) => {
           const val = parseInt(e.target.value, 10);
@@ -441,7 +441,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
           row.querySelector(".stop-pos-val").innerText = `${val}%`;
           buildGradient();
         });
-        
+
         const removeBtn = row.querySelector(".stop-remove-btn");
         if (removeBtn) {
           removeBtn.addEventListener("click", () => {
@@ -450,14 +450,14 @@ Stops: #fb5607 0%, #ff007f 100%</div>
             buildGradient();
           });
         }
-        
+
         gradStopsContainer.appendChild(row);
       });
     };
 
     const loadGradientPreset = (preset) => {
       if (gradType) gradType.value = preset.type;
-      
+
       if (preset.type === "linear") {
         if (gradAngle) gradAngle.value = preset.angle;
       } else if (preset.type === "conic") {
@@ -467,11 +467,11 @@ Stops: #fb5607 0%, #ff007f 100%</div>
         if (shapeEl && preset.shape) shapeEl.value = preset.shape;
         if (posEl && preset.position) posEl.value = preset.position;
       }
-      
+
       if (repeatingEl) repeatingEl.checked = preset.repeating || false;
-      
+
       gradientStops = JSON.parse(JSON.stringify(preset.stops));
-      
+
       updateGradientControlVisibility();
       renderGradientStops();
       buildGradient();
@@ -481,18 +481,18 @@ Stops: #fb5607 0%, #ff007f 100%</div>
     const renderPresets = () => {
       if (!gradPresetsBox) return;
       gradPresetsBox.innerHTML = "";
-      
+
       const allPresets = [...gradientPresets, ...customPresets];
-      
+
       allPresets.forEach((preset, index) => {
         const el = document.createElement("div");
         el.className = "grad-preset-card";
         el.title = preset.name;
         el.style.position = "relative";
-        
+
         const sortedStops = preset.stops.slice().sort((a, b) => a.position - b.position);
         const stopsStr = sortedStops.map(s => `${s.color} ${s.position}%`).join(", ");
-        
+
         let gradStr = "";
         if (preset.type === "linear") {
           gradStr = `linear-gradient(${preset.angle}deg, ${stopsStr})`;
@@ -504,12 +504,12 @@ Stops: #fb5607 0%, #ff007f 100%</div>
           const pos = preset.position || "center";
           gradStr = `radial-gradient(${shape} at ${pos}, ${stopsStr})`;
         }
-        
+
         el.style.background = gradStr;
         el.addEventListener("click", () => {
           loadGradientPreset(preset);
         });
-        
+
         const isCustom = index >= gradientPresets.length;
         if (isCustom) {
           const deleteBtn = document.createElement("button");
@@ -536,10 +536,10 @@ Stops: #fb5607 0%, #ff007f 100%</div>
             transition: opacity var(--transition-fast);
             z-index: 5;
           `;
-          
+
           el.addEventListener("mouseenter", () => deleteBtn.style.opacity = "1");
           el.addEventListener("mouseleave", () => deleteBtn.style.opacity = "0");
-          
+
           deleteBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             const customIndex = index - gradientPresets.length;
@@ -550,7 +550,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
           });
           el.appendChild(deleteBtn);
         }
-        
+
         gradPresetsBox.appendChild(el);
       });
     };
@@ -566,7 +566,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
         appInstance.showToast("Maximum 8 color stops allowed", "warning");
         return;
       }
-      
+
       let newPos = 50;
       if (gradientStops.length >= 2) {
         const sorted = gradientStops.slice().sort((a, b) => a.position - b.position);
@@ -574,12 +574,12 @@ Stops: #fb5607 0%, #ff007f 100%</div>
         const secondLast = sorted[sorted.length - 2].position;
         newPos = Math.round((last + secondLast) / 2);
       }
-      
+
       const colors = ["#00f2fe", "#9d4edd", "#ff9a9e", "#fecfef", "#ffbe0b", "#fb5607", "#00ff87", "#3a86c8"];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
-      
+
       gradientStops.push({ color: randomColor, position: newPos });
-      
+
       renderGradientStops();
       buildGradient();
       appInstance.showToast("Added new color stop", "success");
@@ -637,7 +637,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
     container.querySelector("#grad-randomize-btn")?.addEventListener("click", randomizeGradient);
     container.querySelector("#grad-harmony")?.addEventListener("change", generateHarmoniousGradient);
     container.querySelector("#grad-harmony-stops")?.addEventListener("change", generateHarmoniousGradient);
-    
+
     container.querySelector("#grad-save-preset-btn")?.addEventListener("click", () => {
       const name = prompt("Enter a name for your custom gradient preset:", `My Preset ${customPresets.length + 1}`);
       if (name === null) return;
@@ -646,7 +646,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
         appInstance.showToast("Preset name cannot be empty", "warning");
         return;
       }
-      
+
       const isLinear = gradType ? gradType.value === "linear" : true;
       const isConic = gradType ? gradType.value === "conic" : false;
       const newPreset = {
@@ -658,7 +658,7 @@ Stops: #fb5607 0%, #ff007f 100%</div>
         repeating: repeatingEl ? repeatingEl.checked : false,
         stops: JSON.parse(JSON.stringify(gradientStops))
       };
-      
+
       customPresets.push(newPreset);
       localStorage.setItem("omnitool_custom_gradients", JSON.stringify(customPresets));
       renderPresets();

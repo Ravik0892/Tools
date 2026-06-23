@@ -139,7 +139,7 @@ export default {
     const iterationsVal = container.querySelector("#crypto-iterations-val");
     const executeBtn = container.querySelector("#crypto-execute-btn");
     const executeBtnLabel = container.querySelector("#crypto-execute-btn-label");
-    
+
     const clearInputBtn = container.querySelector("#crypto-clear-input-btn");
     const pasteInputBtn = container.querySelector("#crypto-paste-input-btn");
     const copyOutputBtn = container.querySelector("#crypto-copy-output-btn");
@@ -413,7 +413,7 @@ export default {
         }
       } catch (err) {
         console.error("Cryptographic operation failed:", err);
-        const errMsg = err.name === "OperationError" 
+        const errMsg = err.name === "OperationError"
           ? "Decryption failed! Wrong password or corrupted payload."
           : err.message || "Decryption failed!";
         appInstance.showToast(errMsg, "error");

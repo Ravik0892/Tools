@@ -154,7 +154,7 @@ export default {
 
       const randomBuffer = new Uint32Array(len);
       crypto.getRandomValues(randomBuffer);
-      
+
       let password = "";
       for (let i = 0; i < len; i++) {
         password += charSet.charAt(randomBuffer[i] % charSet.length);

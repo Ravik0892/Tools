@@ -1,5 +1,5 @@
 // Service Worker for OmniTool Hub PWA
-const CACHE_NAME = "omnitool-v25";
+const CACHE_NAME = "omnitool-v26";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
@@ -29,7 +29,16 @@ const ASSETS_TO_CACHE = [
   "tools/image-converter.js",
   "tools/qr-generator.js",
   "tools/seo-previewer.js",
-  "tools/svg-animator.js"
+  "tools/svg-animator.js",
+  "tools/admin-settings.js",
+  "tools/aes-crypto.js",
+  "tools/json-yaml-csv.js",
+  "tools/sql-beautifier.js",
+  "tools/url-parser.js",
+  "tools/text-analyzer.js",
+  "tools/color-shades.js",
+  "tools/rsa-generator.js",
+  "tools/date-calculator.js"
 ];
 
 // Install Event
@@ -65,8 +74,8 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   const isLocal = url.origin === self.location.origin;
   const isCachableExternal = e.request.url.includes("fonts.googleapis.com") ||
-                             e.request.url.includes("fonts.gstatic.com") ||
-                             e.request.url.includes("icons8.com");
+    e.request.url.includes("fonts.gstatic.com") ||
+    e.request.url.includes("icons8.com");
 
   // Only intercept local requests or specific whitelisted external assets
   if (!isLocal && !isCachableExternal) return;

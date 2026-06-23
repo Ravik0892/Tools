@@ -21,6 +21,7 @@ export default {
               <span style="font-size: 11px; color: var(--text-muted);">Supports PNG, JPEG, WEBP, SVG</span>
               <input type="file" id="img-file-input" accept="image/*" style="display: none;">
             </div>
+            <button class="tool-btn secondary" id="img-load-sample" style="width: 100%; margin-top: 8px; font-size: 11px; padding: 6px 10px;">Load Sample Image</button>
           </div>
 
           <!-- Conversion Controls -->
@@ -167,6 +168,7 @@ export default {
   init(container, appInstance) {
     const dropzone = container.querySelector("#img-dropzone");
     const fileInput = container.querySelector("#img-file-input");
+    const loadSampleBtn = container.querySelector("#img-load-sample");
     const controlsBox = container.querySelector("#img-controls-box");
     const emptyPreview = container.querySelector("#img-empty-preview");
     const previewBox = container.querySelector("#img-preview-box");
@@ -346,6 +348,71 @@ export default {
     };
 
     // Event hooks
+    loadSampleBtn?.addEventListener("click", () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 800;
+      canvas.height = 500;
+      const ctx = canvas.getContext("2d");
+      
+      // Draw a gorgeous cyber mesh gradient background
+      const grad = ctx.createLinearGradient(0, 0, 800, 500);
+      grad.addColorStop(0, "#07090e");
+      grad.addColorStop(0.5, "#0b0f19");
+      grad.addColorStop(1, "#1e1b4b");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 800, 500);
+      
+      // Draw cyber Grid lines
+      ctx.strokeStyle = "rgba(0, 242, 254, 0.08)";
+      ctx.lineWidth = 1;
+      const gridSize = 40;
+      for (let x = 0; x < 800; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, 500);
+        ctx.stroke();
+      }
+      for (let y = 0; y < 500; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(800, y);
+        ctx.stroke();
+      }
+
+      // Draw neon circles/glows
+      const glowGrad = ctx.createRadialGradient(400, 250, 50, 400, 250, 300);
+      glowGrad.addColorStop(0, "rgba(0, 242, 254, 0.15)");
+      glowGrad.addColorStop(1, "rgba(157, 78, 221, 0)");
+      ctx.fillStyle = glowGrad;
+      ctx.beginPath();
+      ctx.arc(400, 250, 300, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Add branding text
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 42px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("OmniTool Hub v2", 400, 220);
+
+      ctx.fillStyle = "#00f2fe";
+      ctx.font = "20px monospace";
+      ctx.fillText("100% Offline Client-Side Optimizer", 400, 280);
+
+      ctx.fillStyle = "#9ca3af";
+      ctx.font = "14px sans-serif";
+      ctx.fillText("Generated sample file (800 x 500 px)", 400, 330);
+
+      // Convert canvas to Blob
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const file = new File([blob], "omnitool_sample_image.png", { type: "image/png" });
+          handleFile(file);
+          appInstance.showToast("Generated high-quality sample image!", "success");
+        }
+      }, "image/png");
+    });
+
     processBtn?.addEventListener("click", compressImage);
 
     // Dropzone triggers

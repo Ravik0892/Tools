@@ -141,7 +141,7 @@ export default {
       txtOutput.value = "";
       updateTextStats();
     });
-    
+
     let activeExampleIndex = 0;
     const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
     const rows = container.querySelectorAll(".tool-guide-io-row");

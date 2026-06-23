@@ -215,7 +215,7 @@ export default {
       </div>
     `;
   },
-  
+
   init(container, appInstance) {
     // Sliders & pickers - Layer 1
     const shadowH1 = container.querySelector("#shadow-h-1");
@@ -329,7 +329,7 @@ export default {
       const l2Enabled = layer2Enable.checked;
       if (l2Enabled) {
         layer2Panel.style.display = "block";
-        
+
         const h2 = parseInt(shadowH2.value);
         const v2 = parseInt(shadowV2.value);
         const b2 = parseInt(shadowBlur2.value);
@@ -346,7 +346,7 @@ export default {
 
         const color2Rgba = hexToRgba(c2, o2);
         const shadow2Part = `${isInset2 ? 'inset ' : ''}${h2}px ${v2}px ${b2}px ${s2}px ${color2Rgba}`;
-        
+
         fullShadowStyle = `${shadow1Part}, ${shadow2Part}`;
         cssTextShadowLine = `\n  ${shadow1Part},\n  ${shadow2Part}`;
       } else {
@@ -356,7 +356,7 @@ export default {
       // 5. Update Target Box
       const radiusVal = parseInt(boxRadius.value);
       boxRadiusVal.innerText = `${radiusVal}px`;
-      
+
       targetBox.style.backgroundColor = boxBgColor.value;
       targetBox.style.borderRadius = `${radiusVal}px`;
       targetBox.style.boxShadow = fullShadowStyle;
@@ -397,7 +397,7 @@ export default {
 
       shadowH1.value = newH;
       shadowV1.value = newV;
-      
+
       updateShadows();
     };
 
@@ -416,12 +416,12 @@ export default {
       startY = e.clientY;
       startH1 = parseInt(shadowH1.value);
       startV1 = parseInt(shadowV1.value);
-      
+
       targetBox.style.transform = "scale(0.98)";
-      
+
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
-      
+
       e.preventDefault();
     });
 
@@ -541,7 +541,7 @@ export default {
     bgSelect?.addEventListener("change", (e) => {
       const bg = e.target.value;
       showcaseContainer.className = "";
-      
+
       if (bg === "cyber-mesh") {
         showcaseContainer.className = "glass-bg-mesh";
       } else if (bg === "polka-dots") {
@@ -567,7 +567,7 @@ export default {
     // Run initial update
     updateShadows();
   },
-  
+
   destroy() {
     if (this._cleanup) {
       this._cleanup();

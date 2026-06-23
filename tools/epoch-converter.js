@@ -122,7 +122,7 @@ export default {
     const convertTimestamp = () => {
       const val = epInput.value.trim();
       if (!val) return;
-      
+
       let ts = parseInt(val);
       if (isNaN(ts)) {
         appInstance.showToast("Invalid numeric timestamp", "error");

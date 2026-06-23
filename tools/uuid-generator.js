@@ -114,11 +114,11 @@ C9D1B3845E2A4F7C8B9D3A0C2D4E1F6B</div>
       const rnd = crypto.getRandomValues(new Uint8Array(16));
       rnd[6] = (rnd[6] & 0x0f) | 0x40; // v4
       rnd[8] = (rnd[8] & 0x3f) | 0x80;
-      
+
       let u = "";
       for (let i = 0; i < 16; i++) u += rnd[i].toString(16).padStart(2, "0");
       if (uuidHyphens.checked) {
-        u = `${u.slice(0,8)}-${u.slice(8,12)}-${u.slice(12,16)}-${u.slice(16,20)}-${u.slice(20)}`;
+        u = `${u.slice(0, 8)}-${u.slice(8, 12)}-${u.slice(12, 16)}-${u.slice(16, 20)}-${u.slice(20)}`;
       }
       return uuidUpper.checked ? u.toUpperCase() : u.toLowerCase();
     };
@@ -132,7 +132,7 @@ C9D1B3845E2A4F7C8B9D3A0C2D4E1F6B</div>
 
     container.querySelector("#uuid-generate-btn")?.addEventListener("click", runUuidGenerate);
     container.querySelector("#uuid-copy-btn")?.addEventListener("click", () => appInstance.copyText(uuidOutput.innerText));
-    
+
     let activeExampleIndex = 0;
     const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
     const rows = container.querySelectorAll(".tool-guide-io-row");
