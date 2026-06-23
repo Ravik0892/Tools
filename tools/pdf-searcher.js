@@ -268,6 +268,89 @@ const convertKrutidevToUnicode = (text) => {
   return tokens.join("");
 };
 
+const preprocessCanvas = (canvas) => {
+  const ctx = canvas.getContext("2d");
+  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imgData.data;
+  const width = canvas.width;
+  const height = canvas.height;
+
+  // 1. Grayscale Conversion (Standard Luma)
+  const gray = new Uint8Array(width * height);
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    gray[i / 4] = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+  }
+
+  // 2. Bradley-Roth Adaptive Thresholding
+  const S = Math.floor(width / 8); // local window size
+  const T = 0.15; // threshold difference ratio (15%)
+
+  // Compute integral image
+  const intImg = new Float64Array(width * height);
+  for (let x = 0; x < width; x++) {
+    let sum = 0;
+    for (let y = 0; y < height; y++) {
+      const index = y * width + x;
+      sum += gray[index];
+      if (x === 0) {
+        intImg[index] = sum;
+      } else {
+        intImg[index] = intImg[index - 1] + sum;
+      }
+    }
+  }
+
+  // Perform local thresholding
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      const index = y * width + x;
+      
+      const x1 = Math.max(0, x - Math.floor(S / 2));
+      const x2 = Math.min(width - 1, x + Math.floor(S / 2));
+      const y1 = Math.max(0, y - Math.floor(S / 2));
+      const y2 = Math.min(height - 1, y + Math.floor(S / 2));
+      
+      const count = (x2 - x1 + 1) * (y2 - y1 + 1);
+      
+      // Calculate sum of the local neighborhood using the integral image
+      let sum = intImg[y2 * width + x2];
+      if (x1 > 0) {
+        sum -= intImg[y2 * width + (x1 - 1)];
+      }
+      if (y1 > 0) {
+        sum -= intImg[(y1 - 1) * width + x2];
+      }
+      if (x1 > 0 && y1 > 0) {
+        sum += intImg[(y1 - 1) * width + (x1 - 1)];
+      }
+      
+      const avg = sum / count;
+      const pixelVal = gray[index];
+      
+      // Binarize and clamp values to reduce noise in solid regions
+      let finalVal;
+      if (pixelVal < 40) {
+        finalVal = 0; // Solid black
+      } else if (pixelVal > 220) {
+        finalVal = 255; // Solid white
+      } else {
+        finalVal = (pixelVal < avg * (1.0 - T)) ? 0 : 255;
+      }
+      
+      const dataIdx = index * 4;
+      data[dataIdx] = finalVal;
+      data[dataIdx + 1] = finalVal;
+      data[dataIdx + 2] = finalVal;
+      data[dataIdx + 3] = 255; // Fully opaque
+    }
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+};
+
 export default {
   id: "pdf-searcher",
   name: "Multi-PDF Searcher & OCR",
@@ -315,6 +398,11 @@ export default {
             <label id="ocr-force-wrapper" style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; margin-bottom: 8px;">
               <input type="checkbox" id="pdf-force-ocr">
               <span>Force OCR on all pages (Bypass bad text layers)</span>
+            </label>
+
+            <label id="ocr-enhance-wrapper" style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; margin-bottom: 8px;">
+              <input type="checkbox" id="pdf-enhance-ocr">
+              <span>Enhance scanned page images (Binarization/Contrast)</span>
             </label>
             
             <div class="form-group" id="ocr-lang-wrapper" style="margin-bottom: 12px; display: flex; flex-direction: row; align-items: center; gap: 8px;">
@@ -952,6 +1040,8 @@ export default {
     const enableOcrCheckbox = container.querySelector("#pdf-enable-ocr");
     const forceOcrCheckbox = container.querySelector("#pdf-force-ocr");
     const ocrForceWrapper = container.querySelector("#ocr-force-wrapper");
+    const enhanceOcrCheckbox = container.querySelector("#pdf-enhance-ocr");
+    const ocrEnhanceWrapper = container.querySelector("#ocr-enhance-wrapper");
     const ocrLangWrapper = container.querySelector("#ocr-lang-wrapper");
     const ocrLangSelect = container.querySelector("#pdf-ocr-lang");
 
@@ -959,10 +1049,13 @@ export default {
       if (enableOcrCheckbox.checked) {
         ocrLangWrapper.style.display = "flex";
         ocrForceWrapper.style.display = "flex";
+        ocrEnhanceWrapper.style.display = "flex";
       } else {
         ocrLangWrapper.style.display = "none";
         ocrForceWrapper.style.display = "none";
+        ocrEnhanceWrapper.style.display = "none";
         forceOcrCheckbox.checked = false;
+        enhanceOcrCheckbox.checked = false;
       }
     });
     
@@ -1411,6 +1504,11 @@ export default {
         canvasContext: ctx,
         viewport: viewport
       }).promise;
+
+      // Apply image enhancement if enabled
+      if (enhanceOcrCheckbox && enhanceOcrCheckbox.checked) {
+        preprocessCanvas(canvas);
+      }
 
       // 2. Perform OCR
       const selectedLang = ocrLangSelect.value;

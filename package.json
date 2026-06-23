@@ -2,6 +2,6 @@
   "name": "omnitool-hub",
   "version": "1.0.0",
   "scripts": {
-    "dev": "node local-static-server.mjs 8000"
+    "dev": "node scripts/local-static-server.mjs 8000"
   }
 }
