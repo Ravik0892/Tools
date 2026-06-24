@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniTool Hub - Android App Prototype</title>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0c0a1c;
+      --bg-card: rgba(22, 18, 48, 0.7);
+      --bg-drawer: #0f0b24;
+      --primary: #8a2be2;
+      --primary-glow: rgba(138, 43, 226, 0.4);
+      --accent-cyan: #00f0ff;
+      --accent-magenta: #ff007f;
+      --accent-green: #39ff14;
+      --accent-orange: #ffb703;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --phone-border: #1e1b29;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 50%, #1e133a 0%, #080512 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .font-outfit {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Container for layout */
+    .prototype-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .header-info {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header-info h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--primary), var(--accent-magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .header-info p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+    }
+
+    /* Android Phone Shell */
+    .phone-shell {
+      position: relative;
+      width: 375px;
+      height: 812px;
+      background: var(--phone-border);
+      border-radius: 48px;
+      padding: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8),
+                  0 0 40px rgba(138, 43, 226, 0.2);
+      border: 4px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 20px;
+    }
+
+    /* Notch camera */
+    .phone-notch {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 25px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-camera {
+      width: 8px;
+      height: 8px;
+      background: #111;
+      border-radius: 50%;
+      border: 1px solid #222;
+      box-shadow: inset 0 0 3px rgba(0, 240, 255, 0.5);
+    }
+
+    /* Internal Screen */
+    .phone-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-main);
+      border-radius: 38px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 44px;
+      padding: 14px 24px 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      z-index: 999;
+      background: rgba(12, 10, 28, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    .status-bar-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* Navigation Drawer Menu (Slide out overlay) */
+    .nav-drawer {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 290px;
+      height: 100%;
+      background: var(--bg-drawer);
+      z-index: 1001;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .nav-drawer.open {
+      left: 0;
+    }
+
+    .drawer-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(2px);
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-header {
+      padding: 50px 24px 20px 24px;
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.25) 0%, rgba(12, 10, 28, 0) 100%);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .drawer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .drawer-logo svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--accent-cyan);
+    }
+
+    .drawer-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .drawer-menu {
+      padding: 15px 12px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .drawer-section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding: 10px 12px 6px 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 4px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .drawer-item svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-muted);
+      fill: none;
+      transition: stroke 0.2s;
+    }
+
+    .drawer-item:hover, .drawer-item.active {
+      background: rgba(138, 43, 226, 0.15);
+      color: #fff;
+    }
+
+    .drawer-item:hover svg, .drawer-item.active svg {
+      stroke: var(--accent-cyan);
+    }
+
+    .drawer-footer {
+      padding: 15px 24px;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Screen NavHost / Viewport area */
+    .app-viewport {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: radial-gradient(circle at top right, rgba(138, 43, 226, 0.08) 0%, rgba(12, 10, 28, 0) 60%);
+    }
+
+    /* Navigation Header */
+    .top-app-bar {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: rgba(12, 10, 28, 0.6);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .icon-button:active {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .icon-button svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .app-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Views */
+    .app-view {
+      display: none;
+      flex-direction: column;
+      padding: 16px;
+      flex: 1;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .app-view.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* View: Dashboard Screen */
+    .dashboard-header {
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 240, 255, 0.05));
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-header::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 120px;
+      height: 120px;
+      background: var(--primary-glow);
+      filter: blur(30px);
+      border-radius: 50%;
+    }
+
+    .dashboard-header h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .dashboard-header p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Search Box */
+    .search-container {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding-left: 44px;
+      padding-right: 16px;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+    }
+
+    .search-icon-inside {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      color: var(--text-muted);
+    }
+
+    .search-icon-inside svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* Category Filter Pills */
+    .categories-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+
+    .categories-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill {
+      white-space: nowrap;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pill.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 3px 10px rgba(138, 43, 226, 0.4);
+    }
+
+    /* Section Subheadings */
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+      margin-top: 10px;
+    }
+
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 14px;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .tool-card:active {
+      transform: scale(0.97);
+      border-color: var(--primary);
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+
+    .tool-icon-wrapper {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2px;
+    }
+
+    .tool-card.dev .tool-icon-wrapper {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--accent-cyan);
+    }
+    .tool-card.text .tool-icon-wrapper {
+      background: rgba(255, 0, 127, 0.1);
+      color: var(--accent-magenta);
+    }
+    .tool-card.design .tool-icon-wrapper {
+      background: rgba(57, 255, 20, 0.1);
+      color: var(--accent-green);
+    }
+    .tool-card.math .tool-icon-wrapper {
+      background: rgba(255, 183, 3, 0.15);
+      color: var(--accent-orange);
+    }
+
+    .tool-icon-wrapper svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .tool-card h4 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .tool-card p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .fav-star {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .fav-star.active {
+      color: var(--accent-orange);
+    }
+
+    .fav-star svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .fav-star.active svg {
+      fill: currentColor;
+    }
+
+    /* Empty states */
+    .empty-state {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-muted);
+      display: none;
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--text-muted);
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    /* View: Tool Screen Component */
+    .tool-view-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .tool-category-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-dev { background: rgba(0, 240, 255, 0.15); color: var(--accent-cyan); }
+    .badge-text { background: rgba(255, 0, 127, 0.15); color: var(--accent-magenta); }
+    .badge-design { background: rgba(57, 255, 20, 0.15); color: var(--accent-green); }
+    .badge-math { background: rgba(255, 183, 3, 0.15); color: var(--accent-orange); }
+
+    .tool-description-box {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .preview-only-banner {
+      background: rgba(138, 43, 226, 0.1);
+      border: 1px dashed rgba(138, 43, 226, 0.3);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 0.72rem;
+      color: var(--text-main);
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+
+    .preview-only-banner svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-label-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .paste-badge {
+      color: var(--accent-cyan);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .paste-badge svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+    }
+
+    .text-area-mockup {
+      width: 100%;
+      height: 110px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      resize: none;
+      outline: none;
+    }
+
+    .text-area-mockup:focus {
+      border-color: var(--primary);
+    }
+
+    .control-actions-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      flex: 1;
+      height: 40px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* Output screen */
+    .output-group {
+      margin-bottom: 10px;
+    }
+
+    /* View: Pipeline (Smart Chain) Builder */
+    .pipeline-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .pipeline-node {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed var(--border-color);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .pipeline-node.active-node {
+      border-style: solid;
+      background: rgba(138, 43, 226, 0.08);
+      border-color: var(--primary);
+    }
+
+    .pipeline-node-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pipeline-node-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .pipeline-node-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .pipeline-node-desc {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .pipeline-arrow {
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-cyan);
+    }
+
+    .pipeline-arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .add-block-btn {
+      border: 1px dashed rgba(138, 43, 226, 0.4);
+      background: transparent;
+      color: var(--primary);
+      padding: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .add-block-btn:hover {
+      background: rgba(138, 43, 226, 0.05);
+    }
+
+    /* View: Settings */
+    .settings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .settings-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .settings-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .settings-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Global Command Palette Simulation Modal */
+    .cmd-palette-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1002;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 60px 16px 16px 16px;
+      backdrop-filter: blur(4px);
+    }
+
+    .cmd-palette-box {
+      width: 100%;
+      max-width: 320px;
+      background: #110e22;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      overflow: hidden;
+      animation: cmdSlideDown 0.2s ease-out;
+    }
+
+    @keyframes cmdSlideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .cmd-palette-header {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .cmd-palette-header input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .cmd-palette-results {
+      max-height: 220px;
+      overflow-y: auto;
+      padding: 8px;
+    }
+
+    .cmd-result-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .cmd-result-item:hover {
+      background: rgba(138, 43, 226, 0.15);
+    }
+
+    .cmd-shortcut {
+      font-size: 0.65rem;
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav-bar {
+      height: 64px;
+      background: rgba(15, 11, 36, 0.95);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 10;
+      padding-bottom: 10px; /* offset for Android gesture bar */
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 500;
+      width: 60px;
+      height: 100%;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .bottom-nav-item svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      margin-bottom: 3px;
+      transition: stroke 0.2s;
+    }
+
+    .bottom-nav-item.active {
+      color: var(--accent-cyan);
+    }
+
+    .bottom-nav-item.active svg {
+      stroke: var(--accent-cyan);
+    }
+
+    /* Navigation Gesture indicator */
+    .home-indicator-bar {
+      height: 16px;
+      background: rgba(15, 11, 36, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 4px;
+      z-index: 10;
+    }
+
+    .home-indicator {
+      width: 108px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+    }
+
+    /* Instruction details for the side */
+    .side-info-panel {
+      max-width: 400px;
+      width: 100%;
+      background: rgba(22, 18, 48, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 800px) {
+      .prototype-container {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 40px;
+      }
+      .side-info-panel {
+        margin-top: 0;
+        max-width: 380px;
+        position: sticky;
+        top: 20px;
+      }
+    }
+
+    .side-info-panel h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .side-info-panel p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .bullet-point {
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .bullet-point svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--accent-green);
+      flex-shrink: 0;
+    }
+
+    .alert-banner {
+      background: rgba(255, 183, 3, 0.15);
+      border: 1px solid rgba(255, 183, 3, 0.3);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.82rem;
+      color: #ffd000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="prototype-container">
+    
+    <!-- Left Hand Side: The Interactive Phone -->
+    <div>
+      <div class="header-info">
+        <h1>OmniTool Hub</h1>
+        <p>Android Mobile UI Layout Prototype</p>
+      </div>
+
+      <div class="phone-shell">
+        <!-- Notch -->
+        <div class="phone-notch">
+          <div class="phone-camera"></div>
+        </div>
+
+        <div class="phone-screen">
+          
+          <!-- Mock Android Status Bar -->
+          <div class="status-bar">
+            <span id="status-bar-time">12:30</span>
+            <div class="status-bar-icons">
+              <!-- Network Signal Icon -->
+              <svg class="status-icon" viewBox="0 0 24 24"><path d="M2 22h20V2z" opacity="0.3"/><path d="M17 22h5V7z"/></svg>
+              <!-- WiFi Icon -->
+              <svg class="status-icon" viewBox="0 0 24 24"><path d="M12 21l-12-14.3c.3-.3 4.8-4 12-4 7.2 0 11.7 3.7 12 4l-12 14.3z"/></svg>
+              <!-- Battery Icon -->
+              <svg class="status-icon" viewBox="0 0 24 24"><path d="M17 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><rect x="21" y="9" width="2" height="6" rx="1"/></svg>
+            </div>
+          </div>
+
+          <!-- Drawer Navigation Overlay -->
+          <div class="drawer-overlay" id="drawer-overlay" onclick="toggleDrawer()"></div>
+          
+          <!-- Drawer Navigation Drawer -->
+          <div class="nav-drawer" id="nav-drawer">
+            <div class="drawer-header">
+              <div class="drawer-logo">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+                </svg>
+                <span>OmniTool Hub</span>
+              </div>
+              <div class="drawer-subtitle">Android v1.0.0</div>
+            </div>
+
+            <div class="drawer-menu">
+              <div class="drawer-item active" onclick="switchView('dashboard'); toggleDrawer();">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Dashboard</span>
+              </div>
+
+              <div class="drawer-item" onclick="switchCategory('fav'); toggleDrawer();">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>Favorites</span>
+              </div>
+
+              <div class="drawer-section-title">Categories</div>
+
+              <div class="drawer-item" onclick="switchCategory('dev'); toggleDrawer();">
+                <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                <span>Developer Utilities</span>
+              </div>
+
+              <div class="drawer-item" onclick="switchCategory('text'); toggleDrawer();">
+                <svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>
+                <span>Text &amp; Writing</span>
+              </div>
+
+              <div class="drawer-item" onclick="switchCategory('design'); toggleDrawer();">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+                <span>Design &amp; Styling</span>
+              </div>
+
+              <div class="drawer-item" onclick="switchCategory('math'); toggleDrawer();">
+                <svg viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>
+                <span>Math &amp; Converter</span>
+              </div>
+
+              <div class="drawer-section-title">Advanced</div>
+
+              <div class="drawer-item" onclick="switchView('pipeline'); toggleDrawer();">
+                <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>Smart Chain Pipeline</span>
+              </div>
+
+              <div class="drawer-item" onclick="switchView('settings'); toggleDrawer();">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Settings</span>
+              </div>
+            </div>
+
+            <div class="drawer-footer">
+              Privacy-focused &amp; Local
+            </div>
+          </div>
+
+          <!-- Command Palette Sim Drawer -->
+          <div class="cmd-palette-overlay" id="cmd-palette" onclick="toggleCmdPalette(event)">
+            <div class="cmd-palette-box" onclick="event.stopPropagation()">
+              <div class="cmd-palette-header">
+                <svg width="18" height="18" stroke="currentColor" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="cmd-search" placeholder="Search commands, tools..." onkeyup="filterCmdPalette()">
+              </div>
+              <div class="cmd-palette-results" id="cmd-results">
+                <!-- Loaded via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Navigation Header -->
+          <div class="top-app-bar">
+            <div class="top-bar-left">
+              <button class="icon-button" onclick="toggleDrawer()">
+                <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+              </button>
+              <span class="app-title" id="app-bar-title">OmniTool Hub</span>
+            </div>
+            <div>
+              <button class="icon-button" onclick="openCmdPalette()">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- App Viewport (Scrollable screens) -->
+          <div class="app-viewport">
+            
+            <!-- VIEW: Dashboard -->
+            <div class="app-view active" id="view-dashboard">
+              <div class="dashboard-header">
+                <h2>Welcome, Dev!</h2>
+                <p>Calculations execute 100% locally on your phone with zero latency.</p>
+              </div>
+
+              <div class="search-container">
+                <span class="search-icon-inside">
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+                <input type="text" id="tool-search" class="search-input" placeholder="Search 16+ utilities..." onkeyup="filterTools()">
+              </div>
+
+              <div class="categories-pills">
+                <span class="pill active" data-cat="all" onclick="selectCategory(this)">All</span>
+                <span class="pill" data-cat="fav" onclick="selectCategory(this)">⭐ Favorites</span>
+                <span class="pill" data-cat="dev" onclick="selectCategory(this)">Developer</span>
+                <span class="pill" data-cat="text" onclick="selectCategory(this)">Text</span>
+                <span class="pill" data-cat="design" onclick="selectCategory(this)">Design</span>
+                <span class="pill" data-cat="math" onclick="selectCategory(this)">Math</span>
+              </div>
+
+              <div class="section-title" id="grid-title">All Utilities</div>
+
+              <!-- Empty state -->
+              <div class="empty-state" id="tools-empty">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                <p>No tools matched your criteria</p>
+              </div>
+
+              <div class="tools-grid" id="tools-grid-list">
+                <!-- Loaded via JS -->
+              </div>
+            </div>
+
+            <!-- VIEW: Tool Screen -->
+            <div class="app-view" id="view-tool-screen">
+              <div class="tool-view-nav">
+                <button class="icon-button" onclick="switchView('dashboard')">
+                  <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </button>
+                <span class="tool-category-badge badge-dev" id="tool-view-badge">Developer</span>
+                <button class="icon-button" id="tool-view-star-btn" onclick="toggleCurrentToolFavorite()">
+                  <svg viewBox="0 0 24 24" id="tool-view-star-svg"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </button>
+              </div>
+
+              <h2 class="font-outfit" id="tool-view-name" style="font-size: 1.5rem; margin-bottom: 4px; color: #fff;">JSON Formatter</h2>
+              <div class="tool-description-box" id="tool-view-desc">Formats and validates your JSON string to make it readable.</div>
+
+              <div class="preview-only-banner">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span><strong>Layout Prototype Screen</strong><br>Features &amp; calculations will run in the native build, not this layout mockup.</span>
+              </div>
+
+              <div class="input-group">
+                <div class="input-label-container">
+                  <span>Input Data</span>
+                  <span class="paste-badge" onclick="simulateSmartPaste()">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                    Auto-Paste
+                  </span>
+                </div>
+                <textarea class="text-area-mockup" id="tool-input-mock" placeholder="Enter input here..."></textarea>
+              </div>
+
+              <div class="control-actions-row">
+                <button class="btn btn-primary" onclick="simulateToolAction()">
+                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  Run Skeleton
+                </button>
+                <button class="btn btn-secondary" onclick="clearToolInputs()">Clear</button>
+              </div>
+
+              <div class="output-group">
+                <div class="input-label-container">
+                  <span>Output Layout</span>
+                  <span class="paste-badge" style="color: var(--accent-green);" onclick="copyToolOutputs()">Copy</span>
+                </div>
+                <textarea class="text-area-mockup" id="tool-output-mock" style="height: 140px; background: rgba(0, 240, 255, 0.02); border-color: rgba(0, 240, 255, 0.15);" placeholder="Output will appear here..." readonly></textarea>
+              </div>
+            </div>
+
+            <!-- VIEW: Smart Chain Pipeline -->
+            <div class="app-view" id="view-pipeline">
+              <div class="dashboard-header" style="background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(138, 43, 226, 0.1));">
+                <h2>Smart Chain Pipeline</h2>
+                <p>Stack multiple layout operations sequentially. The output of block 1 feeds into block 2.</p>
+              </div>
+
+              <div class="pipeline-stack">
+                <div class="pipeline-node active-node">
+                  <div class="pipeline-node-info">
+                    <div class="pipeline-node-num">1</div>
+                    <div>
+                      <div class="pipeline-node-title">Base64 Decoder</div>
+                      <div class="pipeline-node-desc">Decoding input payload</div>
+                    </div>
+                  </div>
+                  <button class="icon-button" style="color: var(--accent-magenta);"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div>
+
+                <div class="pipeline-arrow">
+                  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                </div>
+
+                <div class="pipeline-node active-node">
+                  <div class="pipeline-node-info">
+                    <div class="pipeline-node-num">2</div>
+                    <div>
+                      <div class="pipeline-node-title">JSON Formatter</div>
+                      <div class="pipeline-node-desc">Beautify decoded payload</div>
+                    </div>
+                  </div>
+                  <button class="icon-button" style="color: var(--accent-magenta);"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div>
+
+                <div class="pipeline-arrow">
+                  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                </div>
+
+                <div class="pipeline-node active-node">
+                  <div class="pipeline-node-info">
+                    <div class="pipeline-node-num">3</div>
+                    <div>
+                      <div class="pipeline-node-title">Word Counter</div>
+                      <div class="pipeline-node-desc">Count words in formatted JSON</div>
+                    </div>
+                  </div>
+                  <button class="icon-button" style="color: var(--accent-magenta);"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div>
+              </div>
+
+              <button class="add-block-btn" onclick="openCmdPalette()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add Chain Operation
+              </button>
+            </div>
+
+            <!-- VIEW: Settings -->
+            <div class="app-view" id="view-settings">
+              <div class="dashboard-header">
+                <h2>App Settings</h2>
+                <p>Manage application preferences, layouts, and data features.</p>
+              </div>
+
+              <div class="settings-list">
+                <div class="settings-row">
+                  <div class="settings-info">
+                    <span class="settings-label">Dynamic Wallpaper Material</span>
+                    <span class="settings-desc">Enables Google Monet dynamic layout colors on Android 12+</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-info">
+                    <span class="settings-label">Privacy Screen Shield</span>
+                    <span class="settings-desc">Blurs app preview screen in Android Recents task manager</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-info">
+                    <span class="settings-label">Offline Service Caching</span>
+                    <span class="settings-desc">Locally cache resources for zero network usage</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-info">
+                    <span class="settings-label">Dark Theme Override</span>
+                    <span class="settings-desc">Force pure OLED black mode layout styles</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="section-title" style="margin-top: 24px;">About Developer</div>
+              <div class="settings-row" style="background: transparent; border-color: rgba(255,255,255,0.03);">
+                <div class="settings-info" style="gap: 2px;">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: #fff;">OmniTool Hub Native UI</span>
+                  <span style="font-size: 0.72rem; color: var(--text-muted);">Compiled with Android SDK 34 Target</span>
+                  <span style="font-size: 0.72rem; color: var(--text-muted);">Jetpack Compose &amp; Material 3 UI Theme</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Navigation Bar (Compose Navigation) -->
+          <div class="bottom-nav-bar">
+            <div class="bottom-nav-item active" id="btn-nav-dashboard" onclick="switchView('dashboard')">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Dashboard</span>
+            </div>
+            <div class="bottom-nav-item" id="btn-nav-pipeline" onclick="switchView('pipeline')">
+              <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span>Smart Chain</span>
+            </div>
+            <div class="bottom-nav-item" id="btn-nav-settings" onclick="switchView('settings')">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>Settings</span>
+            </div>
+          </div>
+
+          <!-- Mock Android Pill Navigation Bar -->
+          <div class="home-indicator-bar">
+            <div class="home-indicator"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Hand Side: Interactive Guide and Specifications -->
+    <div class="side-info-panel">
+      <h3>📱 Mobile Layout Guide</h3>
+      <p>This is a live, clickable HTML prototype of the OmniTool Hub Android app layout. Click on elements inside the phone mockup to navigate.</p>
+      
+      <div class="alert-banner">
+        This is a **layout layout-only prototype**. Under the `omnitool-android-app/` folder, the actual structure uses native Android Studio resources.
+      </div>
+
+      <div class="bullet-point">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span><strong>Search &amp; Filter</strong>: Try typing in the search bar (e.g. "json", "converter") to see tools filtering.</span>
+      </div>
+
+      <div class="bullet-point">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span><strong>Navigation Drawer</strong>: Click the hamburger menu on the top-left to slide out the categories menu.</span>
+      </div>
+
+      <div class="bullet-point">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span><strong>Bottom Nav</strong>: Click Dashboard, Smart Chain, or Settings at the bottom.</span>
+      </div>
+
+      <div class="bullet-point">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span><strong>Favorites</strong>: Toggle the ⭐ stars on tool cards and filter tools to show only favorites.</span>
+      </div>
+
+      <div class="bullet-point">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span><strong>Command Palette</strong>: Click the search icon in the top right to open the global search modal.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // System Clock Update for status bar
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      document.getElementById('status-bar-time').textContent = hours + ':' + minutes;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Mock Database of tools
+    const tools = [
+      { id: 'json-formatter', name: 'JSON Formatter', desc: 'Beautify, minify, and validate JSON inputs.', cat: 'dev', type: 'Formatters' },
+      { id: 'yaml-csv', name: 'YAML & CSV Converter', desc: 'Interconvert JSON, YAML, and CSV files.', cat: 'dev', type: 'Formatters' },
+      { id: 'base64', name: 'Base64 Encoder', desc: 'Encode and decode Base64 strings securely.', cat: 'dev', type: 'Encoders' },
+      { id: 'jwt-decoder', name: 'JWT Decoder', desc: 'Parse claims and signatures of web tokens.', cat: 'dev', type: 'Encoders' },
+      { id: 'aes-crypto', name: 'AES Encryption', desc: 'Encrypt or decrypt texts with AES-256 GCM.', cat: 'dev', type: 'Crypto' },
+      { id: 'hash-gen', name: 'Hash Generator', desc: 'Generate MD5, SHA-256, SHA-512 hashes.', cat: 'dev', type: 'Crypto' },
+      { id: 'uuid-gen', name: 'UUID v4 Generator', desc: 'Bulk generate cryptographically secure UUIDs.', cat: 'dev', type: 'Generators' },
+      { id: 'password-gen', name: 'Password Generator', desc: 'Generate high-strength randomized passwords.', cat: 'dev', type: 'Generators' },
+      { id: 'case-converter', name: 'Text Case Converter', desc: 'Convert text cases (UPPER, lower, camel, snake).', cat: 'text', type: 'Transformations' },
+      { id: 'word-counter', name: 'Word & Line Counter', desc: 'Count words, lines, chars, and reading speed.', cat: 'text', type: 'Transformations' },
+      { id: 'markdown-preview', name: 'Markdown Editor', desc: 'Live preview rendered markdown schemas.', cat: 'text', type: 'Writers' },
+      { id: 'regex-tester', name: 'Regex Tester', desc: 'Test javascript and Kotlin regular expressions.', cat: 'text', type: 'Pattern Analysis' },
+      { id: 'text-diff', name: 'Text Diff Utility', desc: 'Compare two text fields and find visual deltas.', cat: 'text', type: 'Pattern Analysis' },
+      { id: 'color-lab', name: 'Color Studio & Palette', desc: 'Examine hex, rgb, hsl values and generate tints.', cat: 'design', type: 'Color' },
+      { id: 'gradient-gen', name: 'CSS Gradient Generator', desc: 'Build linear/radial gradients and copy styles.', cat: 'design', type: 'CSS' },
+      { id: 'box-shadow', name: 'Box Shadow Builder', desc: 'Interactive box-shadow visualizer tool.', cat: 'design', type: 'CSS' },
+      { id: 'qr-generator', name: 'QR Code Generator', desc: 'Generate customizeable high-quality vector QRs.', cat: 'design', type: 'Graphics' },
+      { id: 'svg-animator', name: 'SVG Layout Animator', desc: 'Preview and animate SVG vector items.', cat: 'design', type: 'Graphics' },
+      { id: 'calc', name: 'Scientific Calculator', desc: 'A rich calculations console with matrix support.', cat: 'math', type: 'Calculator' },
+      { id: 'unit-conv', name: 'Universal Unit Converter', desc: 'Convert weight, length, temperature, data rates.', cat: 'math', type: 'Conversion' },
+      { id: 'subnet-calc', name: 'IP Subnet Calculator', desc: 'Calculate subnets, CIDRs, hosts, ranges.', cat: 'math', type: 'Conversion' },
+      { id: 'native-logcat', name: 'Logcat Viewer', desc: 'Capture and filter live Android system logs directly on the device.', cat: 'dev', type: 'Diagnostics' },
+      { id: 'native-device-info', name: 'Device Diagnostics', desc: 'View live RAM stats, battery health metrics, and hardware specifications.', cat: 'dev', type: 'Diagnostics' }
+    ];
+
+    // Track state
+    let favoritesList = ['json-formatter', 'base64', 'qr-generator'];
+    let selectedTool = null;
+    let currentCategoryFilter = 'all';
+
+    // Elements
+    const toolsGridList = document.getElementById('tools-grid-list');
+    const toolsEmpty = document.getElementById('tools-empty');
+    const toolSearchBar = document.getElementById('tool-search');
+    const viewDashboard = document.getElementById('view-dashboard');
+    const viewToolScreen = document.getElementById('view-tool-screen');
+    const viewPipeline = document.getElementById('view-pipeline');
+    const viewSettings = document.getElementById('view-settings');
+    const navDrawer = document.getElementById('nav-drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const cmdPalette = document.getElementById('cmd-palette');
+    const cmdResults = document.getElementById('cmd-results');
+    const appBarTitle = document.getElementById('app-bar-title');
+
+    // Bottom Navigation Elements
+    const btnNavDashboard = document.getElementById('btn-nav-dashboard');
+    const btnNavPipeline = document.getElementById('btn-nav-pipeline');
+    const btnNavSettings = document.getElementById('btn-nav-settings');
+
+    // Initialize Grid
+    function renderTools() {
+      toolsGridList.innerHTML = '';
+      let filtered = tools;
+
+      // Filter by category
+      if (currentCategoryFilter !== 'all') {
+        if (currentCategoryFilter === 'fav') {
+          filtered = tools.filter(t => favoritesList.includes(t.id));
+        } else {
+          filtered = tools.filter(t => t.cat === currentCategoryFilter);
+        }
+      }
+
+      // Filter by search query
+      const query = toolSearchBar.value.toLowerCase().trim();
+      if (query) {
+        filtered = filtered.filter(t => 
+          t.name.toLowerCase().includes(query) || 
+          t.desc.toLowerCase().includes(query)
+        );
+      }
+
+      if (filtered.length === 0) {
+        toolsGridList.style.display = 'none';
+        toolsEmpty.style.display = 'block';
+      } else {
+        toolsGridList.style.display = 'grid';
+        toolsEmpty.style.display = 'none';
+
+        filtered.forEach(tool => {
+          const isFav = favoritesList.includes(tool.id);
+          const card = document.createElement('div');
+          card.className = `tool-card ${tool.cat}`;
+          card.onclick = () => openTool(tool);
+
+          // Get appropriate SVG icon based on category
+          let iconSvg = '';
+          if (tool.cat === 'dev') {
+            iconSvg = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`;
+          } else if (tool.cat === 'text') {
+            iconSvg = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>`;
+          } else if (tool.cat === 'design') {
+            iconSvg = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`;
+          } else {
+            iconSvg = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>`;
+          }
+
+          card.innerHTML = `
+            <span class="fav-star ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${tool.id}')">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </span>
+            <div class="tool-icon-wrapper">
+              ${iconSvg}
+            </div>
+            <h4>${tool.name}</h4>
+            <p>${tool.desc}</p>
+          `;
+          toolsGridList.appendChild(card);
+        });
+      }
+    }
+
+    // Toggle Drawer Navigation
+    function toggleDrawer() {
+      navDrawer.classList.toggle('open');
+      drawerOverlay.classList.toggle('active');
+    }
+
+    // Open/Close Command Palette
+    function openCmdPalette() {
+      cmdPalette.style.display = 'flex';
+      document.getElementById('cmd-search').value = '';
+      filterCmdPalette();
+      setTimeout(() => document.getElementById('cmd-search').focus(), 100);
+    }
+
+    function toggleCmdPalette(event) {
+      cmdPalette.style.display = 'none';
+    }
+
+    function filterCmdPalette() {
+      const q = document.getElementById('cmd-search').value.toLowerCase().trim();
+      const filtered = tools.filter(t => t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q));
+      
+      cmdResults.innerHTML = '';
+      if (filtered.length === 0) {
+        cmdResults.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 16px;">No commands found</div>';
+      } else {
+        filtered.forEach(tool => {
+          const item = document.createElement('div');
+          item.className = 'cmd-result-item';
+          item.onclick = () => {
+            cmdPalette.style.display = 'none';
+            openTool(tool);
+          };
+          item.innerHTML = `
+            <span>${tool.name}</span>
+            <span class="cmd-shortcut">${tool.cat.toUpperCase()}</span>
+          `;
+          cmdResults.appendChild(item);
+        });
+      }
+    }
+
+    // Filter tools via search bar
+    function filterTools() {
+      renderTools();
+    }
+
+    // Select category pills
+    function selectCategory(pill) {
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentCategoryFilter = pill.getAttribute('data-cat');
+      
+      const title = document.getElementById('grid-title');
+      if (currentCategoryFilter === 'all') title.textContent = 'All Utilities';
+      else if (currentCategoryFilter === 'fav') title.textContent = ' ⭐ Favorite Utilities';
+      else if (currentCategoryFilter === 'dev') title.textContent = ' 🛠️ Developer Utilities';
+      else if (currentCategoryFilter === 'text') title.textContent = ' 📝 Text Utilities';
+      else if (currentCategoryFilter === 'design') title.textContent = ' 🎨 Design Utilities';
+      else if (currentCategoryFilter === 'math') title.textContent = ' 📐 Math & Conversion';
+
+      renderTools();
+    }
+
+    // Switch categories from drawer
+    function switchCategory(cat) {
+      switchView('dashboard');
+      const pill = document.querySelector(`.pill[data-cat="${cat}"]`);
+      if (pill) {
+        selectCategory(pill);
+      }
+    }
+
+    // Toggle Favorites
+    function toggleFavorite(event, toolId) {
+      event.stopPropagation();
+      const index = favoritesList.indexOf(toolId);
+      if (index === -1) {
+        favoritesList.push(toolId);
+      } else {
+        favoritesList.splice(index, 1);
+      }
+      renderTools();
+    }
+
+    function toggleCurrentToolFavorite() {
+      if (!selectedTool) return;
+      const toolId = selectedTool.id;
+      const index = favoritesList.indexOf(toolId);
+      const starSvg = document.getElementById('tool-view-star-svg');
+      const starBtn = document.getElementById('tool-view-star-btn');
+      
+      if (index === -1) {
+        favoritesList.push(toolId);
+        starBtn.style.color = 'var(--accent-orange)';
+        starSvg.style.fill = 'currentColor';
+      } else {
+        favoritesList.splice(index, 1);
+        starBtn.style.color = 'var(--text-main)';
+        starSvg.style.fill = 'none';
+      }
+      renderTools();
+    }
+
+    // Navigation views (Dashboard vs Tool vs Pipeline vs Settings)
+    function switchView(viewName) {
+      document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
+      document.querySelectorAll('.bottom-nav-item').forEach(item => item.classList.remove('active'));
+
+      if (viewName === 'dashboard') {
+        viewDashboard.classList.add('active');
+        btnNavDashboard.classList.add('active');
+        appBarTitle.textContent = "OmniTool Hub";
+      } else if (viewName === 'pipeline') {
+        viewPipeline.classList.add('active');
+        btnNavPipeline.classList.add('active');
+        appBarTitle.textContent = "Smart Chain";
+      } else if (viewName === 'settings') {
+        viewSettings.classList.add('active');
+        btnNavSettings.classList.add('active');
+        appBarTitle.textContent = "Settings";
+      } else if (viewName === 'tool') {
+        viewToolScreen.classList.add('active');
+        appBarTitle.textContent = selectedTool ? selectedTool.name : "Tool Layout";
+      }
+    }
+
+    // Open Individual Tool layout screen
+    function openTool(tool) {
+      selectedTool = tool;
+      
+      // Update screen details
+      document.getElementById('tool-view-name').textContent = tool.name;
+      document.getElementById('tool-view-desc').textContent = tool.desc;
+      
+      const badge = document.getElementById('tool-view-badge');
+      badge.className = `tool-category-badge badge-${tool.cat}`;
+      if (tool.cat === 'dev') badge.textContent = 'Developer';
+      else if (tool.cat === 'text') badge.textContent = 'Text';
+      else if (tool.cat === 'design') badge.textContent = 'Design';
+      else if (tool.cat === 'math') badge.textContent = 'Math';
+
+      // Update favorite status on the tool screen header
+      const isFav = favoritesList.includes(tool.id);
+      const starSvg = document.getElementById('tool-view-star-svg');
+      const starBtn = document.getElementById('tool-view-star-btn');
+      if (isFav) {
+        starBtn.style.color = 'var(--accent-orange)';
+        starSvg.style.fill = 'currentColor';
+      } else {
+        starBtn.style.color = 'var(--text-main)';
+        starSvg.style.fill = 'none';
+      }
+
+      // Pre-fill inputs based on tool mockups
+      const inputMock = document.getElementById('tool-input-mock');
+      const outputMock = document.getElementById('tool-output-mock');
+      outputMock.value = '';
+      
+      if (tool.id === 'json-formatter') {
+        inputMock.value = '{"project":"OmniTool","release":"v2","status":"premium","layoutOnly":true}';
+      } else if (tool.id === 'base64') {
+        inputMock.value = 'OmniTool Hub Android App';
+      } else if (tool.id === 'hash-gen') {
+        inputMock.value = 'admin123';
+      } else if (tool.id === 'native-logcat') {
+        inputMock.value = 'Filter tag (e.g. ActivityManager)';
+      } else if (tool.id === 'native-device-info') {
+        inputMock.value = 'Press Run to scan diagnostics';
+      } else {
+        inputMock.value = 'Sample input value for ' + tool.name;
+      }
+
+      switchView('tool');
+    }
+
+    // Mock Tool Actions
+    function simulateToolAction() {
+      const inputVal = document.getElementById('tool-input-mock').value;
+      const outputMock = document.getElementById('tool-output-mock');
+      
+      if (!selectedTool) return;
+      
+      if (selectedTool.id === 'json-formatter') {
+        try {
+          const parsed = JSON.parse(inputVal);
+          outputMock.value = JSON.stringify(parsed, null, 4);
+        } catch(e) {
+          outputMock.value = 'Error: Invalid JSON Format!\n\nThis would run native Kotlin validator inside the Android build.';
+        }
+      } else if (selectedTool.id === 'base64') {
+        outputMock.value = btoa(inputVal);
+      } else if (selectedTool.id === 'hash-gen') {
+        outputMock.value = 'sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n(Simulated Hash Code Layout)';
+      } else if (selectedTool.id === 'native-logcat') {
+        outputMock.value = `I/ActivityManager( 1200): Displayed com.omnitool.hub/.MainActivity: +450ms\nD/NetworkMonitor( 2102): Checking internet availability... Offline Mode Active.\nI/BatteryService(  890): Battery status: discharging, level: 78%, temperature: 31.2C\nW/InputMethodManagerService( 1200): Window focus lost, hiding keyboard IME\nE/AndroidRuntime( 4510): FATAL EXCEPTION: main\nE/AndroidRuntime( 4510): Process: com.test.app, PID: 4510\nE/AndroidRuntime( 4510): java.lang.NullPointerException: Attempt to invoke virtual method on a null object reference`;
+      } else if (selectedTool.id === 'native-device-info') {
+        outputMock.value = `[DEVICE DIAGNOSTICS]\n- Model: Pixel 8 Pro\n- Manufacturer: Google\n- Android version: 14 (API Level 34)\n- RAM Allocation: 4.85 GB Used / 12.00 GB Total (OK)\n- Battery Level: 78%\n- Temperature: 31.2 °C (Cool)\n- Charging: Discharging (USB unconnected)`;
+      } else {
+        outputMock.value = 'Layout Mock Action executed on input:\n"' + inputVal + '"\n\nResult formatting looks perfect!';
+      }
+    }
+
+    // Clear outputs
+    function clearToolInputs() {
+      document.getElementById('tool-input-mock').value = '';
+      document.getElementById('tool-output-mock').value = '';
+    }
+
+    // Paste mock
+    function simulateSmartPaste() {
+      const inputMock = document.getElementById('tool-input-mock');
+      if (selectedTool && selectedTool.id === 'json-formatter') {
+        inputMock.value = '{\n  "clipboard_data": "autodetected",\n  "format": "json"\n}';
+      } else {
+        inputMock.value = 'Pasted clip data for ' + (selectedTool ? selectedTool.name : 'tool');
+      }
+    }
+
+    // Copy mock
+    function copyToolOutputs() {
+      const outputVal = document.getElementById('tool-output-mock').value;
+      if (outputVal) {
+        navigator.clipboard.writeText(outputVal);
+        alert('Copied output to clipboard!');
+      } else {
+        alert('No output to copy yet!');
+      }
+    }
+
+    // Kickstart app
+    renderTools();
+  </script>
+</body>
+</html>
