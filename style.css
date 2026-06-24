@@ -96,9 +96,7 @@ body {
   width: 100vw;
   height: 100vh;
   position: relative;
-  overflow-x: hidden;
-  /* Prevent horizontal scroll but allow dropdown overflow vertically */
-  overflow-y: visible;
+  overflow: hidden;
 }
 
 /* Background Glowing Blobs */
@@ -412,9 +410,24 @@ body {
 }
 
 #header-view-title,
-.theme-badge,
-.clock-widget {
+#theme-mode-badge {
   display: none !important;
+}
+
+.clock-widget {
+  display: none;
+}
+
+.theme-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background-color: rgba(var(--accent-cyan-rgb), 0.1);
+  color: var(--accent-cyan);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .header-controls {
@@ -844,6 +857,10 @@ body {
     min-height: 480px;
     overflow-y: auto;
     scrollbar-width: thin;
+  }
+
+  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card) > * {
+    flex-shrink: 0;
   }
 
   .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar {

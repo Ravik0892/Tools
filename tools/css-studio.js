@@ -351,10 +351,16 @@ export default {
                 <option value="rhombus">Rhombus</option>
                 <option value="pentagon">Pentagon</option>
                 <option value="hexagon">Hexagon</option>
+                <option value="octagon">Octagon</option>
                 <option value="star">Star</option>
                 <option value="chevron">Chevron</option>
                 <option value="cross">Cross</option>
                 <option value="message-bubble">Message Bubble</option>
+                <option value="parallelogram">Parallelogram</option>
+                <option value="trapezoid">Trapezoid</option>
+                <option value="left-arrow">Left Arrow</option>
+                <option value="right-arrow">Right Arrow</option>
+                <option value="heart">Heart</option>
               </select>
             </div>
             
@@ -364,6 +370,30 @@ export default {
                 <button class="tool-btn secondary active" id="clip-bg-grid" style="font-size: 10px; padding: 4px 8px;">Grid</button>
                 <button class="tool-btn secondary" id="clip-bg-gradient" style="font-size: 10px; padding: 4px 8px;">Sunset Gradient</button>
                 <button class="tool-btn secondary" id="clip-bg-image" style="font-size: 10px; padding: 4px 8px;">Sample Image</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Transform Shape</label>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 4px;">
+                <button class="tool-btn secondary" id="clip-rotate-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Rotate 90 degrees clockwise">Rotate 90°</button>
+                <button class="tool-btn secondary" id="clip-center-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Center the shape inside canvas">Center</button>
+                <button class="tool-btn secondary" id="clip-reset-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Reset shape to preset defaults">Reset Shape</button>
+                <button class="tool-btn secondary" id="clip-fliph-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Flip horizontally">Flip Horiz</button>
+                <button class="tool-btn secondary" id="clip-flipv-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Flip vertically">Flip Vert</button>
+                <div style="height: 1px;"></div>
+                <button class="tool-btn secondary" id="clip-scaleup-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Scale shape up">Scale Up</button>
+                <button class="tool-btn secondary" id="clip-scaledown-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Scale shape down">Scale Down</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Translate / Shift Shape</label>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 4px;">
+                <button class="tool-btn secondary" id="clip-move-left" style="font-size: 10px; padding: 4px 2px; height: auto;" title="Move shape left">← Left</button>
+                <button class="tool-btn secondary" id="clip-move-up" style="font-size: 10px; padding: 4px 2px; height: auto;" title="Move shape up">↑ Up</button>
+                <button class="tool-btn secondary" id="clip-move-down" style="font-size: 10px; padding: 4px 2px; height: auto;" title="Move shape down">↓ Down</button>
+                <button class="tool-btn secondary" id="clip-move-right" style="font-size: 10px; padding: 4px 2px; height: auto;" title="Move shape right">→ Right</button>
               </div>
             </div>
 
@@ -745,7 +775,15 @@ export default {
       { name: "Cyberpunk", type: "linear", angle: 45, repeating: false, stops: [{ color: "#f107a3", position: 0 }, { color: "#7b2ff7", position: 50 }, { color: "#07f1f1", position: 100 }] },
       { name: "Peach Dream", type: "linear", angle: 135, repeating: false, stops: [{ color: "#ff9a9e", position: 0 }, { color: "#fecfef", position: 99 }, { color: "#fecfef", position: 100 }] },
       { name: "Deep Space", type: "radial", shape: "circle", position: "center", repeating: false, stops: [{ color: "#434343", position: 0 }, { color: "#000000", position: 100 }] },
-      { name: "Retro Stripe", type: "linear", angle: 90, repeating: true, stops: [{ color: "#ffbe0b", position: 0 }, { color: "#ffbe0b", position: 10 }, { color: "#fb5607", position: 10 }, { color: "#fb5607", position: 20 }] }
+      { name: "Retro Stripe", type: "linear", angle: 90, repeating: true, stops: [{ color: "#ffbe0b", position: 0 }, { color: "#ffbe0b", position: 10 }, { color: "#fb5607", position: 10 }, { color: "#fb5607", position: 20 }] },
+      { name: "Aurora Borealis", type: "linear", angle: 135, repeating: false, stops: [{ color: "#0575e6", position: 0 }, { color: "#00f260", position: 100 }] },
+      { name: "Flaming Orange", type: "linear", angle: 45, repeating: false, stops: [{ color: "#f857a6", position: 0 }, { color: "#ff5858", position: 100 }] },
+      { name: "Midnight Lavender", type: "linear", angle: 135, repeating: false, stops: [{ color: "#2f0743", position: 0 }, { color: "#41295a", position: 100 }] },
+      { name: "Cotton Candy", type: "linear", angle: 135, repeating: false, stops: [{ color: "#ff9a9e", position: 0 }, { color: "#fecfef", position: 50 }, { color: "#a1c4fd", position: 100 }] },
+      { name: "Golden Hour", type: "linear", angle: 45, repeating: false, stops: [{ color: "#ff8c00", position: 0 }, { color: "#ff007f", position: 50 }, { color: "#7928ca", position: 100 }] },
+      { name: "Emerald Lustre", type: "linear", angle: 135, repeating: false, stops: [{ color: "#11998e", position: 0 }, { color: "#38ef7d", position: 100 }] },
+      { name: "Royal Velvet", type: "linear", angle: 45, repeating: false, stops: [{ color: "#8a2387", position: 0 }, { color: "#e94057", position: 50 }, { color: "#f27121", position: 100 }] },
+      { name: "Electric Ice", type: "linear", angle: 90, repeating: false, stops: [{ color: "#00c6ff", position: 0 }, { color: "#0072ff", position: 100 }] }
     ];
 
     let customPresets = [];
@@ -1021,12 +1059,17 @@ export default {
       });
     };
 
+    // Render initial gradient stops and presets on load
+    renderGradientStops();
+    renderPresets();
+
     // Events
     gradType?.addEventListener("change", () => { updateGradientControlVisibility(); buildGradient(); });
     gradAngle?.addEventListener("input", buildGradient);
     shapeEl?.addEventListener("change", buildGradient);
     posEl?.addEventListener("change", buildGradient);
     repeatingEl?.addEventListener("change", buildGradient);
+    container.querySelector("#grad-harmony")?.addEventListener("change", generateHarmoniousGradient);
     container.querySelector("#grad-harmony-gen-btn")?.addEventListener("click", generateHarmoniousGradient);
     container.querySelector("#grad-randomize-btn")?.addEventListener("click", randomizeGradient);
 
@@ -1420,10 +1463,16 @@ export default {
       rhombus: [{ x: 50, y: 0 }, { x: 100, y: 50 }, { x: 50, y: 100 }, { x: 0, y: 50 }],
       pentagon: [{ x: 50, y: 0 }, { x: 100, y: 38 }, { x: 82, y: 100 }, { x: 18, y: 100 }, { x: 0, y: 38 }],
       hexagon: [{ x: 50, y: 0 }, { x: 100, y: 25 }, { x: 100, y: 75 }, { x: 50, y: 100 }, { x: 0, y: 75 }, { x: 0, y: 25 }],
+      octagon: [{ x: 30, y: 0 }, { x: 70, y: 0 }, { x: 100, y: 30 }, { x: 100, y: 70 }, { x: 70, y: 100 }, { x: 30, y: 100 }, { x: 0, y: 70 }, { x: 0, y: 30 }],
       star: [{ x: 50, y: 0 }, { x: 61, y: 35 }, { x: 98, y: 35 }, { x: 68, y: 57 }, { x: 79, y: 91 }, { x: 50, y: 70 }, { x: 21, y: 91 }, { x: 32, y: 57 }, { x: 2, y: 35 }, { x: 39, y: 35 }],
       chevron: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 75, y: 50 }, { x: 100, y: 100 }, { x: 0, y: 100 }, { x: 25, y: 50 }],
       cross: [{ x: 35, y: 0 }, { x: 65, y: 0 }, { x: 65, y: 35 }, { x: 100, y: 35 }, { x: 100, y: 65 }, { x: 65, y: 65 }, { x: 65, y: 100 }, { x: 35, y: 100 }, { x: 35, y: 65 }, { x: 0, y: 65 }, { x: 0, y: 35 }, { x: 35, y: 35 }],
-      "message-bubble": [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 75 }, { x: 75, y: 75 }, { x: 75, y: 100 }, { x: 50, y: 75 }, { x: 0, y: 75 }]
+      "message-bubble": [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 75 }, { x: 75, y: 75 }, { x: 75, y: 100 }, { x: 50, y: 75 }, { x: 0, y: 75 }],
+      parallelogram: [{ x: 25, y: 0 }, { x: 100, y: 0 }, { x: 75, y: 100 }, { x: 0, y: 100 }],
+      trapezoid: [{ x: 20, y: 0 }, { x: 80, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }],
+      "left-arrow": [{ x: 40, y: 0 }, { x: 40, y: 20 }, { x: 100, y: 20 }, { x: 100, y: 80 }, { x: 40, y: 80 }, { x: 40, y: 100 }, { x: 0, y: 50 }],
+      "right-arrow": [{ x: 0, y: 20 }, { x: 60, y: 20 }, { x: 60, y: 0 }, { x: 100, y: 50 }, { x: 60, y: 100 }, { x: 60, y: 80 }, { x: 0, y: 80 }],
+      heart: [{ x: 50, y: 15 }, { x: 64, y: 0 }, { x: 85, y: 0 }, { x: 100, y: 20 }, { x: 100, y: 50 }, { x: 50, y: 95 }, { x: 0, y: 50 }, { x: 0, y: 20 }, { x: 15, y: 0 }, { x: 36, y: 0 }]
     };
 
     const loadClipPreset = (presetName) => {
@@ -1574,6 +1623,103 @@ export default {
         y: Math.round((last.y + first.y) / 2)
       };
       clipPoints.push(nextPt);
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-rotate-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        const newX = 50 - (pt.y - 50);
+        const newY = 50 + (pt.x - 50);
+        pt.x = Math.min(Math.max(Math.round(newX), 0), 100);
+        pt.y = Math.min(Math.max(Math.round(newY), 0), 100);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-center-btn")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      let minX = 100, maxX = 0, minY = 100, maxY = 0;
+      clipPoints.forEach(pt => {
+        if (pt.x < minX) minX = pt.x;
+        if (pt.x > maxX) maxX = pt.x;
+        if (pt.y < minY) minY = pt.y;
+        if (pt.y > maxY) maxY = pt.y;
+      });
+      const offsetX = 50 - Math.round((minX + maxX) / 2);
+      const offsetY = 50 - Math.round((minY + maxY) / 2);
+      clipPoints.forEach(pt => {
+        pt.x = Math.min(Math.max(pt.x + offsetX, 0), 100);
+        pt.y = Math.min(Math.max(pt.y + offsetY, 0), 100);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-reset-btn")?.addEventListener("click", () => {
+      if (cpPreset) {
+        loadClipPreset(cpPreset.value);
+        appInstance.showToast("Shape reset to default coordinates", "info");
+      }
+    });
+
+    container.querySelector("#clip-fliph-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.x = 100 - pt.x;
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-flipv-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.y = 100 - pt.y;
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-scaleup-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        const newX = 50 + (pt.x - 50) * 1.1;
+        const newY = 50 + (pt.y - 50) * 1.1;
+        pt.x = Math.min(Math.max(Math.round(newX), 0), 100);
+        pt.y = Math.min(Math.max(Math.round(newY), 0), 100);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-scaledown-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        const newX = 50 + (pt.x - 50) * 0.9;
+        const newY = 50 + (pt.y - 50) * 0.9;
+        pt.x = Math.min(Math.max(Math.round(newX), 0), 100);
+        pt.y = Math.min(Math.max(Math.round(newY), 0), 100);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-move-left")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.x = Math.max(0, pt.x - 5);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-move-right")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.x = Math.min(100, pt.x + 5);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-move-up")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.y = Math.max(0, pt.y - 5);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-move-down")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.y = Math.min(100, pt.y + 5);
+      });
       renderClipPathUI();
     });
 

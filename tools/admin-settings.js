@@ -10,7 +10,7 @@ export default {
           </div>
 
           <!-- Tabs Nav bar -->
-          <div class="settings-tabs-bar" style="display: flex; gap: 4px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 16px; overflow-x: auto;">
+          <div class="settings-tabs-bar" style="display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 16px;">
             <button class="settings-tab-btn active" data-tab="tab-ads" style="background: none; border: none; border-bottom: 2px solid var(--accent-cyan); color: var(--accent-cyan); font-weight: 700; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Monetization &amp; Ads</button>
             <button class="settings-tab-btn" data-tab="tab-aesthetics" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Theme &amp; Aesthetics</button>
             <button class="settings-tab-btn" data-tab="tab-tools-visibility" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Tool Visibility</button>
