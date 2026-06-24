@@ -102,6 +102,64 @@ export default {
             </div>
           </div>
         </div>
+
+        <!-- Quick Guide & Example Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide & Instructions</span>
+            </div>
+            <button class="tool-btn secondary" id="pdf-guide-load-sample" style="font-size: 11px;">Try Example</button>
+          </div>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Import PDF</strong>: Drag &amp; drop your PDF document or click to browse. Files are processed entirely client-side.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Select Action</strong>: Switch to <strong>Split PDF</strong> to extract specific ranges, or <strong>Compress PDF</strong> to reduce file size.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Configure &amp; Download</strong>: Select visual thumbnails, select DPI parameters, and download your processed document.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Split Ranges</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Compression DPI</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Selected Pages</span>
+                <div class="tool-guide-io-value">Range: "1-2, 5" (From a 5-page sample document)</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Extracted PDF</span>
+                <div class="tool-guide-io-value">New PDF with exactly Pages 1, 2, and 5 compiled.</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input File Size</span>
+                <div class="tool-guide-io-value">Large PDF: 8.5 MB (200 DPI scanned pages)</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Compressed Output</span>
+                <div class="tool-guide-io-value">Balanced Mode (150 DPI): ~2.1 MB (75% savings)</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <style>
@@ -784,5 +842,77 @@ export default {
         clearBtn.disabled = false;
       }
     };
+
+    // Examples Tab Switching
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
+    container.querySelector("#pdf-guide-load-sample")?.addEventListener("click", async () => {
+      try {
+        previewStatus.innerText = "Initializing engines...";
+        this.pdfjs = await loadPdfJs();
+        this.pdfLib = await loadPdfLib();
+
+        previewStatus.innerText = "Generating sample PDF...";
+        const newDoc = await this.pdfLib.PDFDocument.create();
+        
+        // Add 5 blank pages
+        for (let p = 1; p <= 5; p++) {
+          newDoc.addPage([500, 700]);
+        }
+        
+        const pdfBytes = await newDoc.save();
+        this.pdfDoc = pdfBytes.buffer;
+        this.totalPages = 5;
+        this.fileName = "sample_document.pdf";
+        
+        infoFileName.innerText = "sample_document.pdf";
+        infoPageCount.innerText = "5 Page(s)";
+        infoFileSize.innerText = "15 KB";
+        infoCard.classList.remove("hidden");
+
+        clearBtn.disabled = false;
+        splitRangeInput.disabled = false;
+        oddBtn.disabled = false;
+        evenBtn.disabled = false;
+        allBtn.disabled = false;
+        splitBtn.disabled = false;
+        compressProfileSelect.disabled = false;
+        compressBtn.disabled = false;
+
+        this.selectedPages.clear();
+        splitRangeInput.value = "";
+        previewStatus.innerText = "Generating thumbnails...";
+
+        const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(this.pdfDoc.slice(0)) });
+        const pdf = await loadingTask.promise;
+        await generateThumbnails(pdf);
+        
+        // If they had the split tab active, pre-select some odd pages as an interactive default
+        if (activeExampleIndex === 0) {
+          oddBtn.click();
+          appInstance.showToast("Generated 5-page sample & pre-selected Odd Pages!", "success");
+        } else {
+          compressProfileSelect.value = "balanced";
+          appInstance.showToast("Generated 5-page sample! Switch to Compress tab to test.", "success");
+        }
+      } catch (err) {
+        console.error(err);
+        appInstance.showToast("Failed to generate sample PDF: " + err.message, "error");
+        previewStatus.innerText = `Error: ${err.message}`;
+      }
+    });
   }
 };

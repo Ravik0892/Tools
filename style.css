@@ -385,6 +385,7 @@ body {
   display: flex;
   flex-direction: column;
   z-index: 1;
+  position: relative;
   overflow: visible;
   /* Allow mega-menu dropdowns to overflow */
   height: 100%;
@@ -834,6 +835,33 @@ body {
 @media (min-width: 1024px) {
   .tool-content-layout.split-view {
     grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 24px;
+  }
+
+  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card) {
+    height: calc(100vh - 240px);
+    min-height: 480px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+
+  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
   }
 }
 
@@ -4718,4 +4746,149 @@ body {
 /* Global utility to hide elements, overriding inline display settings */
 .hidden {
   display: none !important;
+}
+
+/* Guide Scroll Arrow - Floating bottom center indicators */
+.guide-scroll-arrow {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(18, 24, 38, 0.85);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(var(--accent-cyan-rgb), 0.35);
+  color: var(--accent-cyan);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 12px rgba(var(--accent-cyan-rgb), 0.2);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color var(--transition-fast), border-color var(--transition-fast);
+  animation: bounce-arrow-down 2s infinite;
+}
+
+.guide-scroll-arrow:hover {
+  background: rgba(var(--accent-cyan-rgb), 0.15);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 4px 20px rgba(var(--accent-cyan-rgb), 0.4);
+}
+
+.guide-scroll-arrow.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(10px);
+}
+
+.guide-scroll-arrow svg {
+  display: block;
+}
+
+@keyframes bounce-arrow-down {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-6px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-3px);
+  }
+}
+
+/* In-Panel Ads (For Split-View Pinned Layout) */
+.tool-panel-ad {
+  margin-top: auto; /* Pins the ad to the bottom of flex panel */
+  padding-top: 16px;
+  border-top: 1px dashed var(--border-color);
+  width: 100%;
+}
+
+.tool-panel-ad .sponsor-ad-block {
+  margin-bottom: 0;
+  padding: 12px 16px;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.tool-panel-ad .ad-horizontal-left {
+  gap: 10px;
+}
+
+.tool-panel-ad .ad-image-placeholder {
+  width: 36px;
+  height: 36px;
+}
+
+.tool-panel-ad .ad-image-placeholder svg {
+  width: 18px;
+  height: 18px;
+}
+
+.tool-panel-ad .ad-brand {
+  font-size: 12px;
+}
+
+.tool-panel-ad .ad-slogan {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.tool-panel-ad .ad-action-btn {
+  padding: 6px 12px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* Google AdSense Mock in side panels scaling */
+.tool-panel-ad .admob-adsense-mock {
+  margin: 0;
+  padding: 12px;
+}
+
+.tool-panel-ad .admob-adsense-mock .mock-badge {
+  font-size: 8px;
+  padding: 2px 6px;
+}
+
+.tool-panel-ad .admob-adsense-mock .mock-logo {
+  gap: 6px;
+  font-size: 12px;
+}
+
+.tool-panel-ad .admob-adsense-mock .mock-logo svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tool-panel-ad .admob-adsense-mock .mock-details {
+  font-size: 10px;
+}
+
+.tool-panel-ad .admob-adsense-mock .mock-note {
+  font-size: 9px;
+}
+
+/* Responsive collapse for in-panel ads when narrow */
+@media (max-width: 1200px) {
+  .tool-panel-ad .sponsor-ad-block {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .tool-panel-ad .ad-horizontal-left {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .tool-panel-ad .ad-action-btn {
+    width: 100%;
+    text-align: center;
+  }
 }

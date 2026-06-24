@@ -104,8 +104,8 @@ const app = {
     },
     {
       id: "regex-tester",
-      name: "Visual Regex Tester",
-      desc: "Test regular expressions with flags, highlight matches, and view structured match groups.",
+      name: "Visual Regex & Extractor Suite",
+      desc: "Test regular expressions visually, capture match groups, and batch-extract or replace phone numbers, emails, IPs, and URLs.",
       category: "text",
       subcategory: "text-regex",
       subLabel: "Pattern Analysis",
@@ -277,8 +277,142 @@ const app = {
       accent: "#f59e0b",
       accentRgb: "245, 158, 11",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>`
+    },
+    {
+      id: "code-playground",
+      name: "HTML/CSS/JS Live Playground",
+      desc: "Write front-end HTML, CSS, and JavaScript in real-time, see live rendering in a sandbox iframe, and catch output logs in a simulated console.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Generators",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline><line x1="12" y1="2" x2="12" y2="22"></line></svg>`
+    },
+    {
+      id: "ip-subnet-calculator",
+      name: "IP Subnet & MAC Address Suite",
+      desc: "Calculate subnet CIDR parameters, inspect host ranges, format MAC addresses, and perform local manufacturer OUI lookups.",
+      category: "math",
+      subcategory: "math-calc",
+      subLabel: "Calculator",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="10" x2="6" y2="14"></line><line x1="18" y1="10" x2="18" y2="14"></line></svg>`
     }
   ],
+
+  // Centralized Tool Benefits Registry for visual guide cards
+  toolBenefits: {
+    "pipeline-builder": [
+      "<strong>Data Chaining</strong>: Run multiple converters, encoders, and case transformations sequentially on the same dataset in a single click.",
+      "<strong>Local & Secure</strong>: Processes all chains 100% offline, keeping sensitive API logs and tokens secure."
+    ],
+    "formatter-suite": [
+      "<strong>Syntax Diagnostics</strong>: Identify nesting anomalies, trailing commas, or parsing errors in JSON, YAML, and SQL instantly.",
+      "<strong>Interoperable Conversions</strong>: Seamlessly migrate data between CSV, JSON structures, and configuration files."
+    ],
+    "text-encoder-suite": [
+      "<strong>Secure Encoding</strong>: Run high-performance Base64 and URL encoding/decoding without leaking variables to external servers.",
+      "<strong>Case Standardization</strong>: Quickly normalize variable formats (snake_case, camelCase, kebab-case) for clean codebase migrations."
+    ],
+    "jwt-decoder": [
+      "<strong>Claim Verification</strong>: Read payload descriptors, issuer scopes, and security claims securely without key exposure.",
+      "<strong>Expiration Stamps</strong>: Automatically parse issue (iat) and expiry (exp) times to diagnose active token problems."
+    ],
+    "crypto-suite": [
+      "<strong>Robust Hashes</strong>: Generate MD5, SHA-256, and SHA-512 values client-side for checksums and integrity auditing.",
+      "<strong>Symmetric & Asymmetric Keys</strong>: Encrypt payloads with AES-256 GCM or generate secure SPKI RSA key-pairs instantly."
+    ],
+    "markdown-preview": [
+      "<strong>Real-Time Preview</strong>: Render formatted markdown, headers, tables, and lists side-by-side as you type.",
+      "<strong>Standard HTML Export</strong>: Copy parsed HTML markup to paste into content management systems or documentation."
+    ],
+    "text-diff": [
+      "<strong>Side-by-Side Comparison</strong>: Instantly spot missing lines, visual differences, or character changes between two blocks of text.",
+      "<strong>Clean Diffing Heuristics</strong>: Optimized for comparing codebase revisions, JSON responses, or config structures."
+    ],
+    "pdf-searcher": [
+      "<strong>Multi-File Search</strong>: Query text, figures, and numerical records across multiple large PDF documents simultaneously.",
+      "<strong>OCR Engine Integration</strong>: Scan and search text in low-resolution or scanned PDFs via local multi-language OCR."
+    ],
+    "pdf-utilities": [
+      "<strong>Split and Extract</strong>: Group page selections visually or via range syntax to assemble brand-new custom PDF documents.",
+      "<strong>Canvas Resolution Compression</strong>: Decrease file size using device-performance DPI downscaling options."
+    ],
+    "regex-tester": [
+      "<strong>Visual Matching</strong>: Highlights matches and captures named groups in real-time as you refine your regex pattern.",
+      "<strong>Standard Flags</strong>: Supports global, case-insensitive, and multi-line matching parameters."
+    ],
+    "css-studio": [
+      "<strong>Frosted Glassmorphism</strong>: Build high-performance glass cards with custom blur filters and borders.",
+      "<strong>Layered Box Shadows</strong>: Layer offsets, blurs, spreads, and gradients to create realistic CSS depth effects."
+    ],
+    "color-lab": [
+      "<strong>WCAG Contrast Auditing</strong>: Ensure color pairings meet AA/AAA web accessibility standards dynamically.",
+      "<strong>Palette Harmony</strong>: Automatically generate monochromatic, triadic, and analogous palettes with shades and tints."
+    ],
+    "security-suite": [
+      "<strong>Entropy Strength</strong>: Evaluate password complexity, length, and randomness scores to audit security strength.",
+      "<strong>Bulk UUID Keys</strong>: Generate up to 1,000 standard RFC 4122 v4 keys in a single batch for DB seeds."
+    ],
+    "datetime-suite": [
+      "<strong>Epoch Conversion</strong>: Convert Unix timestamp numbers to localized date strings and vice versa.",
+      "<strong>Duration Calculator</strong>: Compute exact time distances (days, hours, minutes) between two dates."
+    ],
+    "unit-converter": [
+      "<strong>Storage Conversions</strong>: Instantly switch between bytes, kilobytes, gigabytes, and terabytes.",
+      "<strong>Physical Metric Conversion</strong>: Shift values across length, weight, and temperature systems."
+    ],
+    "graphics-studio": [
+      "<strong>Client-Side Photo Studio</strong>: Take webcam snapshots, overlay filters, crop sizes, and copy images to clipboard.",
+      "<strong>No-Cloud Security</strong>: Edit screenshots and images offline with zero storage leaks."
+    ],
+    "calculator": [
+      "<strong>Scientific Operations</strong>: Complete complex algebraic, trig, logarithmic, and factorial formulas.",
+      "<strong>2D Function Plotter</strong>: Input custom math functions f(x) and plot them on a coordinate grid."
+    ],
+    "qr-generator": [
+      "<strong>Custom dot patterns</strong>: Design distinct QR cards with custom eye structures, colors, and gradients.",
+      "<strong>Brand Integration</strong>: Upload or insert custom logo marks into the center of the QR code securely."
+    ],
+    "seo-previewer": [
+      "<strong>Mock Preview Cards</strong>: View metadata mockups for Google, Facebook, Twitter, and Discord instantly.",
+      "<strong>Meta Tag Generation</strong>: Standardise SEO titles and descriptions to export meta tags."
+    ],
+    "image-converter": [
+      "<strong>Quality and Format Optimization</strong>: Adjust resolutions and compression to convert between WebP, PNG, and JPEG.",
+      "<strong>Bulk Local Processing</strong>: Process and scale images offline without cloud bandwidth requirements."
+    ],
+    "svg-animator": [
+      "<strong>Animation Presets</strong>: Apply self-drawing paths, spins, pulses, or float animations to vector SVGs.",
+      "<strong>Clean Keyframe Output</strong>: Exports fully inline CSS-animated standard vector graphic files."
+    ],
+    "url-parser": [
+      "<strong>URL Parameter Inspector</strong>: Breakdown complex URL query parameters into editable key-value parameters.",
+      "<strong>Campaign UTM Tracking</strong>: Quickly append UTM parameters to campaign links for web traffic analysis."
+    ],
+    "text-analyzer": [
+      "<strong>Flesch Readability Scoring</strong>: Measure word, sentence, and syllable counts to check writing readability grades.",
+      "<strong>Tone & Structure Audit</strong>: Verify read times and word counts to optimize content length."
+    ],
+    "mock-data-generator": [
+      "<strong>Procedural Dataset Mocking</strong>: Design schemas containing names, prices, numbers, and dates.",
+      "<strong>Thread-Safe Bulk Export</strong>: Asynchronously generate and download up to 50,000 CSV or JSON rows."
+    ],
+    "admin-settings": [
+      "<strong>Ad Placement Control</strong>: Toggle banner visibility, edit AdSense IDs, and adjust simulated ads.",
+      "<strong>Application Cache Flush</strong>: Safely purge IndexedDB, Service Worker cache, and state variables."
+    ],
+    "code-playground": [
+      "<strong>Zero-Setup Prototyping</strong>: Instantly write and preview HTML, CSS, and JS side-by-side without creating local project files.",
+      "<strong>Simulated Debug Console</strong>: Capture all logs, warnings, and error messages in a styled console panel for real-time diagnostics."
+    ],
+    "ip-subnet-calculator": [
+      "<strong>Network Segmentation</strong>: Instantly calculate usable IP ranges, broadcast domains, and netmasks to plan complex subnet allocations.",
+      "<strong>Detailed Binary Visualization</strong>: View representations of subnets and wildcard boundaries to understand subnet division logic."
+    ]
+  },
 
   // State variables
   activeCategory: "all",      // 'all', 'fav'
@@ -435,7 +569,11 @@ const app = {
     listDesign.innerHTML = "";
     listMath.innerHTML = "";
 
+    const hiddenToolsStr = this.getConfigValue("omnitool_hidden_tools", "");
+    const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
+
     this.tools.forEach(tool => {
+      if (hiddenToolsSet.has(tool.id)) return;
       const li = document.createElement("li");
       li.innerHTML = `
         <a class="sidebar-tool-link mega-item" data-tool="${tool.id}">
@@ -569,6 +707,12 @@ const app = {
   },
 
   buildSidebarToolMenu() {
+    // Clear any existing sub-tool lists first to support clean rebuilds
+    document.querySelectorAll(".sidebar-sub-tools").forEach(el => el.remove());
+
+    const hiddenToolsStr = this.getConfigValue("omnitool_hidden_tools", "");
+    const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
+
     document.querySelectorAll(".subnav-link").forEach(link => {
       const filter = link.getAttribute("data-filter");
       if (!filter || filter.endsWith("-all")) return;
@@ -579,7 +723,7 @@ const app = {
       const subList = document.createElement("ul");
       subList.className = "sidebar-sub-tools";
 
-      const matchingTools = this.tools.filter(t => t.subcategory === filter);
+      const matchingTools = this.tools.filter(t => t.subcategory === filter && !hiddenToolsSet.has(t.id));
       matchingTools.forEach(tool => {
         const toolLi = document.createElement("li");
         toolLi.innerHTML = `<a class="sidebar-tool-link" data-tool="${tool.id}">${tool.name}</a>`;
@@ -1217,10 +1361,15 @@ const app = {
     if (!listEl) return;
 
     listEl.innerHTML = "";
+
+    const hiddenToolsStr = this.getConfigValue("omnitool_hidden_tools", "");
+    const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
+
     this.cpFiltered = this.tools.filter(t =>
-      t.name.toLowerCase().includes(clean) ||
-      t.desc.toLowerCase().includes(clean) ||
-      t.subLabel.toLowerCase().includes(clean)
+      !hiddenToolsSet.has(t.id) &&
+      (t.name.toLowerCase().includes(clean) ||
+       t.desc.toLowerCase().includes(clean) ||
+       t.subLabel.toLowerCase().includes(clean))
     );
 
     this.cpIndex = 0;
@@ -1662,6 +1811,9 @@ const app = {
 
     grid.innerHTML = "";
 
+    const hiddenToolsStr = this.getConfigValue("omnitool_hidden_tools", "");
+    const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
+
     // Read density layout config
     const density = this.getConfigValue("omnitool_layout_density", "comfortable");
     if (density === "compact") {
@@ -1693,6 +1845,9 @@ const app = {
         activeList = this.tools.filter(t => t.subcategory === this.activeSubcategory);
       }
     }
+
+    // Filter out hidden tools
+    activeList = activeList.filter(t => !hiddenToolsSet.has(t.id));
 
     if (this.activeCategory === "all" && this.activeSubcategory === "all") {
       if (hero) hero.style.display = "block";
@@ -1766,6 +1921,7 @@ const app = {
           catTools = this.tools.filter(t => t.subcategory === this.activeSubcategory);
         }
       }
+      catTools = catTools.filter(t => !hiddenToolsSet.has(t.id));
 
       const totalVal = catTools.length;
       const favVal = catTools.filter(t => this.favorites.has(t.id)).length;
@@ -1981,6 +2137,8 @@ const app = {
       }, 750);
     }
 
+    this._guideArrowCleanup?.();
+
     const dashboard = document.getElementById("dashboard-view");
     if (dashboard) dashboard.style.display = "none";
 
@@ -2067,6 +2225,9 @@ const app = {
       // Bind back button
       viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
 
+      // Preload admin-settings module in the background so it is instantly compiled and ready when unlocked
+      import('./tools/admin-settings.js').catch(() => {});
+
       const form = viewport.querySelector("#admin-auth-form");
       const input = viewport.querySelector("#admin-passcode-input");
       if (input) input.focus();
@@ -2079,7 +2240,19 @@ const app = {
         if (enteredPasscode === correctPasscode) {
           sessionStorage.setItem("omnitool_admin_authenticated", "true");
           this.showToast("Authorization successful!", "success");
-          this.navigateToTool(toolId, false);
+          
+          // Smooth fade-out of lock screen before navigating to avoid abrupt UI snaps
+          const lockScreen = viewport.querySelector(".admin-lock-screen");
+          if (lockScreen) {
+            lockScreen.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+            lockScreen.style.opacity = "0";
+            lockScreen.style.transform = "translateY(10px) scale(0.98)";
+            setTimeout(() => {
+              this.navigateToTool(toolId, false);
+            }, 250);
+          } else {
+            this.navigateToTool(toolId, false);
+          }
         } else {
           this.showToast("Invalid passcode! Access Denied.", "error");
           input.value = "";
@@ -2095,7 +2268,10 @@ const app = {
         window.location.hostname === "127.0.0.1" ||
         window.location.hostname === "127.0.0.1.nip.io" ||
         window.location.hostname === "host.docker.internal";
-      const cacheBust = isLocalhost ? `?t=${Date.now()}` : '';
+      
+      // Avoid forcing cache-busting by default to enable browser JIT/compilation caching, making navigation instant.
+      const useCacheBust = localStorage.getItem("omnitool_dev_cachebust") === "true";
+      const cacheBust = (isLocalhost && useCacheBust) ? `?t=${Date.now()}` : '';
       const module = await import('./tools/' + toolId + '.js' + cacheBust);
       const toolInstance = module.default;
 
@@ -2118,13 +2294,71 @@ const app = {
 
       viewport.innerHTML = toolbarHtml + toolInstance.renderUI();
 
-      // Append sponsor bar below tool contents
-      const toolAdHtml = this.getAdHtml("tool");
-      if (toolAdHtml) {
-        const sponsorBar = document.createElement("div");
-        sponsorBar.className = "tool-sponsor-bar";
-        sponsorBar.innerHTML = toolAdHtml;
-        viewport.appendChild(sponsorBar);
+      // Inject "How it Benefits You" dynamic section inside any present guide card
+      const guideCard = viewport.querySelector(".tool-guide-card");
+      if (guideCard) {
+        const benefits = this.toolBenefits[toolId];
+        if (benefits && !guideCard.querySelector(".tool-guide-benefits")) {
+          const benefitsDiv = document.createElement("div");
+          benefitsDiv.className = "tool-guide-benefits";
+          benefitsDiv.style.cssText = "margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.08); font-size: 12.5px; line-height: 1.5; color: var(--text-muted); text-align: left;";
+          benefitsDiv.innerHTML = `
+            <strong style="color: var(--accent-cyan); display: block; margin-bottom: 6px; font-size: 13px;">💡 How it Benefits You:</strong>
+            <ul style="margin: 0; padding-left: 18px; list-style-type: disc; display: flex; flex-direction: column; gap: 6px;">
+              ${benefits.map(b => `<li>${b}</li>`).join("")}
+            </ul>
+          `;
+          guideCard.appendChild(benefitsDiv);
+        }
+      }
+
+      // Append sponsor bar below tool contents (only if not a split-view tool)
+      const hasSplitView = viewport.querySelector(".tool-content-layout.split-view");
+      if (!hasSplitView) {
+        const toolAdHtml = this.getAdHtml("tool");
+        if (toolAdHtml) {
+          const sponsorBar = document.createElement("div");
+          sponsorBar.className = "tool-sponsor-bar";
+          sponsorBar.innerHTML = toolAdHtml;
+          viewport.appendChild(sponsorBar);
+        }
+      } else {
+        // Distribute ads inside split-view panels so page doesn't scroll
+        const panels = Array.from(viewport.querySelectorAll(".tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)"));
+        if (panels.length >= 2) {
+          // Left Panel Ad (1 ad)
+          const adHtml1 = this.getAdHtml("tool");
+          if (adHtml1) {
+            const adContainer = document.createElement("div");
+            adContainer.className = "tool-panel-ad";
+            adContainer.innerHTML = adHtml1;
+            panels[0].appendChild(adContainer);
+          }
+          // Right Panel Ad (1 ad)
+          const adHtml2 = this.getAdHtml("tool");
+          if (adHtml2) {
+            const adContainer2 = document.createElement("div");
+            adContainer2.className = "tool-panel-ad";
+            adContainer2.innerHTML = adHtml2;
+            panels[1].appendChild(adContainer2);
+          }
+        }
+
+        // Guide Card Ad (1 ad, bringing total to 3 ads while preserving layout space)
+        const guideCard = viewport.querySelector(".tool-guide-card");
+        if (guideCard) {
+          const adHtml3 = this.getAdHtml("tool");
+          if (adHtml3) {
+            const adContainer3 = document.createElement("div");
+            adContainer3.className = "tool-panel-ad";
+            adContainer3.style.marginTop = "18px";
+            adContainer3.style.paddingTop = "14px";
+            adContainer3.style.borderTop = "1px dashed var(--border-color)";
+            adContainer3.style.width = "100%";
+            adContainer3.innerHTML = adHtml3;
+            guideCard.appendChild(adContainer3);
+          }
+        }
       }
 
       // Bind back button
@@ -2152,6 +2386,54 @@ const app = {
 
       // Initialize tool module
       await toolInstance.init(viewport, this);
+
+      // Add a floating bouncing down arrow for split-view tools to scroll to the guide
+      const hasGuideCard = viewport.querySelector(".tool-guide-card");
+      
+      if (hasSplitView && hasGuideCard) {
+        const arrow = document.createElement("button");
+        arrow.className = "guide-scroll-arrow";
+        arrow.setAttribute("aria-label", "Scroll to Quick Guide");
+        arrow.title = "Scroll to Quick Guide";
+        arrow.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        `;
+        
+        const mainWrapper = document.querySelector(".main-wrapper");
+        if (mainWrapper) {
+          mainWrapper.appendChild(arrow);
+          
+          const contentArea = document.getElementById("content-area");
+          
+          const handleScroll = () => {
+            if (contentArea) {
+              const scrollTop = contentArea.scrollTop;
+              if (scrollTop > 80) {
+                arrow.classList.add("fade-out");
+              } else {
+                arrow.classList.remove("fade-out");
+              }
+            }
+          };
+          
+          arrow.addEventListener("click", () => {
+            hasGuideCard.scrollIntoView({ behavior: "smooth" });
+          });
+          
+          contentArea?.addEventListener("scroll", handleScroll);
+          
+          // Initial visibility state check
+          handleScroll();
+          
+          this._guideArrowCleanup = () => {
+            contentArea?.removeEventListener("scroll", handleScroll);
+            arrow.remove();
+            this._guideArrowCleanup = null;
+          };
+        }
+      }
 
       // Handle pending auto-paste values
       if (this.pendingPaste) {
@@ -2187,6 +2469,7 @@ const app = {
       return;
     }
 
+    this._guideArrowCleanup?.();
     this.playSynthSound('click');
 
     const viewport = document.getElementById("active-tool-viewport");

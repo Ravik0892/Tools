@@ -13,6 +13,7 @@ export default {
           <div class="settings-tabs-bar" style="display: flex; gap: 4px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 16px; overflow-x: auto;">
             <button class="settings-tab-btn active" data-tab="tab-ads" style="background: none; border: none; border-bottom: 2px solid var(--accent-cyan); color: var(--accent-cyan); font-weight: 700; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Monetization &amp; Ads</button>
             <button class="settings-tab-btn" data-tab="tab-aesthetics" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Theme &amp; Aesthetics</button>
+            <button class="settings-tab-btn" data-tab="tab-tools-visibility" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Tool Visibility</button>
             <button class="settings-tab-btn" data-tab="tab-backup" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Backup &amp; System</button>
           </div>
 
@@ -188,6 +189,21 @@ export default {
             </div>
           </div>
 
+          <!-- TAB 4: Tool Visibility -->
+          <div id="tab-tools-visibility" class="settings-tab-content" style="display: none;">
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label style="color: var(--accent-cyan);">Manage Active Utilities</label>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Toggle checkboxes to show or hide specific tools on the dashboard and sidebar menus. Hidden tools are still accessible via direct link if needed.</div>
+              <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button class="tool-btn secondary text-xs" id="btn-visibility-select-all" style="padding: 4px 10px; font-size: 11px; height: auto;">Show All</button>
+                <button class="tool-btn secondary text-xs" id="btn-visibility-select-none" style="padding: 4px 10px; font-size: 11px; height: auto;">Hide All</button>
+              </div>
+              <div id="tools-visibility-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; padding-right: 4px; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: rgba(0,0,0,0.15);">
+                <!-- Dynamically populated tool list with checkboxes -->
+              </div>
+            </div>
+          </div>
+
           <!-- TAB 3: Backup & System Content -->
           <div id="tab-backup" class="settings-tab-content" style="display: none;">
             <!-- Admin Security Settings -->
@@ -258,6 +274,64 @@ export default {
             <div style="display: flex; gap: 8px; margin-top: 6px;">
               <span style="font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(var(--accent-cyan-rgb), 0.12); color: var(--accent-cyan); border: 1px solid rgba(var(--accent-cyan-rgb), 0.2);">Cyan Accent</span>
               <span style="font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(var(--accent-purple-rgb), 0.12); color: var(--accent-purple); border: 1px solid rgba(var(--accent-purple-rgb), 0.2);">Purple Accent</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Guide & Example Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide & Instructions</span>
+            </div>
+            <button class="tool-btn secondary" id="settings-guide-load-sample" style="font-size: 11px;">Try Example</button>
+          </div>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Configure Ads</strong>: Toggle active ad containers, switch networks (AdSense/AdMob), and customize identifiers to preview layouts in the simulator.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Customize Aesthetics</strong>: Choose color presets (Cyber Cyan, Matrix Green, Vaporwave), choose grid densities, and adjust system widgets.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Manage Data</strong>: Export settings configurations as backup files, reset favorites or recent items lists, or purge PWA files.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Color Presets</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Grid Customization</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Selected Theme</span>
+                <div class="tool-guide-io-value">Vaporwave Preset (Magenta &amp; Cyan Gradient)</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 System Visuals</span>
+                <div class="tool-guide-io-value">UI components, buttons, and card borders glow with high-contrast cyberpunk gradients.</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Tile Density</span>
+                <div class="tool-guide-io-value">Set to "Compact Mode" (Hides descriptions)</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Dashboard Layout</span>
+                <div class="tool-guide-io-value">Compact dashboard grid displaying title cards only, fitting more utilities on one screen.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -358,6 +432,56 @@ export default {
     const appAudio = container.querySelector("#app-audio-feedback");
     const adminPasscode = container.querySelector("#app-admin-passcode");
 
+    // Tool visibility helper
+    const populateToolsVisibility = () => {
+      const visibilityList = container.querySelector("#tools-visibility-list");
+      if (!visibilityList) return;
+
+      visibilityList.innerHTML = "";
+
+      const hiddenToolsStr = appInstance.getConfigValue("omnitool_hidden_tools", "");
+      const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
+
+      appInstance.tools.forEach(tool => {
+        const itemDiv = document.createElement("div");
+        itemDiv.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);";
+        
+        const isHidden = hiddenToolsSet.has(tool.id);
+        const isAdmin = tool.id === "admin-settings";
+        
+        itemDiv.innerHTML = `
+          <label style="display: flex; align-items: center; gap: 8px; cursor: ${isAdmin ? 'not-allowed' : 'pointer'}; flex: 1; font-size: 13px; font-weight: 500;">
+            <input type="checkbox" class="tool-visibility-checkbox" data-tool-id="${tool.id}" ${!isHidden ? 'checked' : ''} ${isAdmin ? 'disabled' : ''} style="cursor: ${isAdmin ? 'not-allowed' : 'pointer'};">
+            <span>${tool.name}</span>
+          </label>
+          <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">${tool.subLabel}</span>
+        `;
+        visibilityList.appendChild(itemDiv);
+      });
+    };
+
+    container.querySelector("#btn-visibility-select-all")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
+        cb.checked = true;
+      });
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
+    });
+
+    container.querySelector("#btn-visibility-select-none")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
+        if (cb.getAttribute("data-tool-id") !== "admin-settings") {
+          cb.checked = false;
+        }
+      });
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
+    });
+
     // Load configs from storage
     const loadSettings = () => {
       adGlobal.checked = appInstance.getConfigValue("omnitool_ad_global", "true") !== "false";
@@ -390,6 +514,7 @@ export default {
 
       toggleFormFields(adNetwork.value);
       updateSimulatorPreview();
+      populateToolsVisibility();
     };
 
     // Toggle fields depending on provider
@@ -523,9 +648,24 @@ export default {
         localStorage.setItem("omnitool_admin_passcode", adminPasscode.value.trim());
       }
 
+      // Save hidden tools configuration
+      const hiddenTools = [];
+      container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
+        if (!cb.checked) {
+          hiddenTools.push(cb.getAttribute("data-tool-id"));
+        }
+      });
+      localStorage.setItem("omnitool_hidden_tools", hiddenTools.join(","));
+
       // Apply configurations instantly
       if (typeof appInstance.applyAccentPreset === 'function') {
         appInstance.applyAccentPreset();
+      }
+      if (typeof appInstance.buildSidebarToolMenu === 'function') {
+        appInstance.buildSidebarToolMenu();
+      }
+      if (typeof appInstance.buildMegaMenu === 'function') {
+        appInstance.buildMegaMenu();
       }
 
       appInstance.showToast("✅ Settings saved! Changes are live instantly. Use \"Export Config\" to download ad-config.json for deployment.", "success");
@@ -548,7 +688,15 @@ export default {
 
     // Export global configurations to ad-config.json
     const triggerAdConfigDownload = () => {
+      const hiddenTools = [];
+      container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
+        if (!cb.checked) {
+          hiddenTools.push(cb.getAttribute("data-tool-id"));
+        }
+      });
+
       const data = {
+        "omnitool_hidden_tools": hiddenTools.join(","),
         "omnitool_ad_global": adGlobal.checked ? "true" : "false",
         "omnitool_ad_network": adNetwork.value,
         "omnitool_ad_show_dash": showDash.checked ? "true" : "false",
@@ -706,6 +854,39 @@ export default {
         setTimeout(() => {
           location.reload();
         }, 1200);
+      }
+    });
+
+    // Examples Tab Switching
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
+    container.querySelector("#settings-guide-load-sample")?.addEventListener("click", () => {
+      if (activeExampleIndex === 0) {
+        const swatch = container.querySelector(".color-swatch-item[data-preset='vaporwave']");
+        if (swatch) {
+          swatch.click();
+          appInstance.showToast("Selected Vaporwave theme! Click 'Save All Customizations' to apply.", "success");
+        }
+      } else {
+        const densitySelect = container.querySelector("#app-density-select");
+        if (densitySelect) {
+          densitySelect.value = "compact";
+          densitySelect.dispatchEvent(new Event("change"));
+          appInstance.showToast("Set Dashboard Density to Compact! Click 'Save All Customizations' to apply.", "success");
+        }
       }
     });
 

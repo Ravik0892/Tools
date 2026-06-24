@@ -106,6 +106,78 @@ export default {
             </button>
           </div>
         </div>
+
+        <!-- Quick Guide & Example Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide & Instructions</span>
+            </div>
+            <button class="tool-btn secondary" id="mock-guide-load-sample" style="font-size: 11px;">Try Example</button>
+          </div>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Define Schema</strong>: Add columns, choose data types (IDs, names, dates, numbers, custom lists), and configure their generation parameters.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Check Preview</strong>: Review the real-time generated 5-row sandbox grid in the right panel to ensure data formats meet your requirements.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Export Dataset</strong>: Select JSON or CSV format, adjust row count slider (supports up to 50k rows), and click "Generate &amp; Download".</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">User Profiles</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Product Catalog</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Schema Fields</span>
+                <div class="tool-guide-io-value">
+                  - <strong>id</strong>: Incremental ID (Starts: 1, Step: 1)<br>
+                  - <strong>first_name</strong>: First Name<br>
+                  - <strong>email</strong>: Domain-randomized Email<br>
+                  - <strong>joined_date</strong>: Date (2025 to 2026)
+                </div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Sample Row Output</span>
+                <div class="tool-guide-io-value">
+                  <code>{"id": 1, "first_name": "James", "email": "james.brown42@gmail.com", "joined_date": "2025-08-14"}</code>
+                </div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Schema Fields</span>
+                <div class="tool-guide-io-value">
+                  - <strong>product_id</strong>: Incremental (Starts: 1001)<br>
+                  - <strong>title</strong>: Custom List (Laptop, Mouse...)<br>
+                  - <strong>price</strong>: Decimal Number (10 to 1500)<br>
+                  - <strong>in_stock</strong>: Random Boolean
+                </div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Sample Row Output</span>
+                <div class="tool-guide-io-value">
+                  <code>{"product_id": 1001, "title": "Wireless Earbuds", "price": 89.99, "in_stock": true}</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Asynchronous Progress Modal -->
@@ -846,6 +918,32 @@ export default {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     };
+
+    // Examples Tab Switching
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
+    container.querySelector("#mock-guide-load-sample")?.addEventListener("click", () => {
+      if (activeExampleIndex === 0) {
+        applyPreset("users");
+        appInstance.showToast("Loaded User Profiles example schema", "success");
+      } else {
+        applyPreset("products");
+        appInstance.showToast("Loaded Product Catalog example schema", "success");
+      }
+    });
 
     // Initialize with default preset schema
     applyPreset("users");

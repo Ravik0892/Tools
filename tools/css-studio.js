@@ -13,6 +13,7 @@ export default {
               <button class="keyboard-tab active" data-tab="gradient" style="font-size: 11px; padding: 4px 8px;">Gradients</button>
               <button class="keyboard-tab" data-tab="shadow" style="font-size: 11px; padding: 4px 8px;">Box Shadows</button>
               <button class="keyboard-tab" data-tab="glass" style="font-size: 11px; padding: 4px 8px;">Glassmorphism</button>
+              <button class="keyboard-tab" data-tab="clippath" style="font-size: 11px; padding: 4px 8px;">Clip Path</button>
             </div>
           </div>
 
@@ -340,6 +341,42 @@ export default {
               </div>
             </div>
           </div>
+
+          <!-- Tab 4: Clip Path Controls -->
+          <div id="panel-clippath-controls" class="tab-control-panel hidden">
+            <div class="form-group">
+              <label for="clippath-preset">Select Shape Preset</label>
+              <select class="form-select" id="clippath-preset" style="width: 100%;">
+                <option value="triangle" selected>Triangle</option>
+                <option value="rhombus">Rhombus</option>
+                <option value="pentagon">Pentagon</option>
+                <option value="hexagon">Hexagon</option>
+                <option value="star">Star</option>
+                <option value="chevron">Chevron</option>
+                <option value="cross">Cross</option>
+                <option value="message-bubble">Message Bubble</option>
+              </select>
+            </div>
+            
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Workarea Background</label>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;">
+                <button class="tool-btn secondary active" id="clip-bg-grid" style="font-size: 10px; padding: 4px 8px;">Grid</button>
+                <button class="tool-btn secondary" id="clip-bg-gradient" style="font-size: 10px; padding: 4px 8px;">Sunset Gradient</button>
+                <button class="tool-btn secondary" id="clip-bg-image" style="font-size: 10px; padding: 4px 8px;">Sample Image</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <label style="margin: 0;">Coordinates (x, y)</label>
+                <button class="tool-btn secondary" id="clip-add-point-btn" style="font-size: 10px; padding: 2px 6px;">+ Point</button>
+              </div>
+              <div id="clippath-points-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto; padding-right: 4px;">
+                <!-- Dynamic coordinate rows -->
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Visual Preview & CSS Export Panel (Right) -->
@@ -392,6 +429,17 @@ export default {
                 <h4 style="margin: 0 0 4px 0; font-size: 16px; font-weight: 800; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.4);">OMNITOOL HUB</h4>
                 <p style="margin: 0 0 12px 0; font-size: 11px; opacity: 0.85; line-height: 1.4;">Real-time glassmorphism card preview.</p>
                 <button class="tool-btn primary" style="font-size: 10px; pointer-events: none; width: 100%; justify-content: center;">Preview Trigger</button>
+              </div>
+            </div>
+
+            <!-- 4. Clip Path Showcase Container -->
+            <div id="clippath-showcase-container" class="hidden" style="flex: 1; position: relative; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 24px; min-height: 250px; transition: all 0.3s ease; background-color: #0b0f19; user-select: none;">
+              <!-- Workarea container -->
+              <div id="clippath-workarea" style="position: relative; width: 200px; height: 200px; border: 1px dashed rgba(255,255,255,0.15); background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0); background-size: 20px 20px; overflow: visible;">
+                <!-- The element that actually gets clipped -->
+                <div id="clippath-target-element" style="width: 100%; height: 100%; background: linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%); transition: clip-path 0.1s ease;"></div>
+                <!-- Handles container -->
+                <div id="clippath-handles-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;"></div>
               </div>
             </div>
           </div>
@@ -469,6 +517,53 @@ export default {
           transition: .3s;
           border-radius: 50%;
         }
+        .clippath-handle {
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          background: #00f2fe;
+          border: 2px solid #ffffff;
+          border-radius: 50%;
+          cursor: move;
+          transform: translate(-6px, -6px);
+          box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
+          pointer-events: auto;
+          z-index: 100;
+        }
+        .clippath-handle:hover, .clippath-handle.dragging {
+          background: #ff007f;
+          border-color: #ffffff;
+          box-shadow: 0 0 12px rgba(255, 0, 127, 1);
+          transform: translate(-6px, -6px) scale(1.3);
+        }
+        .clippath-point-row {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 6px;
+          padding: 4px 8px;
+        }
+        .clippath-point-idx {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--text-muted);
+          width: 18px;
+        }
+        .clippath-point-val {
+          font-family: var(--font-mono);
+          font-size: 12px;
+          width: 50px;
+          background: transparent;
+          border: none;
+          color: #fff;
+          text-align: center;
+        }
+        .clippath-point-val:focus {
+          outline: none;
+          border-bottom: 1px solid var(--accent-cyan);
+        }
       </style>
     `;
   },
@@ -478,10 +573,12 @@ export default {
     const panelGrad = container.querySelector("#panel-gradient-controls");
     const panelShadow = container.querySelector("#panel-shadow-controls");
     const panelGlass = container.querySelector("#panel-glass-controls");
+    const panelClipPath = container.querySelector("#panel-clippath-controls");
 
     const visualGrad = container.querySelector("#gradient-preview-screen");
     const visualShadow = container.querySelector("#shadow-showcase-container");
     const visualGlass = container.querySelector("#glass-showcase-container");
+    const visualClipPath = container.querySelector("#clippath-showcase-container");
 
     const bgSelectorGroup = container.querySelector("#preview-bg-selector-group");
     const bgSelect = container.querySelector("#preview-bg-select");
@@ -543,6 +640,23 @@ export default {
             <div class="tool-guide-step-text"><strong>Extract CSS</strong>: Copy the computed background-filter styles directly to your layout.</div>
           </div>
         `
+      },
+      clippath: {
+        title: "Quick Guide: CSS Clip-Path Polygon Maker",
+        steps: `
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">1</div>
+            <div class="tool-guide-step-text"><strong>Choose Preset Shape</strong>: Select a starting shape like Triangle, Pentagon, or Star from the dropdown menu.</div>
+          </div>
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">2</div>
+            <div class="tool-guide-step-text"><strong>Drag Handles</strong>: Grab and move any of the glowing vertices on the grid to shape your custom polygon.</div>
+          </div>
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">3</div>
+            <div class="tool-guide-step-text"><strong>Add/Delete Points</strong>: Click "+ Point" to insert a new handle, or use the "x" next to coordinates in the panel to prune points. Copy CSS when done.</div>
+          </div>
+        `
       }
     };
 
@@ -578,10 +692,12 @@ export default {
       panelGrad.classList.toggle("hidden", tabId !== "gradient");
       panelShadow.classList.toggle("hidden", tabId !== "shadow");
       panelGlass.classList.toggle("hidden", tabId !== "glass");
+      panelClipPath.classList.toggle("hidden", tabId !== "clippath");
 
       visualGrad.classList.toggle("hidden", tabId !== "gradient");
       visualShadow.classList.toggle("hidden", tabId !== "shadow");
       visualGlass.classList.toggle("hidden", tabId !== "glass");
+      visualClipPath.classList.toggle("hidden", tabId !== "clippath");
 
       bgSelectorGroup.style.display = (tabId === "shadow" || tabId === "glass") ? "block" : "none";
 
@@ -596,6 +712,8 @@ export default {
         updateShadows();
       } else if (tabId === "glass") {
         updateGlassStyles();
+      } else if (tabId === "clippath") {
+        updateClipPath();
       }
     };
 
@@ -1279,6 +1397,219 @@ export default {
         appInstance.showToast("Nothing to copy!", "warning");
       }
     });
+
+    // ==========================================
+    // CLIP PATH CODE
+    // ==========================================
+    const cpPreset = container.querySelector("#clippath-preset");
+    const cpPointsList = container.querySelector("#clippath-points-list");
+    const cpWorkarea = container.querySelector("#clippath-workarea");
+    const cpTarget = container.querySelector("#clippath-target-element");
+    const cpHandlesContainer = container.querySelector("#clippath-handles-container");
+    const cpAddPointBtn = container.querySelector("#clip-add-point-btn");
+    
+    // Background toggles
+    const clipBgGrid = container.querySelector("#clip-bg-grid");
+    const clipBgGrad = container.querySelector("#clip-bg-gradient");
+    const clipBgImage = container.querySelector("#clip-bg-image");
+
+    let clipPoints = [];
+
+    const cpPresets = {
+      triangle: [{ x: 50, y: 0 }, { x: 0, y: 100 }, { x: 100, y: 100 }],
+      rhombus: [{ x: 50, y: 0 }, { x: 100, y: 50 }, { x: 50, y: 100 }, { x: 0, y: 50 }],
+      pentagon: [{ x: 50, y: 0 }, { x: 100, y: 38 }, { x: 82, y: 100 }, { x: 18, y: 100 }, { x: 0, y: 38 }],
+      hexagon: [{ x: 50, y: 0 }, { x: 100, y: 25 }, { x: 100, y: 75 }, { x: 50, y: 100 }, { x: 0, y: 75 }, { x: 0, y: 25 }],
+      star: [{ x: 50, y: 0 }, { x: 61, y: 35 }, { x: 98, y: 35 }, { x: 68, y: 57 }, { x: 79, y: 91 }, { x: 50, y: 70 }, { x: 21, y: 91 }, { x: 32, y: 57 }, { x: 2, y: 35 }, { x: 39, y: 35 }],
+      chevron: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 75, y: 50 }, { x: 100, y: 100 }, { x: 0, y: 100 }, { x: 25, y: 50 }],
+      cross: [{ x: 35, y: 0 }, { x: 65, y: 0 }, { x: 65, y: 35 }, { x: 100, y: 35 }, { x: 100, y: 65 }, { x: 65, y: 65 }, { x: 65, y: 100 }, { x: 35, y: 100 }, { x: 35, y: 65 }, { x: 0, y: 65 }, { x: 0, y: 35 }, { x: 35, y: 35 }],
+      "message-bubble": [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 75 }, { x: 75, y: 75 }, { x: 75, y: 100 }, { x: 50, y: 75 }, { x: 0, y: 75 }]
+    };
+
+    const loadClipPreset = (presetName) => {
+      const preset = cpPresets[presetName] || cpPresets.triangle;
+      clipPoints = preset.map(pt => ({ ...pt }));
+      renderClipPathUI();
+    };
+
+    const updateClipPath = () => {
+      if (activeTab !== "clippath") return;
+      const polyStr = clipPoints.map(pt => `${pt.x}% ${pt.y}%`).join(", ");
+      const clipPathVal = `polygon(${polyStr})`;
+      
+      cpTarget.style.clipPath = clipPathVal;
+      cpTarget.style.webkitClipPath = clipPathVal;
+
+      codeOutput.value = `clip-path: ${clipPathVal};`;
+    };
+
+    const renderClipPathUI = () => {
+      if (!cpHandlesContainer || !cpPointsList) return;
+      
+      // Render handles inside workarea
+      cpHandlesContainer.innerHTML = "";
+      cpPointsList.innerHTML = "";
+
+      clipPoints.forEach((pt, index) => {
+        // Handle dot
+        const handle = document.createElement("div");
+        handle.className = "clippath-handle";
+        handle.style.left = `${pt.x}%`;
+        handle.style.top = `${pt.y}%`;
+        handle.setAttribute("data-index", index);
+        
+        // Touch/Mouse drag-drop implementation
+        let isDragging = false;
+
+        const onDragStart = (e) => {
+          isDragging = true;
+          handle.classList.add("dragging");
+          e.preventDefault();
+        };
+
+        const onDragMove = (e) => {
+          if (!isDragging) return;
+          const rect = cpWorkarea.getBoundingClientRect();
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+          let posX = ((clientX - rect.left) / rect.width) * 100;
+          let posY = ((clientY - rect.top) / rect.height) * 100;
+
+          // Clamp bounds to 0-100%
+          posX = Math.min(Math.max(Math.round(posX), 0), 100);
+          posY = Math.min(Math.max(Math.round(posY), 0), 100);
+
+          clipPoints[index].x = posX;
+          clipPoints[index].y = posY;
+
+          handle.style.left = `${posX}%`;
+          handle.style.top = `${posY}%`;
+
+          // Sync coordinate row fields
+          const xInput = cpPointsList.querySelector(`.x-input[data-index="${index}"]`);
+          const yInput = cpPointsList.querySelector(`.y-input[data-index="${index}"]`);
+          if (xInput) xInput.value = posX;
+          if (yInput) yInput.value = posY;
+
+          updateClipPath();
+        };
+
+        const onDragEnd = () => {
+          if (isDragging) {
+            isDragging = false;
+            handle.classList.remove("dragging");
+          }
+        };
+
+        handle.addEventListener("mousedown", onDragStart);
+        document.addEventListener("mousemove", onDragMove);
+        document.addEventListener("mouseup", onDragEnd);
+
+        handle.addEventListener("touchstart", onDragStart);
+        document.addEventListener("touchmove", onDragMove, { passive: false });
+        document.addEventListener("touchend", onDragEnd);
+
+        cpHandlesContainer.appendChild(handle);
+
+        // Sidebar row coords
+        const row = document.createElement("div");
+        row.className = "clippath-point-row";
+        row.innerHTML = `
+          <span class="clippath-point-idx">P${index + 1}</span>
+          <span style="font-size: 11px; color: var(--text-muted);">X:</span>
+          <input type="number" class="clippath-point-val x-input" data-index="${index}" min="0" max="100" value="${pt.x}">
+          <span style="font-size: 11px; color: var(--text-muted); margin-left: 4px;">Y:</span>
+          <input type="number" class="clippath-point-val y-input" data-index="${index}" min="0" max="100" value="${pt.y}">
+          <button class="tool-btn secondary cp-del-pt-btn" data-index="${index}" style="padding: 2px 6px; font-size: 10px; height: auto; margin-left: auto; border-color: rgba(239, 68, 68, 0.2); color: var(--accent-rose);">×</button>
+        `;
+
+        // Coords changes input listener
+        const xIn = row.querySelector(".x-input");
+        const yIn = row.querySelector(".y-input");
+        xIn.addEventListener("input", (e) => {
+          const val = Math.min(Math.max(parseInt(e.target.value, 10) || 0, 0), 100);
+          clipPoints[index].x = val;
+          handle.style.left = `${val}%`;
+          updateClipPath();
+        });
+        yIn.addEventListener("input", (e) => {
+          const val = Math.min(Math.max(parseInt(e.target.value, 10) || 0, 0), 100);
+          clipPoints[index].y = val;
+          handle.style.top = `${val}%`;
+          updateClipPath();
+        });
+
+        // Delete point
+        row.querySelector(".cp-del-pt-btn").addEventListener("click", () => {
+          if (clipPoints.length <= 3) {
+            appInstance.showToast("Polygons require at least 3 points!", "warning");
+            return;
+          }
+          clipPoints.splice(index, 1);
+          renderClipPathUI();
+          updateClipPath();
+        });
+
+        cpPointsList.appendChild(row);
+      });
+
+      updateClipPath();
+    };
+
+    cpPreset?.addEventListener("change", (e) => {
+      loadClipPreset(e.target.value);
+    });
+
+    cpAddPointBtn?.addEventListener("click", () => {
+      if (clipPoints.length >= 24) {
+        appInstance.showToast("Maximum of 24 points reached!", "warning");
+        return;
+      }
+      // Add point between P0 and P1 or interpolating last
+      const last = clipPoints[clipPoints.length - 1] || { x: 50, y: 50 };
+      const first = clipPoints[0] || { x: 50, y: 50 };
+      const nextPt = {
+        x: Math.round((last.x + first.x) / 2),
+        y: Math.round((last.y + first.y) / 2)
+      };
+      clipPoints.push(nextPt);
+      renderClipPathUI();
+    });
+
+    // Workarea background controls
+    clipBgGrid?.addEventListener("click", () => {
+      clipBgGrid.classList.add("active");
+      clipBgGrad.classList.remove("active");
+      clipBgImage.classList.remove("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      cpTarget.style.background = "linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%)";
+    });
+
+    clipBgGrad?.addEventListener("click", () => {
+      clipBgGrid.classList.remove("active");
+      clipBgGrad.classList.add("active");
+      clipBgImage.classList.remove("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      cpTarget.style.background = "linear-gradient(45deg, #ff007f 0%, #ff8c00 100%)";
+    });
+
+    clipBgImage?.addEventListener("click", () => {
+      clipBgGrid.classList.remove("active");
+      clipBgGrad.classList.remove("active");
+      clipBgImage.classList.add("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      cpTarget.style.background = "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80') center/cover no-repeat";
+    });
+
+    // Load initial shape
+    loadClipPreset("triangle");
 
     // Set initial active tab
     const initialTab = appInstance.activeSubtab || 'gradient';
