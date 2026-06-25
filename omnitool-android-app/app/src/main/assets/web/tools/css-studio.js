@@ -350,7 +350,8 @@ export default {
             <div class="form-group">
               <label for="clippath-preset">Select Shape Preset</label>
               <select class="form-select" id="clippath-preset" style="width: 100%;">
-                <option value="triangle" selected>Triangle</option>
+                <option value="" disabled selected hidden>-- Choose Preset Shape / Design --</option>
+                <option value="triangle">Triangle</option>
                 <option value="rhombus">Rhombus</option>
                 <option value="pentagon">Pentagon</option>
                 <option value="hexagon">Hexagon</option>
@@ -364,6 +365,12 @@ export default {
                 <option value="left-arrow">Left Arrow</option>
                 <option value="right-arrow">Right Arrow</option>
                 <option value="heart">Heart</option>
+                <option value="star-badge">[Design] Star Badge</option>
+                <option value="photo-frame">[Design] Photo Frame</option>
+                <option value="donut-ring">[Design] Donut Ring</option>
+                <option value="shield-cutout">[Design] Shield Cutout</option>
+                <option value="gear-cog">[Design] Gear Cog</option>
+                <option value="gothic-window">[Design] Gothic Window</option>
               </select>
             </div>
             
@@ -374,6 +381,24 @@ export default {
                 <button class="tool-btn secondary" id="clip-bg-gradient" style="font-size: 10px; padding: 4px 8px;">Sunset Gradient</button>
                 <button class="tool-btn secondary" id="clip-bg-palette" style="font-size: 10px; padding: 4px 8px;" title="Use background gradient from Color Lab Palette">Palette Colors</button>
                 <button class="tool-btn secondary" id="clip-bg-image" style="font-size: 10px; padding: 4px 8px;">Sample Image</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Canvas Zoom</label>
+              <div class="slider-group">
+                <input type="range" id="clip-zoom-slider" class="slider-input" min="100" max="600" step="50" value="100">
+                <span class="slider-val" id="clip-zoom-val">100%</span>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label style="margin: 0;">Shapes</label>
+                <button class="tool-btn secondary" id="clip-add-shape-btn" style="font-size: 10px; padding: 2px 6px;">+ Add Shape</button>
+              </div>
+              <div id="clippath-shapes-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 110px; overflow-y: auto; padding-right: 4px;">
+                <!-- Dynamic shape layers -->
               </div>
             </div>
 
@@ -402,11 +427,29 @@ export default {
             </div>
 
             <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Align & Distribute</label>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 4px;">
+                <button class="tool-btn secondary" id="clip-align-left" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align active shape to left edge">Align Left</button>
+                <button class="tool-btn secondary" id="clip-align-center" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Center active shape horizontally">Center H</button>
+                <button class="tool-btn secondary" id="clip-align-right" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align active shape to right edge">Align Right</button>
+                <button class="tool-btn secondary" id="clip-align-top" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align active shape to top edge">Align Top</button>
+                <button class="tool-btn secondary" id="clip-align-vcenter" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Center active shape vertically">Center V</button>
+                <button class="tool-btn secondary" id="clip-align-bottom" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align active shape to bottom edge">Align Bottom</button>
+                <button class="tool-btn secondary" id="clip-align-stackh" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Stack visible shapes horizontally">Stack Horiz</button>
+                <button class="tool-btn secondary" id="clip-align-stackv" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Stack visible shapes vertically">Stack Vert</button>
+                <button class="tool-btn secondary" id="clip-align-allcenter" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align all shapes' centers">Align Centers</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <label style="margin: 0;">Coordinates (x, y)</label>
-                <button class="tool-btn secondary" id="clip-add-point-btn" style="font-size: 10px; padding: 2px 6px;">+ Point</button>
+                <div style="display: flex; gap: 4px;">
+                  <button class="tool-btn secondary" id="clip-import-shape-btn" style="font-size: 10px; padding: 2px 6px;" title="Import from shared shape registry">Import Shape</button>
+                  <button class="tool-btn secondary" id="clip-add-point-btn" style="font-size: 10px; padding: 2px 6px;">+ Point</button>
+                </div>
               </div>
-              <div id="clippath-points-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto; padding-right: 4px;">
+              <div id="clippath-points-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto; padding-right: 4px;">
                 <!-- Dynamic coordinate rows -->
               </div>
             </div>
@@ -467,15 +510,22 @@ export default {
             </div>
 
             <!-- 4. Clip Path Showcase Container -->
-            <div id="clippath-showcase-container" class="hidden" style="flex: 1; position: relative; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 24px; min-height: 250px; transition: all 0.3s ease; background-color: #0b0f19; user-select: none;">
-              <!-- Workarea container -->
-              <div id="clippath-workarea" style="position: relative; width: 200px; height: 200px; border: 1px dashed rgba(255,255,255,0.15); background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0); background-size: 20px 20px; overflow: visible;">
-                <!-- The element that actually gets clipped -->
-                <div id="clippath-target-element" style="width: 100%; height: 100%; background: linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%); transition: clip-path 0.1s ease;"></div>
-                <!-- Handles container -->
-                <div id="clippath-handles-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;"></div>
+            <div id="clippath-showcase-container" class="hidden" style="flex: 1; position: relative; border-radius: 8px; overflow: auto; padding: 24px; min-height: 250px; transition: all 0.3s ease; background-color: #0b0f19; user-select: none;">
+              <!-- Centering container -->
+              <div style="min-width: 100%; min-height: 100%; display: flex; align-items: center; justify-content: center; padding: 40px; box-sizing: border-box;">
+                <!-- Workarea container -->
+                <div id="clippath-workarea" style="position: relative; width: 200px; height: 200px; border: 1px dashed rgba(255,255,255,0.15); background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0); background-size: 20px 20px; overflow: visible; flex-shrink: 0;">
+                  <!-- The element that actually gets clipped -->
+                  <div id="clippath-target-element" style="width: 100%; height: 100%; background: linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%); transition: clip-path 0.1s ease;"></div>
+                  <!-- SVG Outline Overlay -->
+                  <svg id="clippath-svg-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 50;"></svg>
+                  <!-- Handles container -->
+                  <div id="clippath-handles-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;"></div>
+                </div>
               </div>
             </div>
+            <!-- Dynamic SVG Defs for Live Preview -->
+            <div id="clippath-svg-defs-container" style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;"></div>
           </div>
 
           <!-- Code Box -->
@@ -553,22 +603,25 @@ export default {
         }
         .clippath-handle {
           position: absolute;
-          width: 12px;
-          height: 12px;
+          width: 14px;
+          height: 14px;
           background: #00f2fe;
           border: 2px solid #ffffff;
           border-radius: 50%;
           cursor: move;
-          transform: translate(-6px, -6px);
+          transform: translate(-7px, -7px);
           box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
           pointer-events: auto;
           z-index: 100;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .clippath-handle:hover, .clippath-handle.dragging {
           background: #ff007f;
           border-color: #ffffff;
           box-shadow: 0 0 12px rgba(255, 0, 127, 1);
-          transform: translate(-6px, -6px) scale(1.3);
+          transform: translate(-7px, -7px) scale(1.2);
         }
         .clippath-point-row {
           display: flex;
@@ -598,6 +651,13 @@ export default {
           outline: none;
           border-bottom: 1px solid var(--accent-cyan);
         }
+        .clippath-shape-row:hover {
+          background: rgba(0, 242, 254, 0.15) !important;
+          border-color: rgba(0, 242, 254, 0.4) !important;
+        }
+        .shape-name-input:focus {
+          border-bottom: 1px solid var(--accent-cyan) !important;
+        }
       </style>
     `;
   },
@@ -606,6 +666,7 @@ export default {
     appInstance.cssStudioState = appInstance.cssStudioState || {
       sharedClipPath: ""
     };
+    let clipPathIdCounter = 0;
     const tabs = container.querySelectorAll("#css-studio-tabs .keyboard-tab");
     const panelGrad = container.querySelector("#panel-gradient-controls");
     const panelShadow = container.querySelector("#panel-shadow-controls");
@@ -764,11 +825,11 @@ export default {
     const gradType = container.querySelector("#grad-type");
     const gradAngle = container.querySelector("#grad-angle");
     const gradAngleVal = container.querySelector("#grad-angle-val");
-    const shapeEl = container.querySelector("#grad-shape");
-    const posEl = container.querySelector("#grad-position");
-    const repeatingEl = container.querySelector("#grad-repeating");
     const gradStopsContainer = container.querySelector("#grad-stops-container");
     const gradPresetsBox = container.querySelector("#grad-presets-box");
+    const repeatingEl = container.querySelector("#grad-repeating");
+    const shapeEl = container.querySelector("#grad-shape");
+    const posEl = container.querySelector("#grad-position");
 
     let gradientStops = [
       { color: "#00f2fe", position: 0 },
@@ -776,12 +837,21 @@ export default {
     ];
 
     const gradientPresets = [
-      { name: "Neon Blue Purple", type: "linear", angle: 135, stops: [{ color: "#00f2fe", position: 0 }, { color: "#9d4edd", position: 100 }] },
-      { name: "Vaporwave Pink", type: "linear", angle: 45, stops: [{ color: "#ff007f", position: 0 }, { color: "#7928ca", position: 100 }] },
-      { name: "Sunset Orange", type: "linear", angle: 90, stops: [{ color: "#ff8c00", position: 0 }, { color: "#e52d27", position: 100 }] },
-      { name: "Cyber Green", type: "linear", angle: 180, stops: [{ color: "#39ff14", position: 0 }, { color: "#00ff87", position: 100 }] },
-      { name: "Radial Target", type: "radial", shape: "circle", position: "center", stops: [{ color: "#00f2fe", position: 0 }, { color: "#09090b", position: 100 }] },
-      { name: "Metallic Gold", type: "linear", angle: 135, stops: [{ color: "#bf953f", position: 0 }, { color: "#fcf6ba", position: 25 }, { color: "#b38728", position: 50 }, { color: "#fbf5b7", position: 75 }, { color: "#aa771c", position: 100 }] }
+      { name: "Ocean Blue", type: "linear", angle: 135, repeating: false, stops: [{ color: "#00f2fe", position: 0 }, { color: "#4facfe", position: 50 }, { color: "#0000ff", position: 100 }] },
+      { name: "Sunset Violet", type: "linear", angle: 135, repeating: false, stops: [{ color: "#f5576c", position: 0 }, { color: "#f093fb", position: 100 }] },
+      { name: "Neon Lime", type: "linear", angle: 90, repeating: false, stops: [{ color: "#00ff87", position: 0 }, { color: "#60efff", position: 100 }] },
+      { name: "Cyberpunk", type: "linear", angle: 45, repeating: false, stops: [{ color: "#f107a3", position: 0 }, { color: "#7b2ff7", position: 50 }, { color: "#07f1f1", position: 100 }] },
+      { name: "Peach Dream", type: "linear", angle: 135, repeating: false, stops: [{ color: "#ff9a9e", position: 0 }, { color: "#fecfef", position: 99 }, { color: "#fecfef", position: 100 }] },
+      { name: "Deep Space", type: "radial", shape: "circle", position: "center", repeating: false, stops: [{ color: "#434343", position: 0 }, { color: "#000000", position: 100 }] },
+      { name: "Retro Stripe", type: "linear", angle: 90, repeating: true, stops: [{ color: "#ffbe0b", position: 0 }, { color: "#ffbe0b", position: 10 }, { color: "#fb5607", position: 10 }, { color: "#fb5607", position: 20 }] },
+      { name: "Aurora Borealis", type: "linear", angle: 135, repeating: false, stops: [{ color: "#0575e6", position: 0 }, { color: "#00f260", position: 100 }] },
+      { name: "Flaming Orange", type: "linear", angle: 45, repeating: false, stops: [{ color: "#f857a6", position: 0 }, { color: "#ff5858", position: 100 }] },
+      { name: "Midnight Lavender", type: "linear", angle: 135, repeating: false, stops: [{ color: "#2f0743", position: 0 }, { color: "#41295a", position: 100 }] },
+      { name: "Cotton Candy", type: "linear", angle: 135, repeating: false, stops: [{ color: "#ff9a9e", position: 0 }, { color: "#fecfef", position: 50 }, { color: "#a1c4fd", position: 100 }] },
+      { name: "Golden Hour", type: "linear", angle: 45, repeating: false, stops: [{ color: "#ff8c00", position: 0 }, { color: "#ff007f", position: 50 }, { color: "#7928ca", position: 100 }] },
+      { name: "Emerald Lustre", type: "linear", angle: 135, repeating: false, stops: [{ color: "#11998e", position: 0 }, { color: "#38ef7d", position: 100 }] },
+      { name: "Royal Velvet", type: "linear", angle: 45, repeating: false, stops: [{ color: "#8a2387", position: 0 }, { color: "#e94057", position: 50 }, { color: "#f27121", position: 100 }] },
+      { name: "Electric Ice", type: "linear", angle: 90, repeating: false, stops: [{ color: "#00c6ff", position: 0 }, { color: "#0072ff", position: 100 }] }
     ];
 
     let customPresets = [];
@@ -1470,7 +1540,12 @@ export default {
     const clipBgGrad = container.querySelector("#clip-bg-gradient");
     const clipBgImage = container.querySelector("#clip-bg-image");
 
+    let clipShapes = [
+      { id: Date.now(), name: "Shape 1", points: [], visible: true, inverted: false }
+    ];
+    let activeShapeIndex = 0;
     let clipPoints = [];
+    let clipZoom = 100;
 
     const cpPresets = {
       triangle: [{ x: 50, y: 0 }, { x: 0, y: 100 }, { x: 100, y: 100 }],
@@ -1486,45 +1561,269 @@ export default {
       trapezoid: [{ x: 20, y: 0 }, { x: 80, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }],
       "left-arrow": [{ x: 40, y: 0 }, { x: 40, y: 20 }, { x: 100, y: 20 }, { x: 100, y: 80 }, { x: 40, y: 80 }, { x: 40, y: 100 }, { x: 0, y: 50 }],
       "right-arrow": [{ x: 0, y: 20 }, { x: 60, y: 20 }, { x: 60, y: 0 }, { x: 100, y: 50 }, { x: 60, y: 100 }, { x: 60, y: 80 }, { x: 0, y: 80 }],
-      heart: [{ x: 50, y: 15 }, { x: 64, y: 0 }, { x: 85, y: 0 }, { x: 100, y: 20 }, { x: 100, y: 50 }, { x: 50, y: 95 }, { x: 0, y: 50 }, { x: 0, y: 20 }, { x: 15, y: 0 }, { x: 36, y: 0 }]
+      heart: [{ x: 50, y: 15 }, { x: 64, y: 0 }, { x: 85, y: 0 }, { x: 100, y: 20 }, { x: 100, y: 50 }, { x: 50, y: 95 }, { x: 0, y: 50 }, { x: 0, y: 20 }, { x: 15, y: 0 }, { x: 36, y: 0 }],
+      "star-badge": [
+        { name: "Outer Circle", points: [{ x: 50, y: 0 }, { x: 85, y: 15 }, { x: 100, y: 50 }, { x: 85, y: 85 }, { x: 50, y: 100 }, { x: 15, y: 85 }, { x: 0, y: 50 }, { x: 15, y: 15 }], visible: true, inverted: false },
+        { name: "Inner Star", points: [{ x: 50, y: 20 }, { x: 58, y: 45 }, { x: 80, y: 45 }, { x: 62, y: 60 }, { x: 70, y: 80 }, { x: 50, y: 68 }, { x: 30, y: 80 }, { x: 38, y: 60 }, { x: 20, y: 45 }, { x: 42, y: 45 }], visible: true, inverted: true }
+      ],
+      "photo-frame": [
+        { name: "Outer Border", points: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }], visible: true, inverted: false },
+        { name: "Inner Frame", points: [{ x: 15, y: 15 }, { x: 85, y: 15 }, { x: 85, y: 85 }, { x: 15, y: 85 }], visible: true, inverted: true }
+      ],
+      "donut-ring": [
+        { name: "Outer Circle", points: [{ x: 50, y: 5 }, { x: 82, y: 18 }, { x: 95, y: 50 }, { x: 82, y: 82 }, { x: 50, y: 95 }, { x: 18, y: 82 }, { x: 5, y: 50 }, { x: 18, y: 18 }], visible: true, inverted: false },
+        { name: "Inner Cutout", points: [{ x: 50, y: 30 }, { x: 64, y: 36 }, { x: 70, y: 50 }, { x: 64, y: 64 }, { x: 50, y: 70 }, { x: 36, y: 64 }, { x: 30, y: 50 }, { x: 36, y: 36 }], visible: true, inverted: true }
+      ],
+      "shield-cutout": [
+        { name: "Outer Shield", points: [{ x: 10, y: 10 }, { x: 90, y: 10 }, { x: 90, y: 55 }, { x: 50, y: 95 }, { x: 10, y: 55 }], visible: true, inverted: false },
+        { name: "Center Star", points: [{ x: 50, y: 25 }, { x: 55, y: 40 }, { x: 70, y: 40 }, { x: 58, y: 48 }, { x: 62, y: 63 }, { x: 50, y: 54 }, { x: 38, y: 63 }, { x: 42, y: 48 }, { x: 30, y: 40 }, { x: 45, y: 40 }], visible: true, inverted: true }
+      ],
+      "gear-cog": [
+        { name: "Outer Gear", points: [{ x: 38, y: 15 }, { x: 62, y: 15 }, { x: 65, y: 30 }, { x: 80, y: 23 }, { x: 88, y: 38 }, { x: 73, y: 50 }, { x: 88, y: 62 }, { x: 80, y: 77 }, { x: 65, y: 70 }, { x: 62, y: 85 }, { x: 38, y: 85 }, { x: 35, y: 70 }, { x: 20, y: 77 }, { x: 12, y: 62 }, { x: 27, y: 50 }, { x: 12, y: 38 }, { x: 20, y: 23 }, { x: 35, y: 30 }], visible: true, inverted: false },
+        { name: "Center Hole", points: [{ x: 50, y: 35 }, { x: 61, y: 39 }, { x: 65, y: 50 }, { x: 61, y: 61 }, { x: 50, y: 65 }, { x: 39, y: 61 }, { x: 35, y: 50 }, { x: 39, y: 39 }], visible: true, inverted: true }
+      ],
+      "gothic-window": [
+        { name: "Window Frame", points: [{ x: 15, y: 90 }, { x: 85, y: 90 }, { x: 85, y: 45 }, { x: 80, y: 32 }, { x: 68, y: 18 }, { x: 50, y: 10 }, { x: 32, y: 18 }, { x: 20, y: 32 }, { x: 15, y: 45 }], visible: true, inverted: false },
+        { name: "Main Arch Cutout", points: [{ x: 25, y: 85 }, { x: 75, y: 85 }, { x: 75, y: 55 }, { x: 71, y: 45 }, { x: 62, y: 39 }, { x: 50, y: 36 }, { x: 38, y: 39 }, { x: 29, y: 45 }, { x: 25, y: 55 }], visible: true, inverted: true },
+        { name: "Rose Window Hole", points: [{ x: 50, y: 17 }, { x: 54, y: 18 }, { x: 55, y: 22 }, { x: 54, y: 26 }, { x: 50, y: 27 }, { x: 46, y: 26 }, { x: 45, y: 22 }, { x: 46, y: 18 }], visible: true, inverted: true }
+      ]
     };
 
     const loadClipPreset = (presetName) => {
+      if (!presetName) return;
       const preset = cpPresets[presetName] || cpPresets.triangle;
-      clipPoints = preset.map(pt => ({ ...pt }));
+      const compoundPresets = ["star-badge", "photo-frame", "donut-ring", "shield-cutout", "gear-cog", "gothic-window"];
+      
+      if (compoundPresets.includes(presetName)) {
+        clipShapes = preset.map((s, idx) => ({
+          id: Date.now() + idx,
+          name: s.name || `Shape ${idx + 1}`,
+          points: s.points.map(pt => ({ ...pt })),
+          visible: s.visible !== undefined ? s.visible : true,
+          inverted: s.inverted || false,
+          type: s.type || "polygon"
+        }));
+        activeShapeIndex = 0;
+        clipPoints = clipShapes[activeShapeIndex].points;
+      } else {
+        if (clipShapes[activeShapeIndex]) {
+          clipShapes[activeShapeIndex].points = preset.map(pt => ({ ...pt }));
+          clipShapes[activeShapeIndex].type = presetName;
+          clipPoints = clipShapes[activeShapeIndex].points;
+        } else {
+          clipShapes = [
+            { id: Date.now(), name: "Shape 1", points: preset.map(pt => ({ ...pt })), visible: true, inverted: false, type: presetName }
+          ];
+          activeShapeIndex = 0;
+          clipPoints = clipShapes[activeShapeIndex].points;
+        }
+      }
+      
       renderClipPathUI();
+      
+      // Reset select dropdown value to placeholder
+      const cpPreset = container.querySelector("#clippath-preset");
+      if (cpPreset) {
+        cpPreset.value = "";
+      }
     };
 
     const updateClipPath = () => {
       if (activeTab !== "clippath") return;
-      const polyStr = clipPoints.map(pt => `${pt.x}% ${pt.y}%`).join(", ");
-      const clipPathVal = `polygon(${polyStr})`;
+      const visibleShapes = clipShapes.filter(s => s.visible && s.points.length >= 3);
       
-      cpTarget.style.clipPath = clipPathVal;
-      cpTarget.style.webkitClipPath = clipPathVal;
+      if (visibleShapes.length === 0) {
+        cpTarget.style.clipPath = "none";
+        cpTarget.style.webkitClipPath = "none";
+        codeOutput.value = "clip-path: none;";
+        appInstance.cssStudioState.sharedClipPath = "none";
+        appInstance.sharedShape = { source: "clippath", points: [] };
+        return;
+      }
 
-      codeOutput.value = `clip-path: ${clipPathVal};`;
+      // Check if there is only 1 shape visible and it is NOT inverted
+      if (visibleShapes.length === 1 && !visibleShapes[0].inverted) {
+        const singleShape = visibleShapes[0];
+        const polyStr = singleShape.points.map(pt => `${pt.x}% ${pt.y}%`).join(", ");
+        const clipPathVal = `polygon(${polyStr})`;
+        
+        cpTarget.style.clipPath = clipPathVal;
+        cpTarget.style.webkitClipPath = clipPathVal;
+        codeOutput.value = `clip-path: ${clipPathVal};`;
+        
+        appInstance.cssStudioState.sharedClipPath = clipPathVal;
+        appInstance.sharedShape = {
+          source: "clippath",
+          points: singleShape.points.map(pt => ({ ...pt }))
+        };
+
+        const defsContainer = container.querySelector("#clippath-svg-defs-container");
+        if (defsContainer) defsContainer.innerHTML = "";
+      } else {
+        clipPathIdCounter++;
+        const uniqueId = `omnitool-multi-clip-${clipPathIdCounter}`;
+        const clipPathVal = `url(#${uniqueId})`;
+        
+        cpTarget.style.clipPath = "none";
+        cpTarget.style.webkitClipPath = "none";
+        cpTarget.offsetHeight; // Force reflow
+        
+        cpTarget.style.clipPath = clipPathVal;
+        cpTarget.style.webkitClipPath = clipPathVal;
+
+        const hasNonInverted = visibleShapes.some(s => !s.inverted);
+        const pathData = visibleShapes.map((shape) => {
+          const pointsStr = shape.points.map((pt, i) => {
+            const prefix = i === 0 ? "M" : "L";
+            return `${prefix} ${pt.x/100} ${pt.y/100}`;
+          }).join(" ");
+          return `${pointsStr} Z`;
+        }).join(" ");
+
+        let fullPathData = pathData;
+        if (!hasNonInverted) {
+          fullPathData = `M 0 0 L 1 0 L 1 1 L 0 1 Z ${pathData}`;
+        }
+
+        const svgMarkup = `<svg width="0" height="0" style="position: absolute;">
+  <defs>
+    <clipPath id="${uniqueId}" clipPathUnits="objectBoundingBox">
+      <path d="${fullPathData}" clip-rule="evenodd" />
+    </clipPath>
+  </defs>
+</svg>`;
+
+        codeOutput.value = `/* CSS */\n.clipped-element {\n  clip-path: ${clipPathVal};\n}\n\n/* HTML Markup */\n${svgMarkup}`;
+
+        const defsContainer = container.querySelector("#clippath-svg-defs-container");
+        if (defsContainer) {
+          defsContainer.innerHTML = svgMarkup;
+        }
+
+        const activeShape = clipShapes[activeShapeIndex] || visibleShapes[0];
+        if (activeShape && activeShape.points.length > 0) {
+          appInstance.cssStudioState.sharedClipPath = `polygon(${activeShape.points.map(pt => `${pt.x}% ${pt.y}%`).join(", ")})`;
+          appInstance.sharedShape = {
+            source: "clippath",
+            points: activeShape.points.map(pt => ({ ...pt }))
+          };
+        }
+      }
+    };
+
+    const renderShapesList = () => {
+      const shapesList = container.querySelector("#clippath-shapes-list");
+      if (!shapesList) return;
+      shapesList.innerHTML = "";
       
-      // Save globally
-      appInstance.cssStudioState.sharedClipPath = clipPathVal;
+      clipShapes.forEach((shape, index) => {
+        const isActive = index === activeShapeIndex;
+        const row = document.createElement("div");
+        row.className = "clippath-shape-row";
+        row.style.cssText = `display:flex; align-items:center; gap:6px; background:${isActive ? 'rgba(0, 242, 254, 0.1)' : 'rgba(255,255,255,0.02)'}; border:1px solid ${isActive ? 'rgba(0, 242, 254, 0.3)' : 'rgba(255,255,255,0.05)'}; border-radius:6px; padding:4px 8px; cursor:pointer;`;
+        
+        row.innerHTML = `
+          <span style="font-family:var(--font-mono); font-size:10px; color:${isActive ? 'var(--accent-cyan)' : 'var(--text-muted)'};">#${index + 1}</span>
+          <input type="text" class="shape-name-input" value="${shape.name}" style="background:transparent; border:none; color:#fff; font-size:11px; width:70px; font-weight:${isActive ? 'bold' : 'normal'}; outline:none;">
+          <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
+            <select class="shape-mode-select" title="Operation Mode (Add or Subtract shape)" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; font-size:10px; padding:2px 4px; border-radius:4px; outline:none; cursor:pointer;">
+              <option value="add" ${!shape.inverted ? 'selected' : ''}>Add</option>
+              <option value="subtract" ${shape.inverted ? 'selected' : ''}>Subtract</option>
+            </select>
+            <button class="shape-vis-btn" title="Toggle Visibility" style="background:none; border:none; color:${shape.visible ? '#00f2fe' : 'rgba(255,255,255,0.25)'}; cursor:pointer; font-size:11px; padding:2px 4px; outline:none;">${shape.visible ? '👁️' : '🕶️'}</button>
+            ${clipShapes.length > 1 ? `<button class="shape-del-btn" title="Delete Shape" style="background:none; border:none; color:var(--accent-rose); cursor:pointer; font-size:11px; padding:2px 4px; outline:none;">✕</button>` : ''}
+          </div>
+        `;
+        
+        row.addEventListener("click", (e) => {
+          if (e.target.tagName.toLowerCase() === "input" || e.target.tagName.toLowerCase() === "select" || e.target.closest("button")) return;
+          activeShapeIndex = index;
+          clipPoints = clipShapes[activeShapeIndex].points;
+          renderClipPathUI();
+        });
+
+        const nameInput = row.querySelector(".shape-name-input");
+        nameInput.addEventListener("change", (e) => {
+          shape.name = e.target.value.trim() || `Shape ${index + 1}`;
+        });
+
+        const modeSelect = row.querySelector(".shape-mode-select");
+        modeSelect.addEventListener("change", (e) => {
+          shape.inverted = e.target.value === "subtract";
+          renderClipPathUI();
+        });
+
+        const visBtn = row.querySelector(".shape-vis-btn");
+        visBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          shape.visible = !shape.visible;
+          renderClipPathUI();
+        });
+
+        const delBtn = row.querySelector(".shape-del-btn");
+        if (delBtn) {
+          delBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            clipShapes.splice(index, 1);
+            if (activeShapeIndex >= clipShapes.length) {
+              activeShapeIndex = clipShapes.length - 1;
+            }
+            clipPoints = clipShapes[activeShapeIndex].points;
+            renderClipPathUI();
+          });
+        }
+
+        shapesList.appendChild(row);
+      });
     };
 
     const renderClipPathUI = () => {
       if (!cpHandlesContainer || !cpPointsList) return;
       
-      // Render handles inside workarea
       cpHandlesContainer.innerHTML = "";
       cpPointsList.innerHTML = "";
 
+      renderShapesList();
+
+      const svgOverlay = container.querySelector("#clippath-svg-overlay");
+      if (svgOverlay) {
+        svgOverlay.innerHTML = clipShapes.map((shape, idx) => {
+          if (!shape.visible || shape.points.length < 3) return "";
+          const isActive = idx === activeShapeIndex;
+          
+          let strokeColor = "rgba(255, 255, 255, 0.25)";
+          let dashArray = "3, 3";
+          let fillColor = "rgba(255, 255, 255, 0.02)";
+          
+          if (shape.inverted) {
+            strokeColor = isActive ? "#f43f5e" : "rgba(244, 63, 94, 0.4)";
+            dashArray = "4, 2";
+            fillColor = isActive ? "rgba(244, 63, 94, 0.08)" : "rgba(244, 63, 94, 0.03)";
+          } else if (isActive) {
+            strokeColor = "#00f2fe";
+            dashArray = "none";
+            fillColor = "rgba(0, 242, 254, 0.05)";
+          }
+          
+          const pointsStr = shape.points.map(pt => `${pt.x},${pt.y}`).join(" ");
+          return `<polygon points="${pointsStr}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.5" stroke-dasharray="${dashArray}" vector-effect="non-scaling-stroke" />`;
+        }).join("\n");
+      }
+
+      const activeShape = clipShapes[activeShapeIndex];
+      if (!activeShape || !activeShape.visible) {
+        updateClipPath();
+        return;
+      }
+
       clipPoints.forEach((pt, index) => {
-        // Handle dot
         const handle = document.createElement("div");
         handle.className = "clippath-handle";
         handle.style.left = `${pt.x}%`;
         handle.style.top = `${pt.y}%`;
         handle.setAttribute("data-index", index);
+        handle.innerHTML = `<span style="font-size: 8px; font-weight: bold; color: #fff; pointer-events: none; user-select: none;">${index + 1}</span>`;
         
-        // Touch/Mouse drag-drop implementation
         let isDragging = false;
 
         const onDragStart = (e) => {
@@ -1542,7 +1841,6 @@ export default {
           let posX = ((clientX - rect.left) / rect.width) * 100;
           let posY = ((clientY - rect.top) / rect.height) * 100;
 
-          // Clamp bounds to 0-100%
           posX = Math.min(Math.max(Math.round(posX), 0), 100);
           posY = Math.min(Math.max(Math.round(posY), 0), 100);
 
@@ -1552,7 +1850,6 @@ export default {
           handle.style.left = `${posX}%`;
           handle.style.top = `${posY}%`;
 
-          // Sync coordinate row fields
           const xInput = cpPointsList.querySelector(`.x-input[data-index="${index}"]`);
           const yInput = cpPointsList.querySelector(`.y-input[data-index="${index}"]`);
           if (xInput) xInput.value = posX;
@@ -1578,7 +1875,6 @@ export default {
 
         cpHandlesContainer.appendChild(handle);
 
-        // Sidebar row coords
         const row = document.createElement("div");
         row.className = "clippath-point-row";
         row.innerHTML = `
@@ -1590,7 +1886,6 @@ export default {
           <button class="tool-btn secondary cp-del-pt-btn" data-index="${index}" style="padding: 2px 6px; font-size: 10px; height: auto; margin-left: auto; border-color: rgba(239, 68, 68, 0.2); color: var(--accent-rose);">×</button>
         `;
 
-        // Coords changes input listener
         const xIn = row.querySelector(".x-input");
         const yIn = row.querySelector(".y-input");
         xIn.addEventListener("input", (e) => {
@@ -1606,7 +1901,6 @@ export default {
           updateClipPath();
         });
 
-        // Delete point
         row.querySelector(".cp-del-pt-btn").addEventListener("click", () => {
           if (clipPoints.length <= 3) {
             appInstance.showToast("Polygons require at least 3 points!", "warning");
@@ -1614,7 +1908,6 @@ export default {
           }
           clipPoints.splice(index, 1);
           renderClipPathUI();
-          updateClipPath();
         });
 
         cpPointsList.appendChild(row);
@@ -1627,12 +1920,25 @@ export default {
       loadClipPreset(e.target.value);
     });
 
+    container.querySelector("#clip-import-shape-btn")?.addEventListener("click", () => {
+      const shared = appInstance.sharedShape;
+      if (shared && shared.points && shared.points.length >= 3) {
+        clipPoints = shared.points.map(pt => ({ ...pt }));
+        if (clipShapes[activeShapeIndex]) {
+          clipShapes[activeShapeIndex].points = clipPoints;
+        }
+        renderClipPathUI();
+        appInstance.showToast(`Imported shape from ${shared.source}!`, "success");
+      } else {
+        appInstance.showToast("No shared shape registry data found. Create a shape elsewhere first!", "warning");
+      }
+    });
+
     cpAddPointBtn?.addEventListener("click", () => {
       if (clipPoints.length >= 24) {
         appInstance.showToast("Maximum of 24 points reached!", "warning");
         return;
       }
-      // Add point between P0 and P1 or interpolating last
       const last = clipPoints[clipPoints.length - 1] || { x: 50, y: 50 };
       const first = clipPoints[0] || { x: 50, y: 50 };
       const nextPt = {
@@ -1641,6 +1947,26 @@ export default {
       };
       clipPoints.push(nextPt);
       renderClipPathUI();
+    });
+
+    container.querySelector("#clip-add-shape-btn")?.addEventListener("click", () => {
+      if (clipShapes.length >= 6) {
+        appInstance.showToast("Maximum of 6 separate shapes allowed", "warning");
+        return;
+      }
+      const newIndex = clipShapes.length;
+      const newShape = {
+        id: Date.now(),
+        name: `Shape ${newIndex + 1}`,
+        points: [{ x: 50, y: 15 }, { x: 15, y: 85 }, { x: 85, y: 85 }],
+        visible: true,
+        inverted: false
+      };
+      clipShapes.push(newShape);
+      activeShapeIndex = newIndex;
+      clipPoints = clipShapes[activeShapeIndex].points;
+      renderClipPathUI();
+      appInstance.showToast(`Added ${newShape.name}`, "success");
     });
 
     container.querySelector("#clip-rotate-btn")?.addEventListener("click", () => {
@@ -1655,15 +1981,9 @@ export default {
 
     container.querySelector("#clip-center-btn")?.addEventListener("click", () => {
       if (clipPoints.length === 0) return;
-      let minX = 100, maxX = 0, minY = 100, maxY = 0;
-      clipPoints.forEach(pt => {
-        if (pt.x < minX) minX = pt.x;
-        if (pt.x > maxX) maxX = pt.x;
-        if (pt.y < minY) minY = pt.y;
-        if (pt.y > maxY) maxY = pt.y;
-      });
-      const offsetX = 50 - Math.round((minX + maxX) / 2);
-      const offsetY = 50 - Math.round((minY + maxY) / 2);
+      const b = getShapeBounds(clipPoints);
+      const offsetX = 50 - b.midX;
+      const offsetY = 50 - b.midY;
       clipPoints.forEach(pt => {
         pt.x = Math.min(Math.max(pt.x + offsetX, 0), 100);
         pt.y = Math.min(Math.max(pt.y + offsetY, 0), 100);
@@ -1672,9 +1992,18 @@ export default {
     });
 
     container.querySelector("#clip-reset-btn")?.addEventListener("click", () => {
-      if (cpPreset) {
-        loadClipPreset(cpPreset.value);
-        appInstance.showToast("Shape reset to default coordinates", "info");
+      const activeShape = clipShapes[activeShapeIndex];
+      if (activeShape) {
+        const type = activeShape.type || "triangle";
+        const preset = cpPresets[type] || cpPresets.triangle;
+        if (Array.isArray(preset) && preset[0] && preset[0].points) {
+          loadClipPreset(type);
+        } else {
+          activeShape.points = preset.map(pt => ({ ...pt }));
+          clipPoints = activeShape.points;
+          renderClipPathUI();
+          appInstance.showToast(`Reset shape to ${type} coordinates`, "info");
+        }
       }
     });
 
@@ -1738,6 +2067,169 @@ export default {
         pt.y = Math.min(100, pt.y + 5);
       });
       renderClipPathUI();
+    });
+
+    // Alignment operations
+    const getShapeBounds = (points) => {
+      if (points.length === 0) return { minX: 50, maxX: 50, minY: 50, maxY: 50, width: 0, height: 0, midX: 50, midY: 50 };
+      let minX = 100, maxX = 0, minY = 100, maxY = 0;
+      points.forEach(pt => {
+        if (pt.x < minX) minX = pt.x;
+        if (pt.x > maxX) maxX = pt.x;
+        if (pt.y < minY) minY = pt.y;
+        if (pt.y > maxY) maxY = pt.y;
+      });
+      return {
+        minX, maxX, minY, maxY,
+        width: maxX - minX,
+        height: maxY - minY,
+        midX: (minX + maxX) / 2,
+        midY: (minY + maxY) / 2
+      };
+    };
+
+    container.querySelector("#clip-align-left")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      clipPoints.forEach(pt => pt.x -= b.minX);
+      renderClipPathUI();
+      appInstance.showToast("Aligned active shape left", "success");
+    });
+
+    container.querySelector("#clip-align-center")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offset = 50 - b.midX;
+      clipPoints.forEach(pt => pt.x = Math.min(Math.max(Math.round(pt.x + offset), 0), 100));
+      renderClipPathUI();
+      appInstance.showToast("Centered active shape horizontally", "success");
+    });
+
+    container.querySelector("#clip-align-right")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offset = 100 - b.maxX;
+      clipPoints.forEach(pt => pt.x += offset);
+      renderClipPathUI();
+      appInstance.showToast("Aligned active shape right", "success");
+    });
+
+    container.querySelector("#clip-align-top")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      clipPoints.forEach(pt => pt.y -= b.minY);
+      renderClipPathUI();
+      appInstance.showToast("Aligned active shape top", "success");
+    });
+
+    container.querySelector("#clip-align-vcenter")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offset = 50 - b.midY;
+      clipPoints.forEach(pt => pt.y = Math.min(Math.max(Math.round(pt.y + offset), 0), 100));
+      renderClipPathUI();
+      appInstance.showToast("Centered active shape vertically", "success");
+    });
+
+    container.querySelector("#clip-align-bottom")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offset = 100 - b.maxY;
+      clipPoints.forEach(pt => pt.y += offset);
+      renderClipPathUI();
+      appInstance.showToast("Aligned active shape bottom", "success");
+    });
+
+    container.querySelector("#clip-align-stackh")?.addEventListener("click", () => {
+      const visible = clipShapes.filter(s => s.visible && s.points.length > 0);
+      if (visible.length < 2) {
+        appInstance.showToast("Need at least 2 visible shapes to stack!", "warning");
+        return;
+      }
+      const sorted = visible.map(s => ({ shape: s, bounds: getShapeBounds(s.points) }))
+                            .sort((a, b) => a.bounds.midX - b.bounds.midX);
+      const N = sorted.length;
+      sorted.forEach((item, idx) => {
+        const L = idx * (100 / N);
+        const R = (idx + 1) * (100 / N);
+        const C = (L + R) / 2;
+        const b = item.bounds;
+        const maxW = 100 / N;
+        
+        let scaleX = 1;
+        if (b.width > maxW) {
+          scaleX = maxW / (b.width || 1);
+        }
+        
+        item.shape.points.forEach(pt => {
+          const px = b.midX + (pt.x - b.midX) * scaleX;
+          const offset = C - b.midX;
+          pt.x = Math.min(Math.max(Math.round(px + offset), 0), 100);
+        });
+      });
+      renderClipPathUI();
+      appInstance.showToast("Stacked shapes horizontally", "success");
+    });
+
+    container.querySelector("#clip-align-stackv")?.addEventListener("click", () => {
+      const visible = clipShapes.filter(s => s.visible && s.points.length > 0);
+      if (visible.length < 2) {
+        appInstance.showToast("Need at least 2 visible shapes to stack!", "warning");
+        return;
+      }
+      const sorted = visible.map(s => ({ shape: s, bounds: getShapeBounds(s.points) }))
+                            .sort((a, b) => a.bounds.midY - b.bounds.midY);
+      const N = sorted.length;
+      sorted.forEach((item, idx) => {
+        const T = idx * (100 / N);
+        const B = (idx + 1) * (100 / N);
+        const C = (T + B) / 2;
+        const b = item.bounds;
+        const maxH = 100 / N;
+        
+        let scaleY = 1;
+        if (b.height > maxH) {
+          scaleY = maxH / (b.height || 1);
+        }
+        
+        item.shape.points.forEach(pt => {
+          const py = b.midY + (pt.y - b.midY) * scaleY;
+          const offset = C - b.midY;
+          pt.y = Math.min(Math.max(Math.round(py + offset), 0), 100);
+        });
+      });
+      renderClipPathUI();
+      appInstance.showToast("Stacked shapes vertically", "success");
+    });
+
+    container.querySelector("#clip-align-allcenter")?.addEventListener("click", () => {
+      const visible = clipShapes.filter(s => s.visible && s.points.length > 0);
+      if (visible.length === 0) return;
+      visible.forEach(shape => {
+        const b = getShapeBounds(shape.points);
+        const offsetX = 50 - b.midX;
+        const offsetY = 50 - b.midY;
+        shape.points.forEach(pt => {
+          pt.x = Math.min(Math.max(Math.round(pt.x + offsetX), 0), 100);
+          pt.y = Math.min(Math.max(Math.round(pt.y + offsetY), 0), 100);
+        });
+      });
+      renderClipPathUI();
+      appInstance.showToast("Aligned all shapes' centers", "success");
+    });
+
+    // Zoom slider event listener
+    const zoomSlider = container.querySelector("#clip-zoom-slider");
+    const zoomVal = container.querySelector("#clip-zoom-val");
+    zoomSlider?.addEventListener("input", (e) => {
+      clipZoom = parseInt(e.target.value, 10);
+      if (zoomVal) zoomVal.innerText = `${clipZoom}%`;
+      const size = 200 * (clipZoom / 100);
+      if (cpWorkarea) {
+        cpWorkarea.style.width = `${size}px`;
+        cpWorkarea.style.height = `${size}px`;
+        cpWorkarea.style.backgroundSize = `${20 * (clipZoom / 100)}px ${20 * (clipZoom / 100)}px`;
+      }
     });
 
     // Background toggles

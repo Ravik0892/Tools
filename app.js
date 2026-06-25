@@ -686,6 +686,15 @@ const app = {
       return;
     }
 
+    if (hash === "#dashboard") {
+      this.activeCategory = "all";
+      this.activeSubcategory = "all";
+      this.syncSidebarUI();
+      this.backToDashboard(false);
+      this.renderDashboard();
+      return;
+    }
+
     // Default startup landing view check
     const defaultView = this.getConfigValue("omnitool_default_view", "dashboard");
     if (defaultView === "favorites") {
@@ -1809,6 +1818,8 @@ const app = {
     const grid = document.getElementById("tools-card-grid");
     if (!grid) return;
 
+    this.renderCategoryTabs();
+
     grid.innerHTML = "";
 
     const hiddenToolsStr = this.getConfigValue("omnitool_hidden_tools", "");
@@ -2049,6 +2060,43 @@ const app = {
       });
 
       container.appendChild(card);
+    });
+  },
+
+  renderCategoryTabs() {
+    const bar = document.getElementById("category-tabs-bar");
+    if (!bar) return;
+
+    const activeCat = this.activeCategory;
+    const activeSub = this.activeSubcategory;
+
+    let currentActive = "all";
+    if (activeCat === "fav") {
+      currentActive = "fav";
+    } else if (activeCat === "subcategory-filter") {
+      currentActive = activeSub.split("-")[0];
+    }
+
+    const tabs = [
+      { id: "all", label: "All Tools", icon: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>`, hash: "dashboard" },
+      { id: "dev", label: "Developer", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`, hash: "category/dev-all" },
+      { id: "text", label: "Text", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>`, hash: "category/text-all" },
+      { id: "design", label: "Design", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`, hash: "category/design-all" },
+      { id: "math", label: "Math", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>`, hash: "category/math-all" },
+      { id: "fav", label: "Favorites", icon: `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`, hash: "favorites" }
+    ];
+
+    bar.innerHTML = tabs.map(tab => `
+      <button class="category-tab-pill ${currentActive === tab.id ? 'active' : ''}" data-hash="${tab.hash}">
+        ${tab.icon}
+        <span>${tab.label}</span>
+      </button>
+    `).join("");
+
+    bar.querySelectorAll(".category-tab-pill").forEach(pill => {
+      pill.addEventListener("click", () => {
+        window.location.hash = pill.dataset.hash;
+      });
     });
   },
 
