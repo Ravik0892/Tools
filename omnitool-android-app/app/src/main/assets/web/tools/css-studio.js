@@ -96,7 +96,10 @@ export default {
             <div class="gradient-stops-control" style="margin-top: 12px;">
               <div class="panel-header" style="padding: 0 0 8px 0; border-bottom: none; display: flex; justify-content: space-between; align-items: center;">
                 <label style="margin: 0;">Color Stops</label>
-                <button class="tool-btn secondary" id="grad-add-stop-btn" style="padding: 4px 8px; font-size: 11px;">+ Add Stop</button>
+                <div style="display: flex; gap: 4px;">
+                  <button class="tool-btn secondary" id="grad-import-palette-btn" style="padding: 4px 8px; font-size: 11px;" title="Import from Color Lab Palette">Import Palette</button>
+                  <button class="tool-btn secondary" id="grad-add-stop-btn" style="padding: 4px 8px; font-size: 11px;">+ Add Stop</button>
+                </div>
               </div>
               <div id="grad-stops-container" style="display: flex; flex-direction: column; gap: 8px;">
                 <!-- Dynamic stops -->
@@ -369,6 +372,7 @@ export default {
               <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;">
                 <button class="tool-btn secondary active" id="clip-bg-grid" style="font-size: 10px; padding: 4px 8px;">Grid</button>
                 <button class="tool-btn secondary" id="clip-bg-gradient" style="font-size: 10px; padding: 4px 8px;">Sunset Gradient</button>
+                <button class="tool-btn secondary" id="clip-bg-palette" style="font-size: 10px; padding: 4px 8px;" title="Use background gradient from Color Lab Palette">Palette Colors</button>
                 <button class="tool-btn secondary" id="clip-bg-image" style="font-size: 10px; padding: 4px 8px;">Sample Image</button>
               </div>
             </div>
@@ -599,6 +603,9 @@ export default {
   },
 
   init(container, appInstance) {
+    appInstance.cssStudioState = appInstance.cssStudioState || {
+      sharedClipPath: ""
+    };
     const tabs = container.querySelectorAll("#css-studio-tabs .keyboard-tab");
     const panelGrad = container.querySelector("#panel-gradient-controls");
     const panelShadow = container.querySelector("#panel-shadow-controls");
@@ -757,11 +764,11 @@ export default {
     const gradType = container.querySelector("#grad-type");
     const gradAngle = container.querySelector("#grad-angle");
     const gradAngleVal = container.querySelector("#grad-angle-val");
-    const gradStopsContainer = container.querySelector("#grad-stops-container");
-    const gradPresetsBox = container.querySelector("#grad-presets-box");
-    const repeatingEl = container.querySelector("#grad-repeating");
     const shapeEl = container.querySelector("#grad-shape");
     const posEl = container.querySelector("#grad-position");
+    const repeatingEl = container.querySelector("#grad-repeating");
+    const gradStopsContainer = container.querySelector("#grad-stops-container");
+    const gradPresetsBox = container.querySelector("#grad-presets-box");
 
     let gradientStops = [
       { color: "#00f2fe", position: 0 },
@@ -769,21 +776,12 @@ export default {
     ];
 
     const gradientPresets = [
-      { name: "Ocean Blue", type: "linear", angle: 135, repeating: false, stops: [{ color: "#00f2fe", position: 0 }, { color: "#4facfe", position: 50 }, { color: "#0000ff", position: 100 }] },
-      { name: "Sunset Violet", type: "linear", angle: 135, repeating: false, stops: [{ color: "#f5576c", position: 0 }, { color: "#f093fb", position: 100 }] },
-      { name: "Neon Lime", type: "linear", angle: 90, repeating: false, stops: [{ color: "#00ff87", position: 0 }, { color: "#60efff", position: 100 }] },
-      { name: "Cyberpunk", type: "linear", angle: 45, repeating: false, stops: [{ color: "#f107a3", position: 0 }, { color: "#7b2ff7", position: 50 }, { color: "#07f1f1", position: 100 }] },
-      { name: "Peach Dream", type: "linear", angle: 135, repeating: false, stops: [{ color: "#ff9a9e", position: 0 }, { color: "#fecfef", position: 99 }, { color: "#fecfef", position: 100 }] },
-      { name: "Deep Space", type: "radial", shape: "circle", position: "center", repeating: false, stops: [{ color: "#434343", position: 0 }, { color: "#000000", position: 100 }] },
-      { name: "Retro Stripe", type: "linear", angle: 90, repeating: true, stops: [{ color: "#ffbe0b", position: 0 }, { color: "#ffbe0b", position: 10 }, { color: "#fb5607", position: 10 }, { color: "#fb5607", position: 20 }] },
-      { name: "Aurora Borealis", type: "linear", angle: 135, repeating: false, stops: [{ color: "#0575e6", position: 0 }, { color: "#00f260", position: 100 }] },
-      { name: "Flaming Orange", type: "linear", angle: 45, repeating: false, stops: [{ color: "#f857a6", position: 0 }, { color: "#ff5858", position: 100 }] },
-      { name: "Midnight Lavender", type: "linear", angle: 135, repeating: false, stops: [{ color: "#2f0743", position: 0 }, { color: "#41295a", position: 100 }] },
-      { name: "Cotton Candy", type: "linear", angle: 135, repeating: false, stops: [{ color: "#ff9a9e", position: 0 }, { color: "#fecfef", position: 50 }, { color: "#a1c4fd", position: 100 }] },
-      { name: "Golden Hour", type: "linear", angle: 45, repeating: false, stops: [{ color: "#ff8c00", position: 0 }, { color: "#ff007f", position: 50 }, { color: "#7928ca", position: 100 }] },
-      { name: "Emerald Lustre", type: "linear", angle: 135, repeating: false, stops: [{ color: "#11998e", position: 0 }, { color: "#38ef7d", position: 100 }] },
-      { name: "Royal Velvet", type: "linear", angle: 45, repeating: false, stops: [{ color: "#8a2387", position: 0 }, { color: "#e94057", position: 50 }, { color: "#f27121", position: 100 }] },
-      { name: "Electric Ice", type: "linear", angle: 90, repeating: false, stops: [{ color: "#00c6ff", position: 0 }, { color: "#0072ff", position: 100 }] }
+      { name: "Neon Blue Purple", type: "linear", angle: 135, stops: [{ color: "#00f2fe", position: 0 }, { color: "#9d4edd", position: 100 }] },
+      { name: "Vaporwave Pink", type: "linear", angle: 45, stops: [{ color: "#ff007f", position: 0 }, { color: "#7928ca", position: 100 }] },
+      { name: "Sunset Orange", type: "linear", angle: 90, stops: [{ color: "#ff8c00", position: 0 }, { color: "#e52d27", position: 100 }] },
+      { name: "Cyber Green", type: "linear", angle: 180, stops: [{ color: "#39ff14", position: 0 }, { color: "#00ff87", position: 100 }] },
+      { name: "Radial Target", type: "radial", shape: "circle", position: "center", stops: [{ color: "#00f2fe", position: 0 }, { color: "#09090b", position: 100 }] },
+      { name: "Metallic Gold", type: "linear", angle: 135, stops: [{ color: "#bf953f", position: 0 }, { color: "#fcf6ba", position: 25 }, { color: "#b38728", position: 50 }, { color: "#fbf5b7", position: 75 }, { color: "#aa771c", position: 100 }] }
     ];
 
     let customPresets = [];
@@ -1083,10 +1081,26 @@ export default {
         const sorted = gradientStops.slice().sort((a, b) => a.position - b.position);
         newPos = Math.round((sorted[sorted.length - 1].position + sorted[sorted.length - 2].position) / 2);
       }
-      const cols = ["#00f2fe", "#9d4edd", "#ff9a9e", "#ffbe0b", "#fb5607", "#00ff87"];
-      gradientStops.push({ color: cols[Math.floor(Math.random() * cols.length)], position: newPos });
+      gradientStops.push({ color: "#ffffff", position: newPos });
       renderGradientStops();
       buildGradient();
+    });
+
+    container.querySelector("#grad-import-palette-btn")?.addEventListener("click", () => {
+      const colors = (appInstance.colorLabState && appInstance.colorLabState.currentColors)
+        ? appInstance.colorLabState.currentColors.map(c => c.hex)
+        : [];
+      if (colors.length > 0) {
+        gradientStops = colors.map((c, idx) => ({
+          color: c,
+          position: Math.round((idx / (colors.length - 1 || 1)) * 100)
+        }));
+        renderGradientStops();
+        buildGradient();
+        appInstance.showToast("Imported colors from Color Lab!", "success");
+      } else {
+        appInstance.showToast("No active Color Lab palette found. Go to Color Lab first!", "warning");
+      }
     });
 
     container.querySelector("#grad-save-preset-btn")?.addEventListener("click", () => {
@@ -1450,7 +1464,7 @@ export default {
     const cpTarget = container.querySelector("#clippath-target-element");
     const cpHandlesContainer = container.querySelector("#clippath-handles-container");
     const cpAddPointBtn = container.querySelector("#clip-add-point-btn");
-
+    
     // Background toggles
     const clipBgGrid = container.querySelector("#clip-bg-grid");
     const clipBgGrad = container.querySelector("#clip-bg-gradient");
@@ -1485,16 +1499,19 @@ export default {
       if (activeTab !== "clippath") return;
       const polyStr = clipPoints.map(pt => `${pt.x}% ${pt.y}%`).join(", ");
       const clipPathVal = `polygon(${polyStr})`;
-
+      
       cpTarget.style.clipPath = clipPathVal;
       cpTarget.style.webkitClipPath = clipPathVal;
 
       codeOutput.value = `clip-path: ${clipPathVal};`;
+      
+      // Save globally
+      appInstance.cssStudioState.sharedClipPath = clipPathVal;
     };
 
     const renderClipPathUI = () => {
       if (!cpHandlesContainer || !cpPointsList) return;
-
+      
       // Render handles inside workarea
       cpHandlesContainer.innerHTML = "";
       cpPointsList.innerHTML = "";
@@ -1506,7 +1523,7 @@ export default {
         handle.style.left = `${pt.x}%`;
         handle.style.top = `${pt.y}%`;
         handle.setAttribute("data-index", index);
-
+        
         // Touch/Mouse drag-drop implementation
         let isDragging = false;
 
@@ -1723,10 +1740,14 @@ export default {
       renderClipPathUI();
     });
 
+    // Background toggles
+    const clipBgPalette = container.querySelector("#clip-bg-palette");
+
     // Workarea background controls
     clipBgGrid?.addEventListener("click", () => {
       clipBgGrid.classList.add("active");
       clipBgGrad.classList.remove("active");
+      clipBgPalette?.classList.remove("active");
       clipBgImage.classList.remove("active");
       cpWorkarea.style.background = "";
       cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
@@ -1737,6 +1758,7 @@ export default {
     clipBgGrad?.addEventListener("click", () => {
       clipBgGrid.classList.remove("active");
       clipBgGrad.classList.add("active");
+      clipBgPalette?.classList.remove("active");
       clipBgImage.classList.remove("active");
       cpWorkarea.style.background = "";
       cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
@@ -1744,9 +1766,37 @@ export default {
       cpTarget.style.background = "linear-gradient(45deg, #ff007f 0%, #ff8c00 100%)";
     });
 
+    clipBgPalette?.addEventListener("click", () => {
+      clipBgGrid.classList.remove("active");
+      clipBgGrad.classList.remove("active");
+      clipBgPalette.classList.add("active");
+      clipBgImage.classList.remove("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      
+      const colors = (appInstance.colorLabState && appInstance.colorLabState.currentColors)
+        ? appInstance.colorLabState.currentColors.map(c => c.hex)
+        : [];
+      if (colors.length > 0) {
+        let gradVal;
+        if (colors.length === 1) {
+          gradVal = colors[0];
+        } else {
+          gradVal = `linear-gradient(135deg, ${colors.join(", ")})`;
+        }
+        cpTarget.style.background = gradVal;
+        appInstance.showToast("Applied Color Lab palette colors!", "success");
+      } else {
+        cpTarget.style.background = "linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%)";
+        appInstance.showToast("No active Color Lab palette found. Generated default instead.", "info");
+      }
+    });
+
     clipBgImage?.addEventListener("click", () => {
       clipBgGrid.classList.remove("active");
       clipBgGrad.classList.remove("active");
+      clipBgPalette?.classList.remove("active");
       clipBgImage.classList.add("active");
       cpWorkarea.style.background = "";
       cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";

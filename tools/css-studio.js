@@ -96,7 +96,10 @@ export default {
             <div class="gradient-stops-control" style="margin-top: 12px;">
               <div class="panel-header" style="padding: 0 0 8px 0; border-bottom: none; display: flex; justify-content: space-between; align-items: center;">
                 <label style="margin: 0;">Color Stops</label>
-                <button class="tool-btn secondary" id="grad-add-stop-btn" style="padding: 4px 8px; font-size: 11px;">+ Add Stop</button>
+                <div style="display: flex; gap: 4px;">
+                  <button class="tool-btn secondary" id="grad-import-palette-btn" style="padding: 4px 8px; font-size: 11px;" title="Import from Color Lab Palette">Import Palette</button>
+                  <button class="tool-btn secondary" id="grad-add-stop-btn" style="padding: 4px 8px; font-size: 11px;">+ Add Stop</button>
+                </div>
               </div>
               <div id="grad-stops-container" style="display: flex; flex-direction: column; gap: 8px;">
                 <!-- Dynamic stops -->
@@ -369,6 +372,7 @@ export default {
               <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;">
                 <button class="tool-btn secondary active" id="clip-bg-grid" style="font-size: 10px; padding: 4px 8px;">Grid</button>
                 <button class="tool-btn secondary" id="clip-bg-gradient" style="font-size: 10px; padding: 4px 8px;">Sunset Gradient</button>
+                <button class="tool-btn secondary" id="clip-bg-palette" style="font-size: 10px; padding: 4px 8px;" title="Use background gradient from Color Lab Palette">Palette Colors</button>
                 <button class="tool-btn secondary" id="clip-bg-image" style="font-size: 10px; padding: 4px 8px;">Sample Image</button>
               </div>
             </div>
@@ -400,7 +404,10 @@ export default {
             <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <label style="margin: 0;">Coordinates (x, y)</label>
-                <button class="tool-btn secondary" id="clip-add-point-btn" style="font-size: 10px; padding: 2px 6px;">+ Point</button>
+                <div style="display: flex; gap: 4px;">
+                  <button class="tool-btn secondary" id="clip-import-shape-btn" style="font-size: 10px; padding: 2px 6px;" title="Import from shared shape registry">Import Shape</button>
+                  <button class="tool-btn secondary" id="clip-add-point-btn" style="font-size: 10px; padding: 2px 6px;">+ Point</button>
+                </div>
               </div>
               <div id="clippath-points-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto; padding-right: 4px;">
                 <!-- Dynamic coordinate rows -->
@@ -549,22 +556,25 @@ export default {
         }
         .clippath-handle {
           position: absolute;
-          width: 12px;
-          height: 12px;
+          width: 14px;
+          height: 14px;
           background: #00f2fe;
           border: 2px solid #ffffff;
           border-radius: 50%;
           cursor: move;
-          transform: translate(-6px, -6px);
+          transform: translate(-7px, -7px);
           box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
           pointer-events: auto;
           z-index: 100;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .clippath-handle:hover, .clippath-handle.dragging {
           background: #ff007f;
           border-color: #ffffff;
           box-shadow: 0 0 12px rgba(255, 0, 127, 1);
-          transform: translate(-6px, -6px) scale(1.3);
+          transform: translate(-7px, -7px) scale(1.2);
         }
         .clippath-point-row {
           display: flex;
@@ -599,6 +609,9 @@ export default {
   },
 
   init(container, appInstance) {
+    appInstance.cssStudioState = appInstance.cssStudioState || {
+      sharedClipPath: ""
+    };
     const tabs = container.querySelectorAll("#css-studio-tabs .keyboard-tab");
     const panelGrad = container.querySelector("#panel-gradient-controls");
     const panelShadow = container.querySelector("#panel-shadow-controls");
@@ -1083,10 +1096,26 @@ export default {
         const sorted = gradientStops.slice().sort((a, b) => a.position - b.position);
         newPos = Math.round((sorted[sorted.length - 1].position + sorted[sorted.length - 2].position) / 2);
       }
-      const cols = ["#00f2fe", "#9d4edd", "#ff9a9e", "#ffbe0b", "#fb5607", "#00ff87"];
-      gradientStops.push({ color: cols[Math.floor(Math.random() * cols.length)], position: newPos });
+      gradientStops.push({ color: "#ffffff", position: newPos });
       renderGradientStops();
       buildGradient();
+    });
+
+    container.querySelector("#grad-import-palette-btn")?.addEventListener("click", () => {
+      const colors = (appInstance.colorLabState && appInstance.colorLabState.currentColors)
+        ? appInstance.colorLabState.currentColors.map(c => c.hex)
+        : [];
+      if (colors.length > 0) {
+        gradientStops = colors.map((c, idx) => ({
+          color: c,
+          position: Math.round((idx / (colors.length - 1 || 1)) * 100)
+        }));
+        renderGradientStops();
+        buildGradient();
+        appInstance.showToast("Imported colors from Color Lab!", "success");
+      } else {
+        appInstance.showToast("No active Color Lab palette found. Go to Color Lab first!", "warning");
+      }
     });
 
     container.querySelector("#grad-save-preset-btn")?.addEventListener("click", () => {
@@ -1490,6 +1519,13 @@ export default {
       cpTarget.style.webkitClipPath = clipPathVal;
 
       codeOutput.value = `clip-path: ${clipPathVal};`;
+      
+      // Save globally
+      appInstance.cssStudioState.sharedClipPath = clipPathVal;
+      appInstance.sharedShape = {
+        source: "clippath",
+        points: clipPoints.map(pt => ({ ...pt }))
+      };
     };
 
     const renderClipPathUI = () => {
@@ -1506,6 +1542,7 @@ export default {
         handle.style.left = `${pt.x}%`;
         handle.style.top = `${pt.y}%`;
         handle.setAttribute("data-index", index);
+        handle.innerHTML = `<span style="font-size: 8px; font-weight: bold; color: #fff; pointer-events: none; user-select: none;">${index + 1}</span>`;
         
         // Touch/Mouse drag-drop implementation
         let isDragging = false;
@@ -1608,6 +1645,17 @@ export default {
 
     cpPreset?.addEventListener("change", (e) => {
       loadClipPreset(e.target.value);
+    });
+
+    container.querySelector("#clip-import-shape-btn")?.addEventListener("click", () => {
+      const shared = appInstance.sharedShape;
+      if (shared && shared.points && shared.points.length >= 3) {
+        clipPoints = shared.points.map(pt => ({ ...pt }));
+        renderClipPathUI();
+        appInstance.showToast(`Imported shape from ${shared.source}!`, "success");
+      } else {
+        appInstance.showToast("No shared shape registry data found. Create a shape elsewhere first!", "warning");
+      }
     });
 
     cpAddPointBtn?.addEventListener("click", () => {
@@ -1723,10 +1771,14 @@ export default {
       renderClipPathUI();
     });
 
+    // Background toggles
+    const clipBgPalette = container.querySelector("#clip-bg-palette");
+
     // Workarea background controls
     clipBgGrid?.addEventListener("click", () => {
       clipBgGrid.classList.add("active");
       clipBgGrad.classList.remove("active");
+      clipBgPalette?.classList.remove("active");
       clipBgImage.classList.remove("active");
       cpWorkarea.style.background = "";
       cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
@@ -1737,6 +1789,7 @@ export default {
     clipBgGrad?.addEventListener("click", () => {
       clipBgGrid.classList.remove("active");
       clipBgGrad.classList.add("active");
+      clipBgPalette?.classList.remove("active");
       clipBgImage.classList.remove("active");
       cpWorkarea.style.background = "";
       cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
@@ -1744,9 +1797,37 @@ export default {
       cpTarget.style.background = "linear-gradient(45deg, #ff007f 0%, #ff8c00 100%)";
     });
 
+    clipBgPalette?.addEventListener("click", () => {
+      clipBgGrid.classList.remove("active");
+      clipBgGrad.classList.remove("active");
+      clipBgPalette.classList.add("active");
+      clipBgImage.classList.remove("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      
+      const colors = (appInstance.colorLabState && appInstance.colorLabState.currentColors)
+        ? appInstance.colorLabState.currentColors.map(c => c.hex)
+        : [];
+      if (colors.length > 0) {
+        let gradVal;
+        if (colors.length === 1) {
+          gradVal = colors[0];
+        } else {
+          gradVal = `linear-gradient(135deg, ${colors.join(", ")})`;
+        }
+        cpTarget.style.background = gradVal;
+        appInstance.showToast("Applied Color Lab palette colors!", "success");
+      } else {
+        cpTarget.style.background = "linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%)";
+        appInstance.showToast("No active Color Lab palette found. Generated default instead.", "info");
+      }
+    });
+
     clipBgImage?.addEventListener("click", () => {
       clipBgGrid.classList.remove("active");
       clipBgGrad.classList.remove("active");
+      clipBgPalette?.classList.remove("active");
       clipBgImage.classList.add("active");
       cpWorkarea.style.background = "";
       cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";

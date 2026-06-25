@@ -28,6 +28,11 @@ export default {
               <button class="tool-btn secondary" id="svg-sample-2" style="font-size: 11px; padding: 6px 10px;">Load Heart Icon</button>
             </div>
 
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <button class="tool-btn secondary" id="svg-import-shape-btn" style="font-size: 11px; padding: 6px 10px; flex: 1;" title="Import shape from shared registry">Import Shared Shape</button>
+              <button class="tool-btn secondary" id="svg-export-shape-btn" style="font-size: 11px; padding: 6px 10px; flex: 1;" title="Export current path coordinates to shared registry">Export Path to Shared</button>
+            </div>
+
             <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 14px;">
               <label for="svg-preset">Animation Preset</label>
               <select id="svg-preset" class="form-select">
@@ -128,9 +133,13 @@ export default {
 
             <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
               <label>Edit Target Frame</label>
-              <div style="display: flex; gap: 8px; width: 100%;">
+              <div style="display: flex; gap: 8px; width: 100%; margin-bottom: 6px;">
                 <button class="tool-btn secondary active" id="morph-frame-start-btn" style="flex: 1; justify-content: center;">Start Frame</button>
                 <button class="tool-btn secondary" id="morph-frame-end-btn" style="flex: 1; justify-content: center;">End Frame</button>
+              </div>
+              <div style="display: flex; gap: 8px; width: 100%;">
+                <button class="tool-btn secondary" id="morph-import-shape-btn" style="flex: 1; justify-content: center; font-size: 10px; padding: 4px 0;" title="Import shape from shared registry">Import Shape</button>
+                <button class="tool-btn secondary" id="morph-export-shape-btn" style="flex: 1; justify-content: center; font-size: 10px; padding: 4px 0;" title="Export active frame to shared registry">Export Frame</button>
               </div>
             </div>
 
@@ -248,22 +257,25 @@ export default {
         }
         .morph-handle {
           position: absolute;
-          width: 12px;
-          height: 12px;
+          width: 14px;
+          height: 14px;
           background: #00f2fe;
           border: 2px solid #ffffff;
           border-radius: 50%;
           cursor: move;
-          transform: translate(-6px, -6px);
+          transform: translate(-7px, -7px);
           box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
           pointer-events: auto;
           z-index: 100;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .morph-handle:hover, .morph-handle.dragging {
           background: #ff007f;
           border-color: #ffffff;
           box-shadow: 0 0 12px rgba(255, 0, 127, 1);
-          transform: translate(-6px, -6px) scale(1.3);
+          transform: translate(-7px, -7px) scale(1.2);
         }
         .morph-coord-row {
           display: flex;
@@ -297,6 +309,7 @@ export default {
     `;
   },
   init(container, appInstance) {
+    appInstance.sharedShape = appInstance.sharedShape || null;
     const tabs = container.querySelectorAll("#svg-suite-tabs .keyboard-tab");
     const panelAnimator = container.querySelector("#panel-animator-controls");
     const panelMorph = container.querySelector("#panel-morph-controls");
@@ -812,6 +825,19 @@ export default {
       return "M " + points.map(pt => `${pt.x} ${pt.y}`).join(" L ") + " Z";
     };
 
+    const extractPointsFromPathD = (dString) => {
+      const pairs = [];
+      const regex = /([0-9.]+)\s*,?\s*([0-9.]+)/g;
+      let match;
+      while ((match = regex.exec(dString)) !== null) {
+        pairs.push({
+          x: Math.round(parseFloat(match[1])),
+          y: Math.round(parseFloat(match[2]))
+        });
+      }
+      return pairs;
+    };
+
     const loadMorphPreset = (name) => {
       const preset = morphPresets[name] || morphPresets["pentagon-star"];
       verticesCount = preset.pointsCount;
@@ -869,6 +895,7 @@ export default {
           handle.style.left = `${pt.x}%`;
           handle.style.top = `${pt.y}%`;
           handle.setAttribute("data-index", index);
+          handle.innerHTML = `<span style="font-size: 8px; font-weight: bold; color: #fff; pointer-events: none; user-select: none;">${index + 1}</span>`;
 
           let isDragging = false;
 
@@ -1044,6 +1071,88 @@ export default {
         playMorphAnimation();
       } else {
         updateMorphPaths();
+      }
+    });
+
+    // Shared Morph Shape Listeners
+    container.querySelector("#morph-import-shape-btn")?.addEventListener("click", () => {
+      const shared = appInstance.sharedShape;
+      if (shared && shared.points && shared.points.length >= 3) {
+        const count = shared.points.length;
+        verticesCount = count;
+        if (activeFrame === "start") {
+          startPoints = shared.points.map(pt => ({ ...pt }));
+        } else {
+          endPoints = shared.points.map(pt => ({ ...pt }));
+        }
+        stopMorphAnimation();
+        renderMorphUI();
+        appInstance.showToast(`Imported ${count}-point shape from ${shared.source} to ${activeFrame === "start" ? "Start" : "End"} Frame!`, "success");
+      } else {
+        appInstance.showToast("No shared shape registry data found. Create a shape elsewhere first!", "warning");
+      }
+    });
+
+    container.querySelector("#morph-export-shape-btn")?.addEventListener("click", () => {
+      const currentPoints = activeFrame === "start" ? startPoints : endPoints;
+      if (currentPoints && currentPoints.length >= 3) {
+        appInstance.sharedShape = {
+          source: `morph-${activeFrame}`,
+          points: currentPoints.map(pt => ({ ...pt }))
+        };
+        appInstance.showToast(`Exported ${activeFrame === "start" ? "Start" : "End"} Frame shape to registry!`, "success");
+      } else {
+        appInstance.showToast("No points found to export!", "warning");
+      }
+    });
+
+    // Preset Animator Shared Shape Listeners
+    container.querySelector("#svg-import-shape-btn")?.addEventListener("click", () => {
+      const shared = appInstance.sharedShape;
+      if (shared && shared.points && shared.points.length >= 3) {
+        const d = makePathD(shared.points);
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" stroke="#00f2fe" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" width="120" height="120">
+  <path d="${d}" />
+</svg>`;
+        rawInput.value = svg;
+        presetSelect.value = "stroke-draw";
+        updateAnimation();
+        appInstance.showToast(`Imported shape from ${shared.source} as SVG path!`, "success");
+      } else {
+        appInstance.showToast("No shared shape registry data found. Create a shape elsewhere first!", "warning");
+      }
+    });
+
+    container.querySelector("#svg-export-shape-btn")?.addEventListener("click", () => {
+      const rawText = rawInput.value.trim();
+      if (!rawText) {
+        appInstance.showToast("No SVG code found to parse!", "warning");
+        return;
+      }
+      const svgNode = parseSvg(rawText);
+      if (!svgNode) {
+        appInstance.showToast("Invalid SVG code!", "warning");
+        return;
+      }
+      const path = svgNode.querySelector("path");
+      if (!path) {
+        appInstance.showToast("No <path> element found in the SVG to export!", "warning");
+        return;
+      }
+      const d = path.getAttribute("d");
+      if (!d) {
+        appInstance.showToast("The <path> element does not have a 'd' attribute!", "warning");
+        return;
+      }
+      const points = extractPointsFromPathD(d);
+      if (points.length >= 3) {
+        appInstance.sharedShape = {
+          source: "animator-path",
+          points: points
+        };
+        appInstance.showToast(`Exported parsed path of ${points.length} points to registry!`, "success");
+      } else {
+        appInstance.showToast("Could not extract at least 3 points from the path 'd' attribute!", "warning");
       }
     });
 

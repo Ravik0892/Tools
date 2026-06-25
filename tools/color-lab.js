@@ -42,9 +42,16 @@ export default {
                 <option value="complementary">Complementary (High Contrast)</option>
                 <option value="split">Split-Complementary</option>
                 <option value="triadic">Triadic (Vibrant Balance)</option>
+                <option value="tetradic">Tetradic (Double Complementary)</option>
+                <option value="mixed">Mixed Theories (All Combined)</option>
+                <option value="random">Random (Diverse & Vibrant)</option>
                 <option value="pastel">Soft Pastels (Modern & Clean)</option>
                 <option value="cyber">Cyberpunk Neon (Accent UI)</option>
               </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 12px; flex-direction: row; align-items: center; gap: 8px; display: flex;">
+              <input type="checkbox" id="palette-use-shape-chk" style="width: 14px; height: 14px; cursor: pointer; margin: 0;">
+              <label for="palette-use-shape-chk" style="margin: 0; cursor: pointer; user-select: none; font-size: 11px; color: var(--text-muted);">Use CSS Studio Clip-Path Shape</label>
             </div>
             <div class="form-row" style="margin-bottom: 12px;">
               <button class="tool-btn secondary" id="palette-save-btn" style="width: 100%; justify-content: center; gap: 8px;">
@@ -52,7 +59,7 @@ export default {
               </button>
             </div>
             <p style="font-size: 11px; color: var(--text-muted); margin: 0 0 8px 0;">Click color square to pick, hex to copy, or set as Text/Bg for the WCAG test.</p>
-            <div class="palette-swatches" id="palette-swatches-box" style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="palette-swatches" id="palette-swatches-box">
               <!-- Dynamic Swatches -->
             </div>
             <div class="form-group" style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 12px;">
@@ -234,20 +241,31 @@ export default {
         /* Custom Swatch styling */
         .swatch-card {
           display: flex;
+          flex-direction: column;
           align-items: center;
           background: rgba(255, 255, 255, 0.02);
           border: 1px solid var(--border-color);
-          border-radius: 6px;
-          padding: 4px 8px;
+          border-radius: 8px;
+          padding: 12px 8px;
           gap: 8px;
-          justify-content: space-between;
+          justify-content: center;
+          text-align: center;
+          transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .swatch-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         .swatch-color-box {
-          width: 32px;
-          height: 32px;
-          border-radius: 4px;
+          width: 44px;
+          height: 44px;
+          border-radius: 8px;
           position: relative;
           cursor: pointer;
+          transition: transform 0.15s;
+        }
+        .swatch-color-box:hover {
+          transform: scale(1.05);
         }
         .swatch-native-picker {
           position: absolute;
@@ -259,6 +277,10 @@ export default {
     `;
   },
   init(container, appInstance) {
+    appInstance.colorLabState = appInstance.colorLabState || {
+      currentColors: [],
+      useSharedClipPath: false
+    };
     const tabs = container.querySelectorAll("#color-lab-tabs .keyboard-tab");
     const panelPalette = container.querySelector("#panel-palette-controls");
     const panelShades = container.querySelector("#panel-shades-controls");
@@ -354,7 +376,9 @@ export default {
     const paletteCountInput = container.querySelector("#palette-count");
     const paletteCountVal = container.querySelector("#palette-count-val");
 
-    let currentColors = [];
+    let currentColors = appInstance.colorLabState.currentColors.length > 0
+      ? appInstance.colorLabState.currentColors
+      : [];
 
     const getPaletteCount = () => {
       return paletteCountInput ? parseInt(paletteCountInput.value, 10) : 5;
@@ -423,6 +447,8 @@ export default {
 
     const renderPalette = () => {
       if (!paletteSwatches) return;
+      // Sync global state
+      appInstance.colorLabState.currentColors = currentColors;
       paletteSwatches.innerHTML = "";
 
       currentColors.forEach((colorObj, index) => {
@@ -432,16 +458,21 @@ export default {
         const isLocked = colorObj.locked;
         const hex = colorObj.hex;
 
+        const shapeStyle = (appInstance.cssStudioState && appInstance.cssStudioState.sharedClipPath && appInstance.colorLabState.useSharedClipPath)
+          ? `clip-path: ${appInstance.cssStudioState.sharedClipPath}; -webkit-clip-path: ${appInstance.cssStudioState.sharedClipPath}; border-radius: 0;`
+          : '';
+
         card.innerHTML = `
-          <div class="swatch-color-box" style="background-color: ${hex}; border: 1px solid rgba(255,255,255,0.1);">
+          <div class="swatch-color-box" style="background-color: ${hex}; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; ${shapeStyle}">
             <input type="color" class="swatch-native-picker" value="${hex.toLowerCase()}">
           </div>
-          <div style="font-family: var(--font-mono); font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; text-align: left; margin-left: 6px;" class="swatch-label-text">${hex}</div>
+          <div style="font-family: var(--font-mono); font-size: 12px; font-weight: bold; cursor: pointer; margin: 4px 0; text-align: center;" class="swatch-label-text">${hex}</div>
           
-          <div style="display: flex; gap: 4px; align-items: center;">
+          <div style="display: flex; gap: 4px; align-items: center; justify-content: center; width: 100%;">
             <button class="lock-btn tool-btn secondary" style="padding: 4px 6px; font-size: 10px;">${isLocked ? '🔒' : '🔓'}</button>
             <button class="set-fg-btn tool-btn secondary" style="padding: 4px 6px; font-size: 10px;">Txt</button>
             <button class="set-bg-btn tool-btn secondary" style="padding: 4px 6px; font-size: 10px;">Bg</button>
+            <button class="send-shades-btn tool-btn secondary" style="padding: 4px 6px; font-size: 10px;" title="Send to Shades & Tints">↗</button>
             ${currentColors.length > 2 ? `<button class="remove-btn tool-btn secondary" style="padding: 4px 6px; font-size: 10px; color: var(--accent-rose);">✕</button>` : ''}
           </div>
         `;
@@ -482,6 +513,19 @@ export default {
 
         card.querySelector(".set-fg-btn").addEventListener("click", () => setAsContrastColor(hex, "fg"));
         card.querySelector(".set-bg-btn").addEventListener("click", () => setAsContrastColor(hex, "bg"));
+        
+        card.querySelector(".send-shades-btn").addEventListener("click", () => {
+          appInstance.copyText(hex);
+          const shadesInput = container.querySelector("#shades-color-input");
+          const shadesPicker = container.querySelector("#shades-color-picker");
+          if (shadesInput && shadesPicker) {
+            shadesInput.value = hex;
+            shadesPicker.value = hex.toLowerCase();
+          }
+          appInstance.showToast(`Sent ${hex} to Shades base color! Click here to view.`, "info", () => {
+            switchTab("shades");
+          });
+        });
 
         const removeBtn = card.querySelector(".remove-btn");
         if (removeBtn) {
@@ -506,41 +550,79 @@ export default {
       const nextColors = [];
 
       const isDarkBg = Math.random() < 0.5;
-      const textL = isDarkBg ? 90 : 15;
-      const bgL = isDarkBg ? 12 : 90;
+      let textL = 50;
+      let bgL = 50;
+      let ratio = 1;
+      let attempts = 0;
+      
+      const targetContrast = Math.random() < 0.5 ? 4.5 : 7.0;
+
+      while (ratio < targetContrast && attempts < 30) {
+        if (isDarkBg) {
+          bgL = 5 + Math.floor(Math.random() * 21);    // 5% to 25%
+          textL = 70 + Math.floor(Math.random() * 26);  // 70% to 95%
+        } else {
+          bgL = 75 + Math.floor(Math.random() * 21);   // 75% to 95%
+          textL = 5 + Math.floor(Math.random() * 21);    // 5% to 25%
+        }
+        
+        const fgTestHex = hslToHex(`hsl(${seedHue}, 75%, ${textL}%)`);
+        const bgTestHex = hslToHex(`hsl(${seedHue}, 75%, ${bgL}%)`);
+        const l1 = getLuminance(fgTestHex);
+        const l2 = getLuminance(bgTestHex);
+        ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+        attempts++;
+      }
 
       for (let i = 0; i < count; i++) {
         if (currentColors[i] && currentColors[i].locked) {
           nextColors.push(currentColors[i]);
         } else {
           let hex = "#3A86C8";
+          const s = 65 + (i * 7) % 25; // vary saturation slightly to keep colors distinct
+          
           if (harmonyType === "analogous") {
             const h = (seedHue + i * 20 + 360) % 360;
-            const s = i === 0 ? 80 : 70;
-            const l = i === 0 ? textL : (i === 1 ? bgL : 45);
+            const l = i === 0 ? textL : (i === 1 ? bgL : 35 + (i * 8) % 35);
             hex = hslToHex(`hsl(${h}, ${s}%, ${l}%)`).toUpperCase();
           } else if (harmonyType === "monochromatic") {
-            const l = i === 0 ? textL : (i === 1 ? bgL : 30 + (i * 10));
-            hex = hslToHex(`hsl(${seedHue}, 70%, ${l}%)`).toUpperCase();
+            const l = i === 0 ? textL : (i === 1 ? bgL : 25 + (i * 12) % 60);
+            hex = hslToHex(`hsl(${seedHue}, ${s}%, ${l}%)`).toUpperCase();
           } else if (harmonyType === "complementary") {
-            const isComp = i >= Math.ceil(count / 2);
-            const h = ((isComp ? seedHue + 180 : seedHue) + 360) % 360;
-            const l = i === 0 ? textL : (i === 1 ? bgL : 45);
-            hex = hslToHex(`hsl(${h}, 75%, ${l}%)`).toUpperCase();
+            const isComp = i % 2 !== 0;
+            const h = ((isComp ? seedHue + 180 : seedHue) + Math.floor(i / 2) * 15 + 360) % 360;
+            const l = i === 0 ? textL : (i === 1 ? bgL : 35 + (i * 9) % 35);
+            hex = hslToHex(`hsl(${h}, ${s}%, ${l}%)`).toUpperCase();
           } else if (harmonyType === "split") {
             let h = seedHue;
             if (i % 3 === 1) h = (seedHue + 150) % 360;
             else if (i % 3 === 2) h = (seedHue + 210) % 360;
-            const l = i === 0 ? textL : (i === 1 ? bgL : 45);
-            hex = hslToHex(`hsl(${h}, 75%, ${l}%)`).toUpperCase();
+            h = (h + Math.floor(i / 3) * 15) % 360;
+            const l = i === 0 ? textL : (i === 1 ? bgL : 35 + (i * 9) % 35);
+            hex = hslToHex(`hsl(${h}, ${s}%, ${l}%)`).toUpperCase();
           } else if (harmonyType === "triadic") {
-            const h = (seedHue + (i % 3) * 120) % 360;
-            const l = i === 0 ? textL : (i === 1 ? bgL : 45);
-            hex = hslToHex(`hsl(${h}, 70%, ${l}%)`).toUpperCase();
+            const h = (seedHue + (i % 3) * 120 + Math.floor(i / 3) * 15) % 360;
+            const l = i === 0 ? textL : (i === 1 ? bgL : 35 + (i * 9) % 35);
+            hex = hslToHex(`hsl(${h}, ${s}%, ${l}%)`).toUpperCase();
+          } else if (harmonyType === "tetradic") {
+            const angles = [0, 90, 180, 270];
+            const h = (seedHue + angles[i % 4] + Math.floor(i / 4) * 15) % 360;
+            const l = i === 0 ? textL : (i === 1 ? bgL : 35 + (i * 9) % 35);
+            hex = hslToHex(`hsl(${h}, ${s}%, ${l}%)`).toUpperCase();
+          } else if (harmonyType === "mixed") {
+            const angles = [0, 180, 120, 30, 150, 240, 210, 330];
+            const h = (seedHue + angles[i % angles.length]) % 360;
+            const l = i === 0 ? textL : (i === 1 ? bgL : 35 + (i * 9) % 35);
+            hex = hslToHex(`hsl(${h}, ${s}%, ${l}%)`).toUpperCase();
+          } else if (harmonyType === "random") {
+            const h = (seedHue + (i * (360 / count)) + 360) % 360;
+            const l = i === 0 ? textL : (i === 1 ? bgL : 35 + (i * 9) % 35);
+            hex = hslToHex(`hsl(${h}, ${s}%, ${l}%)`).toUpperCase();
           } else if (harmonyType === "pastel") {
-            const h = (seedHue + i * 30) % 360;
-            const l = i === 0 ? textL : (i === 1 ? bgL : 85);
-            hex = hslToHex(`hsl(${h}, 40%, ${l}%)`).toUpperCase();
+            const h = (seedHue + i * 35) % 360;
+            const pastelS = 30 + (i * 5) % 15;
+            const l = i === 0 ? textL : (i === 1 ? bgL : 80 + (i % 3) * 6);
+            hex = hslToHex(`hsl(${h}, ${pastelS}%, ${l}%)`).toUpperCase();
           } else if (harmonyType === "cyber") {
             const cyberSets = [
               ["#00F2FE", "#12131C", "#9D4EDD", "#FF007F", "#FFFFFF"],
@@ -619,6 +701,19 @@ export default {
     cBgHex?.addEventListener("input", () => syncHex(cBgHex, cBg));
 
     container.querySelector("#palette-generate-btn")?.addEventListener("click", generateNewPalette);
+    
+    const shapeChk = container.querySelector("#palette-use-shape-chk");
+    if (shapeChk) {
+      shapeChk.checked = appInstance.colorLabState.useSharedClipPath;
+      shapeChk.addEventListener("change", (e) => {
+        appInstance.colorLabState.useSharedClipPath = e.target.checked;
+        if (e.target.checked && (!appInstance.cssStudioState || !appInstance.cssStudioState.sharedClipPath)) {
+          appInstance.showToast("No custom shape found. Go to CSS Studio > Clip-Path to make one!", "info");
+        }
+        renderPalette();
+      });
+    }
+
     container.querySelector("#palette-add-btn")?.addEventListener("click", () => {
       if (currentColors.length >= 10) {
         appInstance.showToast("Maximum 10 colors allowed in palette", "warning");
@@ -935,7 +1030,15 @@ export default {
     });
 
     // Initial Triggers
-    generateNewPalette();
+    if (currentColors.length === 0) {
+      generateNewPalette();
+    } else {
+      renderPalette();
+      if (paletteCountInput) {
+        paletteCountInput.value = currentColors.length;
+        if (paletteCountVal) paletteCountVal.innerText = currentColors.length;
+      }
+    }
     renderSavedPalettes();
     verifyAccessibility(false);
     renderAllSwatches();
