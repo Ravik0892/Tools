@@ -1,6 +1,6 @@
 {
   "omnitool_ad_global": "true",
-  "omnitool_ad_network": "adsense",
+  "omnitool_ad_network": "dev",
   "omnitool_ad_show_dash": "true",
   "omnitool_ad_show_tool": "true",
   "omnitool_ad_show_side": "true",
@@ -13,5 +13,11 @@
   "omnitool_default_view": "dashboard",
   "omnitool_clock_format": "12",
   "omnitool_audio_feedback": "true",
-  "omnitool_admin_passcode": "admin123"
+  "omnitool_admin_passcode": "admin123",
+  "omnitool_coffee_url": "",
+  "omnitool_sponsor_brand": "HexaCloud Host",
+  "omnitool_sponsor_slogan": "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.",
+  "omnitool_sponsor_btn_text": "Claim Now",
+  "omnitool_sponsor_url": "https://example.com/hexa-cloud",
+  "omnitool_sponsor_icon": "cloud"
 }

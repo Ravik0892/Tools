@@ -597,6 +597,34 @@ export default {
         </div>
       </div>
 
+      <!-- PDF Reader Modal -->
+      <div id="pdf-reader-modal" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+        <div class="modal-content" style="background: var(--card-bg, #1a1a1a); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; width: 90%; max-width: 900px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.5); overflow: hidden; animation: modal-fadeIn 0.3s ease;">
+          <div class="modal-header" style="padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+            <h3 id="pdf-reader-title" style="margin: 0; font-size: 16px; color: var(--accent-cyan); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%;">Reading PDF</h3>
+            <button id="pdf-reader-close" style="background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; line-height: 1; padding: 0 4px;">&times;</button>
+          </div>
+          <div class="modal-body" style="padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 16px; flex: 1; min-height: 0;">
+            <!-- Controls bar -->
+            <div class="reader-controls" style="display: flex; gap: 12px; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); width: 100%; justify-content: center; flex-wrap: wrap;">
+              <button class="tool-btn secondary" id="pdf-reader-first" style="font-size: 11px; padding: 4px 8px;">First</button>
+              <button class="tool-btn secondary" id="pdf-reader-prev" style="font-size: 11px; padding: 4px 8px;">Prev</button>
+              <span id="pdf-reader-page-num" style="font-size: 13px; font-weight: 500; min-width: 80px; text-align: center;">Page 1 / 1</span>
+              <button class="tool-btn secondary" id="pdf-reader-next" style="font-size: 11px; padding: 4px 8px;">Next</button>
+              <button class="tool-btn secondary" id="pdf-reader-last" style="font-size: 11px; padding: 4px 8px;">Last</button>
+              <div style="border-left: 1px solid rgba(255,255,255,0.1); height: 16px; margin: 0 8px;"></div>
+              <button class="tool-btn secondary" id="pdf-reader-toggle-mode" style="font-size: 11px; padding: 4px 8px;">View Text</button>
+            </div>
+
+            <!-- Page Container -->
+            <div id="pdf-reader-page-container" style="width: 100%; flex: 1; display: flex; align-items: center; justify-content: center; overflow: auto; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); min-height: 250px; padding: 10px;">
+              <canvas id="pdf-reader-canvas" style="max-width: 100%; max-height: 100%; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); background: white; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"></canvas>
+              <div id="pdf-reader-text" class="hidden" style="width: 100%; height: 100%; max-width: 800px; padding: 20px; color: var(--text-color); font-size: 14px; line-height: 1.6; white-space: pre-wrap; text-align: left; background: rgba(0, 0, 0, 0.2); border-radius: 4px; overflow-y: auto;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <style>
         .pdf-dropzone {
           border: 2px dashed rgba(0, 242, 254, 0.3);
@@ -1058,6 +1086,151 @@ export default {
     const ocrLangWrapper = container.querySelector("#ocr-lang-wrapper");
     const ocrLangSelect = container.querySelector("#pdf-ocr-lang");
     const rescanBtn = container.querySelector("#pdf-rescan-btn");
+
+    // PDF Reader Modal Elements
+    const readerModal = container.querySelector("#pdf-reader-modal");
+    const readerTitle = container.querySelector("#pdf-reader-title");
+    const readerClose = container.querySelector("#pdf-reader-close");
+    const readerFirst = container.querySelector("#pdf-reader-first");
+    const readerPrev = container.querySelector("#pdf-reader-prev");
+    const readerNext = container.querySelector("#pdf-reader-next");
+    const readerLast = container.querySelector("#pdf-reader-last");
+    const readerPageNum = container.querySelector("#pdf-reader-page-num");
+    const readerToggleMode = container.querySelector("#pdf-reader-toggle-mode");
+    const readerCanvas = container.querySelector("#pdf-reader-canvas");
+    const readerText = container.querySelector("#pdf-reader-text");
+
+    let readerFile = null;
+    let readerCurrentPage = 1;
+    let readerMode = "layout"; // "layout" or "text"
+
+    const openPdfReader = (filename) => {
+      const fileObj = this.files.find(f => f.name === filename);
+      if (!fileObj) return;
+
+      readerFile = fileObj;
+      readerCurrentPage = 1;
+      if (!fileObj.rawBuffer) {
+        readerMode = "text";
+        readerToggleMode.innerText = "View Layout";
+      } else {
+        readerMode = "layout";
+        readerToggleMode.innerText = "View Text";
+      }
+
+      readerTitle.innerText = `Reading: ${fileObj.name}`;
+      readerModal.classList.remove("hidden");
+      renderReaderPage();
+    };
+
+    const renderReaderPage = async () => {
+      if (!readerFile) return;
+
+      const total = readerFile.totalPages;
+      readerPageNum.innerText = `Page ${readerCurrentPage} / ${total}`;
+
+      readerFirst.disabled = readerCurrentPage <= 1;
+      readerPrev.disabled = readerCurrentPage <= 1;
+      readerNext.disabled = readerCurrentPage >= total;
+      readerLast.disabled = readerCurrentPage >= total;
+
+      if (readerMode === "layout" && !readerFile.rawBuffer) {
+        readerMode = "text";
+        readerToggleMode.innerText = "View Layout";
+      }
+
+      if (readerMode === "text") {
+        readerCanvas.style.display = "none";
+        readerText.classList.remove("hidden");
+
+        const pageData = readerFile.pages.find(p => p.pageNumber === readerCurrentPage);
+        readerText.innerText = pageData ? pageData.text : "No text extracted from this page.";
+      } else {
+        readerCanvas.style.display = "block";
+        readerText.classList.add("hidden");
+
+        const ctx = readerCanvas.getContext("2d");
+        // Draw loading
+        readerCanvas.width = 400;
+        readerCanvas.height = 200;
+        ctx.fillStyle = "#1e1e1e";
+        ctx.fillRect(0, 0, 400, 200);
+        ctx.fillStyle = "#00f2fe";
+        ctx.font = "14px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Rendering page layout...", 200, 100);
+
+        try {
+          const pdf = await this.pdfjs.getDocument({ data: readerFile.rawBuffer.slice(0) }).promise;
+          const page = await pdf.getPage(readerCurrentPage);
+
+          const viewport = page.getViewport({ scale: 1.3 });
+          readerCanvas.width = viewport.width;
+          readerCanvas.height = viewport.height;
+
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, readerCanvas.width, readerCanvas.height);
+
+          await page.render({
+            canvasContext: ctx,
+            viewport: viewport
+          }).promise;
+        } catch (err) {
+          console.error("Reader render failed:", err);
+          readerCanvas.width = 400;
+          readerCanvas.height = 200;
+          ctx.fillStyle = "#1e1e1e";
+          ctx.fillRect(0, 0, 400, 200);
+          ctx.fillStyle = "#f43f5e";
+          ctx.font = "14px sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText(`Error rendering page: ${err.message}`, 200, 100);
+        }
+      }
+    };
+
+    readerClose.addEventListener("click", () => {
+      readerModal.classList.add("hidden");
+    });
+
+    readerFirst.addEventListener("click", () => {
+      if (readerFile && readerCurrentPage > 1) {
+        readerCurrentPage = 1;
+        renderReaderPage();
+      }
+    });
+
+    readerPrev.addEventListener("click", () => {
+      if (readerFile && readerCurrentPage > 1) {
+        readerCurrentPage--;
+        renderReaderPage();
+      }
+    });
+
+    readerNext.addEventListener("click", () => {
+      if (readerFile && readerCurrentPage < readerFile.totalPages) {
+        readerCurrentPage++;
+        renderReaderPage();
+      }
+    });
+
+    readerLast.addEventListener("click", () => {
+      if (readerFile && readerCurrentPage < readerFile.totalPages) {
+        readerCurrentPage = readerFile.totalPages;
+        renderReaderPage();
+      }
+    });
+
+    readerToggleMode.addEventListener("click", () => {
+      if (readerMode === "layout") {
+        readerMode = "text";
+        readerToggleMode.innerText = "View Layout";
+      } else {
+        readerMode = "layout";
+        readerToggleMode.innerText = "View Text";
+      }
+      renderReaderPage();
+    });
 
     const notifySettingsChanged = () => {
       const hasProcessable = this.files.some(f => f.rawBuffer);
@@ -1745,6 +1918,7 @@ export default {
         let sizeStr = (f.size / (1024 * 1024)).toFixed(2) + " MB";
         let statusBadge = "";
         let statusText = "";
+        let viewBtn = "";
 
         if (f.status === "parsing") {
           statusBadge = `<span class="file-status-badge badge-parsing">Parsing</span>`;
@@ -1756,6 +1930,7 @@ export default {
         } else if (f.parsed) {
           statusBadge = `<span class="file-status-badge badge-ready">Ready</span>`;
           statusText = `${f.totalPages} Pages (${f.textCount} Text, ${f.ocrCount} OCR)`;
+          viewBtn = `<button class="tool-btn secondary open-reader-btn" data-filename="${escapeHtml(f.name)}" style="font-size: 10px; padding: 2px 6px; height: 20px; line-height: 1; margin: 0; display: inline-flex; align-items: center; border-radius: 4px; cursor: pointer;">Read PDF</button>`;
         } else if (f.status === "error") {
           statusBadge = `<span class="file-status-badge badge-error">Error</span>`;
           statusText = f.error || "Failed to load";
@@ -1776,10 +1951,21 @@ export default {
           </div>
           <div class="file-item-footer">
             <span>${statusText}</span>
+            ${viewBtn}
           </div>
         `;
         fileListContainer.appendChild(item);
       });
+
+      // Bind reader launcher buttons
+      const readerBtns = fileListContainer.querySelectorAll(".open-reader-btn");
+      readerBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const filename = btn.dataset.filename;
+          openPdfReader(filename);
+        });
+      });
+
     };
 
     // Fuzzy Devanagari/Hindi Regex Builder
@@ -2452,7 +2638,8 @@ export default {
             <div class="match-row-header">
               <span>Page ${m.pageNumber}</span>
               <div style="display: flex; gap: 8px; align-items: center;">
-                <button class="tool-btn secondary context-toggle-btn" style="font-size: 10px; padding: 2px 6px; height: 20px; line-height: 1; margin: 0; display: inline-flex; align-items: center; border-radius: 4px; cursor: pointer;">Show Full Page</button>
+                <button class="tool-btn secondary context-toggle-btn" style="font-size: 10px; padding: 2px 6px; height: 20px; line-height: 1; margin: 0; display: inline-flex; align-items: center; border-radius: 4px; cursor: pointer;">Show Full Text</button>
+                <button class="tool-btn secondary view-page-btn" style="font-size: 10px; padding: 2px 6px; height: 20px; line-height: 1; margin: 0; display: inline-flex; align-items: center; border-radius: 4px; cursor: pointer;">View Page Layout</button>
                 <span class="match-badge ${badgeType}">${badgeLabel}</span>
               </div>
             </div>
@@ -2462,6 +2649,8 @@ export default {
             <div class="match-full-text hidden" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.08); font-size: 12.5px; color: var(--text-color); white-space: pre-wrap; line-height: 1.6; text-align: left; background: rgba(0, 0, 0, 0.15); padding: 10px; border-radius: 6px;">
               ${highlightMatches(m.fullText, query, searchMode, isCaseSensitive)}
             </div>
+            <div class="match-page-canvas-container hidden" style="margin-top: 10px; padding: 10px; border-top: 1px dashed rgba(255,255,255,0.08); background: rgba(0, 0, 0, 0.2); border-radius: 6px; text-align: center;">
+            </div>
           `;
 
           const toggleBtn = row.querySelector(".context-toggle-btn");
@@ -2469,16 +2658,76 @@ export default {
           toggleBtn.addEventListener("click", () => {
             if (fullTextDiv.classList.contains("hidden")) {
               fullTextDiv.classList.remove("hidden");
-              toggleBtn.innerText = "Hide Full Page";
+              toggleBtn.innerText = "Hide Full Text";
               toggleBtn.style.background = "rgba(0, 242, 254, 0.12)";
               toggleBtn.style.color = "var(--accent-cyan)";
               toggleBtn.style.borderColor = "rgba(0, 242, 254, 0.3)";
             } else {
               fullTextDiv.classList.add("hidden");
-              toggleBtn.innerText = "Show Full Page";
+              toggleBtn.innerText = "Show Full Text";
               toggleBtn.style.background = "";
               toggleBtn.style.color = "";
               toggleBtn.style.borderColor = "";
+            }
+          });
+
+          const viewPageBtn = row.querySelector(".view-page-btn");
+          const canvasContainer = row.querySelector(".match-page-canvas-container");
+          viewPageBtn.addEventListener("click", async () => {
+            if (!canvasContainer.classList.contains("hidden")) {
+              canvasContainer.classList.add("hidden");
+              viewPageBtn.innerText = "View Page Layout";
+              viewPageBtn.style.background = "";
+              viewPageBtn.style.color = "";
+              viewPageBtn.style.borderColor = "";
+              return;
+            }
+
+            canvasContainer.classList.remove("hidden");
+            viewPageBtn.innerText = "Hide Layout";
+            viewPageBtn.style.background = "rgba(0, 242, 254, 0.12)";
+            viewPageBtn.style.color = "var(--accent-cyan)";
+            viewPageBtn.style.borderColor = "rgba(0, 242, 254, 0.3)";
+
+            if (canvasContainer.querySelector("canvas")) {
+              return; // Already rendered
+            }
+
+            canvasContainer.innerHTML = `<div style="font-size: 12px; color: var(--text-muted);"><span class="status-pulse-dot working" style="vertical-align: middle; margin-right: 6px; display: inline-block;"></span>Rendering page layout...</div>`;
+
+            const fileObj = this.files.find(f => f.name === res.fileName);
+            if (!fileObj || !fileObj.rawBuffer) {
+              canvasContainer.innerHTML = `<div style="font-size: 12px; color: var(--accent-rose);">Visual preview is not available for sample files. Please upload a real PDF file.</div>`;
+              return;
+            }
+
+            try {
+              const pdf = await this.pdfjs.getDocument({ data: fileObj.rawBuffer.slice(0) }).promise;
+              const page = await pdf.getPage(m.pageNumber);
+
+              canvasContainer.innerHTML = ""; // Clear loader
+
+              const viewport = page.getViewport({ scale: 1.2 });
+              const canvas = document.createElement("canvas");
+              canvas.style.maxWidth = "100%";
+              canvas.style.height = "auto";
+              canvas.style.borderRadius = "4px";
+              canvas.style.border = "1px solid rgba(255,255,255,0.15)";
+              canvas.style.background = "white";
+
+              const ctx = canvas.getContext("2d");
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+
+              canvasContainer.appendChild(canvas);
+
+              await page.render({
+                canvasContext: ctx,
+                viewport: viewport
+              }).promise;
+            } catch (err) {
+              console.error("Preview render failed:", err);
+              canvasContainer.innerHTML = `<div style="font-size: 12px; color: var(--accent-rose);">Error rendering preview: ${escapeHtml(err.message)}</div>`;
             }
           });
 

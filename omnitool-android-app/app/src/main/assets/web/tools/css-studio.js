@@ -6,10 +6,10 @@ export default {
       <div class="tool-content-layout split-view">
         <!-- Configuration / Controls Panel (Left) -->
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>Configuration</h3>
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+            <h3 style="margin: 0;">Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="css-studio-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 100%; flex-wrap: wrap;" id="css-studio-tabs">
               <button class="keyboard-tab active" data-tab="gradient" style="font-size: 11px; padding: 4px 8px;">Gradients</button>
               <button class="keyboard-tab" data-tab="shadow" style="font-size: 11px; padding: 4px 8px;">Box Shadows</button>
               <button class="keyboard-tab" data-tab="glass" style="font-size: 11px; padding: 4px 8px;">Glassmorphism</button>
@@ -512,9 +512,9 @@ export default {
             <!-- 4. Clip Path Showcase Container -->
             <div id="clippath-showcase-container" class="hidden" style="flex: 1; position: relative; border-radius: 8px; overflow: auto; padding: 24px; min-height: 250px; transition: all 0.3s ease; background-color: #0b0f19; user-select: none;">
               <!-- Centering container -->
-              <div style="min-width: 100%; min-height: 100%; display: flex; align-items: center; justify-content: center; padding: 40px; box-sizing: border-box;">
+              <div style="min-width: 100%; min-height: 100%; display: flex; padding: 40px; box-sizing: border-box;">
                 <!-- Workarea container -->
-                <div id="clippath-workarea" style="position: relative; width: 200px; height: 200px; border: 1px dashed rgba(255,255,255,0.15); background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0); background-size: 20px 20px; overflow: visible; flex-shrink: 0;">
+                <div id="clippath-workarea" style="position: relative; margin: auto; width: 200px; height: 200px; border: 1px dashed rgba(255,255,255,0.15); background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0); background-size: 20px 20px; overflow: visible; flex-shrink: 0;">
                   <!-- The element that actually gets clipped -->
                   <div id="clippath-target-element" style="width: 100%; height: 100%; background: linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%); transition: clip-path 0.1s ease;"></div>
                   <!-- SVG Outline Overlay -->

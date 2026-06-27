@@ -233,6 +233,9 @@ export default {
                 <button class="tool-btn secondary" id="pipeline-preset-export" style="font-size: 11px; flex: 1; justify-content: center; height: 32px;">📤 Export Config</button>
                 <button class="tool-btn secondary" id="pipeline-preset-import" style="font-size: 11px; flex: 1; justify-content: center; height: 32px;">📥 Import Config</button>
               </div>
+              <div style="font-size: 11px; color: var(--accent-cyan); opacity: 0.85; margin-top: 8px; line-height: 1.4; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 8px; text-align: left;">
+                ⚠️ <strong>Data Retention Note</strong>: Presets are saved locally in your browser storage. Clearing browser cache will erase them. Use <strong>Export Config</strong> to download backups for important workflows.
+              </div>
             </div>
           </div>
         </div>

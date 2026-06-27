@@ -497,6 +497,7 @@ const app = {
     this.renderFavoritesCount();
     this.initClock();
     this.initTheme();
+    this.initLayoutSizer();
     this.bindEvents();
     this.buildSidebarToolMenu();
     this.buildMegaMenu();
@@ -1686,42 +1687,38 @@ const app = {
 
     // Developer Local Sponsors
     if (provider === "dev") {
-      const ads = [
-        {
-          brand: "ApexScale DB",
-          slogan: "Serverless SQL database with global replicas and 10ms read times. Start free.",
-          btnText: "Deploy Free",
-          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`
-        },
-        {
-          brand: "HexaCloud Host",
-          slogan: "Secure, lightning-fast PWA hosting and serverless deployments globally.",
-          btnText: "Claim $5 Credit",
-          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`
-        },
-        {
-          brand: "DevSec Shield",
-          slogan: "Automate vulnerability scanning and dependency updates in your repositories.",
-          btnText: "Start Scan",
-          icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`
-        }
-      ];
-      const ad = ads[Math.floor(Math.random() * ads.length)];
+      const escape = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      const brand = this.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host");
+      const slogan = this.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
+      const btnText = this.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
+      const url = this.getConfigValue("omnitool_sponsor_url", "#");
+      const iconType = this.getConfigValue("omnitool_sponsor_icon", "cloud");
+
+      let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
+      if (iconType === "database") {
+        iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
+      } else if (iconType === "shield") {
+        iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+      }
+
+      const targetAttr = url !== "#" ? 'target="_blank" rel="noopener noreferrer"' : '';
+      const clickAction = url === "#" ? "event.preventDefault(); app.showToast('Thank you for supporting OmniTool Hub sponsors!', 'success');" : "";
+
       return `
         <div class="sponsor-ad-block">
           <div class="ad-horizontal-left">
             <div class="ad-image-placeholder">
-              ${ad.icon}
+              ${iconSvg}
             </div>
             <div class="ad-info">
               <div class="ad-title-row">
-                <span class="ad-brand">${ad.brand}</span>
+                <span class="ad-brand">${escape(brand)}</span>
                 <span class="ad-horizontal-badge">SPONSOR</span>
               </div>
-              <span class="ad-slogan">${ad.slogan}</span>
+              <span class="ad-slogan">${escape(slogan)}</span>
             </div>
           </div>
-          <a href="#" class="ad-action-btn" onclick="event.preventDefault(); app.showToast('Thank you for supporting OmniTool Hub sponsors!', 'success');">${ad.btnText}</a>
+          <a href="${escape(url)}" ${targetAttr} class="ad-action-btn" onclick="${clickAction}">${escape(btnText)}</a>
         </div>
       `;
     }
@@ -1811,6 +1808,16 @@ const app = {
     }
 
     return "";
+  },
+
+  openCoffeeLink(event) {
+    const coffeeUrl = this.getConfigValue("omnitool_coffee_url", "");
+    if (coffeeUrl && coffeeUrl.trim() !== "") {
+      window.open(coffeeUrl, "_blank");
+    } else {
+      if (event) event.preventDefault();
+      this.showToast('☕ Thank you! Your support keeps OmniTool Hub running offline-first.', 'success');
+    }
   },
 
   // Grouped cards renderer
@@ -2350,11 +2357,50 @@ const app = {
           const benefitsDiv = document.createElement("div");
           benefitsDiv.className = "tool-guide-benefits";
           benefitsDiv.style.cssText = "margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.08); font-size: 12.5px; line-height: 1.5; color: var(--text-muted); text-align: left;";
+          
+          // Map tool ID to static guide page name
+          const guideMap = {
+            "pipeline-builder": "pipeline-builder.html",
+            "formatter-suite": "json-formatter.html",
+            "text-encoder-suite": "text-encoder-suite.html",
+            "jwt-decoder": "jwt-decoder.html",
+            "crypto-suite": "crypto-suite.html",
+            "markdown-preview": "markdown-preview.html",
+            "text-diff": "text-diff.html",
+            "pdf-searcher": "pdf-searcher.html",
+            "pdf-utilities": "pdf-utilities.html",
+            "regex-tester": "regex-tester.html",
+            "css-studio": "css-studio.html",
+            "color-lab": "color-lab.html",
+            "security-suite": "security-suite.html",
+            "datetime-suite": "datetime-suite.html",
+            "unit-converter": "unit-converter.html",
+            "graphics-studio": "graphics-studio.html",
+            "calculator": "calculator.html",
+            "qr-generator": "qr-generator.html",
+            "seo-previewer": "seo-previewer.html",
+            "image-converter": "image-converter.html",
+            "svg-animator": "svg-animator.html",
+            "url-parser": "url-parser.html",
+            "text-analyzer": "text-analyzer.html",
+            "mock-data-generator": "mock-data-generator.html"
+          };
+          const guideFile = guideMap[toolId];
+          const blogLinkHtml = guideFile ? `
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, 0.05);">
+              <a href="guides/${guideFile}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; color: var(--accent-cyan); text-decoration: none; font-size: 12.5px; font-weight: 600; transition: opacity var(--transition-fast);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                <span>📖 Read Detailed SEO Blog Post</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          ` : "";
+
           benefitsDiv.innerHTML = `
             <strong style="color: var(--accent-cyan); display: block; margin-bottom: 6px; font-size: 13px;">💡 How it Benefits You:</strong>
             <ul style="margin: 0; padding-left: 18px; list-style-type: disc; display: flex; flex-direction: column; gap: 6px;">
               ${benefits.map(b => `<li>${b}</li>`).join("")}
             </ul>
+            ${blogLinkHtml}
           `;
           guideCard.appendChild(benefitsDiv);
         }
@@ -2676,6 +2722,105 @@ const app = {
       setTimeout(() => {
         window.location.reload();
       }, 1200);
+    }
+  },
+
+  initLayoutSizer() {
+    const scale = localStorage.getItem("omnitool_layout_scale") || "1.0";
+    this.applyLayoutScale(scale);
+    
+    const toggleBtn = document.getElementById("sizer-toggle-btn");
+    const dropdown = document.getElementById("sizer-dropdown");
+    
+    if (toggleBtn && dropdown) {
+      toggleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+      });
+      
+      document.addEventListener("click", () => {
+        dropdown.style.display = "none";
+      });
+      
+      dropdown.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+      
+      const optionBtns = dropdown.querySelectorAll(".sizer-option-btn");
+      optionBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const val = btn.getAttribute("data-scale");
+          this.applyLayoutScale(val);
+          dropdown.style.display = "none";
+        });
+      });
+    }
+
+    // Keyboard Shortcuts for accessibility
+    document.addEventListener("keydown", (e) => {
+      // Ctrl + Alt + 0 resets to Default (100%)
+      if ((e.ctrlKey || e.metaKey) && e.altKey && e.key === "0") {
+        e.preventDefault();
+        this.applyLayoutScale("1.0");
+        this.showToast("Layout scale reset to Default (100%)", "info");
+      }
+      // Ctrl + Alt + + (or =) zooms in
+      if ((e.ctrlKey || e.metaKey) && e.altKey && (e.key === "=" || e.key === "+")) {
+        e.preventDefault();
+        this.adjustLayoutScale(1);
+      }
+      // Ctrl + Alt + - zooms out
+      if ((e.ctrlKey || e.metaKey) && e.altKey && e.key === "-") {
+        e.preventDefault();
+        this.adjustLayoutScale(-1);
+      }
+    });
+  },
+  
+  adjustLayoutScale(direction) {
+    const scales = ["0.5", "0.7", "0.85", "1.0", "1.15", "1.3", "1.5"];
+    const currentScale = localStorage.getItem("omnitool_layout_scale") || "1.0";
+    
+    let currentIndex = scales.indexOf(currentScale);
+    if (currentIndex === -1) {
+      // Find closest
+      let minDiff = Infinity;
+      currentIndex = 3; // Default fallback to 1.0
+      scales.forEach((s, idx) => {
+        const diff = Math.abs(parseFloat(s) - parseFloat(currentScale));
+        if (diff < minDiff) {
+          minDiff = diff;
+          currentIndex = idx;
+        }
+      });
+    }
+    
+    let newIndex = currentIndex + direction;
+    if (newIndex >= 0 && newIndex < scales.length) {
+      const nextScale = scales[newIndex];
+      this.applyLayoutScale(nextScale);
+      this.showToast(`Layout scale set to ${Math.round(parseFloat(nextScale) * 100)}%`, "info");
+    }
+  },
+  
+  applyLayoutScale(scale) {
+    localStorage.setItem("omnitool_layout_scale", scale);
+    document.documentElement.style.setProperty("--font-scale", scale);
+    document.body.style.zoom = scale;
+    
+    const dropdown = document.getElementById("sizer-dropdown");
+    if (dropdown) {
+      const optionBtns = dropdown.querySelectorAll(".sizer-option-btn");
+      optionBtns.forEach(btn => {
+        const btnScale = btn.getAttribute("data-scale");
+        if (parseFloat(btnScale) === parseFloat(scale)) {
+          btn.classList.add("active");
+          btn.style.fontWeight = "bold";
+        } else {
+          btn.classList.remove("active");
+          btn.style.fontWeight = "normal";
+        }
+      });
     }
   }
 };
