@@ -490,6 +490,7 @@ const app = {
     }
 
     await this.loadGlobalConfig();
+    this.refreshDonationButtons();
     this.initSplash();
     this.registerServiceWorker();
     this.loadFavorites();
@@ -794,6 +795,12 @@ const app = {
           if (content) content.style.display = "flex";
         }
       });
+    }
+    
+    // Refresh sidebar ad dynamically when navigating between tools to apply page overrides
+    const sidebarAd = document.querySelector(".sidebar-sponsor-container");
+    if (sidebarAd) {
+      sidebarAd.innerHTML = this.getAdHtml("sidebar");
     }
   },
 
@@ -1683,16 +1690,23 @@ const app = {
     if (location === "tool" && !showTool) return "";
     if (location === "sidebar" && !showSide) return "";
 
-    const provider = this.getConfigValue("omnitool_ad_network", "dev");
+    // Allow the sidebar to run a different provider than the main content slots
+    let provider = this.getConfigValue("omnitool_ad_network", "dev");
+    if (location === "sidebar") {
+      provider = this.getConfigValue("omnitool_sidebar_ad_network", "dev");
+    }
 
     // Developer Local Sponsors
     if (provider === "dev") {
       const escape = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-      const brand = this.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host");
-      const slogan = this.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
-      const btnText = this.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
-      const url = this.getConfigValue("omnitool_sponsor_url", "#");
-      const iconType = this.getConfigValue("omnitool_sponsor_icon", "cloud");
+      const activeTool = this.activeTool;
+      const suffix = (activeTool && location !== "sidebar") ? "_" + activeTool : "";
+
+      const brand = this.getConfigValue("omnitool_sponsor_brand" + suffix, this.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host"));
+      const slogan = this.getConfigValue("omnitool_sponsor_slogan" + suffix, this.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit."));
+      const btnText = this.getConfigValue("omnitool_sponsor_btn_text" + suffix, this.getConfigValue("omnitool_sponsor_btn_text", "Claim Now"));
+      const url = this.getConfigValue("omnitool_sponsor_url" + suffix, this.getConfigValue("omnitool_sponsor_url", "#"));
+      const iconType = this.getConfigValue("omnitool_sponsor_icon" + suffix, this.getConfigValue("omnitool_sponsor_icon", "cloud"));
 
       let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
       if (iconType === "database") {
@@ -1728,7 +1742,8 @@ const app = {
       const pubId = this.getConfigValue("omnitool_adsense_pub", "ca-pub-XXXXXXXXXX");
       let slotId = "1111111111";
       if (location === "tool") {
-        slotId = this.getConfigValue("omnitool_adsense_slot_tool", "2222222222");
+        const suffix = this.activeTool ? "_" + this.activeTool : "";
+        slotId = this.getConfigValue("omnitool_adsense_slot_tool" + suffix, this.getConfigValue("omnitool_adsense_slot_tool", "2222222222"));
       } else if (location === "sidebar") {
         slotId = this.getConfigValue("omnitool_adsense_slot_side", "3333333333");
       } else {
@@ -1818,6 +1833,27 @@ const app = {
       if (event) event.preventDefault();
       this.showToast('☕ Thank you! Your support keeps OmniTool Hub running offline-first.', 'success');
     }
+  },
+
+  openKofiLink(event) {
+    const kofiUrl = this.getConfigValue("omnitool_kofi_url", "");
+    if (kofiUrl && kofiUrl.trim() !== "") {
+      window.open(kofiUrl, "_blank");
+    } else {
+      if (event) event.preventDefault();
+      this.showToast('☕ Thank you! Your support keeps OmniTool Hub running offline-first.', 'success');
+    }
+  },
+
+  refreshDonationButtons() {
+    const kofiUrl = this.getConfigValue("omnitool_kofi_url", "");
+    document.querySelectorAll(".kofi-btn").forEach(btn => {
+      if (kofiUrl && kofiUrl.trim() !== "") {
+        btn.style.display = "flex";
+      } else {
+        btn.style.display = "none";
+      }
+    });
   },
 
   // Grouped cards renderer
