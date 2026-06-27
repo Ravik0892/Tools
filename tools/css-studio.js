@@ -6,13 +6,14 @@ export default {
       <div class="tool-content-layout split-view">
         <!-- Configuration / Controls Panel (Left) -->
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>Configuration</h3>
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+            <h3 style="margin: 0;">Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="css-studio-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 100%; flex-wrap: wrap;" id="css-studio-tabs">
               <button class="keyboard-tab active" data-tab="gradient" style="font-size: 11px; padding: 4px 8px;">Gradients</button>
               <button class="keyboard-tab" data-tab="shadow" style="font-size: 11px; padding: 4px 8px;">Box Shadows</button>
               <button class="keyboard-tab" data-tab="glass" style="font-size: 11px; padding: 4px 8px;">Glassmorphism</button>
+              <button class="keyboard-tab" data-tab="clippath" style="font-size: 11px; padding: 4px 8px;">Clip Path</button>
             </div>
           </div>
 
@@ -95,7 +96,10 @@ export default {
             <div class="gradient-stops-control" style="margin-top: 12px;">
               <div class="panel-header" style="padding: 0 0 8px 0; border-bottom: none; display: flex; justify-content: space-between; align-items: center;">
                 <label style="margin: 0;">Color Stops</label>
-                <button class="tool-btn secondary" id="grad-add-stop-btn" style="padding: 4px 8px; font-size: 11px;">+ Add Stop</button>
+                <div style="display: flex; gap: 4px;">
+                  <button class="tool-btn secondary" id="grad-import-palette-btn" style="padding: 4px 8px; font-size: 11px;" title="Import from Color Lab Palette">Import Palette</button>
+                  <button class="tool-btn secondary" id="grad-add-stop-btn" style="padding: 4px 8px; font-size: 11px;">+ Add Stop</button>
+                </div>
               </div>
               <div id="grad-stops-container" style="display: flex; flex-direction: column; gap: 8px;">
                 <!-- Dynamic stops -->
@@ -340,6 +344,116 @@ export default {
               </div>
             </div>
           </div>
+
+          <!-- Tab 4: Clip Path Controls -->
+          <div id="panel-clippath-controls" class="tab-control-panel hidden">
+            <div class="form-group">
+              <label for="clippath-preset">Select Shape Preset</label>
+              <select class="form-select" id="clippath-preset" style="width: 100%;">
+                <option value="" disabled selected hidden>-- Choose Preset Shape / Design --</option>
+                <option value="triangle">Triangle</option>
+                <option value="rhombus">Rhombus</option>
+                <option value="pentagon">Pentagon</option>
+                <option value="hexagon">Hexagon</option>
+                <option value="octagon">Octagon</option>
+                <option value="star">Star</option>
+                <option value="chevron">Chevron</option>
+                <option value="cross">Cross</option>
+                <option value="message-bubble">Message Bubble</option>
+                <option value="parallelogram">Parallelogram</option>
+                <option value="trapezoid">Trapezoid</option>
+                <option value="left-arrow">Left Arrow</option>
+                <option value="right-arrow">Right Arrow</option>
+                <option value="heart">Heart</option>
+                <option value="star-badge">[Design] Star Badge</option>
+                <option value="photo-frame">[Design] Photo Frame</option>
+                <option value="donut-ring">[Design] Donut Ring</option>
+                <option value="shield-cutout">[Design] Shield Cutout</option>
+                <option value="gear-cog">[Design] Gear Cog</option>
+                <option value="gothic-window">[Design] Gothic Window</option>
+              </select>
+            </div>
+            
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Workarea Background</label>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;">
+                <button class="tool-btn secondary active" id="clip-bg-grid" style="font-size: 10px; padding: 4px 8px;">Grid</button>
+                <button class="tool-btn secondary" id="clip-bg-gradient" style="font-size: 10px; padding: 4px 8px;">Sunset Gradient</button>
+                <button class="tool-btn secondary" id="clip-bg-palette" style="font-size: 10px; padding: 4px 8px;" title="Use background gradient from Color Lab Palette">Palette Colors</button>
+                <button class="tool-btn secondary" id="clip-bg-image" style="font-size: 10px; padding: 4px 8px;">Sample Image</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Canvas Zoom</label>
+              <div class="slider-group">
+                <input type="range" id="clip-zoom-slider" class="slider-input" min="100" max="600" step="50" value="100">
+                <span class="slider-val" id="clip-zoom-val">100%</span>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label style="margin: 0;">Shapes</label>
+                <button class="tool-btn secondary" id="clip-add-shape-btn" style="font-size: 10px; padding: 2px 6px;">+ Add Shape</button>
+              </div>
+              <div id="clippath-shapes-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 110px; overflow-y: auto; padding-right: 4px;">
+                <!-- Dynamic shape layers -->
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Transform Shape</label>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 4px;">
+                <button class="tool-btn secondary" id="clip-rotate-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Rotate 90 degrees clockwise">Rotate 90°</button>
+                <button class="tool-btn secondary" id="clip-center-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Center the shape inside canvas">Center</button>
+                <button class="tool-btn secondary" id="clip-reset-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Reset shape to preset defaults">Reset Shape</button>
+                <button class="tool-btn secondary" id="clip-fliph-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Flip horizontally">Flip Horiz</button>
+                <button class="tool-btn secondary" id="clip-flipv-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Flip vertically">Flip Vert</button>
+                <div style="height: 1px;"></div>
+                <button class="tool-btn secondary" id="clip-scaleup-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Scale shape up">Scale Up</button>
+                <button class="tool-btn secondary" id="clip-scaledown-btn" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Scale shape down">Scale Down</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Translate / Shift Shape</label>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 4px;">
+                <button class="tool-btn secondary" id="clip-move-left" style="font-size: 10px; padding: 4px 2px; height: auto;" title="Move shape left">← Left</button>
+                <button class="tool-btn secondary" id="clip-move-up" style="font-size: 10px; padding: 4px 2px; height: auto;" title="Move shape up">↑ Up</button>
+                <button class="tool-btn secondary" id="clip-move-down" style="font-size: 10px; padding: 4px 2px; height: auto;" title="Move shape down">↓ Down</button>
+                <button class="tool-btn secondary" id="clip-move-right" style="font-size: 10px; padding: 4px 2px; height: auto;" title="Move shape right">→ Right</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <label>Align & Distribute</label>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 4px;">
+                <button class="tool-btn secondary" id="clip-align-left" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align active shape to left edge">Align Left</button>
+                <button class="tool-btn secondary" id="clip-align-center" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Center active shape horizontally">Center H</button>
+                <button class="tool-btn secondary" id="clip-align-right" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align active shape to right edge">Align Right</button>
+                <button class="tool-btn secondary" id="clip-align-top" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align active shape to top edge">Align Top</button>
+                <button class="tool-btn secondary" id="clip-align-vcenter" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Center active shape vertically">Center V</button>
+                <button class="tool-btn secondary" id="clip-align-bottom" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align active shape to bottom edge">Align Bottom</button>
+                <button class="tool-btn secondary" id="clip-align-stackh" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Stack visible shapes horizontally">Stack Horiz</button>
+                <button class="tool-btn secondary" id="clip-align-stackv" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Stack visible shapes vertically">Stack Vert</button>
+                <button class="tool-btn secondary" id="clip-align-allcenter" style="font-size: 9px; padding: 4px 2px; height: auto;" title="Align all shapes' centers">Align Centers</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <label style="margin: 0;">Coordinates (x, y)</label>
+                <div style="display: flex; gap: 4px;">
+                  <button class="tool-btn secondary" id="clip-import-shape-btn" style="font-size: 10px; padding: 2px 6px;" title="Import from shared shape registry">Import Shape</button>
+                  <button class="tool-btn secondary" id="clip-add-point-btn" style="font-size: 10px; padding: 2px 6px;">+ Point</button>
+                </div>
+              </div>
+              <div id="clippath-points-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto; padding-right: 4px;">
+                <!-- Dynamic coordinate rows -->
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Visual Preview & CSS Export Panel (Right) -->
@@ -394,6 +508,24 @@ export default {
                 <button class="tool-btn primary" style="font-size: 10px; pointer-events: none; width: 100%; justify-content: center;">Preview Trigger</button>
               </div>
             </div>
+
+            <!-- 4. Clip Path Showcase Container -->
+            <div id="clippath-showcase-container" class="hidden" style="flex: 1; position: relative; border-radius: 8px; overflow: auto; padding: 24px; min-height: 250px; transition: all 0.3s ease; background-color: #0b0f19; user-select: none;">
+              <!-- Centering container -->
+              <div style="min-width: 100%; min-height: 100%; display: flex; padding: 40px; box-sizing: border-box;">
+                <!-- Workarea container -->
+                <div id="clippath-workarea" style="position: relative; margin: auto; width: 200px; height: 200px; border: 1px dashed rgba(255,255,255,0.15); background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0); background-size: 20px 20px; overflow: visible; flex-shrink: 0;">
+                  <!-- The element that actually gets clipped -->
+                  <div id="clippath-target-element" style="width: 100%; height: 100%; background: linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%); transition: clip-path 0.1s ease;"></div>
+                  <!-- SVG Outline Overlay -->
+                  <svg id="clippath-svg-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 50;"></svg>
+                  <!-- Handles container -->
+                  <div id="clippath-handles-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Dynamic SVG Defs for Live Preview -->
+            <div id="clippath-svg-defs-container" style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;"></div>
           </div>
 
           <!-- Code Box -->
@@ -469,19 +601,82 @@ export default {
           transition: .3s;
           border-radius: 50%;
         }
+        .clippath-handle {
+          position: absolute;
+          width: 14px;
+          height: 14px;
+          background: #00f2fe;
+          border: 2px solid #ffffff;
+          border-radius: 50%;
+          cursor: move;
+          transform: translate(-7px, -7px);
+          box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
+          pointer-events: auto;
+          z-index: 100;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .clippath-handle:hover, .clippath-handle.dragging {
+          background: #ff007f;
+          border-color: #ffffff;
+          box-shadow: 0 0 12px rgba(255, 0, 127, 1);
+          transform: translate(-7px, -7px) scale(1.2);
+        }
+        .clippath-point-row {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 6px;
+          padding: 4px 8px;
+        }
+        .clippath-point-idx {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--text-muted);
+          width: 18px;
+        }
+        .clippath-point-val {
+          font-family: var(--font-mono);
+          font-size: 12px;
+          width: 50px;
+          background: transparent;
+          border: none;
+          color: #fff;
+          text-align: center;
+        }
+        .clippath-point-val:focus {
+          outline: none;
+          border-bottom: 1px solid var(--accent-cyan);
+        }
+        .clippath-shape-row:hover {
+          background: rgba(0, 242, 254, 0.15) !important;
+          border-color: rgba(0, 242, 254, 0.4) !important;
+        }
+        .shape-name-input:focus {
+          border-bottom: 1px solid var(--accent-cyan) !important;
+        }
       </style>
     `;
   },
 
   init(container, appInstance) {
+    appInstance.cssStudioState = appInstance.cssStudioState || {
+      sharedClipPath: ""
+    };
+    let clipPathIdCounter = 0;
     const tabs = container.querySelectorAll("#css-studio-tabs .keyboard-tab");
     const panelGrad = container.querySelector("#panel-gradient-controls");
     const panelShadow = container.querySelector("#panel-shadow-controls");
     const panelGlass = container.querySelector("#panel-glass-controls");
+    const panelClipPath = container.querySelector("#panel-clippath-controls");
 
     const visualGrad = container.querySelector("#gradient-preview-screen");
     const visualShadow = container.querySelector("#shadow-showcase-container");
     const visualGlass = container.querySelector("#glass-showcase-container");
+    const visualClipPath = container.querySelector("#clippath-showcase-container");
 
     const bgSelectorGroup = container.querySelector("#preview-bg-selector-group");
     const bgSelect = container.querySelector("#preview-bg-select");
@@ -543,6 +738,23 @@ export default {
             <div class="tool-guide-step-text"><strong>Extract CSS</strong>: Copy the computed background-filter styles directly to your layout.</div>
           </div>
         `
+      },
+      clippath: {
+        title: "Quick Guide: CSS Clip-Path Polygon Maker",
+        steps: `
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">1</div>
+            <div class="tool-guide-step-text"><strong>Choose Preset Shape</strong>: Select a starting shape like Triangle, Pentagon, or Star from the dropdown menu.</div>
+          </div>
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">2</div>
+            <div class="tool-guide-step-text"><strong>Drag Handles</strong>: Grab and move any of the glowing vertices on the grid to shape your custom polygon.</div>
+          </div>
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">3</div>
+            <div class="tool-guide-step-text"><strong>Add/Delete Points</strong>: Click "+ Point" to insert a new handle, or use the "x" next to coordinates in the panel to prune points. Copy CSS when done.</div>
+          </div>
+        `
       }
     };
 
@@ -578,10 +790,12 @@ export default {
       panelGrad.classList.toggle("hidden", tabId !== "gradient");
       panelShadow.classList.toggle("hidden", tabId !== "shadow");
       panelGlass.classList.toggle("hidden", tabId !== "glass");
+      panelClipPath.classList.toggle("hidden", tabId !== "clippath");
 
       visualGrad.classList.toggle("hidden", tabId !== "gradient");
       visualShadow.classList.toggle("hidden", tabId !== "shadow");
       visualGlass.classList.toggle("hidden", tabId !== "glass");
+      visualClipPath.classList.toggle("hidden", tabId !== "clippath");
 
       bgSelectorGroup.style.display = (tabId === "shadow" || tabId === "glass") ? "block" : "none";
 
@@ -596,6 +810,8 @@ export default {
         updateShadows();
       } else if (tabId === "glass") {
         updateGlassStyles();
+      } else if (tabId === "clippath") {
+        updateClipPath();
       }
     };
 
@@ -627,7 +843,15 @@ export default {
       { name: "Cyberpunk", type: "linear", angle: 45, repeating: false, stops: [{ color: "#f107a3", position: 0 }, { color: "#7b2ff7", position: 50 }, { color: "#07f1f1", position: 100 }] },
       { name: "Peach Dream", type: "linear", angle: 135, repeating: false, stops: [{ color: "#ff9a9e", position: 0 }, { color: "#fecfef", position: 99 }, { color: "#fecfef", position: 100 }] },
       { name: "Deep Space", type: "radial", shape: "circle", position: "center", repeating: false, stops: [{ color: "#434343", position: 0 }, { color: "#000000", position: 100 }] },
-      { name: "Retro Stripe", type: "linear", angle: 90, repeating: true, stops: [{ color: "#ffbe0b", position: 0 }, { color: "#ffbe0b", position: 10 }, { color: "#fb5607", position: 10 }, { color: "#fb5607", position: 20 }] }
+      { name: "Retro Stripe", type: "linear", angle: 90, repeating: true, stops: [{ color: "#ffbe0b", position: 0 }, { color: "#ffbe0b", position: 10 }, { color: "#fb5607", position: 10 }, { color: "#fb5607", position: 20 }] },
+      { name: "Aurora Borealis", type: "linear", angle: 135, repeating: false, stops: [{ color: "#0575e6", position: 0 }, { color: "#00f260", position: 100 }] },
+      { name: "Flaming Orange", type: "linear", angle: 45, repeating: false, stops: [{ color: "#f857a6", position: 0 }, { color: "#ff5858", position: 100 }] },
+      { name: "Midnight Lavender", type: "linear", angle: 135, repeating: false, stops: [{ color: "#2f0743", position: 0 }, { color: "#41295a", position: 100 }] },
+      { name: "Cotton Candy", type: "linear", angle: 135, repeating: false, stops: [{ color: "#ff9a9e", position: 0 }, { color: "#fecfef", position: 50 }, { color: "#a1c4fd", position: 100 }] },
+      { name: "Golden Hour", type: "linear", angle: 45, repeating: false, stops: [{ color: "#ff8c00", position: 0 }, { color: "#ff007f", position: 50 }, { color: "#7928ca", position: 100 }] },
+      { name: "Emerald Lustre", type: "linear", angle: 135, repeating: false, stops: [{ color: "#11998e", position: 0 }, { color: "#38ef7d", position: 100 }] },
+      { name: "Royal Velvet", type: "linear", angle: 45, repeating: false, stops: [{ color: "#8a2387", position: 0 }, { color: "#e94057", position: 50 }, { color: "#f27121", position: 100 }] },
+      { name: "Electric Ice", type: "linear", angle: 90, repeating: false, stops: [{ color: "#00c6ff", position: 0 }, { color: "#0072ff", position: 100 }] }
     ];
 
     let customPresets = [];
@@ -903,12 +1127,17 @@ export default {
       });
     };
 
+    // Render initial gradient stops and presets on load
+    renderGradientStops();
+    renderPresets();
+
     // Events
     gradType?.addEventListener("change", () => { updateGradientControlVisibility(); buildGradient(); });
     gradAngle?.addEventListener("input", buildGradient);
     shapeEl?.addEventListener("change", buildGradient);
     posEl?.addEventListener("change", buildGradient);
     repeatingEl?.addEventListener("change", buildGradient);
+    container.querySelector("#grad-harmony")?.addEventListener("change", generateHarmoniousGradient);
     container.querySelector("#grad-harmony-gen-btn")?.addEventListener("click", generateHarmoniousGradient);
     container.querySelector("#grad-randomize-btn")?.addEventListener("click", randomizeGradient);
 
@@ -922,10 +1151,26 @@ export default {
         const sorted = gradientStops.slice().sort((a, b) => a.position - b.position);
         newPos = Math.round((sorted[sorted.length - 1].position + sorted[sorted.length - 2].position) / 2);
       }
-      const cols = ["#00f2fe", "#9d4edd", "#ff9a9e", "#ffbe0b", "#fb5607", "#00ff87"];
-      gradientStops.push({ color: cols[Math.floor(Math.random() * cols.length)], position: newPos });
+      gradientStops.push({ color: "#ffffff", position: newPos });
       renderGradientStops();
       buildGradient();
+    });
+
+    container.querySelector("#grad-import-palette-btn")?.addEventListener("click", () => {
+      const colors = (appInstance.colorLabState && appInstance.colorLabState.currentColors)
+        ? appInstance.colorLabState.currentColors.map(c => c.hex)
+        : [];
+      if (colors.length > 0) {
+        gradientStops = colors.map((c, idx) => ({
+          color: c,
+          position: Math.round((idx / (colors.length - 1 || 1)) * 100)
+        }));
+        renderGradientStops();
+        buildGradient();
+        appInstance.showToast("Imported colors from Color Lab!", "success");
+      } else {
+        appInstance.showToast("No active Color Lab palette found. Go to Color Lab first!", "warning");
+      }
     });
 
     container.querySelector("#grad-save-preset-btn")?.addEventListener("click", () => {
@@ -1279,6 +1524,780 @@ export default {
         appInstance.showToast("Nothing to copy!", "warning");
       }
     });
+
+    // ==========================================
+    // CLIP PATH CODE
+    // ==========================================
+    const cpPreset = container.querySelector("#clippath-preset");
+    const cpPointsList = container.querySelector("#clippath-points-list");
+    const cpWorkarea = container.querySelector("#clippath-workarea");
+    const cpTarget = container.querySelector("#clippath-target-element");
+    const cpHandlesContainer = container.querySelector("#clippath-handles-container");
+    const cpAddPointBtn = container.querySelector("#clip-add-point-btn");
+    
+    // Background toggles
+    const clipBgGrid = container.querySelector("#clip-bg-grid");
+    const clipBgGrad = container.querySelector("#clip-bg-gradient");
+    const clipBgImage = container.querySelector("#clip-bg-image");
+
+    let clipShapes = [
+      { id: Date.now(), name: "Shape 1", points: [], visible: true, inverted: false }
+    ];
+    let activeShapeIndex = 0;
+    let clipPoints = [];
+    let clipZoom = 100;
+
+    const cpPresets = {
+      triangle: [{ x: 50, y: 0 }, { x: 0, y: 100 }, { x: 100, y: 100 }],
+      rhombus: [{ x: 50, y: 0 }, { x: 100, y: 50 }, { x: 50, y: 100 }, { x: 0, y: 50 }],
+      pentagon: [{ x: 50, y: 0 }, { x: 100, y: 38 }, { x: 82, y: 100 }, { x: 18, y: 100 }, { x: 0, y: 38 }],
+      hexagon: [{ x: 50, y: 0 }, { x: 100, y: 25 }, { x: 100, y: 75 }, { x: 50, y: 100 }, { x: 0, y: 75 }, { x: 0, y: 25 }],
+      octagon: [{ x: 30, y: 0 }, { x: 70, y: 0 }, { x: 100, y: 30 }, { x: 100, y: 70 }, { x: 70, y: 100 }, { x: 30, y: 100 }, { x: 0, y: 70 }, { x: 0, y: 30 }],
+      star: [{ x: 50, y: 0 }, { x: 61, y: 35 }, { x: 98, y: 35 }, { x: 68, y: 57 }, { x: 79, y: 91 }, { x: 50, y: 70 }, { x: 21, y: 91 }, { x: 32, y: 57 }, { x: 2, y: 35 }, { x: 39, y: 35 }],
+      chevron: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 75, y: 50 }, { x: 100, y: 100 }, { x: 0, y: 100 }, { x: 25, y: 50 }],
+      cross: [{ x: 35, y: 0 }, { x: 65, y: 0 }, { x: 65, y: 35 }, { x: 100, y: 35 }, { x: 100, y: 65 }, { x: 65, y: 65 }, { x: 65, y: 100 }, { x: 35, y: 100 }, { x: 35, y: 65 }, { x: 0, y: 65 }, { x: 0, y: 35 }, { x: 35, y: 35 }],
+      "message-bubble": [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 75 }, { x: 75, y: 75 }, { x: 75, y: 100 }, { x: 50, y: 75 }, { x: 0, y: 75 }],
+      parallelogram: [{ x: 25, y: 0 }, { x: 100, y: 0 }, { x: 75, y: 100 }, { x: 0, y: 100 }],
+      trapezoid: [{ x: 20, y: 0 }, { x: 80, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }],
+      "left-arrow": [{ x: 40, y: 0 }, { x: 40, y: 20 }, { x: 100, y: 20 }, { x: 100, y: 80 }, { x: 40, y: 80 }, { x: 40, y: 100 }, { x: 0, y: 50 }],
+      "right-arrow": [{ x: 0, y: 20 }, { x: 60, y: 20 }, { x: 60, y: 0 }, { x: 100, y: 50 }, { x: 60, y: 100 }, { x: 60, y: 80 }, { x: 0, y: 80 }],
+      heart: [{ x: 50, y: 15 }, { x: 64, y: 0 }, { x: 85, y: 0 }, { x: 100, y: 20 }, { x: 100, y: 50 }, { x: 50, y: 95 }, { x: 0, y: 50 }, { x: 0, y: 20 }, { x: 15, y: 0 }, { x: 36, y: 0 }],
+      "star-badge": [
+        { name: "Outer Circle", points: [{ x: 50, y: 0 }, { x: 85, y: 15 }, { x: 100, y: 50 }, { x: 85, y: 85 }, { x: 50, y: 100 }, { x: 15, y: 85 }, { x: 0, y: 50 }, { x: 15, y: 15 }], visible: true, inverted: false },
+        { name: "Inner Star", points: [{ x: 50, y: 20 }, { x: 58, y: 45 }, { x: 80, y: 45 }, { x: 62, y: 60 }, { x: 70, y: 80 }, { x: 50, y: 68 }, { x: 30, y: 80 }, { x: 38, y: 60 }, { x: 20, y: 45 }, { x: 42, y: 45 }], visible: true, inverted: true }
+      ],
+      "photo-frame": [
+        { name: "Outer Border", points: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }], visible: true, inverted: false },
+        { name: "Inner Frame", points: [{ x: 15, y: 15 }, { x: 85, y: 15 }, { x: 85, y: 85 }, { x: 15, y: 85 }], visible: true, inverted: true }
+      ],
+      "donut-ring": [
+        { name: "Outer Circle", points: [{ x: 50, y: 5 }, { x: 82, y: 18 }, { x: 95, y: 50 }, { x: 82, y: 82 }, { x: 50, y: 95 }, { x: 18, y: 82 }, { x: 5, y: 50 }, { x: 18, y: 18 }], visible: true, inverted: false },
+        { name: "Inner Cutout", points: [{ x: 50, y: 30 }, { x: 64, y: 36 }, { x: 70, y: 50 }, { x: 64, y: 64 }, { x: 50, y: 70 }, { x: 36, y: 64 }, { x: 30, y: 50 }, { x: 36, y: 36 }], visible: true, inverted: true }
+      ],
+      "shield-cutout": [
+        { name: "Outer Shield", points: [{ x: 10, y: 10 }, { x: 90, y: 10 }, { x: 90, y: 55 }, { x: 50, y: 95 }, { x: 10, y: 55 }], visible: true, inverted: false },
+        { name: "Center Star", points: [{ x: 50, y: 25 }, { x: 55, y: 40 }, { x: 70, y: 40 }, { x: 58, y: 48 }, { x: 62, y: 63 }, { x: 50, y: 54 }, { x: 38, y: 63 }, { x: 42, y: 48 }, { x: 30, y: 40 }, { x: 45, y: 40 }], visible: true, inverted: true }
+      ],
+      "gear-cog": [
+        { name: "Outer Gear", points: [{ x: 38, y: 15 }, { x: 62, y: 15 }, { x: 65, y: 30 }, { x: 80, y: 23 }, { x: 88, y: 38 }, { x: 73, y: 50 }, { x: 88, y: 62 }, { x: 80, y: 77 }, { x: 65, y: 70 }, { x: 62, y: 85 }, { x: 38, y: 85 }, { x: 35, y: 70 }, { x: 20, y: 77 }, { x: 12, y: 62 }, { x: 27, y: 50 }, { x: 12, y: 38 }, { x: 20, y: 23 }, { x: 35, y: 30 }], visible: true, inverted: false },
+        { name: "Center Hole", points: [{ x: 50, y: 35 }, { x: 61, y: 39 }, { x: 65, y: 50 }, { x: 61, y: 61 }, { x: 50, y: 65 }, { x: 39, y: 61 }, { x: 35, y: 50 }, { x: 39, y: 39 }], visible: true, inverted: true }
+      ],
+      "gothic-window": [
+        { name: "Window Frame", points: [{ x: 15, y: 90 }, { x: 85, y: 90 }, { x: 85, y: 45 }, { x: 80, y: 32 }, { x: 68, y: 18 }, { x: 50, y: 10 }, { x: 32, y: 18 }, { x: 20, y: 32 }, { x: 15, y: 45 }], visible: true, inverted: false },
+        { name: "Main Arch Cutout", points: [{ x: 25, y: 85 }, { x: 75, y: 85 }, { x: 75, y: 55 }, { x: 71, y: 45 }, { x: 62, y: 39 }, { x: 50, y: 36 }, { x: 38, y: 39 }, { x: 29, y: 45 }, { x: 25, y: 55 }], visible: true, inverted: true },
+        { name: "Rose Window Hole", points: [{ x: 50, y: 17 }, { x: 54, y: 18 }, { x: 55, y: 22 }, { x: 54, y: 26 }, { x: 50, y: 27 }, { x: 46, y: 26 }, { x: 45, y: 22 }, { x: 46, y: 18 }], visible: true, inverted: true }
+      ]
+    };
+
+    const loadClipPreset = (presetName) => {
+      if (!presetName) return;
+      const preset = cpPresets[presetName] || cpPresets.triangle;
+      const compoundPresets = ["star-badge", "photo-frame", "donut-ring", "shield-cutout", "gear-cog", "gothic-window"];
+      
+      if (compoundPresets.includes(presetName)) {
+        clipShapes = preset.map((s, idx) => ({
+          id: Date.now() + idx,
+          name: s.name || `Shape ${idx + 1}`,
+          points: s.points.map(pt => ({ ...pt })),
+          visible: s.visible !== undefined ? s.visible : true,
+          inverted: s.inverted || false,
+          type: s.type || "polygon"
+        }));
+        activeShapeIndex = 0;
+        clipPoints = clipShapes[activeShapeIndex].points;
+      } else {
+        if (clipShapes[activeShapeIndex]) {
+          clipShapes[activeShapeIndex].points = preset.map(pt => ({ ...pt }));
+          clipShapes[activeShapeIndex].type = presetName;
+          clipPoints = clipShapes[activeShapeIndex].points;
+        } else {
+          clipShapes = [
+            { id: Date.now(), name: "Shape 1", points: preset.map(pt => ({ ...pt })), visible: true, inverted: false, type: presetName }
+          ];
+          activeShapeIndex = 0;
+          clipPoints = clipShapes[activeShapeIndex].points;
+        }
+      }
+      
+      renderClipPathUI();
+      
+      // Reset select dropdown value to placeholder
+      const cpPreset = container.querySelector("#clippath-preset");
+      if (cpPreset) {
+        cpPreset.value = "";
+      }
+    };
+
+    const updateClipPath = () => {
+      if (activeTab !== "clippath") return;
+      const visibleShapes = clipShapes.filter(s => s.visible && s.points.length >= 3);
+      
+      if (visibleShapes.length === 0) {
+        cpTarget.style.clipPath = "none";
+        cpTarget.style.webkitClipPath = "none";
+        codeOutput.value = "clip-path: none;";
+        appInstance.cssStudioState.sharedClipPath = "none";
+        appInstance.sharedShape = { source: "clippath", points: [] };
+        return;
+      }
+
+      // Check if there is only 1 shape visible and it is NOT inverted
+      if (visibleShapes.length === 1 && !visibleShapes[0].inverted) {
+        const singleShape = visibleShapes[0];
+        const polyStr = singleShape.points.map(pt => `${pt.x}% ${pt.y}%`).join(", ");
+        const clipPathVal = `polygon(${polyStr})`;
+        
+        cpTarget.style.clipPath = clipPathVal;
+        cpTarget.style.webkitClipPath = clipPathVal;
+        codeOutput.value = `clip-path: ${clipPathVal};`;
+        
+        appInstance.cssStudioState.sharedClipPath = clipPathVal;
+        appInstance.sharedShape = {
+          source: "clippath",
+          points: singleShape.points.map(pt => ({ ...pt }))
+        };
+
+        const defsContainer = container.querySelector("#clippath-svg-defs-container");
+        if (defsContainer) defsContainer.innerHTML = "";
+      } else {
+        clipPathIdCounter++;
+        const uniqueId = `omnitool-multi-clip-${clipPathIdCounter}`;
+        const clipPathVal = `url(#${uniqueId})`;
+        
+        cpTarget.style.clipPath = "none";
+        cpTarget.style.webkitClipPath = "none";
+        cpTarget.offsetHeight; // Force reflow
+        
+        cpTarget.style.clipPath = clipPathVal;
+        cpTarget.style.webkitClipPath = clipPathVal;
+
+        const hasNonInverted = visibleShapes.some(s => !s.inverted);
+        const pathData = visibleShapes.map((shape) => {
+          const pointsStr = shape.points.map((pt, i) => {
+            const prefix = i === 0 ? "M" : "L";
+            return `${prefix} ${pt.x/100} ${pt.y/100}`;
+          }).join(" ");
+          return `${pointsStr} Z`;
+        }).join(" ");
+
+        let fullPathData = pathData;
+        if (!hasNonInverted) {
+          fullPathData = `M 0 0 L 1 0 L 1 1 L 0 1 Z ${pathData}`;
+        }
+
+        const svgMarkup = `<svg width="0" height="0" style="position: absolute;">
+  <defs>
+    <clipPath id="${uniqueId}" clipPathUnits="objectBoundingBox">
+      <path d="${fullPathData}" clip-rule="evenodd" />
+    </clipPath>
+  </defs>
+</svg>`;
+
+        codeOutput.value = `/* CSS */\n.clipped-element {\n  clip-path: ${clipPathVal};\n}\n\n/* HTML Markup */\n${svgMarkup}`;
+
+        const defsContainer = container.querySelector("#clippath-svg-defs-container");
+        if (defsContainer) {
+          defsContainer.innerHTML = svgMarkup;
+        }
+
+        const activeShape = clipShapes[activeShapeIndex] || visibleShapes[0];
+        if (activeShape && activeShape.points.length > 0) {
+          appInstance.cssStudioState.sharedClipPath = `polygon(${activeShape.points.map(pt => `${pt.x}% ${pt.y}%`).join(", ")})`;
+          appInstance.sharedShape = {
+            source: "clippath",
+            points: activeShape.points.map(pt => ({ ...pt }))
+          };
+        }
+      }
+    };
+
+    const renderShapesList = () => {
+      const shapesList = container.querySelector("#clippath-shapes-list");
+      if (!shapesList) return;
+      shapesList.innerHTML = "";
+      
+      clipShapes.forEach((shape, index) => {
+        const isActive = index === activeShapeIndex;
+        const row = document.createElement("div");
+        row.className = "clippath-shape-row";
+        row.style.cssText = `display:flex; align-items:center; gap:6px; background:${isActive ? 'rgba(0, 242, 254, 0.1)' : 'rgba(255,255,255,0.02)'}; border:1px solid ${isActive ? 'rgba(0, 242, 254, 0.3)' : 'rgba(255,255,255,0.05)'}; border-radius:6px; padding:4px 8px; cursor:pointer;`;
+        
+        row.innerHTML = `
+          <span style="font-family:var(--font-mono); font-size:10px; color:${isActive ? 'var(--accent-cyan)' : 'var(--text-muted)'};">#${index + 1}</span>
+          <input type="text" class="shape-name-input" value="${shape.name}" style="background:transparent; border:none; color:#fff; font-size:11px; width:70px; font-weight:${isActive ? 'bold' : 'normal'}; outline:none;">
+          <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
+            <select class="shape-mode-select" title="Operation Mode (Add or Subtract shape)" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; font-size:10px; padding:2px 4px; border-radius:4px; outline:none; cursor:pointer;">
+              <option value="add" ${!shape.inverted ? 'selected' : ''}>Add</option>
+              <option value="subtract" ${shape.inverted ? 'selected' : ''}>Subtract</option>
+            </select>
+            <button class="shape-vis-btn" title="Toggle Visibility" style="background:none; border:none; color:${shape.visible ? '#00f2fe' : 'rgba(255,255,255,0.25)'}; cursor:pointer; font-size:11px; padding:2px 4px; outline:none;">${shape.visible ? '👁️' : '🕶️'}</button>
+            ${clipShapes.length > 1 ? `<button class="shape-del-btn" title="Delete Shape" style="background:none; border:none; color:var(--accent-rose); cursor:pointer; font-size:11px; padding:2px 4px; outline:none;">✕</button>` : ''}
+          </div>
+        `;
+        
+        row.addEventListener("click", (e) => {
+          if (e.target.tagName.toLowerCase() === "input" || e.target.tagName.toLowerCase() === "select" || e.target.closest("button")) return;
+          activeShapeIndex = index;
+          clipPoints = clipShapes[activeShapeIndex].points;
+          renderClipPathUI();
+        });
+
+        const nameInput = row.querySelector(".shape-name-input");
+        nameInput.addEventListener("change", (e) => {
+          shape.name = e.target.value.trim() || `Shape ${index + 1}`;
+        });
+
+        const modeSelect = row.querySelector(".shape-mode-select");
+        modeSelect.addEventListener("change", (e) => {
+          shape.inverted = e.target.value === "subtract";
+          renderClipPathUI();
+        });
+
+        const visBtn = row.querySelector(".shape-vis-btn");
+        visBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          shape.visible = !shape.visible;
+          renderClipPathUI();
+        });
+
+        const delBtn = row.querySelector(".shape-del-btn");
+        if (delBtn) {
+          delBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            clipShapes.splice(index, 1);
+            if (activeShapeIndex >= clipShapes.length) {
+              activeShapeIndex = clipShapes.length - 1;
+            }
+            clipPoints = clipShapes[activeShapeIndex].points;
+            renderClipPathUI();
+          });
+        }
+
+        shapesList.appendChild(row);
+      });
+    };
+
+    const renderClipPathUI = () => {
+      if (!cpHandlesContainer || !cpPointsList) return;
+      
+      cpHandlesContainer.innerHTML = "";
+      cpPointsList.innerHTML = "";
+
+      renderShapesList();
+
+      const svgOverlay = container.querySelector("#clippath-svg-overlay");
+      if (svgOverlay) {
+        svgOverlay.innerHTML = clipShapes.map((shape, idx) => {
+          if (!shape.visible || shape.points.length < 3) return "";
+          const isActive = idx === activeShapeIndex;
+          
+          let strokeColor = "rgba(255, 255, 255, 0.25)";
+          let dashArray = "3, 3";
+          let fillColor = "rgba(255, 255, 255, 0.02)";
+          
+          if (shape.inverted) {
+            strokeColor = isActive ? "#f43f5e" : "rgba(244, 63, 94, 0.4)";
+            dashArray = "4, 2";
+            fillColor = isActive ? "rgba(244, 63, 94, 0.08)" : "rgba(244, 63, 94, 0.03)";
+          } else if (isActive) {
+            strokeColor = "#00f2fe";
+            dashArray = "none";
+            fillColor = "rgba(0, 242, 254, 0.05)";
+          }
+          
+          const pointsStr = shape.points.map(pt => `${pt.x},${pt.y}`).join(" ");
+          return `<polygon points="${pointsStr}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.5" stroke-dasharray="${dashArray}" vector-effect="non-scaling-stroke" />`;
+        }).join("\n");
+      }
+
+      const activeShape = clipShapes[activeShapeIndex];
+      if (!activeShape || !activeShape.visible) {
+        updateClipPath();
+        return;
+      }
+
+      clipPoints.forEach((pt, index) => {
+        const handle = document.createElement("div");
+        handle.className = "clippath-handle";
+        handle.style.left = `${pt.x}%`;
+        handle.style.top = `${pt.y}%`;
+        handle.setAttribute("data-index", index);
+        handle.innerHTML = `<span style="font-size: 8px; font-weight: bold; color: #fff; pointer-events: none; user-select: none;">${index + 1}</span>`;
+        
+        let isDragging = false;
+
+        const onDragStart = (e) => {
+          isDragging = true;
+          handle.classList.add("dragging");
+          e.preventDefault();
+        };
+
+        const onDragMove = (e) => {
+          if (!isDragging) return;
+          const rect = cpWorkarea.getBoundingClientRect();
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+          let posX = ((clientX - rect.left) / rect.width) * 100;
+          let posY = ((clientY - rect.top) / rect.height) * 100;
+
+          posX = Math.min(Math.max(Math.round(posX), 0), 100);
+          posY = Math.min(Math.max(Math.round(posY), 0), 100);
+
+          clipPoints[index].x = posX;
+          clipPoints[index].y = posY;
+
+          handle.style.left = `${posX}%`;
+          handle.style.top = `${posY}%`;
+
+          const xInput = cpPointsList.querySelector(`.x-input[data-index="${index}"]`);
+          const yInput = cpPointsList.querySelector(`.y-input[data-index="${index}"]`);
+          if (xInput) xInput.value = posX;
+          if (yInput) yInput.value = posY;
+
+          updateClipPath();
+        };
+
+        const onDragEnd = () => {
+          if (isDragging) {
+            isDragging = false;
+            handle.classList.remove("dragging");
+          }
+        };
+
+        handle.addEventListener("mousedown", onDragStart);
+        document.addEventListener("mousemove", onDragMove);
+        document.addEventListener("mouseup", onDragEnd);
+
+        handle.addEventListener("touchstart", onDragStart);
+        document.addEventListener("touchmove", onDragMove, { passive: false });
+        document.addEventListener("touchend", onDragEnd);
+
+        cpHandlesContainer.appendChild(handle);
+
+        const row = document.createElement("div");
+        row.className = "clippath-point-row";
+        row.innerHTML = `
+          <span class="clippath-point-idx">P${index + 1}</span>
+          <span style="font-size: 11px; color: var(--text-muted);">X:</span>
+          <input type="number" class="clippath-point-val x-input" data-index="${index}" min="0" max="100" value="${pt.x}">
+          <span style="font-size: 11px; color: var(--text-muted); margin-left: 4px;">Y:</span>
+          <input type="number" class="clippath-point-val y-input" data-index="${index}" min="0" max="100" value="${pt.y}">
+          <button class="tool-btn secondary cp-del-pt-btn" data-index="${index}" style="padding: 2px 6px; font-size: 10px; height: auto; margin-left: auto; border-color: rgba(239, 68, 68, 0.2); color: var(--accent-rose);">×</button>
+        `;
+
+        const xIn = row.querySelector(".x-input");
+        const yIn = row.querySelector(".y-input");
+        xIn.addEventListener("input", (e) => {
+          const val = Math.min(Math.max(parseInt(e.target.value, 10) || 0, 0), 100);
+          clipPoints[index].x = val;
+          handle.style.left = `${val}%`;
+          updateClipPath();
+        });
+        yIn.addEventListener("input", (e) => {
+          const val = Math.min(Math.max(parseInt(e.target.value, 10) || 0, 0), 100);
+          clipPoints[index].y = val;
+          handle.style.top = `${val}%`;
+          updateClipPath();
+        });
+
+        row.querySelector(".cp-del-pt-btn").addEventListener("click", () => {
+          if (clipPoints.length <= 3) {
+            appInstance.showToast("Polygons require at least 3 points!", "warning");
+            return;
+          }
+          clipPoints.splice(index, 1);
+          renderClipPathUI();
+        });
+
+        cpPointsList.appendChild(row);
+      });
+
+      updateClipPath();
+    };
+
+    cpPreset?.addEventListener("change", (e) => {
+      loadClipPreset(e.target.value);
+    });
+
+    container.querySelector("#clip-import-shape-btn")?.addEventListener("click", () => {
+      const shared = appInstance.sharedShape;
+      if (shared && shared.points && shared.points.length >= 3) {
+        clipPoints = shared.points.map(pt => ({ ...pt }));
+        if (clipShapes[activeShapeIndex]) {
+          clipShapes[activeShapeIndex].points = clipPoints;
+        }
+        renderClipPathUI();
+        appInstance.showToast(`Imported shape from ${shared.source}!`, "success");
+      } else {
+        appInstance.showToast("No shared shape registry data found. Create a shape elsewhere first!", "warning");
+      }
+    });
+
+    cpAddPointBtn?.addEventListener("click", () => {
+      if (clipPoints.length >= 24) {
+        appInstance.showToast("Maximum of 24 points reached!", "warning");
+        return;
+      }
+      const last = clipPoints[clipPoints.length - 1] || { x: 50, y: 50 };
+      const first = clipPoints[0] || { x: 50, y: 50 };
+      const nextPt = {
+        x: Math.round((last.x + first.x) / 2),
+        y: Math.round((last.y + first.y) / 2)
+      };
+      clipPoints.push(nextPt);
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-add-shape-btn")?.addEventListener("click", () => {
+      if (clipShapes.length >= 6) {
+        appInstance.showToast("Maximum of 6 separate shapes allowed", "warning");
+        return;
+      }
+      const newIndex = clipShapes.length;
+      const newShape = {
+        id: Date.now(),
+        name: `Shape ${newIndex + 1}`,
+        points: [{ x: 50, y: 15 }, { x: 15, y: 85 }, { x: 85, y: 85 }],
+        visible: true,
+        inverted: false
+      };
+      clipShapes.push(newShape);
+      activeShapeIndex = newIndex;
+      clipPoints = clipShapes[activeShapeIndex].points;
+      renderClipPathUI();
+      appInstance.showToast(`Added ${newShape.name}`, "success");
+    });
+
+    container.querySelector("#clip-rotate-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        const newX = 50 - (pt.y - 50);
+        const newY = 50 + (pt.x - 50);
+        pt.x = Math.min(Math.max(Math.round(newX), 0), 100);
+        pt.y = Math.min(Math.max(Math.round(newY), 0), 100);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-center-btn")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offsetX = 50 - b.midX;
+      const offsetY = 50 - b.midY;
+      clipPoints.forEach(pt => {
+        pt.x = Math.min(Math.max(pt.x + offsetX, 0), 100);
+        pt.y = Math.min(Math.max(pt.y + offsetY, 0), 100);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-reset-btn")?.addEventListener("click", () => {
+      const activeShape = clipShapes[activeShapeIndex];
+      if (activeShape) {
+        const type = activeShape.type || "triangle";
+        const preset = cpPresets[type] || cpPresets.triangle;
+        if (Array.isArray(preset) && preset[0] && preset[0].points) {
+          loadClipPreset(type);
+        } else {
+          activeShape.points = preset.map(pt => ({ ...pt }));
+          clipPoints = activeShape.points;
+          renderClipPathUI();
+          appInstance.showToast(`Reset shape to ${type} coordinates`, "info");
+        }
+      }
+    });
+
+    container.querySelector("#clip-fliph-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.x = 100 - pt.x;
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-flipv-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.y = 100 - pt.y;
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-scaleup-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        const newX = 50 + (pt.x - 50) * 1.1;
+        const newY = 50 + (pt.y - 50) * 1.1;
+        pt.x = Math.min(Math.max(Math.round(newX), 0), 100);
+        pt.y = Math.min(Math.max(Math.round(newY), 0), 100);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-scaledown-btn")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        const newX = 50 + (pt.x - 50) * 0.9;
+        const newY = 50 + (pt.y - 50) * 0.9;
+        pt.x = Math.min(Math.max(Math.round(newX), 0), 100);
+        pt.y = Math.min(Math.max(Math.round(newY), 0), 100);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-move-left")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.x = Math.max(0, pt.x - 5);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-move-right")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.x = Math.min(100, pt.x + 5);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-move-up")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.y = Math.max(0, pt.y - 5);
+      });
+      renderClipPathUI();
+    });
+
+    container.querySelector("#clip-move-down")?.addEventListener("click", () => {
+      clipPoints.forEach(pt => {
+        pt.y = Math.min(100, pt.y + 5);
+      });
+      renderClipPathUI();
+    });
+
+    // Alignment operations
+    const getShapeBounds = (points) => {
+      if (points.length === 0) return { minX: 50, maxX: 50, minY: 50, maxY: 50, width: 0, height: 0, midX: 50, midY: 50 };
+      let minX = 100, maxX = 0, minY = 100, maxY = 0;
+      points.forEach(pt => {
+        if (pt.x < minX) minX = pt.x;
+        if (pt.x > maxX) maxX = pt.x;
+        if (pt.y < minY) minY = pt.y;
+        if (pt.y > maxY) maxY = pt.y;
+      });
+      return {
+        minX, maxX, minY, maxY,
+        width: maxX - minX,
+        height: maxY - minY,
+        midX: (minX + maxX) / 2,
+        midY: (minY + maxY) / 2
+      };
+    };
+
+    container.querySelector("#clip-align-left")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      clipPoints.forEach(pt => pt.x -= b.minX);
+      renderClipPathUI();
+      appInstance.showToast("Aligned active shape left", "success");
+    });
+
+    container.querySelector("#clip-align-center")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offset = 50 - b.midX;
+      clipPoints.forEach(pt => pt.x = Math.min(Math.max(Math.round(pt.x + offset), 0), 100));
+      renderClipPathUI();
+      appInstance.showToast("Centered active shape horizontally", "success");
+    });
+
+    container.querySelector("#clip-align-right")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offset = 100 - b.maxX;
+      clipPoints.forEach(pt => pt.x += offset);
+      renderClipPathUI();
+      appInstance.showToast("Aligned active shape right", "success");
+    });
+
+    container.querySelector("#clip-align-top")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      clipPoints.forEach(pt => pt.y -= b.minY);
+      renderClipPathUI();
+      appInstance.showToast("Aligned active shape top", "success");
+    });
+
+    container.querySelector("#clip-align-vcenter")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offset = 50 - b.midY;
+      clipPoints.forEach(pt => pt.y = Math.min(Math.max(Math.round(pt.y + offset), 0), 100));
+      renderClipPathUI();
+      appInstance.showToast("Centered active shape vertically", "success");
+    });
+
+    container.querySelector("#clip-align-bottom")?.addEventListener("click", () => {
+      if (clipPoints.length === 0) return;
+      const b = getShapeBounds(clipPoints);
+      const offset = 100 - b.maxY;
+      clipPoints.forEach(pt => pt.y += offset);
+      renderClipPathUI();
+      appInstance.showToast("Aligned active shape bottom", "success");
+    });
+
+    container.querySelector("#clip-align-stackh")?.addEventListener("click", () => {
+      const visible = clipShapes.filter(s => s.visible && s.points.length > 0);
+      if (visible.length < 2) {
+        appInstance.showToast("Need at least 2 visible shapes to stack!", "warning");
+        return;
+      }
+      const sorted = visible.map(s => ({ shape: s, bounds: getShapeBounds(s.points) }))
+                            .sort((a, b) => a.bounds.midX - b.bounds.midX);
+      const N = sorted.length;
+      sorted.forEach((item, idx) => {
+        const L = idx * (100 / N);
+        const R = (idx + 1) * (100 / N);
+        const C = (L + R) / 2;
+        const b = item.bounds;
+        const maxW = 100 / N;
+        
+        let scaleX = 1;
+        if (b.width > maxW) {
+          scaleX = maxW / (b.width || 1);
+        }
+        
+        item.shape.points.forEach(pt => {
+          const px = b.midX + (pt.x - b.midX) * scaleX;
+          const offset = C - b.midX;
+          pt.x = Math.min(Math.max(Math.round(px + offset), 0), 100);
+        });
+      });
+      renderClipPathUI();
+      appInstance.showToast("Stacked shapes horizontally", "success");
+    });
+
+    container.querySelector("#clip-align-stackv")?.addEventListener("click", () => {
+      const visible = clipShapes.filter(s => s.visible && s.points.length > 0);
+      if (visible.length < 2) {
+        appInstance.showToast("Need at least 2 visible shapes to stack!", "warning");
+        return;
+      }
+      const sorted = visible.map(s => ({ shape: s, bounds: getShapeBounds(s.points) }))
+                            .sort((a, b) => a.bounds.midY - b.bounds.midY);
+      const N = sorted.length;
+      sorted.forEach((item, idx) => {
+        const T = idx * (100 / N);
+        const B = (idx + 1) * (100 / N);
+        const C = (T + B) / 2;
+        const b = item.bounds;
+        const maxH = 100 / N;
+        
+        let scaleY = 1;
+        if (b.height > maxH) {
+          scaleY = maxH / (b.height || 1);
+        }
+        
+        item.shape.points.forEach(pt => {
+          const py = b.midY + (pt.y - b.midY) * scaleY;
+          const offset = C - b.midY;
+          pt.y = Math.min(Math.max(Math.round(py + offset), 0), 100);
+        });
+      });
+      renderClipPathUI();
+      appInstance.showToast("Stacked shapes vertically", "success");
+    });
+
+    container.querySelector("#clip-align-allcenter")?.addEventListener("click", () => {
+      const visible = clipShapes.filter(s => s.visible && s.points.length > 0);
+      if (visible.length === 0) return;
+      visible.forEach(shape => {
+        const b = getShapeBounds(shape.points);
+        const offsetX = 50 - b.midX;
+        const offsetY = 50 - b.midY;
+        shape.points.forEach(pt => {
+          pt.x = Math.min(Math.max(Math.round(pt.x + offsetX), 0), 100);
+          pt.y = Math.min(Math.max(Math.round(pt.y + offsetY), 0), 100);
+        });
+      });
+      renderClipPathUI();
+      appInstance.showToast("Aligned all shapes' centers", "success");
+    });
+
+    // Zoom slider event listener
+    const zoomSlider = container.querySelector("#clip-zoom-slider");
+    const zoomVal = container.querySelector("#clip-zoom-val");
+    zoomSlider?.addEventListener("input", (e) => {
+      clipZoom = parseInt(e.target.value, 10);
+      if (zoomVal) zoomVal.innerText = `${clipZoom}%`;
+      const size = 200 * (clipZoom / 100);
+      if (cpWorkarea) {
+        cpWorkarea.style.width = `${size}px`;
+        cpWorkarea.style.height = `${size}px`;
+        cpWorkarea.style.backgroundSize = `${20 * (clipZoom / 100)}px ${20 * (clipZoom / 100)}px`;
+      }
+    });
+
+    // Background toggles
+    const clipBgPalette = container.querySelector("#clip-bg-palette");
+
+    // Workarea background controls
+    clipBgGrid?.addEventListener("click", () => {
+      clipBgGrid.classList.add("active");
+      clipBgGrad.classList.remove("active");
+      clipBgPalette?.classList.remove("active");
+      clipBgImage.classList.remove("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      cpTarget.style.background = "linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%)";
+    });
+
+    clipBgGrad?.addEventListener("click", () => {
+      clipBgGrid.classList.remove("active");
+      clipBgGrad.classList.add("active");
+      clipBgPalette?.classList.remove("active");
+      clipBgImage.classList.remove("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      cpTarget.style.background = "linear-gradient(45deg, #ff007f 0%, #ff8c00 100%)";
+    });
+
+    clipBgPalette?.addEventListener("click", () => {
+      clipBgGrid.classList.remove("active");
+      clipBgGrad.classList.remove("active");
+      clipBgPalette.classList.add("active");
+      clipBgImage.classList.remove("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      
+      const colors = (appInstance.colorLabState && appInstance.colorLabState.currentColors)
+        ? appInstance.colorLabState.currentColors.map(c => c.hex)
+        : [];
+      if (colors.length > 0) {
+        let gradVal;
+        if (colors.length === 1) {
+          gradVal = colors[0];
+        } else {
+          gradVal = `linear-gradient(135deg, ${colors.join(", ")})`;
+        }
+        cpTarget.style.background = gradVal;
+        appInstance.showToast("Applied Color Lab palette colors!", "success");
+      } else {
+        cpTarget.style.background = "linear-gradient(135deg, #00f2fe 0%, #9d4edd 100%)";
+        appInstance.showToast("No active Color Lab palette found. Generated default instead.", "info");
+      }
+    });
+
+    clipBgImage?.addEventListener("click", () => {
+      clipBgGrid.classList.remove("active");
+      clipBgGrad.classList.remove("active");
+      clipBgPalette?.classList.remove("active");
+      clipBgImage.classList.add("active");
+      cpWorkarea.style.background = "";
+      cpWorkarea.style.backgroundImage = "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)";
+      cpWorkarea.style.backgroundSize = "20px 20px";
+      cpTarget.style.background = "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80') center/cover no-repeat";
+    });
+
+    // Load initial shape
+    loadClipPreset("triangle");
 
     // Set initial active tab
     const initialTab = appInstance.activeSubtab || 'gradient';

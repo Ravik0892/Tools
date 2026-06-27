@@ -47,6 +47,64 @@ export default {
             </div>
           </div>
         </div>
+
+        <!-- Quick Guide & Example Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide & Instructions</span>
+            </div>
+            <button class="tool-btn secondary" id="analyze-guide-load-sample" style="font-size: 11px;">Try Example</button>
+          </div>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Input Copy</strong>: Paste or type the text content you wish to audit for readability, complexity, and density.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Review Counters</strong>: Instantly evaluate word count, character count, sentence count, and estimated read time.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Readability Score</strong>: Analyze the Flesch Reading Ease score to ensure the text matches your target audience grade.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Easy Reading</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Technical Draft</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input Copy</span>
+                <div class="tool-guide-io-value">The cat sat on the rug. It was a very warm day. The sun was bright in the sky.</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Readability Grade</span>
+                <div class="tool-guide-io-value">Flesch Score: 116.1<br>Grade: 5th Grade (Very Easy)</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input Copy</span>
+                <div class="tool-guide-io-value">The utilization of multidimensional frameworks facilitates the aggregation of regulatory parameters.</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Readability Grade</span>
+                <div class="tool-guide-io-value">Flesch Score: 12.0<br>Grade: Graduate (Very Confusing)</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   },
@@ -135,6 +193,34 @@ export default {
     container.querySelector("#analyze-clear")?.addEventListener("click", () => {
       input.value = "";
       input.dispatchEvent(new Event("input"));
+    });
+
+    // Examples Tab Switching
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
+    container.querySelector("#analyze-guide-load-sample")?.addEventListener("click", () => {
+      if (activeExampleIndex === 0) {
+        input.value = "The cat sat on the rug. It was a very warm day. The sun was bright in the sky.";
+        input.dispatchEvent(new Event("input"));
+        appInstance.showToast("Loaded sample easy reading text!", "info");
+      } else {
+        input.value = "The utilization of multidimensional frameworks facilitates the aggregation of regulatory parameters.";
+        input.dispatchEvent(new Event("input"));
+        appInstance.showToast("Loaded sample technical academic draft text!", "info");
+      }
     });
   }
 };

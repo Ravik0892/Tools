@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.OmniToolHub" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">#0c0a1c</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">#0f0b24</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

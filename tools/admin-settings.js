@@ -1,3 +1,5 @@
+import { escapeHtml } from './utils.js';
+
 export default {
   id: "admin-settings",
   name: "Settings & Ad Control Panel",
@@ -10,9 +12,10 @@ export default {
           </div>
 
           <!-- Tabs Nav bar -->
-          <div class="settings-tabs-bar" style="display: flex; gap: 4px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 16px; overflow-x: auto;">
+          <div class="settings-tabs-bar" style="display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 16px;">
             <button class="settings-tab-btn active" data-tab="tab-ads" style="background: none; border: none; border-bottom: 2px solid var(--accent-cyan); color: var(--accent-cyan); font-weight: 700; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Monetization &amp; Ads</button>
             <button class="settings-tab-btn" data-tab="tab-aesthetics" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Theme &amp; Aesthetics</button>
+            <button class="settings-tab-btn" data-tab="tab-tools-visibility" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Tool Visibility</button>
             <button class="settings-tab-btn" data-tab="tab-backup" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Backup &amp; System</button>
           </div>
 
@@ -29,7 +32,7 @@ export default {
 
             <!-- Ad Network Selector -->
             <div class="form-group" id="ad-network-group" style="margin-bottom: 16px;">
-              <label for="ad-network-select">Active Ad Provider</label>
+              <label for="ad-network-select">Active Ad Provider (Dashboard & Tools)</label>
               <select class="form-select" id="ad-network-select">
                 <option value="dev">Developer Sponsor Ads (Default Local)</option>
                 <option value="adsense">Google AdSense</option>
@@ -38,8 +41,51 @@ export default {
               </select>
             </div>
 
+            <!-- Sidebar Ad Network Selector -->
+            <div class="form-group" id="sidebar-ad-network-group" style="margin-bottom: 16px;">
+              <label for="sidebar-ad-network-select">Sidebar Ad Provider</label>
+              <select class="form-select" id="sidebar-ad-network-select">
+                <option value="inherit">Inherit Active Ad Provider (Default)</option>
+                <option value="dev">Developer Sponsor Ads</option>
+                <option value="adsense">Google AdSense</option>
+                <option value="admob">AdMob Mobile Banner</option>
+                <option value="custom">Custom Ad Script / HTML Code</option>
+              </select>
+            </div>
+
             <!-- Dynamic Network Inputs -->
             <div class="network-inputs-container">
+              <!-- Developer Sponsor Inputs -->
+              <div id="inputs-dev" class="ad-network-fields" style="display: none;">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="sponsor-brand">Sponsor Brand Name</label>
+                    <input type="text" class="form-input" id="sponsor-brand" placeholder="e.g. HexaCloud Host">
+                  </div>
+                  <div class="form-group">
+                    <label for="sponsor-icon-select">Sponsor Icon Style</label>
+                    <select class="form-select" id="sponsor-icon-select">
+                      <option value="cloud">Cloud Server</option>
+                      <option value="database">Database Server</option>
+                      <option value="shield">Security Shield</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="sponsor-slogan">Sponsor Slogan / Description</label>
+                  <input type="text" class="form-input" id="sponsor-slogan" placeholder="e.g. Secure, lightning-fast hosting...">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="sponsor-url">Sponsor Affiliate Link</label>
+                    <input type="text" class="form-input" id="sponsor-url" placeholder="e.g. https://your-affiliate-link.com">
+                  </div>
+                  <div class="form-group">
+                    <label for="sponsor-btn-text">Button Text</label>
+                    <input type="text" class="form-input" id="sponsor-btn-text" placeholder="e.g. Claim Now">
+                  </div>
+                </div>
+              </div>
               <!-- AdSense Inputs -->
               <div id="inputs-adsense" class="ad-network-fields" style="display: none;">
                 <div class="form-group">
@@ -112,6 +158,14 @@ export default {
                 </label>
               </div>
             </div>
+
+            <!-- Donation Settings -->
+            <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+              <label for="coffee-url">Buy Me a Coffee Donation URL</label>
+              <input type="text" class="form-input" id="coffee-url" placeholder="e.g. https://www.buymeacoffee.com/yourusername">
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your personal donation page link. If left blank, it will show a supportive toast notification.</p>
+            </div>
+
             <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
               <button class="tool-btn secondary" id="ad-settings-reset" style="font-size: 12px; padding: 6px 12px; height: auto;">Reset Ads to Default</button>
             </div>
@@ -188,6 +242,21 @@ export default {
             </div>
           </div>
 
+          <!-- TAB 4: Tool Visibility -->
+          <div id="tab-tools-visibility" class="settings-tab-content" style="display: none;">
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label style="color: var(--accent-cyan);">Manage Active Utilities</label>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Toggle checkboxes to show or hide specific tools on the dashboard and sidebar menus. Hidden tools are still accessible via direct link if needed.</div>
+              <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button class="tool-btn secondary text-xs" id="btn-visibility-select-all" style="padding: 4px 10px; font-size: 11px; height: auto;">Show All</button>
+                <button class="tool-btn secondary text-xs" id="btn-visibility-select-none" style="padding: 4px 10px; font-size: 11px; height: auto;">Hide All</button>
+              </div>
+              <div id="tools-visibility-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; padding-right: 4px; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: rgba(0,0,0,0.15);">
+                <!-- Dynamically populated tool list with checkboxes -->
+              </div>
+            </div>
+          </div>
+
           <!-- TAB 3: Backup & System Content -->
           <div id="tab-backup" class="settings-tab-content" style="display: none;">
             <!-- Admin Security Settings -->
@@ -222,15 +291,21 @@ export default {
                 <button class="tool-btn" id="app-clear-recents">Clear Recents List</button>
                 <button class="tool-btn" id="app-clear-favs">Reset Favorites</button>
               </div>
-              <button class="tool-btn" id="app-hard-reset" style="width: 100%; margin-top: 10px; color: var(--accent-rose); border-color: rgba(var(--accent-rose-rgb), 0.2); background: rgba(var(--accent-rose-rgb), 0.03); justify-content: center; height: 38px;">
+               <button class="tool-btn" id="app-hard-reset" style="width: 100%; margin-top: 10px; color: var(--accent-rose); border-color: rgba(var(--accent-rose-rgb), 0.2); background: rgba(var(--accent-rose-rgb), 0.03); justify-content: center; height: 38px;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                 Factory Reset App Cache
               </button>
+              <div style="font-size: 11px; color: var(--accent-rose); opacity: 0.85; margin-top: 6px; line-height: 1.4; text-align: left;">
+                ⚠️ <strong>Warning</strong>: This will permanently wipe all local configurations, favorites, and presets. Please export your settings above first to avoid data loss.
+              </div>
             </div>
           </div>
 
           <div style="margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px;">
             <button class="tool-btn primary" id="ad-settings-save" style="width: 100%; justify-content: center; height: 42px; font-size: 14px;">Save All Customizations</button>
+            <div style="font-size: 11px; color: var(--accent-cyan); opacity: 0.85; margin-top: 8px; line-height: 1.4; text-align: left;">
+              ⚠️ <strong>Note</strong>: Settings are stored offline in your browser cache. Clearing your browser history or data will delete them. Use the <strong>Backup & System</strong> tab to download backups.
+            </div>
           </div>
         </div>
 
@@ -258,6 +333,64 @@ export default {
             <div style="display: flex; gap: 8px; margin-top: 6px;">
               <span style="font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(var(--accent-cyan-rgb), 0.12); color: var(--accent-cyan); border: 1px solid rgba(var(--accent-cyan-rgb), 0.2);">Cyan Accent</span>
               <span style="font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(var(--accent-purple-rgb), 0.12); color: var(--accent-purple); border: 1px solid rgba(var(--accent-purple-rgb), 0.2);">Purple Accent</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Guide & Example Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide & Instructions</span>
+            </div>
+            <button class="tool-btn secondary" id="settings-guide-load-sample" style="font-size: 11px;">Try Example</button>
+          </div>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Configure Ads</strong>: Toggle active ad containers, switch networks (AdSense/AdMob), and customize identifiers to preview layouts in the simulator.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Customize Aesthetics</strong>: Choose color presets (Cyber Cyan, Matrix Green, Vaporwave), choose grid densities, and adjust system widgets.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Manage Data</strong>: Export settings configurations as backup files, reset favorites or recent items lists, or purge PWA files.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">Color Presets</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Grid Customization</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Selected Theme</span>
+                <div class="tool-guide-io-value">Vaporwave Preset (Magenta &amp; Cyan Gradient)</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 System Visuals</span>
+                <div class="tool-guide-io-value">UI components, buttons, and card borders glow with high-contrast cyberpunk gradients.</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Tile Density</span>
+                <div class="tool-guide-io-value">Set to "Compact Mode" (Hides descriptions)</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Dashboard Layout</span>
+                <div class="tool-guide-io-value">Compact dashboard grid displaying title cards only, fitting more utilities on one screen.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -333,6 +466,7 @@ export default {
     // Selects and inputs selectors
     const adGlobal = container.querySelector("#ad-global-status");
     const adNetwork = container.querySelector("#ad-network-select");
+    const sidebarAdNetwork = container.querySelector("#sidebar-ad-network-select");
     const showDash = container.querySelector("#ad-show-dash");
     const showTool = container.querySelector("#ad-show-tool");
     const showSide = container.querySelector("#ad-show-side");
@@ -351,6 +485,14 @@ export default {
     const previewBox = container.querySelector("#ad-preview-box");
     const previewBadge = container.querySelector("#preview-network-badge");
 
+    // Developer Sponsor selectors
+    const sponsorBrand = container.querySelector("#sponsor-brand");
+    const sponsorIcon = container.querySelector("#sponsor-icon-select");
+    const sponsorSlogan = container.querySelector("#sponsor-slogan");
+    const sponsorUrl = container.querySelector("#sponsor-url");
+    const sponsorBtnText = container.querySelector("#sponsor-btn-text");
+    const coffeeUrl = container.querySelector("#coffee-url");
+
     // New configurations selectors
     const appDensity = container.querySelector("#app-density-select");
     const appStartup = container.querySelector("#app-startup-select");
@@ -358,10 +500,61 @@ export default {
     const appAudio = container.querySelector("#app-audio-feedback");
     const adminPasscode = container.querySelector("#app-admin-passcode");
 
+    // Tool visibility helper
+    const populateToolsVisibility = () => {
+      const visibilityList = container.querySelector("#tools-visibility-list");
+      if (!visibilityList) return;
+
+      visibilityList.innerHTML = "";
+
+      const hiddenToolsStr = appInstance.getConfigValue("omnitool_hidden_tools", "");
+      const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
+
+      appInstance.tools.forEach(tool => {
+        const itemDiv = document.createElement("div");
+        itemDiv.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);";
+        
+        const isHidden = hiddenToolsSet.has(tool.id);
+        const isAdmin = tool.id === "admin-settings";
+        
+        itemDiv.innerHTML = `
+          <label style="display: flex; align-items: center; gap: 8px; cursor: ${isAdmin ? 'not-allowed' : 'pointer'}; flex: 1; font-size: 13px; font-weight: 500;">
+            <input type="checkbox" class="tool-visibility-checkbox" data-tool-id="${tool.id}" ${!isHidden ? 'checked' : ''} ${isAdmin ? 'disabled' : ''} style="cursor: ${isAdmin ? 'not-allowed' : 'pointer'};">
+            <span>${tool.name}</span>
+          </label>
+          <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">${tool.subLabel}</span>
+        `;
+        visibilityList.appendChild(itemDiv);
+      });
+    };
+
+    container.querySelector("#btn-visibility-select-all")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
+        cb.checked = true;
+      });
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
+    });
+
+    container.querySelector("#btn-visibility-select-none")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
+        if (cb.getAttribute("data-tool-id") !== "admin-settings") {
+          cb.checked = false;
+        }
+      });
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
+    });
+
     // Load configs from storage
     const loadSettings = () => {
       adGlobal.checked = appInstance.getConfigValue("omnitool_ad_global", "true") !== "false";
       adNetwork.value = appInstance.getConfigValue("omnitool_ad_network", "dev");
+      sidebarAdNetwork.value = appInstance.getConfigValue("omnitool_sidebar_ad_network", "inherit");
       showDash.checked = appInstance.getConfigValue("omnitool_ad_show_dash", "true") !== "false";
       showTool.checked = appInstance.getConfigValue("omnitool_ad_show_tool", "true") !== "false";
       showSide.checked = appInstance.getConfigValue("omnitool_ad_show_side", "true") !== "false";
@@ -378,6 +571,14 @@ export default {
 
       customCode.value = appInstance.getConfigValue("omnitool_custom_ad_html", `<!-- Custom Banner Mock -->\n<div class="custom-mock-banner" style="background: linear-gradient(135deg, #1e1b4b, #311042); border: 2px dashed #a21caf; padding: 20px; border-radius: 8px; text-align: center; color: #f472b6;">\n  <h3>Custom Premium Ad Space</h3>\n  <p>Your custom script or banner displays here.</p>\n</div>`);
       
+      // Load developer sponsor config
+      sponsorBrand.value = appInstance.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host");
+      sponsorIcon.value = appInstance.getConfigValue("omnitool_sponsor_icon", "cloud");
+      sponsorSlogan.value = appInstance.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
+      sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
+      sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
+      coffeeUrl.value = appInstance.getConfigValue("omnitool_coffee_url", "");
+
       // Load new settings
       appDensity.value = appInstance.getConfigValue("omnitool_layout_density", "comfortable");
       appStartup.value = appInstance.getConfigValue("omnitool_default_view", "dashboard");
@@ -390,16 +591,25 @@ export default {
 
       toggleFormFields(adNetwork.value);
       updateSimulatorPreview();
+      populateToolsVisibility();
     };
 
     // Toggle fields depending on provider
     const toggleFormFields = (provider) => {
       container.querySelectorAll(".ad-network-fields").forEach(el => el.style.display = "none");
-      if (provider === "adsense") {
+      const side = sidebarAdNetwork.value;
+      const effectiveSide = side === "inherit" ? provider : side;
+
+      if (provider === "dev" || effectiveSide === "dev") {
+        container.querySelector("#inputs-dev").style.display = "block";
+      }
+      if (provider === "adsense" || effectiveSide === "adsense") {
         container.querySelector("#inputs-adsense").style.display = "block";
-      } else if (provider === "admob") {
+      }
+      if (provider === "admob" || effectiveSide === "admob") {
         container.querySelector("#inputs-admob").style.display = "block";
-      } else if (provider === "custom") {
+      }
+      if (provider === "custom" || effectiveSide === "custom") {
         container.querySelector("#inputs-custom").style.display = "block";
       }
     };
@@ -423,6 +633,18 @@ export default {
 
       const provider = adNetwork.value;
       if (provider === "dev") {
+        const brandVal = sponsorBrand.value || "HexaCloud Hosting";
+        const sloganVal = sponsorSlogan.value || "Deploy lightweight web pipelines locally with absolute security.";
+        const btnVal = sponsorBtnText.value || "Deploy Now";
+        const iconType = sponsorIcon.value || "cloud";
+        
+        let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
+        if (iconType === "database") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
+        } else if (iconType === "shield") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+        }
+
         previewBadge.innerText = "Local Sponsor";
         previewBadge.style.color = "var(--accent-cyan)";
         previewBadge.style.background = "rgba(0, 242, 254, 0.15)";
@@ -430,17 +652,17 @@ export default {
           <div class="sponsor-ad-block" style="margin: 0; border-color: rgba(0, 242, 254, 0.25); width: 100%;">
             <div class="ad-horizontal-left">
               <div class="ad-image-placeholder" style="color: var(--accent-cyan); border-color: var(--accent-cyan); background: rgba(var(--accent-cyan-rgb), 0.12);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+                ${iconSvg}
               </div>
               <div class="ad-info">
                 <div class="ad-title-row">
-                  <span class="ad-brand">HexaCloud Hosting</span>
+                  <span class="ad-brand">${escapeHtml(brandVal)}</span>
                   <span class="ad-horizontal-badge">SPONSOR</span>
                 </div>
-                <span class="ad-slogan">Deploy lightweight web pipelines locally with absolute security.</span>
+                <span class="ad-slogan">${escapeHtml(sloganVal)}</span>
               </div>
             </div>
-            <span class="ad-action-btn" style="background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.2);">Deploy Now</span>
+            <span class="ad-action-btn" style="background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.2);">${escapeHtml(btnVal)}</span>
           </div>
         `;
       } else if (provider === "adsense") {
@@ -496,6 +718,7 @@ export default {
     const saveSettings = () => {
       localStorage.setItem("omnitool_ad_global", adGlobal.checked ? "true" : "false");
       localStorage.setItem("omnitool_ad_network", adNetwork.value);
+      localStorage.setItem("omnitool_sidebar_ad_network", sidebarAdNetwork.value);
       localStorage.setItem("omnitool_ad_show_dash", showDash.checked ? "true" : "false");
       localStorage.setItem("omnitool_ad_show_tool", showTool.checked ? "true" : "false");
       localStorage.setItem("omnitool_ad_show_side", showSide.checked ? "true" : "false");
@@ -512,6 +735,14 @@ export default {
 
       localStorage.setItem("omnitool_custom_ad_html", customCode.value);
 
+      // Save developer sponsor config
+      localStorage.setItem("omnitool_sponsor_brand", sponsorBrand.value.trim());
+      localStorage.setItem("omnitool_sponsor_icon", sponsorIcon.value);
+      localStorage.setItem("omnitool_sponsor_slogan", sponsorSlogan.value.trim());
+      localStorage.setItem("omnitool_sponsor_url", sponsorUrl.value.trim());
+      localStorage.setItem("omnitool_sponsor_btn_text", sponsorBtnText.value.trim());
+      localStorage.setItem("omnitool_coffee_url", coffeeUrl.value.trim());
+
       // Save new configurations
       localStorage.setItem("omnitool_accent_preset", activePreset);
       localStorage.setItem("omnitool_layout_density", appDensity.value);
@@ -523,9 +754,24 @@ export default {
         localStorage.setItem("omnitool_admin_passcode", adminPasscode.value.trim());
       }
 
+      // Save hidden tools configuration
+      const hiddenTools = [];
+      container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
+        if (!cb.checked) {
+          hiddenTools.push(cb.getAttribute("data-tool-id"));
+        }
+      });
+      localStorage.setItem("omnitool_hidden_tools", hiddenTools.join(","));
+
       // Apply configurations instantly
       if (typeof appInstance.applyAccentPreset === 'function') {
         appInstance.applyAccentPreset();
+      }
+      if (typeof appInstance.buildSidebarToolMenu === 'function') {
+        appInstance.buildSidebarToolMenu();
+      }
+      if (typeof appInstance.buildMegaMenu === 'function') {
+        appInstance.buildMegaMenu();
       }
 
       appInstance.showToast("✅ Settings saved! Changes are live instantly. Use \"Export Config\" to download ad-config.json for deployment.", "success");
@@ -548,9 +794,18 @@ export default {
 
     // Export global configurations to ad-config.json
     const triggerAdConfigDownload = () => {
+      const hiddenTools = [];
+      container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
+        if (!cb.checked) {
+          hiddenTools.push(cb.getAttribute("data-tool-id"));
+        }
+      });
+
       const data = {
+        "omnitool_hidden_tools": hiddenTools.join(","),
         "omnitool_ad_global": adGlobal.checked ? "true" : "false",
         "omnitool_ad_network": adNetwork.value,
+        "omnitool_sidebar_ad_network": sidebarAdNetwork.value,
         "omnitool_ad_show_dash": showDash.checked ? "true" : "false",
         "omnitool_ad_show_tool": showTool.checked ? "true" : "false",
         "omnitool_ad_show_side": showSide.checked ? "true" : "false",
@@ -563,6 +818,12 @@ export default {
         "omnitool_admob_unit_tool": admobTool.value.trim(),
         "omnitool_admob_unit_side": admobSide.value.trim(),
         "omnitool_custom_ad_html": customCode.value,
+        "omnitool_sponsor_brand": sponsorBrand.value.trim(),
+        "omnitool_sponsor_icon": sponsorIcon.value,
+        "omnitool_sponsor_slogan": sponsorSlogan.value.trim(),
+        "omnitool_sponsor_url": sponsorUrl.value.trim(),
+        "omnitool_sponsor_btn_text": sponsorBtnText.value.trim(),
+        "omnitool_coffee_url": coffeeUrl.value.trim(),
         "omnitool_accent_preset": activePreset,
         "omnitool_layout_density": appDensity.value,
         "omnitool_default_view": appStartup.value,
@@ -629,6 +890,14 @@ export default {
       }
     });
 
+    sidebarAdNetwork.addEventListener("change", (e) => {
+      toggleFormFields(adNetwork.value);
+      updateSimulatorPreview();
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
+    });
+
     adGlobal.addEventListener("change", () => {
       updateSimulatorPreview();
       if (typeof appInstance.playSynthSound === 'function') {
@@ -636,8 +905,15 @@ export default {
       }
     });
     
-    [adsensePub, adsenseDash, adsenseTool, adsenseSide, admobApp, admobDash, admobTool, admobSide, customCode].forEach(inp => {
+    [adsensePub, adsenseDash, adsenseTool, adsenseSide, admobApp, admobDash, admobTool, admobSide, customCode, sponsorBrand, sponsorSlogan, sponsorUrl, sponsorBtnText, coffeeUrl].forEach(inp => {
       inp.addEventListener("input", updateSimulatorPreview);
+    });
+
+    sponsorIcon.addEventListener("change", () => {
+      updateSimulatorPreview();
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
     });
 
     [appDensity, appStartup, appClock].forEach(sel => {
@@ -706,6 +982,39 @@ export default {
         setTimeout(() => {
           location.reload();
         }, 1200);
+      }
+    });
+
+    // Examples Tab Switching
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
+    container.querySelector("#settings-guide-load-sample")?.addEventListener("click", () => {
+      if (activeExampleIndex === 0) {
+        const swatch = container.querySelector(".color-swatch-item[data-preset='vaporwave']");
+        if (swatch) {
+          swatch.click();
+          appInstance.showToast("Selected Vaporwave theme! Click 'Save All Customizations' to apply.", "success");
+        }
+      } else {
+        const densitySelect = container.querySelector("#app-density-select");
+        if (densitySelect) {
+          densitySelect.value = "compact";
+          densitySelect.dispatchEvent(new Event("change"));
+          appInstance.showToast("Set Dashboard Density to Compact! Click 'Save All Customizations' to apply.", "success");
+        }
       }
     });
 

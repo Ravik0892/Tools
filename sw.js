@@ -1,5 +1,5 @@
 // Service Worker for OmniTool Hub PWA
-const CACHE_NAME = "omnitool-v29";
+const CACHE_NAME = "omnitool-v42";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
@@ -9,6 +9,8 @@ const ASSETS_TO_CACHE = [
   "tools/utils.js",
   "tools/pipeline-builder.js",
   "tools/pdf-searcher.js",
+  "tools/pdf-utilities.js",
+  "tools/mock-data-generator.js",
   "tools/jwt-decoder.js",
   "tools/markdown-preview.js",
   "tools/text-diff.js",
@@ -29,7 +31,9 @@ const ASSETS_TO_CACHE = [
   "tools/formatter-suite.js",
   "tools/css-studio.js",
   "tools/color-lab.js",
-  "tools/datetime-suite.js"
+  "tools/datetime-suite.js",
+  "tools/code-playground.js",
+  "tools/ip-subnet-calculator.js"
 ];
 
 

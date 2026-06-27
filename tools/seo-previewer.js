@@ -121,7 +121,7 @@ export default {
         </div>
 
         <div class="tool-panel">
-          <div class="panel-header">
+          <div class="panel-header" style="flex-wrap: wrap; gap: 8px;">
             <h3>Mockup Previews</h3>
             <div style="display: flex; gap: 4px;" id="seo-tabs">
               <button class="tool-btn secondary active" data-tab="google" style="font-size: 11px; padding: 4px 8px;">Google</button>
@@ -188,7 +188,7 @@ export default {
 
           <!-- HTML Header Tags Code Output -->
           <div class="form-group" style="margin-top: 16px;">
-            <div class="panel-header" style="border: none; padding: 0; margin-bottom: 6px;">
+            <div class="panel-header" style="border: none; padding: 0; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
               <label>Generated Header HTML Tags</label>
               <button class="tool-btn accent-emerald" id="seo-copy-btn" style="font-size: 11px;"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy Meta Tags</button>
             </div>

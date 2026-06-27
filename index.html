@@ -23,6 +23,7 @@
 
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2fe' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21'/%3E%3C/svg%3E">
 
   <!-- ================================================ -->
   <!-- Google AdSense — Uncomment after account approval -->
@@ -217,7 +218,7 @@
         </div>
 
         <div class="sidebar-coffee-container">
-          <a href="#" class="sidebar-coffee-btn" onclick="event.preventDefault(); app.showToast('☕ Thank you! Your support keeps OmniTool Hub running offline-first.', 'success')">
+          <a href="#" class="sidebar-coffee-btn" onclick="app.openCoffeeLink(event)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="coffee-icon">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
               <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
@@ -272,8 +273,10 @@
                   <!-- Developer Tools Column -->
                   <div class="mega-menu-col">
                     <h4 class="mega-col-title dev-accent">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                      Developer Tools
+                      <a href="#category/dev-all" class="mega-col-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        Developer Tools
+                      </a>
                     </h4>
                     <ul class="mega-tool-list" id="mega-list-dev">
                       <!-- Populated via Javascript -->
@@ -283,8 +286,10 @@
                   <!-- Text & Writing Column -->
                   <div class="mega-menu-col">
                     <h4 class="mega-col-title text-accent">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>
-                      Text &amp; Writing
+                      <a href="#category/text-all" class="mega-col-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>
+                        Text &amp; Writing
+                      </a>
                     </h4>
                     <ul class="mega-tool-list" id="mega-list-text">
                       <!-- Populated via Javascript -->
@@ -294,8 +299,10 @@
                   <!-- Design & Styling Column -->
                   <div class="mega-menu-col">
                     <h4 class="mega-col-title design-accent">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
-                      Design &amp; Styling
+                      <a href="#category/design-all" class="mega-col-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+                        Design &amp; Styling
+                      </a>
                     </h4>
                     <ul class="mega-tool-list" id="mega-list-design">
                       <!-- Populated via Javascript -->
@@ -305,8 +312,10 @@
                   <!-- Math & Converter Column -->
                   <div class="mega-menu-col">
                     <h4 class="mega-col-title math-accent">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>
-                      Math &amp; Converter
+                      <a href="#category/math-all" class="mega-col-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>
+                        Math &amp; Converter
+                      </a>
                     </h4>
                     <ul class="mega-tool-list" id="mega-list-math">
                       <!-- Populated via Javascript -->
@@ -370,6 +379,40 @@
             </svg>
           </button>
 
+          <!-- Font/Everything Sizer -->
+          <div class="sizer-dropdown-container" style="position: relative; display: inline-block;">
+            <button class="control-btn" id="sizer-toggle-btn" title="Change Layout Size" aria-label="Change layout and text size">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                <line x1="9" y1="20" x2="15" y2="20"></line>
+                <line x1="12" y1="4" x2="12" y2="20"></line>
+              </svg>
+            </button>
+            <div class="sizer-dropdown-menu" id="sizer-dropdown" style="display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: var(--shadow-lg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); z-index: 1000; padding: 6px; min-width: 150px; flex-direction: column; gap: 4px;">
+              <button class="sizer-option-btn" data-scale="0.5" style="background: none; border: none; color: var(--text-main); font-size: 10px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span>Smallest</span><span style="font-size: 10px; color: var(--text-muted);">50%</span>
+              </button>
+              <button class="sizer-option-btn" data-scale="0.7" style="background: none; border: none; color: var(--text-main); font-size: 11px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span>Very Small</span><span style="font-size: 10px; color: var(--text-muted);">70%</span>
+              </button>
+              <button class="sizer-option-btn" data-scale="0.85" style="background: none; border: none; color: var(--text-main); font-size: 12px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span>Small</span><span style="font-size: 10px; color: var(--text-muted);">85%</span>
+              </button>
+              <button class="sizer-option-btn active" data-scale="1.0" style="background: none; border: none; color: var(--text-main); font-size: 13px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%; font-weight: bold;">
+                <span>Default</span><span style="font-size: 10px; color: var(--text-muted);">100%</span>
+              </button>
+              <button class="sizer-option-btn" data-scale="1.15" style="background: none; border: none; color: var(--text-main); font-size: 14px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span>Medium-Large</span><span style="font-size: 10px; color: var(--text-muted);">115%</span>
+              </button>
+              <button class="sizer-option-btn" data-scale="1.3" style="background: none; border: none; color: var(--text-main); font-size: 15px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span>Large</span><span style="font-size: 10px; color: var(--text-muted);">130%</span>
+              </button>
+              <button class="sizer-option-btn" data-scale="1.5" style="background: none; border: none; color: var(--text-main); font-size: 16px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span>Extra Large</span><span style="font-size: 10px; color: var(--text-muted);">150%</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Light/Dark Toggler -->
           <button class="control-btn" id="theme-toggle" title="Toggle Theme" aria-label="Toggle light or dark theme">
             <svg id="theme-sun-icon" viewBox="0 0 24 24" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -377,7 +420,7 @@
           </button>
 
           <!-- Buy me a coffee compact -->
-          <button class="control-btn coffee-btn-compact" title="Support OmniTool Hub" aria-label="Buy Me a Coffee" onclick="app.showToast('☕ Thank you! Your support keeps OmniTool Hub running offline-first.', 'success')">
+          <button class="control-btn coffee-btn-compact" title="Support OmniTool Hub" aria-label="Buy Me a Coffee" onclick="app.openCoffeeLink(event)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
               <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
@@ -394,6 +437,8 @@
             <h1>All-in-One <span>OmniTool Hub</span></h1>
             <p>Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
           </div>
+
+          <div class="category-tabs-container" id="category-tabs-bar"></div>
 
           <!-- Tools Cards Grid -->
           <div class="tools-grid" id="tools-card-grid">

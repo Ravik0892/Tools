@@ -34,6 +34,64 @@ export default {
           </div>
           <textarea class="input-textarea" id="url-output" readonly placeholder="Parsed output URL will appear here..." style="min-height: 120px;" aria-label="Output URL"></textarea>
         </div>
+
+        <!-- Quick Guide & Example Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide & Instructions</span>
+            </div>
+            <button class="tool-btn secondary" id="url-guide-load-sample" style="font-size: 11px;">Try Example</button>
+          </div>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Paste Web Address</strong>: Type or paste a URL containing query parameters (e.g., <code>?q=query&amp;page=2</code>) in the input.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Edit &amp; Reorder Key-Values</strong>: Modify values directly, delete query properties, or click <strong>+ Add Parameter</strong> to extend it.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Rebuild &amp; Copy</strong>: Instantly view the updated, fully encoded rebuilt URL and copy it to the clipboard.</div>
+            </div>
+          </div>
+          <div class="tool-guide-example">
+            <div class="tool-guide-example-header">
+              <span class="tool-guide-example-title">📋 Examples</span>
+              <div class="tool-guide-example-tabs">
+                <button class="tool-guide-example-tab-btn active" data-index="0">API Endpoint</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">UTM Builder</button>
+              </div>
+            </div>
+            <!-- Example 1 -->
+            <div class="tool-guide-io-row example-val-0">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input URL</span>
+                <div class="tool-guide-io-value">https://api.github.com/repos/git/commits?per_page=10&amp;page=2</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Parsed Parameters</span>
+                <div class="tool-guide-io-value">per_page: "10"<br>page: "2"</div>
+              </div>
+            </div>
+            <!-- Example 2 -->
+            <div class="tool-guide-io-row example-val-1" style="display: none;">
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label input-label">📥 Input URL</span>
+                <div class="tool-guide-io-value">https://myshop.com/sales?utm_source=newsletter&amp;utm_medium=email</div>
+              </div>
+              <div class="tool-guide-io-arrow">→</div>
+              <div class="tool-guide-io-block">
+                <span class="tool-guide-io-label output-label">📤 Parsed Parameters</span>
+                <div class="tool-guide-io-value">utm_source: "newsletter"<br>utm_medium: "email"</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   },
@@ -149,6 +207,34 @@ export default {
 
     container.querySelector("#url-copy-btn")?.addEventListener("click", () => {
       appInstance.copyText(output.value);
+    });
+
+    // Examples Tab Switching
+    let activeExampleIndex = 0;
+    const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
+    const rows = container.querySelectorAll(".tool-guide-io-row");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeExampleIndex = parseInt(btn.getAttribute("data-index"), 10);
+        rows.forEach((row, idx) => {
+          row.style.display = (idx === activeExampleIndex) ? "flex" : "none";
+        });
+      });
+    });
+
+    container.querySelector("#url-guide-load-sample")?.addEventListener("click", () => {
+      if (activeExampleIndex === 0) {
+        input.value = "https://api.github.com/repos/git/commits?per_page=10&page=2";
+        input.dispatchEvent(new Event("input"));
+        appInstance.showToast("Loaded sample API endpoint URL!", "info");
+      } else {
+        input.value = "https://myshop.com/sales?utm_source=newsletter&utm_medium=email";
+        input.dispatchEvent(new Event("input"));
+        appInstance.showToast("Loaded sample UTM marketing URL!", "info");
+      }
     });
   }
 };
