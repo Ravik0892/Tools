@@ -15,6 +15,7 @@
   "omnitool_audio_feedback": "true",
   "omnitool_admin_passcode": "admin123",
   "omnitool_coffee_url": "",
+  "omnitool_kofi_url": "",
   "omnitool_sponsor_brand": "HexaCloud Host",
   "omnitool_sponsor_slogan": "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.",
   "omnitool_sponsor_btn_text": "Claim Now",

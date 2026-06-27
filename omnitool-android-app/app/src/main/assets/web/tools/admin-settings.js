@@ -57,6 +57,10 @@ export default {
             <div class="network-inputs-container">
               <!-- Developer Sponsor Inputs -->
               <div id="inputs-dev" class="ad-network-fields" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-weight: 700; font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Sponsor Details</span>
+                  <span id="sponsor-edit-status" style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0, 242, 254, 0.2);">Global Defaults</span>
+                </div>
                 <div class="form-row">
                   <div class="form-group">
                     <label for="sponsor-brand">Sponsor Brand Name</label>
@@ -84,6 +88,21 @@ export default {
                     <label for="sponsor-btn-text">Button Text</label>
                     <input type="text" class="form-input" id="sponsor-btn-text" placeholder="e.g. Claim Now">
                   </div>
+                </div>
+                
+                <!-- Page Overrides Section -->
+                <div style="margin-top: 14px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 14px;">
+                  <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px;">Page-Specific Custom Overrides</div>
+                  <div class="form-row" style="align-items: flex-end; gap: 8px; margin-bottom: 6px; grid-template-columns: 2fr 1fr 1fr;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <select class="form-select" id="override-tool-select" style="height: 38px; font-size: 12px;">
+                        <option value="global">-- Global Default --</option>
+                      </select>
+                    </div>
+                    <button class="tool-btn secondary" id="btn-load-override" style="height: 38px; padding: 0 10px; font-size: 11px; justify-content: center;">Edit Page</button>
+                    <button class="tool-btn" id="btn-delete-override" style="height: 38px; padding: 0 8px; font-size: 11px; border-color: rgba(var(--accent-rose-rgb), 0.3); color: var(--accent-rose); background: rgba(var(--accent-rose-rgb), 0.02); justify-content: center;">Reset Page</button>
+                  </div>
+                  <p style="font-size: 11px; color: var(--text-muted);">Select a tool, click "Edit Page" to customize its sponsor ad. Click "Reset Page" to restore global default sponsor.</p>
                 </div>
               </div>
               <!-- AdSense Inputs -->
@@ -161,9 +180,17 @@ export default {
 
             <!-- Donation Settings -->
             <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
-              <label for="coffee-url">Buy Me a Coffee Donation URL</label>
-              <input type="text" class="form-input" id="coffee-url" placeholder="e.g. https://www.buymeacoffee.com/yourusername">
-              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your personal donation page link. If left blank, it will show a supportive toast notification.</p>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="coffee-url">Buy Me a Coffee URL</label>
+                  <input type="text" class="form-input" id="coffee-url" placeholder="e.g. https://www.buymeacoffee.com/yourusername">
+                </div>
+                <div class="form-group">
+                  <label for="kofi-url">Ko-fi Donation URL</label>
+                  <input type="text" class="form-input" id="kofi-url" placeholder="e.g. https://ko-fi.com/yourusername">
+                </div>
+              </div>
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your personal donation page links. Empty buttons will be automatically hidden from the sidebar.</p>
             </div>
 
             <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
@@ -492,6 +519,11 @@ export default {
     const sponsorUrl = container.querySelector("#sponsor-url");
     const sponsorBtnText = container.querySelector("#sponsor-btn-text");
     const coffeeUrl = container.querySelector("#coffee-url");
+    const kofiUrl = container.querySelector("#kofi-url");
+    const overrideToolSelect = container.querySelector("#override-tool-select");
+    const sponsorEditStatus = container.querySelector("#sponsor-edit-status");
+    const btnLoadOverride = container.querySelector("#btn-load-override");
+    const btnDeleteOverride = container.querySelector("#btn-delete-override");
 
     // New configurations selectors
     const appDensity = container.querySelector("#app-density-select");
@@ -550,6 +582,106 @@ export default {
       }
     });
 
+    // Populate overrides dropdown
+    if (overrideToolSelect) {
+      overrideToolSelect.innerHTML = '<option value="global">-- Global Default --</option>';
+      appInstance.tools.forEach(tool => {
+        if (tool.id !== "admin-settings") {
+          const opt = document.createElement("option");
+          opt.value = tool.id;
+          opt.innerText = tool.name;
+          overrideToolSelect.appendChild(opt);
+        }
+      });
+    }
+
+    let currentEditMode = "global";
+
+    // Edit Page Override button action
+    btnLoadOverride?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const toolId = overrideToolSelect.value;
+      
+      if (toolId === "global") {
+        currentEditMode = "global";
+        sponsorEditStatus.innerText = "Global Defaults";
+        sponsorEditStatus.style.color = "var(--accent-cyan)";
+        sponsorEditStatus.style.borderColor = "rgba(0, 242, 254, 0.2)";
+        sponsorEditStatus.style.background = "rgba(0, 242, 254, 0.1)";
+        
+        // Load global settings
+        sponsorBrand.value = appInstance.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host");
+        sponsorIcon.value = appInstance.getConfigValue("omnitool_sponsor_icon", "cloud");
+        sponsorSlogan.value = appInstance.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
+        sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
+        sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
+      } else {
+        currentEditMode = toolId;
+        const toolName = overrideToolSelect.options[overrideToolSelect.selectedIndex].text;
+        sponsorEditStatus.innerText = `Override: ${toolName}`;
+        sponsorEditStatus.style.color = "var(--accent-purple)";
+        sponsorEditStatus.style.borderColor = "rgba(157, 78, 221, 0.2)";
+        sponsorEditStatus.style.background = "rgba(157, 78, 221, 0.1)";
+        
+        // Load specific override or fall back to empty inputs to show they are unset
+        sponsorBrand.value = localStorage.getItem("omnitool_sponsor_brand_" + toolId) || "";
+        sponsorIcon.value = localStorage.getItem("omnitool_sponsor_icon_" + toolId) || "cloud";
+        sponsorSlogan.value = localStorage.getItem("omnitool_sponsor_slogan_" + toolId) || "";
+        sponsorUrl.value = localStorage.getItem("omnitool_sponsor_url_" + toolId) || "";
+        sponsorBtnText.value = localStorage.getItem("omnitool_sponsor_btn_text_" + toolId) || "";
+      }
+      
+      updateSimulatorPreview();
+      appInstance.showToast(`Switched editor to: ${sponsorEditStatus.innerText}`, "info");
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
+    });
+
+    // Delete Override button action
+    btnDeleteOverride?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const toolId = overrideToolSelect.value;
+      if (toolId === "global") {
+        appInstance.showToast("Cannot delete global defaults. Just edit them instead.", "error");
+        return;
+      }
+      
+      if (confirm(`Reset overrides for this page? It will restore the global defaults.`)) {
+        localStorage.removeItem("omnitool_sponsor_brand_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_icon_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_slogan_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_url_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_btn_text_" + toolId);
+        
+        // Remove from list of overrides
+        let overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
+        let overrides = overridesStr.split(",").filter(Boolean);
+        overrides = overrides.filter(id => id !== toolId);
+        localStorage.setItem("omnitool_sponsor_overrides", overrides.join(","));
+
+        // Reset inputs
+        overrideToolSelect.value = "global";
+        currentEditMode = "global";
+        sponsorEditStatus.innerText = "Global Defaults";
+        sponsorEditStatus.style.color = "var(--accent-cyan)";
+        sponsorEditStatus.style.borderColor = "rgba(0, 242, 254, 0.2)";
+        sponsorEditStatus.style.background = "rgba(0, 242, 254, 0.1)";
+        
+        sponsorBrand.value = appInstance.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host");
+        sponsorIcon.value = appInstance.getConfigValue("omnitool_sponsor_icon", "cloud");
+        sponsorSlogan.value = appInstance.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
+        sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
+        sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
+        
+        updateSimulatorPreview();
+        appInstance.showToast("Page overrides deleted! Global default sponsor restored.", "success");
+        if (typeof appInstance.playSynthSound === 'function') {
+          appInstance.playSynthSound('success');
+        }
+      }
+    });
+
     // Load configs from storage
     const loadSettings = () => {
       adGlobal.checked = appInstance.getConfigValue("omnitool_ad_global", "true") !== "false";
@@ -578,6 +710,7 @@ export default {
       sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
       sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
       coffeeUrl.value = appInstance.getConfigValue("omnitool_coffee_url", "");
+      kofiUrl.value = appInstance.getConfigValue("omnitool_kofi_url", "");
 
       // Load new settings
       appDensity.value = appInstance.getConfigValue("omnitool_layout_density", "comfortable");
@@ -736,12 +869,28 @@ export default {
       localStorage.setItem("omnitool_custom_ad_html", customCode.value);
 
       // Save developer sponsor config
-      localStorage.setItem("omnitool_sponsor_brand", sponsorBrand.value.trim());
-      localStorage.setItem("omnitool_sponsor_icon", sponsorIcon.value);
-      localStorage.setItem("omnitool_sponsor_slogan", sponsorSlogan.value.trim());
-      localStorage.setItem("omnitool_sponsor_url", sponsorUrl.value.trim());
-      localStorage.setItem("omnitool_sponsor_btn_text", sponsorBtnText.value.trim());
+      if (currentEditMode === "global") {
+        localStorage.setItem("omnitool_sponsor_brand", sponsorBrand.value.trim());
+        localStorage.setItem("omnitool_sponsor_icon", sponsorIcon.value);
+        localStorage.setItem("omnitool_sponsor_slogan", sponsorSlogan.value.trim());
+        localStorage.setItem("omnitool_sponsor_url", sponsorUrl.value.trim());
+        localStorage.setItem("omnitool_sponsor_btn_text", sponsorBtnText.value.trim());
+      } else {
+        localStorage.setItem("omnitool_sponsor_brand_" + currentEditMode, sponsorBrand.value.trim());
+        localStorage.setItem("omnitool_sponsor_icon_" + currentEditMode, sponsorIcon.value);
+        localStorage.setItem("omnitool_sponsor_slogan_" + currentEditMode, sponsorSlogan.value.trim());
+        localStorage.setItem("omnitool_sponsor_url_" + currentEditMode, sponsorUrl.value.trim());
+        localStorage.setItem("omnitool_sponsor_btn_text_" + currentEditMode, sponsorBtnText.value.trim());
+        
+        let overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
+        let overrides = overridesStr.split(",").filter(Boolean);
+        if (!overrides.includes(currentEditMode)) {
+          overrides.push(currentEditMode);
+          localStorage.setItem("omnitool_sponsor_overrides", overrides.join(","));
+        }
+      }
       localStorage.setItem("omnitool_coffee_url", coffeeUrl.value.trim());
+      localStorage.setItem("omnitool_kofi_url", kofiUrl.value.trim());
 
       // Save new configurations
       localStorage.setItem("omnitool_accent_preset", activePreset);
@@ -772,6 +921,9 @@ export default {
       }
       if (typeof appInstance.buildMegaMenu === 'function') {
         appInstance.buildMegaMenu();
+      }
+      if (typeof appInstance.refreshDonationButtons === 'function') {
+        appInstance.refreshDonationButtons();
       }
 
       appInstance.showToast("✅ Settings saved! Changes are live instantly. Use \"Export Config\" to download ad-config.json for deployment.", "success");
@@ -818,12 +970,13 @@ export default {
         "omnitool_admob_unit_tool": admobTool.value.trim(),
         "omnitool_admob_unit_side": admobSide.value.trim(),
         "omnitool_custom_ad_html": customCode.value,
-        "omnitool_sponsor_brand": sponsorBrand.value.trim(),
-        "omnitool_sponsor_icon": sponsorIcon.value,
-        "omnitool_sponsor_slogan": sponsorSlogan.value.trim(),
-        "omnitool_sponsor_url": sponsorUrl.value.trim(),
-        "omnitool_sponsor_btn_text": sponsorBtnText.value.trim(),
+        "omnitool_sponsor_brand": localStorage.getItem("omnitool_sponsor_brand") || "HexaCloud Host",
+        "omnitool_sponsor_icon": localStorage.getItem("omnitool_sponsor_icon") || "cloud",
+        "omnitool_sponsor_slogan": localStorage.getItem("omnitool_sponsor_slogan") || "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.",
+        "omnitool_sponsor_url": localStorage.getItem("omnitool_sponsor_url") || "#",
+        "omnitool_sponsor_btn_text": localStorage.getItem("omnitool_sponsor_btn_text") || "Claim Now",
         "omnitool_coffee_url": coffeeUrl.value.trim(),
+        "omnitool_kofi_url": kofiUrl.value.trim(),
         "omnitool_accent_preset": activePreset,
         "omnitool_layout_density": appDensity.value,
         "omnitool_default_view": appStartup.value,
@@ -831,6 +984,16 @@ export default {
         "omnitool_audio_feedback": appAudio.checked ? "true" : "false",
         "omnitool_admin_passcode": adminPasscode ? adminPasscode.value.trim() : "admin123"
       };
+
+      const overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
+      data["omnitool_sponsor_overrides"] = overridesStr;
+      overridesStr.split(",").filter(Boolean).forEach(toolId => {
+        data["omnitool_sponsor_brand_" + toolId] = localStorage.getItem("omnitool_sponsor_brand_" + toolId) || "";
+        data["omnitool_sponsor_icon_" + toolId] = localStorage.getItem("omnitool_sponsor_icon_" + toolId) || "cloud";
+        data["omnitool_sponsor_slogan_" + toolId] = localStorage.getItem("omnitool_sponsor_slogan_" + toolId) || "";
+        data["omnitool_sponsor_url_" + toolId] = localStorage.getItem("omnitool_sponsor_url_" + toolId) || "";
+        data["omnitool_sponsor_btn_text_" + toolId] = localStorage.getItem("omnitool_sponsor_btn_text_" + toolId) || "";
+      });
 
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
@@ -890,6 +1053,14 @@ export default {
       }
     });
 
+    sidebarAdNetwork.addEventListener("change", (e) => {
+      toggleFormFields(adNetwork.value);
+      updateSimulatorPreview();
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
+    });
+
     adGlobal.addEventListener("change", () => {
       updateSimulatorPreview();
       if (typeof appInstance.playSynthSound === 'function') {
@@ -897,8 +1068,15 @@ export default {
       }
     });
     
-    [adsensePub, adsenseDash, adsenseTool, adsenseSide, admobApp, admobDash, admobTool, admobSide, customCode].forEach(inp => {
+    [adsensePub, adsenseDash, adsenseTool, adsenseSide, admobApp, admobDash, admobTool, admobSide, customCode, sponsorBrand, sponsorSlogan, sponsorUrl, sponsorBtnText, coffeeUrl].forEach(inp => {
       inp.addEventListener("input", updateSimulatorPreview);
+    });
+
+    sponsorIcon.addEventListener("change", () => {
+      updateSimulatorPreview();
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
     });
 
     [appDensity, appStartup, appClock].forEach(sel => {
