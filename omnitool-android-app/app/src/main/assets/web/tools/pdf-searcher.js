@@ -134,11 +134,72 @@ const isEnglishWord = (word, index, tokens) => {
   return commonEnglishWords.has(clean);
 };
 
+const extractTextFromPage = async (page) => {
+  try {
+    const textContent = await page.getTextContent();
+    let lastY = null;
+    let extractedText = "";
+    for (const item of textContent.items) {
+      const str = item.str || "";
+      const y = item.transform ? item.transform[5] : null;
+      if (lastY !== null && y !== null) {
+        const diff = Math.abs(y - lastY);
+        if (diff > 18) {
+          extractedText += "\n\n";
+        } else if (diff > 8) {
+          extractedText += "\n";
+        } else if (extractedText.length > 0 && !extractedText.endsWith("\n") && !extractedText.endsWith(" ")) {
+          extractedText += " ";
+        }
+      }
+      extractedText += str;
+      if (y !== null) lastY = y;
+    }
+    return extractedText.trim();
+  } catch (err) {
+    console.error("Text extraction helper failed:", err);
+    return "";
+  }
+};
+
 const isKrutidev = (text) => {
   if (!text) return false;
-  if (/[a-zA-Z]+[\{\}\[\]\/;±Øæçñƒ„…†‡ˆ‰Š‹][a-zA-Z]+/.test(text)) {
-    return true;
+
+  // Safeguard: Count English words. If a significant portion of the text is standard English,
+  // it is an English/standard document, not Kruti Dev.
+  const words = text.split(/\s+/).filter(w => w.length > 0);
+  if (words.length > 0) {
+    let englishWordCount = 0;
+    words.forEach((w, idx) => {
+      if (isEnglishWord(w, idx, words)) {
+        englishWordCount++;
+      }
+    });
+    // If the text contains more than 12% common English words, it is not Kruti Dev
+    const ratio = englishWordCount / words.length;
+    if (words.length > 5 && ratio > 0.12) {
+      return false;
+    }
   }
+
+  // Regex check for Kruti Dev special characters in the middle of words
+  // We exclude common English slashes like "and/or", "his/her", "w/o", etc.
+  if (/[a-zA-Z]+[\{\}\[\]\/;±Øæçñƒ„…†‡ˆ‰Š‹][a-zA-Z]+/.test(text)) {
+    const match = text.match(/[a-zA-Z]+[\{\}\[\]\/;±Øæçñƒ„…†‡ˆ‰Š‹][a-zA-Z]+/g);
+    if (match) {
+      const isEnglishSlashPattern = match.every(m => {
+        const lower = m.toLowerCase();
+        return lower === "and/or" || lower === "his/her" || lower === "s/he" || 
+               lower === "w/o" || lower === "either/or" || lower === "yes/no" || 
+               lower === "true/false" || lower === "on/off" || lower === "in/out" || 
+               lower === "up/down" || lower === "left/right" || lower === "input/output";
+      });
+      if (!isEnglishSlashPattern) {
+        return true;
+      }
+    }
+  }
+
   const patterns = [
     /\bvkSj\b/,
     /\besa\b/,
@@ -152,13 +213,34 @@ const isKrutidev = (text) => {
     /\bbl\b/,
     /\bdyu\b/
   ];
-  let matchCount = 0;
+  
+  // Count matches, but do not count fo/bl unless there's at least one unique Kruti Dev signature
+  let rawMatchCount = 0;
   for (const pattern of patterns) {
     if (pattern.test(text)) {
-      matchCount++;
-      if (matchCount >= 2) return true;
+      rawMatchCount++;
     }
   }
+
+  if (rawMatchCount >= 2) {
+    // Check if we have at least one unique Kruti Dev signature pattern (excluding generic bl / fo)
+    const hasUniqueSignature = [
+      /\bvkSj\b/,
+      /\besa\b/,
+      /\bgSa\b/,
+      /\bd{kk\b/,
+      /\bizes;\b/,
+      /\bokLrfod\b/,
+      /\bla\[;kvksa\b/,
+      /\bvkius\b/,
+      /\bdyu\b/
+    ].some(p => p.test(text));
+    
+    if (hasUniqueSignature) {
+      return true;
+    }
+  }
+
   return false;
 };
 
@@ -617,8 +699,8 @@ export default {
             </div>
 
             <!-- Page Container -->
-            <div id="pdf-reader-page-container" style="width: 100%; flex: 1; display: flex; align-items: center; justify-content: center; overflow: auto; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); min-height: 250px; padding: 10px;">
-              <canvas id="pdf-reader-canvas" style="max-width: 100%; max-height: 100%; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); background: white; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"></canvas>
+            <div id="pdf-reader-page-container" style="width: 100%; flex: 1; display: flex; align-items: flex-start; justify-content: center; overflow: auto; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); min-height: 250px; padding: 10px;">
+              <canvas id="pdf-reader-canvas" style="max-width: 100%; height: auto; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); background: white; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"></canvas>
               <div id="pdf-reader-text" class="hidden" style="width: 100%; height: 100%; max-width: 800px; padding: 20px; color: var(--text-color); font-size: 14px; line-height: 1.6; white-space: pre-wrap; text-align: left; background: rgba(0, 0, 0, 0.2); border-radius: 4px; overflow-y: auto;"></div>
             </div>
           </div>
@@ -834,12 +916,9 @@ export default {
           to { opacity: 1; transform: translateY(0); }
         }
         .search-results-container {
-          flex: 1;
-          overflow-y: auto;
           display: flex;
           flex-direction: column;
           gap: 12px;
-          max-height: 500px;
           padding-right: 4px;
         }
         .empty-results-msg {
@@ -1520,7 +1599,11 @@ export default {
         const script = document.createElement("script");
         script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
         script.onload = () => {
-          const pdfjs = window["pdfjs-dist/build/pdf"];
+          const pdfjs = window.pdfjsLib || window["pdfjs-dist/build/pdf"];
+          if (!pdfjs) {
+            reject(new Error("Failed to initialize PDF.js engine"));
+            return;
+          }
           pdfjs.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
           window.pdfjsLib = pdfjs;
           resolve(pdfjs);
@@ -1629,13 +1712,7 @@ export default {
             const forceOcr = forceOcrCheckbox && forceOcrCheckbox.checked;
 
             if (!forceOcr) {
-              try {
-                const textContent = await page.getTextContent();
-                const textItems = textContent.items.map(item => item.str);
-                pageText = textItems.join(' ').replace(/\s+/g, ' ').trim();
-              } catch (textErr) {
-                console.error("Text extraction failed:", textErr);
-              }
+              pageText = await extractTextFromPage(page);
             }
 
             // If empty text (or forced), and OCR is enabled, perform OCR
@@ -1650,17 +1727,9 @@ export default {
               } catch (ocrErr) {
                 console.error(`OCR failed on page ${pNum} of ${fileObj.name}:`, ocrErr);
                 // Fallback: if force OCR failed, try reading standard text layer
-                if (forceOcr) {
-                  try {
-                    const textContent = await page.getTextContent();
-                    const textItems = textContent.items.map(item => item.str);
-                    pageText = textItems.join(' ').replace(/\s+/g, ' ').trim();
-                    isOcr = false;
-                    fileObj.textCount++;
-                  } catch (fbErr) {
-                    pageText = "";
-                  }
-                }
+                  pageText = await extractTextFromPage(page);
+                  isOcr = false;
+                  fileObj.textCount++;
               }
             } else {
               fileObj.textCount++;
@@ -1734,13 +1803,7 @@ export default {
           const forceOcr = forceOcrCheckbox && forceOcrCheckbox.checked;
 
           if (!forceOcr) {
-            try {
-              const textContent = await page.getTextContent();
-              const textItems = textContent.items.map(item => item.str);
-              pageText = textItems.join(' ').replace(/\s+/g, ' ').trim();
-            } catch (textErr) {
-              console.error("Text extraction failed:", textErr);
-            }
+            pageText = await extractTextFromPage(page);
           }
 
           if ((pageText.length < 10 || forceOcr) && enableOcrCheckbox.checked) {
@@ -1753,17 +1816,9 @@ export default {
               fileObj.ocrCount++;
             } catch (ocrErr) {
               console.error(`OCR failed on page ${pNum}:`, ocrErr);
-              if (forceOcr) {
-                try {
-                  const textContent = await page.getTextContent();
-                  const textItems = textContent.items.map(item => item.str);
-                  pageText = textItems.join(' ').replace(/\s+/g, ' ').trim();
-                  isOcr = false;
-                  fileObj.textCount++;
-                } catch (fbErr) {
-                  pageText = "";
-                }
-              }
+              pageText = await extractTextFromPage(page);
+              isOcr = false;
+              fileObj.textCount++;
             }
           } else {
             fileObj.textCount++;
@@ -2139,11 +2194,24 @@ export default {
 
     // Context snippet extractor
     const getSnippet = (text, query, searchMode, isCaseSensitive) => {
-      const hasDevanagari = /[\u0900-\u097F]/.test(query);
       let idx = -1;
       let matchLen = query.length;
       
-      if (hasDevanagari && searchMode !== "regex") {
+      if (searchMode === "regex") {
+        try {
+          const regex = new RegExp(query, isCaseSensitive ? "" : "i");
+          const match = regex.exec(text);
+          if (match) {
+            idx = match.index;
+            matchLen = match[0].length;
+          }
+        } catch (e) {
+          console.error("Snippet regex failed:", e);
+        }
+      }
+      
+      const hasDevanagari = /[\u0900-\u097F]/.test(query);
+      if (idx === -1 && hasDevanagari && searchMode !== "regex") {
         try {
           const regex = buildDevanagariFuzzyRegex(searchMode === "exact" ? query : query.split(/\s+/)[0], isCaseSensitive);
           const match = regex.exec(text);
@@ -2192,8 +2260,8 @@ export default {
     const cleanIndicText = (text) => {
       if (!text) return "";
 
-      // Normalize all whitespace characters (including non-breaking spaces, zero-width spaces, etc.) to standard spaces
-      text = text.replace(/[\s\u00a0\u2000-\u200f\u2028\u2029\ufeff]+/g, ' ');
+      // Normalize horizontal spaces (preserving newlines)
+      text = text.replace(/[^\S\r\n]+/g, ' ');
 
       // 0. Pre-adjust broken font mappings (e.g. 'ब' mapped to 'ि' before other marks)
       text = text
@@ -2293,7 +2361,7 @@ export default {
         }
       }
 
-      let result = tokens.join("").replace(/\s+/g, ' ').trim();
+      let result = tokens.join("").replace(/[^\S\r\n]+/g, ' ').trim();
 
       // 5. Common OCR / translation adjustments
       result = result

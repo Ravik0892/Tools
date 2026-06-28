@@ -706,14 +706,62 @@ export default {
       try {
         setProcessing(true, "Extracting pages...");
         
-        const srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0));
+        let srcDoc;
+        let isEncrypted = false;
+        try {
+          srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0));
+        } catch (loadErr) {
+          if (loadErr.message.includes("encrypted")) {
+            isEncrypted = true;
+            srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0), { ignoreEncryption: true });
+          } else {
+            throw loadErr;
+          }
+        }
+
         const newDoc = await this.pdfLib.PDFDocument.create();
         
-        // pdf-lib copyPages takes 0-indexed indices
-        const indicesToCopy = Array.from(this.selectedPages).sort((a,b)=>a-b).map(p => p - 1);
-        const copiedPages = await newDoc.copyPages(srcDoc, indicesToCopy);
-        
-        copiedPages.forEach(page => newDoc.addPage(page));
+        if (isEncrypted) {
+          // For encrypted documents, copyPages results in blank pages due to pdf-lib decryption limitations.
+          // Fall back to rendering pages to images using PDF.js and assembling them.
+          const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(this.pdfDoc.slice(0)) });
+          const pdf = await loadingTask.promise;
+          const sortedPages = Array.from(this.selectedPages).sort((a,b)=>a-b);
+          
+          for (let idx = 0; idx < sortedPages.length; idx++) {
+            const pNum = sortedPages[idx];
+            setProcessing(true, `Rendering encrypted page ${idx + 1} of ${sortedPages.length}...`);
+            const page = await pdf.getPage(pNum);
+            const unscaledViewport = page.getViewport({ scale: 1.0 });
+            const scale = 2.0; // 144 DPI for high quality
+            const viewport = page.getViewport({ scale });
+
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            await page.render({
+              canvasContext: ctx,
+              viewport: viewport
+            }).promise;
+
+            const imgData = canvas.toDataURL("image/jpeg", 0.85);
+            const img = await newDoc.embedJpg(imgData);
+            const newPage = newDoc.addPage([viewport.width, viewport.height]);
+            newPage.drawImage(img, {
+              x: 0,
+              y: 0,
+              width: viewport.width,
+              height: viewport.height
+            });
+          }
+        } else {
+          // Standard vector/text page copying
+          const indicesToCopy = Array.from(this.selectedPages).sort((a,b)=>a-b).map(p => p - 1);
+          const copiedPages = await newDoc.copyPages(srcDoc, indicesToCopy);
+          copiedPages.forEach(page => newDoc.addPage(page));
+        }
         
         const pdfBytes = await newDoc.save();
         
