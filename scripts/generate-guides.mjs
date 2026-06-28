@@ -680,29 +680,40 @@ const toolsData = [
     id: "url-parser",
     fileName: "url-parser.html",
     title: "URL Query Parser & Builder Guide | OmniTool Hub",
-    description: "Learn how to parse web addresses, extract parameters into grid systems, and build clean query strings.",
+    description: "Learn how to parse web addresses, isolate domain routes, edit parameters in a grid, and generate clean links with UTM structures.",
     h1: "URL Query Parser & Builder Guide",
     tag: "Transformations",
     leadParagraph: "Inspecting complex web links with multiple tracking parameters can be messy. OmniTool Hub's URL Query Parser & Builder lets you split addresses into structured routes, manage query keys in a grid, and build clean URLs client-side.",
-    tabsTitle: "Parser Capabilities",
+    tabsTitle: "Premium Capabilities",
     tabs: [
       {
-        title: "1. Link Query Parser",
-        badge: "Parser",
-        desc: "Splits URLs into host protocols, domains, routes, and query parameters, displaying variables in an editable key-value grid."
+        title: "1. Link Query Parser & Inspector",
+        badge: "Inspector",
+        desc: "Splits URLs into host protocols, domains, routes, and query parameters, displaying components in a color-coded interactive grid."
       },
       {
-        title: "2. URL Builder",
-        badge: "Builder",
-        desc: "Add, modify, or delete query parameters to compile and build clean URLs instantly as you type."
+        title: "2. UTM Campaign Builder Form",
+        badge: "Campaigns",
+        desc: "Dedicated campaign builder tab allows you to fill standard campaign parameters (utm_source, utm_medium, etc.) and auto-inject them into your URL."
+      },
+      {
+        title: "3. Smart Inline Inspectors & Decoders",
+        badge: "Smart Tools",
+        desc: "Automatically detects base64 strings or nested JSON query payloads and decodes or pretty-prints them inline."
+      },
+      {
+        title: "4. Live QR Code Generator",
+        badge: "QR Code",
+        desc: "Draws a scan-ready QR code of your rebuilt URL onto a canvas for instant mobile device testing."
       }
     ],
     proTip: "The tool uses local URL API engines to parse components, ensuring your private query data and API keys stay inside your browser tab.",
     steps: [
       "Paste a web link or URL string into the **Target URL** input window.",
-      "Review parsed components in the key-value parameters grid.",
-      "Add, edit, or delete parameters to modify the URL.",
-      "Copy the compiled, clean URL string."
+      "Review parsed components (protocol, hostname, path, hash) in the color-coded inspector cards.",
+      "Add, edit, or delete parameters to modify the URL, or use the UTM Campaign Form to inject trackers.",
+      "Toggle Bulk Edit mode to paste list items or edit parameters as plain text.",
+      "Reorder rows using up/down controls, clean tracking parameters in one click, and copy the rebuilt URL or scan the QR Code."
     ],
     ctaHref: "../index.html#tool/url-parser",
     ctaLabel: "Launch URL Parser"

@@ -202,3 +202,89 @@ graph TD
 
 ### D. Client-Side Libraries & Dependencies
 *   **Unicode Range Dictionary**: Static map containing hexadecimal values of control characters, spaces, and confusable Cyrillic characters.
+
+---
+
+## 7. CSV & Excel Data Visualizer & Analyzer
+
+Allows users to upload tabular files or paste CSV data to instantly generate descriptive statistics, data grids, and beautiful charts.
+
+### A. User Interface Layout
+*   **File Dropzone & Upload Panel**: Large glowing dashboard drag-and-drop zone supporting `.csv`, `.tsv`, and `.xlsx` files, with a raw paste textarea fallback.
+*   **Interactive Data Grid**: Responsive table visualizing parsed rows with pagination, text search filters, and column sorting.
+*   **Descriptive Statistics Panel**: Summary grid displaying metadata metrics (total rows/columns, null counts, averages, medians, standard deviations, and range limits).
+*   **Visual Chart Workspace**: Interactive SVG/Canvas workspace displaying Bar, Line, Pie, and Scatter charts, complete with legend cards and tooltips.
+
+### B. User Controls & Parameters
+*   **Delimiter Configuration (`select`)**: Choose between comma, semicolon, tab, or automatic delimiter detection.
+*   **Header Mapper (`checkbox`)**: Toggle whether the first row of data contains column header names.
+*   **Chart Configurator (`dropdowns`)**:
+    *   *X-Axis*: Select X-coordinate column.
+    *   *Y-Axis*: Select Y-coordinate column.
+    *   *Chart Type*: Toggle between `Bar`, `Line`, `Pie`, and `Scatter`.
+*   **Export Actions (`buttons`)**:
+    *   *Download Data*: Save sanitized or filtered data as CSV/JSON.
+    *   *Download Visuals*: Export rendering canvas to high-res PNG or SVG.
+
+### C. Data Processing Flow
+```mermaid
+graph TD
+    A[File / Paste Input] --> B{Detect File Type}
+    B -->|CSV/TSV| C[PapaParse Engine]
+    B -->|Excel| D[SheetJS Parser]
+    C --> E[Data Row Matrix]
+    D --> E
+    E --> F[Auto-Type Inference String/Number/Date]
+    F --> G[Calculate Column Statistics]
+    F --> H[Draw Canvas Charts via Chart.js]
+    G --> I[Render UI Grid & Stats Dashboard]
+    H --> J[Display Visual Workspace]
+```
+
+### D. Client-Side Libraries & Dependencies
+*   **PapaParse**: Fast, robust client-side CSV parser.
+*   **SheetJS (xlsx.mini)**: Lightweight library to parse Excel workbook files offline.
+*   **Chart.js / ChartJS Canvas API**: Clean visual charting library to render responsive charts.
+
+---
+
+## 8. Client-Side PII Data Anonymizer & Masker
+
+Audits logs, database outputs, or spreadsheets to automatically strip or mask sensitive Personal Identifiable Information (PII), maintaining absolute client-side privacy.
+
+### A. User Interface Layout
+*   **Split-Screen Workspace**:
+    *   **Left Input Panel**: Code editor style input area to paste raw log dumps, database outputs, JSON, or CSV lists.
+    *   **Right Output Panel**: Cleaned output view with glowing labels highlighting masked segments (e.g., `[MASKED_EMAIL_1]`).
+*   **PII Discovery Sidebar**: Audit table listing detected sensitive occurrences grouped by type, showing count metrics and active masking toggles.
+
+### B. User Controls & Parameters
+*   **PII Detection Filters (`checkboxes`)**: Checkbox toggles to scan for:
+    *   *Emails* & *IP Addresses* (IPv4/IPv6).
+    *   *Phone Numbers* & *Mailing Addresses*.
+    *   *Credit Card Numbers* & *SSNs*.
+    *   *Personal Names* (using Named Entity dictionary).
+*   **Masking Strategy (`radio`)**:
+    *   *Redact*: Replace with standard brackets (e.g. `[REDACTED_IP]`).
+    *   *Hash*: Replace with deterministic SHA-256 hashes (maintains relational keys).
+    *   *Synthesize*: Replace with realistic mock values (e.g. `John Smith` $\rightarrow$ `Alice Johnson`).
+
+### C. Data Processing Flow
+```mermaid
+graph TD
+    A[Raw Text/JSON Input] --> B[Regex Dictionary Scanner]
+    A --> C[Named Entity Keyword Scanner]
+    B --> D[Compile Sensitive Token Offsets]
+    C --> D
+    D --> E{Apply Masking Strategy}
+    E -->|Redact| F[Replace with label tokens]
+    E -->|Hash| G[Calculate SHA-256 hashes]
+    E -->|Synthesize| H[Substitute with mock data generator fakes]
+    F --> I[Render Highlighted Output & Populate Audit Table]
+    G --> I
+    H --> I
+```
+
+### D. Client-Side Libraries & Dependencies
+*   **PII Regex Dictionary**: High-performance regular expressions for global formatting standards.
+*   **Lightweight SHA-256 Engine**: In-browser cryptographic hashes.
