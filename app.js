@@ -514,7 +514,9 @@ const app = {
     }
 
     // Module diagnostics check (Disabled in production to prevent startup lag)
-    // this.checkAllModules();
+    if (isLocalhost) {
+      this.checkAllModules();
+    }
   },
 
   initSplash() {
@@ -654,7 +656,7 @@ const app = {
 
     if (hash.startsWith("#tool/")) {
       const toolId = hash.replace("#tool/", "");
-      
+
       const redirect = this.toolRedirects[toolId];
       if (redirect) {
         this.activeSubtab = redirect.subtab;
@@ -796,7 +798,7 @@ const app = {
         }
       });
     }
-    
+
     // Refresh sidebar ad dynamically when navigating between tools to apply page overrides
     const sidebarAd = document.querySelector(".sidebar-sponsor-container");
     if (sidebarAd) {
@@ -1385,8 +1387,8 @@ const app = {
     this.cpFiltered = this.tools.filter(t =>
       !hiddenToolsSet.has(t.id) &&
       (t.name.toLowerCase().includes(clean) ||
-       t.desc.toLowerCase().includes(clean) ||
-       t.subLabel.toLowerCase().includes(clean))
+        t.desc.toLowerCase().includes(clean) ||
+        t.subLabel.toLowerCase().includes(clean))
     );
 
     this.cpIndex = 0;
@@ -2265,13 +2267,13 @@ const app = {
         this.activeTool = "admin-settings";
         this.syncSidebarUI();
 
-      const titleEl = document.getElementById("header-view-title");
-      if (titleEl) {
-        titleEl.innerText = "Developer Tools / Settings & Ad Control Panel";
-        titleEl.style.display = "block";
-      }
+        const titleEl = document.getElementById("header-view-title");
+        if (titleEl) {
+          titleEl.innerText = "Developer Tools / Settings & Ad Control Panel";
+          titleEl.style.display = "block";
+        }
 
-      const toolbarHtml = `
+        const toolbarHtml = `
         <div class="tool-bar">
           <div class="tool-bar-left">
             <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back</button>
@@ -2284,7 +2286,7 @@ const app = {
         </div>
       `;
 
-      const lockScreenHtml = `
+        const lockScreenHtml = `
         <div class="admin-lock-screen" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; width: 100%; padding: 40px 20px;">
           <div class="glass-card" style="max-width: 400px; width: 100%; padding: 32px; border-radius: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); text-align: center; display: flex; flex-direction: column; gap: 20px;">
             
@@ -2311,55 +2313,55 @@ const app = {
         </div>
       `;
 
-      viewport.innerHTML = toolbarHtml + lockScreenHtml;
+        viewport.innerHTML = toolbarHtml + lockScreenHtml;
 
-      // Bind back button
-      viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
+        // Bind back button
+        viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
 
-      // Preload admin-settings module in the background so it is instantly compiled and ready when unlocked
-      import('./tools/admin-settings.js').catch(() => {});
+        // Preload admin-settings module in the background so it is instantly compiled and ready when unlocked
+        import('./tools/admin-settings.js').catch(() => { });
 
-      const form = viewport.querySelector("#admin-auth-form");
-      const input = viewport.querySelector("#admin-passcode-input");
-      if (input) input.focus();
+        const form = viewport.querySelector("#admin-auth-form");
+        const input = viewport.querySelector("#admin-passcode-input");
+        if (input) input.focus();
 
-      form?.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const enteredPasscode = input.value;
-        const correctPasscode = this.getConfigValue("omnitool_admin_passcode", "admin123");
+        form?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const enteredPasscode = input.value;
+          const correctPasscode = this.getConfigValue("omnitool_admin_passcode", "admin123");
 
-        if (enteredPasscode === correctPasscode) {
-          sessionStorage.setItem("omnitool_admin_authenticated", "true");
-          this.showToast("Authorization successful!", "success");
-          
-          // Smooth fade-out of lock screen before navigating to avoid abrupt UI snaps
-          const lockScreen = viewport.querySelector(".admin-lock-screen");
-          if (lockScreen) {
-            lockScreen.style.transition = "opacity 0.25s ease, transform 0.25s ease";
-            lockScreen.style.opacity = "0";
-            lockScreen.style.transform = "translateY(10px) scale(0.98)";
-            setTimeout(() => {
+          if (enteredPasscode === correctPasscode) {
+            sessionStorage.setItem("omnitool_admin_authenticated", "true");
+            this.showToast("Authorization successful!", "success");
+
+            // Smooth fade-out of lock screen before navigating to avoid abrupt UI snaps
+            const lockScreen = viewport.querySelector(".admin-lock-screen");
+            if (lockScreen) {
+              lockScreen.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+              lockScreen.style.opacity = "0";
+              lockScreen.style.transform = "translateY(10px) scale(0.98)";
+              setTimeout(() => {
+                this.navigateToTool(toolId, false);
+              }, 250);
+            } else {
               this.navigateToTool(toolId, false);
-            }, 250);
+            }
           } else {
-            this.navigateToTool(toolId, false);
+            this.showToast("Invalid passcode! Access Denied.", "error");
+            input.value = "";
+            input.focus();
           }
-        } else {
-          this.showToast("Invalid passcode! Access Denied.", "error");
-          input.value = "";
-          input.focus();
-        }
-      });
-      return;
+        });
+        return;
+      }
     }
-  }
 
     try {
       const isLocalhost = window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1" ||
         window.location.hostname === "127.0.0.1.nip.io" ||
         window.location.hostname === "host.docker.internal";
-      
+
       // Avoid forcing cache-busting by default to enable browser JIT/compilation caching, making navigation instant.
       const useCacheBust = localStorage.getItem("omnitool_dev_cachebust") === "true";
       const cacheBust = (isLocalhost && useCacheBust) ? `?t=${Date.now()}` : '';
@@ -2393,7 +2395,7 @@ const app = {
           const benefitsDiv = document.createElement("div");
           benefitsDiv.className = "tool-guide-benefits";
           benefitsDiv.style.cssText = "margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.08); font-size: 12.5px; line-height: 1.5; color: var(--text-muted); text-align: left;";
-          
+
           // Map tool ID to static guide page name
           const guideMap = {
             "pipeline-builder": "pipeline-builder.html",
@@ -2520,7 +2522,7 @@ const app = {
 
       // Add a floating bouncing down arrow for split-view tools to scroll to the guide
       const hasGuideCard = viewport.querySelector(".tool-guide-card");
-      
+
       if (hasSplitView && hasGuideCard) {
         const arrow = document.createElement("button");
         arrow.className = "guide-scroll-arrow";
@@ -2531,13 +2533,13 @@ const app = {
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         `;
-        
+
         const mainWrapper = document.querySelector(".main-wrapper");
         if (mainWrapper) {
           mainWrapper.appendChild(arrow);
-          
+
           const contentArea = document.getElementById("content-area");
-          
+
           const handleScroll = () => {
             if (contentArea) {
               const scrollTop = contentArea.scrollTop;
@@ -2548,16 +2550,16 @@ const app = {
               }
             }
           };
-          
+
           arrow.addEventListener("click", () => {
             hasGuideCard.scrollIntoView({ behavior: "smooth" });
           });
-          
+
           contentArea?.addEventListener("scroll", handleScroll);
-          
+
           // Initial visibility state check
           handleScroll();
-          
+
           this._guideArrowCleanup = () => {
             contentArea?.removeEventListener("scroll", handleScroll);
             arrow.remove();
@@ -2715,74 +2717,177 @@ const app = {
     }
   },
 
-  clearAppCache() {
-    if (confirm("Are you sure you want to clear the site cache, local databases, and reset all settings? This will resolve any browser lagging or out-of-memory problems and reload the page.")) {
-      this.playSynthSound('click');
-      this.showToast("Clearing local storage & session state...", "info");
+  showConfirm(title, message, okText = "Yes, Clear", cancelText = "Cancel") {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.style.position = "fixed";
+      overlay.style.top = "0";
+      overlay.style.left = "0";
+      overlay.style.width = "100vw";
+      overlay.style.height = "100vh";
+      overlay.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+      overlay.style.backdropFilter = "blur(12px)";
+      overlay.style.display = "flex";
+      overlay.style.alignItems = "center";
+      overlay.style.justifyContent = "center";
+      overlay.style.zIndex = "10000";
+      overlay.style.opacity = "0";
+      overlay.style.transition = "opacity 0.25s ease";
 
-      // 1. Clear LocalStorage and SessionStorage
+      const modal = document.createElement("div");
+      modal.style.background = "#0b0f19";
+      modal.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+      modal.style.borderRadius = "16px";
+      modal.style.padding = "24px";
+      modal.style.width = "90%";
+      modal.style.maxWidth = "440px";
+      modal.style.boxShadow = "0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 242, 254, 0.06)";
+      modal.style.transform = "scale(0.95) translateY(10px)";
+      modal.style.transition = "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)";
+
+      modal.innerHTML = `
+        <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 18px; font-weight: 700; color: #fff;">${title}</h3>
+        <p style="margin: 0 0 24px 0; font-size: 13.5px; line-height: 1.5; color: var(--text-muted, #94a3b8);">${message}</p>
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button id="custom-confirm-cancel" class="tool-btn secondary" style="padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer;">${cancelText}</button>
+          <button id="custom-confirm-ok" class="tool-btn" style="background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); border: none; color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);">${okText}</button>
+        </div>
+      `;
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      requestAnimationFrame(() => {
+        overlay.style.opacity = "1";
+        modal.style.transform = "scale(1) translateY(0)";
+      });
+
+      const cleanup = (result) => {
+        overlay.style.opacity = "0";
+        modal.style.transform = "scale(0.95) translateY(10px)";
+        setTimeout(() => {
+          if (document.body.contains(overlay)) {
+            document.body.removeChild(overlay);
+          }
+        }, 250);
+        resolve(result);
+      };
+
+      modal.querySelector("#custom-confirm-cancel").addEventListener("click", () => {
+        this.playSynthSound('click');
+        cleanup(false);
+      });
+
+      modal.querySelector("#custom-confirm-ok").addEventListener("click", () => {
+        this.playSynthSound('click');
+        cleanup(true);
+      });
+    });
+  },
+
+  async clearAppCache() {
+    const confirmed = await this.showConfirm(
+      "Clear Cache & Reset",
+      "Are you sure you want to clear the site cache, local databases, and reset all settings? This will resolve any browser lagging or out-of-memory problems and reload the page."
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    this.playSynthSound('click');
+    this.showToast("Clearing local storage & session state...", "info");
+
+    const cleanupPromises = [];
+
+    // 1. Clear LocalStorage and SessionStorage
+    try {
       localStorage.clear();
       sessionStorage.clear();
-
-      // 2. Clear all IndexedDB databases
-      if (window.indexedDB && window.indexedDB.databases) {
-        window.indexedDB.databases().then(dbs => {
-          dbs.forEach(db => {
-            try {
-              window.indexedDB.deleteDatabase(db.name);
-            } catch (e) {
-              console.error(`Failed to delete database: ${db.name}`, e);
-            }
-          });
-        }).catch(err => console.error("Error listing databases:", err));
-      }
-
-      // 3. Clear Service Worker Cache Storage
-      if (window.caches) {
-        caches.keys().then(keys => {
-          keys.forEach(key => {
-            caches.delete(key);
-          });
-        }).catch(err => console.error("Error clearing caches:", err));
-      }
-
-      // 4. Unregister Service Workers
-      if (navigator.serviceWorker) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          registrations.forEach(r => r.unregister());
-        }).catch(err => console.error("Error unregistering service workers:", err));
-      }
-
-      this.showToast("Cache cleared! Reloading application...", "success");
-
-      // 5. Reload after a short delay so the toast/feedback can be seen/heard
-      setTimeout(() => {
-        window.location.reload();
-      }, 1200);
+    } catch (e) {
+      console.error("Failed to clear local/session storage:", e);
     }
+
+    // 2. Clear all IndexedDB databases
+    if (window.indexedDB && window.indexedDB.databases) {
+      const dbPromise = window.indexedDB.databases()
+        .then(dbs => {
+          const deletePromises = dbs.map(db => {
+            return new Promise((resolve) => {
+              try {
+                const req = window.indexedDB.deleteDatabase(db.name);
+                req.onsuccess = () => resolve();
+                req.onerror = () => resolve();
+                req.onblocked = () => resolve();
+              } catch (e) {
+                console.error(`Error deleting database ${db.name}:`, e);
+                resolve();
+              }
+            });
+          });
+          return Promise.all(deletePromises);
+        })
+        .catch(err => console.error("Error listing databases:", err));
+      cleanupPromises.push(dbPromise);
+    }
+
+    // 3. Clear Service Worker Cache Storage
+    if (window.caches) {
+      const cachePromise = caches.keys()
+        .then(keys => {
+          return Promise.all(keys.map(key => caches.delete(key)));
+        })
+        .catch(err => console.error("Error clearing caches:", err));
+      cleanupPromises.push(cachePromise);
+    }
+
+    // 4. Unregister Service Workers
+    if (navigator.serviceWorker) {
+      const swPromise = navigator.serviceWorker.getRegistrations()
+        .then(registrations => {
+          return Promise.all(registrations.map(r => r.unregister()));
+        })
+        .catch(err => console.error("Error unregistering service workers:", err));
+      cleanupPromises.push(swPromise);
+    }
+
+    // Wait for all cleanup operations to finish (with a fallback timeout of 3 seconds)
+    const timeoutPromise = new Promise(resolve => setTimeout(resolve, 3000));
+
+    try {
+      await Promise.race([Promise.all(cleanupPromises), timeoutPromise]);
+    } catch (err) {
+      console.error("Error during cache cleanup:", err);
+    }
+
+    this.showToast("Cache cleared! Reloading application...", "success");
+
+    // Reload after a brief delay so toast can be read
+    setTimeout(() => {
+      window.location.reload();
+    }, 800);
   },
 
   initLayoutSizer() {
     const scale = localStorage.getItem("omnitool_layout_scale") || "1.0";
     this.applyLayoutScale(scale);
-    
+
     const toggleBtn = document.getElementById("sizer-toggle-btn");
     const dropdown = document.getElementById("sizer-dropdown");
-    
+
     if (toggleBtn && dropdown) {
       toggleBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
       });
-      
+
       document.addEventListener("click", () => {
         dropdown.style.display = "none";
       });
-      
+
       dropdown.addEventListener("click", (e) => {
         e.stopPropagation();
       });
-      
+
       const optionBtns = dropdown.querySelectorAll(".sizer-option-btn");
       optionBtns.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -2813,11 +2918,11 @@ const app = {
       }
     });
   },
-  
+
   adjustLayoutScale(direction) {
     const scales = ["0.5", "0.7", "0.85", "1.0", "1.15", "1.3", "1.5"];
     const currentScale = localStorage.getItem("omnitool_layout_scale") || "1.0";
-    
+
     let currentIndex = scales.indexOf(currentScale);
     if (currentIndex === -1) {
       // Find closest
@@ -2831,7 +2936,7 @@ const app = {
         }
       });
     }
-    
+
     let newIndex = currentIndex + direction;
     if (newIndex >= 0 && newIndex < scales.length) {
       const nextScale = scales[newIndex];
@@ -2839,12 +2944,12 @@ const app = {
       this.showToast(`Layout scale set to ${Math.round(parseFloat(nextScale) * 100)}%`, "info");
     }
   },
-  
+
   applyLayoutScale(scale) {
     localStorage.setItem("omnitool_layout_scale", scale);
     document.documentElement.style.setProperty("--font-scale", scale);
     document.body.style.zoom = scale;
-    
+
     const dropdown = document.getElementById("sizer-dropdown");
     if (dropdown) {
       const optionBtns = dropdown.querySelectorAll(".sizer-option-btn");

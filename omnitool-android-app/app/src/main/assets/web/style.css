@@ -3503,10 +3503,10 @@ body {
   .mega-menu-panel::before {
     content: '';
     position: absolute;
-    top: -15px;
+    top: -30px;
     left: 0;
     right: 0;
-    height: 15px;
+    height: 30px;
     background: transparent;
   }
 
@@ -3654,10 +3654,10 @@ body {
   .dropdown-panel::before {
     content: '';
     position: absolute;
-    top: -15px;
+    top: -30px;
     left: 0;
     right: 0;
-    height: 15px;
+    height: 30px;
     background: transparent;
   }
 
