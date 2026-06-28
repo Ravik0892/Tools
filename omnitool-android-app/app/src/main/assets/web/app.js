@@ -2419,7 +2419,8 @@ const app = {
             "svg-animator": "svg-animator.html",
             "url-parser": "url-parser.html",
             "text-analyzer": "text-analyzer.html",
-            "mock-data-generator": "mock-data-generator.html"
+            "mock-data-generator": "mock-data-generator.html",
+            "code-playground": "code-playground.html"
           };
           const guideFile = guideMap[toolId];
           const blogLinkHtml = guideFile ? `

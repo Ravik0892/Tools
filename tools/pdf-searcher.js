@@ -175,9 +175,9 @@ const isKrutidev = (text) => {
         englishWordCount++;
       }
     });
-    // If the text contains more than 12% common English words, it is not Kruti Dev
+    // If the text contains more than 28% common English words, it is not Kruti Dev
     const ratio = englishWordCount / words.length;
-    if (words.length > 5 && ratio > 0.12) {
+    if (words.length > 5 && ratio > 0.28) {
       return false;
     }
   }
@@ -1150,6 +1150,10 @@ export default {
   },
 
   async init(container, appInstance) {
+    // Reset state variables for fresh session
+    this.files = [];
+    this.currentOcrPage = null;
+
     const fileInput = container.querySelector("#pdf-file-input");
     const dropzone = container.querySelector("#pdf-dropzone");
     const fileListContainer = container.querySelector("#pdf-file-list");
@@ -1223,7 +1227,16 @@ export default {
         readerText.classList.remove("hidden");
 
         const pageData = readerFile.pages.find(p => p.pageNumber === readerCurrentPage);
-        readerText.innerText = pageData ? pageData.text : "No text extracted from this page.";
+        if (pageData) {
+          const query = searchInput.value.trim();
+          if (query) {
+            readerText.innerHTML = highlightMatches(pageData.text, query, searchModeSelect.value, caseSensitiveCheckbox.checked);
+          } else {
+            readerText.innerText = pageData.text;
+          }
+        } else {
+          readerText.innerText = "No text extracted from this page.";
+        }
       } else {
         readerCanvas.style.display = "block";
         readerText.classList.add("hidden");
@@ -1239,8 +1252,9 @@ export default {
         ctx.textAlign = "center";
         ctx.fillText("Rendering page layout...", 200, 100);
 
+        let pdf = null;
         try {
-          const pdf = await this.pdfjs.getDocument({ data: readerFile.rawBuffer.slice(0) }).promise;
+          pdf = await this.pdfjs.getDocument({ data: readerFile.rawBuffer.slice(0) }).promise;
           const page = await pdf.getPage(readerCurrentPage);
 
           const viewport = page.getViewport({ scale: 1.3 });
@@ -1264,6 +1278,10 @@ export default {
           ctx.font = "14px sans-serif";
           ctx.textAlign = "center";
           ctx.fillText(`Error rendering page: ${err.message}`, 200, 100);
+        } finally {
+          if (pdf) {
+            await pdf.destroy().catch(() => {});
+          }
         }
       }
     };
@@ -1692,15 +1710,26 @@ export default {
       reader.onload = async (e) => {
         const typedarray = new Uint8Array(e.target.result);
         fileObj.rawBuffer = typedarray; // Save for re-scanning
+        let pdf = null;
         try {
           fileObj.status = "parsing";
           updateFileListUI();
 
-          const pdf = await this.pdfjs.getDocument({ data: typedarray.slice(0) }).promise;
+          pdf = await this.pdfjs.getDocument({ data: typedarray.slice(0) }).promise;
           fileObj.totalPages = pdf.numPages;
           updateFileListUI();
 
           for (let pNum = 1; pNum <= fileObj.totalPages; pNum++) {
+            if (appInstance.activeTool !== "pdf-searcher") {
+              if (this.ocrWorker) {
+                this.ocrWorker.terminate().then(() => {
+                  this.ocrWorker = null;
+                  this.ocrWorkerLang = null;
+                });
+              }
+              break;
+            }
+
             fileObj.progress = Math.round(((pNum - 1) / fileObj.totalPages) * 100);
             updateFileListUI();
 
@@ -1750,17 +1779,19 @@ export default {
             });
           }
 
-          fileObj.parsed = true;
-          fileObj.status = "ready";
-          fileObj.progress = 100;
-          updateFileListUI();
-          appInstance.showToast(`Imported & processed: ${fileObj.name}`, "success");
-          
-          // Re-trigger search to update results if query exists
-          if (searchInput.value.trim() !== "") {
-            performSearch();
-          } else {
-            setStatus(`Ready. Loaded ${this.files.length} document(s).`);
+          if (appInstance.activeTool === "pdf-searcher") {
+            fileObj.parsed = true;
+            fileObj.status = "ready";
+            fileObj.progress = 100;
+            updateFileListUI();
+            appInstance.showToast(`Imported & processed: ${fileObj.name}`, "success");
+            
+            // Re-trigger search to update results if query exists
+            if (searchInput.value.trim() !== "") {
+              performSearch();
+            } else {
+              setStatus(`Ready. Loaded ${this.files.length} document(s).`);
+            }
           }
 
         } catch (err) {
@@ -1769,6 +1800,10 @@ export default {
           fileObj.status = "error";
           updateFileListUI();
           appInstance.showToast(`Failed to parse: ${fileObj.name}`, "error");
+        } finally {
+          if (pdf) {
+            await pdf.destroy().catch(() => {});
+          }
         }
       };
 
@@ -1778,6 +1813,7 @@ export default {
     // Re-process files from saved rawBuffer
     const reprocessFile = async (fileObj) => {
       if (!fileObj.rawBuffer) return;
+      let pdf = null;
       try {
         fileObj.status = "parsing";
         fileObj.pages = [];
@@ -1788,11 +1824,21 @@ export default {
         fileObj.error = null;
         updateFileListUI();
 
-        const pdf = await this.pdfjs.getDocument({ data: fileObj.rawBuffer.slice(0) }).promise;
+        pdf = await this.pdfjs.getDocument({ data: fileObj.rawBuffer.slice(0) }).promise;
         fileObj.totalPages = pdf.numPages;
         updateFileListUI();
 
         for (let pNum = 1; pNum <= fileObj.totalPages; pNum++) {
+          if (appInstance.activeTool !== "pdf-searcher") {
+            if (this.ocrWorker) {
+              this.ocrWorker.terminate().then(() => {
+                this.ocrWorker = null;
+                this.ocrWorkerLang = null;
+              });
+            }
+            break;
+          }
+
           fileObj.progress = Math.round(((pNum - 1) / fileObj.totalPages) * 100);
           updateFileListUI();
 
@@ -1836,15 +1882,21 @@ export default {
           });
         }
 
-        fileObj.parsed = true;
-        fileObj.status = "ready";
-        fileObj.progress = 100;
-        updateFileListUI();
+        if (appInstance.activeTool === "pdf-searcher") {
+          fileObj.parsed = true;
+          fileObj.status = "ready";
+          fileObj.progress = 100;
+          updateFileListUI();
+        }
       } catch (err) {
         console.error(err);
         fileObj.error = err.message;
         fileObj.status = "error";
         updateFileListUI();
+      } finally {
+        if (pdf) {
+          await pdf.destroy().catch(() => {});
+        }
       }
     };
 
@@ -1883,6 +1935,26 @@ export default {
       }
     };
 
+    let jsqrLoadingPromise = null;
+    const loadJsQr = () => {
+      if (window.jsQR) return Promise.resolve(window.jsQR);
+      if (jsqrLoadingPromise) return jsqrLoadingPromise;
+
+      jsqrLoadingPromise = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js";
+        script.onload = () => {
+          resolve(window.jsQR);
+        };
+        script.onerror = () => {
+          jsqrLoadingPromise = null;
+          reject(new Error("Failed to load QR scanner engine"));
+        };
+        document.head.appendChild(script);
+      });
+      return jsqrLoadingPromise;
+    };
+
     // Client-side Tesseract OCR routine
     const runOcrOnPage = async (page) => {
       // 1. Render page to canvas with optimal scale based on Device Profile
@@ -1898,9 +1970,9 @@ export default {
         minScale = 0.8;
         maxScale = 1.2;
       } else if (profile === "accuracy") {
-        targetWidth = 1800;
-        minScale = 1.2;
-        maxScale = 2.0;
+        targetWidth = 2400;
+        minScale = 1.5;
+        maxScale = 3.0;
       }
 
       const calculatedScale = targetWidth / unscaledViewport.width;
@@ -1922,9 +1994,23 @@ export default {
         preprocessCanvas(canvas);
       }
 
-      // 2. Perform OCR
+      // 2. Scan for QR codes on the page
+      let qrCodeText = "";
+      try {
+        const jsQR = await loadJsQr();
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imgData.data, imgData.width, imgData.height);
+        if (code && code.data) {
+          qrCodeText = `\n\n[QR Code Content: ${code.data}]\n\n`;
+        }
+      } catch (qrErr) {
+        console.error("QR Code scanning failed:", qrErr);
+      }
+
+      // 3. Perform OCR
       const selectedLang = ocrLangSelect.value;
-      const workerLang = selectedLang === "eng" ? "eng" : `${selectedLang}+eng`;
+      // Load the equation model ('equ') as well to recognize mathematical symbols and formulas better!
+      const workerLang = selectedLang === "eng" ? "eng+equ" : `${selectedLang}+eng+equ`;
       
       if (this.ocrWorker && this.ocrWorkerLang !== selectedLang) {
         setStatus(`Re-initializing OCR for ${ocrLangSelect.options[ocrLangSelect.selectedIndex].text}...`, "working");
@@ -1933,7 +2019,7 @@ export default {
       }
 
       if (!this.ocrWorker) {
-        setStatus(`Initializing OCR (${selectedLang === "eng" ? "English" : ocrLangSelect.options[ocrLangSelect.selectedIndex].text + " + English"})...`, "working");
+        setStatus(`Initializing OCR (${selectedLang === "eng" ? "English + Math" : ocrLangSelect.options[ocrLangSelect.selectedIndex].text + " + English + Math"})...`, "working");
         this.ocrWorker = await this.tesseract.createWorker(workerLang, 1, {
           logger: m => {
             if (m.status === 'recognizing text' && this.currentOcrPage) {
@@ -1947,7 +2033,7 @@ export default {
       this.currentOcrPage = page.pageNumber;
       setStatus(`OCR active: Page ${page.pageNumber} (0%)...`, "working");
       const ret = await this.ocrWorker.recognize(canvas);
-      return ret.data.text;
+      return ret.data.text + qrCodeText;
     };
 
     // UI renderer for file progress
@@ -2069,7 +2155,7 @@ export default {
         if (isDouble) {
           pattern += `${charPattern}(?:\\s*\\u094d?\\s*${charPattern})?`;
         } else {
-          pattern += `${charPattern}(?:\\s*\\u094d?\\s*${charPattern})?`;
+          pattern += charPattern;
         }
       }
 
@@ -2133,7 +2219,8 @@ export default {
 
     // Highlighter helper
     const highlightMatches = (text, query, searchMode, isCaseSensitive) => {
-      if (!query) return escapeHtml(text);
+      const safeText = escapeHtml(text);
+      if (!query) return safeText;
       
       const hasDevanagari = /[\u0900-\u097F]/.test(query);
       let regex;
@@ -2146,7 +2233,7 @@ export default {
             regex = buildDevanagariFuzzyRegex(query, isCaseSensitive);
           } else {
             const words = query.split(/\s+/).filter(w => w.length > 0);
-            if (words.length === 0) return escapeHtml(text);
+            if (words.length === 0) return safeText;
             const patterns = words.map(w => {
               const r = buildDevanagariFuzzyRegex(w, isCaseSensitive);
               return r.source;
@@ -2163,7 +2250,7 @@ export default {
         } else {
           // Words containment search
           const words = query.split(/\s+/).filter(w => w.length > 0);
-          if (words.length === 0) return escapeHtml(text);
+          if (words.length === 0) return safeText;
           const unionPattern = words.map(w => {
             if (/[₹$]|\b(?:rs|rupees?|usd|dollars?|cm|सेमी)\b|\d/i.test(w)) {
               return buildFuzzySymbolRegex(w, isCaseSensitive).source;
@@ -2174,22 +2261,57 @@ export default {
         }
       } catch (e) {
         // Fallback for invalid regexes
-        return escapeHtml(text);
+        return safeText;
       }
 
-      // We want to return escaped HTML but keep our <mark> tags unescaped
-      // First, get all indexes of matches
-      let matches = [];
+      // We want to return escaped HTML but keep our <mark> tags unescaped.
+      // We run match on raw text, find match coordinates, sort and merge overlaps,
+      // and then safely escape slices and output mark tags.
+      const matches = [];
       let match;
-      // Reset regex index
       regex.lastIndex = 0;
       
-      const safeText = escapeHtml(text);
-      // Wait, if we escape text first, matching index will change.
-      // So let's match on raw text, then replace matches with a token, escape, and then substitute.
-      // To be safe, we can do it using standard string replace:
-      const replacer = (matchedStr) => `<mark>${escapeHtml(matchedStr)}</mark>`;
-      return text.replace(regex, replacer);
+      let matchCount = 0;
+      while ((match = regex.exec(text)) !== null && matchCount < 1000) {
+        const start = match.index;
+        const end = start + match[0].length;
+        if (start === end) {
+          regex.lastIndex++;
+          continue;
+        }
+        matches.push({ start, end });
+        matchCount++;
+        if (!regex.global) break;
+      }
+      
+      if (matches.length === 0) {
+        return safeText;
+      }
+      
+      matches.sort((a, b) => a.start - b.start);
+      const mergedMatches = [];
+      let current = matches[0];
+      for (let i = 1; i < matches.length; i++) {
+        const next = matches[i];
+        if (next.start <= current.end) {
+          current.end = Math.max(current.end, next.end);
+        } else {
+          mergedMatches.push(current);
+          current = next;
+        }
+      }
+      mergedMatches.push(current);
+      
+      let htmlResult = "";
+      let lastIndex = 0;
+      for (const m of mergedMatches) {
+        htmlResult += escapeHtml(text.substring(lastIndex, m.start));
+        htmlResult += `<mark>${escapeHtml(text.substring(m.start, m.end))}</mark>`;
+        lastIndex = m.end;
+      }
+      htmlResult += escapeHtml(text.substring(lastIndex));
+      
+      return htmlResult;
     };
 
     // Context snippet extractor
@@ -2769,8 +2891,9 @@ export default {
               return;
             }
 
+            let pdf = null;
             try {
-              const pdf = await this.pdfjs.getDocument({ data: fileObj.rawBuffer.slice(0) }).promise;
+              pdf = await this.pdfjs.getDocument({ data: fileObj.rawBuffer.slice(0) }).promise;
               const page = await pdf.getPage(m.pageNumber);
 
               canvasContainer.innerHTML = ""; // Clear loader
@@ -2796,6 +2919,10 @@ export default {
             } catch (err) {
               console.error("Preview render failed:", err);
               canvasContainer.innerHTML = `<div style="font-size: 12px; color: var(--accent-rose);">Error rendering preview: ${escapeHtml(err.message)}</div>`;
+            } finally {
+              if (pdf) {
+                await pdf.destroy().catch(() => {});
+              }
             }
           });
 

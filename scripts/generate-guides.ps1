@@ -537,6 +537,32 @@ $toolsData = @(
     )
     ctaHref = "../index.html#tool/mock-data-generator"
     ctaLabel = "Launch Mock Generator"
+  },
+  @{
+    id = "code-playground"
+    fileName = "code-playground.html"
+    title = "HTML/CSS/JS Live Playground Guide | OmniTool Hub"
+    description = "Learn how to write and test front-end HTML, CSS, and JS code in real-time, load external CDN libraries, and debug using simulated logs."
+    h1 = "HTML/CSS/JS Live Playground Guide"
+    tag = "Generators"
+    leadParagraph = "Developing front-end UI sketches or testing interactive widgets usually requires creating local project files, setting up servers, or dealing with heavy web tools. OmniTool Hub's HTML/CSS/JS Live Playground provides a lightweight, instant developer environment running entirely in your browser sandbox, complete with responsive testing, CDN integrations, and active debugging console diagnostics."
+    tabsTitle = "Interactive Playground Features"
+    tabs = @(
+      @{ title = "1. Code Editor Panels"; badge = "Editors"; desc = "Construct HTML markup structure, CSS styles, and JavaScript interactive scripts side-by-side. Supports convenient Tab indentation overrides and Ctrl + Enter hotkey compiling." },
+      @{ title = "2. Live Visual Sandbox & Resizing"; badge = "Live View"; desc = "See your changes render instantly. Toggle between Desktop, Tablet (768px), and Mobile (375px) widths to test responsive layout behavior in real-time." },
+      @{ title = "3. CDN Resources Selector"; badge = "Libraries"; desc = "Inject popular CSS and JS frameworks (such as Tailwind CSS, Font Awesome, Bootstrap, jQuery, Lodash, or Chart.js) directly into the compiled iframe header by selecting them from presets or entering custom URLs." },
+      @{ title = "4. Debug Console & Standalone Export"; badge = "Console & Export"; desc = "Inspect standard outputs, variable dumps, warnings, and errors in the simulated console logs, with filters for easy diagnostic parsing. Export your complete project as a single self-contained HTML file in a single click." }
+    )
+    proTip = "Because all scripts are executed locally via Object URLs in your browser context, your proprietary code structure, layout styles, and API key configurations remain completely private and secure."
+    steps = @(
+      "Compose your structure in the **HTML**, layout design in **CSS**, and functions in the **JavaScript** editors.",
+      "Check the **Auto Run** box to enable debounced real-time compilations, or click **Run** to manually update the frame.",
+      "Optionally expand the **External Libraries** drawer to choose presets like Tailwind CSS or Font Awesome.",
+      "Filter simulated console outputs by level (Logs, Warns, Errs) to catch variables or syntax warnings.",
+      "Click **Download** to save your compiled work as a single, portable HTML file."
+    )
+    ctaHref = "../index.html#tool/code-playground"
+    ctaLabel = "Launch Live Playground"
   }
 )
 
