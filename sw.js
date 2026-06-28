@@ -71,7 +71,8 @@ self.addEventListener("fetch", (e) => {
   const isLocal = url.origin === self.location.origin;
   const isCachableExternal = e.request.url.includes("fonts.googleapis.com") ||
     e.request.url.includes("fonts.gstatic.com") ||
-    e.request.url.includes("icons8.com");
+    e.request.url.includes("icons8.com") ||
+    e.request.url.includes("cdnjs.cloudflare.com");
 
   // Only intercept local requests or specific whitelisted external assets
   if (!isLocal && !isCachableExternal) return;

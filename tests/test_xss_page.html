@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Security & XSS Verification Test</title>
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: system-ui, sans-serif;
+      padding: 30px;
+    }
+    h1 {
+      color: #00f2fe;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    .test-case {
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .test-title {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 8px;
+    }
+    .status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    .pass {
+      background: #10b98122;
+      color: #10b981;
+      border: 1px solid #10b98144;
+    }
+    .fail {
+      background: #f43f5e22;
+      color: #f43f5e;
+      border: 1px solid #f43f5e44;
+    }
+    pre {
+      background: #151515;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      border: 1px solid #222;
+    }
+  </style>
+</head>
+<body>
+  <h1>highlightMatches Security & XSS Verification Test</h1>
+  <div id="results"></div>
+
+  <script>
+    // Helpers copied directly from the tool
+    const escapeHtml = (text) => {
+      if (!text) return "";
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    };
+
+    const buildFuzzySymbolRegex = (word, isCaseSensitive) => {
+      const tokens = word.match(/rupees?|dollars?|usd|rs|cm|[0-9₹$]|./gi) || [];
+      const tokenPatterns = {
+        '₹': '(?:₹|र?₹|Rs\\.?|rupees?|7|७)',
+        'rs': '(?:₹|र?₹|Rs\\.?|rupees?|7|७)',
+        'rupees': '(?:₹|र?₹|Rs\\.?|rupees?|7|७)',
+        'rupee': '(?:₹|र?₹|Rs\\.?|rupees?|7|७)',
+        '$': '(?:\\$|usd|dollars?)',
+        'usd': '(?:\\$|usd|dollars?)',
+        'dollar': '(?:\\$|usd|dollars?)',
+        'dollars': '(?:\\$|usd|dollars?)',
+        'cm': '(?:cm|८|टm|cम|सेमी|सें\\.?मी\\.?)',
+        '1': '(?:1|१|र|ा|I|l|i|t|T|f|F|j|J|\\||।|!)',
+        '0': '(?:0|०|o|O|Q|q|D|d|U|u)',
+        '5': '(?:5|५|s|S|g|G)',
+        '2': '(?:2|२|z|Z)',
+        '3': '(?:3|३|e|E)',
+        '4': '(?:4|४|y|Y|a|A)',
+        '6': '(?:6|६|b|B|G)',
+        '7': '(?:7|७|v|V|y|Y)',
+        '8': '(?:8|८|B|g|cम)',
+        '9': '(?:9|९|g|G|q|Q)'
+      };
+      const patterns = tokens.map(t => {
+        const lowerT = t.toLowerCase();
+        if (tokenPatterns[lowerT]) return tokenPatterns[lowerT];
+        return t.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      });
+      let patternStr = "";
+      for (let i = 0; i < patterns.length; i++) {
+        patternStr += patterns[i];
+        if (i < patterns.length - 1) {
+          const isCurrentDigit = /[0-9]/.test(tokens[i]);
+          const isNextDigit = /[0-9]/.test(tokens[i+1]);
+          if (isCurrentDigit && isNextDigit) {
+            patternStr += '[\\s,.\\-\'’\\`]*';
+          } else {
+            patternStr += '\\s*';
+          }
+        }
+      }
+      return new RegExp(patternStr, isCaseSensitive ? "" : "i");
+    };
+
+    const buildDevanagariFuzzyRegex = (query, isCaseSensitive) => {
+      let cleanQuery = query.trim();
+      let pattern = "";
+      for (let i = 0; i < cleanQuery.length; i++) {
+        const char = cleanQuery[i];
+        if (/\s/.test(char)) {
+          pattern += "\\s+";
+          continue;
+        }
+        if (/[\u0901-\u0903\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u094d]/.test(char)) {
+          pattern += `\\s*${char}`;
+          continue;
+        }
+        let charPattern = char;
+        if (char === 'ल' || char === 'ळ') {
+          charPattern = '[लळ]';
+        } else if (char === 'ड' || char === 'ड़') {
+          charPattern = '(ड\\u093c?|ड़)';
+        } else if (char === 'ढ' || char === 'ढ़') {
+          charPattern = '(ढ\\u093c?|ढ़)';
+        } else if (char === 'न' || char === 'ण') {
+          charPattern = '[नण]';
+        } else if (char === 'श' || char === 'ष' || char === 'स') {
+          charPattern = '[शषस]';
+        } else if (char === 'ब' || char === 'व') {
+          charPattern = '[बव]';
+        }
+        let isDouble = false;
+        if (i + 2 < cleanQuery.length && cleanQuery[i+1] === '्' && (cleanQuery[i+2] === char || (char === 'ल' && cleanQuery[i+2] === 'ळ') || (char === 'ळ' && cleanQuery[i+2] === 'ल'))) {
+          isDouble = true;
+          i += 2;
+        }
+        if (pattern.length > 0 && !pattern.endsWith("\\s+")) {
+          pattern += "\\s*";
+        }
+        if (isDouble) {
+          pattern += `${charPattern}(?:\\s*\\u094d?\\s*${charPattern})?`;
+        } else {
+          pattern += charPattern;
+        }
+      }
+      return new RegExp(`(${pattern})`, isCaseSensitive ? "g" : "gi");
+    };
+
+    // The optimized highlightMatches
+    const highlightMatches = (text, query, searchMode, isCaseSensitive) => {
+      const safeText = escapeHtml(text);
+      if (!query) return safeText;
+      
+      const hasDevanagari = /[\u0900-\u097F]/.test(query);
+      let regex;
+      
+      try {
+        if (searchMode === "regex") {
+          regex = new RegExp(query, isCaseSensitive ? "g" : "gi");
+        } else if (hasDevanagari) {
+          if (searchMode === "exact") {
+            regex = buildDevanagariFuzzyRegex(query, isCaseSensitive);
+          } else {
+            const words = query.split(/\s+/).filter(w => w.length > 0);
+            if (words.length === 0) return safeText;
+            const patterns = words.map(w => {
+              const r = buildDevanagariFuzzyRegex(w, isCaseSensitive);
+              return r.source;
+            });
+            regex = new RegExp(`(${patterns.join("|")})`, isCaseSensitive ? "g" : "gi");
+          }
+        } else if (searchMode === "exact") {
+          if (/[₹$]|\b(?:rs|rupees?|usd|dollars?|cm|सेमी)\b|\d/i.test(query)) {
+            regex = new RegExp(`(${buildFuzzySymbolRegex(query, isCaseSensitive).source})`, isCaseSensitive ? "g" : "gi");
+          } else {
+            const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            regex = new RegExp(`(${escapedQuery})`, isCaseSensitive ? "g" : "gi");
+          }
+        } else {
+          const words = query.split(/\s+/).filter(w => w.length > 0);
+          if (words.length === 0) return safeText;
+          const unionPattern = words.map(w => {
+            if (/[₹$]|\b(?:rs|rupees?|usd|dollars?|cm|सेमी)\b|\d/i.test(w)) {
+              return buildFuzzySymbolRegex(w, isCaseSensitive).source;
+            }
+            return w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          }).join("|");
+          regex = new RegExp(`(${unionPattern})`, isCaseSensitive ? "g" : "gi");
+        }
+      } catch (e) {
+        return safeText;
+      }
+
+      const matches = [];
+      let match;
+      regex.lastIndex = 0;
+      
+      let matchCount = 0;
+      while ((match = regex.exec(text)) !== null && matchCount < 1000) {
+        const start = match.index;
+        const end = start + match[0].length;
+        if (start === end) {
+          regex.lastIndex++;
+          continue;
+        }
+        matches.push({ start, end });
+        matchCount++;
+        if (!regex.global) break;
+      }
+      
+      if (matches.length === 0) {
+        return safeText;
+      }
+      
+      matches.sort((a, b) => a.start - b.start);
+      const mergedMatches = [];
+      let current = matches[0];
+      for (let i = 1; i < matches.length; i++) {
+        const next = matches[i];
+        if (next.start <= current.end) {
+          current.end = Math.max(current.end, next.end);
+        } else {
+          mergedMatches.push(current);
+          current = next;
+        }
+      }
+      mergedMatches.push(current);
+      
+      let htmlResult = "";
+      let lastIndex = 0;
+      for (const m of mergedMatches) {
+        htmlResult += escapeHtml(text.substring(lastIndex, m.start));
+        htmlResult += `<mark>${escapeHtml(text.substring(m.start, m.end))}</mark>`;
+        lastIndex = m.end;
+      }
+      htmlResult += escapeHtml(text.substring(lastIndex));
+      
+      return htmlResult;
+    };
+
+    // Test Runner
+    const testCases = [
+      {
+        name: "Test Case 1: Simple highlight and escape",
+        text: "This is a <simple> test with bold and query",
+        query: "bold",
+        mode: "contains",
+        case: false,
+        expectInclude: ["&lt;simple&gt;", "<mark>bold</mark>"],
+        expectExclude: ["<simple>"]
+      },
+      {
+        name: "Test Case 2: XSS Script Injection Prevention",
+        text: "<script>alert('XSS')</scr" + "ipt> search term xss",
+        query: "xss",
+        mode: "contains",
+        case: false,
+        expectInclude: ["&lt;script&gt;alert(&#039;<mark>XSS</mark>&#039;)&lt;/script&gt;", "<mark>xss</mark>"],
+        expectExclude: ["<scr" + "ipt>"]
+      },
+      {
+        name: "Test Case 3: HTML Event Handler Attack Vector",
+        text: "<img src=x onerror=alert('XSS')>",
+        query: "onerror",
+        mode: "contains",
+        case: false,
+        expectInclude: ["&lt;img src=x <mark>onerror</mark>=alert(&#039;XSS&#039;)&gt;"],
+        expectExclude: ["<img"]
+      },
+      {
+        name: "Test Case 4: Unicode/Hindi Matching Security",
+        text: "बुद्धिमान ने वोट नहीं दिया <script>evil</scr" + "ipt>",
+        query: "बुद्धिमान",
+        mode: "exact",
+        case: false,
+        expectInclude: ["<mark>बुद्धिमान</mark>", "&lt;script&gt;evil&lt;/script&gt;"],
+        expectExclude: ["<scr" + "ipt>"]
+      }
+    ];
+
+    const resultsDiv = document.getElementById("results");
+    testCases.forEach((tc, idx) => {
+      const output = highlightMatches(tc.text, tc.query, tc.mode, tc.case);
+      
+      let passed = true;
+      const failures = [];
+      
+      tc.expectInclude.forEach(inc => {
+        if (!output.includes(inc)) {
+          passed = false;
+          failures.push(`Expected output to include: "${inc}"`);
+        }
+      });
+
+      tc.expectExclude.forEach(exc => {
+        if (output.includes(exc)) {
+          passed = false;
+          failures.push(`Expected output to NOT include: "${exc}" (vulnerable to raw tags!)`);
+        }
+      });
+
+      const caseDiv = document.createElement("div");
+      caseDiv.className = "test-case";
+      caseDiv.innerHTML = `
+        <div class="test-title">${tc.name}</div>
+        <div style="margin-bottom: 8px;">
+          <strong>Input Text:</strong> <code>${escapeHtml(tc.text)}</code><br>
+          <strong>Query:</strong> <code>${tc.query}</code>
+        </div>
+        <div>
+          <strong>Output HTML:</strong>
+          <pre>${escapeHtml(output)}</pre>
+        </div>
+        <div style="margin-top: 8px;">
+          <strong>Status:</strong> 
+          <span class="status ${passed ? 'pass' : 'fail'}">${passed ? 'PASSED' : 'FAILED'}</span>
+        </div>
+        ${failures.length > 0 ? `<div style="color: #f43f5e; margin-top: 8px;">${failures.join("<br>")}</div>` : ""}
+      `;
+      resultsDiv.appendChild(caseDiv);
+    });
+  </script>
+</body>
+</html>

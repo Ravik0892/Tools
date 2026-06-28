@@ -1,5 +1,17 @@
 import { escapeHtml } from './utils.js';
 
+function dataURLtoUint8Array(dataUrl) {
+  const arr = dataUrl.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return u8arr;
+}
+
 export default {
   id: "pdf-utilities",
   name: "PDF Toolbox (Split & Compress)",
@@ -318,6 +330,13 @@ export default {
   },
 
   async init(container, appInstance) {
+    // Reset state variables for fresh session
+    this.pdfDoc = null;
+    this.totalPages = 0;
+    this.selectedPages = new Set();
+    this.isProcessing = false;
+    this.fileName = "";
+
     const fileInput = container.querySelector("#pdf-util-file-input");
     const dropzone = container.querySelector("#pdf-util-dropzone");
     const clearBtn = container.querySelector("#pdf-util-clear");
@@ -467,6 +486,7 @@ export default {
       this.fileName = file.name;
       const sizeStr = (file.size / (1024 * 1024)).toFixed(2) + " MB";
 
+      let pdf = null;
       try {
         previewStatus.innerText = "Initializing engines...";
         this.pdfjs = await loadPdfJs();
@@ -477,7 +497,7 @@ export default {
         this.pdfDoc = arrayBuffer;
 
         const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(arrayBuffer.slice(0)) });
-        const pdf = await loadingTask.promise;
+        pdf = await loadingTask.promise;
         this.totalPages = pdf.numPages;
 
         // Update document info UI
@@ -505,6 +525,10 @@ export default {
         console.error(err);
         appInstance.showToast(`Failed to parse PDF: ${err.message}`, "error");
         previewStatus.innerText = `Error: ${err.message}`;
+      } finally {
+        if (pdf) {
+          await pdf.destroy().catch(() => {});
+        }
       }
     };
 
@@ -513,6 +537,9 @@ export default {
       thumbnailGrid.innerHTML = "";
 
       for (let i = 1; i <= pdf.numPages; i++) {
+        if (!this.pdfDoc || appInstance.activeTool !== "pdf-utilities") {
+          break;
+        }
         previewStatus.innerText = `Generating thumbnail for page ${i} of ${pdf.numPages}...`;
         const page = await pdf.getPage(i);
 
@@ -619,10 +646,10 @@ export default {
           if (num >= 1 && num <= this.totalPages) {
             this.selectedPages.add(num);
           }
-        } else if (/^\d+-\d+$/.test(part)) {
+        } else if (/^\d+\s*-\s*\d+$/.test(part)) {
           const [startStr, endStr] = part.split("-");
-          const start = parseInt(startStr, 10);
-          const end = parseInt(endStr, 10);
+          const start = parseInt(startStr.trim(), 10);
+          const end = parseInt(endStr.trim(), 10);
           if (start >= 1 && end <= this.totalPages && start <= end) {
             for (let k = start; k <= end; k++) {
               this.selectedPages.add(k);
@@ -706,14 +733,121 @@ export default {
       try {
         setProcessing(true, "Extracting pages...");
         
-        const srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0));
+        let srcDoc = null;
+        let isEncrypted = false;
+        try {
+          srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0));
+        } catch (loadErr) {
+          if (loadErr.message.toLowerCase().includes("encrypted")) {
+            isEncrypted = true;
+            srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0), { ignoreEncryption: true });
+          } else {
+            throw loadErr;
+          }
+        }
+
         const newDoc = await this.pdfLib.PDFDocument.create();
-        
-        // pdf-lib copyPages takes 0-indexed indices
-        const indicesToCopy = Array.from(this.selectedPages).sort((a,b)=>a-b).map(p => p - 1);
-        const copiedPages = await newDoc.copyPages(srcDoc, indicesToCopy);
-        
-        copiedPages.forEach(page => newDoc.addPage(page));
+        let splitMethodSucceeded = false;
+
+        // Try standard vector copying first (if not encrypted)
+        if (!isEncrypted) {
+          try {
+            const indicesToCopy = Array.from(this.selectedPages).sort((a,b)=>a-b).map(p => p - 1);
+            const copiedPages = await newDoc.copyPages(srcDoc, indicesToCopy);
+            copiedPages.forEach(page => newDoc.addPage(page));
+            splitMethodSucceeded = true;
+          } catch (copyErr) {
+            console.warn("Vector copy failed, falling back to image rendering + text overlay:", copyErr);
+          }
+        }
+
+        // Fallback or Encrypted: Render pages to high-res images and overlay text
+        if (!splitMethodSucceeded) {
+          const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(this.pdfDoc.slice(0)) });
+          const pdf = await loadingTask.promise;
+          try {
+            const sortedPages = Array.from(this.selectedPages).sort((a,b)=>a-b);
+            
+            // Reuse canvas
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            const font = await newDoc.embedFont(this.pdfLib.StandardFonts.Helvetica);
+            
+            for (let idx = 0; idx < sortedPages.length; idx++) {
+              if (appInstance.activeTool !== "pdf-utilities") {
+                break;
+              }
+              const pNum = sortedPages[idx];
+              setProcessing(true, `Rendering page ${idx + 1} of ${sortedPages.length}...`);
+              const page = await pdf.getPage(pNum);
+              
+              // Extract text content for invisible overlay
+              let textItems = [];
+              try {
+                const textContent = await page.getTextContent();
+                textItems = textContent.items || [];
+              } catch (textErr) {
+                console.error("Text extraction failed for page " + pNum, textErr);
+              }
+
+              const unscaledViewport = page.getViewport({ scale: 1.0 });
+              const scale = 2.0; // 144 DPI for high quality
+              const viewport = page.getViewport({ scale });
+
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+
+              // Draw white background
+              ctx.fillStyle = "#ffffff";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+              await page.render({
+                canvasContext: ctx,
+                viewport: viewport
+              }).promise;
+
+              const imgData = canvas.toDataURL("image/jpeg", 0.85);
+              const imgBytes = dataURLtoUint8Array(imgData);
+              const img = await newDoc.embedJpg(imgBytes);
+              
+              // Create page with original dimensions
+              const newPage = newDoc.addPage([unscaledViewport.width, unscaledViewport.height]);
+              newPage.drawImage(img, {
+                x: 0,
+                y: 0,
+                width: unscaledViewport.width,
+                height: unscaledViewport.height
+              });
+
+              // Re-create the text layer with invisible Helvetica text
+              if (textItems.length > 0) {
+                for (const item of textItems) {
+                  const str = item.str || "";
+                  if (str.trim() === "") continue;
+
+                  // transform[4] is X, transform[5] is Y
+                  const tx = item.transform[4];
+                  const ty = item.transform[5];
+                  const fontSize = Math.abs(item.transform[0]) || 10;
+
+                  try {
+                    newPage.drawText(str, {
+                      x: tx,
+                      y: ty,
+                      size: fontSize,
+                      font: font,
+                      opacity: 0 // Invisible but searchable/selectable!
+                    });
+                  } catch (drawErr) {
+                    // Ignore encoding/glyph support errors for Hindi/Unicode in Helvetica
+                  }
+                }
+              }
+            }
+          } finally {
+            await pdf.destroy().catch(() => {});
+          }
+        }
         
         const pdfBytes = await newDoc.save();
         
@@ -746,11 +880,13 @@ export default {
         return;
       }
 
+      let pdf = null;
       try {
         setProcessing(true, "Compressing PDF...");
         
         const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(this.pdfDoc.slice(0)) });
-        const pdf = await loadingTask.promise;
+        pdf = await loadingTask.promise;
+
         const newDoc = await this.pdfLib.PDFDocument.create();
 
         const profile = compressProfileSelect.value;
@@ -765,7 +901,14 @@ export default {
           quality = 0.9;
         }
 
+        // Reuse canvas
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
         for (let i = 1; i <= pdf.numPages; i++) {
+          if (appInstance.activeTool !== "pdf-utilities") {
+            break;
+          }
           previewStatus.innerText = `Compressing page ${i} of ${pdf.numPages} (${Math.round(((i-1)/pdf.numPages)*100)}%)...`;
           const page = await pdf.getPage(i);
 
@@ -774,8 +917,6 @@ export default {
           const scale = targetDpi / 72;
           const viewport = page.getViewport({ scale });
 
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
           canvas.width = viewport.width;
           canvas.height = viewport.height;
 
@@ -790,7 +931,7 @@ export default {
 
           // Compress to JPEG
           const jpegDataUrl = canvas.toDataURL("image/jpeg", quality);
-          const jpegBytes = await fetch(jpegDataUrl).then(res => res.arrayBuffer());
+          const jpegBytes = dataURLtoUint8Array(jpegDataUrl);
 
           // Embed JPEG in new PDF
           const embeddedImage = await newDoc.embedJpg(jpegBytes);
@@ -802,6 +943,11 @@ export default {
             width: width,
             height: height
           });
+        }
+
+        // If they navigated away during processing, don't download
+        if (appInstance.activeTool !== "pdf-utilities") {
+          return;
         }
 
         previewStatus.innerText = "Rebuilding compressed PDF file structure...";
@@ -825,9 +971,13 @@ export default {
         appInstance.showToast(`Compression failed: ${err.message}`, "error");
         previewStatus.innerText = `Error: ${err.message}`;
       } finally {
+        if (pdf) {
+          await pdf.destroy().catch(() => {});
+        }
         setProcessing(false);
       }
     });
+
 
     const setProcessing = (busy, text = "") => {
       this.isProcessing = busy;
@@ -860,6 +1010,7 @@ export default {
     });
 
     container.querySelector("#pdf-guide-load-sample")?.addEventListener("click", async () => {
+      let pdf = null;
       try {
         previewStatus.innerText = "Initializing engines...";
         this.pdfjs = await loadPdfJs();
@@ -897,7 +1048,7 @@ export default {
         previewStatus.innerText = "Generating thumbnails...";
 
         const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(this.pdfDoc.slice(0)) });
-        const pdf = await loadingTask.promise;
+        pdf = await loadingTask.promise;
         await generateThumbnails(pdf);
         
         // If they had the split tab active, pre-select some odd pages as an interactive default
@@ -912,6 +1063,10 @@ export default {
         console.error(err);
         appInstance.showToast("Failed to generate sample PDF: " + err.message, "error");
         previewStatus.innerText = `Error: ${err.message}`;
+      } finally {
+        if (pdf) {
+          await pdf.destroy().catch(() => {});
+        }
       }
     });
   }

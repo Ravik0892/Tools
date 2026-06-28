@@ -1,39 +1,14 @@
-python -m http.server 8000
-
-http://localhost:8000/
-http://127.0.0.1:8000/
-
-
-
-git checkout dev
-
-feat: add category landing pages, sponsor banners, coffee widget, and SVG & SEO tool overrides
-
-
-Note: If you want to keep using http-server, run it with the -p 8000 flag to match your existing browser tabs:
-
-powershell
-npx http-server -p 8000
-
-But Python is simpler — no install, no deprecation warnings, same result.
-
-
-powershell
-python -m http.server 8000
-
-
 # OmniTool Hub v2 (Masterpiece Edition) - Complete Project Manual
 
-OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing 16 powerful developer and utility tools. By executing calculations directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
+OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **27 powerful developer and utility tools** organized in consolidated suites. By executing calculations directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
 
 ---
 
 ## 🌟 Masterpiece Innovation Features
 
-### 1. "Smart Chain" Pipeline Builder
-*   **What it does**: Allows users to stack multiple tools in a sequential chain.
-*   **How it works**: The output of the top block automatically becomes the input for the next block down. For example:
-    `Input Text` ➔ `Base64 Decode` ➔ `JSON Format` ➔ `Convert to uppercase`.
+### 1. ["Smart Chain" Pipeline Builder](file:///f:/Tools%20website/guides/pipeline-builder.html)
+*   **What it does**: Allows users to stack multiple operations in a sequential chain.
+*   **How it works**: The output of the top block automatically becomes the input for the next block down. For example: `Input Text` ➔ `Base64 Decode` ➔ `JSON Format` ➔ `Convert to uppercase`.
 *   **Engineering detail**: Custom-bound pure JavaScript transformations run sequentially over the text memory buffer on keypress, handling data streams instantly.
 
 ### 2. Global Command Palette (`Ctrl + K`)
@@ -56,99 +31,157 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 
 ---
 
-## 🛠️ Complete Tools Reference Catalog
+## 🛠️ Complete Tools Reference Catalog & Routing Index
 
-### Developer Tools
+### 💻 Developer Tools
+*   **Main Category Link**: [All Developer Tools](https://omnitool-hub.vercel.app/#category/dev-all)
+*   **Subcategory Filters**:
+    *   [Data Pipelines](https://omnitool-hub.vercel.app/#category/dev-pipelines)
+    *   [Formatters & Parsers](https://omnitool-hub.vercel.app/#category/dev-formatters)
+    *   [Crypto & Security](https://omnitool-hub.vercel.app/#category/dev-crypto)
+    *   [Generators](https://omnitool-hub.vercel.app/#category/dev-generators)
 
-#### 1. JSON Formatter & Validator
-*   **What it does**: Beautifies unformatted JSON payload strings with custom indentation or minifies them.
-*   **How it works**: Uses browser `JSON.parse` for validations. Detailed syntax errors with exact line locations are caught and rendered in a status alert banner.
+#### 1. Smart Chain Pipeline Builder (`pipeline-builder`)
+*   **Description**: Connect multiple data operations in series to process text sequentially.
+*   **Guide Page**: [pipeline-builder.html](file:///f:/Tools%20website/guides/pipeline-builder.html)
+*   **How it works**: Executes inline sequence scripts over input text dynamically in the browser window.
 
-#### 2. Base64 Encoder & Decoder
-*   **What it does**: Encodes plain text strings to Base64 values and decodes them.
-*   **How it works**: Employs `btoa` and `atob` with custom `TextEncoder`/`TextDecoder` wrappers to support full Unicode (non-ASCII) characters.
+#### 2. Data Formatter & Converter Suite (`formatter-suite`)
+*   **Description**: Validate and beautify JSON, format SQL database queries, and convert data bi-directionally between JSON, YAML, and CSV.
+*   **Guide Page**: [json-formatter.html](file:///f:/Tools%20website/guides/json-formatter.html)
+*   **Sub-tabs**: JSON Formatter, SQL Beautifier, JSON/YAML/CSV Converter.
 
-#### 3. JWT Decoder
-*   **What it does**: Parses JSON Web Tokens to extract claims and metadata.
-*   **How it works**: Splits token by `.` delimiter, translates base64url padding, parses the header and payload objects, and checks claims like expiration (`exp`) against system clocks.
+#### 3. JWT Decoder (`jwt-decoder`)
+*   **Description**: Decode JSON Web Tokens (JWT) instantly to view header parameters, claim payloads, and verify expiration dates.
+*   **Guide Page**: [jwt-decoder.html](file:///f:/Tools%20website/guides/jwt-decoder.html)
 
-#### 4. Hash Generator
-*   **What it does**: Generates cryptographic checksums (MD5, SHA-1, SHA-256, SHA-512) for any string.
-*   **How it works**: Integrates a lightweight, custom MD5 JS library and utilizes the browser's built-in Web Crypto API (`crypto.subtle.digest`) for secure SHA checksum generation.
+#### 4. Cryptography Suite (`crypto-suite`)
+*   **Description**: Generate cryptographic hash checksums, encrypt/decrypt text with symmetric AES-256 GCM, and generate asymmetric RSA private/public key pairs.
+*   **Guide Page**: [crypto-suite.html](file:///f:/Tools%20website/guides/crypto-suite.html)
+*   **Sub-tabs**: Hash Generator, AES Cipher, RSA Key Generator.
 
-#### 5. URL Encoder & Decoder
-*   **What it does**: Converts query string strings into RFC 3986 URL safe characters.
-*   **How it works**: Executes JavaScript native `encodeURIComponent` and `decodeURIComponent` wrappers.
+#### 5. Dynamic QR Code Studio (`qr-generator`)
+*   **Description**: Generate highly customized art QR codes with linear/radial gradients, custom dots, eye styles, and centered branding logos.
+*   **Guide Page**: [qr-generator.html](file:///f:/Tools%20website/guides/qr-generator.html)
 
-#### 6. UUID v4 Generator
-*   **What it does**: Bulk-generates cryptographically secure random UUIDs.
-*   **How it works**: Uses the secure random number api (`crypto.getRandomValues`) to ensure proper RFC 4122 v4 configurations.
+#### 6. Meta Tag & SEO Previewer (`seo-previewer`)
+*   **Description**: Input page details to design meta tags and view live Google, Facebook, Twitter, and Discord mockup cards.
+*   **Guide Page**: [seo-previewer.html](file:///f:/Tools%20website/guides/seo-previewer.html)
 
----
+#### 7. Private CSV/JSON Mock Data Generator (`mock-data-generator`)
+*   **Description**: Define schemas (names, emails, dates, values) and bulk-generate up to 50,000 rows of mock database data client-side.
+*   **Guide Page**: [mock-data-generator.html](file:///f:/Tools%20website/guides/mock-data-generator.html)
 
-### Text & Writing Utilities
+#### 8. HTML/CSS/JS Live Playground (`code-playground`)
+*   **Description**: Write frontend code with live sandboxed preview rendering and a simulated console debugger.
+*   **Guide Page**: [code-playground.html](file:///f:/Tools%20website/guides/code-playground.html)
 
-#### 7. Text Case Converter & Word Counter
-*   **What it does**: Converts text cases and displays live stats (words, lines, reading speed).
-*   **How it works**: Uses regex conversions to convert string variables to camelCase, snake_case, kebab-case, Title Case, UPPERCASE, and lowercase.
-
-#### 8. Live Markdown Previewer
-*   **What it does**: Formats markdown elements (headings, bold, lists, blockquotes, code blocks) in real-time.
-*   **How it works**: A custom, lightweight regex parser converts Markdown formatting rules into standard semantic HTML templates.
-
-#### 9. Text Diff Comparison
-*   **What it does**: Compares two blocks of text and highlights visual changes.
-*   **How it works**: Employs a line-by-line comparison algorithm, rendering deletions as `.diff-removed` (red highlights) and additions as `.diff-added` (green highlights).
-
-#### 10. Visual Regex Tester
-*   **What it does**: Tests regular expressions against string inputs and highlights matches.
-*   **How it works**: Dynamically constructs `new RegExp` objects, uses `matchAll` to capture index values, and wraps matched text segments with highlight `<mark>` tags.
-
----
-
-### Design & Color Tools
-
-#### 11. CSS Gradient Creator
-*   **What it does**: Visually creates linear/radial gradients, stop values, angles, and outputs CSS code.
-*   **How it works**: Math formulas update backdrops dynamically and output copyable CSS styling properties.
-
-#### 12. Color Palette & Contrast Checker
-*   **What it does**: Generates color schemes and checks accessibility contrast ratios.
-*   **How it works**: Calculates sRGB relative luminance values under the WCAG standard. Output ratios determine Pass/Fail levels for standard (AA/AAA) and large text.
+#### 9. Settings & Ad Control Panel (`admin-settings`)
+*   **Description**: Toggles banner ad placements, saves global options, and handles application cache purging (available on local hosts).
 
 ---
 
-### Math & Crypto Suite
+### 📝 Text & Writing Utilities
+*   **Main Category Link**: [All Text Utilities](https://omnitool-hub.vercel.app/#category/text-all)
+*   **Subcategory Filters**:
+    *   [Transformations](https://omnitool-hub.vercel.app/#category/text-case)
+    *   [Writers & Parsers](https://omnitool-hub.vercel.app/#category/text-markdown)
+    *   [Pattern Analysis](https://omnitool-hub.vercel.app/#category/text-regex)
 
-#### 13. Secure Password Generator
-*   **What it does**: Generates secure passwords with customizable character set conditions.
-*   **How it works**: Maps selected character dictionaries to values generated by secure random numbers. Computes entropy using the formula: $E = L \times \log_2(C)$ where $L$ is length and $C$ is character set size.
+#### 10. Text Cases & Encoder Suite (`text-encoder-suite`)
+*   **Description**: Bulk-convert capitalization cases and run URL or Base64 encoding/decoding operations.
+*   **Guide Page**: [text-encoder-suite.html](file:///f:/Tools%20website/guides/text-encoder-suite.html)
+*   **Sub-tabs**: Case Converter, Base64 Encoder, URL Encoder.
 
-#### 14. Epoch Timestamp Converter
-*   **What it does**: Converts unix timestamps (seconds/milliseconds) to human-readable datetime formats.
-*   **How it works**: Multiplies 10-digit second timestamps to milliseconds and formats values using UTC and local date APIs.
+#### 11. URL Query Parser & Builder (`url-parser`)
+*   **Description**: Parses raw web URLs, displays query parameters in an editable grid, and compiles clean campaign links with custom parameters.
+*   **Guide Page**: [url-parser.html](file:///f:/Tools%20website/guides/url-parser.html)
 
-#### 15. Unit Converter
-*   **What it does**: Converts bytes, length, weights, and temperatures.
-*   **How it works**: Employs linear scaling factor multipliers and temperature offset formulas.
+#### 12. Live Markdown Previewer (`markdown-preview`)
+*   **Description**: Write standard markdown syntax and preview formatting in real-time alongside compiled HTML code outputs.
+*   **Guide Page**: [markdown-preview.html](file:///f:/Tools%20website/guides/markdown-preview.html)
+
+#### 13. Text Diff Comparison (`text-diff`)
+*   **Description**: Compare two blocks of text side-by-side or line-by-line with red (deleted) and green (added) syntax highlights.
+*   **Guide Page**: [text-diff.html](file:///f:/Tools%20website/guides/text-diff.html)
+
+#### 14. Multi-PDF Searcher & OCR (`pdf-searcher`)
+*   **Description**: Search through multiple large PDF files simultaneously for keywords and perform optical character recognition (OCR) on scanned pages locally.
+*   **Guide Page**: [pdf-searcher.html](file:///f:/Tools%20website/guides/pdf-searcher.html)
+
+#### 15. PDF Toolbox (Split & Compress) (`pdf-utilities`)
+*   **Description**: Extract custom ranges, split documents, and downscale DPI configurations to compress PDF files.
+*   **Guide Page**: [pdf-utilities.html](file:///f:/Tools%20website/guides/pdf-utilities.html)
+
+#### 16. Visual Regex & Extractor Suite (`regex-tester`)
+*   **Description**: Test regular expressions visually and batch-extract or replace phone numbers, emails, IPs, and URLs from target text.
+*   **Guide Page**: [regex-tester.html](file:///f:/Tools%20website/guides/regex-tester.html)
+
+#### 17. Text Readability & Analyzer (`text-analyzer`)
+*   **Description**: Analyzes writing structure for syllables, readability grades (Flesch score), reading time, and keyword densities.
+*   **Guide Page**: [text-analyzer.html](file:///f:/Tools%20website/guides/text-analyzer.html)
 
 ---
 
-## 💎 Premium / Subscription Tools Business Model
+### 🎨 Design & Styling Tools
+*   **Main Category Link**: [All Design Tools](https://omnitool-hub.vercel.app/#category/design-all)
+*   **Subcategory Filters**:
+    *   [CSS Builders](https://omnitool-hub.vercel.app/#category/design-css)
+    *   [Color Management](https://omnitool-hub.vercel.app/#category/design-color)
+    *   [Graphics & Screens](https://omnitool-hub.vercel.app/#category/design-graphics)
 
-If you want to introduce a premium subscription tier or daily passes, here are four highly useful, 100% client-side tools that users will happily pay for because they keep their sensitive data fully private:
+#### 18. CSS Studio Suite (`css-studio`)
+*   **Description**: Build multi-stop CSS gradients, complex shadow spreads, and modern frosted glassmorphism elements with responsive CSS output.
+*   **Guide Page**: [css-studio.html](file:///f:/Tools%20website/guides/css-studio.html)
+*   **Sub-tabs**: Gradient Generator, Box Shadow, Glassmorphism.
 
-### 1. Secure Offline PDF Suite
-*   **Features**: Merge multiple PDFs, split pages, and compress PDF file sizes locally in the browser using `pdf-lib`. No files are uploaded to any server.
+#### 19. Color Lab & Contrast Suite (`color-lab`)
+*   **Description**: Design WCAG accessibility-compliant color palettes and calculate contrast ratios for large/standard typography.
+*   **Guide Page**: [color-lab.html](file:///f:/Tools%20website/guides/color-lab.html)
+*   **Sub-tabs**: Color Palette, Shades & Tints, Opacities.
 
-### 2. Private CSV/JSON Mock Data Generator
-*   **Features**: Design custom tables and schemas and download bulk mock data (up to 50,000 rows) as CSV or JSON in seconds for testing.
+#### 20. Graphics Designer & Screenshot Studio (`graphics-studio`)
+*   **Description**: Take webcam snapshots, overlay styled text layers, apply filters, and download or copy images directly.
+*   **Guide Page**: [graphics-studio.html](file:///f:/Tools%20website/guides/graphics-studio.html)
 
-### 3. Advanced CSS Keyframe & SVG Path Animator
-*   **Features**: A visual timeline editor to draw, morph, and animate SVG vector paths, then export them as CSS/JS code.
+#### 21. Image Optimizer & Converter (`image-converter`)
+*   **Description**: Adjust dimensions, manage quality ratios, and convert image formats (WebP, PNG, JPEG) client-side.
+*   **Guide Page**: [image-converter.html](file:///f:/Tools%20website/guides/image-converter.html)
 
-### 4. Universal Cryptography & Key Derivation Studio
-*   **Features**: Generate secure key pairs (RSA, ECC), sign messages, and bulk-hash massive local files (e.g. 1GB ZIP files) in chunks using a background Web Worker so the browser doesn't freeze.
+#### 22. SVG Animation Studio (`svg-animator`)
+*   **Description**: Import SVG vectors, visualize paths, apply motion keyframe presets (self-drawing, neon pulse, spin), and export animated SVGs.
+*   **Guide Page**: [svg-animator.html](file:///f:/Tools%20website/guides/svg-animator.html)
+
+---
+
+### 🔢 Math & Conversions Suite
+*   **Main Category Link**: [All Math Tools](https://omnitool-hub.vercel.app/#category/math-all)
+*   **Subcategory Filters**:
+    *   [Calculator](https://omnitool-hub.vercel.app/#category/math-calc)
+    *   [Conversion](https://omnitool-hub.vercel.app/#category/math-conversion)
+    *   [Security & Pass](https://omnitool-hub.vercel.app/#category/math-security)
+
+#### 23. Security & Passwords Suite (`security-suite`)
+*   **Description**: Generate cryptographically secure passwords with entropy complexity metrics, and generate bulk RFC 4122 v4 UUIDs.
+*   **Guide Page**: [security-suite.html](file:///f:/Tools%20website/guides/security-suite.html)
+*   **Sub-tabs**: Password Generator, UUID Generator.
+
+#### 24. Date & Time Suite (`datetime-suite`)
+*   **Description**: Convert Unix epoch timestamps, compute durations between dates, and dynamically calculate target calendar schedules.
+*   **Guide Page**: [datetime-suite.html](file:///f:/Tools%20website/guides/datetime-suite.html)
+*   **Sub-tabs**: Epoch Converter, Date Calculator.
+
+#### 25. Scientific Calculator (`calculator`)
+*   **Description**: Run advanced arithmetic, trig, and log equations, and plot 2D functions f(x) visually on a coordinate grid.
+*   **Guide Page**: [calculator.html](file:///f:/Tools%20website/guides/calculator.html)
+
+#### 26. IP Subnet & MAC Address Suite (`ip-subnet-calculator`)
+*   **Description**: Segment networking domains with binary subnet graphs, format MAC addresses, and perform manufacturers' OUI vendor lookups.
+*   **Guide Page**: [ip-subnet-calculator.html](file:///f:/Tools%20website/guides/ip-subnet-calculator.html)
+
+#### 27. Unit Converter (`unit-converter`)
+*   **Description**: Convert metrics, weights, temperature indexes, and digital bytes storage dimensions.
+*   **Guide Page**: [unit-converter.html](file:///f:/Tools%20website/guides/unit-converter.html)
 
 ---
 
@@ -161,19 +194,6 @@ Open **[index.html](file:///f:/Tools%20website/index.html)** and paste ad units 
 1.  **Sidebar Ad Widget**: Below the "Recent Tools" list in `<aside class="sidebar">`. Great for standard vertical skyscraper ads.
 2.  **Dashboard Top Banner**: Below the hero section in `<div id="dashboard-view">`. High visibility banner area.
 3.  **Tool Panels Footer**: Inside `<section class="content-area">` placed as a bottom container. Displays ads beneath active tools.
-
-### Example AdSense Integration Code:
-```html
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-     data-ad-slot="XXXXXXXXXX"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-```
 
 ---
 
