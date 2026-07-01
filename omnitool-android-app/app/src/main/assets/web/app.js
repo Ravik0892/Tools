@@ -302,6 +302,37 @@ const app = {
     }
   ],
 
+  // Centralized Tool Keywords mapping for enhanced search functionality
+  toolKeywords: {
+    "pipeline-builder": ["smart chain", "pipeline", "stack", "sequence", "chain", "text transform", "uppercase", "lowercase", "base64", "json", "url", "combiner", "flow"],
+    "formatter-suite": ["json", "yaml", "csv", "sql", "beautifier", "formatter", "converter", "validator", "minify", "minify json", "format json", "xml"],
+    "text-encoder-suite": ["base64", "url", "hex", "binary", "case", "upper", "lower", "camel", "snake", "kebab", "slug", "text case", "encode", "decode", "ascii", "unicode"],
+    "jwt-decoder": ["jwt", "token", "decoder", "header", "payload", "claims", "expire", "auth", "json web token", "verify"],
+    "crypto-suite": ["md5", "sha1", "sha256", "sha512", "hash", "aes", "encrypt", "decrypt", "rsa", "key", "keys", "checksum", "cryptography", "cipher", "salt", "passphrase"],
+    "markdown-preview": ["markdown", "preview", "editor", "md", "html", "writer", "parser", "live editor"],
+    "text-diff": ["diff", "difference", "compare", "comparison", "text diff", "side-by-side", "line-by-line", "patch", "text compare"],
+    "pdf-searcher": ["pdf", "search", "ocr", "text extract", "scan", "scanned pdf", "image to text", "tesseract", "recognize", "reader"],
+    "pdf-utilities": ["pdf", "split", "compress", "merge", "size", "extract pages", "page range", "optimize pdf", "shrink"],
+    "regex-tester": ["regex", "regexp", "regular expression", "test", "match", "extract", "replace", "phone", "email", "ip", "url", "pattern"],
+    "css-studio": ["gradient", "shadow", "glass", "glassmorphism", "frosted", "card", "css", "linear", "radial", "conic", "box shadow", "generator", "visual"],
+    "color-lab": ["color", "contrast", "wcag", "palette", "shades", "tints", "hex", "rgb", "hsl", "picker", "accessibility", "a11y", "color matcher"],
+    "security-suite": ["password", "uuid", "guid", "entropy", "generator", "random", "secure", "key", "keys", "hash", "random string"],
+    "datetime-suite": ["date", "time", "unix", "epoch", "timestamp", "duration", "subtract", "calculator", "timezone", "milliseconds", "seconds"],
+    "unit-converter": ["convert", "unit", "storage", "length", "weight", "temperature", "metric", "imperial", "kb", "mb", "gb", "tb", "bytes", "celsius", "fahrenheit"],
+    "graphics-studio": ["image", "draw", "canvas", "screenshot", "crop", "webcam", "banner", "text overlay", "filter", "vintage", "cyberpunk", "editor", "camera"],
+    "calculator": ["calculator", "scientific", "math", "arithmetic", "trigonometry", "logarithm", "history", "sin", "cos", "tan", "pi", "factorial", "plotter", "graph"],
+    "qr-generator": ["qr", "barcode", "generate", "code", "pattern", "gradient", "logo", "qr code", "art qr"],
+    "seo-previewer": ["seo", "meta", "preview", "google", "facebook", "twitter", "discord", "social", "tags", "header tags", "og tags"],
+    "image-converter": ["image", "compress", "optimize", "convert", "webp", "png", "jpg", "jpeg", "quality", "resizer", "resize"],
+    "svg-animator": ["svg", "animate", "animation", "path", "morph", "smil", "keyframe", "drawing", "vector", "bezier"],
+    "url-parser": ["url", "query", "parse", "builder", "parameter", "key-value", "link", "address", "utm", "search param"],
+    "text-analyzer": ["readability", "flesch", "sentence", "word count", "reading time", "keyword density", "analyzer", "text", "characters", "paragraphs"],
+    "mock-data-generator": ["mock", "data", "fake", "generate", "csv", "json", "schema", "rows", "database", "faker", "random data"],
+    "admin-settings": ["admin", "settings", "ads", "adsense", "admob", "cache", "control panel", "passcode", "purge"],
+    "code-playground": ["html", "css", "js", "playground", "sandbox", "iframe", "console", "live", "edit", "editor", "codepen"],
+    "ip-subnet-calculator": ["ip", "subnet", "cidr", "host", "mac", "oui", "manufacturer", "network", "ipv4", "mask", "wildcard"]
+  },
+
   // Centralized Tool Benefits Registry for visual guide cards
   toolBenefits: {
     "pipeline-builder": [
@@ -480,6 +511,11 @@ const app = {
 
   // Initializer
   async init() {
+    // Inject keywords into tool definitions
+    this.tools.forEach(tool => {
+      tool.keywords = this.toolKeywords[tool.id] || [];
+    });
+
     // Restrict Settings & Ad Control Panel to local development server only
     const isLocalhost = window.location.hostname === "localhost" ||
       window.location.hostname === "127.0.0.1" ||
@@ -1385,8 +1421,9 @@ const app = {
     this.cpFiltered = this.tools.filter(t =>
       !hiddenToolsSet.has(t.id) &&
       (t.name.toLowerCase().includes(clean) ||
-       t.desc.toLowerCase().includes(clean) ||
-       t.subLabel.toLowerCase().includes(clean))
+        t.desc.toLowerCase().includes(clean) ||
+        t.subLabel.toLowerCase().includes(clean) ||
+        (t.keywords && t.keywords.some(kw => kw.toLowerCase().includes(clean))))
     );
 
     this.cpIndex = 0;
@@ -2176,7 +2213,16 @@ const app = {
       const desc = card.querySelector(".tool-card-body p").innerText.toLowerCase();
       const tag = card.querySelector(".tool-badge").innerText.toLowerCase();
 
-      if (title.includes(cleanQuery) || desc.includes(cleanQuery) || tag.includes(cleanQuery)) {
+      const toolId = card.querySelector(".card-fav-btn")?.getAttribute("data-tool");
+      const tool = this.tools.find(t => t.id === toolId);
+      const keywords = tool && tool.keywords ? tool.keywords.join(" ").toLowerCase() : "";
+
+      if (
+        title.includes(cleanQuery) ||
+        desc.includes(cleanQuery) ||
+        tag.includes(cleanQuery) ||
+        keywords.includes(cleanQuery)
+      ) {
         card.style.display = "flex";
         matchCount++;
       } else {
