@@ -1181,16 +1181,15 @@ export default {
 
     bgSelect?.addEventListener("change", (e) => {
       const bg = e.target.value;
-      showcaseContainer.className = "";
-      showcaseMorph.className = "glass-bg-dark"; // fallback
+      const bgClasses = ["glass-bg-dark", "glass-bg-mesh", "glass-bg-dots", "glass-bg-sunset", "glass-bg-light"];
 
       const applyBg = (c) => {
-        c.className = "";
-        if (bg === "cyber-mesh") c.className = "glass-bg-mesh";
-        else if (bg === "polka-dots") c.className = "glass-bg-dots";
-        else if (bg === "sunset-glow") c.className = "glass-bg-sunset";
-        else if (bg === "plain-light") c.className = "glass-bg-light";
-        else c.className = "glass-bg-dark";
+        c.classList.remove(...bgClasses);
+        if (bg === "cyber-mesh") c.classList.add("glass-bg-mesh");
+        else if (bg === "polka-dots") c.classList.add("glass-bg-dots");
+        else if (bg === "sunset-glow") c.classList.add("glass-bg-sunset");
+        else if (bg === "plain-light") c.classList.add("glass-bg-light");
+        else c.classList.add("glass-bg-dark");
       };
 
       applyBg(showcaseContainer);
