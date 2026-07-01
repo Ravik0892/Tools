@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>URL Query Parser & Builder Guide | OmniTool Hub</title>
-  <meta name="description" content="Learn how to parse web addresses, extract parameters into grid systems, and build clean query strings.">
+  <meta name="description" content="Learn how to parse web addresses, isolate domain routes, edit parameters in a grid, and generate clean links with UTM structures.">
   
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -207,7 +207,7 @@
         Inspecting complex web links with multiple tracking parameters can be messy. OmniTool Hub's URL Query Parser & Builder lets you split addresses into structured routes, manage query keys in a grid, and build clean URLs client-side.
       </p>
 
-      <h2>Parser Capabilities</h2>
+      <h2>Premium Capabilities</h2>
       <p>
         Here is a detailed breakdown of the features and configurations available within this tool suite:
       </p>
@@ -215,21 +215,41 @@
       
       <div class="tab-section">
         <div class="tab-title">
-          <span>1. Link Query Parser</span>
-          <span class="tab-badge">Parser</span>
+          <span>1. Link Query Parser & Inspector</span>
+          <span class="tab-badge">Inspector</span>
         </div>
         <p>
-          Splits URLs into host protocols, domains, routes, and query parameters, displaying variables in an editable key-value grid.
+          Splits URLs into host protocols, domains, routes, and query parameters, displaying components in a color-coded interactive grid.
         </p>
       </div>
       
       <div class="tab-section">
         <div class="tab-title">
-          <span>2. URL Builder</span>
-          <span class="tab-badge">Builder</span>
+          <span>2. UTM Campaign Builder Form</span>
+          <span class="tab-badge">Campaigns</span>
         </div>
         <p>
-          Add, modify, or delete query parameters to compile and build clean URLs instantly as you type.
+          Dedicated campaign builder tab allows you to fill standard campaign parameters (utm_source, utm_medium, etc.) and auto-inject them into your URL.
+        </p>
+      </div>
+      
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>3. Smart Inline Inspectors & Decoders</span>
+          <span class="tab-badge">Smart Tools</span>
+        </div>
+        <p>
+          Automatically detects base64 strings or nested JSON query payloads and decodes or pretty-prints them inline.
+        </p>
+      </div>
+      
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>4. Live QR Code Generator</span>
+          <span class="tab-badge">QR Code</span>
+        </div>
+        <p>
+          Draws a scan-ready QR code of your rebuilt URL onto a canvas for instant mobile device testing.
         </p>
       </div>
       
@@ -241,7 +261,11 @@
 
       <h2>How to Use the Tool</h2>
       <ol>
-        <li>Paste a web link or URL string into the **Target URL** input window.</li><li>Review parsed components in the key-value parameters grid.</li><li>Add, edit, or delete parameters to modify the URL.</li><li>Copy the compiled, clean URL string.</li>
+        <li>Paste a web link or URL string into the **Target URL** input window.</li>
+        <li>Review parsed components (protocol, hostname, path, hash) in the color-coded inspector cards.</li>
+        <li>Add, edit, or delete parameters to modify the URL, or use the UTM Campaign Form to inject trackers.</li>
+        <li>Toggle Bulk Edit mode to paste list items or edit parameters as plain text.</li>
+        <li>Reorder rows using up/down controls, clean tracking parameters in one click, and copy the rebuilt URL or scan the QR Code.</li>
       </ol>
     </article>
 

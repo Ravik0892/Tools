@@ -681,7 +681,7 @@ export default {
 
       <!-- PDF Reader Modal -->
       <div id="pdf-reader-modal" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
-        <div class="modal-content" style="background: var(--card-bg, #1a1a1a); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; width: 90%; max-width: 900px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.5); overflow: hidden; animation: modal-fadeIn 0.3s ease;">
+        <div class="modal-content" style="background: var(--card-bg, #1a1a1a); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; width: 90%; max-width: 1200px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.5); overflow: hidden; animation: modal-fadeIn 0.3s ease;">
           <div class="modal-header" style="padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
             <h3 id="pdf-reader-title" style="margin: 0; font-size: 16px; color: var(--accent-cyan); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%;">Reading PDF</h3>
             <button id="pdf-reader-close" style="background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; line-height: 1; padding: 0 4px;">&times;</button>
@@ -695,7 +695,12 @@ export default {
               <button class="tool-btn secondary" id="pdf-reader-next" style="font-size: 11px; padding: 4px 8px;">Next</button>
               <button class="tool-btn secondary" id="pdf-reader-last" style="font-size: 11px; padding: 4px 8px;">Last</button>
               <div style="border-left: 1px solid rgba(255,255,255,0.1); height: 16px; margin: 0 8px;"></div>
-              <button class="tool-btn secondary" id="pdf-reader-toggle-mode" style="font-size: 11px; padding: 4px 8px;">View Text</button>
+              <!-- Tab Mode Group -->
+              <div class="pdf-reader-modes" id="pdf-reader-modes-group" style="display: flex; gap: 4px; background: rgba(0,0,0,0.25); padding: 2px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                <button class="tool-btn secondary active" id="pdf-reader-mode-layout" style="font-size: 11px; padding: 4px 8px; margin: 0; border: none; background: var(--accent-cyan); color: #000; border-radius: 4px; font-weight: bold; cursor: pointer; transition: all 0.2s;">Layout View</button>
+                <button class="tool-btn secondary" id="pdf-reader-mode-text" style="font-size: 11px; padding: 4px 8px; margin: 0; border: none; background: transparent; color: var(--text-muted); border-radius: 4px; cursor: pointer; transition: all 0.2s;">Text View</button>
+                <button class="tool-btn secondary" id="pdf-reader-mode-split" style="font-size: 11px; padding: 4px 8px; margin: 0; border: none; background: transparent; color: var(--text-muted); border-radius: 4px; cursor: pointer; transition: all 0.2s;">Split View</button>
+              </div>
             </div>
 
             <!-- Page Container -->
@@ -1179,13 +1184,48 @@ export default {
     const readerNext = container.querySelector("#pdf-reader-next");
     const readerLast = container.querySelector("#pdf-reader-last");
     const readerPageNum = container.querySelector("#pdf-reader-page-num");
-    const readerToggleMode = container.querySelector("#pdf-reader-toggle-mode");
+    const readerModeLayout = container.querySelector("#pdf-reader-mode-layout");
+    const readerModeText = container.querySelector("#pdf-reader-mode-text");
+    const readerModeSplit = container.querySelector("#pdf-reader-mode-split");
     const readerCanvas = container.querySelector("#pdf-reader-canvas");
     const readerText = container.querySelector("#pdf-reader-text");
 
     let readerFile = null;
     let readerCurrentPage = 1;
-    let readerMode = "layout"; // "layout" or "text"
+    let readerMode = "layout"; // "layout", "text", or "split"
+
+    const updateReaderModeUI = () => {
+      if (!readerModeLayout || !readerModeText || !readerModeSplit) return;
+      
+      readerModeLayout.style.background = "transparent";
+      readerModeLayout.style.color = "var(--text-muted)";
+      readerModeLayout.style.fontWeight = "normal";
+      readerModeText.style.background = "transparent";
+      readerModeText.style.color = "var(--text-muted)";
+      readerModeText.style.fontWeight = "normal";
+      readerModeSplit.style.background = "transparent";
+      readerModeSplit.style.color = "var(--text-muted)";
+      readerModeSplit.style.fontWeight = "normal";
+
+      let activeBtn = null;
+      if (readerMode === "layout") activeBtn = readerModeLayout;
+      else if (readerMode === "text") activeBtn = readerModeText;
+      else if (readerMode === "split") activeBtn = readerModeSplit;
+
+      if (activeBtn) {
+        activeBtn.style.background = "var(--accent-cyan)";
+        activeBtn.style.color = "#000";
+        activeBtn.style.fontWeight = "bold";
+      }
+
+      if (readerFile && !readerFile.rawBuffer) {
+        readerModeLayout.style.display = "none";
+        readerModeSplit.style.display = "none";
+      } else {
+        readerModeLayout.style.display = "block";
+        readerModeSplit.style.display = "block";
+      }
+    };
 
     const openPdfReader = (filename) => {
       const fileObj = this.files.find(f => f.name === filename);
@@ -1195,14 +1235,13 @@ export default {
       readerCurrentPage = 1;
       if (!fileObj.rawBuffer) {
         readerMode = "text";
-        readerToggleMode.innerText = "View Layout";
       } else {
         readerMode = "layout";
-        readerToggleMode.innerText = "View Text";
       }
 
       readerTitle.innerText = `Reading: ${fileObj.name}`;
       readerModal.classList.remove("hidden");
+      updateReaderModeUI();
       renderReaderPage();
     };
 
@@ -1217,14 +1256,24 @@ export default {
       readerNext.disabled = readerCurrentPage >= total;
       readerLast.disabled = readerCurrentPage >= total;
 
-      if (readerMode === "layout" && !readerFile.rawBuffer) {
+      if (readerMode !== "text" && !readerFile.rawBuffer) {
         readerMode = "text";
-        readerToggleMode.innerText = "View Layout";
+        updateReaderModeUI();
       }
 
+      const pageContainer = container.querySelector("#pdf-reader-page-container");
+
       if (readerMode === "text") {
+        if (pageContainer) {
+          pageContainer.style.flexDirection = "row";
+          pageContainer.style.justifyContent = "center";
+          pageContainer.style.gap = "0px";
+        }
         readerCanvas.style.display = "none";
         readerText.classList.remove("hidden");
+        readerText.style.width = "100%";
+        readerText.style.maxWidth = "800px";
+        readerText.style.height = "100%";
 
         const pageData = readerFile.pages.find(p => p.pageNumber === readerCurrentPage);
         if (pageData) {
@@ -1237,51 +1286,90 @@ export default {
         } else {
           readerText.innerText = "No text extracted from this page.";
         }
-      } else {
+      } else if (readerMode === "layout") {
+        if (pageContainer) {
+          pageContainer.style.flexDirection = "row";
+          pageContainer.style.justifyContent = "center";
+          pageContainer.style.gap = "0px";
+        }
         readerCanvas.style.display = "block";
+        readerCanvas.style.maxWidth = "100%";
+        readerCanvas.style.width = "auto";
         readerText.classList.add("hidden");
 
-        const ctx = readerCanvas.getContext("2d");
-        // Draw loading
+        await renderCanvasPage();
+      } else if (readerMode === "split") {
+        if (pageContainer) {
+          pageContainer.style.flexDirection = "row";
+          pageContainer.style.justifyContent = "space-between";
+          pageContainer.style.gap = "20px";
+        }
+        readerCanvas.style.display = "block";
+        readerCanvas.style.maxWidth = "48%";
+        readerCanvas.style.width = "auto";
+        
+        readerText.classList.remove("hidden");
+        readerText.style.width = "48%";
+        readerText.style.maxWidth = "none";
+        readerText.style.height = "100%";
+
+        const pageData = readerFile.pages.find(p => p.pageNumber === readerCurrentPage);
+        if (pageData) {
+          const query = searchInput.value.trim();
+          if (query) {
+            readerText.innerHTML = highlightMatches(pageData.text, query, searchModeSelect.value, caseSensitiveCheckbox.checked);
+          } else {
+            readerText.innerText = pageData.text;
+          }
+        } else {
+          readerText.innerText = "No text extracted from this page.";
+        }
+
+        await renderCanvasPage();
+      }
+    };
+
+    const renderCanvasPage = async () => {
+      const ctx = readerCanvas.getContext("2d");
+      // Draw loading
+      readerCanvas.width = 400;
+      readerCanvas.height = 200;
+      ctx.fillStyle = "#1e1e1e";
+      ctx.fillRect(0, 0, 400, 200);
+      ctx.fillStyle = "#00f2fe";
+      ctx.font = "14px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Rendering page layout...", 200, 100);
+
+      let pdf = null;
+      try {
+        pdf = await this.pdfjs.getDocument({ data: readerFile.rawBuffer.slice(0) }).promise;
+        const page = await pdf.getPage(readerCurrentPage);
+
+        const viewport = page.getViewport({ scale: 1.3 });
+        readerCanvas.width = viewport.width;
+        readerCanvas.height = viewport.height;
+
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, readerCanvas.width, readerCanvas.height);
+
+        await page.render({
+          canvasContext: ctx,
+          viewport: viewport
+        }).promise;
+      } catch (err) {
+        console.error("Reader render failed:", err);
         readerCanvas.width = 400;
         readerCanvas.height = 200;
         ctx.fillStyle = "#1e1e1e";
         ctx.fillRect(0, 0, 400, 200);
-        ctx.fillStyle = "#00f2fe";
+        ctx.fillStyle = "#f43f5e";
         ctx.font = "14px sans-serif";
         ctx.textAlign = "center";
-        ctx.fillText("Rendering page layout...", 200, 100);
-
-        let pdf = null;
-        try {
-          pdf = await this.pdfjs.getDocument({ data: readerFile.rawBuffer.slice(0) }).promise;
-          const page = await pdf.getPage(readerCurrentPage);
-
-          const viewport = page.getViewport({ scale: 1.3 });
-          readerCanvas.width = viewport.width;
-          readerCanvas.height = viewport.height;
-
-          ctx.fillStyle = "white";
-          ctx.fillRect(0, 0, readerCanvas.width, readerCanvas.height);
-
-          await page.render({
-            canvasContext: ctx,
-            viewport: viewport
-          }).promise;
-        } catch (err) {
-          console.error("Reader render failed:", err);
-          readerCanvas.width = 400;
-          readerCanvas.height = 200;
-          ctx.fillStyle = "#1e1e1e";
-          ctx.fillRect(0, 0, 400, 200);
-          ctx.fillStyle = "#f43f5e";
-          ctx.font = "14px sans-serif";
-          ctx.textAlign = "center";
-          ctx.fillText(`Error rendering page: ${err.message}`, 200, 100);
-        } finally {
-          if (pdf) {
-            await pdf.destroy().catch(() => {});
-          }
+        ctx.fillText(`Error rendering page: ${err.message}`, 200, 100);
+      } finally {
+        if (pdf) {
+          await pdf.destroy().catch(() => {});
         }
       }
     };
@@ -1318,16 +1406,27 @@ export default {
       }
     });
 
-    readerToggleMode.addEventListener("click", () => {
-      if (readerMode === "layout") {
-        readerMode = "text";
-        readerToggleMode.innerText = "View Layout";
-      } else {
+    if (readerModeLayout) {
+      readerModeLayout.addEventListener("click", () => {
         readerMode = "layout";
-        readerToggleMode.innerText = "View Text";
-      }
-      renderReaderPage();
-    });
+        updateReaderModeUI();
+        renderReaderPage();
+      });
+    }
+    if (readerModeText) {
+      readerModeText.addEventListener("click", () => {
+        readerMode = "text";
+        updateReaderModeUI();
+        renderReaderPage();
+      });
+    }
+    if (readerModeSplit) {
+      readerModeSplit.addEventListener("click", () => {
+        readerMode = "split";
+        updateReaderModeUI();
+        renderReaderPage();
+      });
+    }
 
     const notifySettingsChanged = () => {
       const hasProcessable = this.files.some(f => f.rawBuffer);
@@ -1720,6 +1819,11 @@ export default {
           updateFileListUI();
 
           for (let pNum = 1; pNum <= fileObj.totalPages; pNum++) {
+            // Abort parsing if the file was deleted/removed from list
+            if (!this.files.includes(fileObj)) {
+              break;
+            }
+
             if (appInstance.activeTool !== "pdf-searcher") {
               if (this.ocrWorker) {
                 this.ocrWorker.terminate().then(() => {
@@ -1829,6 +1933,11 @@ export default {
         updateFileListUI();
 
         for (let pNum = 1; pNum <= fileObj.totalPages; pNum++) {
+          // Abort re-processing if the file was deleted/removed from list
+          if (!this.files.includes(fileObj)) {
+            break;
+          }
+
           if (appInstance.activeTool !== "pdf-searcher") {
             if (this.ocrWorker) {
               this.ocrWorker.terminate().then(() => {
@@ -2009,8 +2118,8 @@ export default {
 
       // 3. Perform OCR
       const selectedLang = ocrLangSelect.value;
-      // Load the equation model ('equ') as well to recognize mathematical symbols and formulas better!
-      const workerLang = selectedLang === "eng" ? "eng+equ" : `${selectedLang}+eng+equ`;
+      // Load standard languages (mathematical equations pack 'equ' is not hosted on default jsDelivr CDN and causes 404 failures)
+      const workerLang = selectedLang === "eng" ? "eng" : `${selectedLang}+eng`;
       
       if (this.ocrWorker && this.ocrWorkerLang !== selectedLang) {
         setStatus(`Re-initializing OCR for ${ocrLangSelect.options[ocrLangSelect.selectedIndex].text}...`, "working");
@@ -2019,7 +2128,7 @@ export default {
       }
 
       if (!this.ocrWorker) {
-        setStatus(`Initializing OCR (${selectedLang === "eng" ? "English + Math" : ocrLangSelect.options[ocrLangSelect.selectedIndex].text + " + English + Math"})...`, "working");
+        setStatus(`Initializing OCR (${selectedLang === "eng" ? "English" : ocrLangSelect.options[ocrLangSelect.selectedIndex].text + " + English"})...`, "working");
         this.ocrWorker = await this.tesseract.createWorker(workerLang, 1, {
           logger: m => {
             if (m.status === 'recognizing text' && this.currentOcrPage) {
@@ -2085,7 +2194,10 @@ export default {
         item.innerHTML = `
           <div class="file-item-header">
             <span class="file-item-name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)} <span class="file-item-size">(${sizeStr})</span></span>
-            ${statusBadge}
+            <div style="display: flex; align-items: center; gap: 8px;">
+              ${statusBadge}
+              <button class="remove-file-btn" data-filename="${escapeHtml(f.name)}" style="background: none; border: none; color: var(--accent-rose, #f43f5e); cursor: pointer; font-size: 14px; padding: 2px; line-height: 1; display: inline-flex; align-items: center; transition: transform 0.2s;" title="Remove File">✕</button>
+            </div>
           </div>
           <div class="file-progress-container">
             <div class="file-progress-bar" style="width: ${f.progress}%;"></div>
@@ -2104,6 +2216,34 @@ export default {
         btn.addEventListener("click", () => {
           const filename = btn.dataset.filename;
           openPdfReader(filename);
+        });
+      });
+
+      // Bind remove handlers
+      const removeBtns = fileListContainer.querySelectorAll(".remove-file-btn");
+      removeBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const filename = btn.dataset.filename;
+          const index = this.files.findIndex(f => f.name === filename);
+          if (index !== -1) {
+            this.files.splice(index, 1);
+            
+            // Re-trigger search to update matching results
+            updateFileListUI();
+            performSearch();
+            
+            // Update other button disabled states
+            const hasFiles = this.files.length > 0;
+            clearAllBtn.disabled = !hasFiles;
+            searchBtn.disabled = !hasFiles;
+            if (!hasFiles) {
+              exportBtnGroup.classList.add("hidden");
+              fileInput.value = "";
+              setStatus("Ready. Load PDFs to begin searching.");
+            }
+            
+            appInstance.showToast(`Removed file: ${filename}`, "info");
+          }
         });
       });
 

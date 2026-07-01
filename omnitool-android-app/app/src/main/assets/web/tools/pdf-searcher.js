@@ -1720,6 +1720,11 @@ export default {
           updateFileListUI();
 
           for (let pNum = 1; pNum <= fileObj.totalPages; pNum++) {
+            // Abort parsing if the file was deleted/removed from list
+            if (!this.files.includes(fileObj)) {
+              break;
+            }
+
             if (appInstance.activeTool !== "pdf-searcher") {
               if (this.ocrWorker) {
                 this.ocrWorker.terminate().then(() => {
@@ -1829,6 +1834,11 @@ export default {
         updateFileListUI();
 
         for (let pNum = 1; pNum <= fileObj.totalPages; pNum++) {
+          // Abort re-processing if the file was deleted/removed from list
+          if (!this.files.includes(fileObj)) {
+            break;
+          }
+
           if (appInstance.activeTool !== "pdf-searcher") {
             if (this.ocrWorker) {
               this.ocrWorker.terminate().then(() => {
@@ -2085,7 +2095,10 @@ export default {
         item.innerHTML = `
           <div class="file-item-header">
             <span class="file-item-name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)} <span class="file-item-size">(${sizeStr})</span></span>
-            ${statusBadge}
+            <div style="display: flex; align-items: center; gap: 8px;">
+              ${statusBadge}
+              <button class="remove-file-btn" data-filename="${escapeHtml(f.name)}" style="background: none; border: none; color: var(--accent-rose, #f43f5e); cursor: pointer; font-size: 14px; padding: 2px; line-height: 1; display: inline-flex; align-items: center; transition: transform 0.2s;" title="Remove File">✕</button>
+            </div>
           </div>
           <div class="file-progress-container">
             <div class="file-progress-bar" style="width: ${f.progress}%;"></div>
@@ -2104,6 +2117,34 @@ export default {
         btn.addEventListener("click", () => {
           const filename = btn.dataset.filename;
           openPdfReader(filename);
+        });
+      });
+
+      // Bind remove handlers
+      const removeBtns = fileListContainer.querySelectorAll(".remove-file-btn");
+      removeBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const filename = btn.dataset.filename;
+          const index = this.files.findIndex(f => f.name === filename);
+          if (index !== -1) {
+            this.files.splice(index, 1);
+            
+            // Re-trigger search to update matching results
+            updateFileListUI();
+            performSearch();
+            
+            // Update other button disabled states
+            const hasFiles = this.files.length > 0;
+            clearAllBtn.disabled = !hasFiles;
+            searchBtn.disabled = !hasFiles;
+            if (!hasFiles) {
+              exportBtnGroup.classList.add("hidden");
+              fileInput.value = "";
+              setStatus("Ready. Load PDFs to begin searching.");
+            }
+            
+            appInstance.showToast(`Removed file: ${filename}`, "info");
+          }
         });
       });
 

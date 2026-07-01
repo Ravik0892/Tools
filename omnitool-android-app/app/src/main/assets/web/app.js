@@ -2715,51 +2715,154 @@ const app = {
     }
   },
 
-  clearAppCache() {
-    if (confirm("Are you sure you want to clear the site cache, local databases, and reset all settings? This will resolve any browser lagging or out-of-memory problems and reload the page.")) {
-      this.playSynthSound('click');
-      this.showToast("Clearing local storage & session state...", "info");
+  showConfirm(title, message, okText = "Yes, Clear", cancelText = "Cancel") {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.style.position = "fixed";
+      overlay.style.top = "0";
+      overlay.style.left = "0";
+      overlay.style.width = "100vw";
+      overlay.style.height = "100vh";
+      overlay.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+      overlay.style.backdropFilter = "blur(12px)";
+      overlay.style.display = "flex";
+      overlay.style.alignItems = "center";
+      overlay.style.justifyContent = "center";
+      overlay.style.zIndex = "10000";
+      overlay.style.opacity = "0";
+      overlay.style.transition = "opacity 0.25s ease";
 
-      // 1. Clear LocalStorage and SessionStorage
+      const modal = document.createElement("div");
+      modal.style.background = "#0b0f19";
+      modal.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+      modal.style.borderRadius = "16px";
+      modal.style.padding = "24px";
+      modal.style.width = "90%";
+      modal.style.maxWidth = "440px";
+      modal.style.boxShadow = "0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 242, 254, 0.06)";
+      modal.style.transform = "scale(0.95) translateY(10px)";
+      modal.style.transition = "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)";
+
+      modal.innerHTML = `
+        <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 18px; font-weight: 700; color: #fff;">${title}</h3>
+        <p style="margin: 0 0 24px 0; font-size: 13.5px; line-height: 1.5; color: var(--text-muted, #94a3b8);">${message}</p>
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button id="custom-confirm-cancel" class="tool-btn secondary" style="padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer;">${cancelText}</button>
+          <button id="custom-confirm-ok" class="tool-btn" style="background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); border: none; color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);">${okText}</button>
+        </div>
+      `;
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      requestAnimationFrame(() => {
+        overlay.style.opacity = "1";
+        modal.style.transform = "scale(1) translateY(0)";
+      });
+
+      const cleanup = (result) => {
+        overlay.style.opacity = "0";
+        modal.style.transform = "scale(0.95) translateY(10px)";
+        setTimeout(() => {
+          if (document.body.contains(overlay)) {
+            document.body.removeChild(overlay);
+          }
+        }, 250);
+        resolve(result);
+      };
+
+      modal.querySelector("#custom-confirm-cancel").addEventListener("click", () => {
+        this.playSynthSound('click');
+        cleanup(false);
+      });
+
+      modal.querySelector("#custom-confirm-ok").addEventListener("click", () => {
+        this.playSynthSound('click');
+        cleanup(true);
+      });
+    });
+  },
+
+  async clearAppCache() {
+    const confirmed = await this.showConfirm(
+      "Clear Cache & Reset",
+      "Are you sure you want to clear the site cache, local databases, and reset all settings? This will resolve any browser lagging or out-of-memory problems and reload the page."
+    );
+    if (!confirmed) {
+      return;
+    }
+    
+    this.playSynthSound('click');
+    this.showToast("Clearing local storage & session state...", "info");
+
+    const cleanupPromises = [];
+
+    // 1. Clear LocalStorage and SessionStorage
+    try {
       localStorage.clear();
       sessionStorage.clear();
-
-      // 2. Clear all IndexedDB databases
-      if (window.indexedDB && window.indexedDB.databases) {
-        window.indexedDB.databases().then(dbs => {
-          dbs.forEach(db => {
-            try {
-              window.indexedDB.deleteDatabase(db.name);
-            } catch (e) {
-              console.error(`Failed to delete database: ${db.name}`, e);
-            }
-          });
-        }).catch(err => console.error("Error listing databases:", err));
-      }
-
-      // 3. Clear Service Worker Cache Storage
-      if (window.caches) {
-        caches.keys().then(keys => {
-          keys.forEach(key => {
-            caches.delete(key);
-          });
-        }).catch(err => console.error("Error clearing caches:", err));
-      }
-
-      // 4. Unregister Service Workers
-      if (navigator.serviceWorker) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          registrations.forEach(r => r.unregister());
-        }).catch(err => console.error("Error unregistering service workers:", err));
-      }
-
-      this.showToast("Cache cleared! Reloading application...", "success");
-
-      // 5. Reload after a short delay so the toast/feedback can be seen/heard
-      setTimeout(() => {
-        window.location.reload();
-      }, 1200);
+    } catch (e) {
+      console.error("Failed to clear local/session storage:", e);
     }
+
+    // 2. Clear all IndexedDB databases
+    if (window.indexedDB && window.indexedDB.databases) {
+      const dbPromise = window.indexedDB.databases()
+        .then(dbs => {
+          const deletePromises = dbs.map(db => {
+            return new Promise((resolve) => {
+              try {
+                const req = window.indexedDB.deleteDatabase(db.name);
+                req.onsuccess = () => resolve();
+                req.onerror = () => resolve();
+                req.onblocked = () => resolve();
+              } catch (e) {
+                console.error(`Error deleting database ${db.name}:`, e);
+                resolve();
+              }
+            });
+          });
+          return Promise.all(deletePromises);
+        })
+        .catch(err => console.error("Error listing databases:", err));
+      cleanupPromises.push(dbPromise);
+    }
+
+    // 3. Clear Service Worker Cache Storage
+    if (window.caches) {
+      const cachePromise = caches.keys()
+        .then(keys => {
+          return Promise.all(keys.map(key => caches.delete(key)));
+        })
+        .catch(err => console.error("Error clearing caches:", err));
+      cleanupPromises.push(cachePromise);
+    }
+
+    // 4. Unregister Service Workers
+    if (navigator.serviceWorker) {
+      const swPromise = navigator.serviceWorker.getRegistrations()
+        .then(registrations => {
+          return Promise.all(registrations.map(r => r.unregister()));
+        })
+        .catch(err => console.error("Error unregistering service workers:", err));
+      cleanupPromises.push(swPromise);
+    }
+
+    // Wait for all cleanup operations to finish (with a fallback timeout of 3 seconds)
+    const timeoutPromise = new Promise(resolve => setTimeout(resolve, 3000));
+    
+    try {
+      await Promise.race([Promise.all(cleanupPromises), timeoutPromise]);
+    } catch (err) {
+      console.error("Error during cache cleanup:", err);
+    }
+
+    this.showToast("Cache cleared! Reloading application...", "success");
+
+    // Reload after a brief delay so toast can be read
+    setTimeout(() => {
+      window.location.reload();
+    }, 800);
   },
 
   initLayoutSizer() {
