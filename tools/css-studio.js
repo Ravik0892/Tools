@@ -474,7 +474,7 @@ export default {
           </div>
 
           <!-- Preview Area Container -->
-          <div style="flex: 1; min-height: 280px; display: flex; flex-direction: column; justify-content: center; position: relative;">
+          <div class="preview-area-container" style="flex: 1; min-height: 280px; display: flex; flex-direction: column; justify-content: center; position: relative;">
             
             <!-- 1. Gradient Preview Screen -->
             <div class="gradient-visualizer" id="gradient-preview-screen" style="flex: 1; border-radius: 8px; display: flex; align-items: center; justify-content: center; min-height: 250px;">

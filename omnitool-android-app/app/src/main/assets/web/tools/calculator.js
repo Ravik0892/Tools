@@ -28,7 +28,7 @@ export default {
     return `
       <div class="tool-content-layout split-view">
         <!-- Left Panel: Calculator Interface -->
-        <div class="tool-panel" style="gap: 12px; background: rgba(18, 24, 38, 0.85); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);">
+        <div class="tool-panel" style="gap: 12px; background: var(--bg-card); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
           <div class="panel-header" style="border: none; padding-bottom: 0;">
             <h3 style="color: var(--accent-cyan);"><svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: var(--accent-cyan); fill: none; stroke-width: 2; margin-right: 6px;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line></svg> Computron Pad</h3>
             <div style="display: flex; gap: 6px; align-items: center;">
@@ -38,13 +38,13 @@ export default {
           </div>
           
           <!-- Display Screen -->
-          <div style="background-color: #0b0f19; border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; min-height: 100px; font-family: var(--font-mono); word-break: break-all; position: relative; box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);">
+          <div style="background-color: var(--bg-input); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; min-height: 100px; font-family: var(--font-mono); word-break: break-all; position: relative; box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);">
             <div id="calc-formula-display" style="font-size: 13px; color: var(--text-muted); min-height: 18px; line-height: 1.4; text-align: right; width: 100%;"></div>
-            <div id="calc-result-display" style="font-size: 32px; font-weight: 700; color: var(--accent-cyan); text-shadow: 0 0 15px rgba(0, 242, 254, 0.4); text-align: right; width: 100%; margin-top: 8px;">0</div>
+            <div id="calc-result-display" style="font-size: 32px; font-weight: 700; color: var(--accent-cyan); text-align: right; width: 100%; margin-top: 8px;">0</div>
           </div>
 
           <!-- Programmer Base Conversions Bar -->
-          <div id="calc-base-conversion-bar" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 8px 12px; background-color: rgba(11, 15, 25, 0.6); border: 1px dashed var(--border-color); border-radius: 8px; font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); margin-top: 4px; margin-bottom: 4px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);">
+          <div id="calc-base-conversion-bar" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 8px 12px; background-color: var(--bg-input); border: 1px dashed var(--border-color); border-radius: 8px; font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); margin-top: 4px; margin-bottom: 4px;">
             <div>HEX: <span id="calc-base-hex" style="color: var(--accent-cyan); font-weight: 700;">0x0</span></div>
             <div>DEC: <span id="calc-base-dec" style="color: var(--accent-purple); font-weight: 700;">0</span></div>
             <div>OCT: <span id="calc-base-oct" style="color: var(--accent-orange); font-weight: 700;">0</span></div>
@@ -287,12 +287,12 @@ export default {
     const renderHistory = () => {
       const listEl = container.querySelector("#calc-history-list");
       if (!listEl) return;
-      
+
       if (calcHistory.length === 0) {
         listEl.innerHTML = `<span style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 40px; font-style: italic;">No calculations performed yet</span>`;
         return;
       }
-      
+
       listEl.innerHTML = "";
       calcHistory.forEach((item, idx) => {
         const card = document.createElement("div");
@@ -306,7 +306,7 @@ export default {
             <button class="gs-preset-btn hist-action-btn" data-action="copy" data-val="${escapeHtml(item.result)}" style="padding: 2px 6px; font-size: 10px;">Copy</button>
           </div>
         `;
-        
+
         card.querySelectorAll(".hist-action-btn").forEach(btn => {
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -338,7 +338,7 @@ export default {
     const renderConstants = () => {
       const gridEl = container.querySelector("#calc-constants-grid");
       if (!gridEl) return;
-      
+
       gridEl.innerHTML = "";
       scientificConstants.forEach(c => {
         const card = document.createElement("div");
@@ -375,14 +375,14 @@ export default {
       const tokens = [];
       let i = 0;
       const functions = ["asin", "acos", "atan", "sin", "cos", "tan", "ln", "log", "sqrt", "cbrt"];
-      
+
       while (i < str.length) {
         let char = str[i];
         if (/\s/.test(char)) {
           i++;
           continue;
         }
-        
+
         const numRegex = /^(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?/;
         const numMatch = str.slice(i).match(numRegex);
         if (numMatch) {
@@ -390,7 +390,7 @@ export default {
           i += numMatch[0].length;
           continue;
         }
-        
+
         if (char === "+") {
           tokens.push({ type: "PLUS" });
           i++;
@@ -431,19 +431,19 @@ export default {
           i++;
           continue;
         }
-        
+
         if (str.slice(i, i + 3) === "mod") {
           tokens.push({ type: "MOD" });
           i += 3;
           continue;
         }
-        
+
         if (char === "π") {
           tokens.push({ type: "CONSTANT", value: Math.PI });
           i++;
           continue;
         }
-        
+
         let foundFn = false;
         for (const fn of functions) {
           if (str.slice(i).startsWith(fn)) {
@@ -454,7 +454,7 @@ export default {
           }
         }
         if (foundFn) continue;
-        
+
         if (str.slice(i, i + 2).toUpperCase() === "PI") {
           tokens.push({ type: "CONSTANT", value: Math.PI });
           i += 2;
@@ -470,7 +470,7 @@ export default {
           i++;
           continue;
         }
-        
+
         if (char === "!") {
           tokens.push({ type: "FACTORIAL" });
           i++;
@@ -486,7 +486,7 @@ export default {
           i++;
           continue;
         }
-        
+
         if (str.slice(i, i + 2) === "³√") {
           tokens.push({ type: "FUNCTION", value: "cbrt" });
           i += 2;
@@ -497,7 +497,7 @@ export default {
           i++;
           continue;
         }
-        
+
         throw new Error(`Invalid character: '${char}'`);
       }
       return tokens;
@@ -524,11 +524,11 @@ export default {
       const rawTokens = tokenize(str);
       const tokens = insertImplicitMultiplications(rawTokens);
       let index = 0;
-      
+
       function peek() {
         return tokens[index];
       }
-      
+
       function consume(expectedType) {
         const t = peek();
         if (!t) {
@@ -540,7 +540,7 @@ export default {
         index++;
         return t;
       }
-      
+
       function parseExpression() {
         let node = parseTerm();
         while (peek() && (peek().type === "PLUS" || peek().type === "MINUS")) {
@@ -554,7 +554,7 @@ export default {
         }
         return node;
       }
-      
+
       function parseTerm() {
         let node = parsePower();
         while (peek() && (peek().type === "MULTIPLY" || peek().type === "DIVIDE" || peek().type === "MOD")) {
@@ -571,7 +571,7 @@ export default {
         }
         return node;
       }
-      
+
       function parsePower() {
         let node = parseUnary();
         while (peek() && peek().type === "POWER") {
@@ -581,7 +581,7 @@ export default {
         }
         return node;
       }
-      
+
       function parseUnary() {
         const t = peek();
         if (t && t.type === "PLUS") {
@@ -594,7 +594,7 @@ export default {
         }
         return parsePostfix();
       }
-      
+
       function parsePostfix() {
         let node = parsePrimary();
         while (peek() && (peek().type === "FACTORIAL" || peek().type === "SQUARE" || peek().type === "CUBE")) {
@@ -609,13 +609,13 @@ export default {
         }
         return node;
       }
-      
+
       function parsePrimary() {
         const t = peek();
         if (!t) {
           throw new Error("Unexpected end of expression");
         }
-        
+
         if (t.type === "NUMBER") {
           consume();
           return t.value;
@@ -649,7 +649,7 @@ export default {
         }
         throw new Error(`Unexpected token: ${t.type}`);
       }
-      
+
       const result = parseExpression();
       if (index < tokens.length) {
         throw new Error("Extra characters at end of expression");
@@ -772,7 +772,7 @@ export default {
           evaluateExpression();
           return;
         }
-        
+
         const operatorMap = {
           add: " + ",
           subtract: " - ",
@@ -780,10 +780,10 @@ export default {
           divide: " ÷ ",
           mod: " mod "
         };
-        
+
         const trimmed = formulaStr.trim();
         const lastChar = trimmed.slice(-1);
-        
+
         if (formulaStr === "" && key === "subtract") {
           formulaStr = "-";
         } else if (formulaStr !== "") {
@@ -860,7 +860,7 @@ export default {
         }
       } else if (type === "mem") {
         const currentVal = parseFloat(resultDisplay ? resultDisplay.innerText : "0") || 0;
-        
+
         if (key === "mc") {
           memoryValue = 0;
           app.showToast("Memory Cleared", "info");
@@ -884,32 +884,32 @@ export default {
         }
         updateMemoryUI();
       }
-      
+
       updateDisplay();
     };
 
     const evaluateExpression = () => {
       const trimmed = formulaStr.trim();
       if (!trimmed) return;
-      
+
       try {
         const val = parseAndEvaluate(trimmed, isDegrees);
         lastResult = val;
         isResultState = true;
-        
+
         const formatted = formatCalcResult(val);
         if (resultDisplay) {
           resultDisplay.innerText = formatted;
           resultDisplay.style.color = "var(--accent-cyan)";
         }
-        
+
         updateProgrammerConversions(val);
-        
+
         calcHistory.unshift({ formula: formulaStr, result: formatted });
         if (calcHistory.length > 20) calcHistory.pop();
         saveCalcHistory();
         renderHistory();
-        
+
       } catch (err) {
         console.error(err);
         if (resultDisplay) {
@@ -922,14 +922,14 @@ export default {
 
     const updateProgrammerConversions = (val) => {
       if (!baseConversionBar) return;
-      
+
       if (typeof val === "number" && Number.isInteger(val) && val >= -2e15 && val <= 2e15) {
         baseConversionBar.style.display = "grid";
         let unsignedVal = val;
         if (val < 0) {
           unsignedVal = val >>> 0;
         }
-        
+
         if (baseHex) baseHex.innerText = "0x" + unsignedVal.toString(16).toUpperCase();
         if (baseDec) baseDec.innerText = val.toString(10);
         if (baseOct) baseOct.innerText = "0o" + unsignedVal.toString(8);
@@ -965,31 +965,31 @@ export default {
       if (!canvas) return;
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
-      
+
       const funcStr = container.querySelector("#calc-graph-func")?.value || "sin(x)";
       const xMinInput = parseFloat(container.querySelector("#calc-graph-xmin")?.value);
       const xMaxInput = parseFloat(container.querySelector("#calc-graph-xmax")?.value);
-      
+
       const xMin = isNaN(xMinInput) ? -10 : xMinInput;
       const xMax = isNaN(xMaxInput) ? 10 : xMaxInput;
-      
+
       if (xMin >= xMax) {
         app.showToast("Min X must be less than Max X", "error");
         return;
       }
-      
+
       const width = canvas.width;
       const height = canvas.height;
-      
+
       ctx.clearRect(0, 0, width, height);
-      
+
       // Grid Lines
       ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
       ctx.lineWidth = 1;
-      
+
       const xSpan = xMax - xMin;
       const gridStepX = getNiceGridStep(xSpan);
-      
+
       const samples = 100;
       const yVals = [];
       for (let i = 0; i <= samples; i++) {
@@ -1001,9 +1001,9 @@ export default {
           if (isFinite(yVal) && !isNaN(yVal)) {
             yVals.push(yVal);
           }
-        } catch (e) {}
+        } catch (e) { }
       }
-      
+
       let yMin = -5;
       let yMax = 5;
       if (yVals.length > 0) {
@@ -1016,7 +1016,7 @@ export default {
         }
       }
       const ySpan = yMax - yMin;
-      
+
       ctx.beginPath();
       const startXGrid = Math.floor(xMin / gridStepX) * gridStepX;
       for (let x = startXGrid; x <= xMax; x += gridStepX) {
@@ -1032,7 +1032,7 @@ export default {
         ctx.lineTo(width, cy);
       }
       ctx.stroke();
-      
+
       // Axes
       ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
       ctx.lineWidth = 1.5;
@@ -1048,14 +1048,14 @@ export default {
         ctx.lineTo(width, originY);
       }
       ctx.stroke();
-      
+
       // Curve drawing
       ctx.strokeStyle = "#00f2fe";
       ctx.lineWidth = 2.5;
       ctx.shadowColor = "rgba(0, 242, 254, 0.4)";
       ctx.shadowBlur = 6;
       ctx.beginPath();
-      
+
       let started = false;
       const curvePoints = 200;
       for (let i = 0; i <= curvePoints; i++) {
@@ -1179,7 +1179,7 @@ export default {
 
       // Grapher Controls
       container.querySelector("#calc-graph-draw-btn")?.addEventListener("click", drawGraph);
-      
+
       // Live graphing updates on inputs
       const graphInputs = ["calc-graph-func", "calc-graph-xmin", "calc-graph-xmax"];
       graphInputs.forEach(id => {
@@ -1285,7 +1285,7 @@ export default {
       updateMemoryUI();
       updateDisplay();
       drawGraph();
-      
+
       if (resultDisplay && (resultDisplay.innerText === "" || resultDisplay.innerText === "Error")) {
         resultDisplay.innerText = "0";
         resultDisplay.style.color = "var(--accent-cyan)";

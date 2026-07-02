@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client-Side PII Masker & Anonymizer Guide | OmniTool Hub</title>
+  <meta name="description" content="Learn how to detect, redact, hash, and mask sensitive Personal Identifiable Information (PII) and API keys from server logs locally.">
+  
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-app: #07090e;
+      --bg-card: rgba(18, 24, 38, 0.6);
+      --border-color: rgba(255, 255, 255, 0.06);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9d4edd;
+      --accent-emerald: #10b981;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    article h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      border-left: 3px solid var(--accent-cyan);
+      padding-left: 12px;
+    }
+
+    article p {
+      margin-bottom: 18px;
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    article ul, article ol {
+      margin-bottom: 18px;
+      padding-left: 24px;
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    article li {
+      margin-bottom: 8px;
+    }
+
+    .info-box {
+      background: rgba(0, 242, 254, 0.04);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 24px 0;
+    }
+
+    .info-box strong {
+      color: var(--accent-cyan);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .tab-section {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .tab-title {
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-badge {
+      font-size: 11px;
+      background: var(--accent-purple);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .cta-container {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      font-weight: 800;
+      font-size: 16px;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+      color: #fff;
+    }
+
+    .back-home {
+      display: inline-block;
+      margin-top: 24px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .back-home:hover {
+      color: var(--accent-cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Client-Side PII Masker & Anonymizer Guide</h1>
+      <div class="meta">
+        <span class="meta-tag">📅 July 2026</span>
+        <span class="meta-tag">🔒 100% Offline-Safe</span>
+        <span class="meta-tag">🛠️ Crypto & Security</span>
+      </div>
+    </header>
+
+    <article>
+      <p>
+        Inspecting database logs, error traces, or transaction logs often risks leaking customer details like emails, IP addresses, and credit card numbers. OmniTool Hub's Client-Side PII Masker & Anonymizer processes all sensitive variables 100% locally inside your browser memory using robust regex identifiers, Luhn validation algorithms, and cryptographic SHA-256 hashes.
+      </p>
+
+      <h2>Anonymizer Configurations & Strategies</h2>
+      <p>
+        Here is a detailed breakdown of the premium features and configurations available within this tool suite:
+      </p>
+
+      
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>1. Drag-and-Drop Local File Loader</span>
+          <span class="tab-badge">File Loader</span>
+        </div>
+        <p>
+          Enables developers to upload text logs, CSV files, or database extracts directly into browser memory. Files are processed locally without server uploads.
+        </p>
+      </div>
+
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>2. Redaction, Hashing, & Masking Strategies</span>
+          <span class="tab-badge">Strategies</span>
+        </div>
+        <p>
+          Redacts values, calculates unique SHA-256 integrity hashes to maintain referential log relations, or masks details with asterisks (e.g. ************4444).
+        </p>
+      </div>
+      
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>3. Security Token & API Key Scanners</span>
+          <span class="tab-badge">Token Scanner</span>
+        </div>
+        <p>
+          Detects and censors AWS keys, GitHub credentials, Bearer/Basic headers, and private SSH cryptographic keys automatically.
+        </p>
+      </div>
+
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>4. JSON Key Purge</span>
+          <span class="tab-badge">JSON Purge</span>
+        </div>
+        <p>
+          Purges key values based on user-defined key targets (like "password", "pin", or "secret") in JSON-formatted streams without breaking structures.
+        </p>
+      </div>
+
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>5. Exportable Audit Compliance Report</span>
+          <span class="tab-badge">Audit Report</span>
+        </div>
+        <p>
+          Generates a structured compliance report containing metadata, timestamps, and details of all censored values for administrative compliance archiving.
+        </p>
+      </div>
+      
+
+      <div class="info-box">
+        <strong>💡 Pro-Tip on Security & Utility:</strong>
+        Because all parsing is done on client-side regex engines and native SubtleCrypto APIs, no logs or customer records are ever sent over network sockets.
+      </div>
+
+      <h2>How to Use the Tool</h2>
+      <ol>
+        <li>Drag and drop your target text logs, CSV, or JSON records into the local dropzone, or paste directly.</li><li>Select targeted PII scanner toggles, including the new **Security Keys & Tokens** scanner.</li><li>Specify JSON key fields in the JSON scrub field if analyzing JSON database schemas.</li><li>Select your preferred strategy: **Redact**, **Hash**, or **Mask**.</li><li>Verify the real-time changes inside the audit log and download the cleaned text file.</li><li>Click **Export Audit Report** to download the structured JSON compliance record.</li>
+      </ol>
+    </article>
+
+    <div class="cta-container">
+      <a href="../index.html#tool/pii-anonymizer" class="cta-btn">🚀 Launch PII Anonymizer</a>
+      <br>
+      <a href="../index.html" class="back-home">← Back to Dashboard</a>
+    </div>
+  </div>
+
+</body>
+</html>

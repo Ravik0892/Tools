@@ -12,6 +12,7 @@ const app = {
       subLabel: "Data Pipelines",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`
     },
     {
@@ -23,6 +24,7 @@ const app = {
       subLabel: "Formatters & Parsers",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6M12 2v20" stroke-linecap="round" stroke-linejoin="round"/></svg>`
     },
     {
@@ -34,6 +36,7 @@ const app = {
       subLabel: "Transformations",
       accent: "#9d4edd",
       accentRgb: "157, 78, 221",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16M10 5l4 14" stroke-linecap="round" stroke-linejoin="round"/></svg>`
     },
     {
@@ -45,6 +48,7 @@ const app = {
       subLabel: "Crypto & Security",
       accent: "#f43f5e",
       accentRgb: "244, 63, 94",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`
     },
     {
@@ -56,7 +60,20 @@ const app = {
       subLabel: "Crypto & Security",
       accent: "#10b981",
       accentRgb: "16, 185, 129",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
+    },
+    {
+      id: "pii-anonymizer",
+      name: "Client-Side PII Masker & Anonymizer",
+      desc: "Scan and mask sensitive personal identifiable information (PII) like emails, phone numbers, IP addresses, and credit cards from logs or text files client-side.",
+      category: "dev",
+      subcategory: "dev-crypto",
+      subLabel: "Crypto & Security",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "premium",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM12 8v4M12 16h.01"/></svg>`
     },
     {
       id: "markdown-preview",
@@ -67,6 +84,7 @@ const app = {
       subLabel: "Writers & Parsers",
       accent: "#9d4edd",
       accentRgb: "157, 78, 221",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`
     },
     {
@@ -78,6 +96,7 @@ const app = {
       subLabel: "Writers & Parsers",
       accent: "#f59e0b",
       accentRgb: "245, 158, 11",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="21"></line><line x1="18" y1="3" x2="18" y2="21"></line><line x1="6" y1="12" x2="18" y2="12"></line></svg>`
     },
     {
@@ -89,6 +108,7 @@ const app = {
       subLabel: "Writers & Parsers",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`
     },
     {
@@ -100,6 +120,7 @@ const app = {
       subLabel: "Writers & Parsers",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M9 15h6M9 11h6M9 19h6"/></svg>`
     },
     {
@@ -111,6 +132,7 @@ const app = {
       subLabel: "Pattern Analysis",
       accent: "#10b981",
       accentRgb: "16, 185, 129",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
     },
     {
@@ -122,6 +144,7 @@ const app = {
       subLabel: "CSS Builders",
       accent: "#10b981",
       accentRgb: "16, 185, 129",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M9 3v18M3 9h18M14 14l3 3m0-3l-3 3"></path></svg>`
     },
     {
@@ -133,6 +156,7 @@ const app = {
       subLabel: "Color Management",
       accent: "#f43f5e",
       accentRgb: "244, 63, 94",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24"><path d="M12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22ZM12 6C13.1 6 14 6.9 14 8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8C10 6.9 10.9 6 12 6Z" /></svg>`
     },
     {
@@ -144,6 +168,7 @@ const app = {
       subLabel: "Security & Pass",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4M12 15v3" stroke-linecap="round"/></svg>`
     },
     {
@@ -155,6 +180,7 @@ const app = {
       subLabel: "Calculator",
       accent: "#f59e0b",
       accentRgb: "245, 158, 11",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`
     },
     {
@@ -166,6 +192,7 @@ const app = {
       subLabel: "Conversion",
       accent: "#9d4edd",
       accentRgb: "157, 78, 221",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H7M19 12H5M17 19H7" stroke-linecap="round"/></svg>`
     },
     {
@@ -177,6 +204,7 @@ const app = {
       subLabel: "Graphics & Screen Studio",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`
     },
     {
@@ -188,6 +216,7 @@ const app = {
       subLabel: "Calculator",
       accent: "#f43f5e",
       accentRgb: "244, 63, 94",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="16" y1="10" x2="16" y2="10.01"></line></svg>`
     },
     {
@@ -199,6 +228,7 @@ const app = {
       subLabel: "Generators",
       accent: "#f43f5e",
       accentRgb: "244, 63, 94",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="9" height="9" rx="1"></rect><rect x="12" y="3" width="9" height="9" rx="1"></rect><rect x="3" y="12" width="9" height="9" rx="1"></rect><path d="M14 14h2v2h-2zm4 4h2v2h-2zm2-4h-2v2h2zm-4 4h2v-2h-2zm4-4v2h2v-2zm-4 4h-2v2h2z"></path></svg>`
     },
     {
@@ -210,6 +240,7 @@ const app = {
       subLabel: "Generators",
       accent: "#10b981",
       accentRgb: "16, 185, 129",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="17" x2="22" y2="17"></line><line x1="12" y1="17" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line></svg>`
     },
     {
@@ -221,6 +252,7 @@ const app = {
       subLabel: "Graphics & Screen Studio",
       accent: "#f59e0b",
       accentRgb: "245, 158, 11",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`
     },
     {
@@ -232,6 +264,7 @@ const app = {
       subLabel: "Graphics & Screen Studio",
       accent: "#9d4edd",
       accentRgb: "157, 78, 221",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M20.4 12A8.4 8.4 0 0 1 12 20.4c-2.3 0-4.4-.9-6-2.4l1.4-1.4a6.4 6.4 0 0 0 9.2 0l1.4 1.4zM12 3.6c2.3 0 4.4.9 6 2.4l-1.4 1.4a6.4 6.4 0 0 0-9.2 0L6 6a8.4 8.4 0 0 1 8.4-2.4z"></path></svg>`
     },
     {
@@ -243,6 +276,7 @@ const app = {
       subLabel: "Transformations",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path></svg>`
     },
     {
@@ -254,6 +288,7 @@ const app = {
       subLabel: "Pattern Analysis",
       accent: "#10b981",
       accentRgb: "16, 185, 129",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`
     },
     {
@@ -265,6 +300,7 @@ const app = {
       subLabel: "Generators",
       accent: "#f43f5e",
       accentRgb: "244, 63, 94",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect><path d="M7 7h7M10 16h4" stroke-linecap="round"/></svg>`
     },
     {
@@ -276,6 +312,7 @@ const app = {
       subLabel: "Admin Center",
       accent: "#f59e0b",
       accentRgb: "245, 158, 11",
+      monetization: "free",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>`
     },
     {
@@ -287,6 +324,7 @@ const app = {
       subLabel: "Generators",
       accent: "#9d4edd",
       accentRgb: "157, 78, 221",
+      monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline><line x1="12" y1="2" x2="12" y2="22"></line></svg>`
     },
     {
@@ -298,6 +336,7 @@ const app = {
       subLabel: "Calculator",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
+      monetization: "ad-lock",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="10" x2="6" y2="14"></line><line x1="18" y1="10" x2="18" y2="14"></line></svg>`
     }
   ],
@@ -309,6 +348,7 @@ const app = {
     "text-encoder-suite": ["base64", "url", "hex", "binary", "case", "upper", "lower", "camel", "snake", "kebab", "slug", "text case", "encode", "decode", "ascii", "unicode"],
     "jwt-decoder": ["jwt", "token", "decoder", "header", "payload", "claims", "expire", "auth", "json web token", "verify"],
     "crypto-suite": ["md5", "sha1", "sha256", "sha512", "hash", "aes", "encrypt", "decrypt", "rsa", "key", "keys", "checksum", "cryptography", "cipher", "salt", "passphrase"],
+    "pii-anonymizer": ["pii", "anonymizer", "masker", "redact", "hash", "sha256", "gdpr", "hipaa", "privacy", "logs", "scrub", "ip", "email", "credit card", "security", "anonymize"],
     "markdown-preview": ["markdown", "preview", "editor", "md", "html", "writer", "parser", "live editor"],
     "text-diff": ["diff", "difference", "compare", "comparison", "text diff", "side-by-side", "line-by-line", "patch", "text compare"],
     "pdf-searcher": ["pdf", "search", "ocr", "text extract", "scan", "scanned pdf", "image to text", "tesseract", "recognize", "reader"],
@@ -354,6 +394,10 @@ const app = {
     "crypto-suite": [
       "<strong>Robust Hashes</strong>: Generate MD5, SHA-256, and SHA-512 values client-side for checksums and integrity auditing.",
       "<strong>Symmetric & Asymmetric Keys</strong>: Encrypt payloads with AES-256 GCM or generate secure SPKI RSA key-pairs instantly."
+    ],
+    "pii-anonymizer": [
+      "<strong>Local Redaction</strong>: Detect and scrub emails, IPs, phone numbers, and credentials 100% locally in your browser.",
+      "<strong>Relational Hashing</strong>: Replace sensitive keys with deterministic SHA-256 hashes to maintain data connections without leaking identity."
     ],
     "markdown-preview": [
       "<strong>Real-Time Preview</strong>: Render formatted markdown, headers, tables, and lists side-by-side as you type.",
@@ -660,6 +704,11 @@ const app = {
 
   handleRouting() {
     const hash = window.location.hash || "";
+
+    if (hash === "#plans") {
+      this.renderPlansPage();
+      return;
+    }
 
     if (hash === "#admin") {
       const isLocalhost = window.location.hostname === "localhost" ||
@@ -1042,6 +1091,14 @@ const app = {
     // Cache clear button
     document.getElementById("cache-clear-btn")?.addEventListener("click", () => this.clearAppCache());
 
+    // Aesthetics menu triggers
+    document.getElementById("desktop-aesthetics-btn")?.addEventListener("click", () => this.openAestheticsModal());
+    document.getElementById("sidebar-aesthetics-btn")?.addEventListener("click", () => {
+      const sidebar = document.getElementById("app-sidebar");
+      if (sidebar) sidebar.classList.remove("show"); // Close mobile drawer
+      this.openAestheticsModal();
+    });
+
     // Sidebar Toggles (hamburger menu drawer)
     const openBtn = document.getElementById("sidebar-open-btn");
     const closeBtn = document.getElementById("sidebar-close-btn");
@@ -1049,7 +1106,7 @@ const app = {
 
     // Load persisted desktop sidebar state
     const isCollapsed = localStorage.getItem("omnitool_sidebar_collapsed") === "true";
-    if (isCollapsed && window.innerWidth > 768 && sidebar) {
+    if (isCollapsed && window.innerWidth > 1200 && sidebar) {
       sidebar.classList.add("collapsed");
     }
 
@@ -1404,7 +1461,8 @@ const app = {
       const searchInput = document.getElementById("cp-search-input");
       if (searchInput) {
         searchInput.value = "";
-        searchInput.focus();
+        // Defer focus slightly so the display:flex layout has settled
+        setTimeout(() => searchInput.focus(), 50);
       }
       this.searchCommandPalette("");
     }
@@ -1536,6 +1594,15 @@ const app = {
   },
 
   playSynthSound(type = 'click') {
+    // Trigger tactile haptics automatically on sound plays
+    if (type === 'click') {
+      this.triggerHaptics('light');
+    } else if (type === 'success' || type === 'save') {
+      this.triggerHaptics('success');
+    } else if (type === 'error') {
+      this.triggerHaptics('medium');
+    }
+
     const audioEnabled = this.getConfigValue("omnitool_audio_feedback", "false") === "true";
     if (!audioEnabled) return;
 
@@ -1591,6 +1658,22 @@ const app = {
     }
   },
 
+  triggerHaptics(type = 'light') {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      try {
+        if (type === 'light') {
+          navigator.vibrate(15);
+        } else if (type === 'medium') {
+          navigator.vibrate(30);
+        } else if (type === 'success') {
+          navigator.vibrate([15, 30, 15]);
+        }
+      } catch (e) {
+        // Safe catch for browser security restrictions on vibration
+      }
+    }
+  },
+
   // Clock Widget
   initClock() {
     const clockWidget = document.getElementById("header-clock");
@@ -1613,7 +1696,7 @@ const app = {
         hrs = hrs % 12;
         hrs = hrs ? hrs : 12;
         const hrsStr = String(hrs).padStart(2, '0');
-        if (clockEl) clockEl.innerText = `${hrsStr}:${ampm}`;
+        if (clockEl) clockEl.innerText = `${hrsStr}:${mins} ${ampm}`;
       } else {
         const hrsStr = String(hrs).padStart(2, '0');
         if (clockEl) clockEl.innerText = `${hrsStr}:${mins}:${secs}`;
@@ -1717,6 +1800,9 @@ const app = {
   },
 
   getAdHtml(location) {
+    const userTier = localStorage.getItem("omnitool_user_tier") || "free";
+    if (userTier === "premium") return ""; // Pro Monthly subscribers get 100% Ad-Free experience
+
     const isGlobalEnabled = this.getConfigValue("omnitool_ad_global", "true") !== "false";
     if (!isGlobalEnabled) return "";
 
@@ -2108,12 +2194,20 @@ const app = {
   },
 
   renderToolsList(container, list) {
+    let overrides = {};
+    try {
+      overrides = JSON.parse(localStorage.getItem("omnitool_monetization_overrides") || "{}");
+    } catch (e) { }
+    const isMonetizationActive = localStorage.getItem("omnitool_monetization_active") === "true";
+
     list.forEach(tool => {
       const isFav = this.favorites.has(tool.id);
       const card = document.createElement("div");
       card.className = "tool-card";
       card.setAttribute("style", `--card-accent: ${tool.accent}; --card-accent-rgb: ${tool.accentRgb};`);
       card.addEventListener("click", () => this.navigateToTool(tool.id));
+
+      const effectiveMonetization = overrides[tool.id] || tool.monetization || "free";
 
       card.innerHTML = `
         <button class="card-fav-btn ${isFav ? 'is-fav' : ''}" data-tool="${tool.id}" title="Toggle Favorite">
@@ -2129,7 +2223,14 @@ const app = {
           <p>${tool.desc}</p>
         </div>
         <div class="tool-card-footer">
-          <span class="tool-badge">${tool.subLabel.toUpperCase()}</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="tool-badge">${tool.subLabel.toUpperCase()}</span>
+            ${isMonetizationActive && effectiveMonetization !== "free" ? `
+              <span class="monetization-badge ${effectiveMonetization}" style="font-size: 9px; font-weight: 800; color: ${effectiveMonetization === 'ad-lock' ? 'var(--accent-cyan)' : 'var(--accent-purple)'}; background: ${effectiveMonetization === 'ad-lock' ? 'rgba(0, 242, 254, 0.12)' : 'rgba(157, 78, 221, 0.12)'}; padding: 2px 6px; border-radius: 4px; border: 1px solid ${effectiveMonetization === 'ad-lock' ? 'rgba(0, 242, 254, 0.2)' : 'rgba(157, 78, 221, 0.2)'}; text-transform: uppercase; white-space: nowrap;">
+                ${effectiveMonetization === 'ad-lock' ? '📺 Ads' : '💎 Pro'}
+              </span>
+            ` : ''}
+          </div>
           <span class="launch-action">
             <span>Launch Tool</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -2281,6 +2382,9 @@ const app = {
     const dashboard = document.getElementById("dashboard-view");
     if (dashboard) dashboard.style.display = "none";
 
+    const plansView = document.getElementById("plans-view");
+    if (plansView) plansView.style.display = "none";
+
     const viewport = document.getElementById("active-tool-viewport");
     if (!viewport) return;
 
@@ -2322,7 +2426,7 @@ const app = {
         const toolbarHtml = `
         <div class="tool-bar">
           <div class="tool-bar-left">
-            <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back</button>
+            <button class="back-btn" onclick="app.backToDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back</button>
             <div class="tool-title-info">
               <h2>Settings & Ad Control Panel</h2>
             </div>
@@ -2408,17 +2512,28 @@ const app = {
         window.location.hostname === "127.0.0.1.nip.io" ||
         window.location.hostname === "host.docker.internal";
 
-      // Avoid forcing cache-busting by default to enable browser JIT/compilation caching, making navigation instant.
-      const useCacheBust = localStorage.getItem("omnitool_dev_cachebust") === "true";
-      const cacheBust = (isLocalhost && useCacheBust) ? `?t=${Date.now()}` : '';
+      // Force browser to bust its cache whenever app version updates
+      const cacheBust = '?v=1.1.3';
       const module = await import('./tools/' + toolId + '.js' + cacheBust);
       const toolInstance = module.default;
+
+      // Monetization Lock Gate Validation
+      const toolRegistryEntry = this.tools.find(t => t.id === toolId);
+      const defaultMonetization = toolRegistryEntry ? toolRegistryEntry.monetization : "free";
+
+      let overrides = {};
+      try {
+        overrides = JSON.parse(localStorage.getItem("omnitool_monetization_overrides") || "{}");
+      } catch (e) { }
+
+      const effectiveMonetization = overrides[toolId] || defaultMonetization;
+      const isMonetizationActive = localStorage.getItem("omnitool_monetization_active") === "true";
 
       const isFav = this.favorites.has(toolId);
       const toolbarHtml = `
         <div class="tool-bar">
           <div class="tool-bar-left">
-            <button class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back</button>
+            <button class="back-btn" onclick="app.backToDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back</button>
             <div class="tool-title-info">
               <h2>${toolInstance.name}</h2>
             </div>
@@ -2431,7 +2546,135 @@ const app = {
         </div>
       `;
 
+      if (isMonetizationActive && effectiveMonetization !== "free") {
+        const userTier = localStorage.getItem("omnitool_user_tier") || "free";
+        if (userTier !== "premium" && userTier !== "lifetime") {
+          if (effectiveMonetization === "ad-lock") {
+            const isAdUnlocked = sessionStorage.getItem("omnitool_ad_unlocked_" + toolId) === "true";
+            if (!isAdUnlocked && userTier !== "ad-unlocked") {
+              this.renderAdLockScreen(viewport, toolId, toolInstance, toolbarHtml);
+              return;
+            }
+          } else if (effectiveMonetization === "premium") {
+            // Check if they just unlocked it for this session click
+            const justUnlocked = sessionStorage.getItem("omnitool_premium_just_unlocked_" + toolId) === "true";
+            if (!justUnlocked) {
+              this.renderAdLockScreen(viewport, toolId, toolInstance, toolbarHtml);
+              return;
+            }
+            // Consume the temporary unlock token so going back to dashboard relocks it
+            sessionStorage.removeItem("omnitool_premium_just_unlocked_" + toolId);
+          }
+        }
+      }
+
       viewport.innerHTML = toolbarHtml + toolInstance.renderUI();
+
+      // Split view layout drawer enhancements for mobile viewports
+      const splitView = viewport.querySelector(".tool-content-layout.split-view");
+      if (splitView) {
+        // 1. Create and inject Backdrop overlay
+        const backdrop = document.createElement("div");
+        backdrop.className = "split-view-backdrop";
+        splitView.appendChild(backdrop);
+
+        // 2. Create and inject FAB
+        const fab = document.createElement("button");
+        fab.className = "adjust-settings-fab";
+        fab.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Adjust Inputs</span>
+        `;
+        splitView.appendChild(fab);
+
+        // 3. Inject a close button inside the drawer header
+        const drawer = splitView.querySelector(".tool-panel:first-of-type");
+        if (drawer) {
+          const header = drawer.querySelector(".panel-header");
+          if (header && !header.querySelector(".drawer-close-btn")) {
+            const closeBtn = document.createElement("button");
+            closeBtn.className = "drawer-close-btn";
+            closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px; display: none;";
+            closeBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+            header.appendChild(closeBtn);
+
+            closeBtn.addEventListener("click", () => {
+              this.playSynthSound('click');
+              splitView.classList.remove("drawer-open");
+            });
+          }
+
+          // 5. Add swipe gesture detector to close drawer
+          let touchStartX = 0;
+          let touchEndX = 0;
+          drawer.addEventListener("touchstart", (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+          }, { passive: true });
+          drawer.addEventListener("touchend", (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 60) {
+              this.playSynthSound('click');
+              splitView.classList.remove("drawer-open");
+            }
+          }, { passive: true });
+        }
+
+        // 4. Inject Full Screen Preview Toggle inside the second panel header (visual visualizer/preview panel)
+        const previewPanel = splitView.querySelector(".tool-panel:nth-of-type(2)");
+        if (previewPanel) {
+          const previewHeader = previewPanel.querySelector(".panel-header");
+          if (previewHeader && !previewHeader.querySelector(".preview-fullscreen-btn")) {
+            const fsBtn = document.createElement("button");
+            fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
+            fsBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; gap: 4px; display: inline-flex; align-items: center;";
+            fsBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+              </svg>
+              <span>Full Screen</span>
+            `;
+            previewHeader.appendChild(fsBtn);
+
+            fsBtn.addEventListener("click", () => {
+              this.playSynthSound('click');
+              const isFS = previewPanel.classList.toggle("preview-fullscreen");
+              if (isFS) {
+                fsBtn.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                    <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
+                  </svg>
+                  <span>Exit Full Screen</span>
+                `;
+                fsBtn.classList.remove("secondary");
+                fsBtn.classList.add("accent-emerald");
+              } else {
+                fsBtn.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                  </svg>
+                  <span>Full Screen</span>
+                `;
+                fsBtn.classList.remove("accent-emerald");
+                fsBtn.classList.add("secondary");
+              }
+            });
+          }
+        }
+
+        // 6. Bind drawer toggle event listeners
+        fab.addEventListener("click", () => {
+          this.playSynthSound('click');
+          splitView.classList.toggle("drawer-open");
+        });
+
+        backdrop.addEventListener("click", () => {
+          this.playSynthSound('click');
+          splitView.classList.remove("drawer-open");
+        });
+      }
 
       // Inject "How it Benefits You" dynamic section inside any present guide card
       const guideCard = viewport.querySelector(".tool-guide-card");
@@ -2449,6 +2692,7 @@ const app = {
             "text-encoder-suite": "text-encoder-suite.html",
             "jwt-decoder": "jwt-decoder.html",
             "crypto-suite": "crypto-suite.html",
+            "pii-anonymizer": "pii-anonymizer.html",
             "markdown-preview": "markdown-preview.html",
             "text-diff": "text-diff.html",
             "pdf-searcher": "pdf-searcher.html",
@@ -2657,6 +2901,11 @@ const app = {
       viewport.innerHTML = "";
     }
 
+    const plansView = document.getElementById("plans-view");
+    if (plansView) {
+      plansView.style.display = "none";
+    }
+
     const dashboard = document.getElementById("dashboard-view");
     if (dashboard) dashboard.style.display = "block";
 
@@ -2745,6 +2994,7 @@ const app = {
       try {
         document.execCommand("copy");
         this.showToast("Copied to clipboard!", "success");
+        this.triggerHaptics('success');
       } catch (err) {
         this.showToast("Failed to copy", "error");
       }
@@ -2753,7 +3003,10 @@ const app = {
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(
-        () => this.showToast("Copied to clipboard!", "success"),
+        () => {
+          this.showToast("Copied to clipboard!", "success");
+          this.triggerHaptics('success');
+        },
         fallbackCopy
       ).catch(() => {
         fallbackCopy();
@@ -2831,6 +3084,89 @@ const app = {
     });
   },
 
+  openAestheticsModal() {
+    const modal = document.getElementById("aesthetics-modal");
+    if (!modal) return;
+
+    this.playSynthSound('click');
+
+    // Load active settings to modal UI
+    const activePreset = this.getConfigValue("omnitool_accent_preset", "default");
+    const activeDensity = this.getConfigValue("omnitool_layout_density", "comfortable");
+    const activeClock = this.getConfigValue("omnitool_clock_format", "24");
+    const activeAudio = this.getConfigValue("omnitool_audio_feedback", "false") === "true";
+
+    // Set swatch active class
+    const swatches = modal.querySelectorAll(".color-swatch-item-user");
+    swatches.forEach(swatch => {
+      const preset = swatch.getAttribute("data-preset");
+      if (preset === activePreset) {
+        swatch.style.borderColor = "var(--text-main)";
+        swatch.style.transform = "scale(1.1)";
+      } else {
+        swatch.style.borderColor = "transparent";
+        swatch.style.transform = "scale(1)";
+      }
+    });
+
+    // Handle swatch clicks in modal
+    let selectedPreset = activePreset;
+    swatches.forEach(swatch => {
+      swatch.onclick = () => {
+        this.playSynthSound('click');
+        selectedPreset = swatch.getAttribute("data-preset");
+        swatches.forEach(s => {
+          s.style.borderColor = "transparent";
+          s.style.transform = "scale(1)";
+        });
+        swatch.style.borderColor = "var(--text-main)";
+        swatch.style.transform = "scale(1.1)";
+      };
+    });
+
+    // Populate dropdowns & checkbox
+    const densitySelect = modal.querySelector("#aesthetics-density");
+    const clockSelect = modal.querySelector("#aesthetics-clock");
+    const audioCheckbox = modal.querySelector("#aesthetics-audio");
+
+    if (densitySelect) densitySelect.value = activeDensity;
+    if (clockSelect) clockSelect.value = activeClock;
+    if (audioCheckbox) audioCheckbox.checked = activeAudio;
+
+    // Show modal
+    modal.style.display = "flex";
+
+    // Close button
+    modal.querySelector("#aesthetics-modal-close").onclick = () => {
+      this.playSynthSound('click');
+      modal.style.display = "none";
+    };
+
+    // Save button
+    modal.querySelector("#aesthetics-modal-save").onclick = () => {
+      this.playSynthSound('success');
+
+      // Save values
+      localStorage.setItem("omnitool_accent_preset", selectedPreset);
+      if (densitySelect) localStorage.setItem("omnitool_layout_density", densitySelect.value);
+      if (clockSelect) localStorage.setItem("omnitool_clock_format", clockSelect.value);
+      if (audioCheckbox) localStorage.setItem("omnitool_audio_feedback", audioCheckbox.checked ? "true" : "false");
+
+      this.showToast("✨ Aesthetics settings saved successfully!", "success");
+      modal.style.display = "none";
+
+      // Apply changes instantly
+      this.initTheme();
+      this.initLayoutSizer();
+      this.initClock();
+
+      // Re-render dashboard to apply density changes if visible
+      if (!this.activeTool) {
+        this.renderDashboard();
+      }
+    };
+  },
+
   async clearAppCache() {
     const confirmed = await this.showConfirm(
       "Clear Cache & Reset",
@@ -2845,10 +3181,43 @@ const app = {
 
     const cleanupPromises = [];
 
+    // Capture preserved settings if marked
+    const preserveSettings = localStorage.getItem("omnitool_preserve_settings_on_reset") === "true";
+    let preservedData = {};
+    if (preserveSettings) {
+      const keysToPreserve = [
+        "omnitool_preserve_settings_on_reset",
+        "omnitool_adsterra_smart_link",
+        "omnitool_coffee_url",
+        "omnitool_kofi_url",
+        "omnitool_admin_passcode",
+        "omnitool_theme",
+        "omnitool_accent_preset",
+        "omnitool_layout_density",
+        "omnitool_clock_format",
+        "omnitool_audio_feedback",
+        "omnitool_user_tier",
+        "omnitool_monetization_active",
+        "omnitool_monetization_overrides",
+        "omnitool_favorites",
+        "omnitool_recents"
+      ];
+      keysToPreserve.forEach(key => {
+        const val = localStorage.getItem(key);
+        if (val !== null) preservedData[key] = val;
+      });
+    }
+
     // 1. Clear LocalStorage and SessionStorage
     try {
       localStorage.clear();
       sessionStorage.clear();
+
+      if (preserveSettings) {
+        Object.keys(preservedData).forEach(key => {
+          localStorage.setItem(key, preservedData[key]);
+        });
+      }
     } catch (e) {
       console.error("Failed to clear local/session storage:", e);
     }
@@ -3010,6 +3379,322 @@ const app = {
         }
       });
     }
+  },
+
+  // Monetization Highlights Registry
+  toolPremiumHighlights: {
+    "pipeline-builder": ["Infinite chaining stages (unlimited)", "Custom JS sandbox step execution", "Save & load pipeline recipe book", "Large file stream support (up to 5MB)"],
+    "formatter-suite": ["Bulk files multi-conversion", "Stream parse large files up to 50MB", "Advanced code obfuscation & spacing presets", "Full database multi-statement SQL formatting"],
+    "text-encoder-suite": ["Batch files conversion interface", "Additional high-grade codecs (Base85, Base32, Hex)", "Regex pattern replacement rules"],
+    "jwt-decoder": ["Client-side cryptographic signature verification", "Automatic expiration alerts & counters", "Nested JWT automatic payload unpacking"],
+    "crypto-suite": ["Asymmetric RSA Key Studio up to 4096-bit", "Local hashing standards (bcrypt, scrypt, Argon2)", "Symmetric file encryptor offline"],
+    "pii-anonymizer": ["Custom salt seed configuration for relational matching", "Proprietary token regex scanners", "Targeted CSV column masking"],
+    "markdown-preview": ["Direct PDF & DOCX publisher export", "Styled themes (GitLab, GitHub, Obsidian)", "Auto-generated clickable Table of Contents"],
+    "text-diff": ["Direct local file comparison uploads", "Semantic code-aware difference filters", "Interactive merge conflict splitter & editor"],
+    "pdf-searcher": ["Concurrent search across 100 PDFs", "Fuzzy search and proximity keyword parameters", "GPU-accelerated local WebAssembly OCR"],
+    "pdf-utilities": ["Offline PDF compression up to 100MB", "Security controls (Permissions/Password stripper)", "Visual drag-and-drop page compiler"],
+    "regex-tester": ["AI-assisted pattern builder companion", "CSV/JSON match export capabilities", "Visual step-by-step regex debugger"],
+    "css-studio": ["Unlimited stops color builder", "Layered 3D box shadows compiler", "Direct Tailwind utility class output format"],
+    "color-lab": ["APCA W3C modern contrast calculations", "Analogous and triadic full color ranges", "CSS/Tailwind/SASS variable exports"],
+    "security-suite": ["Bulk key generator up to 50k keys", "Custom UUID templates (case, prefix, suffix)", "Memorable pronounceable password creator"],
+    "datetime-suite": ["Exclude weekend & bank holidays in calculations", "Interactive world multi-timezone scheduler"],
+    "unit-converter": ["Real-time local cached currency conversions", "Specialized engineering & physics unit units"],
+    "graphics-studio": ["Vector shapes overlay drawer (arrows, circles)", "Pre-made banner templates (GitHub, LinkedIn)", "Canvas layers history (Undo/Redo)"],
+    "calculator": ["Visual math function graphing screen", "Formulas & custom constant registration database"],
+    "qr-generator": ["Custom art vector QR patterns & gradients", "Offline scanning from file or webcam uploads", "Dynamic shortlink analytics integration"],
+    "seo-previewer": ["Full sitemap validation audits", "Missing meta descriptors & image alt analysis"],
+    "image-converter": ["Concurrent batch image optimizer", "Exact target file-size compression limits", "AVIF high-compression output formats"],
+    "svg-animator": ["High-FPS GIF, MP4, and WebM exports", "Multi-path keyframe timeline editor interface"],
+    "url-parser": ["UTM Campaign management profiles", "Multi-URL query comparison grid"],
+    "text-analyzer": ["Sentiment and target audience tone checker", "Passive voice & wordiness diagnostics panel"],
+    "mock-data-generator": ["Generate up to 50,000 rows client-side", "Save complex nested schemas templates", "SQL INSERT statement compilation exports"],
+    "admin-settings": ["Backup & restore encrypted system settings", "Audit logging local console metrics"],
+    "code-playground": ["Tailwind, React, and Vue framework boilerplates", "Download workspaces as ZIP file structures"],
+    "ip-subnet-calculator": ["Supernet visual CIDR planner", "Offline OUI vendor MAC address registry database"]
+  },
+
+  renderAdLockScreen(viewport, toolId, toolInstance, toolbarHtml) {
+    this.activeTool = toolId;
+    this.syncSidebarUI();
+    const titleEl = document.getElementById("header-view-title");
+    if (titleEl) {
+      titleEl.innerText = toolInstance.name;
+      titleEl.style.display = "block";
+    }
+
+    const highlights = this.toolPremiumHighlights[toolId] || ["Advanced features", "Pro parameters"];
+    const highlightsHtml = highlights.map(h => `
+      <div style="display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 13px; color: var(--text-main); margin-bottom: 8px;">
+        <span style="color: var(--accent-cyan);">✔</span>
+        <span>${h}</span>
+      </div>
+    `).join('');
+
+    const lockHtml = `
+      <div class="ad-lock-screen" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; width: 100%; padding: 40px 20px;">
+        <div class="glass-card" style="max-width: 500px; width: 100%; padding: 32px; border-radius: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); text-align: center; display: flex; flex-direction: column; gap: 20px;">
+          
+          <div class="lock-icon-container" style="display: flex; justify-content: center; align-items: center; margin-bottom: 5px;">
+            <div class="lock-glow" style="width: 70px; height: 70px; border-radius: 50%; background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.25); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2" style="width: 32px; height: 32px;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg>
+            </div>
+          </div>
+
+          <div class="lock-header">
+            <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: 0.5px;">Unlock Advanced Feature</h2>
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.12); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0, 242, 254, 0.2); display: inline-block; margin-bottom: 12px; text-transform: uppercase;">📺 Ad-Lock Tier</span>
+            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Watch a brief sponsor video advertisement to unlock full access to <strong>${toolInstance.name}</strong> for the next 24 hours.</p>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin: 6px 0;">
+            <div style="font-size: 11px; font-weight: 800; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; text-align: left;">What you will unlock:</div>
+            ${highlightsHtml}
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+            <button id="ad-unlock-btn" class="tool-btn primary" style="width: 100%; justify-content: center; height: 44px; font-size: 14px; font-weight: 700; border-radius: 8px;">
+              📺 Watch Video Ad to Unlock
+            </button>
+            <button id="ad-premium-bypass-btn" class="tool-btn secondary" style="width: 100%; justify-content: center; height: 40px; font-size: 13px; font-weight: 600; border-radius: 8px;">
+              💎 Get Premium Pass (Unlock All Permanently)
+            </button>
+          </div>
+          
+        </div>
+      </div>
+    `;
+
+    viewport.innerHTML = toolbarHtml + lockHtml;
+
+    viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
+
+    // Watch ad simulator event
+    const unlockBtn = viewport.querySelector("#ad-unlock-btn");
+    unlockBtn?.addEventListener("click", () => {
+      // 1. Mark as unlocked immediately in sessionStorage to handle current-tab redirects and back-button reloads
+      sessionStorage.setItem("omnitool_ad_unlocked_" + toolId, "true");
+      sessionStorage.setItem("omnitool_premium_just_unlocked_" + toolId, "true");
+
+      // 2. Open the sponsor link
+      const smartLink = this.getConfigValue("omnitool_adsterra_smart_link", "");
+      if (smartLink && smartLink.trim() !== "") {
+        window.open(smartLink.trim(), "_blank");
+      }
+
+      const startTime = Date.now();
+      let timerCompleted = false;
+
+      unlockBtn.disabled = true;
+      unlockBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin" style="width: 16px; height: 16px; margin-right: 8px; animation: spin 1.5s linear infinite;">
+          <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+        </svg> Loading Sponsor Video...
+      `;
+
+      const checkUnlock = () => {
+        if (timerCompleted) return;
+        const elapsed = (Date.now() - startTime) / 1000;
+
+        if (elapsed >= 4) {
+          timerCompleted = true;
+          sessionStorage.setItem("omnitool_premium_just_unlocked_" + toolId, "true");
+          this.playSynthSound('success');
+          this.showToast(`✨ Ad-lock unlocked! Access granted for ${toolInstance.name}.`, "success");
+          this.navigateToTool(toolId, false);
+
+          document.removeEventListener("visibilitychange", onVisibilityChange);
+          window.removeEventListener("focus", onVisibilityChange);
+        } else {
+          if (elapsed >= 2.5) {
+            unlockBtn.innerHTML = `📺 Playing Video Ad (2s remaining)...`;
+          } else if (elapsed >= 1) {
+            unlockBtn.innerHTML = `📺 Playing Video Ad (5s remaining)...`;
+          }
+        }
+      };
+
+      const intervalId = setInterval(() => {
+        checkUnlock();
+        if (timerCompleted) clearInterval(intervalId);
+      }, 500);
+
+      const onVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          checkUnlock();
+          if (timerCompleted) clearInterval(intervalId);
+        }
+      };
+
+      document.addEventListener("visibilitychange", onVisibilityChange);
+      window.addEventListener("focus", onVisibilityChange);
+    });
+
+    viewport.querySelector("#ad-premium-bypass-btn")?.addEventListener("click", () => {
+      window.location.hash = "plans";
+    });
+  },
+
+  renderPremiumLockScreen(viewport, toolId, toolInstance, toolbarHtml) {
+    this.activeTool = toolId;
+    this.syncSidebarUI();
+    const titleEl = document.getElementById("header-view-title");
+    if (titleEl) {
+      titleEl.innerText = toolInstance.name;
+      titleEl.style.display = "block";
+    }
+
+    const highlights = this.toolPremiumHighlights[toolId] || ["Pro capability suite", "Unlimited calculations & sizes"];
+    const highlightsHtml = highlights.map(h => `
+      <div style="display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 13px; color: var(--text-main); margin-bottom: 8px;">
+        <span style="color: var(--accent-purple);">★</span>
+        <span>${h}</span>
+      </div>
+    `).join('');
+
+    const lockHtml = `
+      <div class="premium-lock-screen" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; width: 100%; padding: 40px 20px;">
+        <div class="glass-card" style="max-width: 500px; width: 100%; padding: 32px; border-radius: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); text-align: center; display: flex; flex-direction: column; gap: 20px;">
+          
+          <div class="lock-icon-container" style="display: flex; justify-content: center; align-items: center; margin-bottom: 5px;">
+            <div class="lock-glow" style="width: 70px; height: 70px; border-radius: 50%; background: rgba(157, 78, 221, 0.08); border: 1px solid rgba(157, 78, 221, 0.25); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(157, 78, 221, 0.15);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" style="width: 32px; height: 32px;"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"></polygon><line x1="12" y1="22" x2="12" y2="12"></line><line x1="2" y1="8.5" x2="12" y2="12"></line><line x1="22" y1="8.5" x2="12" y2="12"></line><line x1="2" y1="15.5" x2="12" y2="12"></line><line x1="22" y1="15.5" x2="12" y2="12"></line></svg>
+            </div>
+          </div>
+
+          <div class="lock-header">
+            <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: 0.5px;">Premium Tool Required</h2>
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-purple); background: rgba(157, 78, 221, 0.12); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(157, 78, 221, 0.2); display: inline-block; margin-bottom: 12px; text-transform: uppercase;">💎 Pro / Premium Tier</span>
+            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Access to <strong>${toolInstance.name}</strong> is reserved for our Premium members. Subscribe or purchase a lifetime pass to unlock all 28 developer utilities.</p>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin: 6px 0;">
+            <div style="font-size: 11px; font-weight: 800; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; text-align: left;">Included in Pro subscription:</div>
+            ${highlightsHtml}
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+            <button id="premium-subscribe-btn" class="tool-btn primary" style="width: 100%; justify-content: center; height: 44px; font-size: 14px; font-weight: 700; border-radius: 8px; border-color: #9d4edd; background: rgba(157, 78, 221, 0.2); color: #c084fc;">
+              💎 View Membership Plans
+            </button>
+          </div>
+          
+        </div>
+      </div>
+    `;
+
+    viewport.innerHTML = toolbarHtml + lockHtml;
+
+    viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
+
+    viewport.querySelector("#premium-subscribe-btn")?.addEventListener("click", () => {
+      window.location.hash = "plans";
+    });
+  },
+
+  renderPlansPage() {
+    this.activeTool = null;
+    this.syncSidebarUI();
+
+    // Hide dashboard and active-viewport
+    const dashboard = document.getElementById("dashboard-view");
+    if (dashboard) dashboard.style.display = "none";
+    const viewport = document.getElementById("active-tool-viewport");
+    if (viewport) {
+      viewport.style.display = "none";
+      viewport.innerHTML = "";
+    }
+
+    const plansView = document.getElementById("plans-view");
+    if (plansView) {
+      plansView.style.display = "block";
+
+      // Update "Current Plan" status visual states
+      const userTier = localStorage.getItem("omnitool_user_tier") || "free";
+      const btnFree = plansView.querySelector("#plan-btn-free");
+      const btnLifetime = plansView.querySelector("#plan-btn-lifetime");
+      const btnMonthly = plansView.querySelector("#plan-btn-monthly");
+
+      if (btnFree && btnLifetime && btnMonthly) {
+        btnFree.disabled = true;
+        btnFree.innerText = "Current Plan";
+        btnFree.className = "tool-btn secondary";
+
+        btnLifetime.disabled = false;
+        btnLifetime.innerText = "Buy Lifetime Pass";
+        btnLifetime.className = "tool-btn primary";
+
+        btnMonthly.disabled = false;
+        btnMonthly.innerText = "Subscribe Monthly";
+        btnMonthly.className = "tool-btn primary";
+
+        if (userTier === "free") {
+          btnFree.disabled = true;
+          btnFree.innerText = "★ Active Free Plan";
+          btnFree.className = "tool-btn primary";
+        } else if (userTier === "lifetime") {
+          btnLifetime.disabled = true;
+          btnLifetime.innerText = "★ Active Lifetime Pass";
+          btnLifetime.className = "tool-btn secondary";
+        } else if (userTier === "premium") {
+          btnMonthly.disabled = true;
+          btnMonthly.innerText = "★ Active Pro Monthly";
+          btnMonthly.className = "tool-btn secondary";
+        }
+      }
+    }
+
+    const titleEl = document.getElementById("header-view-title");
+    if (titleEl) {
+      titleEl.innerText = "Membership Pricing Plans";
+      titleEl.style.display = "block";
+    }
+
+    // Bind buttons
+    const bindPurchase = (btnId, tierName) => {
+      const btn = document.getElementById(btnId);
+      btn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        const coffeeUrl = this.getConfigValue("omnitool_coffee_url", "");
+        const kofiUrl = this.getConfigValue("omnitool_kofi_url", "");
+        const checkoutUrl = kofiUrl || coffeeUrl || "";
+
+        if (checkoutUrl) {
+          window.open(checkoutUrl, "_blank");
+          this.showToast(`✨ Opening donation page! Enter code below or check email for activation key.`, "info");
+        } else {
+          this.showToast(`Please configure Buy Me a Coffee or Ko-fi links in settings, or enter key.`, "warn");
+        }
+      });
+    };
+
+    bindPurchase("plan-btn-lifetime", "lifetime");
+    bindPurchase("plan-btn-monthly", "premium");
+
+    // Bind Activation Code
+    const activateBtn = document.getElementById("plans-activate-btn");
+    const codeInput = document.getElementById("plans-activation-code");
+
+    activateBtn?.addEventListener("click", () => {
+      const code = codeInput.value.trim();
+      const adminPass = this.getConfigValue("omnitool_admin_passcode", "admin123");
+
+      if (code === "PRO_MONTHLY" || code === adminPass) {
+        localStorage.setItem("omnitool_user_tier", "premium");
+        this.playSynthSound('success');
+        this.showToast("🎉 Activation Successful! You are now a Pro Monthly member.", "success");
+        codeInput.value = "";
+        window.location.hash = "dashboard";
+      } else if (code === "LIFETIME_PASS") {
+        localStorage.setItem("omnitool_user_tier", "lifetime");
+        this.playSynthSound('success');
+        this.showToast("🎉 Activation Successful! Lifetime pass activated.", "success");
+        codeInput.value = "";
+        window.location.hash = "dashboard";
+      } else {
+        this.playSynthSound('error');
+        this.showToast("Invalid activation code or license key! Try again.", "error");
+      }
+    });
   }
 };
 

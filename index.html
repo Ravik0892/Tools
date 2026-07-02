@@ -22,7 +22,7 @@
   <meta name="twitter:title" content="OmniTool Hub">
   <meta name="twitter:description" content="50+ free developer tools. JSON, Base64, Crypto, Color, Math & more. 100% client-side.">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=1.1.3">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2fe' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21'/%3E%3C/svg%3E">
 
@@ -67,6 +67,71 @@
       </div>
       <div class="cp-footer">
         <span>Use ↑↓ keys to navigate, Enter to select. Press <strong>Ctrl + K</strong> to toggle anytime.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Theme & Aesthetics Modal -->
+  <div id="aesthetics-modal" class="cp-modal-overlay" style="display: none;">
+    <div class="cp-modal-content" style="max-width: 480px; padding: 24px; text-align: left; display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+        <h3 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin: 0; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Theme & Aesthetics</h3>
+        <button id="aesthetics-modal-close" style="background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; outline: none; padding: 4px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Theme Preset Selection -->
+      <div class="form-group">
+        <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Accent Palette Theme</label>
+        <div class="color-swatch-list-user" style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div class="color-swatch-item-user" data-preset="default" title="Cyber Cyan &amp; Violet" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; box-shadow: var(--shadow-sm);">
+            <div style="width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #00f2fe, #9d4edd);"></div>
+          </div>
+          <div class="color-swatch-item-user" data-preset="matrix" title="Matrix Emerald Green" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; box-shadow: var(--shadow-sm);">
+            <div style="width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669);"></div>
+          </div>
+          <div class="color-swatch-item-user" data-preset="vaporwave" title="Vaporwave Magenta &amp; Cyan" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; box-shadow: var(--shadow-sm);">
+            <div style="width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #ff007f, #00f2fe);"></div>
+          </div>
+          <div class="color-swatch-item-user" data-preset="sunset" title="Sunset Rose &amp; Amber" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; box-shadow: var(--shadow-sm);">
+            <div style="width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #f43f5e, #f59e0b);"></div>
+          </div>
+          <div class="color-swatch-item-user" data-preset="amber" title="Cyber Amber Gold" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; box-shadow: var(--shadow-sm);">
+            <div style="width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #fbbf24, #d97706);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layout Density -->
+      <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+        <label for="aesthetics-density" style="font-size: 13px; font-weight: 700; color: var(--text-main);">Layout Spacing Density</label>
+        <select class="form-select" id="aesthetics-density" style="width: 100%; height: 38px; padding: 0 12px; font-size: 13px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main);">
+          <option value="comfortable">Comfortable</option>
+          <option value="compact">Compact (Dense)</option>
+          <option value="loose">Spacious</option>
+        </select>
+      </div>
+
+      <!-- Clock Format -->
+      <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+        <label for="aesthetics-clock" style="font-size: 13px; font-weight: 700; color: var(--text-main);">Clock Display Format</label>
+        <select class="form-select" id="aesthetics-clock" style="width: 100%; height: 38px; padding: 0 12px; font-size: 13px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main);">
+          <option value="12">12-Hour (AM/PM)</option>
+          <option value="24">24-Hour (Military Time)</option>
+        </select>
+      </div>
+
+      <!-- Audio Feedback -->
+      <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-main);">
+          <input type="checkbox" id="aesthetics-audio" style="width: 16px; height: 16px; accent-color: var(--accent-cyan);">
+          <span>Enable Sound FX &amp; Audio Feedback</span>
+        </label>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 4px;">
+        <button id="aesthetics-modal-save" class="tool-btn primary" style="padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700;">Save Changes</button>
       </div>
     </div>
   </div>
@@ -125,6 +190,18 @@
                 <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                 <span>Favorites</span>
                 <span class="favorites-indicator" id="fav-count" style="display: none;">0</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-link" id="sidebar-aesthetics-btn" style="cursor: pointer;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Aesthetics</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-link" href="#plans" id="mobile-plans-link" style="color: var(--accent-purple); font-weight: 700;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; display: inline-block; vertical-align: middle; margin-right: 6px;"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"></polygon><line x1="12" y1="22" x2="12" y2="12"></line><line x1="2" y1="8.5" x2="12" y2="12"></line><line x1="22" y1="8.5" x2="12" y2="12"></line></svg>
+                <span>Plans</span>
               </a>
             </li>
           </ul>
@@ -265,6 +342,11 @@
             <a class="nav-link" data-category="fav" id="desktop-cat-fav">
               Favorites
               <span class="favorites-indicator" id="desktop-fav-count" style="display: none;">0</span>
+            </a>
+            <a class="nav-link" id="desktop-aesthetics-btn" style="cursor: pointer;">Aesthetics</a>
+            <a href="#plans" class="nav-link plans-link" id="desktop-plans-link" style="color: var(--accent-purple); font-weight: 700; display: flex; align-items: center; gap: 4px; margin-left: 8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"></polygon><line x1="12" y1="22" x2="12" y2="12"></line><line x1="2" y1="8.5" x2="12" y2="12"></line><line x1="22" y1="8.5" x2="12" y2="12"></line></svg>
+              Plans
             </a>
 
             <!-- Mega Menu Trigger -->
@@ -425,7 +507,7 @@
             <svg id="theme-sun-icon" viewBox="0 0 24 24" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             <svg id="theme-moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
           </button>
-
+          
           <!-- Buy me a coffee compact -->
           <button class="control-btn coffee-btn-compact" title="Support OmniTool Hub" aria-label="Buy Me a Coffee" onclick="app.openCoffeeLink(event)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -450,6 +532,115 @@
           <!-- Tools Cards Grid -->
           <div class="tools-grid" id="tools-card-grid">
             <!-- JavaScript will populate cards here dynamically -->
+          </div>
+
+          <!-- Static SEO & Navigation Links for Googlebot / Users -->
+          <div class="static-seo-section" style="margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border-color); text-align: left;">
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="color: var(--accent-cyan);">
+                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              Detailed Tool Documentation & Help Guides
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
+              <a href="guides/pipeline-builder.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Smart Chain Pipeline Builder Guide</a>
+              <a href="guides/json-formatter.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Data Formatter & Converter Guide</a>
+              <a href="guides/text-encoder-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Text Cases & Encoder Guide</a>
+              <a href="guides/jwt-decoder.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">JWT Decoder Guide</a>
+              <a href="guides/crypto-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Cryptography Suite Guide</a>
+              <a href="guides/pii-anonymizer.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Client-Side PII Masker Guide</a>
+              <a href="guides/markdown-preview.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Live Markdown Previewer Guide</a>
+              <a href="guides/text-diff.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Text Diff Comparison Guide</a>
+              <a href="guides/pdf-searcher.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">PDF Index & Search Guide</a>
+              <a href="guides/pdf-utilities.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">PDF Utilities Suite Guide</a>
+              <a href="guides/regex-tester.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Regular Expression Tester Guide</a>
+              <a href="guides/text-analyzer.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Text Analyzer Guide</a>
+              <a href="guides/css-studio.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">CSS Studio Guide</a>
+              <a href="guides/color-lab.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Color Lab Suite Guide</a>
+              <a href="guides/graphics-studio.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Graphics Studio Guide</a>
+              <a href="guides/image-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Image Converter Guide</a>
+              <a href="guides/svg-animator.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">SVG Animator Guide</a>
+              <a href="guides/security-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Security Suite Guide</a>
+              <a href="guides/datetime-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Datetime Suite Guide</a>
+              <a href="guides/calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Scientific Calculator Guide</a>
+              <a href="guides/unit-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Unit Converter Guide</a>
+              <a href="guides/url-parser.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">URL Parser Guide</a>
+              <a href="guides/code-playground.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Code Playground Guide</a>
+              <a href="guides/qr-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">QR Generator Guide</a>
+              <a href="guides/seo-previewer.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">SEO Previewer Guide</a>
+              <a href="guides/mock-data-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Mock Data Generator Guide</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- MEMBERSHIP PLANS VIEW -->
+        <div id="plans-view" style="display: none; padding: 40px 20px; max-width: 1000px; margin: 0 auto; text-align: center;">
+          <div class="plans-header" style="margin-bottom: 40px;">
+            <h1 style="font-size: 32px; font-weight: 800; color: var(--text-main); margin-bottom: 12px;">Choose Your <span style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Membership Plan</span></h1>
+            <p style="font-size: 14.5px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.5;">Get unlimited access to all 28 developer utilities with your preferred level of ad configuration.</p>
+          </div>
+          
+          <div class="plans-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+            
+            <!-- FREE PLAN -->
+            <div class="glass-card plan-card" style="padding: 32px; border-radius: 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; text-align: left; position: relative;">
+              <div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Starter</div>
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">Free Plan</h2>
+                <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">$0 <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ forever</span></div>
+                <ul style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> Access to standard free tools</li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> Unlock premium tools via video ads</li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-rose);">❌</span> Banner &amp; sidebar ads shown</li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-rose);">❌</span> Access video ads every session</li>
+                </ul>
+              </div>
+              <button class="tool-btn secondary" id="plan-btn-free" style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px;" disabled>Current Plan</button>
+            </div>
+
+            <!-- LIFETIME PASS -->
+            <div class="glass-card plan-card" style="padding: 32px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 242, 254, 0.2); display: flex; flex-direction: column; justify-content: space-between; text-align: left; position: relative; box-shadow: 0 0 20px rgba(0, 242, 254, 0.05);">
+              <div style="position: absolute; top: 12px; right: 12px; font-size: 9px; font-weight: 800; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.12); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(0, 242, 254, 0.2); text-transform: uppercase;">Best Value</div>
+              <div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Developer Pass</div>
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">Lifetime Pass</h2>
+                <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">$29.99 <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ one-time</span></div>
+                <ul style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> Lifetime access to all 28 tools</li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> Bypass all video ads/lock screens</li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> No monthly subscription fees</li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-orange);">⚠</span> Banner &amp; sidebar ads still exist</li>
+                </ul>
+              </div>
+              <button class="tool-btn primary" id="plan-btn-lifetime" style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px;">Buy Lifetime Pass</button>
+            </div>
+
+            <!-- MONTHLY PRO -->
+            <div class="glass-card plan-card" style="padding: 32px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(157, 78, 221, 0.25); display: flex; flex-direction: column; justify-content: space-between; text-align: left; position: relative; box-shadow: 0 0 20px rgba(157, 78, 221, 0.05);">
+              <div style="position: absolute; top: 12px; right: 12px; font-size: 9px; font-weight: 800; color: var(--accent-purple); background: rgba(157, 78, 221, 0.12); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(157, 78, 221, 0.2); text-transform: uppercase;">100% Ad-Free</div>
+              <div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Power User</div>
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">Pro Monthly</h2>
+                <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">$4.99 <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ month</span></div>
+                <ul style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> Full access to all 28 tools</li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> Bypass all video ads/lock screens</li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> <strong>100% Ad-Free Experience</strong></li>
+                  <li style="display: flex; gap: 8px; align-items: center;"><span style="color: var(--accent-cyan);">✔</span> Cleans up banner &amp; sidebar ads</li>
+                </ul>
+              </div>
+              <button class="tool-btn primary" id="plan-btn-monthly" style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px; border-color: #9d4edd; background: rgba(157, 78, 221, 0.15); color: #c084fc;">Subscribe Monthly</button>
+            </div>
+
+          </div>
+
+          <div class="plans-footer" style="padding: 20px; border-radius: 12px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto; text-align: left;">
+            <h4 style="margin: 0 0 6px 0; font-size: 14px; color: var(--text-main); font-weight: 700;">🔑 Already backed us or have an activation code?</h4>
+            <p style="margin: 0 0 12px 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Enter your activation passcode below to unlock your Pro or Lifetime membership status.</p>
+            <div style="display: flex; gap: 10px;">
+              <input type="password" id="plans-activation-code" class="form-input" style="height: 38px; font-size: 13px;" placeholder="Enter activation license key">
+              <button class="tool-btn primary" id="plans-activate-btn" style="height: 38px; white-space: nowrap; font-weight: 700; border-radius: 8px;">Activate License</button>
+            </div>
           </div>
         </div>
 

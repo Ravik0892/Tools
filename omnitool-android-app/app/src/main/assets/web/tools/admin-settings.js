@@ -16,6 +16,7 @@ export default {
             <button class="settings-tab-btn active" data-tab="tab-ads" style="background: none; border: none; border-bottom: 2px solid var(--accent-cyan); color: var(--accent-cyan); font-weight: 700; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Monetization &amp; Ads</button>
             <button class="settings-tab-btn" data-tab="tab-aesthetics" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Theme &amp; Aesthetics</button>
             <button class="settings-tab-btn" data-tab="tab-tools-visibility" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Tool Visibility</button>
+            <button class="settings-tab-btn" data-tab="tab-tiers" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Monetization Tiers</button>
             <button class="settings-tab-btn" data-tab="tab-backup" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Backup &amp; System</button>
           </div>
 
@@ -193,6 +194,22 @@ export default {
               <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your personal donation page links. Empty buttons will be automatically hidden from the sidebar.</p>
             </div>
 
+            <!-- Adsterra Smart Link Settings -->
+            <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+              <label for="adsterra-smart-link">Adsterra Smart Link URL</label>
+              <input type="text" class="form-input" id="adsterra-smart-link" placeholder="e.g. https://www.example.com/smartlink">
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your Adsterra Smart Link URL. When users click "Watch Video Ad to Unlock" on locked tools, it will open this link in a new tab, then grant them access.</p>
+            </div>
+
+            <!-- Cache Settings -->
+            <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--text-main);">
+                <input type="checkbox" id="preserve-settings-reset" style="width: 16px; height: 16px; accent-color: var(--accent-cyan);">
+                <span>Preserve Configurations on Cache Reset</span>
+              </label>
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">If checked, clearing the app cache via the top-right button will preserve your custom configurations (donation links, Adsterra links, theme settings, and passcodes).</p>
+            </div>
+
             <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
               <button class="tool-btn secondary" id="ad-settings-reset" style="font-size: 12px; padding: 6px 12px; height: auto;">Reset Ads to Default</button>
             </div>
@@ -280,6 +297,38 @@ export default {
               </div>
               <div id="tools-visibility-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; padding-right: 4px; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: rgba(0,0,0,0.15);">
                 <!-- Dynamically populated tool list with checkboxes -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: Monetization Tiers -->
+          <div id="tab-tiers" class="settings-tab-content" style="display: none;">
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; font-weight: 600;">
+                <input type="checkbox" id="monetization-global-status">
+                <span style="color: var(--accent-cyan);">Enable Monetization Restrictions Mode</span>
+              </label>
+              <p style="font-size: 12px; color: var(--text-muted); margin-left: 26px;">When enabled, tools will be locked based on their tiers. Users must unlock them via simulated ads or premium purchases.</p>
+            </div>
+
+            <!-- Simulate User Tier -->
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label for="monetization-user-tier" style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Simulate User Membership Level</label>
+              <select class="form-select" id="monetization-user-tier" style="width: 100%; height: 38px; padding: 0 12px; font-size: 13px;">
+                <option value="free">Standard Free User (Show Locks / Show Ads)</option>
+                <option value="ad-unlocked">Ad-Unlocked User (Ad-lock tools open / Show Ads)</option>
+                <option value="lifetime">Lifetime Pass Holder (All open / Show Ads)</option>
+                <option value="premium">Premium Subscriber (All open / 100% Ad-Free)</option>
+              </select>
+              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Set the active simulated tier to test lock and unlock screens instantly.</p>
+            </div>
+
+            <!-- Tool-specific Tiers Override List -->
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label style="color: var(--accent-purple); font-weight: 700; display: block; margin-bottom: 6px;">Individual Tool Tier Overrides</label>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Override the monetization level of individual tools. Changes are stored locally.</div>
+              <div id="tools-tiers-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 4px; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: rgba(0,0,0,0.15);">
+                <!-- Dynamically populated list of tools with tier dropdowns -->
               </div>
             </div>
           </div>
@@ -520,6 +569,8 @@ export default {
     const sponsorBtnText = container.querySelector("#sponsor-btn-text");
     const coffeeUrl = container.querySelector("#coffee-url");
     const kofiUrl = container.querySelector("#kofi-url");
+    const adsterraSmartLink = container.querySelector("#adsterra-smart-link");
+    const preserveSettingsReset = container.querySelector("#preserve-settings-reset");
     const overrideToolSelect = container.querySelector("#override-tool-select");
     const sponsorEditStatus = container.querySelector("#sponsor-edit-status");
     const btnLoadOverride = container.querySelector("#btn-load-override");
@@ -531,6 +582,10 @@ export default {
     const appClock = container.querySelector("#app-clock-select");
     const appAudio = container.querySelector("#app-audio-feedback");
     const adminPasscode = container.querySelector("#app-admin-passcode");
+
+    // Monetization selectors
+    const monetizationGlobal = container.querySelector("#monetization-global-status");
+    const monetizationUserTier = container.querySelector("#monetization-user-tier");
 
     // Tool visibility helper
     const populateToolsVisibility = () => {
@@ -557,6 +612,41 @@ export default {
           <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">${tool.subLabel}</span>
         `;
         visibilityList.appendChild(itemDiv);
+      });
+    };
+
+    // Tool monetization tiers helper
+    const populateToolsTiers = () => {
+      const tiersList = container.querySelector("#tools-tiers-list");
+      if (!tiersList) return;
+
+      tiersList.innerHTML = "";
+
+      let overrides = {};
+      try {
+        overrides = JSON.parse(localStorage.getItem("omnitool_monetization_overrides") || "{}");
+      } catch (e) {}
+
+      appInstance.tools.forEach(tool => {
+        const itemDiv = document.createElement("div");
+        itemDiv.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); gap: 10px;";
+        
+        const currentOverride = overrides[tool.id] || "default";
+        const builtInLevel = tool.monetization || "free";
+
+        itemDiv.innerHTML = `
+          <div style="flex: 1; text-align: left;">
+            <div style="font-size: 13.5px; font-weight: 600; color: var(--text-main);">${tool.name}</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Built-in: <strong style="color: ${builtInLevel === 'free' ? 'var(--accent-emerald)' : builtInLevel === 'ad-lock' ? 'var(--accent-cyan)' : 'var(--accent-purple)'}; text-transform: uppercase;">${builtInLevel}</strong></div>
+          </div>
+          <select class="form-select tool-tier-override-select" data-tool-id="${tool.id}" style="width: 130px; height: 32px; font-size: 12px; padding: 0 8px; margin: 0; background: var(--bg-input); border-color: var(--border-color); color: var(--text-main);">
+            <option value="default" ${currentOverride === 'default' ? 'selected' : ''}>Default</option>
+            <option value="free" ${currentOverride === 'free' ? 'selected' : ''}>Free</option>
+            <option value="ad-lock" ${currentOverride === 'ad-lock' ? 'selected' : ''}>Ad-Lock</option>
+            <option value="premium" ${currentOverride === 'premium' ? 'selected' : ''}>Premium</option>
+          </select>
+        `;
+        tiersList.appendChild(itemDiv);
       });
     };
 
@@ -711,6 +801,12 @@ export default {
       sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
       coffeeUrl.value = appInstance.getConfigValue("omnitool_coffee_url", "");
       kofiUrl.value = appInstance.getConfigValue("omnitool_kofi_url", "");
+      if (adsterraSmartLink) {
+        adsterraSmartLink.value = appInstance.getConfigValue("omnitool_adsterra_smart_link", "");
+      }
+      if (preserveSettingsReset) {
+        preserveSettingsReset.checked = localStorage.getItem("omnitool_preserve_settings_on_reset") === "true";
+      }
 
       // Load new settings
       appDensity.value = appInstance.getConfigValue("omnitool_layout_density", "comfortable");
@@ -722,9 +818,14 @@ export default {
         adminPasscode.value = appInstance.getConfigValue("omnitool_admin_passcode", "admin123");
       }
 
+      // Load monetization settings
+      monetizationGlobal.checked = localStorage.getItem("omnitool_monetization_active") === "true";
+      monetizationUserTier.value = localStorage.getItem("omnitool_user_tier") || "free";
+
       toggleFormFields(adNetwork.value);
       updateSimulatorPreview();
       populateToolsVisibility();
+      populateToolsTiers();
     };
 
     // Toggle fields depending on provider
@@ -891,6 +992,12 @@ export default {
       }
       localStorage.setItem("omnitool_coffee_url", coffeeUrl.value.trim());
       localStorage.setItem("omnitool_kofi_url", kofiUrl.value.trim());
+      if (adsterraSmartLink) {
+        localStorage.setItem("omnitool_adsterra_smart_link", adsterraSmartLink.value.trim());
+      }
+      if (preserveSettingsReset) {
+        localStorage.setItem("omnitool_preserve_settings_on_reset", preserveSettingsReset.checked ? "true" : "false");
+      }
 
       // Save new configurations
       localStorage.setItem("omnitool_accent_preset", activePreset);
@@ -902,6 +1009,20 @@ export default {
       if (adminPasscode) {
         localStorage.setItem("omnitool_admin_passcode", adminPasscode.value.trim());
       }
+
+      // Save Monetization Tiers
+      localStorage.setItem("omnitool_monetization_active", monetizationGlobal.checked ? "true" : "false");
+      localStorage.setItem("omnitool_user_tier", monetizationUserTier.value);
+
+      const overrides = {};
+      container.querySelectorAll(".tool-tier-override-select").forEach(select => {
+        const toolId = select.getAttribute("data-tool-id");
+        const val = select.value;
+        if (val !== "default") {
+          overrides[toolId] = val;
+        }
+      });
+      localStorage.setItem("omnitool_monetization_overrides", JSON.stringify(overrides));
 
       // Save hidden tools configuration
       const hiddenTools = [];
@@ -977,12 +1098,17 @@ export default {
         "omnitool_sponsor_btn_text": localStorage.getItem("omnitool_sponsor_btn_text") || "Claim Now",
         "omnitool_coffee_url": coffeeUrl.value.trim(),
         "omnitool_kofi_url": kofiUrl.value.trim(),
+        "omnitool_adsterra_smart_link": adsterraSmartLink ? adsterraSmartLink.value.trim() : "",
+        "omnitool_preserve_settings_on_reset": preserveSettingsReset ? (preserveSettingsReset.checked ? "true" : "false") : "false",
         "omnitool_accent_preset": activePreset,
         "omnitool_layout_density": appDensity.value,
         "omnitool_default_view": appStartup.value,
         "omnitool_clock_format": appClock.value,
         "omnitool_audio_feedback": appAudio.checked ? "true" : "false",
-        "omnitool_admin_passcode": adminPasscode ? adminPasscode.value.trim() : "admin123"
+        "omnitool_admin_passcode": adminPasscode ? adminPasscode.value.trim() : "admin123",
+        "omnitool_monetization_active": monetizationGlobal.checked ? "true" : "false",
+        "omnitool_user_tier": monetizationUserTier.value,
+        "omnitool_monetization_overrides": localStorage.getItem("omnitool_monetization_overrides") || "{}"
       };
 
       const overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";

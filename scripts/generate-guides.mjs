@@ -821,6 +821,48 @@ const toolsData = [
     ],
     ctaHref: "../index.html#tool/code-playground",
     ctaLabel: "Launch Live Playground"
+  },
+  {
+    id: "pii-anonymizer",
+    fileName: "pii-anonymizer.html",
+    title: "Client-Side PII Masker & Anonymizer Guide | OmniTool Hub",
+    description: "Learn how to detect, redact, hash, and mask sensitive Personal Identifiable Information (PII) from server logs locally.",
+    h1: "Client-Side PII Masker & Anonymizer Guide",
+    tag: "Crypto & Security",
+    leadParagraph: "Inspecting database logs, error traces, or transaction logs often risks leaking customer details like emails, IP addresses, and credit card numbers. OmniTool Hub's Client-Side PII Masker & Anonymizer processes all sensitive variables 100% locally inside your browser memory using robust regex identifiers, Luhn validation algorithms, and cryptographic SHA-256 hashes.",
+    tabsTitle: "Anonymizer Configurations & Strategies",
+    tabs: [
+      {
+        title: "1. Redaction Strategy",
+        badge: "Redact",
+        desc: "Replaces detected emails, phone numbers, IP addresses, credit cards, and SSNs with standardized labels (e.g., [REDACTED_EMAIL_1])."
+      },
+      {
+        title: "2. Cryptographic Hashing",
+        badge: "Hash",
+        desc: "Computes native SHA-256 hashes of private values in-browser. Maintains referential relations in logs without exposing individual identities."
+      },
+      {
+        title: "3. Asterisk Masking",
+        badge: "Mask",
+        desc: "Replaces inner portions of credentials with asterisks (e.g. jo**@ex****.com or ************4444) for manual security reviews."
+      },
+      {
+        title: "4. Custom sensitive dictionary",
+        badge: "Custom Words",
+        desc: "Allows inputting comma-separated proprietary project codes, custom names, or secret passwords to scrub them globally from pasted text."
+      }
+    ],
+    proTip: "Because all parsing is done on client-side regex engines and native SubtleCrypto APIs, no logs or customer records are ever sent over network sockets.",
+    steps: [
+      "Paste your text logs, CSV, or database records into the input box.",
+      "Check the target PII checkboxes (Emails, IPs, Phones, Credit Cards, SSNs).",
+      "Optionally enter custom words to censor in the custom words input box.",
+      "Select your preferred masking strategy: **Redact**, **Hash**, or **Mask**.",
+      "Inspect the live output and click **Copy Output** or **Download File** to save your clean logs."
+    ],
+    ctaHref: "../index.html#tool/pii-anonymizer",
+    ctaLabel: "Launch PII Anonymizer"
   }
 ];
 
@@ -889,6 +931,7 @@ const template = (tool) => `<!DOCTYPE html>
       font-weight: 800;
       background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 12px;
       letter-spacing: -0.5px;
