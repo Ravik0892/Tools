@@ -59,6 +59,7 @@ html {
   background-color: var(--bg-app);
   height: 100%;
 }
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -454,6 +455,8 @@ body {
   padding: 6px 12px;
   border-radius: 20px;
   border: 1px solid var(--border-color);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .clock-widget svg {
@@ -468,11 +471,13 @@ body {
   color: var(--text-main);
   width: 38px;
   height: 38px;
+  min-width: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
   transition: transform var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
@@ -556,10 +561,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-              border-color var(--transition-normal), 
-              box-shadow var(--transition-normal),
-              background-color var(--transition-normal);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background-color var(--transition-normal);
 }
 
 .tool-card::before {
@@ -580,7 +585,7 @@ body {
   transform: translateY(-6px);
   border-color: rgba(var(--card-accent-rgb, var(--accent-cyan-rgb)), 0.3);
   box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.4),
-              0 0 20px rgba(var(--card-accent-rgb, var(--accent-cyan-rgb)), 0.12);
+    0 0 20px rgba(var(--card-accent-rgb, var(--accent-cyan-rgb)), 0.12);
   background-color: var(--bg-card-hover);
 }
 
@@ -852,39 +857,39 @@ body {
   gap: 24px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1201px) {
   .tool-content-layout.split-view {
     grid-template-columns: 1fr 1fr;
     align-items: start;
     gap: 24px;
   }
 
-  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card) {
+  .tool-content-layout.split-view>.tool-panel:not(.tool-guide-card) {
     height: calc(100vh - 240px);
     min-height: 480px;
     overflow-y: auto;
     scrollbar-width: thin;
   }
 
-  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card) > * {
+  .tool-content-layout.split-view>.tool-panel:not(.tool-guide-card)>* {
     flex-shrink: 0;
   }
 
-  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar {
+  .tool-content-layout.split-view>.tool-panel:not(.tool-guide-card)::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
 
-  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar-track {
+  .tool-content-layout.split-view>.tool-panel:not(.tool-guide-card)::-webkit-scrollbar-track {
     background: transparent;
   }
 
-  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar-thumb {
+  .tool-content-layout.split-view>.tool-panel:not(.tool-guide-card)::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
   }
 
-  .tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)::-webkit-scrollbar-thumb:hover {
+  .tool-content-layout.split-view>.tool-panel:not(.tool-guide-card)::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.25);
   }
 }
@@ -1184,9 +1189,64 @@ body {
 }
 
 .slider-input {
-  flex: 1;
-  accent-color: var(--accent-cyan);
-  cursor: pointer;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.slider-input::-webkit-slider-runnable-track {
+  background: rgba(255, 255, 255, 0.08) !important;
+  height: 6px !important;
+  border-radius: 4px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  width: 100% !important;
+}
+
+.slider-input::-moz-range-track {
+  background: rgba(255, 255, 255, 0.08) !important;
+  height: 6px !important;
+  border-radius: 4px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  width: 100% !important;
+}
+
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: var(--accent-cyan) !important;
+  height: 18px !important;
+  width: 18px !important;
+  border-radius: 50% !important;
+  border: 2px solid #ffffff !important;
+  margin-top: -6px !important;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.8), 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  transition: transform var(--transition-fast) !important;
+  cursor: grab !important;
+}
+
+.slider-input::-webkit-slider-thumb:active {
+  cursor: grabbing !important;
+  transform: scale(1.2) !important;
+}
+
+.slider-input::-moz-range-thumb {
+  background: var(--accent-cyan) !important;
+  height: 18px !important;
+  width: 18px !important;
+  border-radius: 50% !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.8), 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  transition: transform var(--transition-fast) !important;
+  cursor: grab !important;
+}
+
+.slider-input::-moz-range-thumb:active {
+  cursor: grabbing !important;
+  transform: scale(1.2) !important;
 }
 
 .slider-val {
@@ -3305,13 +3365,17 @@ body {
 /* ========================================== */
 
 /* Desktop Navigation Layout */
-@media (min-width: 769px) {
+@media (min-width: 1201px) {
   .app-container {
     flex-direction: column;
   }
 
   .sidebar {
     display: none !important;
+  }
+
+  .coffee-btn-compact {
+    display: flex !important;
   }
 
   #sidebar-open-btn {
@@ -3393,7 +3457,9 @@ body {
   .header-right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+    flex-shrink: 0;
+    min-width: 0;
   }
 
   .header-title-bar-desktop {
@@ -3405,20 +3471,29 @@ body {
   .desktop-search-only {
     display: block;
     padding: 0;
+    width: 180px;
+    min-width: 120px;
+    position: relative;
+    z-index: 10;
+    flex-shrink: 1;
+    transition: width var(--transition-normal);
+  }
+
+  .desktop-search-only:focus-within {
+    width: 260px;
   }
 
   .desktop-search-only .search-bar {
-    width: 180px;
+    width: 100%;
     height: 38px;
     padding: 0 12px 0 34px;
     font-size: 13px;
     background-color: var(--bg-input);
     border-radius: 8px;
-    transition: width var(--transition-normal), border-color var(--transition-fast);
+    transition: border-color var(--transition-fast);
   }
 
   .desktop-search-only .search-bar:focus {
-    width: 260px;
     border-color: rgba(0, 242, 254, 0.6);
   }
 
@@ -3705,7 +3780,7 @@ body {
 }
 
 /* Medium viewport responsive mega menu layout */
-@media (min-width: 769px) and (max-width: 1100px) {
+@media (min-width: 1201px) and (max-width: 1300px) {
   .mega-menu-panel {
     min-width: unset;
     width: min(95vw, 640px);
@@ -3727,9 +3802,13 @@ body {
 }
 
 /* Mobile Drawer View overrides */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .app-container {
     flex-direction: column;
+  }
+
+  .coffee-btn-compact {
+    display: none !important;
   }
 
   .sidebar {
@@ -4813,12 +4892,19 @@ body {
 }
 
 @keyframes bounce-arrow-down {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateX(-50%) translateY(0);
   }
+
   40% {
     transform: translateX(-50%) translateY(-6px);
   }
+
   60% {
     transform: translateX(-50%) translateY(-3px);
   }
@@ -4826,7 +4912,8 @@ body {
 
 /* In-Panel Ads (For Split-View Pinned Layout) */
 .tool-panel-ad {
-  margin-top: auto; /* Pins the ad to the bottom of flex panel */
+  margin-top: auto;
+  /* Pins the ad to the bottom of flex panel */
   padding-top: 16px;
   border-top: 1px dashed var(--border-color);
   width: 100%;
@@ -4932,12 +5019,15 @@ body {
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
 }
 
 .category-tabs-container::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
+  /* Safari and Chrome */
 }
 
 .category-tab-pill {
@@ -5010,10 +5100,12 @@ body {
 .sizer-dropdown-container {
   display: inline-block;
 }
+
 .sizer-dropdown-menu {
   display: none;
   flex-direction: column;
 }
+
 .sizer-option-btn {
   background: none;
   border: none;
@@ -5028,45 +5120,34 @@ body {
   width: 100%;
   transition: all 0.2s;
 }
+
 .sizer-option-btn:hover {
   background-color: rgba(255, 255, 255, 0.08) !important;
 }
+
 .sizer-option-btn.active {
   color: var(--accent-cyan) !important;
   background-color: rgba(0, 242, 254, 0.1) !important;
 }
+
 [data-theme="light"] .sizer-option-btn:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
+
 [data-theme="light"] .sizer-option-btn.active {
   color: var(--accent-cyan) !important;
   background-color: rgba(0, 242, 254, 0.08) !important;
 }
 
 /* Container Queries for Responsive Layout at all Scales */
-@container app (max-width: 940px) {
-  /* Header adjustments */
+@container app (max-width: 1240px) {
+  /* Switch navigation to mobile drawer layout */
   .desktop-nav-menu {
     display: none !important;
   }
-  .desktop-search-only {
-    display: none !important;
-  }
+
   #sidebar-open-btn {
     display: flex !important;
-  }
-  .main-header {
-    height: 70px !important;
-    padding: 0 16px !important;
-  }
-  .header-left {
-    gap: 8px !important;
-  }
-  .header-right {
-    gap: 8px !important;
-  }
-  .clock-widget {
-    display: none !important;
   }
 
   /* Sidebar mobile drawer adjustments */
@@ -5081,27 +5162,361 @@ body {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease !important;
     z-index: 2000 !important;
   }
+
   .sidebar.show {
     transform: translateX(0) !important;
     box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.75), var(--shadow-lg) !important;
   }
 }
 
-/* Medium width header adjustments */
-@container app (min-width: 941px) and (max-width: 1150px) {
+/* Medium width adjustments */
+@container app (max-width: 1100px) {
   .clock-widget {
     display: none !important;
   }
+
   .desktop-search-only {
     max-width: 140px !important;
   }
+
   .main-header {
     padding: 0 20px !important;
   }
+
   .header-left {
     gap: 16px !important;
   }
+
   .header-right {
     gap: 10px !important;
   }
-}
+}
+
+/* Small mobile width adjustments */
+@container app (max-width: 940px) {
+  .desktop-search-only {
+    display: none !important;
+  }
+
+  .main-header {
+    height: 70px !important;
+    padding: 0 16px !important;
+  }
+
+  .header-left {
+    gap: 8px !important;
+  }
+
+  .header-right {
+    gap: 8px !important;
+  }
+}
+
+/* Mobile Split View Drawer Enhancements */
+@media (max-width: 1200px) {
+  .tool-content-layout.split-view {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    width: 100%;
+  }
+
+  /* Left panel becomes a slide-over drawer */
+  .tool-content-layout.split-view>.tool-panel:first-of-type {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    height: 100% !important;
+    width: 85% !important;
+    max-width: 340px !important;
+    background: rgba(10, 14, 23, 0.98) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border-radius: 12px 0 0 12px !important;
+    border-right: 1px solid var(--border-color-hover) !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    z-index: 1000 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 20px 0 40px rgba(0, 0, 0, 0.6) !important;
+    overflow-y: auto !important;
+    padding: 24px 20px 80px !important;
+    margin: 0 !important;
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Custom dark scrollbars specifically for the drawer */
+  .tool-content-layout.split-view>.tool-panel:first-of-type::-webkit-scrollbar {
+    width: 6px !important;
+  }
+  .tool-content-layout.split-view>.tool-panel:first-of-type::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2) !important;
+  }
+  .tool-content-layout.split-view>.tool-panel:first-of-type::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 3px !important;
+  }
+  .tool-content-layout.split-view>.tool-panel:first-of-type::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  /* Slide drawer in when open */
+  .tool-content-layout.split-view.drawer-open>.tool-panel:first-of-type {
+    transform: translateX(0) !important;
+  }
+
+  /* Right panel becomes full screen background */
+  .tool-content-layout.split-view>.tool-panel:nth-of-type(2) {
+    width: 100% !important;
+    flex: 1 !important;
+    margin: 0 !important;
+    padding: 16px !important;
+  }
+
+  /* Guides stack normally below output */
+  .tool-content-layout.split-view>.tool-guide-card {
+    width: 100% !important;
+    margin-top: 16px !important;
+  }
+
+  /* Blur backdrop mask for drawer */
+  .split-view-backdrop {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    z-index: 999 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease !important;
+    border-radius: 12px !important;
+  }
+
+  .tool-content-layout.split-view.drawer-open .split-view-backdrop {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Floating action button (FAB) */
+  .adjust-settings-fab {
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 24px !important;
+    z-index: 9998 !important;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    color: #fff !important;
+    padding: 12px 20px !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    box-shadow: 0 6px 24px rgba(var(--accent-cyan-rgb), 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .adjust-settings-fab:active {
+    transform: scale(0.92) !important;
+  }
+
+  .drawer-close-btn {
+    display: flex !important;
+  }
+
+  /* Mobile Top-Center Toast Notifications */
+  .toast-container {
+    top: 20px !important;
+    bottom: auto !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: 90% !important;
+    max-width: 400px !important;
+  }
+
+  .toast {
+    animation: toast-in-mobile 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  }
+
+  @keyframes toast-in-mobile {
+    from {
+      transform: translateY(-20px) scale(0.9);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Drawer edge slidable visual indicator */
+  .tool-content-layout.split-view>.tool-panel:first-of-type::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-purple));
+    border-radius: 10px;
+    opacity: 0.7;
+    pointer-events: none;
+    box-shadow: 0 0 6px var(--accent-cyan);
+  }
+}
+
+@media (min-width: 1201px) {
+  .adjust-settings-fab {
+    display: none !important;
+  }
+
+  .split-view-backdrop {
+    display: none !important;
+  }
+
+  .drawer-close-btn {
+    display: none !important;
+  }
+}
+
+/* Full Screen Preview Mode */
+.tool-content-layout.split-view>.tool-panel.preview-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: var(--bg-app) !important;
+  z-index: 99999 !important;
+  margin: 0 !important;
+  padding: 24px !important;
+  overflow: auto !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+/* Full Screen Preview Inner Elements Expansion */
+.tool-panel.preview-fullscreen .gradient-visualizer,
+.tool-panel.preview-fullscreen #shadow-showcase-container,
+.tool-panel.preview-fullscreen #glass-showcase-container,
+.tool-panel.preview-fullscreen #clippath-showcase-container {
+  height: 70vh !important;
+  min-height: 450px !important;
+  transition: all 0.3s ease;
+}
+
+.tool-panel.preview-fullscreen .input-textarea,
+.tool-panel.preview-fullscreen .output-pre,
+.tool-panel.preview-fullscreen .markdown-preview,
+.tool-panel.preview-fullscreen textarea {
+  min-height: 50vh !important;
+  height: auto !important;
+}
+
+.tool-panel.preview-fullscreen .panel-header {
+  position: sticky !important;
+  top: -24px !important;
+  margin-top: -24px !important;
+  margin-left: -24px !important;
+  margin-right: -24px !important;
+  padding: 16px 24px !important;
+  background: var(--bg-card) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  z-index: 100 !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.tool-panel.preview-fullscreen .preview-area-container {
+  height: auto !important;
+  min-height: 70vh !important;
+  flex: none !important;
+}
+
+/* Premium Header Coffee Cup Icon Button */
+.coffee-btn-compact {
+  display: flex;
+  color: var(--accent-orange) !important;
+  border-color: rgba(245, 158, 11, 0.25) !important;
+  background-color: rgba(245, 158, 11, 0.05) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.coffee-btn-compact:hover {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: var(--accent-orange) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2) !important;
+}
+
+/* Vertical Sidebar Sponsor ad overrides (replaces squished horizontal layout) */
+.sidebar-sponsor-container .sponsor-ad-block {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  padding: 16px !important;
+  gap: 12px !important;
+  text-align: center !important;
+  background: var(--bg-card) !important;
+}
+
+.sidebar-sponsor-container .ad-horizontal-left {
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 8px !important;
+}
+
+.sidebar-sponsor-container .ad-image-placeholder {
+  margin: 0 auto !important;
+  flex-shrink: 0 !important;
+}
+
+.sidebar-sponsor-container .ad-info {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.sidebar-sponsor-container .ad-title-row {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-bottom: 4px !important;
+}
+
+.sidebar-sponsor-container .ad-brand {
+  font-size: 13px !important;
+}
+
+.sidebar-sponsor-container .ad-slogan {
+  text-align: center !important;
+  font-size: 11px !important;
+}
+
+.sidebar-sponsor-container .ad-action-btn {
+  width: 100% !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  padding: 8px 12px !important;
+  display: block !important;
+}

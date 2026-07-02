@@ -28,7 +28,7 @@ export default {
     return `
       <div class="tool-content-layout split-view">
         <!-- Left Panel: Calculator Interface -->
-        <div class="tool-panel" style="gap: 12px; background: rgba(18, 24, 38, 0.85); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);">
+        <div class="tool-panel" style="gap: 12px; background: var(--bg-card); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
           <div class="panel-header" style="border: none; padding-bottom: 0;">
             <h3 style="color: var(--accent-cyan);"><svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: var(--accent-cyan); fill: none; stroke-width: 2; margin-right: 6px;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line></svg> Computron Pad</h3>
             <div style="display: flex; gap: 6px; align-items: center;">
@@ -38,13 +38,13 @@ export default {
           </div>
           
           <!-- Display Screen -->
-          <div style="background-color: #0b0f19; border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; min-height: 100px; font-family: var(--font-mono); word-break: break-all; position: relative; box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);">
+          <div style="background-color: var(--bg-input); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; min-height: 100px; font-family: var(--font-mono); word-break: break-all; position: relative; box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);">
             <div id="calc-formula-display" style="font-size: 13px; color: var(--text-muted); min-height: 18px; line-height: 1.4; text-align: right; width: 100%;"></div>
-            <div id="calc-result-display" style="font-size: 32px; font-weight: 700; color: var(--accent-cyan); text-shadow: 0 0 15px rgba(0, 242, 254, 0.4); text-align: right; width: 100%; margin-top: 8px;">0</div>
+            <div id="calc-result-display" style="font-size: 32px; font-weight: 700; color: var(--accent-cyan); text-align: right; width: 100%; margin-top: 8px;">0</div>
           </div>
 
           <!-- Programmer Base Conversions Bar -->
-          <div id="calc-base-conversion-bar" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 8px 12px; background-color: rgba(11, 15, 25, 0.6); border: 1px dashed var(--border-color); border-radius: 8px; font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); margin-top: 4px; margin-bottom: 4px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);">
+          <div id="calc-base-conversion-bar" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 8px 12px; background-color: var(--bg-input); border: 1px dashed var(--border-color); border-radius: 8px; font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); margin-top: 4px; margin-bottom: 4px;">
             <div>HEX: <span id="calc-base-hex" style="color: var(--accent-cyan); font-weight: 700;">0x0</span></div>
             <div>DEC: <span id="calc-base-dec" style="color: var(--accent-purple); font-weight: 700;">0</span></div>
             <div>OCT: <span id="calc-base-oct" style="color: var(--accent-orange); font-weight: 700;">0</span></div>
@@ -125,7 +125,7 @@ export default {
         </div>
 
         <!-- Right Panel: History Log & Mathematical Constants -->
-        <div class="tool-panel" style="background: rgba(18, 24, 38, 0.7); border: 1px solid var(--border-color); border-radius: 16px;">
+        <div class="tool-panel" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px;">
           <div class="tab-container" style="margin-bottom: 8px;">
             <div style="display: flex; gap: 4px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
               <button class="tool-btn secondary active" id="calc-tab-history" style="flex: 1; font-size: 11px; padding: 6px;">History Log</button>
@@ -177,7 +177,7 @@ export default {
                 </div>
               </div>
               <button class="tool-btn primary" id="calc-graph-draw-btn" style="padding: 8px; font-size: 11px;">Plot Function</button>
-              <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: #05070c; border: 1px solid var(--border-color); border-radius: 8px; padding: 6px; min-height: 180px; position: relative; margin-top: 4px;">
+              <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; padding: 6px; min-height: 180px; position: relative; margin-top: 4px;">
                 <canvas id="calc-graph-canvas" width="240" height="180" style="max-width: 100%; border-radius: 4px; background-color: #000000; display: block;"></canvas>
               </div>
             </div>
