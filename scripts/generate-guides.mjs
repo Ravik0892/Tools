@@ -909,6 +909,42 @@ const toolsData = [
     ],
     ctaHref: "../index.html#tool/json-formatter",
     ctaLabel: "Launch Data Formatter"
+  },
+  {
+    id: "ip-subnet-calculator",
+    fileName: "ip-subnet-calculator.html",
+    title: "IP Subnet & MAC Address Calculator Guide | OmniTool Hub",
+    description: "Learn how to calculate IPv4 CIDR subnets, discover usable host ranges, inspect wildcard masks, and look up MAC OUI vendors client-side.",
+    h1: "IP Subnet & MAC Address Calculator Guide",
+    tag: "Network Utilities",
+    leadParagraph: "Planning network architectures, partitioning VPC subnets, and diagnosing local hardware requires fast, accurate IP subnetting calculations. OmniTool Hub's IP Subnet & MAC Address Suite runs 100% in your browser without sending internal network topology details or private IP ranges to the cloud.",
+    tabsTitle: "Subnetting Features & Operations",
+    tabs: [
+      {
+        title: "1. CIDR Subnet Calculator",
+        badge: "CIDR",
+        desc: "Calculate network address, broadcast address, netmask, wildcard mask, and usable host address ranges for any IPv4 address with custom /CIDR prefix lengths."
+      },
+      {
+        title: "2. Binary Representation & Wildcard",
+        badge: "Binary View",
+        desc: "Inspect binary representations of subnet divisions and wildcard masks to easily plan routing tables and firewall rules."
+      },
+      {
+        title: "3. MAC Address Formatter & OUI Lookup",
+        badge: "MAC & OUI",
+        desc: "Format MAC addresses across standard notations (colon, hyphen, dot) and look up hardware vendor information using a local offline database."
+      }
+    ],
+    proTip: "You can input private RFC 1918 addresses (like 10.0.0.0/8 or 172.16.0.0/12) without fear—computations never leave your workstation.",
+    steps: [
+      "Enter an IPv4 address and CIDR prefix (e.g. 192.168.1.0/24) into the calculator.",
+      "Inspect the live calculation summary showing usable hosts, netmask, and broadcast boundaries.",
+      "Switch to the MAC / OUI tab to format hardware addresses or search device manufacturers.",
+      "Copy calculated network parameters directly to your clipboard."
+    ],
+    ctaHref: "../index.html#tool/ip-subnet-calculator",
+    ctaLabel: "Launch Subnet Calculator"
   }
 ];
 
@@ -938,7 +974,8 @@ const toolMeta = {
   'mock-data-generator': { category: 'dev', categoryName: 'Developer Tools', icon: '🎲', color: '#00f2fe' },
   'code-playground': { category: 'dev', categoryName: 'Developer Tools', icon: '💻', color: '#00f2fe' },
   'pii-anonymizer': { category: 'crypto', categoryName: 'Crypto & Privacy', icon: '🕵️', color: '#f59e0b' },
-  'json-formatter': { category: 'dev', categoryName: 'Developer Tools', icon: '📋', color: '#00f2fe' }
+  'json-formatter': { category: 'dev', categoryName: 'Developer Tools', icon: '📋', color: '#00f2fe' },
+  'ip-subnet-calculator': { category: 'math', categoryName: 'Math & Time', icon: '🌐', color: '#00f2fe' }
 };
 
 function getRelatedTools(currentTool, allTools) {
@@ -983,6 +1020,7 @@ const template = (tool, allTools) => {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=1.2.2">
 
   <!-- JSON-LD Structured Data for Rich Search Snippets -->
   <script type="application/ld+json">
@@ -1190,7 +1228,7 @@ const template = (tool, allTools) => {
 
     /* Container */
     .container {
-      max-width: 860px;
+      max-width: 1060px;
       margin: 20px auto 0 auto;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -1460,6 +1498,126 @@ const template = (tool, allTools) => {
       color: var(--accent-cyan);
     }
 
+    /* Live Interactive Tool Card */
+    .live-tool-embed-card {
+      background: rgba(10, 14, 23, 0.75);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 254, 0.08);
+    }
+
+    .live-tool-embed-header {
+      background: rgba(18, 24, 38, 0.85);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .live-status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      background: var(--accent-emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-emerald);
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    .live-fullscreen-link {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      background: rgba(0, 242, 254, 0.06);
+      transition: all 0.2s ease;
+    }
+
+    .live-fullscreen-link:hover {
+      background: rgba(0, 242, 254, 0.15);
+      border-color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+
+    .live-guide-tool-viewport {
+      padding: 24px 20px;
+      min-height: 260px;
+    }
+
+    .guide-tool-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      color: var(--text-muted);
+      gap: 12px;
+      font-size: 13.5px;
+    }
+
+    .guide-tool-spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(0, 242, 254, 0.15);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Guide Toast Notification */
+    .guide-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(18, 24, 38, 0.95);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      z-index: 9999;
+    }
+
+    .guide-toast.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .guide-toast.success { border-color: var(--accent-emerald); color: #34d399; }
+    .guide-toast.error { border-color: var(--accent-rose); color: #f87171; }
+    .guide-toast.info { border-color: var(--accent-cyan); color: #38bdf8; }
+
     @media (max-width: 640px) {
       .container {
         padding: 24px 18px;
@@ -1514,6 +1672,25 @@ const template = (tool, allTools) => {
         <span class="meta-tag">🛠️ ${tool.tag}</span>
       </div>
     </header>
+
+    <!-- LIVE INTERACTIVE EMBEDDED TOOL WORKSPACE -->
+    <section class="live-tool-embed-card">
+      <div class="live-tool-embed-header">
+        <div class="live-status-indicator">
+          <span class="pulse-dot"></span>
+          <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
+        </div>
+        <div class="live-tool-quick-links">
+          <a href="${tool.ctaHref}" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+        </div>
+      </div>
+      <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
+        <div class="guide-tool-loading">
+          <div class="guide-tool-spinner"></div>
+          <span>Loading ${tool.h1.replace(/ Guide$/i, '')}...</span>
+        </div>
+      </div>
+    </section>
 
     <article>
       <p>
@@ -1590,6 +1767,61 @@ const template = (tool, allTools) => {
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
     </p>
   </footer>
+
+  <!-- Client-side adapter & dynamic tool mounter -->
+  <script type="module">
+    const guideApp = {
+      activeSubtab: ${tool.id === 'json-formatter' ? '"json"' : 'null'},
+      showToast(msg, type = 'info') {
+        let t = document.getElementById('guide-toast');
+        if (!t) {
+          t = document.createElement('div');
+          t.id = 'guide-toast';
+          t.className = 'guide-toast';
+          document.body.appendChild(t);
+        }
+        t.innerText = msg;
+        t.className = 'guide-toast show ' + type;
+        setTimeout(() => { if (t) t.className = 'guide-toast'; }, 3200);
+      },
+      async copyText(text) {
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(text);
+          this.showToast('Copied to clipboard!', 'success');
+        } catch {
+          this.showToast('Failed to copy', 'error');
+        }
+      },
+      playSynthSound() {},
+      getConfigValue(k, d) { return localStorage.getItem(k) || d; },
+      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; }
+    };
+
+    const targetModule = '${tool.id === 'json-formatter' ? 'formatter-suite.js' : tool.id + '.js'}';
+    try {
+      const module = await import('../tools/' + targetModule);
+      const toolInstance = module.default;
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (toolInstance && typeof toolInstance.renderUI === 'function' && viewport) {
+        viewport.innerHTML = toolInstance.renderUI();
+        if (typeof toolInstance.init === 'function') {
+          await toolInstance.init(viewport, guideApp);
+        }
+      }
+    } catch (err) {
+      console.warn('[OmniTool Guide] Live tool initialization notice:', err);
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (viewport) {
+        viewport.innerHTML = \`
+          <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
+            <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
+            <a href="${tool.ctaHref}" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+          </div>
+        \`;
+      }
+    }
+  </script>
 
 </body>
 </html>
