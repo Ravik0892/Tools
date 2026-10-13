@@ -109,8 +109,8 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 *   **Description**: Search through multiple large PDF files simultaneously for keywords and perform optical character recognition (OCR) on scanned pages locally.
 *   **Guide Page**: [pdf-searcher.html](file:///f:/Tools%20website/guides/pdf-searcher.html)
 
-#### 15. PDF Toolbox (Split & Compress) (`pdf-utilities`)
-*   **Description**: Extract custom ranges, split documents, and downscale DPI configurations to compress PDF files.
+#### 15. PDF Toolbox (Split, Merge, Convert & Compress) (`pdf-utilities`)
+*   **Description**: Split into PDF/PNG/JPG/WebP/Text, merge multiple PDFs, rotate/reorganize pages, and compress documents 100% client-side.
 *   **Guide Page**: [pdf-utilities.html](file:///f:/Tools%20website/guides/pdf-utilities.html)
 
 #### 16. Visual Regex & Extractor Suite (`regex-tester`)

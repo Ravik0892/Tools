@@ -61,15 +61,17 @@ export default {
               <label for="aes-input-text" id="aes-input-label">Plain Text to Encrypt</label>
               <textarea id="aes-input-text" class="form-textarea" placeholder="Type or paste the secret message you want to encrypt..." style="height: 120px; font-family: monospace; resize: vertical;"></textarea>
             </div>
-            <div class="form-group">
+            <form id="aes-passphrase-form" onsubmit="event.preventDefault();" class="form-group">
+              <input type="text" name="username" autocomplete="username" style="display: none;">
               <label for="aes-passphrase">Secret Passphrase / Key</label>
               <div style="position: relative; display: flex; align-items: center;">
-                <input type="password" id="aes-passphrase" class="form-input" placeholder="Enter key / password..." style="padding-right: 40px; font-family: monospace; width: 100%;">
-                <button id="aes-toggle-password-btn" style="position: absolute; right: 8px; background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; padding: 4px;">
+                <input type="password" id="aes-passphrase" class="form-input" placeholder="Enter key / password..." style="padding-right: 40px; font-family: monospace; width: 100%;" autocomplete="new-password">
+                <button id="aes-toggle-password-btn" type="button" style="position: absolute; right: 8px; background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; padding: 4px;">
                   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" id="aes-password-eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </button>
               </div>
-              <div id="aes-strength-container" style="margin-top: 8px;">
+            </form>
+            <div id="aes-strength-container" style="margin-top: 8px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                   <span style="font-size: 10px; color: var(--text-muted);">Key Strength:</span>
                   <span id="aes-strength-label" style="font-size: 10px; font-weight: 700; color: #ef4444;">Empty</span>

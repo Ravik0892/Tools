@@ -336,11 +336,12 @@ export default {
           <!-- TAB 3: Backup & System Content -->
           <div id="tab-backup" class="settings-tab-content" style="display: none;">
             <!-- Admin Security Settings -->
-            <div class="form-group" style="margin-bottom: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+            <form id="admin-passcode-form" onsubmit="event.preventDefault();" class="form-group" style="margin-bottom: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+              <input type="text" name="username" autocomplete="username" style="display: none;">
               <label for="app-admin-passcode">Admin Access Passcode</label>
               <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Change the security passcode required to access the Settings panel (default: admin123).</div>
-              <input type="password" class="form-input" id="app-admin-passcode" placeholder="e.g. admin123">
-            </div>
+              <input type="password" class="form-input" id="app-admin-passcode" placeholder="e.g. admin123" autocomplete="new-password">
+            </form>
 
             <div class="form-group" style="margin-bottom: 18px;">
               <label>Export Global Configurations</label>

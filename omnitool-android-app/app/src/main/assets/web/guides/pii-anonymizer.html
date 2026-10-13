@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client-Side PII Masker & Anonymizer Guide | OmniTool Hub</title>
-  <meta name="description" content="Learn how to detect, redact, hash, and mask sensitive Personal Identifiable Information (PII) and API keys from server logs locally.">
+  <meta name="description" content="Learn how to detect, redact, hash, and mask sensitive Personal Identifiable Information (PII) from server logs locally.">
   
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -197,7 +197,7 @@
     <header>
       <h1>Client-Side PII Masker & Anonymizer Guide</h1>
       <div class="meta">
-        <span class="meta-tag">📅 July 2026</span>
+        <span class="meta-tag">📅 June 2026</span>
         <span class="meta-tag">🔒 100% Offline-Safe</span>
         <span class="meta-tag">🛠️ Crypto & Security</span>
       </div>
@@ -210,57 +210,47 @@
 
       <h2>Anonymizer Configurations & Strategies</h2>
       <p>
-        Here is a detailed breakdown of the premium features and configurations available within this tool suite:
+        Here is a detailed breakdown of the features and configurations available within this tool suite:
       </p>
 
       
       <div class="tab-section">
         <div class="tab-title">
-          <span>1. Drag-and-Drop Local File Loader</span>
-          <span class="tab-badge">File Loader</span>
+          <span>1. Redaction Strategy</span>
+          <span class="tab-badge">Redact</span>
         </div>
         <p>
-          Enables developers to upload text logs, CSV files, or database extracts directly into browser memory. Files are processed locally without server uploads.
-        </p>
-      </div>
-
-      <div class="tab-section">
-        <div class="tab-title">
-          <span>2. Redaction, Hashing, & Masking Strategies</span>
-          <span class="tab-badge">Strategies</span>
-        </div>
-        <p>
-          Redacts values, calculates unique SHA-256 integrity hashes to maintain referential log relations, or masks details with asterisks (e.g. ************4444).
+          Replaces detected emails, phone numbers, IP addresses, credit cards, and SSNs with standardized labels (e.g., [REDACTED_EMAIL_1]).
         </p>
       </div>
       
       <div class="tab-section">
         <div class="tab-title">
-          <span>3. Security Token & API Key Scanners</span>
-          <span class="tab-badge">Token Scanner</span>
+          <span>2. Cryptographic Hashing</span>
+          <span class="tab-badge">Hash</span>
         </div>
         <p>
-          Detects and censors AWS keys, GitHub credentials, Bearer/Basic headers, and private SSH cryptographic keys automatically.
+          Computes native SHA-256 hashes of private values in-browser. Maintains referential relations in logs without exposing individual identities.
         </p>
       </div>
-
+      
       <div class="tab-section">
         <div class="tab-title">
-          <span>4. JSON Key Purge</span>
-          <span class="tab-badge">JSON Purge</span>
+          <span>3. Asterisk Masking</span>
+          <span class="tab-badge">Mask</span>
         </div>
         <p>
-          Purges key values based on user-defined key targets (like "password", "pin", or "secret") in JSON-formatted streams without breaking structures.
+          Replaces inner portions of credentials with asterisks (e.g. jo**@ex****.com or ************4444) for manual security reviews.
         </p>
       </div>
-
+      
       <div class="tab-section">
         <div class="tab-title">
-          <span>5. Exportable Audit Compliance Report</span>
-          <span class="tab-badge">Audit Report</span>
+          <span>4. Custom sensitive dictionary</span>
+          <span class="tab-badge">Custom Words</span>
         </div>
         <p>
-          Generates a structured compliance report containing metadata, timestamps, and details of all censored values for administrative compliance archiving.
+          Allows inputting comma-separated proprietary project codes, custom names, or secret passwords to scrub them globally from pasted text.
         </p>
       </div>
       
@@ -272,7 +262,7 @@
 
       <h2>How to Use the Tool</h2>
       <ol>
-        <li>Drag and drop your text logs, CSV, or JSON records into the local dropzone, or paste directly.</li><li>Select targeted PII scanner toggles, including the new **Security Keys & Tokens** scanner.</li><li>Specify JSON key fields in the JSON scrub field if analyzing JSON database schemas.</li><li>Select your preferred strategy: **Redact**, **Hash**, or **Mask**.</li><li>Verify the real-time changes inside the audit log and download the cleaned text file.</li><li>Click **Export Audit Report** to download the structured JSON compliance record.</li>
+        <li>Paste your text logs, CSV, or database records into the input box.</li><li>Check the target PII checkboxes (Emails, IPs, Phones, Credit Cards, SSNs).</li><li>Optionally enter custom words to censor in the custom words input box.</li><li>Select your preferred masking strategy: **Redact**, **Hash**, or **Mask**.</li><li>Inspect the live output and click **Copy Output** or **Download File** to save your clean logs.</li>
       </ol>
     </article>
 

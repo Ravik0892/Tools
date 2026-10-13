@@ -290,7 +290,9 @@ export default {
     const guideTitle = container.querySelector("#color-guide-title");
     const guideSteps = container.querySelector("#color-guide-steps");
 
-    let activeTab = "palette";
+    const initialTab = appInstance.activeSubtab || 'palette';
+    appInstance.activeSubtab = null;
+    let activeTab = initialTab;
 
     const guides = {
       palette: {
@@ -353,6 +355,8 @@ export default {
     tabs.forEach(tab => {
       tab.addEventListener("click", () => switchTab(tab.dataset.tab));
     });
+
+    switchTab(initialTab);
 
     // ==========================================
     // PALETTE GENERATOR & CONTRAST

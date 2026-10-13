@@ -40,7 +40,7 @@ export default {
 
           <div class="form-group">
             <label for="seo-og-image">Open Graph Image (URL or Upload)</label>
-            <input type="text" id="seo-og-image" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 13px; margin-bottom: 8px;" value="https://omnitoolhub.app/assets/og-banner.jpg" placeholder="https://example.com/image.jpg">
+            <input type="text" id="seo-og-image" class="search-bar" style="width: 100%; border: 1px solid var(--border-color); font-size: 13px; margin-bottom: 8px;" value="https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=630&fit=crop" placeholder="https://example.com/image.jpg">
             <div style="display: flex; gap: 8px; align-items: center;">
               <input type="file" id="seo-file-input" accept="image/*" style="display: none;">
               <button type="button" class="tool-btn secondary" id="seo-file-btn" style="font-size: 11px; padding: 6px 12px;">Upload Test Image</button>

@@ -91,7 +91,7 @@ export default {
           </div>
 
           <!-- Tab 1 Output: Subnet Results -->
-          <div id="output-subnet-container" style="display: flex; flex-direction: column; width: 100%; height: 100%;">
+          <div id="output-subnet-container" style="display: flex; flex-direction: column; width: 100%;">
             <!-- Results Grid -->
             <div class="metrics-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; flex: 1;">
               <div class="metric-card" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px;">
@@ -141,7 +141,7 @@ export default {
           </div>
 
           <!-- Tab 2 Output: MAC Results -->
-          <div id="output-mac-container" class="hidden" style="display: flex; flex-direction: column; width: 100%; height: 100%; gap: 12px;">
+          <div id="output-mac-container" class="hidden" style="display: flex; flex-direction: column; width: 100%; gap: 12px;">
             <div class="metrics-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px; flex: 1;">
               <!-- OUI Lookup Card -->
               <div class="metric-card" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 16px;">
