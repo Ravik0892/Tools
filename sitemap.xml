@@ -3,165 +3,179 @@
   <!-- Main landing page -->
   <url>
     <loc>https://omnitool-hub.vercel.app/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <!-- Guides & Documentation Hub Directory -->
+  <url>
+    <loc>https://omnitool-hub.vercel.app/guides/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://omnitool-hub.vercel.app/guides/index.html</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
   <!-- Individual tool guide pages -->
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/calculator.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/code-playground.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/color-lab.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/crypto-suite.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/css-studio.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/datetime-suite.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/graphics-studio.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/image-converter.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/json-formatter.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/jwt-decoder.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/markdown-preview.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/mock-data-generator.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/pdf-searcher.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/pdf-utilities.html</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://omnitool-hub.vercel.app/guides/pipeline-builder.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/pii-anonymizer.html</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://omnitool-hub.vercel.app/guides/pipeline-builder.html</loc>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/qr-generator.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/regex-tester.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/security-suite.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/seo-previewer.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/svg-animator.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/text-analyzer.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/text-diff.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/text-encoder-suite.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/unit-converter.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://omnitool-hub.vercel.app/guides/url-parser.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
