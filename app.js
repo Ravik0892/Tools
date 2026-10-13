@@ -662,7 +662,7 @@ const app = {
       if (hiddenToolsSet.has(tool.id)) return;
       const li = document.createElement("li");
       li.innerHTML = `
-        <a class="sidebar-tool-link mega-item" data-tool="${tool.id}">
+        <a href="#tool/${tool.id}" class="sidebar-tool-link mega-item" data-tool="${tool.id}">
           ${tool.icon}
           <span>${tool.name}</span>
         </a>
@@ -826,7 +826,7 @@ const app = {
       const matchingTools = this.tools.filter(t => t.subcategory === filter && !hiddenToolsSet.has(t.id));
       matchingTools.forEach(tool => {
         const toolLi = document.createElement("li");
-        toolLi.innerHTML = `<a class="sidebar-tool-link" data-tool="${tool.id}">${tool.name}</a>`;
+        toolLi.innerHTML = `<a href="#tool/${tool.id}" class="sidebar-tool-link" data-tool="${tool.id}">${tool.name}</a>`;
         toolLi.querySelector(".sidebar-tool-link").addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -1019,9 +1019,13 @@ const app = {
         const tool = this.tools.find(t => t.id === id);
         if (tool) {
           const item = document.createElement("a");
+          item.href = `#tool/${id}`;
           item.className = "recent-link";
           item.innerHTML = `${tool.icon} <span>${tool.name}</span>`;
-          item.addEventListener("click", () => this.navigateToTool(id));
+          item.addEventListener("click", (e) => {
+            e.preventDefault();
+            this.navigateToTool(id);
+          });
           container.appendChild(item);
         }
       });
@@ -2248,7 +2252,7 @@ const app = {
       const effectiveMonetization = overrides[tool.id] || tool.monetization || "free";
 
       card.innerHTML = `
-        <button class="card-fav-btn ${isFav ? 'is-fav' : ''}" data-tool="${tool.id}" title="Toggle Favorite">
+        <button class="card-fav-btn ${isFav ? 'is-fav' : ''}" data-tool="${tool.id}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}" aria-label="${isFav ? 'Remove ' + tool.name + ' from favorites' : 'Add ' + tool.name + ' to favorites'}">
           <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
         </button>
         <div class="tool-card-header">
