@@ -873,33 +873,193 @@ const toolsData = [
     ],
     ctaHref: "../index.html#tool/pii-anonymizer",
     ctaLabel: "Launch PII Anonymizer"
+  },
+  {
+    id: "json-formatter",
+    fileName: "json-formatter.html",
+    title: "JSON, SQL & CSV Data Formatter Suite Guide | OmniTool Hub",
+    description: "Learn how to format, validate, and convert JSON, SQL, and CSV datasets entirely client-side using OmniTool Hub's privacy-focused utility suites.",
+    h1: "JSON, SQL & CSV Data Formatter Suite Guide",
+    tag: "Formatters & Parsers",
+    leadParagraph: "In modern software engineering, data format conversions and payload validation are daily operations. However, pasting sensitive production payloads, proprietary database queries, or client lists into random online websites exposes your data to public servers, search indexers, and third-party trackers. OmniTool Hub's Data Formatter & Converter Suite runs 100% in your local browser memory buffer, ensuring complete confidentiality.",
+    tabsTitle: "Formatter Suite Navigation & Tab Details",
+    tabs: [
+      {
+        title: "1. JSON Formatter & Validator",
+        badge: "JSON",
+        desc: "Beautifies, minifies, sorts keys, and checks JSON syntax in real time. Catches errors and displays exact character and line offset locations for instant debugging."
+      },
+      {
+        title: "2. SQL Query Beautifier",
+        badge: "SQL",
+        desc: "Standardizes complex SQL queries by capitalizing key keywords (SELECT, JOIN, WHERE, GROUP BY) and structuring queries for easy review."
+      },
+      {
+        title: "3. CSV / JSON Converter",
+        badge: "CSV / JSON",
+        desc: "A fast local converter to map structured tabular CSV datasets into developer-friendly JSON arrays of objects and vice versa."
+      }
+    ],
+    proTip: "Because these modules run entirely client-side using JavaScript, you can safely paste proprietary database rows, API responses, and client CSV logs even when completely disconnected from the internet.",
+    steps: [
+      "Paste your raw data into the **Input** textarea.",
+      "Switch to your target tab (**JSON**, **SQL**, or **CSV**).",
+      "Configure formatting preferences (2-space, 4-space, tabs, or minify).",
+      "Click **Format** or **Convert** and copy the cleaned output instantly."
+    ],
+    ctaHref: "../index.html#tool/json-formatter",
+    ctaLabel: "Launch Data Formatter"
   }
 ];
 
-const template = (tool) => `<!DOCTYPE html>
+const toolMeta = {
+  'pipeline-builder': { category: 'dev', categoryName: 'Developer Tools', icon: '⚡', color: '#00f2fe' },
+  'text-encoder-suite': { category: 'text', categoryName: 'Text & Writing', icon: '🔤', color: '#10b981' },
+  'jwt-decoder': { category: 'dev', categoryName: 'Developer Tools', icon: '🔑', color: '#00f2fe' },
+  'crypto-suite': { category: 'crypto', categoryName: 'Crypto & Privacy', icon: '🛡️', color: '#f59e0b' },
+  'markdown-preview': { category: 'text', categoryName: 'Text & Writing', icon: '📝', color: '#10b981' },
+  'text-diff': { category: 'text', categoryName: 'Text & Writing', icon: '⚖️', color: '#10b981' },
+  'pdf-searcher': { category: 'files', categoryName: 'Files & PDFs', icon: '🔍', color: '#ec4899' },
+  'pdf-utilities': { category: 'files', categoryName: 'Files & PDFs', icon: '📄', color: '#ec4899' },
+  'regex-tester': { category: 'dev', categoryName: 'Developer Tools', icon: '🎯', color: '#00f2fe' },
+  'css-studio': { category: 'design', categoryName: 'Design & CSS', icon: '🎨', color: '#9d4edd' },
+  'color-lab': { category: 'design', categoryName: 'Design & CSS', icon: '🌈', color: '#9d4edd' },
+  'security-suite': { category: 'crypto', categoryName: 'Crypto & Privacy', icon: '🔐', color: '#f59e0b' },
+  'datetime-suite': { category: 'math', categoryName: 'Math & Time', icon: '⏱️', color: '#3b82f6' },
+  'unit-converter': { category: 'math', categoryName: 'Math & Time', icon: '📐', color: '#3b82f6' },
+  'graphics-studio': { category: 'design', categoryName: 'Design & CSS', icon: '📸', color: '#9d4edd' },
+  'calculator': { category: 'math', categoryName: 'Math & Time', icon: '🧮', color: '#3b82f6' },
+  'qr-generator': { category: 'dev', categoryName: 'Developer Tools', icon: '📱', color: '#00f2fe' },
+  'seo-previewer': { category: 'dev', categoryName: 'Developer Tools', icon: '🌐', color: '#00f2fe' },
+  'image-converter': { category: 'files', categoryName: 'Files & PDFs', icon: '🖼️', color: '#ec4899' },
+  'svg-animator': { category: 'design', categoryName: 'Design & CSS', icon: '✨', color: '#9d4edd' },
+  'url-parser': { category: 'dev', categoryName: 'Developer Tools', icon: '🔗', color: '#00f2fe' },
+  'text-analyzer': { category: 'text', categoryName: 'Text & Writing', icon: '📊', color: '#10b981' },
+  'mock-data-generator': { category: 'dev', categoryName: 'Developer Tools', icon: '🎲', color: '#00f2fe' },
+  'code-playground': { category: 'dev', categoryName: 'Developer Tools', icon: '💻', color: '#00f2fe' },
+  'pii-anonymizer': { category: 'crypto', categoryName: 'Crypto & Privacy', icon: '🕵️', color: '#f59e0b' },
+  'json-formatter': { category: 'dev', categoryName: 'Developer Tools', icon: '📋', color: '#00f2fe' }
+};
+
+function getRelatedTools(currentTool, allTools) {
+  const meta = toolMeta[currentTool.id] || { category: 'dev' };
+  const sameCat = allTools.filter(t => t.id !== currentTool.id && (toolMeta[t.id]?.category === meta.category));
+  if (sameCat.length >= 3) {
+    return sameCat.slice(0, 3);
+  }
+  const others = allTools.filter(t => t.id !== currentTool.id && !sameCat.includes(t));
+  return [...sameCat, ...others].slice(0, 3);
+}
+
+const template = (tool, allTools) => {
+  const meta = toolMeta[tool.id] || { category: 'dev', categoryName: 'Developer Tools', icon: '🛠️', color: '#00f2fe' };
+  const related = getRelatedTools(tool, allTools);
+
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${tool.title}</title>
   <meta name="description" content="${tool.description}">
-  
+  <meta name="keywords" content="${tool.tag}, ${tool.h1}, OmniTool Hub, developer tools, client-side, offline, privacy">
+  <link rel="canonical" href="https://omnitool-hub.vercel.app/guides/${tool.fileName}">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="${tool.title}">
+  <meta property="og:description" content="${tool.description}">
+  <meta property="og:url" content="https://omnitool-hub.vercel.app/guides/${tool.fileName}">
+  <meta property="og:site_name" content="OmniTool Hub">
+  <meta property="og:image" content="https://omnitool-hub.vercel.app/social_media_assets/opengraph_landscape_1200x630.svg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${tool.title}">
+  <meta name="twitter:description" content="${tool.description}">
+  <meta name="twitter:image" content="https://omnitool-hub.vercel.app/social_media_assets/twitter_header_1500x500.svg">
+
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
+
+  <!-- JSON-LD Structured Data for Rich Search Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "OmniTool Hub",
+            "item": "https://omnitool-hub.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides Hub",
+            "item": "https://omnitool-hub.vercel.app/guides/index.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "${tool.h1}",
+            "item": "https://omnitool-hub.vercel.app/guides/${tool.fileName}"
+          }
+        ]
+      },
+      {
+        "@type": "TechArticle",
+        "headline": "${tool.h1}",
+        "description": "${tool.description}",
+        "author": {
+          "@type": "Organization",
+          "name": "OmniTool Hub"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "OmniTool Hub",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://omnitool-hub.vercel.app/social_media_assets/profile_avatar_icon_1080x1080.svg"
+          }
+        },
+        "datePublished": "2026-06-27",
+        "dateModified": "2026-10-13",
+        "mainEntityOfPage": "https://omnitool-hub.vercel.app/guides/${tool.fileName}"
+      },
+      {
+        "@type": "HowTo",
+        "name": "How to Use ${tool.h1.replace(/ Guide$/i, '')}",
+        "description": "${tool.description}",
+        "step": [
+          ${tool.steps.map((step, idx) => `{
+            "@type": "HowToStep",
+            "position": ${idx + 1},
+            "name": "Step ${idx + 1}",
+            "text": "${step.replace(/"/g, '\\"').replace(/\*\*/g, '')}"
+          }`).join(',\n          ')}
+        ]
+      }
+    ]
+  }
+  </script>
+
   <style>
     :root {
       --bg-app: #07090e;
-      --bg-card: rgba(18, 24, 38, 0.6);
-      --border-color: rgba(255, 255, 255, 0.06);
+      --bg-card: rgba(18, 24, 38, 0.65);
+      --border-color: rgba(255, 255, 255, 0.08);
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
       --accent-cyan: #00f2fe;
       --accent-purple: #9d4edd;
       --accent-emerald: #10b981;
-      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
@@ -911,20 +1071,132 @@ const template = (tool) => `<!DOCTYPE html>
 
     body {
       background-color: var(--bg-app);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(157, 78, 221, 0.06) 0%, transparent 40%);
       color: var(--text-main);
       font-family: var(--font-sans);
-      line-height: 1.6;
-      padding: 40px 20px;
+      line-height: 1.65;
+      padding: 0 0 60px 0;
+      min-height: 100vh;
     }
 
-    .container {
-      max-width: 800px;
+    /* Top Navigation Bar */
+    .top-nav {
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .top-nav-inner {
+      max-width: 900px;
       margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .nav-brand svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-cyan);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-link-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .nav-link-btn:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(0, 242, 254, 0.3);
+      background: rgba(0, 242, 254, 0.04);
+    }
+
+    .nav-launch-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px 16px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-launch-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs-wrap {
+      max-width: 860px;
+      margin: 24px auto 0 auto;
+      padding: 0 20px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumbs a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .breadcrumbs span.current {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Container */
+    .container {
+      max-width: 860px;
+      margin: 20px auto 0 auto;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 16px;
       padding: 40px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
@@ -936,6 +1208,22 @@ const template = (tool) => `<!DOCTYPE html>
       text-align: center;
     }
 
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--accent-cyan);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+
     h1 {
       font-size: 32px;
       font-weight: 800;
@@ -943,8 +1231,9 @@ const template = (tool) => `<!DOCTYPE html>
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       letter-spacing: -0.5px;
+      line-height: 1.25;
     }
 
     .meta {
@@ -952,12 +1241,13 @@ const template = (tool) => `<!DOCTYPE html>
       color: var(--text-muted);
       display: flex;
       justify-content: center;
-      gap: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .meta-tag {
       background: rgba(255, 255, 255, 0.04);
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 20px;
       border: 1px solid var(--border-color);
     }
@@ -965,7 +1255,7 @@ const template = (tool) => `<!DOCTYPE html>
     article h2 {
       font-size: 22px;
       font-weight: 700;
-      margin-top: 32px;
+      margin-top: 36px;
       margin-bottom: 16px;
       color: var(--text-main);
       border-left: 3px solid var(--accent-cyan);
@@ -975,7 +1265,8 @@ const template = (tool) => `<!DOCTYPE html>
     article p {
       margin-bottom: 18px;
       color: var(--text-muted);
-      font-size: 15px;
+      font-size: 15.5px;
+      line-height: 1.7;
     }
 
     article ul, article ol {
@@ -992,21 +1283,22 @@ const template = (tool) => `<!DOCTYPE html>
     .info-box {
       background: rgba(0, 242, 254, 0.04);
       border: 1px solid rgba(0, 242, 254, 0.2);
-      border-radius: 8px;
-      padding: 16px;
-      margin: 24px 0;
+      border-radius: 10px;
+      padding: 18px;
+      margin: 28px 0;
     }
 
     .info-box strong {
       color: var(--accent-cyan);
       display: block;
       margin-bottom: 6px;
+      font-size: 14.5px;
     }
 
     .tab-section {
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.25);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 20px;
       margin-bottom: 20px;
     }
@@ -1027,13 +1319,16 @@ const template = (tool) => `<!DOCTYPE html>
       padding: 2px 8px;
       border-radius: 4px;
       text-transform: uppercase;
+      font-weight: 700;
     }
 
     .cta-container {
       text-align: center;
       margin-top: 40px;
-      padding-top: 30px;
-      border-top: 1px solid var(--border-color);
+      padding: 32px 24px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
     }
 
     .cta-btn {
@@ -1043,39 +1338,178 @@ const template = (tool) => `<!DOCTYPE html>
       font-weight: 800;
       font-size: 16px;
       text-decoration: none;
-      padding: 14px 28px;
+      padding: 14px 32px;
       border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+      box-shadow: 0 4px 18px rgba(0, 242, 254, 0.35);
       transition: all 0.2s ease;
     }
 
     .cta-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
-      color: #fff;
+      box-shadow: 0 6px 24px rgba(0, 242, 254, 0.55);
+      color: #000;
     }
 
-    .back-home {
+    .all-guides-cta {
       display: inline-block;
-      margin-top: 24px;
+      margin-top: 18px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .all-guides-cta:hover {
+      text-decoration: underline;
+    }
+
+    /* Related Guides Section */
+    .related-section {
+      margin-top: 50px;
+      padding-top: 36px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .related-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .related-heading a {
+      font-size: 13px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 242, 254, 0.4);
+      background: rgba(0, 242, 254, 0.03);
+    }
+
+    .related-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .related-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .related-read {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: auto;
+      font-weight: 600;
+    }
+
+    .related-card:hover .related-read {
+      color: var(--accent-cyan);
+    }
+
+    footer.guide-footer {
+      max-width: 860px;
+      margin: 40px auto 0 auto;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 0 20px;
+    }
+
+    footer.guide-footer a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 13px;
+      margin: 0 8px;
       transition: color 0.2s;
     }
 
-    .back-home:hover {
+    footer.guide-footer a:hover {
       color: var(--accent-cyan);
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 24px 18px;
+        border-radius: 12px;
+      }
+      h1 {
+        font-size: 26px;
+      }
+      .nav-actions {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <!-- Top Sticky Navigation -->
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+        </svg>
+        <span>OmniTool Hub</span>
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-link-btn">📚 All 26 Guides</a>
+        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="${tool.ctaHref}" class="nav-launch-btn">🚀 ${tool.ctaLabel}</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs-wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="../index.html">🏠 Home</a>
+      <span>/</span>
+      <a href="index.html">Guides Hub</a>
+      <span>/</span>
+      <span class="current">${tool.h1.replace(/ Guide$/i, '')}</span>
+    </nav>
+  </div>
+
+  <main class="container">
     <header>
+      <div class="category-pill">${meta.icon} ${meta.categoryName}</div>
       <h1>${tool.h1}</h1>
       <div class="meta">
-        <span class="meta-tag">📅 June 2026</span>
+        <span class="meta-tag">📅 Updated Oct 2026</span>
         <span class="meta-tag">🔒 100% Offline-Safe</span>
         <span class="meta-tag">🛠️ ${tool.tag}</span>
       </div>
@@ -1088,7 +1522,7 @@ const template = (tool) => `<!DOCTYPE html>
 
       <h2>${tool.tabsTitle}</h2>
       <p>
-        Here is a detailed breakdown of the features and configurations available within this tool suite:
+        Here is a detailed breakdown of the capabilities, algorithms, and configurations available within this tool suite:
       </p>
 
       ${tool.tabs.map(tab => `
@@ -1108,22 +1542,927 @@ const template = (tool) => `<!DOCTYPE html>
         ${tool.proTip}
       </div>
 
-      <h2>How to Use the Tool</h2>
+      <h2>Step-by-Step Usage Guide</h2>
       <ol>
         ${tool.steps.map(step => `<li>${step}</li>`).join('')}
       </ol>
     </article>
 
+    <!-- Call to Action Banner -->
     <div class="cta-container">
+      <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
       <a href="${tool.ctaHref}" class="cta-btn">🚀 ${tool.ctaLabel}</a>
       <br>
-      <a href="../index.html" class="back-home">← Back to Dashboard</a>
+      <a href="index.html" class="all-guides-cta">📚 Browse All 26+ Tool Guides &rarr;</a>
     </div>
-  </div>
+
+    <!-- Related Guides & Internal Links -->
+    <section class="related-section">
+      <div class="related-heading">
+        <span>Explore Related Guides</span>
+        <a href="index.html">View All 26 Guides &rarr;</a>
+      </div>
+      <div class="related-grid">
+        ${related.map(rel => {
+          const relMeta = toolMeta[rel.id] || { icon: '🛠️', categoryName: 'Tools' };
+          return `
+          <a href="${rel.fileName}" class="related-card">
+            <div>
+              <div class="related-badge">${relMeta.icon} ${relMeta.categoryName}</div>
+              <div class="related-title">${rel.h1.replace(/ Guide$/i, '')}</div>
+            </div>
+            <div class="related-read">Read Guide &rarr;</div>
+          </a>
+          `;
+        }).join('')}
+      </div>
+    </section>
+  </main>
+
+  <footer class="guide-footer">
+    <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
+    <p style="margin-top: 8px;">
+      <a href="../index.html">Home</a> &bull;
+      <a href="index.html">Guides Hub</a> &bull;
+      <a href="../index.html#privacy">Privacy Policy</a> &bull;
+      <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  </footer>
 
 </body>
 </html>
 `;
+};
+
+// Generates the Master Guides & Documentation Hub (guides/index.html)
+const generateGuidesHub = (allTools) => {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniTool Hub Guides & Documentation Hub | 26+ Free Developer Utilities</title>
+  <meta name="description" content="Explore free, step-by-step guides and tutorials for over 26 privacy-first developer, security, PDF, and design utilities. Learn how to process data safely client-side.">
+  <meta name="keywords" content="developer tools guides, online tools tutorials, pdf tools guide, json formatter tutorial, jwt decoder guide, offline web tools, client side utilities">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://omnitool-hub.vercel.app/guides/">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OmniTool Hub Guides & Documentation Hub | 26+ In-Browser Tools">
+  <meta property="og:description" content="Master 26+ offline-first developer, cryptography, PDF, and utility tools with comprehensive guides and tutorials.">
+  <meta property="og:url" content="https://omnitool-hub.vercel.app/guides/">
+  <meta property="og:site_name" content="OmniTool Hub">
+  <meta property="og:image" content="https://omnitool-hub.vercel.app/social_media_assets/opengraph_landscape_1200x630.svg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="OmniTool Hub Guides & Documentation Hub">
+  <meta name="twitter:description" content="Comprehensive guides and tutorials for 26+ in-browser utility tools. Zero server uploads.">
+  <meta name="twitter:image" content="https://omnitool-hub.vercel.app/social_media_assets/twitter_header_1500x500.svg">
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- JSON-LD Structured Data for Google Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "name": "OmniTool Hub Guides & Documentation Hub",
+        "description": "Complete collection of user guides, tutorials, and security breakdowns for 26+ client-side utility tools.",
+        "url": "https://omnitool-hub.vercel.app/guides/",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "OmniTool Hub",
+          "url": "https://omnitool-hub.vercel.app/"
+        }
+      },
+      {
+        "@type": "ItemList",
+        "name": "OmniTool Hub Tool Guides",
+        "numberOfItems": ${allTools.length},
+        "itemListElement": [
+          ${allTools.map((t, idx) => `{
+            "@type": "ListItem",
+            "position": ${idx + 1},
+            "name": "${t.h1}",
+            "url": "https://omnitool-hub.vercel.app/guides/${t.fileName}"
+          }`).join(',\n          ')}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What makes OmniTool Hub different from other online tools?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every tool in OmniTool Hub runs 100% inside your browser memory using modern WebAssembly, Web Crypto, and Canvas APIs. Unlike standard tool sites, your files, tokens, and data are NEVER uploaded to an external server."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use OmniTool Hub guides and utilities offline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! OmniTool Hub is built as a Progressive Web App (PWA) with full service worker caching. You can install it on your device and use every utility without an active internet connection."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are there limits on file sizes or daily usage?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No artificial limits. Because computation is done locally on your machine, you can process files as large as your device's RAM allows with zero usage throttling."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-app: #07090e;
+      --bg-card: rgba(18, 24, 38, 0.65);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9d4edd;
+      --accent-emerald: #10b981;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-app);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(157, 78, 221, 0.07) 0%, transparent 45%);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      padding: 0 0 60px 0;
+      min-height: 100vh;
+    }
+
+    /* Top Sticky Navigation */
+    .top-nav {
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .top-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    .nav-brand svg {
+      width: 24px;
+      height: 24px;
+      color: var(--accent-cyan);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-link-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .nav-link-btn:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(0, 242, 254, 0.3);
+      background: rgba(0, 242, 254, 0.04);
+    }
+
+    .nav-launch-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 800;
+      padding: 7px 18px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-launch-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 40px auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--accent-cyan);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #fff 30%, var(--accent-cyan) 70%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+      letter-spacing: -0.8px;
+    }
+
+    .hero-subtitle {
+      font-size: 16.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* Live Search & Filter Bar */
+    .search-filter-box {
+      max-width: 680px;
+      margin: 0 auto 28px auto;
+      position: relative;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .hub-search-input {
+      width: 100%;
+      background: rgba(18, 24, 38, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 48px 14px 48px;
+      font-size: 15px;
+      color: var(--text-main);
+      font-family: inherit;
+      outline: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .hub-search-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.2), 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+      padding: 4px;
+    }
+
+    .clear-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* Category Filter Pills */
+    .category-pills {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .filter-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(157, 78, 221, 0.15));
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    /* Cards Grid */
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .guide-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .guide-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .guide-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 242, 254, 0.35);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.1);
+    }
+
+    .guide-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-top {
+      margin-bottom: 16px;
+    }
+
+    .card-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card-category {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .card-title a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .card-title a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .card-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .card-feature-pill {
+      font-size: 11px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .card-footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .read-guide-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .read-guide-btn:hover {
+      background: rgba(0, 242, 254, 0.16);
+      border-color: var(--accent-cyan);
+    }
+
+    .launch-tool-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .launch-tool-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    /* No Results Message */
+    .no-results-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      display: none;
+    }
+
+    /* Value Pillars Section */
+    .pillars-section {
+      margin-top: 70px;
+      padding: 40px 24px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .pillar-card {
+      padding: 16px;
+    }
+
+    .pillar-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .pillar-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .pillar-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      margin-top: 60px;
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .faq-heading {
+      font-size: 26px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 24px;
+      color: var(--text-main);
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 14px;
+    }
+
+    .faq-question {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .faq-answer {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer.hub-footer {
+      max-width: 1200px;
+      margin: 60px auto 0 auto;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    footer.hub-footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.2s;
+    }
+
+    footer.hub-footer a:hover {
+      color: var(--accent-cyan);
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 30px;
+      }
+      .guides-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+        </svg>
+        <span>OmniTool Hub</span>
+      </a>
+      <div class="nav-actions">
+        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="../index.html#plans" class="nav-link-btn">💎 Plans</a>
+        <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener" class="nav-link-btn">⭐ GitHub</a>
+        <a href="../index.html" class="nav-launch-btn">🚀 Open Suite</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Hero Header -->
+    <header class="hero-section">
+      <div class="hero-badge">📚 Comprehensive Documentation &amp; Knowledge Base</div>
+      <h1 class="hero-title">OmniTool Hub Guides &amp; Tutorials</h1>
+      <p class="hero-subtitle">
+        Deep dive into usage instructions, privacy architecture, and power-user configurations for all 26+ utility tools. All operations run 100% inside your browser memory with zero tracking.
+      </p>
+
+      <!-- Live Search Bar -->
+      <div class="search-filter-box">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="hub-search" class="hub-search-input" placeholder="Search guides by tool name, tag, or keyword... (e.g. PDF, JWT, JSON, Base64)" aria-label="Search guides">
+          <button id="clear-search-btn" class="clear-btn" aria-label="Clear search">&times;</button>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-pills">
+        <button class="filter-btn active" data-filter="all">All Guides (${allTools.length})</button>
+        <button class="filter-btn" data-filter="dev">⚡ Developer Tools</button>
+        <button class="filter-btn" data-filter="text">🔤 Text &amp; Writing</button>
+        <button class="filter-btn" data-filter="crypto">🔐 Crypto &amp; Security</button>
+        <button class="filter-btn" data-filter="files">📄 PDFs &amp; Files</button>
+        <button class="filter-btn" data-filter="design">🎨 Design &amp; CSS</button>
+        <button class="filter-btn" data-filter="math">🧮 Math &amp; Converters</button>
+      </div>
+    </header>
+
+    <!-- Guides Card Grid -->
+    <section class="guides-grid" id="guides-grid">
+      ${allTools.map(tool => {
+        const meta = toolMeta[tool.id] || { category: 'dev', categoryName: 'Developer Tools', icon: '🛠️' };
+        return `
+      <article class="guide-card" 
+        data-category="${meta.category}" 
+        data-title="${tool.h1.toLowerCase()}" 
+        data-tag="${tool.tag.toLowerCase()}" 
+        data-desc="${tool.description.toLowerCase()}">
+        <div class="card-top">
+          <div class="card-meta-bar">
+            <div class="card-category">
+              <span>${meta.icon}</span>
+              <span>${meta.categoryName}</span>
+            </div>
+            <span class="card-badge">${tool.tag}</span>
+          </div>
+          <h2 class="card-title">
+            <a href="${tool.fileName}">${tool.h1.replace(/ Guide$/i, '')}</a>
+          </h2>
+          <p class="card-desc">${tool.description}</p>
+          <div class="card-features">
+            ${tool.tabs.map(tab => `<span class="card-feature-pill">${tab.badge}</span>`).join('')}
+          </div>
+        </div>
+        <div class="card-footer-actions">
+          <a href="${tool.fileName}" class="read-guide-btn">
+            <span>📖 Read Guide</span>
+          </a>
+          <a href="${tool.ctaHref}" class="launch-tool-icon-btn" title="Launch ${tool.h1.replace(/ Guide$/i, '')}">
+            <span>🚀 Run Tool</span>
+          </a>
+        </div>
+      </article>
+        `;
+      }).join('')}
+
+      <div class="no-results-msg" id="no-results">
+        <h3 style="font-size: 18px; margin-bottom: 8px;">No matching guides found</h3>
+        <p style="color: var(--text-muted); font-size: 14px;">Try searching with different keywords like "PDF", "Token", "Hash", or "Color".</p>
+      </div>
+    </section>
+
+    <!-- Value Pillars Section -->
+    <section class="pillars-section">
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">🔒</div>
+          <h3 class="pillar-title">100% Client-Side Privacy</h3>
+          <p class="pillar-desc">
+            All algorithms execute inside your local device thread. PDFs, authentication secrets, and sensitive documents never touch an external server socket.
+          </p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">⚡</div>
+          <h3 class="pillar-title">Instant Zero-Latency Execution</h3>
+          <p class="pillar-desc">
+            Powered by WebAssembly and native Web Crypto APIs. No cold starts, network roundtrips, or upload bandwidth limits.
+          </p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">📶</div>
+          <h3 class="pillar-title">Offline PWA Architecture</h3>
+          <p class="pillar-desc">
+            Service Worker caching allows you to install OmniTool Hub as a desktop or mobile application that operates seamlessly without internet.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO FAQ Section -->
+    <section class="faq-section">
+      <h2 class="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="faq-item">
+        <h3 class="faq-question">What makes OmniTool Hub different from other online tools?</h3>
+        <p class="faq-answer">
+          Every tool in OmniTool Hub runs 100% inside your browser memory using modern WebAssembly, Web Crypto, and Canvas APIs. Unlike standard tool sites, your files, tokens, and data are NEVER uploaded to an external server.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-question">Can I use OmniTool Hub guides and utilities offline?</h3>
+        <p class="faq-answer">
+          Yes! OmniTool Hub is built as a Progressive Web App (PWA) with full service worker caching. You can install it on your device and use every utility without an active internet connection.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-question">Are there limits on file sizes or daily usage?</h3>
+        <p class="faq-answer">
+          No artificial limits. Because computation is done locally on your machine, you can process files as large as your device's RAM allows with zero usage throttling.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-question">How can I host or deploy OmniTool Hub myself?</h3>
+        <p class="faq-answer">
+          Because OmniTool Hub is a 100% static client-side web application, it can be hosted on any web server including Hostinger shared hosting (LiteSpeed/Apache), Vercel, Netlify, or GitHub Pages with zero backend setup.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Hub Footer -->
+  <footer class="hub-footer">
+    <p>&copy; 2026 OmniTool Hub. The Ultimate Offline-First Client-Side Utility Suite.</p>
+    <p style="margin-top: 10px;">
+      <a href="../index.html">Main Suite</a> &bull;
+      <a href="../index.html#plans">Membership Plans</a> &bull;
+      <a href="../index.html#privacy">Privacy Policy</a> &bull;
+      <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub Repository</a>
+    </p>
+  </footer>
+
+  <!-- Instant Search & Category Filter Script -->
+  <script>
+    (function () {
+      const searchInput = document.getElementById('hub-search');
+      const clearBtn = document.getElementById('clear-search-btn');
+      const cards = document.querySelectorAll('.guide-card');
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const noResults = document.getElementById('no-results');
+      let currentCategory = 'all';
+
+      function filterGuides() {
+        const q = (searchInput.value || '').toLowerCase().trim();
+        let matchCount = 0;
+
+        clearBtn.style.display = q.length > 0 ? 'block' : 'none';
+
+        cards.forEach(card => {
+          const cat = card.getAttribute('data-category') || '';
+          const title = card.getAttribute('data-title') || '';
+          const tag = card.getAttribute('data-tag') || '';
+          const desc = card.getAttribute('data-desc') || '';
+
+          const matchesCat = (currentCategory === 'all' || cat === currentCategory);
+          const matchesQuery = (!q || title.includes(q) || tag.includes(q) || desc.includes(q));
+
+          if (matchesCat && matchesQuery) {
+            card.style.display = 'flex';
+            matchCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        noResults.style.display = matchCount === 0 ? 'block' : 'none';
+      }
+
+      searchInput.addEventListener('input', filterGuides);
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        filterGuides();
+        searchInput.focus();
+      });
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCategory = btn.getAttribute('data-filter') || 'all';
+          filterGuides();
+        });
+      });
+
+      // Keyboard shortcut (/) to focus search
+      window.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== searchInput) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+`;
+};
 
 // Paths to write
 const projectRoot = path.join(__dirname, '..');
@@ -1136,7 +2475,7 @@ fs.mkdirSync(androidGuidesDir, { recursive: true });
 
 let count = 0;
 for (const tool of toolsData) {
-  const content = template(tool);
+  const content = template(tool, toolsData);
   
   // Write to root guides
   fs.writeFileSync(path.join(guidesDirRoot, tool.fileName), content, 'utf8');
@@ -1148,4 +2487,11 @@ for (const tool of toolsData) {
   count++;
 }
 
-console.log(`Successfully generated ${count} static HTML blog posts / guides.`);
+// Generate Master Guides & Documentation Hub
+const hubContent = generateGuidesHub(toolsData);
+fs.writeFileSync(path.join(guidesDirRoot, 'index.html'), hubContent, 'utf8');
+fs.writeFileSync(path.join(androidGuidesDir, 'index.html'), hubContent, 'utf8');
+console.log('Generated master Guides Hub: guides/index.html');
+
+console.log(`Successfully generated ${count} static HTML blog posts / guides and master index.`);
+
