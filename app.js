@@ -584,6 +584,7 @@ const app = {
     this.buildSidebarToolMenu();
     this.buildMegaMenu();
     this.handleRouting();
+    this.initPwaInstallBanner();
 
     // Pre-load utilities for pipeline builder integration and global helpers
     import('./tools/utils.js').catch(err => console.error("Failed to pre-load utils:", err));
@@ -599,6 +600,46 @@ const app = {
       this.checkAllModules();
     }
     this.isInitialLoad = false;
+  },
+
+  initPwaInstallBanner() {
+    let deferredPrompt = null;
+    const banner = document.getElementById("pwa-install-banner");
+    const installBtn = document.getElementById("pwa-install-btn");
+    const dismissBtn = document.getElementById("pwa-dismiss-btn");
+
+    if (!banner || !installBtn) return;
+
+    const dismissedUntil = localStorage.getItem("omnitool_pwa_dismissed_until");
+    if (dismissedUntil && Date.now() < parseInt(dismissedUntil, 10)) {
+      return;
+    }
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      banner.style.display = "flex";
+    });
+
+    installBtn.addEventListener("click", async () => {
+      if (!deferredPrompt) {
+        this.showToast("To install on iOS / Safari, tap Share and then 'Add to Home Screen'.", "info", 5000);
+        return;
+      }
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        this.showToast("🎉 OmniTool Hub installed successfully!", "success");
+        banner.style.display = "none";
+        localStorage.setItem("omnitool_pwa_installed", "true");
+      }
+      deferredPrompt = null;
+    });
+
+    dismissBtn?.addEventListener("click", () => {
+      banner.style.display = "none";
+      localStorage.setItem("omnitool_pwa_dismissed_until", (Date.now() + 14 * 24 * 60 * 60 * 1000).toString());
+    });
   },
 
   initSplash() {
@@ -705,7 +746,16 @@ const app = {
   },
 
   handleRouting() {
-    const hash = window.location.hash || "";
+    let hash = window.location.hash || "";
+    const pathname = window.location.pathname || "";
+
+    // Support Clean Path URLs (e.g. /tool/jwt-decoder or /tool/pdf-utilities)
+    if (!hash && pathname.startsWith("/tool/")) {
+      const cleanToolId = pathname.replace(/^\/tool\//, "").replace(/\/$/, "");
+      if (cleanToolId) {
+        hash = "#tool/" + cleanToolId;
+      }
+    }
 
     if (hash === "#plans") {
       this.renderPlansPage();
@@ -1187,6 +1237,10 @@ const app = {
       const pastedText = e.clipboardData.getData("text");
       this.detectPastedValue(pastedText);
     });
+
+    // Hash and Popstate routing triggers for clean navigation & browser history
+    window.addEventListener("hashchange", () => this.handleRouting());
+    window.addEventListener("popstate", () => this.handleRouting());
 
   },
 
@@ -2397,7 +2451,16 @@ const app = {
 
   async navigateToTool(toolId, updateHash = true) {
     if (updateHash) {
-      window.location.hash = "tool/" + toolId;
+      if (window.history && window.history.pushState) {
+        try {
+          window.history.pushState({ toolId }, "", "/tool/" + toolId);
+        } catch (e) {
+          window.location.hash = "tool/" + toolId;
+        }
+      } else {
+        window.location.hash = "tool/" + toolId;
+      }
+      this.navigateToTool(toolId, false);
       return;
     }
 
@@ -3074,6 +3137,11 @@ const app = {
 
   backToDashboard(updateHash = true) {
     if (updateHash) {
+      if (window.history && window.history.pushState && window.location.pathname.startsWith('/tool/')) {
+        try {
+          window.history.pushState(null, "", "/");
+        } catch (e) {}
+      }
       if (this.activeCategory === "fav") {
         window.location.hash = "favorites";
       } else if (this.activeCategory === "subcategory-filter") {
