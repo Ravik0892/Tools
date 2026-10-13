@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" width="2560" height="1440">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080B12" />
+      <stop offset="50%" stop-color="#0E1320" />
+      <stop offset="100%" stop-color="#060910" />
+    </linearGradient>
+
+    <!-- Text Gradient -->
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EC4899" />
+      <stop offset="50%" stop-color="#C084FC" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+
+    <!-- Icon Gradient -->
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF007A" />
+      <stop offset="100%" stop-color="#FF33A8" />
+    </linearGradient>
+
+    <!-- Glow Effect -->
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16" result="blur1" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#1E293B" stroke-width="1" stroke-opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="2560" height="1440" fill="url(#bgGrad)" />
+  <rect width="2560" height="1440" fill="url(#grid)" />
+
+  <!-- Ambient Decorative Glowing Blobs -->
+  <circle cx="600" cy="720" r="450" fill="#FF007A" opacity="0.12" filter="blur(100px)" />
+  <circle cx="1960" cy="720" r="450" fill="#00F2FE" opacity="0.10" filter="blur(100px)" />
+
+  <!-- Safe Area Card Overlay Container (Center 1546 x 423 px) -->
+  <g transform="translate(507, 508.5)">
+    <!-- Card Background -->
+    <rect width="1546" height="423" rx="32" fill="#0E131F" fill-opacity="0.85" stroke="#1E2638" stroke-width="2" />
+
+    <!-- Center Content -->
+    <g transform="translate(240, 115)">
+      <!-- Icon -->
+      <g transform="translate(0, 10) scale(8)">
+        <path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+          filter="url(#neonGlow)"
+          d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+      </g>
+
+      <!-- Main Title -->
+      <text x="240" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="96" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text>
+
+      <!-- Tagline -->
+      <text x="245" y="180" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="28" letter-spacing="3px" fill="#94A3B8">ULTIMATE ALL-IN-ONE DEVELOPER &amp; DESIGN UTILITIES</text>
+
+      <!-- Badges / Bullet Highlights -->
+      <g transform="translate(245, 215)">
+        <rect width="180" height="34" rx="17" fill="#1E293B" opacity="0.8" />
+        <text x="90" y="23" text-anchor="middle" font-family="sans-serif" font-weight="600" font-size="14" fill="#38BDF8">50+ Web Tools</text>
+
+        <rect x="195" width="180" height="34" rx="17" fill="#1E293B" opacity="0.8" />
+        <text x="285" y="23" text-anchor="middle" font-family="sans-serif" font-weight="600" font-size="14" fill="#F43F5E">100% Free &amp; Fast</text>
+
+        <rect x="390" width="180" height="34" rx="17" fill="#1E293B" opacity="0.8" />
+        <text x="480" y="23" text-anchor="middle" font-family="sans-serif" font-weight="600" font-size="14" fill="#A855F7">No Sign-up Needed</text>
+      </g>
+    </g>
+  </g>
+</svg>

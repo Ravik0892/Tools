@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#210F38" stop-opacity="0.8" />
+      <stop offset="60%" stop-color="#0B0F17" stop-opacity="1" />
+      <stop offset="100%" stop-color="#07090E" stop-opacity="1" />
+    </radialGradient>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF007A" />
+      <stop offset="100%" stop-color="#FF33A8" />
+    </linearGradient>
+    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF007A" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.3" />
+    </linearGradient>
+    <filter id="neonBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="24" result="blur1" />
+      <feGaussianBlur stdDeviation="10" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1080" height="1080" fill="url(#bgGlow)" />
+
+  <!-- Subtle Outer Border/Container -->
+  <rect x="40" y="40" width="1000" height="1000" rx="200" fill="none" stroke="url(#borderGradient)" stroke-width="4" />
+
+  <!-- Ambient Glow Behind Logo -->
+  <circle cx="540" cy="540" r="280" fill="#FF007A" opacity="0.15" filter="blur(60px)" />
+
+  <!-- Icon Centered (Scaled to 520px height) -->
+  <g transform="translate(260, 260) scale(23.33)">
+    <path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+      filter="url(#neonBlur)"
+      d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+  </g>
+</svg>

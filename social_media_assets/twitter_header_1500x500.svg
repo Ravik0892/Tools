@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090D16" />
+      <stop offset="50%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#060911" />
+    </linearGradient>
+
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EC4899" />
+      <stop offset="50%" stop-color="#C084FC" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF007A" />
+      <stop offset="100%" stop-color="#FF33A8" />
+    </linearGradient>
+
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12" result="blur1" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#1E293B" stroke-width="1" stroke-opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <rect width="1500" height="500" fill="url(#bgGrad)" />
+  <rect width="1500" height="500" fill="url(#grid)" />
+
+  <!-- Ambient Glow -->
+  <circle cx="450" cy="250" r="280" fill="#FF007A" opacity="0.14" filter="blur(70px)" />
+  <circle cx="1100" cy="250" r="280" fill="#00F2FE" opacity="0.10" filter="blur(70px)" />
+
+  <g transform="translate(160, 140)">
+    <!-- Icon -->
+    <g transform="translate(0, 10) scale(8.5)">
+      <path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+        filter="url(#neonGlow)"
+        d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+    </g>
+
+    <!-- Main Title -->
+    <text x="250" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="95" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text>
+
+    <!-- Subtitle -->
+    <text x="255" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="26" letter-spacing="3px" fill="#94A3B8">ALL-IN-ONE WEB UTILITIES FOR CREATORS &amp; DEVS</text>
+  </g>
+</svg>

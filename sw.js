@@ -1,12 +1,14 @@
 // Service Worker for OmniTool Hub PWA
-const CACHE_NAME = "omnitool-v51";
+const CACHE_NAME = "omnitool-v59";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
   "style.css",
   "app.js",
+  "favicon.ico",
   "manifest.json",
   "tools/utils.js",
+  "tools/pii-anonymizer.js",
   "tools/pipeline-builder.js",
   "tools/pdf-searcher.js",
   "tools/pdf-utilities.js",

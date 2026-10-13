@@ -113,8 +113,8 @@ const app = {
     },
     {
       id: "pdf-utilities",
-      name: "PDF Toolbox (Split & Compress)",
-      desc: "Extract pages/ranges and compress scanned PDFs client-side with tailored device performance modes.",
+      name: "PDF Toolbox (Split, Merge, Convert & Compress)",
+      desc: "Split into PDF/PNG/JPG/WebP/Text, merge multiple PDFs, rotate/reorganize pages, and compress documents 100% client-side.",
       category: "text",
       subcategory: "text-markdown",
       subLabel: "Writers & Parsers",
@@ -352,7 +352,7 @@ const app = {
     "markdown-preview": ["markdown", "preview", "editor", "md", "html", "writer", "parser", "live editor"],
     "text-diff": ["diff", "difference", "compare", "comparison", "text diff", "side-by-side", "line-by-line", "patch", "text compare"],
     "pdf-searcher": ["pdf", "search", "ocr", "text extract", "scan", "scanned pdf", "image to text", "tesseract", "recognize", "reader"],
-    "pdf-utilities": ["pdf", "split", "compress", "merge", "size", "extract pages", "page range", "optimize pdf", "shrink"],
+    "pdf-utilities": ["pdf", "split", "compress", "merge", "size", "extract pages", "page range", "optimize pdf", "shrink", "png", "jpg", "jpeg", "webp", "pdf to image", "pdf to png", "pdf to jpg", "pdf merger", "rotate pdf", "combine pdf"],
     "regex-tester": ["regex", "regexp", "regular expression", "test", "match", "extract", "replace", "phone", "email", "ip", "url", "pattern"],
     "css-studio": ["gradient", "shadow", "glass", "glassmorphism", "frosted", "card", "css", "linear", "radial", "conic", "box shadow", "generator", "visual"],
     "color-lab": ["color", "contrast", "wcag", "palette", "shades", "tints", "hex", "rgb", "hsl", "picker", "accessibility", "a11y", "color matcher"],
@@ -412,8 +412,8 @@ const app = {
       "<strong>OCR Engine Integration</strong>: Scan and search text in low-resolution or scanned PDFs via local multi-language OCR."
     ],
     "pdf-utilities": [
-      "<strong>Split and Extract</strong>: Group page selections visually or via range syntax to assemble brand-new custom PDF documents.",
-      "<strong>Canvas Resolution Compression</strong>: Decrease file size using device-performance DPI downscaling options."
+      "<strong>Multi-Format Extraction</strong>: Split and export page selections as combined PDFs, separate PDFs in ZIP, high-res PNG/JPG/WebP images, or clean text.",
+      "<strong>Merge, Rotate & Compress</strong>: Combine multiple PDFs, rotate or delete pages, and downscale bloated documents client-side."
     ],
     "regex-tester": [
       "<strong>Visual Matching</strong>: Highlights matches and captures named groups in real-time as you refine your regex pattern.",
@@ -503,6 +503,7 @@ const app = {
   cpFiltered: [],
 
   pendingPaste: null,
+  isInitialLoad: true,
 
   toolRedirects: {
     "password-generator": { suiteId: "security-suite", subtab: "pass" },
@@ -594,7 +595,10 @@ const app = {
     }
 
     // Module diagnostics check (Disabled in production to prevent startup lag)
-    // this.checkAllModules();
+    if (isLocalhost) {
+      this.checkAllModules();
+    }
+    this.isInitialLoad = false;
   },
 
   initSplash() {
@@ -1120,12 +1124,14 @@ const app = {
       });
     }
 
-    // Quick Search Inputs
     document.getElementById("tool-search")?.addEventListener("input", (e) => {
       this.filterDashboard(e.target.value);
     });
     document.getElementById("tool-search-mobile")?.addEventListener("input", (e) => {
       this.filterDashboard(e.target.value);
+    });
+    document.getElementById("header-search-btn")?.addEventListener("click", () => {
+      this.toggleCommandPalette(true);
     });
 
     // Keyboard bindings (Ctrl + K Command Palette)
@@ -1156,6 +1162,17 @@ const app = {
         e.preventDefault();
         this.triggerCommandPaletteSelection();
       }
+    });
+
+    // Close command palette on click outside or close button click
+    document.getElementById("command-palette")?.addEventListener("click", (e) => {
+      if (e.target.id === "command-palette") {
+        this.toggleCommandPalette(false);
+      }
+    });
+
+    document.getElementById("cp-close-btn")?.addEventListener("click", () => {
+      this.toggleCommandPalette(false);
     });
 
     // Window level paste listener for auto-suggest detector
@@ -1545,6 +1562,7 @@ const app = {
     document.documentElement.setAttribute("data-theme", target);
     localStorage.setItem("omnitool_theme", target);
     this.updateThemeUI(target);
+    this.applyAccentPreset(); // Apply theme-specific accent colors
     this.showToast(`Switched to ${target} theme`, "info");
     this.playSynthSound('click');
   },
@@ -1574,8 +1592,10 @@ const app = {
   },
 
   applyAccentPreset() {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
     const preset = this.getConfigValue("omnitool_accent_preset", "default");
-    const presets = {
+    
+    const presetsDark = {
       default: { cyan: "#00f2fe", cyanRgb: "0, 242, 254", purple: "#9d4edd", purpleRgb: "157, 78, 221" },
       matrix: { cyan: "#10b981", cyanRgb: "16, 185, 129", purple: "#059669", purpleRgb: "5, 150, 105" },
       vaporwave: { cyan: "#ff007f", cyanRgb: "255, 0, 127", purple: "#00f2fe", purpleRgb: "0, 242, 254" },
@@ -1583,7 +1603,20 @@ const app = {
       amber: { cyan: "#fbbf24", cyanRgb: "251, 191, 36", purple: "#d97706", purpleRgb: "217, 119, 6" },
       electric: { cyan: "#3b82f6", cyanRgb: "59, 130, 246", purple: "#00f2fe", purpleRgb: "0, 242, 254" }
     };
-    const colors = presets[preset] || presets.default;
+
+    const presetsLight = {
+      default: { cyan: "#007799", cyanRgb: "0, 119, 153", purple: "#7b2cb0", purpleRgb: "123, 44, 176" },
+      matrix: { cyan: "#047857", cyanRgb: "4, 120, 87", purple: "#065f46", purpleRgb: "6, 95, 70" },
+      vaporwave: { cyan: "#c0005a", cyanRgb: "192, 0, 90", purple: "#007799", purpleRgb: "0, 119, 153" },
+      sunset: { cyan: "#be123c", cyanRgb: "190, 18, 60", purple: "#b45309", purpleRgb: "180, 83, 9" },
+      amber: { cyan: "#b45309", cyanRgb: "180, 83, 9", purple: "#9a3412", purpleRgb: "154, 52, 18" },
+      electric: { cyan: "#1d4ed8", cyanRgb: "29, 78, 216", purple: "#007799", purpleRgb: "0, 119, 153" }
+    };
+
+    const colors = currentTheme === "light"
+      ? (presetsLight[preset] || presetsLight.default)
+      : (presetsDark[preset] || presetsDark.default);
+
     const root = document.documentElement;
     root.style.setProperty('--accent-cyan', colors.cyan);
     root.style.setProperty('--accent-cyan-rgb', colors.cyanRgb);
@@ -1592,6 +1625,7 @@ const app = {
   },
 
   playSynthSound(type = 'click') {
+    if (this.isInitialLoad) return;
     // Trigger tactile haptics automatically on sound plays
     if (type === 'click') {
       this.triggerHaptics('light');
@@ -1657,6 +1691,7 @@ const app = {
   },
 
   triggerHaptics(type = 'light') {
+    if (this.isInitialLoad) return;
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
       try {
         if (type === 'light') {
@@ -1995,8 +2030,13 @@ const app = {
     const density = this.getConfigValue("omnitool_layout_density", "comfortable");
     if (density === "compact") {
       grid.classList.add("compact-layout");
+      grid.classList.remove("loose-layout");
+    } else if (density === "loose") {
+      grid.classList.add("loose-layout");
+      grid.classList.remove("compact-layout");
     } else {
       grid.classList.remove("compact-layout");
+      grid.classList.remove("loose-layout");
     }
 
     const dashboardView = document.getElementById("dashboard-view");
@@ -2450,9 +2490,10 @@ const app = {
             </div>
 
             <form id="admin-auth-form" style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px;">
+              <input type="text" name="username" autocomplete="username" style="display: none;">
               <div class="form-group" style="text-align: left;">
                 <label for="admin-passcode-input" style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-cyan); font-weight: 700; margin-bottom: 6px; display: block;">Security Passcode</label>
-                <input type="password" id="admin-passcode-input" placeholder="••••••••" style="width: 100%; height: 42px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-size: 16px; outline: none; transition: all 0.2s;" required>
+                <input type="password" id="admin-passcode-input" placeholder="••••••••" style="width: 100%; height: 42px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-size: 16px; outline: none; transition: all 0.2s;" autocomplete="current-password" required>
               </div>
               <button type="submit" class="tool-btn primary" style="width: 100%; justify-content: center; height: 42px; font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.2s;">Unlock Control Panel</button>
             </form>
@@ -2511,7 +2552,7 @@ const app = {
         window.location.hostname === "host.docker.internal";
 
       // Force browser to bust its cache whenever app version updates
-      const cacheBust = '?v=1.1.3';
+      const cacheBust = '?v=1.2.1';
       const module = await import('./tools/' + toolId + '.js' + cacheBust);
       const toolInstance = module.default;
 
@@ -2588,8 +2629,10 @@ const app = {
         `;
         splitView.appendChild(fab);
 
-        // 3. Inject a close button inside the drawer header
-        const drawer = splitView.querySelector(".tool-panel:first-of-type");
+        // 3. Get panels and inject a close button inside the drawer header
+        const panels = Array.from(splitView.querySelectorAll(".tool-panel:not(.tool-guide-card)"));
+        const drawer = panels[0];
+        const previewPanel = panels[1];
         if (drawer) {
           const header = drawer.querySelector(".panel-header");
           if (header && !header.querySelector(".drawer-close-btn")) {
@@ -2620,45 +2663,192 @@ const app = {
           }, { passive: true });
         }
 
-        // 4. Inject Full Screen Preview Toggle inside the second panel header (visual visualizer/preview panel)
-        const previewPanel = splitView.querySelector(".tool-panel:nth-of-type(2)");
-        if (previewPanel) {
-          const previewHeader = previewPanel.querySelector(".panel-header");
-          if (previewHeader && !previewHeader.querySelector(".preview-fullscreen-btn")) {
-            const fsBtn = document.createElement("button");
-            fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
-            fsBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; gap: 4px; display: inline-flex; align-items: center;";
-            fsBtn.innerHTML = `
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-              </svg>
-              <span>Full Screen</span>
+        // 4. Inject Draggable Resizer & Reset Section Handler (Desktop Split View)
+        if (drawer && previewPanel) {
+          let resizer = splitView.querySelector(".split-view-resizer");
+          if (!resizer) {
+            resizer = document.createElement("div");
+            resizer.className = "split-view-resizer";
+            resizer.setAttribute("role", "separator");
+            resizer.setAttribute("aria-orientation", "vertical");
+            resizer.setAttribute("tabindex", "0");
+            resizer.setAttribute("title", "Drag to resize sections • Double-click to reset (50/50)");
+            resizer.innerHTML = `
+              <div class="resizer-track"></div>
+              <div class="resizer-handle">
+                <div class="resizer-dots">
+                  <span></span><span></span><span></span>
+                </div>
+                <button class="resizer-reset-btn" title="Reset to 50/50 layout" aria-label="Reset layout">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                  <span>Reset</span>
+                </button>
+              </div>
+              <div class="resizer-tooltip">50% | 50%</div>
             `;
-            previewHeader.appendChild(fsBtn);
+            drawer.after(resizer);
+            splitView.classList.add("has-resizer");
+          }
 
-            fsBtn.addEventListener("click", () => {
-              this.playSynthSound('click');
-              const isFS = previewPanel.classList.toggle("preview-fullscreen");
-              if (isFS) {
-                fsBtn.innerHTML = `
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                    <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
-                  </svg>
-                  <span>Exit Full Screen</span>
-                `;
-                fsBtn.classList.remove("secondary");
-                fsBtn.classList.add("accent-emerald");
-              } else {
-                fsBtn.innerHTML = `
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                  </svg>
-                  <span>Full Screen</span>
-                `;
-                fsBtn.classList.remove("accent-emerald");
-                fsBtn.classList.add("secondary");
-              }
+          // Restore saved custom split ratio if any
+          const savedRatio = localStorage.getItem("omnitool_split_" + toolId);
+          if (savedRatio && !isNaN(parseFloat(savedRatio))) {
+            const r = Math.min(80, Math.max(20, parseFloat(savedRatio)));
+            splitView.style.setProperty("--split-ratio", r);
+            const tooltip = resizer.querySelector(".resizer-tooltip");
+            if (tooltip) tooltip.innerText = `${Math.round(r)}% | ${Math.round(100 - r)}%`;
+          } else {
+            splitView.style.removeProperty("--split-ratio");
+          }
+
+          // Reset Section Helper Function
+          const resetSplit = () => {
+            this.playSynthSound('click');
+            splitView.classList.add("is-animating");
+            splitView.style.removeProperty("--split-ratio");
+            localStorage.removeItem("omnitool_split_" + toolId);
+            const tooltip = resizer.querySelector(".resizer-tooltip");
+            if (tooltip) tooltip.innerText = "50% | 50%";
+            setTimeout(() => {
+              splitView.classList.remove("is-animating");
+            }, 300);
+            this.showToast("Layout reset to default (50/50)", "info");
+          };
+
+          // Double-click to reset
+          resizer.addEventListener("dblclick", (e) => {
+            e.preventDefault();
+            resetSplit();
+          });
+
+          // Reset button on handle
+          const resetHandleBtn = resizer.querySelector(".resizer-reset-btn");
+          if (resetHandleBtn) {
+            resetHandleBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              resetSplit();
             });
+          }
+
+          // Keyboard adjustment & reset
+          resizer.addEventListener("keydown", (e) => {
+            let current = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
+            if (e.key === "ArrowLeft") {
+              e.preventDefault();
+              current = Math.max(20, current - 3);
+              splitView.style.setProperty("--split-ratio", current);
+              localStorage.setItem("omnitool_split_" + toolId, current);
+              const tooltip = resizer.querySelector(".resizer-tooltip");
+              if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
+            } else if (e.key === "ArrowRight") {
+              e.preventDefault();
+              current = Math.min(80, current + 3);
+              splitView.style.setProperty("--split-ratio", current);
+              localStorage.setItem("omnitool_split_" + toolId, current);
+              const tooltip = resizer.querySelector(".resizer-tooltip");
+              if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
+            } else if (e.key === "Enter" || e.key === " " || e.key === "Delete" || e.key === "0") {
+              e.preventDefault();
+              resetSplit();
+            }
+          });
+
+          // Pointer dragging logic with setPointerCapture
+          let isDragging = false;
+          const tooltip = resizer.querySelector(".resizer-tooltip");
+
+          resizer.addEventListener("pointerdown", (e) => {
+            if (e.target.closest(".resizer-reset-btn")) return;
+            isDragging = true;
+            resizer.setPointerCapture(e.pointerId);
+            resizer.classList.add("active");
+            splitView.classList.add("is-resizing");
+            splitView.classList.remove("is-animating");
+          });
+
+          resizer.addEventListener("pointermove", (e) => {
+            if (!isDragging) return;
+            const rect = splitView.getBoundingClientRect();
+            if (rect.width <= 0) return;
+            const offsetX = e.clientX - rect.left;
+            let ratio = (offsetX / rect.width) * 100;
+            ratio = Math.min(80, Math.max(20, ratio));
+            splitView.style.setProperty("--split-ratio", ratio.toFixed(1));
+            if (tooltip) {
+              tooltip.innerText = `${Math.round(ratio)}% | ${Math.round(100 - ratio)}%`;
+            }
+          });
+
+          const stopDragging = (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            try { resizer.releasePointerCapture(e.pointerId); } catch (_) {}
+            resizer.classList.remove("active");
+            splitView.classList.remove("is-resizing");
+            const finalRatio = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
+            localStorage.setItem("omnitool_split_" + toolId, finalRatio.toFixed(1));
+          };
+
+          resizer.addEventListener("pointerup", stopDragging);
+          resizer.addEventListener("pointercancel", stopDragging);
+
+          // 5. Inject Reset Layout & Full Screen buttons in preview panel header
+          const previewHeader = previewPanel.querySelector(".panel-header");
+          if (previewHeader) {
+            if (!previewHeader.querySelector(".reset-split-btn")) {
+              const resetHeaderBtn = document.createElement("button");
+              resetHeaderBtn.className = "reset-split-btn tool-btn secondary";
+              resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; margin-right: 6px; gap: 4px; display: inline-flex; align-items: center;";
+              resetHeaderBtn.setAttribute("title", "Reset sections to 50/50 layout");
+              resetHeaderBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <polyline points="3 3 3 8 8 8"></polyline>
+                </svg>
+                <span>Reset 50/50</span>
+              `;
+              previewHeader.appendChild(resetHeaderBtn);
+              resetHeaderBtn.addEventListener("click", () => {
+                resetSplit();
+              });
+            }
+
+            if (!previewHeader.querySelector(".preview-fullscreen-btn")) {
+              const fsBtn = document.createElement("button");
+              fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
+              fsBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: 0; gap: 4px; display: inline-flex; align-items: center;";
+              fsBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                </svg>
+                <span>Full Screen</span>
+              `;
+              previewHeader.appendChild(fsBtn);
+
+              fsBtn.addEventListener("click", () => {
+                this.playSynthSound('click');
+                const isFS = previewPanel.classList.toggle("preview-fullscreen");
+                if (isFS) {
+                  fsBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                      <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
+                    </svg>
+                    <span>Exit Full Screen</span>
+                  `;
+                  fsBtn.classList.remove("secondary");
+                  fsBtn.classList.add("accent-emerald");
+                } else {
+                  fsBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                    <span>Full Screen</span>
+                  `;
+                  fsBtn.classList.remove("accent-emerald");
+                  fsBtn.classList.add("secondary");
+                }
+              });
+            }
           }
         }
 
@@ -2943,7 +3133,7 @@ const app = {
 
     const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;
-    if (onClick) {
+    if (typeof onClick === "function") {
       toast.style.cursor = "pointer";
       toast.addEventListener("click", (e) => {
         onClick(e);
@@ -2962,7 +3152,7 @@ const app = {
       icon = `<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
     }
 
-    const textSpan = onClick ? `<span style="text-decoration: underline; font-weight: 700;">${message}</span>` : `<span>${message}</span>`;
+    const textSpan = (typeof onClick === "function") ? `<span style="text-decoration: underline; font-weight: 700;">${message}</span>` : `<span>${message}</span>`;
 
     toast.innerHTML = `${icon} ${textSpan}`;
     container.appendChild(toast);
@@ -3400,7 +3590,7 @@ const app = {
     "graphics-studio": ["Vector shapes overlay drawer (arrows, circles)", "Pre-made banner templates (GitHub, LinkedIn)", "Canvas layers history (Undo/Redo)"],
     "calculator": ["Visual math function graphing screen", "Formulas & custom constant registration database"],
     "qr-generator": ["Custom art vector QR patterns & gradients", "Offline scanning from file or webcam uploads", "Dynamic shortlink analytics integration"],
-    "seo-previewer": ["Full sitemap sitemap validation audits", "Missing meta descriptors & image alt analysis"],
+    "seo-previewer": ["Full sitemap validation audits", "Missing meta descriptors & image alt analysis"],
     "image-converter": ["Concurrent batch image optimizer", "Exact target file-size compression limits", "AVIF high-compression output formats"],
     "svg-animator": ["High-FPS GIF, MP4, and WebM exports", "Multi-path keyframe timeline editor interface"],
     "url-parser": ["UTM Campaign management profiles", "Multi-URL query comparison grid"],
@@ -3671,27 +3861,38 @@ const app = {
     // Bind Activation Code
     const activateBtn = document.getElementById("plans-activate-btn");
     const codeInput = document.getElementById("plans-activation-code");
+    const activationForm = document.getElementById("plans-activation-form");
 
-    activateBtn?.addEventListener("click", () => {
-      const code = codeInput.value.trim();
+    const handleActivation = () => {
+      const code = codeInput ? codeInput.value.trim() : "";
       const adminPass = this.getConfigValue("omnitool_admin_passcode", "admin123");
 
       if (code === "PRO_MONTHLY" || code === adminPass) {
         localStorage.setItem("omnitool_user_tier", "premium");
         this.playSynthSound('success');
         this.showToast("🎉 Activation Successful! You are now a Pro Monthly member.", "success");
-        codeInput.value = "";
+        if (codeInput) codeInput.value = "";
         window.location.hash = "dashboard";
       } else if (code === "LIFETIME_PASS") {
         localStorage.setItem("omnitool_user_tier", "lifetime");
         this.playSynthSound('success');
         this.showToast("🎉 Activation Successful! Lifetime pass activated.", "success");
-        codeInput.value = "";
+        if (codeInput) codeInput.value = "";
         window.location.hash = "dashboard";
       } else {
         this.playSynthSound('error');
         this.showToast("Invalid activation code or license key! Try again.", "error");
       }
+    };
+
+    activationForm?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      handleActivation();
+    });
+
+    activateBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleActivation();
     });
   }
 };

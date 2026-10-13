@@ -238,7 +238,9 @@ export default {
     const guideTitle = container.querySelector("#datetime-guide-title");
     const guideSteps = container.querySelector("#datetime-guide-steps");
 
-    let activeTab = "epoch";
+    const initialTab = appInstance.activeSubtab || 'epoch';
+    appInstance.activeSubtab = null;
+    let activeTab = initialTab;
 
     const guides = {
       epoch: {
@@ -295,6 +297,8 @@ export default {
     tabs.forEach(tab => {
       tab.addEventListener("click", () => switchTab(tab.dataset.tab));
     });
+
+    switchTab(initialTab);
 
     // ==========================================
     // EPOCH CONVERTER CODE

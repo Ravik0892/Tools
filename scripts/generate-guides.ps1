@@ -170,22 +170,24 @@ $toolsData = @(
   @{
     id = "pdf-utilities"
     fileName = "pdf-utilities.html"
-    title = "PDF Toolbox (Split & Compress) Guide | OmniTool Hub"
-    description = "Learn how to split, extract, and compress PDF documents client-side using web assembly engines."
-    h1 = "PDF Toolbox (Split & Compress) Guide"
+    title = "PDF Toolbox (Split, Merge, Convert & Compress) Guide | OmniTool Hub"
+    description = "Learn how to split into PDF, PNG, JPG, or WebP, merge multiple PDFs, rotate/reorganize pages, and compress documents 100% client-side."
+    h1 = "PDF Toolbox (Split, Merge, Convert & Compress) Guide"
     tag = "Writers & Parsers"
-    leadParagraph = "Standard PDF tools require uploading document payloads to remote servers. OmniTool Hub's PDF Toolbox handles common document modifications locally in your browser memory, keeping your documents secure and private."
-    tabsTitle = "Toolbox Operations"
+    leadParagraph = "Standard PDF tools require uploading sensitive documents to third-party servers. OmniTool Hub's PDF Toolbox processes every operation entirely inside your browser memory using WebAssembly and client-side canvas rendering—ensuring 100% privacy, zero data retention, and blazing speed."
+    tabsTitle = "Toolbox Capabilities & Operations"
     tabs = @(
-      @{ title = "1. Page Splitter & Extractor"; badge = "Split"; desc = "Extract specific pages, page ranges, or split a document into multiple files. Visual previews help you pick the right pages." },
-      @{ title = "2. Client-Side PDF Compressor"; badge = "Compress"; desc = "Compress PDFs client-side with tailored device performance modes. Downsamples images and optimizes objects to reduce sizes." }
+      @{ title = "1. Multi-Format Splitter & Image Converter"; badge = "Split & Convert"; desc = "Extract specific pages or ranges and export as combined PDFs, separate PDFs in a ZIP archive, high-definition PNG/JPG/WebP images, or clean plain text and structured JSON data." },
+      @{ title = "2. PDF Merger Suite"; badge = "Merge"; desc = "Combine multiple PDF documents into a single consolidated file with interactive drag-and-drop file reordering and live page count validation." },
+      @{ title = "3. Page Rotation & Layout Editor"; badge = "Rotate & Edit"; desc = "Rotate individual or all pages clockwise or 180 degrees, reorganize document page sequence, or delete unwanted pages before export." },
+      @{ title = "4. Client-Side PDF Compressor"; badge = "Compress"; desc = "Downsample bloated scans and heavy vector images with customizable DPI quality modes (High Performance, Balanced, or Max Fidelity) without external dependencies." }
     )
-    proTip = "Adjust compression quality sliders to balance file size reductions with image quality. All compression runs locally inside your browser."
+    proTip = "Use the Visual Page Inspector thumbnail cards to inspect pages in full-screen high definition or click the quick save icon on any thumbnail card to download that individual page as PNG or PDF instantly."
     steps = @(
-      "Upload your PDF document into the PDF Toolbox workspace.",
-      "Select your target utility tab (**Split PDF** or **Compress PDF**).",
-      "Define page ranges for extraction, or adjust compression quality levels.",
-      "Click the action button and download your processed PDF file."
+      "Upload your PDF document or drag multiple files into the workspace.",
+      "Switch between **Split & Save**, **Merge PDFs**, **Rotate & Edit**, or **Compress** tabs.",
+      "Select your output format (PDF, separate PDFs in ZIP, PNG, JPG, WebP, Text, or JSON) and resolution.",
+      "Click the action button to process and download your clean, private files immediately."
     )
     ctaHref = "../index.html#tool/pdf-utilities"
     ctaLabel = "Launch PDF Toolbox"
