@@ -194,6 +194,99 @@ export default {
               <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your personal donation page links. Empty buttons will be automatically hidden from the sidebar.</p>
             </div>
 
+            <!-- Payment Gateways & Unified Checkout Settings -->
+            <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+              <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                Payment Gateways &amp; Unified Checkout
+              </div>
+              <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Configure checkout links and payee details for Gumroad, UPI (GPay/PhonePe/Paytm/Kotak 811), PayPal, Razorpay, and Crypto wallets.</p>
+
+              <!-- Gumroad Links -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="gumroad-lifetime-url">Gumroad Lifetime Pass URL</label>
+                  <input type="text" class="form-input" id="gumroad-lifetime-url" placeholder="e.g. https://gumroad.com/l/your-lifetime-slug">
+                </div>
+                <div class="form-group">
+                  <label for="gumroad-monthly-url">Gumroad Pro Monthly URL</label>
+                  <input type="text" class="form-input" id="gumroad-monthly-url" placeholder="e.g. https://gumroad.com/l/your-monthly-slug">
+                </div>
+              </div>
+
+              <!-- PayPal & Razorpay Links -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="paypal-gateway-url">PayPal Payment Link / Profile</label>
+                  <input type="text" class="form-input" id="paypal-gateway-url" placeholder="e.g. https://paypal.me/yourusername">
+                </div>
+                <div class="form-group">
+                  <label for="razorpay-gateway-url">Razorpay Payment Page URL</label>
+                  <input type="text" class="form-input" id="razorpay-gateway-url" placeholder="e.g. https://rzp.io/l/yourlink">
+                </div>
+              </div>
+
+              <!-- UPI ID & Payee Name -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="upi-gateway-id">UPI ID (VPA)</label>
+                  <input type="text" class="form-input" id="upi-gateway-id" placeholder="e.g. ravik0892@okaxis">
+                </div>
+                <div class="form-group">
+                  <label for="upi-gateway-name">Payee Name / Merchant Name</label>
+                  <input type="text" class="form-input" id="upi-gateway-name" placeholder="e.g. OmniTool Hub">
+                </div>
+              </div>
+
+              <!-- Direct Bank Transfer Details (IMPS / NEFT) -->
+              <div style="margin-top: 10px; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1);">
+                <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px;">Direct Bank Transfer (IMPS / NEFT / RTGS)</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="bank-gateway-name">Bank Name</label>
+                    <input type="text" class="form-input" id="bank-gateway-name" placeholder="e.g. State Bank of India / Punjab National Bank">
+                  </div>
+                  <div class="form-group">
+                    <label for="bank-gateway-holder">Account Beneficiary Name</label>
+                    <input type="text" class="form-input" id="bank-gateway-holder" placeholder="e.g. Ravi Kumar / OmniTool Hub">
+                  </div>
+                </div>
+                <div class="form-row" style="margin-top: 6px;">
+                  <div class="form-group">
+                    <label for="bank-gateway-acc">Account Number</label>
+                    <input type="text" class="form-input" id="bank-gateway-acc" placeholder="e.g. 12345678901234">
+                  </div>
+                  <div class="form-group">
+                    <label for="bank-gateway-ifsc">IFSC Code</label>
+                    <input type="text" class="form-input" id="bank-gateway-ifsc" placeholder="e.g. SBIN0001234 / PUNB0123400">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Crypto Wallets -->
+              <div class="form-group" style="margin-top: 6px;">
+                <label for="crypto-usdt-address">USDT Deposit Address (TRC-20)</label>
+                <input type="text" class="form-input" id="crypto-usdt-address" placeholder="e.g. TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="crypto-btc-address">Bitcoin Address (BTC)</label>
+                  <input type="text" class="form-input" id="crypto-btc-address" placeholder="e.g. bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh">
+                </div>
+                <div class="form-group">
+                  <label for="crypto-eth-address">Ethereum Address (ETH / ERC-20)</label>
+                  <input type="text" class="form-input" id="crypto-eth-address" placeholder="e.g. 0x71C53316E28b4923eFFe35E2D8527a2754664982">
+                </div>
+              </div>
+
+              <!-- Custom Pre-Generated License Keys -->
+              <div class="form-group" style="margin-top: 10px;">
+                <label for="custom-license-keys">Custom Pre-Generated License Keys (Comma-separated)</label>
+                <input type="text" class="form-input" id="custom-license-keys" placeholder="e.g. VIP-2026, EARLY-BIRD-PASS, MONTHLY-DEV">
+                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Optional custom license keys or promotional codes you want to distribute to specific customers. Keys starting with "MONTHLY-" activate Pro Monthly; all others activate Lifetime Pass.</p>
+              </div>
+            </div>
+
             <!-- Adsterra Smart Link Settings -->
             <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
               <label for="adsterra-smart-link">Adsterra Smart Link URL</label>
@@ -570,6 +663,20 @@ export default {
     const sponsorBtnText = container.querySelector("#sponsor-btn-text");
     const coffeeUrl = container.querySelector("#coffee-url");
     const kofiUrl = container.querySelector("#kofi-url");
+    const gumroadLifetime = container.querySelector("#gumroad-lifetime-url");
+    const gumroadMonthly = container.querySelector("#gumroad-monthly-url");
+    const paypalUrlInput = container.querySelector("#paypal-gateway-url");
+    const razorpayUrlInput = container.querySelector("#razorpay-gateway-url");
+    const upiIdInput = container.querySelector("#upi-gateway-id");
+    const upiNameInput = container.querySelector("#upi-gateway-name");
+    const bankNameInput = container.querySelector("#bank-gateway-name");
+    const bankHolderInput = container.querySelector("#bank-gateway-holder");
+    const bankAccInput = container.querySelector("#bank-gateway-acc");
+    const bankIfscInput = container.querySelector("#bank-gateway-ifsc");
+    const cryptoUsdtInput = container.querySelector("#crypto-usdt-address");
+    const cryptoBtcInput = container.querySelector("#crypto-btc-address");
+    const cryptoEthInput = container.querySelector("#crypto-eth-address");
+    const customLicenseKeys = container.querySelector("#custom-license-keys");
     const adsterraSmartLink = container.querySelector("#adsterra-smart-link");
     const preserveSettingsReset = container.querySelector("#preserve-settings-reset");
     const overrideToolSelect = container.querySelector("#override-tool-select");
@@ -802,6 +909,20 @@ export default {
       sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
       coffeeUrl.value = appInstance.getConfigValue("omnitool_coffee_url", "");
       kofiUrl.value = appInstance.getConfigValue("omnitool_kofi_url", "");
+      if (gumroadLifetime) gumroadLifetime.value = appInstance.getConfigValue("omnitool_gumroad_lifetime_url", "https://gumroad.com");
+      if (gumroadMonthly) gumroadMonthly.value = appInstance.getConfigValue("omnitool_gumroad_monthly_url", "https://gumroad.com");
+      if (paypalUrlInput) paypalUrlInput.value = appInstance.getConfigValue("omnitool_paypal_url", "https://www.paypal.com");
+      if (razorpayUrlInput) razorpayUrlInput.value = appInstance.getConfigValue("omnitool_razorpay_url", "https://razorpay.com");
+      if (upiIdInput) upiIdInput.value = appInstance.getConfigValue("omnitool_upi_id", "ravik0892@okaxis");
+      if (upiNameInput) upiNameInput.value = appInstance.getConfigValue("omnitool_upi_name", "OmniTool Hub");
+      if (bankNameInput) bankNameInput.value = appInstance.getConfigValue("omnitool_bank_name", "State Bank of India");
+      if (bankHolderInput) bankHolderInput.value = appInstance.getConfigValue("omnitool_bank_holder", "OmniTool Hub");
+      if (bankAccInput) bankAccInput.value = appInstance.getConfigValue("omnitool_bank_acc", "123456789012");
+      if (bankIfscInput) bankIfscInput.value = appInstance.getConfigValue("omnitool_bank_ifsc", "SBIN0001234");
+      if (cryptoUsdtInput) cryptoUsdtInput.value = appInstance.getConfigValue("omnitool_crypto_usdt", "TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c");
+      if (cryptoBtcInput) cryptoBtcInput.value = appInstance.getConfigValue("omnitool_crypto_btc", "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh");
+      if (cryptoEthInput) cryptoEthInput.value = appInstance.getConfigValue("omnitool_crypto_eth", "0x71C53316E28b4923eFFe35E2D8527a2754664982");
+      if (customLicenseKeys) customLicenseKeys.value = appInstance.getConfigValue("omnitool_custom_license_keys", "");
       if (adsterraSmartLink) {
         adsterraSmartLink.value = appInstance.getConfigValue("omnitool_adsterra_smart_link", "");
       }
@@ -993,6 +1114,20 @@ export default {
       }
       localStorage.setItem("omnitool_coffee_url", coffeeUrl.value.trim());
       localStorage.setItem("omnitool_kofi_url", kofiUrl.value.trim());
+      if (gumroadLifetime) localStorage.setItem("omnitool_gumroad_lifetime_url", gumroadLifetime.value.trim());
+      if (gumroadMonthly) localStorage.setItem("omnitool_gumroad_monthly_url", gumroadMonthly.value.trim());
+      if (paypalUrlInput) localStorage.setItem("omnitool_paypal_url", paypalUrlInput.value.trim());
+      if (razorpayUrlInput) localStorage.setItem("omnitool_razorpay_url", razorpayUrlInput.value.trim());
+      if (upiIdInput) localStorage.setItem("omnitool_upi_id", upiIdInput.value.trim());
+      if (upiNameInput) localStorage.setItem("omnitool_upi_name", upiNameInput.value.trim());
+      if (bankNameInput) localStorage.setItem("omnitool_bank_name", bankNameInput.value.trim());
+      if (bankHolderInput) localStorage.setItem("omnitool_bank_holder", bankHolderInput.value.trim());
+      if (bankAccInput) localStorage.setItem("omnitool_bank_acc", bankAccInput.value.trim());
+      if (bankIfscInput) localStorage.setItem("omnitool_bank_ifsc", bankIfscInput.value.trim());
+      if (cryptoUsdtInput) localStorage.setItem("omnitool_crypto_usdt", cryptoUsdtInput.value.trim());
+      if (cryptoBtcInput) localStorage.setItem("omnitool_crypto_btc", cryptoBtcInput.value.trim());
+      if (cryptoEthInput) localStorage.setItem("omnitool_crypto_eth", cryptoEthInput.value.trim());
+      if (customLicenseKeys) localStorage.setItem("omnitool_custom_license_keys", customLicenseKeys.value.trim());
       if (adsterraSmartLink) {
         localStorage.setItem("omnitool_adsterra_smart_link", adsterraSmartLink.value.trim());
       }
@@ -1099,6 +1234,19 @@ export default {
         "omnitool_sponsor_btn_text": localStorage.getItem("omnitool_sponsor_btn_text") || "Claim Now",
         "omnitool_coffee_url": coffeeUrl.value.trim(),
         "omnitool_kofi_url": kofiUrl.value.trim(),
+        "omnitool_gumroad_lifetime_url": gumroadLifetime ? gumroadLifetime.value.trim() : "https://gumroad.com",
+        "omnitool_gumroad_monthly_url": gumroadMonthly ? gumroadMonthly.value.trim() : "https://gumroad.com",
+        "omnitool_paypal_url": paypalUrlInput ? paypalUrlInput.value.trim() : "https://www.paypal.com",
+        "omnitool_razorpay_url": razorpayUrlInput ? razorpayUrlInput.value.trim() : "https://razorpay.com",
+        "omnitool_upi_id": upiIdInput ? upiIdInput.value.trim() : "ravik0892@okaxis",
+        "omnitool_upi_name": upiNameInput ? upiNameInput.value.trim() : "OmniTool Hub",
+        "omnitool_bank_name": bankNameInput ? bankNameInput.value.trim() : "State Bank of India",
+        "omnitool_bank_holder": bankHolderInput ? bankHolderInput.value.trim() : "OmniTool Hub",
+        "omnitool_bank_acc": bankAccInput ? bankAccInput.value.trim() : "123456789012",
+        "omnitool_bank_ifsc": bankIfscInput ? bankIfscInput.value.trim() : "SBIN0001234",
+        "omnitool_crypto_usdt": cryptoUsdtInput ? cryptoUsdtInput.value.trim() : "TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c",
+        "omnitool_crypto_btc": cryptoBtcInput ? cryptoBtcInput.value.trim() : "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+        "omnitool_crypto_eth": cryptoEthInput ? cryptoEthInput.value.trim() : "0x71C53316E28b4923eFFe35E2D8527a2754664982",
         "omnitool_adsterra_smart_link": adsterraSmartLink ? adsterraSmartLink.value.trim() : "",
         "omnitool_preserve_settings_on_reset": preserveSettingsReset ? (preserveSettingsReset.checked ? "true" : "false") : "false",
         "omnitool_accent_preset": activePreset,

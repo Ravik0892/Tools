@@ -1,0 +1,52 @@
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# Editor & IDE directories
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Node & package manager directories
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Build artifacts & caches
+dist/
+build/
+.cache/
+.parcel-cache/
+.temp/
+tmp/
+*.log
+
+# Android build artifacts & local properties
+.gradle/
+**/build/
+**/local.properties
+*.apk
+*.apks
+*.aab
+*.dex
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Temporary / Scratch / Media storage
+.tempmediaStorage/
+scratch/
+*.bak

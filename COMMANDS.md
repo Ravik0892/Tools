@@ -6,7 +6,19 @@ This file lists the commands and batch scripts available to run, build, and main
 
 ## 1. Local Development Servers
 
-### A. Node.js Local Server (Recommended)
+> [!IMPORTANT]
+> **Why is a local server required?**
+> Modern web browsers (Google Chrome, Microsoft Edge, Brave, etc.) enforce strict CORS security policies. Opening `index.html` directly via `file:///` causes the browser to block JavaScript ES Module imports (`import()`), Web Workers, and PWA Service Workers with the error:
+> *"Failed to resolve module specifier... The base URL is about:blank because import() is called from a CORS-cross-origin script."*
+> Always run via a local server (or our 1-click launcher) so all 26+ offline tools load instantly.
+
+### A. 1-Click Launcher for Windows (Fastest)
+Simply double-click:
+*   [START_SERVER.bat](file:///f:/Tools%20website/START_SERVER.bat) in the project root directory.
+
+It will automatically check for Node.js (or Python), launch the server on port `8000`, and open [http://127.0.0.1:8000](http://127.0.0.1:8000) directly in your browser.
+
+### B. Node.js Local Server (Recommended via CLI)
 This runs the built-in lightweight local static server on port `8000`:
 ```bash
 # Install dependencies (if needed)
@@ -17,14 +29,13 @@ npm run dev
 ```
 Once started, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
-### B. Python Static Server (Alternative)
-If you don't have Node.js installed, you can spin up a static server instantly using Python on port `8083`:
+### C. Python Static Server (Alternative)
+If you don't have Node.js installed, you can spin up a static server instantly using Python on port `8000`:
 ```bash
 # For Python 3.x
-python -m http.server 8083
-http://localhost:8083
+python -m http.server 8000
 ```
-Once started, open [http://127.0.0.1:8083](http://127.0.0.1:8083) in your browser.
+Once started, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
 ---
 
@@ -69,3 +80,13 @@ Instantly pushes local commits to the current branch:
 ```cmd
 scripts\push_to_github.bat
 ```
+
+---
+
+## 4. Admin Access & Master Credentials
+
+| Feature | Access URL | Master Passcode | Description |
+| :--- | :--- | :--- | :--- |
+| **Admin Control Panel** | [http://127.0.0.1:8000/#admin](http://127.0.0.1:8000/#admin) | `admin123` | Accessible on local server. Configures ads, bank details, UPI ID, and crypto wallets. |
+| **Instant PRO Lifetime Unlock** | [http://127.0.0.1:8000/#plans](http://127.0.0.1:8000/#plans) | `admin123` | Enter master passcode into the license/activation field to instantly unlock Lifetime PRO access. |
+

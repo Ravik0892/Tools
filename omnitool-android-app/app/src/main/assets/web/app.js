@@ -527,6 +527,9 @@ const app = {
   },
 
   async loadGlobalConfig() {
+    if (window.location.protocol === "file:") {
+      return;
+    }
     try {
       const isLocalhost = window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1" ||
@@ -584,9 +587,18 @@ const app = {
     this.buildSidebarToolMenu();
     this.buildMegaMenu();
     this.handleRouting();
+    this.initPwaInstallBanner();
+    this.initHeaderScroll();
+    this.initNavbarSpotlight();
+    this.initSurpriseTool();
+    this.initDynamicSearchPlaceholder();
+    this.checkFileProtocolWarning();
+    this.initCheckoutModal();
 
     // Pre-load utilities for pipeline builder integration and global helpers
-    import('./tools/utils.js').catch(err => console.error("Failed to pre-load utils:", err));
+    if (window.location.protocol !== "file:") {
+      import('./tools/utils.js').catch(err => console.error("Failed to pre-load utils:", err));
+    }
 
     // Render sidebar sponsor ad
     const sidebarAd = document.querySelector(".sidebar-sponsor-container");
@@ -599,6 +611,186 @@ const app = {
       this.checkAllModules();
     }
     this.isInitialLoad = false;
+  },
+
+  checkFileProtocolWarning() {
+    if (window.location.protocol !== "file:") return;
+
+    if (document.getElementById("file-protocol-banner")) return;
+
+    const banner = document.createElement("div");
+    banner.id = "file-protocol-banner";
+    banner.className = "file-protocol-banner";
+    banner.innerHTML = `
+      <div class="fpb-inner">
+        <div class="fpb-left">
+          <span class="fpb-icon">⚠️</span>
+          <div class="fpb-text">
+            <strong>Direct File Mode (<code>file:///</code>) Detected</strong>
+            <span>Browser CORS security blocks JavaScript tool modules when opened directly from disk. Run <strong>npm run dev</strong> or double-click <strong>START_SERVER.bat</strong> to run all 26+ offline tools at <strong>http://127.0.0.1:8000</strong>.</span>
+          </div>
+        </div>
+        <div class="fpb-actions">
+          <button class="fpb-copy-btn" onclick="navigator.clipboard.writeText('npm run dev'); app.showToast('Copied npm run dev to clipboard!', 'success');">Copy 'npm run dev'</button>
+          <button class="fpb-close-btn" onclick="this.closest('#file-protocol-banner').remove()" aria-label="Dismiss banner">✕</button>
+        </div>
+      </div>
+    `;
+    const target = document.querySelector(".main-wrapper") || document.body;
+    target.prepend(banner);
+  },
+
+  initHeaderScroll() {
+    const header = document.querySelector(".main-header");
+    const contentArea = document.getElementById("content-area");
+    if (!header) return;
+
+    this.checkHeaderScroll = () => {
+      const scrollPos = (contentArea ? contentArea.scrollTop : 0) || window.scrollY || 0;
+      if (scrollPos > 12) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    };
+
+    if (contentArea) {
+      contentArea.addEventListener("scroll", this.checkHeaderScroll, { passive: true });
+    }
+    window.addEventListener("scroll", this.checkHeaderScroll, { passive: true });
+    this.checkHeaderScroll();
+  },
+
+  initNavbarSpotlight() {
+    const navMenu = document.querySelector(".desktop-nav-menu");
+    if (!navMenu) return;
+
+    navMenu.addEventListener("mousemove", (e) => {
+      const rect = navMenu.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      navMenu.style.setProperty("--mouse-x", `${x}px`);
+      navMenu.style.setProperty("--mouse-y", `${y}px`);
+      navMenu.style.setProperty("--spotlight-opacity", "1");
+    });
+
+    navMenu.addEventListener("mouseleave", () => {
+      navMenu.style.setProperty("--spotlight-opacity", "0");
+    });
+  },
+
+  initSurpriseTool() {
+    const handleSurprise = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      const availableTools = this.tools.filter(t => t.id !== "admin-settings");
+      if (!availableTools.length) return;
+
+      // Animate dice spinning
+      const diceIcons = document.querySelectorAll(".surprise-dice-icon, .lucky-dice");
+      diceIcons.forEach(icon => {
+        icon.style.transition = "transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)";
+        icon.style.transform = "rotate(720deg) scale(1.3)";
+        setTimeout(() => {
+          icon.style.transform = "";
+        }, 600);
+      });
+
+      this.playSynthSound("success");
+      try {
+        if (navigator.vibrate) navigator.vibrate([20, 40, 20]);
+      } catch (err) {}
+
+      // Pick random tool
+      const randomIndex = Math.floor(Math.random() * availableTools.length);
+      const chosenTool = availableTools[randomIndex];
+
+      this.showToast(`🎲 Surprise Discovery: Opening "${chosenTool.name}"!`, "info");
+
+      setTimeout(() => {
+        this.navigateToTool(chosenTool.id);
+      }, 350);
+    };
+
+    const megaBtn = document.getElementById("mega-surprise-btn");
+    if (megaBtn) megaBtn.onclick = handleSurprise;
+
+    const heroBtn = document.getElementById("hero-surprise-btn");
+    if (heroBtn) heroBtn.onclick = handleSurprise;
+  },
+
+  initDynamicSearchPlaceholder() {
+    const searchInputs = [
+      document.getElementById("tool-search"),
+      document.getElementById("tool-search-mobile")
+    ].filter(Boolean);
+
+    if (!searchInputs.length) return;
+
+    const prompts = [
+      "Search 26+ offline tools... (e.g. '3D Solar System' 🪐)",
+      "Try 'Smart Chain Pipeline Builder' ⚡",
+      "Try 'Audio Synth & Visualizer' 🎹",
+      "Try 'QR Code Generator Studio' 📱",
+      "Try 'Markdown Live Editor' 📝",
+      "Try 'Matrix Rain Simulation' 💻",
+      "Try 'JWT Token Decoder' 🔐",
+      "Try 'Color Palette Generator' 🎨",
+      "Try 'Speed Test & Ping Monitor' 🚀"
+    ];
+
+    let promptIdx = 0;
+    setInterval(() => {
+      promptIdx = (promptIdx + 1) % prompts.length;
+      searchInputs.forEach(input => {
+        if (document.activeElement !== input && !input.value) {
+          input.setAttribute("placeholder", prompts[promptIdx]);
+        }
+      });
+    }, 3800);
+  },
+
+  initPwaInstallBanner() {
+    let deferredPrompt = null;
+    const banner = document.getElementById("pwa-install-banner");
+    const installBtn = document.getElementById("pwa-install-btn");
+    const dismissBtn = document.getElementById("pwa-dismiss-btn");
+
+    if (!banner || !installBtn) return;
+
+    const dismissedUntil = localStorage.getItem("omnitool_pwa_dismissed_until");
+    if (dismissedUntil && Date.now() < parseInt(dismissedUntil, 10)) {
+      return;
+    }
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      banner.style.display = "flex";
+    });
+
+    installBtn.addEventListener("click", async () => {
+      if (!deferredPrompt) {
+        this.showToast("To install on iOS / Safari, tap Share and then 'Add to Home Screen'.", "info", 5000);
+        return;
+      }
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        this.showToast("🎉 OmniTool Hub installed successfully!", "success");
+        banner.style.display = "none";
+        localStorage.setItem("omnitool_pwa_installed", "true");
+      }
+      deferredPrompt = null;
+    });
+
+    dismissBtn?.addEventListener("click", () => {
+      banner.style.display = "none";
+      localStorage.setItem("omnitool_pwa_dismissed_until", (Date.now() + 14 * 24 * 60 * 60 * 1000).toString());
+    });
   },
 
   initSplash() {
@@ -705,10 +897,41 @@ const app = {
   },
 
   handleRouting() {
-    const hash = window.location.hash || "";
+    let hash = window.location.hash || "";
+    const pathname = window.location.pathname || "";
+
+    // Always dismiss mobile drawer on route navigation
+    const sidebar = document.getElementById("app-sidebar");
+    if (sidebar) sidebar.classList.remove("show");
+
+    // Support Clean Path URLs (e.g. /tool/jwt-decoder or /tool/pdf-utilities)
+    if (!hash && pathname.startsWith("/tool/")) {
+      const cleanToolId = pathname.replace(/^\/tool\//, "").replace(/\/$/, "");
+      if (cleanToolId) {
+        hash = "#tool/" + cleanToolId;
+      }
+    }
 
     if (hash === "#plans") {
       this.renderPlansPage();
+      return;
+    }
+
+    if (hash === "#checkout" || hash.startsWith("#checkout/")) {
+      const parts = hash.replace("#checkout", "").split("/").filter(Boolean);
+      let plan = "lifetime";
+      let gw = null;
+      const validGateways = ["gumroad", "upi", "paypal", "razorpay", "crypto", "coffee"];
+      for (const p of parts) {
+        const lower = p.toLowerCase();
+        if (lower === "monthly" || lower === "lifetime") {
+          plan = lower;
+        } else if (validGateways.includes(lower)) {
+          gw = lower;
+        }
+      }
+      this.renderPlansPage();
+      this.openCheckout(plan, gw);
       return;
     }
 
@@ -843,6 +1066,7 @@ const app = {
     document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
     document.querySelectorAll(".subnav-link").forEach(l => l.classList.remove("active"));
     document.querySelectorAll(".sidebar-tool-link").forEach(l => l.classList.remove("active"));
+    document.getElementById("desktop-plans-link")?.classList.remove("active");
     document.querySelectorAll(".accordion-item").forEach(item => {
       item.classList.remove("open");
       const content = item.querySelector(".accordion-content");
@@ -894,6 +1118,9 @@ const app = {
   },
 
   registerServiceWorker() {
+    if (window.location.protocol === "file:") {
+      return;
+    }
     const isLocalhost = window.location.hostname === "localhost" ||
       window.location.hostname === "127.0.0.1" ||
       window.location.hostname === "127.0.0.1.nip.io" ||
@@ -1003,11 +1230,35 @@ const app = {
   renderRecents() {
     const containers = [
       document.getElementById("recent-tools-box"),
-      document.getElementById("header-recents-list")
+      document.getElementById("header-recents-list"),
+      document.getElementById("mega-recents-list")
     ];
 
     containers.forEach((container, idx) => {
       if (!container) return;
+
+      if (container.id === "mega-recents-list") {
+        if (this.recents.length === 0) {
+          container.innerHTML = `<span style="font-size: 11.5px; color: var(--text-muted); padding: 3px 6px;">No tools visited yet</span>`;
+          return;
+        }
+        container.innerHTML = "";
+        this.recents.forEach(id => {
+          const tool = this.tools.find(t => t.id === id);
+          if (tool) {
+            const item = document.createElement("a");
+            item.href = `#tool/${id}`;
+            item.className = "mega-recent-pill";
+            item.innerHTML = `${tool.icon} <span>${tool.name}</span>`;
+            item.addEventListener("click", (e) => {
+              e.preventDefault();
+              this.navigateToTool(id);
+            });
+            container.appendChild(item);
+          }
+        });
+        return;
+      }
 
       if (this.recents.length === 0) {
         container.innerHTML = `<span class="recent-link" style="font-size: 12px; color: var(--text-muted); cursor: default; padding-left: ${idx === 0 ? '8' : '0'}px;">No tools visited yet</span>`;
@@ -1045,6 +1296,28 @@ const app = {
           this.selectCategory(cat);
         }
       });
+    });
+
+    // Desktop Nav Dropdown Click Toggle
+    document.querySelectorAll(".nav-dropdown").forEach(dropdown => {
+      const btn = dropdown.querySelector(".nav-dropdown-btn");
+      if (btn) {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const wasOpen = dropdown.classList.contains("open");
+          document.querySelectorAll(".nav-dropdown.open").forEach(d => d.classList.remove("open"));
+          if (!wasOpen) {
+            dropdown.classList.add("open");
+          }
+        });
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".nav-dropdown")) {
+        document.querySelectorAll(".nav-dropdown.open").forEach(d => d.classList.remove("open"));
+      }
     });
 
     // Sidebar Accordion Trigger events
@@ -1094,6 +1367,34 @@ const app = {
     // Theme toggler
     document.getElementById("theme-toggle")?.addEventListener("click", () => this.toggleTheme());
 
+    // Header Smart Preferences Dropdown
+    const prefsBtn = document.getElementById("header-prefs-btn");
+    const prefsMenu = document.getElementById("header-prefs-menu");
+    if (prefsBtn && prefsMenu) {
+      prefsBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = prefsMenu.classList.contains("show");
+        prefsMenu.classList.toggle("show", !isOpen);
+        prefsBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+        this.playSynthSound('click');
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".prefs-dropdown-container")) {
+          prefsMenu.classList.remove("show");
+          prefsBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      prefsMenu.querySelectorAll(".prefs-menu-item").forEach(item => {
+        item.addEventListener("click", () => {
+          prefsMenu.classList.remove("show");
+          prefsBtn.setAttribute("aria-expanded", "false");
+        });
+      });
+    }
+
     // Cache clear button
     document.getElementById("cache-clear-btn")?.addEventListener("click", () => this.clearAppCache());
 
@@ -1138,14 +1439,24 @@ const app = {
       this.toggleCommandPalette(true);
     });
 
-    // Keyboard bindings (Ctrl + K Command Palette)
+    // Keyboard bindings (Ctrl + K Command Palette & Escape dismissal)
     window.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         this.toggleCommandPalette();
       }
-      if (e.key === "Escape" && this.cpOpen) {
-        this.toggleCommandPalette(false);
+      if (e.key === "Escape") {
+        if (this.cpOpen) {
+          this.toggleCommandPalette(false);
+        }
+        const modal = document.getElementById("aesthetics-modal");
+        if (modal && modal.style.display !== "none") {
+          modal.style.display = "none";
+        }
+        const sidebar = document.getElementById("app-sidebar");
+        if (sidebar && sidebar.classList.contains("show")) {
+          sidebar.classList.remove("show");
+        }
       }
     });
 
@@ -1179,6 +1490,24 @@ const app = {
       this.toggleCommandPalette(false);
     });
 
+    // Close aesthetics modal when clicking backdrop
+    document.getElementById("aesthetics-modal")?.addEventListener("click", (e) => {
+      if (e.target.id === "aesthetics-modal") {
+        document.getElementById("aesthetics-modal").style.display = "none";
+      }
+    });
+
+    // Close mobile drawer when clicking outside
+    document.addEventListener("click", (e) => {
+      const sidebar = document.getElementById("app-sidebar");
+      const openBtn = document.getElementById("sidebar-open-btn");
+      if (sidebar && sidebar.classList.contains("show")) {
+        if (!sidebar.contains(e.target) && (!openBtn || !openBtn.contains(e.target))) {
+          sidebar.classList.remove("show");
+        }
+      }
+    });
+
     // Window level paste listener for auto-suggest detector
     window.addEventListener("paste", (e) => {
       const activeTag = document.activeElement.tagName.toLowerCase();
@@ -1187,6 +1516,9 @@ const app = {
       const pastedText = e.clipboardData.getData("text");
       this.detectPastedValue(pastedText);
     });
+
+    // Popstate routing trigger for browser history back/forward
+    window.addEventListener("popstate", () => this.handleRouting());
 
   },
 
@@ -1715,46 +2047,73 @@ const app = {
   initClock() {
     const clockWidget = document.getElementById("header-clock");
     const clockEl = document.getElementById("clock-text");
+    const dateEl = document.getElementById("clock-date");
+
     const updateTime = () => {
-      const format = this.getConfigValue("omnitool_clock_format", "24");
+      const format = this.getConfigValue("omnitool_clock_format", "12");
       if (format === "hide") {
         if (clockWidget) clockWidget.style.display = "none";
         return;
       }
-      if (clockWidget) clockWidget.style.display = "flex";
+      if (clockWidget) clockWidget.style.removeProperty("display");
 
       const now = new Date();
+
+      if (dateEl) {
+        try {
+          const dateStr = now.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+          dateEl.innerText = dateStr;
+        } catch (_) {
+          dateEl.innerText = now.toDateString().slice(0, 10);
+        }
+      }
+
       let hrs = now.getHours();
       const mins = String(now.getMinutes()).padStart(2, '0');
       const secs = String(now.getSeconds()).padStart(2, '0');
 
-      if (format === "12") {
+      if (format === "24") {
+        const hrsStr = String(hrs).padStart(2, '0');
+        if (clockEl) clockEl.innerHTML = `${hrsStr}:${mins}<span class="clock-seconds">:${secs}</span>`;
+      } else {
         const ampm = hrs >= 12 ? 'PM' : 'AM';
         hrs = hrs % 12;
         hrs = hrs ? hrs : 12;
         const hrsStr = String(hrs).padStart(2, '0');
-        if (clockEl) clockEl.innerText = `${hrsStr}:${mins} ${ampm}`;
-      } else {
-        const hrsStr = String(hrs).padStart(2, '0');
-        if (clockEl) clockEl.innerText = `${hrsStr}:${mins}:${secs}`;
+        if (clockEl) clockEl.innerHTML = `${hrsStr}:${mins}<span class="clock-seconds">:${secs}</span> ${ampm}`;
       }
     };
+
+    if (clockWidget && !clockWidget._hasFormatListener) {
+      clockWidget._hasFormatListener = true;
+      clockWidget.addEventListener("click", () => {
+        const curFormat = this.getConfigValue("omnitool_clock_format", "12");
+        const nextFormat = curFormat === "12" ? "24" : "12";
+        localStorage.setItem("omnitool_clock_format", nextFormat);
+        const modalSelect = document.getElementById("aesthetics-clock");
+        if (modalSelect) modalSelect.value = nextFormat;
+        this.playSynthSound('click');
+        this.showToast(`Clock switched to ${nextFormat === "12" ? "12-hour (AM/PM)" : "24-hour military"} format`, "info", 1800);
+        updateTime();
+      });
+    }
+
     updateTime();
     setInterval(updateTime, 1000);
   },
 
   // Navigation Filter updates
   selectCategory(category, updateHash = true) {
+    // Close sidebar on mobile
+    const sidebar = document.getElementById("app-sidebar");
+    if (sidebar) sidebar.classList.remove("show");
+
     if (updateHash) {
       window.location.hash = category === "fav" ? "favorites" : "dashboard";
       return;
     }
     this.activeCategory = category;
     this.activeSubcategory = "all";
-
-    // Close sidebar on mobile
-    const sidebar = document.getElementById("app-sidebar");
-    if (sidebar) sidebar.classList.remove("show");
 
     // Clear search bars
     const searchBar = document.getElementById("tool-search");
@@ -1770,16 +2129,16 @@ const app = {
   },
 
   selectSubcategory(filter, updateHash = true) {
+    // Close mobile drawer
+    const sidebar = document.getElementById("app-sidebar");
+    if (sidebar) sidebar.classList.remove("show");
+
     if (updateHash) {
       window.location.hash = "category/" + filter;
       return;
     }
     this.activeCategory = "subcategory-filter";
     this.activeSubcategory = filter;
-
-    // Close mobile drawer
-    const sidebar = document.getElementById("app-sidebar");
-    if (sidebar) sidebar.classList.remove("show");
 
     // Clear search bars
     const searchBar = document.getElementById("tool-search");
@@ -2397,7 +2756,16 @@ const app = {
 
   async navigateToTool(toolId, updateHash = true) {
     if (updateHash) {
-      window.location.hash = "tool/" + toolId;
+      if (window.history && window.history.pushState) {
+        try {
+          window.history.pushState({ toolId }, "", "/tool/" + toolId);
+        } catch (e) {
+          window.location.hash = "tool/" + toolId;
+        }
+      } else {
+        window.location.hash = "tool/" + toolId;
+      }
+      this.navigateToTool(toolId, false);
       return;
     }
 
@@ -2550,6 +2918,10 @@ const app = {
     }
 
     try {
+      if (window.location.protocol === "file:") {
+        this.renderFileProtocolError(toolId);
+        return;
+      }
       const isLocalhost = window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1" ||
         window.location.hostname === "127.0.0.1.nip.io" ||
@@ -3067,13 +3439,95 @@ const app = {
       }
     } catch (err) {
       console.error(`Error loading tool ID: ${toolId}`, err);
-      this.showToast(`Failed to load tool module: ${err.message}`, "error", 8000);
-      this.backToDashboard();
+      if (window.location.protocol === "file:" || err.message?.includes("module specifier") || err.message?.includes("CORS") || err.message?.includes("about:blank")) {
+        this.renderFileProtocolError(toolId);
+      } else {
+        this.showToast(`Failed to load tool module: ${err.message}`, "error", 8000);
+        this.backToDashboard();
+      }
     }
+  },
+
+  renderFileProtocolError(toolId) {
+    this.activeTool = toolId;
+    this.syncSidebarUI();
+
+    const titleEl = document.getElementById("header-view-title");
+    if (titleEl) {
+      titleEl.innerText = "Security Notice";
+      titleEl.style.display = "block";
+    }
+
+    const dashboard = document.getElementById("dashboard-view");
+    if (dashboard) dashboard.style.display = "none";
+
+    const plansView = document.getElementById("plans-view");
+    if (plansView) plansView.style.display = "none";
+
+    const viewport = document.getElementById("active-tool-viewport");
+    if (!viewport) return;
+
+    viewport.style.display = "block";
+
+    const contentArea = document.getElementById("content-area");
+    if (contentArea) contentArea.scrollTop = 0;
+
+    const toolEntry = this.tools.find(t => t.id === toolId);
+    const toolName = toolEntry ? toolEntry.name : (toolId.charAt(0).toUpperCase() + toolId.slice(1));
+
+    viewport.innerHTML = `
+      <div class="tool-bar">
+        <div class="tool-bar-left">
+          <button class="back-btn" onclick="app.backToDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back to Dashboard</button>
+          <div class="tool-title-info">
+            <h2>${toolName}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="file-protocol-error-container">
+        <div class="file-protocol-card">
+          <div class="fpc-icon-badge">🔒</div>
+          <h2>Browser Security Restriction (CORS on <code>file:///</code>)</h2>
+          <p class="fpc-desc">
+            You opened OmniTool Hub directly from your hard drive (<code>file:///...</code>). Modern browsers block JavaScript ES module imports (<code>import()</code>) on local files to protect your system.
+          </p>
+          <div class="fpc-steps-box">
+            <h3>⚡ How to run <strong>${toolName}</strong> and all 26+ offline tools:</h3>
+            <div class="fpc-step">
+              <span class="fpc-step-num">1</span>
+              <div>
+                <strong>1-Click Server Launcher (Windows):</strong>
+                <p>Double-click <code class="fpc-code">START_SERVER.bat</code> in the project root folder. It starts the local server and automatically launches your browser.</p>
+              </div>
+            </div>
+            <div class="fpc-step">
+              <span class="fpc-step-num">2</span>
+              <div>
+                <strong>Or run via Terminal / Command Prompt:</strong>
+                <p>Run <code class="fpc-code">npm run dev</code> (or <code class="fpc-code">python -m http.server 8000</code>) in this folder, then open <a href="http://127.0.0.1:8000/#tool/${toolId}" class="fpc-link" target="_blank">http://127.0.0.1:8000/#tool/${toolId}</a>.</p>
+              </div>
+            </div>
+          </div>
+          <div class="fpc-actions">
+            <button class="btn btn-primary" onclick="navigator.clipboard.writeText('npm run dev'); app.showToast('Copied npm run dev to clipboard!', 'success');">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy 'npm run dev' Command
+            </button>
+            <button class="btn btn-secondary" onclick="app.backToDashboard()">Return to Dashboard</button>
+          </div>
+        </div>
+      </div>
+    `;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   backToDashboard(updateHash = true) {
     if (updateHash) {
+      if (window.history && window.history.pushState && window.location.pathname.startsWith('/tool/')) {
+        try {
+          window.history.pushState(null, "", "/");
+        } catch (e) {}
+      }
       if (this.activeCategory === "fav") {
         window.location.hash = "favorites";
       } else if (this.activeCategory === "subcategory-filter") {
@@ -3100,6 +3554,10 @@ const app = {
 
     const dashboard = document.getElementById("dashboard-view");
     if (dashboard) dashboard.style.display = "block";
+
+    const contentArea = document.getElementById("content-area");
+    if (contentArea) contentArea.scrollTop = 0;
+    this.checkHeaderScroll?.();
 
     this.activeTool = null;
     this.syncSidebarUI();
@@ -3494,16 +3952,17 @@ const app = {
       dropdown.addEventListener("click", (e) => {
         e.stopPropagation();
       });
-
-      const optionBtns = dropdown.querySelectorAll(".sizer-option-btn");
-      optionBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const val = btn.getAttribute("data-scale");
-          this.applyLayoutScale(val);
-          dropdown.style.display = "none";
-        });
-      });
     }
+
+    // Attach event listeners to all .sizer-option-btn (dropdown or preferences capsule)
+    document.querySelectorAll(".sizer-option-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const val = btn.getAttribute("data-scale");
+        this.applyLayoutScale(val);
+        this.playSynthSound('click');
+        if (dropdown) dropdown.style.display = "none";
+      });
+    });
 
     // Keyboard Shortcuts for accessibility
     document.addEventListener("keydown", (e) => {
@@ -3557,20 +4016,17 @@ const app = {
     document.documentElement.style.setProperty("--font-scale", scale);
     document.body.style.zoom = scale;
 
-    const dropdown = document.getElementById("sizer-dropdown");
-    if (dropdown) {
-      const optionBtns = dropdown.querySelectorAll(".sizer-option-btn");
-      optionBtns.forEach(btn => {
-        const btnScale = btn.getAttribute("data-scale");
-        if (parseFloat(btnScale) === parseFloat(scale)) {
-          btn.classList.add("active");
-          btn.style.fontWeight = "bold";
-        } else {
-          btn.classList.remove("active");
-          btn.style.fontWeight = "normal";
-        }
-      });
-    }
+    const optionBtns = document.querySelectorAll(".sizer-option-btn");
+    optionBtns.forEach(btn => {
+      const btnScale = btn.getAttribute("data-scale");
+      if (parseFloat(btnScale) === parseFloat(scale)) {
+        btn.classList.add("active");
+        btn.style.fontWeight = "bold";
+      } else {
+        btn.classList.remove("active");
+        btn.style.fontWeight = "normal";
+      }
+    });
   },
 
   // Monetization Highlights Registry
@@ -3786,6 +4242,7 @@ const app = {
   renderPlansPage() {
     this.activeTool = null;
     this.syncSidebarUI();
+    document.getElementById("desktop-plans-link")?.classList.add("active");
 
     // Hide dashboard and active-viewport
     const dashboard = document.getElementById("dashboard-view");
@@ -3841,62 +4298,683 @@ const app = {
       titleEl.style.display = "block";
     }
 
-    // Bind buttons
-    const bindPurchase = (btnId, tierName) => {
-      const btn = document.getElementById(btnId);
-      btn?.addEventListener("click", (e) => {
+    // Bind Plan cards directly to Unified Checkout Modal
+    const btnLifetime = document.getElementById("plan-btn-lifetime");
+    if (btnLifetime) {
+      btnLifetime.onclick = (e) => {
         e.preventDefault();
-        const coffeeUrl = this.getConfigValue("omnitool_coffee_url", "");
-        const kofiUrl = this.getConfigValue("omnitool_kofi_url", "");
-        const checkoutUrl = kofiUrl || coffeeUrl || "";
+        this.openCheckout("lifetime");
+      };
+    }
 
-        if (checkoutUrl) {
-          window.open(checkoutUrl, "_blank");
-          this.showToast(`✨ Opening donation page! Enter code below or check email for activation key.`, "info");
-        } else {
-          this.showToast(`Please configure Buy Me a Coffee or Ko-fi links in settings, or enter key.`, "warn");
-        }
-      });
-    };
+    const btnMonthly = document.getElementById("plan-btn-monthly");
+    if (btnMonthly) {
+      btnMonthly.onclick = (e) => {
+        e.preventDefault();
+        this.openCheckout("monthly");
+      };
+    }
 
-    bindPurchase("plan-btn-lifetime", "lifetime");
-    bindPurchase("plan-btn-monthly", "premium");
-
-    // Bind Activation Code
+    // Bind Activation Code on Plans view
     const activateBtn = document.getElementById("plans-activate-btn");
     const codeInput = document.getElementById("plans-activation-code");
     const activationForm = document.getElementById("plans-activation-form");
 
     const handleActivation = () => {
       const code = codeInput ? codeInput.value.trim() : "";
-      const adminPass = this.getConfigValue("omnitool_admin_passcode", "admin123");
-
-      if (code === "PRO_MONTHLY" || code === adminPass) {
-        localStorage.setItem("omnitool_user_tier", "premium");
-        this.playSynthSound('success');
-        this.showToast("🎉 Activation Successful! You are now a Pro Monthly member.", "success");
+      if (this.verifyAndActivateLicense(code)) {
         if (codeInput) codeInput.value = "";
-        window.location.hash = "dashboard";
-      } else if (code === "LIFETIME_PASS") {
-        localStorage.setItem("omnitool_user_tier", "lifetime");
-        this.playSynthSound('success');
-        this.showToast("🎉 Activation Successful! Lifetime pass activated.", "success");
-        if (codeInput) codeInput.value = "";
-        window.location.hash = "dashboard";
-      } else {
-        this.playSynthSound('error');
-        this.showToast("Invalid activation code or license key! Try again.", "error");
       }
     };
 
-    activationForm?.addEventListener("submit", (e) => {
-      e.preventDefault();
-      handleActivation();
+    if (activationForm) {
+      activationForm.onsubmit = (e) => {
+        e.preventDefault();
+        handleActivation();
+      };
+    }
+
+    if (activateBtn) {
+      activateBtn.onclick = (e) => {
+        e.preventDefault();
+        handleActivation();
+      };
+    }
+  },
+
+  // Unified Verification & License Activation Engine
+  verifyAndActivateLicense(val) {
+    const code = (val || "").trim();
+    if (!code) {
+      this.showToast("Please enter an activation license key, 12-digit UPI UTR, or Crypto TXID.", "warn");
+      return false;
+    }
+
+    const adminPass = this.getConfigValue("omnitool_admin_passcode", "admin123");
+    const customKeysRaw = this.getConfigValue("omnitool_custom_license_keys", "");
+    const customKeys = customKeysRaw ? customKeysRaw.split(",").map(k => k.trim().toUpperCase()).filter(Boolean) : [];
+    const upperCode = code.toUpperCase();
+
+    // 1. Pro Monthly License Key
+    if (upperCode === "PRO_MONTHLY" || (customKeys.includes(upperCode) && upperCode.startsWith("MONTHLY-"))) {
+      localStorage.setItem("omnitool_user_tier", "premium");
+      localStorage.setItem("omnitool_submitted_utr", code);
+      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+      this.playSynthSound("success");
+      this.showToast("🎉 Pro Monthly Membership successfully activated!", "success");
+      this.closeCheckout();
+      this.renderPlansPage();
+      return true;
+    }
+
+    // 2. Lifetime Pass / Admin Key / Custom Pre-configured Keys
+    if (upperCode === "LIFETIME_PASS" || code === adminPass || customKeys.includes(upperCode)) {
+      localStorage.setItem("omnitool_user_tier", "lifetime");
+      localStorage.setItem("omnitool_submitted_utr", code);
+      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+      this.playSynthSound("success");
+      this.showToast("🎉 Lifetime Developer Pass successfully activated!", "success");
+      this.closeCheckout();
+      this.renderPlansPage();
+      return true;
+    }
+
+    // 3. Indian UPI 12-Digit UTR Reference Number (Strictly 12 numeric digits)
+    if (/^\d{12}$/.test(code)) {
+      localStorage.setItem("omnitool_user_tier", "lifetime");
+      localStorage.setItem("omnitool_submitted_utr", code);
+      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+      this.playSynthSound("success");
+      this.showToast("🎉 12-Digit UPI UTR Verified! Lifetime PRO unlocked.", "success");
+      this.closeCheckout();
+      this.renderPlansPage();
+      return true;
+    }
+
+    // 4. Crypto TXID / Transaction Hash (BTC/TRC-20 64 hex characters or ETH 66 chars starting with 0x)
+    if (/^0x[a-fA-F0-9]{64}$/.test(code) || /^[a-fA-F0-9]{64}$/.test(code)) {
+      localStorage.setItem("omnitool_user_tier", "lifetime");
+      localStorage.setItem("omnitool_submitted_utr", code);
+      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+      this.playSynthSound("success");
+      this.showToast("🎉 Crypto Transaction Hash Verified! Lifetime PRO unlocked.", "success");
+      this.closeCheckout();
+      this.renderPlansPage();
+      return true;
+    }
+
+    // 5. Formatted Digital License Keys (e.g. OMNI-XXXX-XXXX-XXXX or UUID/Gumroad 32-36 char key)
+    if (/^(OMNI-)?[A-Za-z0-9]{4,8}(-[A-Za-z0-9]{4,8}){2,5}$/i.test(code) || /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(code)) {
+      localStorage.setItem("omnitool_user_tier", "lifetime");
+      localStorage.setItem("omnitool_submitted_utr", code);
+      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+      this.playSynthSound("success");
+      this.showToast("🎉 License key verified! Lifetime PRO access unlocked.", "success");
+      this.closeCheckout();
+      this.renderPlansPage();
+      return true;
+    }
+
+    // Invalid format error
+    this.playSynthSound("error");
+    this.showToast("Invalid code! Enter a 12-digit UPI UTR, 64-char Crypto TXID, or valid license key.", "error");
+    return false;
+  },
+
+  // =========================================================================
+  // UNIFIED MULTI-GATEWAY CHECKOUT ENGINE
+  // =========================================================================
+  checkoutPlan: "lifetime",
+  checkoutGateway: "gumroad",
+  checkoutCryptoCoin: "usdt",
+
+  initCheckoutModal() {
+    const modal = document.getElementById("checkout-modal");
+    if (!modal) return;
+
+    // Close button
+    const closeBtn = document.getElementById("checkout-modal-close");
+    if (closeBtn) {
+      closeBtn.onclick = () => this.closeCheckout();
+    }
+
+    // Click outside modal content to close
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        this.closeCheckout();
+      }
     });
 
-    activateBtn?.addEventListener("click", (e) => {
-      e.preventDefault();
-      handleActivation();
+    // ESC key listener
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.style.display !== "none") {
+        this.closeCheckout();
+      }
+    });
+
+    // Plan pills
+    const pillLifetime = document.getElementById("chk-pill-lifetime");
+    const pillMonthly = document.getElementById("chk-pill-monthly");
+    if (pillLifetime) {
+      pillLifetime.onclick = () => this.switchCheckoutPlan("lifetime");
+    }
+    if (pillMonthly) {
+      pillMonthly.onclick = () => this.switchCheckoutPlan("monthly");
+    }
+
+    // Gateway tabs
+    modal.querySelectorAll(".chk-tab-btn").forEach(btn => {
+      btn.onclick = () => {
+        const gw = btn.getAttribute("data-gateway");
+        if (gw) this.switchCheckoutGateway(gw);
+      };
+    });
+
+    // Crypto subtabs
+    modal.querySelectorAll(".crypto-subtab").forEach(btn => {
+      btn.onclick = () => {
+        const coin = btn.getAttribute("data-coin");
+        if (coin) this.switchCryptoCoin(coin);
+      };
+    });
+
+    // Copy buttons
+    const upiCopyBtn = document.getElementById("chk-upi-copy-btn");
+    if (upiCopyBtn) {
+      upiCopyBtn.onclick = () => {
+        const upiId = document.getElementById("chk-upi-id-display")?.value || "";
+        if (upiId) {
+          navigator.clipboard.writeText(upiId).then(() => {
+            upiCopyBtn.innerText = "Copied!";
+            this.playSynthSound("click");
+            this.showToast("Payee UPI ID copied to clipboard!", "success");
+            setTimeout(() => { upiCopyBtn.innerText = "Copy"; }, 2000);
+          }).catch(() => {
+            this.showToast("Failed to copy UPI ID.", "warn");
+          });
+        }
+      };
+    }
+
+    const cryptoCopyBtn = document.getElementById("chk-crypto-copy-btn");
+    if (cryptoCopyBtn) {
+      cryptoCopyBtn.onclick = () => {
+        const addr = document.getElementById("chk-crypto-address")?.value || "";
+        if (addr) {
+          navigator.clipboard.writeText(addr).then(() => {
+            cryptoCopyBtn.innerText = "Copied!";
+            this.playSynthSound("click");
+            this.showToast("Crypto deposit address copied to clipboard!", "success");
+            setTimeout(() => { cryptoCopyBtn.innerText = "Copy"; }, 2000);
+          }).catch(() => {
+            this.showToast("Failed to copy crypto address.", "warn");
+          });
+        }
+      };
+    }
+
+    // Activation form inside modal
+    const actForm = document.getElementById("checkout-activation-form");
+    const actInput = document.getElementById("checkout-activation-input");
+    const actBtn = document.getElementById("checkout-activate-btn");
+
+    const doActivation = (val) => {
+      if (this.verifyAndActivateLicense(val)) {
+        if (actInput) actInput.value = "";
+      }
+    };
+
+    if (actForm) {
+      actForm.onsubmit = (e) => {
+        e.preventDefault();
+        doActivation(actInput?.value);
+      };
+    }
+    if (actBtn && !actForm) {
+      actBtn.onclick = (e) => {
+        e.preventDefault();
+        doActivation(actInput?.value);
+      };
+    }
+  },
+
+  openCheckout(plan = "lifetime", initialGateway = null) {
+    const modal = document.getElementById("checkout-modal");
+    if (!modal) return;
+
+    this.switchCheckoutPlan(plan);
+    this.switchCheckoutGateway(initialGateway || "gumroad");
+    this.switchCryptoCoin("usdt");
+
+    // Populate links from global config or localStorage
+    const paypalUrl = this.getConfigValue("omnitool_paypal_url", "https://www.paypal.com");
+    const razorpayUrl = this.getConfigValue("omnitool_razorpay_url", "https://razorpay.com");
+    const coffeeUrl = this.getConfigValue("omnitool_coffee_url", "https://www.buymeacoffee.com");
+    const kofiUrl = this.getConfigValue("omnitool_kofi_url", "https://ko-fi.com");
+    const upiId = this.getConfigValue("omnitool_upi_id", "ravik0892@okaxis");
+    const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
+
+    const paypalBtn = document.getElementById("chk-paypal-btn");
+    if (paypalBtn) paypalBtn.href = paypalUrl;
+
+    const razorpayBtn = document.getElementById("chk-razorpay-btn");
+    if (razorpayBtn) razorpayBtn.href = razorpayUrl;
+
+    const coffeeBtn = document.getElementById("chk-coffee-link");
+    if (coffeeBtn) coffeeBtn.href = coffeeUrl;
+
+    const kofiBtn = document.getElementById("chk-kofi-link");
+    if (kofiBtn) kofiBtn.href = kofiUrl;
+
+    const upiDisplay = document.getElementById("chk-upi-id-display");
+    if (upiDisplay) upiDisplay.value = upiId;
+
+    const upiNameDisplay = document.getElementById("chk-upi-name-display");
+    if (upiNameDisplay) upiNameDisplay.innerText = upiName;
+
+    // Populate Bank Transfer details
+    const bankName = this.getConfigValue("omnitool_bank_name", "State Bank of India");
+    const bankHolder = this.getConfigValue("omnitool_bank_holder", "OmniTool Hub");
+    const bankAcc = this.getConfigValue("omnitool_bank_acc", "123456789012");
+    const bankIfsc = this.getConfigValue("omnitool_bank_ifsc", "SBIN0001234");
+
+    const elBankName = document.getElementById("chk-bank-name-display");
+    if (elBankName) elBankName.innerText = bankName;
+
+    const elBankHolder = document.getElementById("chk-bank-holder-display");
+    if (elBankHolder) elBankHolder.innerText = bankHolder;
+
+    const elBankAcc = document.getElementById("chk-bank-acc-display");
+    if (elBankAcc) elBankAcc.innerText = bankAcc;
+
+    const elBankIfsc = document.getElementById("chk-bank-ifsc-display");
+    if (elBankIfsc) elBankIfsc.innerText = bankIfsc;
+
+    const elBankAmt = document.getElementById("chk-bank-transfer-amt");
+    if (elBankAmt) elBankAmt.innerText = plan === "lifetime" ? "₹2,499 INR" : "₹399 INR";
+
+    this.switchIndiaPayMethod("upi");
+    this.selectUpiApp("any", "Any UPI App");
+
+    modal.style.display = "flex";
+    this.playSynthSound("click");
+  },
+
+  switchIndiaPayMethod(method = "upi") {
+    const upiTab = document.getElementById("ipm-tab-upi");
+    const bankTab = document.getElementById("ipm-tab-bank");
+    const upiView = document.getElementById("ipm-view-upi");
+    const bankView = document.getElementById("ipm-view-bank");
+    const helpNote = document.getElementById("upi-help-note-text");
+    const actInput = document.getElementById("checkout-activation-input");
+
+    if (method === "bank") {
+      if (bankTab) bankTab.classList.add("active");
+      if (upiTab) upiTab.classList.remove("active");
+      if (bankView) bankView.style.display = "block";
+      if (upiView) upiView.style.display = "none";
+      if (helpNote) {
+        helpNote.innerHTML = `<strong>Bank Transfer Verification:</strong> After transferring via IMPS or NEFT, copy the <strong>12-digit UTR / Reference ID</strong> from your banking receipt or SMS and enter it in the activation box below to unlock PRO immediately.`;
+      }
+      if (actInput) {
+        actInput.placeholder = "Enter 12-digit Bank IMPS/NEFT UTR Number...";
+      }
+    } else {
+      if (upiTab) upiTab.classList.add("active");
+      if (bankTab) bankTab.classList.remove("active");
+      if (upiView) upiView.style.display = "block";
+      if (bankView) bankView.style.display = "none";
+      if (helpNote) {
+        helpNote.innerHTML = `<strong>Instant UPI Verification:</strong> After transferring via any UPI app, enter your <strong>12-digit UTR / Reference ID</strong> in the activation box below to unlock PRO immediately.`;
+      }
+      if (actInput) {
+        actInput.placeholder = "Enter 12-digit UPI UTR or Gumroad License Key...";
+      }
+    }
+    this.playSynthSound("click");
+  },
+
+  selectUpiApp(appKey = "any", appName = "Any UPI App") {
+    this.selectedUpiApp = appKey;
+    const panel = document.getElementById("chk-panel-upi");
+    if (!panel) return;
+
+    // 1. Highlight clicked badge
+    panel.querySelectorAll(".upi-app-badge").forEach(btn => {
+      if (btn.getAttribute("data-app") === appKey) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    // 2. Update selected app label
+    const selectedLabel = document.getElementById("upi-selected-app-label");
+    if (selectedLabel) selectedLabel.innerText = appName;
+
+    // 3. Update scan hint under QR
+    const scanHint = document.getElementById("upi-qr-scan-hint");
+    if (scanHint) {
+      if (appKey === "any") scanHint.innerText = "Scan with any UPI App";
+      else scanHint.innerText = `Scan with ${appName}`;
+    }
+
+    // 4. Update dynamic step-by-step instructions
+    const guideBox = document.getElementById("upi-app-dynamic-guide");
+    const upiId = this.getConfigValue("omnitool_upi_id", "ravik0892@okaxis");
+    if (guideBox) {
+      if (appKey === "gpay") {
+        guideBox.innerHTML = `1. Open <strong>Google Pay</strong> ➔ 2. Tap <strong>"Pay UPI ID or number"</strong> (or tap Scanner) ➔ 3. Send to <code>${upiId}</code> ➔ 4. Enter 12-digit UTR below.`;
+      } else if (appKey === "phonepe") {
+        guideBox.innerHTML = `1. Open <strong>PhonePe</strong> ➔ 2. Tap <strong>"To Mobile / UPI ID"</strong> (or QR icon) ➔ 3. Send to <code>${upiId}</code> ➔ 4. Enter 12-digit UTR below.`;
+      } else if (appKey === "paytm") {
+        guideBox.innerHTML = `1. Open <strong>Paytm</strong> ➔ 2. Tap <strong>"To UPI Apps / Scan Any QR"</strong> ➔ 3. Send to <code>${upiId}</code> ➔ 4. Enter 12-digit UTR below.`;
+      } else if (appKey === "bhim") {
+        guideBox.innerHTML = `1. Open <strong>BHIM</strong> ➔ 2. Tap <strong>"Send"</strong> ➔ 3. Enter <code>${upiId}</code> (or scan QR) ➔ 4. Enter 12-digit UTR below.`;
+      } else if (appKey === "cred") {
+        guideBox.innerHTML = `1. Open <strong>CRED</strong> ➔ 2. Tap <strong>"Scan & Pay"</strong> or pay <code>${upiId}</code> ➔ 3. Authorize payment ➔ 4. Enter 12-digit UTR below.`;
+      } else {
+        guideBox.innerHTML = `Open <strong>any UPI app</strong> on your phone ➔ Scan the QR code or send to <code>${upiId}</code> ➔ Enter 12-digit UTR below.`;
+      }
+    }
+
+    // 5. Update CTA button text & state
+    const upiDisplayAmt = this.checkoutPlan === "lifetime" ? "₹2,499" : "₹399";
+    const ctaBtn = document.getElementById("chk-upi-mobile-link");
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (ctaBtn) {
+      if (isMobile) {
+        ctaBtn.innerText = appKey === "any" ? `Pay ${upiDisplayAmt} via UPI App` : `Open ${appName} (${upiDisplayAmt})`;
+      } else {
+        ctaBtn.innerText = appKey === "any" ? `Pay ${upiDisplayAmt} via UPI` : `Pay ${upiDisplayAmt} via ${appName}`;
+      }
+    }
+
+    this.playSynthSound("click");
+    this.showToast(`Selected ${appName}. Scan QR with your phone or copy UPI ID.`, "info");
+  },
+
+  handleUpiCtaClick(event) {
+    if (event) event.preventDefault();
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const upiId = this.getConfigValue("omnitool_upi_id", "ravik0892@okaxis");
+    const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
+    const upiAmount = this.checkoutPlan === "lifetime" ? "2499" : "399";
+    const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${upiAmount}&cu=INR&tn=${encodeURIComponent(this.checkoutPlan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
+
+    if (isMobile) {
+      window.location.href = upiUri;
+      return;
+    }
+
+    // On Desktop/Laptop: copy UPI ID and prompt user to scan QR or enter UTR
+    navigator.clipboard.writeText(upiId).then(() => {
+      this.playSynthSound("click");
+      this.showToast(`📋 Payee UPI ID (${upiId}) copied! Scan QR on your phone or pay via UPI.`, "success");
+    }).catch(() => {
+      this.showToast(`Payee UPI ID: ${upiId}`, "info");
+    });
+
+    // Smoothly scroll down to activation input
+    const actInput = document.getElementById("checkout-activation-input");
+    if (actInput) {
+      actInput.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  },
+
+  focusActivationInput() {
+    const actInput = document.getElementById("checkout-activation-input");
+    if (actInput) {
+      actInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => {
+        actInput.focus();
+        actInput.style.transition = "box-shadow 0.3s ease, border-color 0.3s ease";
+        actInput.style.borderColor = "var(--accent-cyan)";
+        actInput.style.boxShadow = "0 0 0 3px rgba(6, 182, 212, 0.35)";
+        setTimeout(() => {
+          actInput.style.boxShadow = "";
+        }, 1500);
+      }, 200);
+      this.playSynthSound("click");
+      this.showToast("Paste your 12-digit UTR Number from your receipt here to activate PRO!", "info");
+    }
+  },
+
+  payViaUpiApp(appName) {
+    this.selectUpiApp("any", appName || "Any UPI App");
+  },
+
+  copyBankDetail(elementId, label) {
+    const el = document.getElementById(elementId);
+    const text = el ? el.innerText.trim() : "";
+    if (text) {
+      navigator.clipboard.writeText(text).then(() => {
+        this.playSynthSound("click");
+        this.showToast(`${label} copied to clipboard!`, "success");
+      });
+    }
+  },
+
+  closeCheckout() {
+    const modal = document.getElementById("checkout-modal");
+    if (modal) {
+      modal.style.display = "none";
+    }
+    if (window.location.hash.startsWith("#checkout")) {
+      window.location.hash = "#plans";
+    }
+  },
+
+  switchCheckoutPlan(plan = "lifetime") {
+    this.checkoutPlan = plan;
+
+    const pillLifetime = document.getElementById("chk-pill-lifetime");
+    const pillMonthly = document.getElementById("chk-pill-monthly");
+    if (pillLifetime && pillMonthly) {
+      if (plan === "lifetime") {
+        pillLifetime.classList.add("active");
+        pillMonthly.classList.remove("active");
+      } else {
+        pillMonthly.classList.add("active");
+        pillLifetime.classList.remove("active");
+      }
+    }
+
+    const modalTitle = document.getElementById("checkout-title");
+    if (modalTitle) {
+      modalTitle.innerText = plan === "lifetime" ? "Get Lifetime Developer Pass ($29.99)" : "Subscribe to Pro Monthly ($4.99/mo)";
+    }
+
+    // Update Gumroad URL and CTA
+    const gumroadBtn = document.getElementById("chk-gumroad-btn");
+    if (gumroadBtn) {
+      const lifetimeUrl = this.getConfigValue("omnitool_gumroad_lifetime_url", "https://gumroad.com");
+      const monthlyUrl = this.getConfigValue("omnitool_gumroad_monthly_url", "https://gumroad.com");
+      gumroadBtn.href = plan === "lifetime" ? lifetimeUrl : monthlyUrl;
+      const btnSpan = gumroadBtn.querySelector("span");
+      if (btnSpan) {
+        btnSpan.innerText = plan === "lifetime" ? "Continue to Gumroad Checkout ($29.99)" : "Continue to Gumroad Checkout ($4.99/mo)";
+      }
+    }
+
+    // Update UPI Amount & URI
+    const upiAmount = plan === "lifetime" ? "2499" : "399";
+    const upiDisplayAmt = plan === "lifetime" ? "₹2,499 INR" : "₹399 INR";
+    const upiId = this.getConfigValue("omnitool_upi_id", "ravik0892@okaxis");
+    const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
+
+    const upiAmtEl = document.getElementById("chk-upi-amount-display");
+    if (upiAmtEl) upiAmtEl.innerText = upiDisplayAmt;
+
+    const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${upiAmount}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
+
+    const upiMobileLink = document.getElementById("chk-upi-mobile-link");
+    if (upiMobileLink) {
+      upiMobileLink.href = upiUri;
+      upiMobileLink.innerText = `Pay ${upiDisplayAmt} via UPI App`;
+    }
+
+    // Redraw UPI QR
+    this.drawUpiQr(upiUri);
+
+    // Update Bank Transfer amount
+    const bankAmtEl = document.getElementById("chk-bank-transfer-amt");
+    if (bankAmtEl) bankAmtEl.innerText = upiDisplayAmt;
+
+    // Refresh selected UPI app button label
+    const selectedAppName = document.getElementById("upi-selected-app-label")?.innerText || "Any UPI App";
+    if (this.selectedUpiApp) {
+      this.selectUpiApp(this.selectedUpiApp, selectedAppName);
+    }
+
+    // Update Crypto approximate hint
+    const cryptoHint = document.getElementById("crypto-coin-hint");
+    if (cryptoHint) {
+      const priceUSD = plan === "lifetime" ? "$29.99" : "$4.99";
+      cryptoHint.innerText = `Send exact amount (≈ ${priceUSD} USDT) over selected network.`;
+    }
+  },
+
+  switchCheckoutGateway(gateway) {
+    this.checkoutGateway = gateway;
+    const modal = document.getElementById("checkout-modal");
+    if (!modal) return;
+
+    modal.querySelectorAll(".chk-tab-btn").forEach(btn => {
+      const isMatch = btn.getAttribute("data-gateway") === gateway;
+      if (isMatch) {
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+      } else {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-selected", "false");
+      }
+    });
+
+    modal.querySelectorAll(".checkout-panel").forEach(panel => {
+      if (panel.id === `chk-panel-${gateway}`) {
+        panel.classList.add("active");
+      } else {
+        panel.classList.remove("active");
+      }
+    });
+
+    this.playSynthSound("click");
+
+    if (gateway === "upi") {
+      const upiAmount = this.checkoutPlan === "lifetime" ? "2499" : "399";
+      const upiId = this.getConfigValue("omnitool_upi_id", "ravik0892@okaxis");
+      const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
+      const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${upiAmount}&cu=INR&tn=${encodeURIComponent(this.checkoutPlan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
+      this.drawUpiQr(upiUri);
+    }
+  },
+
+  switchCryptoCoin(coin = "usdt") {
+    this.checkoutCryptoCoin = coin;
+    const modal = document.getElementById("checkout-modal");
+    if (!modal) return;
+
+    modal.querySelectorAll(".crypto-subtab").forEach(btn => {
+      if (btn.getAttribute("data-coin") === coin) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    const addrInput = document.getElementById("chk-crypto-address");
+    const coinLabel = document.getElementById("crypto-coin-label");
+    const coinHint = document.getElementById("crypto-coin-hint");
+    const priceUSD = this.checkoutPlan === "lifetime" ? "$29.99" : "$4.99";
+
+    if (coin === "usdt") {
+      if (coinLabel) coinLabel.innerText = "USDT (TRC-20) Deposit Address";
+      if (addrInput) addrInput.value = this.getConfigValue("omnitool_crypto_usdt", "TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c");
+      if (coinHint) coinHint.innerText = `Send exact amount (≈ ${priceUSD} USDT) over TRON (TRC-20) network.`;
+    } else if (coin === "btc") {
+      if (coinLabel) coinLabel.innerText = "Bitcoin (BTC) Deposit Address";
+      if (addrInput) addrInput.value = this.getConfigValue("omnitool_crypto_btc", "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh");
+      if (coinHint) coinHint.innerText = `Send exact equivalent of ${priceUSD} USD in BTC over Bitcoin network.`;
+    } else if (coin === "eth") {
+      if (coinLabel) coinLabel.innerText = "Ethereum (ETH / ERC-20) Deposit Address";
+      if (addrInput) addrInput.value = this.getConfigValue("omnitool_crypto_eth", "0x71C53316E28b4923eFFe35E2D8527a2754664982");
+      if (coinHint) coinHint.innerText = `Send exact equivalent of ${priceUSD} USD in ETH over Ethereum (ERC-20) network.`;
+    }
+  },
+
+  drawUpiQr(upiUri) {
+    const canvas = document.getElementById("upi-qr-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const w = canvas.width;
+    const h = canvas.height;
+
+    // Reset canvas to white
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, w, h);
+
+    const renderMatrix = (qr) => {
+      const moduleCount = qr.size;
+      const cellSize = Math.floor((w - 20) / moduleCount);
+      const margin = Math.floor((w - cellSize * moduleCount) / 2);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = "#0f172a";
+      for (let r = 0; r < moduleCount; r++) {
+        for (let c = 0; c < moduleCount; c++) {
+          if (qr.modules[r][c]) {
+            ctx.fillRect(margin + c * cellSize, margin + r * cellSize, cellSize, cellSize);
+          }
+        }
+      }
+    };
+
+    // 1. Check if global OmniQRCode is already loaded
+    if (window.OmniQRCode && typeof window.OmniQRCode.generate === "function") {
+      try {
+        const qr = window.OmniQRCode.generate(upiUri, "M", 4);
+        renderMatrix(qr);
+        return;
+      } catch (err) {
+        console.warn("Local QR matrix render error:", err);
+      }
+    }
+
+    // 2. Dynamically import local qr-generator module for 100% offline precision
+    import("./tools/qr-generator.js").then((mod) => {
+      const qrGen = mod.QRCode || window.OmniQRCode;
+      if (qrGen && typeof qrGen.generate === "function") {
+        try {
+          const qr = qrGen.generate(upiUri, "M", 4);
+          renderMatrix(qr);
+          return;
+        } catch (e) {}
+      }
+      throw new Error("Local generator unavailable");
+    }).catch(() => {
+      // 3. Fallback to image generator
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+      };
+      img.onerror = () => {
+        ctx.strokeStyle = "#0f172a";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(8, 8, w - 16, h - 16);
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "bold 13px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("UPI QR READY", w / 2, h / 2 - 10);
+        ctx.font = "11px sans-serif";
+        ctx.fillText("Scan with UPI Apps", w / 2, h / 2 + 10);
+      };
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=${w}x${h}&data=${encodeURIComponent(upiUri)}&margin=8&format=png`;
     });
   }
 };

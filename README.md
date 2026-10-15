@@ -185,6 +185,31 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 
 ---
 
+## 🔐 Admin Control Panel & Master Passcode
+
+The built-in Admin Control Panel lets you configure advertisements, branding, payees, and payment gateways client-side.
+
+*   **Admin Access URL**: [http://127.0.0.1:8000/#admin](http://127.0.0.1:8000/#admin) (or `#tool/admin-settings` on local server)
+*   **Default Master Passcode**: `admin123`
+*   **PRO Master Activation Key**: Entering `admin123` into the License Key / UTR field on the `#plans` page or `#checkout` modal instantly unlocks full Lifetime PRO access!
+
+### Available Configurations in Admin Panel:
+1.  **Payment Gateways & Payee Information**:
+    *   **UPI ID (VPA)**: Set your payee UPI address (default: `ravik0892@okaxis`).
+    *   **Direct Bank Transfer**: Configure your Bank Name (e.g. State Bank of India, Punjab National Bank, Kotak), Beneficiary Name, Account Number, and IFSC code for direct IMPS/NEFT transfers.
+    *   **Gumroad / PayPal / Razorpay / Ko-fi**: Link your personal checkout and donation pages.
+    *   **Crypto Wallets**: Set deposit addresses for USDT (TRC-20), Bitcoin (BTC), and Ethereum (ETH).
+    *   **Custom License Keys**: Distribute comma-separated custom passcodes (e.g. `VIP-2026`, `MONTHLY-PRO`).
+2.  **Monetization & Advertisements**:
+    *   Toggle global ads on/off.
+    *   Configure Google AdSense Client ID & Slot IDs or AdMob Smart Banners.
+    *   Set custom Sponsor brand names, slogans, and affiliate links with per-tool overrides.
+3.  **Security & System**:
+    *   Change the master passcode anytime from the "Admin Access Passcode" field.
+    *   Export all configurations to [ad-config.json](file:///f:/Tools%20website/ad-config.json) with 1 click.
+
+---
+
 ## 📈 Monetization & Ad Placements
 
 To make this site profitable, you can add ad spaces using network networks like Google AdSense.

@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=1.2.2">
+  <link rel="stylesheet" href="style.css?v=1.2.6">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/svg+xml"
@@ -218,6 +218,365 @@
         style="display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 4px;">
         <button id="aesthetics-modal-save" class="tool-btn primary"
           style="padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700;">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unified Multi-Gateway Checkout Modal -->
+  <div id="checkout-modal" class="modal-overlay" style="display: none;">
+    <div class="checkout-modal-content">
+      <!-- Modal Header -->
+      <div class="checkout-header">
+        <div class="checkout-header-left">
+          <div class="checkout-badge-pill">
+            <span class="badge-dot"></span>
+            <span>256-Bit SSL Encrypted Checkout</span>
+          </div>
+          <h2 class="checkout-title" id="checkout-title">Upgrade to OmniTool Hub PRO</h2>
+        </div>
+        <button id="checkout-modal-close" class="cp-close-btn" title="Close Checkout (Esc)" aria-label="Close checkout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Plan Switcher Pills -->
+      <div class="checkout-plan-selector">
+        <div class="checkout-plan-pill active" data-plan="lifetime" id="chk-pill-lifetime" onclick="app.switchCheckoutPlan('lifetime')">
+          <div class="cpp-left">
+            <span class="cpp-radio"></span>
+            <div>
+              <div class="cpp-title-row">
+                <span class="cpp-name">Lifetime Developer Pass</span>
+                <span class="cpp-tag">Best Value</span>
+              </div>
+              <div class="cpp-desc">Pay once, keep forever • All 26+ offline tools • Lifetime updates</div>
+            </div>
+          </div>
+          <div class="cpp-right">
+            <div class="cpp-price">$29.99</div>
+            <div class="cpp-inr">₹2,499 INR</div>
+          </div>
+        </div>
+
+        <div class="checkout-plan-pill" data-plan="monthly" id="chk-pill-monthly" onclick="app.switchCheckoutPlan('monthly')">
+          <div class="cpp-left">
+            <span class="cpp-radio"></span>
+            <div>
+              <div class="cpp-title-row">
+                <span class="cpp-name">Pro Monthly Subscription</span>
+                <span class="cpp-tag alt">Flexible</span>
+              </div>
+              <div class="cpp-desc">100% ad-free experience • Cancel anytime • Monthly access</div>
+            </div>
+          </div>
+          <div class="cpp-right">
+            <div class="cpp-price">$4.99 <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/mo</span></div>
+            <div class="cpp-inr">₹399 INR</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supported Gateways Tabs -->
+      <div class="checkout-tabs-bar" role="tablist" aria-label="Payment Gateway Tabs">
+        <button type="button" class="chk-tab-btn active" data-gateway="gumroad" id="chk-tab-gumroad" role="tab" aria-selected="true" onclick="app.switchCheckoutGateway('gumroad')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          <span>Gumroad (Cards)</span>
+        </button>
+        <button type="button" class="chk-tab-btn" data-gateway="upi" id="chk-tab-upi" role="tab" aria-selected="false" onclick="app.switchCheckoutGateway('upi')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>UPI / Bank Transfer</span>
+        </button>
+        <button type="button" class="chk-tab-btn" data-gateway="paypal" id="chk-tab-paypal" role="tab" aria-selected="false" onclick="app.switchCheckoutGateway('paypal')">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.78.78 0 0 1 .77-.655h6.634c3.483 0 5.672 1.708 5.176 5.215-.403 2.85-2.227 4.542-4.998 4.542h-2.14l-1.04 6.575a.78.78 0 0 1-.77.655l-1.499.285z"/></svg>
+          <span>PayPal</span>
+        </button>
+        <button type="button" class="chk-tab-btn" data-gateway="razorpay" id="chk-tab-razorpay" role="tab" aria-selected="false" onclick="app.switchCheckoutGateway('razorpay')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+          <span>Razorpay</span>
+        </button>
+        <button type="button" class="chk-tab-btn" data-gateway="crypto" id="chk-tab-crypto" role="tab" aria-selected="false" onclick="app.switchCheckoutGateway('crypto')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"></circle><path d="M8 8h6a2 2 0 0 1 0 4H8m0 0h7a2 2 0 0 1 0 4H8m3-8V6m0 10v2"></path></svg>
+          <span>Crypto (USDT)</span>
+        </button>
+        <button type="button" class="chk-tab-btn" data-gateway="coffee" id="chk-tab-coffee" role="tab" aria-selected="false" onclick="app.switchCheckoutGateway('coffee')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+          <span>Ko-fi / Coffee</span>
+        </button>
+      </div>
+
+      <!-- Gateway Panels Container -->
+      <div class="checkout-panels-container">
+        <!-- 1. GUMROAD PANEL -->
+        <div class="checkout-panel active" id="chk-panel-gumroad">
+          <div class="chk-panel-banner gumroad-banner">
+            <div class="cpb-icon-circle">🛒</div>
+            <div class="cpb-text">
+              <strong>Official Gumroad Digital Checkout</strong>
+              <span>Instant automated license key delivery to your email right after payment.</span>
+            </div>
+          </div>
+          <div class="chk-features-box">
+            <div class="chk-feature-item">✔ Supports Visa, Mastercard, American Express, Apple Pay &amp; Google Pay</div>
+            <div class="chk-feature-item">✔ Automated global VAT/GST sales tax invoice included</div>
+            <div class="chk-feature-item">✔ Instant license activation key dispatched immediately</div>
+          </div>
+          <div class="chk-action-row">
+            <a href="https://gumroad.com" target="_blank" rel="noopener noreferrer" class="tool-btn primary chk-cta-btn" id="chk-gumroad-btn">
+              <span>Continue to Gumroad Checkout ($29.99)</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- 2. UPI / QR CODE & BANK TRANSFER PANEL -->
+        <div class="checkout-panel" id="chk-panel-upi">
+          <!-- Method Switcher: UPI vs Bank Transfer -->
+          <div class="india-pay-method-switcher">
+            <button type="button" class="ipm-tab active" id="ipm-tab-upi" onclick="app.switchIndiaPayMethod('upi')">
+              <span class="ipm-icon">⚡</span>
+              <div class="ipm-text">
+                <strong>Pay with UPI / QR Code</strong>
+                <small>GPay, PhonePe, Paytm, BHIM, Cred</small>
+              </div>
+            </button>
+            <button type="button" class="ipm-tab" id="ipm-tab-bank" onclick="app.switchIndiaPayMethod('bank')">
+              <span class="ipm-icon">🏦</span>
+              <div class="ipm-text">
+                <strong>Direct Bank Transfer</strong>
+                <small>NEFT / IMPS / Net Banking</small>
+              </div>
+            </button>
+          </div>
+
+          <!-- SUB-VIEW A: UPI & QR CODE -->
+          <div id="ipm-view-upi" style="display: block;">
+            <div class="upi-layout-grid">
+              <div class="upi-qr-column">
+                <div class="upi-qr-card">
+                  <canvas id="upi-qr-canvas" width="180" height="180"></canvas>
+                  <div class="upi-scan-hint" id="upi-qr-scan-hint">Scan with any UPI App</div>
+                </div>
+              </div>
+              <div class="upi-details-column">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Choose Payment App:</span>
+                  <span style="font-size: 11px; color: var(--text-muted);">Selected: <strong id="upi-selected-app-label" style="color: var(--accent-cyan);">Any UPI App</strong></span>
+                </div>
+                <div class="upi-apps-row">
+                  <button type="button" class="upi-app-badge active" data-app="any" onclick="app.selectUpiApp('any', 'Any UPI App')" title="Pay via Any UPI App / QR Code">⚡ Any App</button>
+                  <button type="button" class="upi-app-badge" data-app="gpay" onclick="app.selectUpiApp('gpay', 'Google Pay')" title="Pay via Google Pay">GPay</button>
+                  <button type="button" class="upi-app-badge" data-app="phonepe" onclick="app.selectUpiApp('phonepe', 'PhonePe')" title="Pay via PhonePe">PhonePe</button>
+                  <button type="button" class="upi-app-badge" data-app="paytm" onclick="app.selectUpiApp('paytm', 'Paytm')" title="Pay via Paytm">Paytm</button>
+                  <button type="button" class="upi-app-badge" data-app="bhim" onclick="app.selectUpiApp('bhim', 'BHIM UPI')" title="Pay via BHIM UPI">BHIM</button>
+                  <button type="button" class="upi-app-badge" data-app="cred" onclick="app.selectUpiApp('cred', 'Cred')" title="Pay via Cred UPI">Cred</button>
+                </div>
+                <div class="form-group" style="margin-top: 4px;">
+                  <label style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Payee UPI ID (VPA)</label>
+                  <div class="copy-input-group">
+                    <input type="text" class="form-input" id="chk-upi-id-display" readonly value="ravik0892@okaxis">
+                    <button type="button" class="tool-btn secondary copy-btn" id="chk-upi-copy-btn">Copy</button>
+                  </div>
+                </div>
+                <div class="form-row" style="margin-top: 6px;">
+                  <div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Payee Name:</div>
+                    <strong style="font-size: 13px; color: var(--text-main);" id="chk-upi-name-display">OmniTool Hub</strong>
+                  </div>
+                  <div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Amount:</div>
+                    <strong style="font-size: 14px; color: #10b981;" id="chk-upi-amount-display">₹2,499 INR</strong>
+                  </div>
+                </div>
+                <div style="margin-top: 10px; display: flex; gap: 8px;">
+                  <a href="#" id="chk-upi-mobile-link" class="tool-btn primary" onclick="app.handleUpiCtaClick(event)" style="flex: 1; justify-content: center; text-decoration: none;">Pay ₹2,499 via UPI</a>
+                </div>
+                <div class="upi-dynamic-guide-box" id="upi-app-dynamic-guide">
+                  Open <strong>any UPI app</strong> on your phone ➔ Scan the QR code or send to <code>ravik0892@okaxis</code> ➔ Enter 12-digit UTR below.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-VIEW B: DIRECT BANK TRANSFER (IMPS / NEFT) -->
+          <div id="ipm-view-bank" style="display: none;" class="bank-view-container">
+            <div class="bank-steps-card">
+              <div class="bank-step-item">
+                <span class="bsi-num">1</span>
+                <span>Open your <strong>Net Banking portal</strong> or <strong>Mobile Banking App</strong> (SBI, HDFC, ICICI, PNB, Kotak, Axis, etc.).</span>
+              </div>
+              <div class="bank-step-item">
+                <span class="bsi-num">2</span>
+                <span>Choose <strong>Transfer Money ➔ Other Bank (IMPS or NEFT)</strong> and enter the bank details below.</span>
+              </div>
+              <div class="bank-step-item">
+                <span class="bsi-num">3</span>
+                <span>Transfer the exact amount: <strong style="color: #10b981;" id="chk-bank-transfer-amt">₹2,499 INR</strong>.</span>
+              </div>
+              <div class="bank-step-item">
+                <span class="bsi-num">4</span>
+                <span>Copy the <strong>12-digit UTR / Reference ID</strong> from your transaction receipt and enter it in the activation box below.</span>
+              </div>
+            </div>
+
+            <div class="bank-details-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                <span style="font-size: 12px; font-weight: 700; color: var(--text-main);">Official Beneficiary Bank Account</span>
+                <span style="font-size: 10.5px; font-weight: 700; color: #10b981; background: rgba(16, 185, 129, 0.12); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.25);">IMPS 24x7 / NEFT</span>
+              </div>
+              <div class="bank-info-grid">
+                <div>
+                  <span style="color: var(--text-muted); font-size: 10.5px;">Beneficiary / Payee Name:</span>
+                  <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <strong style="color: var(--text-main); font-size: 12.5px;" id="chk-bank-holder-display">OmniTool Hub</strong>
+                    <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-holder-display', 'Beneficiary Name')">Copy</button>
+                  </div>
+                </div>
+                <div>
+                  <span style="color: var(--text-muted); font-size: 10.5px;">Bank Name:</span>
+                  <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <strong style="color: var(--text-main); font-size: 12.5px;" id="chk-bank-name-display">State Bank of India</strong>
+                    <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-name-display', 'Bank Name')">Copy</button>
+                  </div>
+                </div>
+                <div>
+                  <span style="color: var(--text-muted); font-size: 10.5px;">Account Number:</span>
+                  <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <strong style="font-family: var(--font-mono); color: var(--text-main); font-size: 13px; letter-spacing: 0.5px;" id="chk-bank-acc-display">123456789012</strong>
+                    <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-acc-display', 'Account Number')">Copy</button>
+                  </div>
+                </div>
+                <div>
+                  <span style="color: var(--text-muted); font-size: 10.5px;">IFSC Code:</span>
+                  <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <strong style="font-family: var(--font-mono); color: var(--accent-cyan); font-size: 13px; letter-spacing: 0.5px;" id="chk-bank-ifsc-display">SBIN0001234</strong>
+                    <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-ifsc-display', 'IFSC Code')">Copy</button>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top: 14px;">
+                <button type="button" class="tool-btn primary" style="width: 100%; justify-content: center; height: 38px; font-weight: 700;" onclick="app.focusActivationInput()">I Have Completed Transfer ➔ Enter 12-Digit UTR</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="upi-help-note">
+            <span>⚡</span>
+            <span id="upi-help-note-text"><strong>Instant Verification:</strong> After transferring via any UPI app or Bank IMPS/NEFT, enter your <strong>12-digit UTR / Reference ID</strong> in the activation box below to unlock PRO immediately.</span>
+          </div>
+        </div>
+
+        <!-- 3. PAYPAL PANEL -->
+        <div class="checkout-panel" id="chk-panel-paypal">
+          <div class="chk-panel-banner paypal-banner">
+            <div class="cpb-icon-circle">🅿️</div>
+            <div class="cpb-text">
+              <strong>Secure PayPal Checkout</strong>
+              <span>Pay safely with your PayPal balance, linked bank account, or debit/credit card.</span>
+            </div>
+          </div>
+          <div class="chk-features-box">
+            <div class="chk-feature-item">✔ Worldwide buyer protection &amp; multi-currency support</div>
+            <div class="chk-feature-item">✔ No card details shared with this website</div>
+            <div class="chk-feature-item">✔ Safe international checkout in USD / EUR / GBP</div>
+          </div>
+          <div class="chk-action-row">
+            <a href="https://www.paypal.com" target="_blank" rel="noopener noreferrer" class="tool-btn primary chk-cta-btn paypal-btn-style" id="chk-paypal-btn">
+              <span>Pay with PayPal</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4. RAZORPAY PANEL -->
+        <div class="checkout-panel" id="chk-panel-razorpay">
+          <div class="chk-panel-banner razorpay-banner">
+            <div class="cpb-icon-circle">⚡</div>
+            <div class="cpb-text">
+              <strong>Razorpay Secure Gateway</strong>
+              <span>All Indian and international debit/credit cards, NetBanking, and digital wallets.</span>
+            </div>
+          </div>
+          <div class="chk-features-box">
+            <div class="chk-feature-item">✔ 50+ NetBanking options (Kotak, HDFC, ICICI, SBI, Punjab Bank)</div>
+            <div class="chk-feature-item">✔ Supports domestic &amp; international cards</div>
+            <div class="chk-feature-item">✔ Encrypted high-speed checkout</div>
+          </div>
+          <div class="chk-action-row">
+            <a href="https://razorpay.com" target="_blank" rel="noopener noreferrer" class="tool-btn primary chk-cta-btn" id="chk-razorpay-btn">
+              <span>Proceed to Razorpay</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- 5. CRYPTO PANEL -->
+        <div class="checkout-panel" id="chk-panel-crypto">
+          <div class="crypto-subtabs">
+            <button type="button" class="crypto-subtab active" data-coin="usdt" onclick="app.switchCryptoCoin('usdt')">USDT (TRC-20)</button>
+            <button type="button" class="crypto-subtab" data-coin="btc" onclick="app.switchCryptoCoin('btc')">Bitcoin (BTC)</button>
+            <button type="button" class="crypto-subtab" data-coin="eth" onclick="app.switchCryptoCoin('eth')">Ethereum (ETH)</button>
+          </div>
+          <div class="crypto-wallet-box">
+            <div class="crypto-address-row">
+              <label id="crypto-coin-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">USDT (TRC-20) Deposit Address</label>
+              <div class="copy-input-group">
+                <input type="text" class="form-input" id="chk-crypto-address" readonly value="TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c">
+                <button class="tool-btn secondary copy-btn" id="chk-crypto-copy-btn">Copy</button>
+              </div>
+            </div>
+            <div class="crypto-meta-row">
+              <span id="crypto-coin-hint" style="font-size: 12px; color: var(--text-secondary);">Send exact amount (≈ $29.99 USDT) over TRON (TRC-20) network.</span>
+            </div>
+          </div>
+          <div class="upi-help-note">
+            <span>💡</span>
+            <span><strong>Instant Verification:</strong> After transferring, enter your <strong>Transaction Hash / TXID</strong> in the activation box below to unlock PRO immediately.</span>
+          </div>
+        </div>
+
+        <!-- 6. KO-FI / COFFEE PANEL -->
+        <div class="checkout-panel" id="chk-panel-coffee">
+          <div class="chk-panel-banner coffee-banner">
+            <div class="cpb-icon-circle">☕</div>
+            <div class="cpb-text">
+              <strong>Community Supporter / Donation</strong>
+              <span>Support ongoing development with a one-time tip or coffee via Ko-fi or Buy Me a Coffee.</span>
+            </div>
+          </div>
+          <div class="chk-action-row" style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="tool-btn primary chk-cta-btn coffee-btn-style" id="chk-coffee-link" style="flex: 1;">
+              <span>Buy Me a Coffee</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="tool-btn secondary chk-cta-btn kofi-btn-style" id="chk-kofi-link" style="flex: 1;">
+              <span>Support on Ko-fi</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instant Key / UTR Redemption Box -->
+      <div class="checkout-activation-footer">
+        <div class="caf-header">
+          <div class="caf-header-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color: var(--accent-cyan);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <strong>Already completed payment or have an activation code?</strong>
+          </div>
+          <span style="font-size: 11px; color: #10b981; font-weight: 700; letter-spacing: 0.3px;">⚡ Instant Unlock</span>
+        </div>
+        <form id="checkout-activation-form" class="caf-form" onsubmit="event.preventDefault();">
+          <input type="text" id="checkout-activation-input" class="form-input" placeholder="Enter 12-digit UPI UTR, Crypto TXID, or License Key" autocomplete="off" spellcheck="false">
+          <button type="submit" class="tool-btn primary" id="checkout-activate-btn">Unlock PRO Access</button>
+        </form>
+        <div class="caf-hints">
+          <span class="caf-hint-item"><span style="color: #10b981;">✔</span> 12-digit UPI UTR</span>
+          <span class="caf-hint-item"><span style="color: #10b981;">✔</span> Crypto TXID / Hash</span>
+          <span class="caf-hint-item"><span style="color: #10b981;">✔</span> Gumroad / PayPal Key</span>
+        </div>
       </div>
     </div>
   </div>
@@ -476,7 +835,7 @@
           </button>
 
           <!-- Branding Logo -->
-          <div class="logo header-logo-clickable" onclick="window.location.hash = 'dashboard'">
+          <div class="logo header-logo-clickable" onclick="window.location.hash = 'dashboard'" title="OmniTool Hub Home">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
@@ -484,130 +843,155 @@
             <span>OmniTool Hub</span>
           </div>
 
-          <!-- Desktop Navigation Items -->
-          <nav class="desktop-nav-menu">
-            <a class="nav-link active" href="#dashboard" data-category="all" id="desktop-cat-all">Dashboard</a>
-            <a href="guides/index.html" class="nav-link guides-nav-link" style="color: var(--accent-cyan); font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              </svg>
-              Guides &amp; Docs
-            </a>
-            <a class="nav-link" href="#favorites" data-category="fav" id="desktop-cat-fav">
-              Favorites
-              <span class="favorites-indicator" id="desktop-fav-count" style="display: none;">0</span>
-            </a>
-            <a class="nav-link" href="#aesthetics" id="desktop-aesthetics-btn" style="cursor: pointer;">Aesthetics</a>
-            <a href="#plans" class="nav-link plans-link" id="desktop-plans-link"
-              style="color: var(--accent-purple); font-weight: 700; display: flex; align-items: center; gap: 4px; margin-left: 8px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                style="width: 14px; height: 14px;">
-                <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"></polygon>
-                <line x1="12" y1="22" x2="12" y2="12"></line>
-                <line x1="2" y1="8.5" x2="12" y2="12"></line>
-                <line x1="22" y1="8.5" x2="12" y2="12"></line>
-              </svg>
-              Plans
-            </a>
-
-            <!-- Mega Menu Trigger -->
-            <div class="nav-dropdown mega-menu-trigger">
-              <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true" aria-label="Browse tools by category">
-                <span>Tools</span>
-                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-              <div class="mega-menu-panel">
-                <div class="mega-menu-grid">
-                  <!-- Developer Tools Column -->
-                  <div class="mega-menu-col">
-                    <div class="mega-col-title dev-accent">
-                      <a href="#category/dev-all" class="mega-col-link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <polyline points="16 18 22 12 16 6"></polyline>
-                          <polyline points="8 6 2 12 8 18"></polyline>
-                        </svg>
-                        Developer Tools
-                      </a>
-                    </div>
-                    <ul class="mega-tool-list" id="mega-list-dev">
-                      <!-- Populated via Javascript -->
-                    </ul>
-                  </div>
-
-                  <!-- Text & Writing Column -->
-                  <div class="mega-menu-col">
-                    <div class="mega-col-title text-accent">
-                      <a href="#category/text-all" class="mega-col-link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path>
-                        </svg>
-                        Text &amp; Writing
-                      </a>
-                    </div>
-                    <ul class="mega-tool-list" id="mega-list-text">
-                      <!-- Populated via Javascript -->
-                    </ul>
-                  </div>
-
-                  <!-- Design & Styling Column -->
-                  <div class="mega-menu-col">
-                    <div class="mega-col-title design-accent">
-                      <a href="#category/design-all" class="mega-col-link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <path
-                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                          </path>
-                          <path d="M2 12h20"></path>
-                        </svg>
-                        Design &amp; Styling
-                      </a>
-                    </div>
-                    <ul class="mega-tool-list" id="mega-list-design">
-                      <!-- Populated via Javascript -->
-                    </ul>
-                  </div>
-
-                  <!-- Math & Converter Column -->
-                  <div class="mega-menu-col">
-                    <div class="mega-col-title math-accent">
-                      <a href="#category/math-all" class="mega-col-link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <line x1="4" y1="9" x2="20" y2="9"></line>
-                          <line x1="4" y1="15" x2="20" y2="15"></line>
-                          <line x1="10" y1="3" x2="10" y2="21"></line>
-                          <line x1="14" y1="3" x2="14" y2="21"></line>
-                        </svg>
-                        Math &amp; Converter
-                      </a>
-                    </div>
-                    <ul class="mega-tool-list" id="mega-list-math">
-                      <!-- Populated via Javascript -->
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Recents Dropdown Trigger -->
-            <div class="nav-dropdown recents-dropdown-trigger">
-              <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true" aria-label="View recent tools">
-                <span>Recent</span>
-                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-              <div class="dropdown-panel" id="header-recents-panel">
-                <div class="dropdown-list" id="header-recents-list">
-                  <!-- Populated via Javascript -->
-                </div>
-              </div>
-            </div>
-          </nav>
+          <!-- Live Date & Time Cyber Widget -->
+          <div class="clock-widget" id="header-clock" title="⚡ 100% Client-Side Sandbox • Click to switch 12h/24h format">
+            <span class="clock-pulse-dot"></span>
+            <span class="clock-date" id="clock-date">Thu, Oct 15</span>
+            <span class="clock-sep">•</span>
+            <span class="clock-time" id="clock-text">12:00:00 PM</span>
+          </div>
         </div>
+
+        <!-- Desktop Centered Floating Navigation Capsule -->
+        <nav class="desktop-nav-menu" aria-label="Main Navigation">
+          <a class="nav-link active" href="#dashboard" data-category="all" id="desktop-cat-all">
+            <span class="nav-active-dot"></span>
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+
+          <!-- Mega Menu Trigger -->
+          <div class="nav-dropdown mega-menu-trigger">
+            <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true" aria-label="Browse tools by category">
+              <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+              </svg>
+              <span>Tools</span>
+              <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="mega-menu-panel">
+              <div class="mega-menu-grid">
+                <!-- Developer Tools Column -->
+                <div class="mega-menu-col">
+                  <div class="mega-col-title dev-accent">
+                    <a href="#category/dev-all" class="mega-col-link">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                      </svg>
+                      Developer Tools
+                    </a>
+                  </div>
+                  <ul class="mega-tool-list" id="mega-list-dev">
+                    <!-- Populated via Javascript -->
+                  </ul>
+                </div>
+
+                <!-- Text & Writing Column -->
+                <div class="mega-menu-col">
+                  <div class="mega-col-title text-accent">
+                    <a href="#category/text-all" class="mega-col-link">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path>
+                      </svg>
+                      Text &amp; Writing
+                    </a>
+                  </div>
+                  <ul class="mega-tool-list" id="mega-list-text">
+                    <!-- Populated via Javascript -->
+                  </ul>
+                </div>
+
+                <!-- Design & Styling Column -->
+                <div class="mega-menu-col">
+                  <div class="mega-col-title design-accent">
+                    <a href="#category/design-all" class="mega-col-link">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path
+                          d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                        </path>
+                        <path d="M2 12h20"></path>
+                      </svg>
+                      Design &amp; Styling
+                    </a>
+                  </div>
+                  <ul class="mega-tool-list" id="mega-list-design">
+                    <!-- Populated via Javascript -->
+                  </ul>
+                </div>
+
+                <!-- Math & Converter Column -->
+                <div class="mega-menu-col">
+                  <div class="mega-col-title math-accent">
+                    <a href="#category/math-all" class="mega-col-link">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="9" x2="20" y2="9"></line>
+                        <line x1="4" y1="15" x2="20" y2="15"></line>
+                        <line x1="10" y1="3" x2="10" y2="21"></line>
+                        <line x1="14" y1="3" x2="14" y2="21"></line>
+                      </svg>
+                      Math &amp; Converter
+                    </a>
+                  </div>
+                  <ul class="mega-tool-list" id="mega-list-math">
+                    <!-- Populated via Javascript -->
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Recently Visited Tools Footer Bar inside Mega Menu -->
+              <div class="mega-menu-recents-bar" id="mega-recents-bar">
+                <div class="mega-recents-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span>Recently Used:</span>
+                </div>
+                <div class="mega-recents-list" id="mega-recents-list">
+                  <span style="font-size: 11.5px; color: var(--text-muted); padding: 3px 6px;">No tools visited yet</span>
+                </div>
+                <!-- Interactive Surprise Me / Lucky Tool Action -->
+                <button class="mega-surprise-btn" id="mega-surprise-btn" title="Pick a random utility to test right now">
+                  <span class="surprise-dice-icon">🎲</span>
+                  <span>Surprise Me</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <a href="guides/index.html" class="nav-link guides-nav-link" id="desktop-guides-link">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>Guides</span>
+          </a>
+
+          <a class="nav-link" href="#favorites" data-category="fav" id="desktop-cat-fav">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>Favorites</span>
+            <span class="favorites-indicator" id="desktop-fav-count" style="display: none;">0</span>
+          </a>
+
+          <a href="#plans" class="nav-link plans-link" id="desktop-plans-link">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"></polygon>
+              <line x1="12" y1="22" x2="12" y2="12"></line>
+              <line x1="2" y1="8.5" x2="12" y2="12"></line>
+              <line x1="22" y1="8.5" x2="12" y2="12"></line>
+            </svg>
+            <span>Plans</span>
+            <span class="nav-sparkle-pill">PRO</span>
+          </a>
+        </nav>
 
         <div class="header-right">
           <!-- Active view title details (Hidden on main home screen) -->
@@ -616,117 +1000,171 @@
             <span class="theme-badge" id="theme-mode-badge">Default Theme</span>
           </div>
 
-          <!-- Global Search Button (Opens Command Palette) -->
-          <button class="desktop-search-only" id="header-search-btn" title="Search Tools (Ctrl+K)"
-            aria-label="Open search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </button>
+          <!-- Merged Smart Control Capsule -->
+          <div class="header-control-capsule">
+            <!-- Search Trigger Button -->
+            <button class="header-search-pill" id="header-search-btn" title="Search Tools (Ctrl+K)" aria-label="Search tools">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="search-pill-icon">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span class="search-pill-text">Search</span>
+              <kbd class="search-pill-kbd">Ctrl K</kbd>
+            </button>
 
-          <!-- Live Clock Widget -->
-          <div class="clock-widget" id="header-clock" title="System Time">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span id="clock-text">00:00:00</span>
-          </div>
+            <div class="capsule-vsep"></div>
 
-          <!-- Clear Cache & Reset Button -->
-          <button class="control-btn" id="cache-clear-btn" title="Clear Cache & Reset Site"
-            aria-label="Clear cache and reset site data">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"
-              stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              <line x1="10" y1="11" x2="10" y2="17"></line>
-              <line x1="14" y1="11" x2="14" y2="17"></line>
-            </svg>
-          </button>
-
-          <!-- Font/Everything Sizer -->
-          <div class="sizer-dropdown-container" style="position: relative; display: inline-block;">
-            <button class="control-btn" id="sizer-toggle-btn" title="Change Layout Size"
-              aria-label="Change layout and text size">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="4 7 4 4 20 4 20 7"></polyline>
-                <line x1="9" y1="20" x2="15" y2="20"></line>
-                <line x1="12" y1="4" x2="12" y2="20"></line>
+            <!-- Light/Dark Theme Toggler -->
+            <button class="control-btn" id="theme-toggle" title="Toggle Theme" aria-label="Toggle light or dark theme">
+              <svg id="theme-sun-icon" viewBox="0 0 24 24" style="display: none;" width="16" height="16">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg id="theme-moon-icon" viewBox="0 0 24 24" width="16" height="16">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
               </svg>
             </button>
-            <div class="sizer-dropdown-menu" id="sizer-dropdown"
-              style="display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: var(--shadow-lg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); z-index: 1000; padding: 6px; min-width: 150px; flex-direction: column; gap: 4px;">
-              <button class="sizer-option-btn" data-scale="0.5" aria-label="Set layout scale to 50%"
-                style="background: none; border: none; color: var(--text-main); font-size: 10px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <span>Smallest</span><span style="font-size: 10px; color: var(--text-muted);">50%</span>
+
+            <!-- Support / Buy Me A Coffee -->
+            <button class="control-btn coffee-btn-compact" title="Support OmniTool Hub" aria-label="Buy Me a Coffee"
+              onclick="app.openCoffeeLink(event)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+              </svg>
+            </button>
+
+            <!-- Smart Preferences Dropdown Menu -->
+            <div class="prefs-dropdown-container">
+              <button class="control-btn" id="header-prefs-btn" title="Settings &amp; Preferences" aria-label="Settings and preferences" aria-expanded="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
               </button>
-              <button class="sizer-option-btn" data-scale="0.7" aria-label="Set layout scale to 70%"
-                style="background: none; border: none; color: var(--text-main); font-size: 11px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <span>Very Small</span><span style="font-size: 10px; color: var(--text-muted);">70%</span>
-              </button>
-              <button class="sizer-option-btn" data-scale="0.85" aria-label="Set layout scale to 85%"
-                style="background: none; border: none; color: var(--text-main); font-size: 12px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <span>Small</span><span style="font-size: 10px; color: var(--text-muted);">85%</span>
-              </button>
-              <button class="sizer-option-btn active" data-scale="1.0" aria-label="Set layout scale to 100% default"
-                style="background: none; border: none; color: var(--text-main); font-size: 13px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%; font-weight: bold;">
-                <span>Default</span><span style="font-size: 10px; color: var(--text-muted);">100%</span>
-              </button>
-              <button class="sizer-option-btn" data-scale="1.15" aria-label="Set layout scale to 115%"
-                style="background: none; border: none; color: var(--text-main); font-size: 14px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <span>Medium-Large</span><span style="font-size: 10px; color: var(--text-muted);">115%</span>
-              </button>
-              <button class="sizer-option-btn" data-scale="1.3" aria-label="Set layout scale to 130%"
-                style="background: none; border: none; color: var(--text-main); font-size: 15px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <span>Large</span><span style="font-size: 10px; color: var(--text-muted);">130%</span>
-              </button>
-              <button class="sizer-option-btn" data-scale="1.5" aria-label="Set layout scale to 150%"
-                style="background: none; border: none; color: var(--text-main); font-size: 16px; padding: 6px 12px; border-radius: 4px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <span>Extra Large</span><span style="font-size: 10px; color: var(--text-muted);">150%</span>
-              </button>
+
+              <div class="header-prefs-menu" id="header-prefs-menu">
+                <div class="prefs-menu-header">
+                  <span class="prefs-menu-title">Preferences</span>
+                  <span class="prefs-menu-badge">Offline Sandbox</span>
+                </div>
+
+                <!-- Aesthetics Modal Trigger -->
+                <button class="prefs-menu-item" id="desktop-aesthetics-btn" title="Customize Aesthetics (Theme, Fonts, Audio)">
+                  <div class="prefs-item-icon-box aesthetics-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                  </div>
+                  <div class="prefs-item-content">
+                    <span class="prefs-item-title">Aesthetics Studio</span>
+                    <span class="prefs-item-desc">Themes, fonts &amp; synth sounds</span>
+                  </div>
+                  <svg class="prefs-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+
+                <!-- Layout Sizer Section -->
+                <div class="prefs-sizer-group">
+                  <div class="prefs-sizer-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                      <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                      <line x1="9" y1="20" x2="15" y2="20"></line>
+                      <line x1="12" y1="4" x2="12" y2="20"></line>
+                    </svg>
+                    <span>Interface Zoom Scale</span>
+                  </div>
+                  <div class="prefs-sizer-pills">
+                    <button class="sizer-option-btn" data-scale="0.85" aria-label="Set scale to 85%">85%</button>
+                    <button class="sizer-option-btn active" data-scale="1.0" aria-label="Set scale to 100%">100%</button>
+                    <button class="sizer-option-btn" data-scale="1.15" aria-label="Set scale to 115%">115%</button>
+                    <button class="sizer-option-btn" data-scale="1.3" aria-label="Set scale to 130%">130%</button>
+                  </div>
+                </div>
+
+                <div class="prefs-menu-sep"></div>
+
+                <!-- Clear Cache Button -->
+                <button class="prefs-menu-item danger-item" id="cache-clear-btn" title="Clear Cache &amp; Reset Site">
+                  <div class="prefs-item-icon-box danger-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                  </div>
+                  <div class="prefs-item-content">
+                    <span class="prefs-item-title">Flush Offline Cache</span>
+                    <span class="prefs-item-desc">Clear service worker cache &amp; reload</span>
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
-
-          <!-- Light/Dark Toggler -->
-          <button class="control-btn" id="theme-toggle" title="Toggle Theme" aria-label="Toggle light or dark theme">
-            <svg id="theme-sun-icon" viewBox="0 0 24 24" style="display: none;">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg id="theme-moon-icon" viewBox="0 0 24 24">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </button>
-
-          <!-- Buy me a coffee compact -->
-          <button class="control-btn coffee-btn-compact" title="Support OmniTool Hub" aria-label="Buy Me a Coffee"
-            onclick="app.openCoffeeLink(event)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
-              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
-            </svg>
-          </button>
         </div>
       </header>
 
       <!-- Content viewport scrollable -->
       <section class="content-area" id="content-area">
+        <!-- PWA Installation Banner -->
+        <div id="pwa-install-banner" class="pwa-install-banner" style="display: none;">
+          <div class="pwa-install-content">
+            <div class="pwa-install-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </div>
+            <div class="pwa-install-text">
+              <strong>Install OmniTool Hub on Desktop &amp; Mobile</strong>
+              <span>Instant offline access • 50+ privacy tools • Zero server uploads</span>
+            </div>
+          </div>
+          <div class="pwa-install-actions">
+            <button id="pwa-install-btn" class="pwa-install-btn">⚡ Install Free App</button>
+            <button id="pwa-dismiss-btn" class="pwa-dismiss-btn" aria-label="Dismiss">✕</button>
+          </div>
+        </div>
+
         <!-- DASHBOARD GRID VIEW -->
         <div id="dashboard-view">
           <div class="dashboard-hero">
+            <div class="hero-badge-pill">
+              <span class="hero-badge-dot"></span>
+              <span>100% Client-Side Sandbox • Zero Server Uploads</span>
+              <span class="hero-badge-sparkle">✦</span>
+            </div>
             <h1>All-in-One <span>OmniTool Hub</span></h1>
-            <p>Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl +
-                K</strong> to search.</p>
+            <p>Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
+            <div class="hero-metrics-strip">
+              <div class="hero-metric-item">
+                <span class="hero-metric-num">26+</span>
+                <span class="hero-metric-label">Offline Tools</span>
+              </div>
+              <div class="hero-metric-sep"></div>
+              <div class="hero-metric-item">
+                <span class="hero-metric-num">0 ms</span>
+                <span class="hero-metric-label">Server Delay</span>
+              </div>
+              <div class="hero-metric-sep"></div>
+              <div class="hero-metric-item">
+                <span class="hero-metric-num">100%</span>
+                <span class="hero-metric-label">Client Privacy</span>
+              </div>
+              <div class="hero-metric-sep"></div>
+              <button class="hero-lucky-btn" id="hero-surprise-btn" title="Pick a random utility to test right now">
+                <span class="lucky-dice">🎲</span>
+                <span>Surprise Me</span>
+              </button>
+            </div>
           </div>
 
           <!-- Dashboard Search Bar -->
@@ -756,7 +1194,7 @@
             <div style="background: linear-gradient(135deg, rgba(0, 242, 254, 0.08), rgba(157, 78, 221, 0.08)); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 14px; padding: 24px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
               <div>
                 <span style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--accent-cyan); letter-spacing: 0.5px;">📚 Knowledge Base &amp; Tutorials</span>
-                <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-top: 4px;">Explore All 26+ Tool Documentation Guides</h2>
+                <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-top: 4px;">Explore All 27 Tool Documentation Guides</h2>
                 <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px; max-width: 620px;">Learn how to format data, merge PDFs, decode JWTs, and run cryptographic suites offline with zero server data retention.</p>
               </div>
               <a href="guides/index.html" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #000; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 242, 254, 0.35); white-space: nowrap;">Browse Guides Hub &rarr;</a>
@@ -773,7 +1211,7 @@
             </h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
               <a href="guides/index.html"
-                style="color: var(--accent-cyan); text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color var(--transition-fast);">📚 All 26 Guides &amp; Tutorials Hub &rarr;</a>
+                style="color: var(--accent-cyan); text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color var(--transition-fast);">📚 All 27 Guides &amp; Tutorials Hub &rarr;</a>
               <a href="guides/pipeline-builder.html"
                 style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
                 onmouseover="this.style.color='var(--accent-cyan)'"
@@ -878,6 +1316,10 @@
                 style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
                 onmouseover="this.style.color='var(--accent-cyan)'"
                 onmouseout="this.style.color='var(--text-muted)'">Mock Data Generator Guide</a>
+              <a href="guides/ip-subnet-calculator.html"
+                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
+                onmouseover="this.style.color='var(--accent-cyan)'"
+                onmouseout="this.style.color='var(--text-muted)'">IP Subnet &amp; MAC Suite Guide</a>
             </div>
           </div>
         </div>
@@ -894,8 +1336,7 @@
               Get unlimited access to all 28 developer utilities with your preferred level of ad configuration.</p>
           </div>
 
-          <div class="plans-grid"
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+          <div class="plans-grid">
 
             <!-- FREE PLAN -->
             <div class="glass-card plan-card"
@@ -950,10 +1391,17 @@
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-orange);">⚠</span> Banner &amp; sidebar ads still exist</li>
                 </ul>
+                <div class="plan-gateways-strip">
+                  <span class="pg-badge" onclick="app.openCheckout('lifetime', 'gumroad')" title="Pay with Debit/Credit Card via Gumroad">💳 Cards</span>
+                  <span class="pg-badge" onclick="app.openCheckout('lifetime', 'upi')" title="Pay with UPI QR / GPay / PhonePe / Paytm">⚡ UPI / QR</span>
+                  <span class="pg-badge" onclick="app.openCheckout('lifetime', 'paypal')" title="Pay via PayPal International">🅿️ PayPal</span>
+                  <span class="pg-badge" onclick="app.openCheckout('lifetime', 'gumroad')" title="Pay via Gumroad Checkout">🛒 Gumroad</span>
+                  <span class="pg-badge" onclick="app.openCheckout('lifetime', 'crypto')" title="Pay via USDT / BTC / ETH">🪙 Crypto</span>
+                </div>
               </div>
-              <button class="tool-btn primary" id="plan-btn-lifetime"
+              <button class="tool-btn primary" id="plan-btn-lifetime" onclick="app.openCheckout('lifetime')"
                 style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px;">Buy
-                Lifetime Pass</button>
+                Lifetime Pass ($29.99)</button>
             </div>
 
             <!-- MONTHLY PRO -->
@@ -971,7 +1419,7 @@
                 <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">$4.99
                   <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ month</span></div>
                 <ul
-                  style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
+                  style="list-style: none; padding: 0; margin: 0 0 20px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-cyan);">✔</span> Full access to all 28 tools</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
@@ -981,10 +1429,16 @@
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-cyan);">✔</span> Cleans up banner &amp; sidebar ads</li>
                 </ul>
+                <div class="plan-gateways-strip">
+                  <span class="pg-badge" onclick="app.openCheckout('monthly', 'gumroad')" title="Subscribe with Debit/Credit Card">💳 Cards</span>
+                  <span class="pg-badge" onclick="app.openCheckout('monthly', 'upi')" title="Pay Monthly via UPI QR">⚡ UPI / QR</span>
+                  <span class="pg-badge" onclick="app.openCheckout('monthly', 'paypal')" title="Subscribe via PayPal">🅿️ PayPal</span>
+                  <span class="pg-badge" onclick="app.openCheckout('monthly', 'gumroad')" title="Subscribe via Gumroad">🛒 Gumroad</span>
+                </div>
               </div>
-              <button class="tool-btn primary" id="plan-btn-monthly"
+              <button class="tool-btn primary" id="plan-btn-monthly" onclick="app.openCheckout('monthly')"
                 style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px; border-color: #9d4edd; background: rgba(157, 78, 221, 0.15); color: #c084fc;">Subscribe
-                Monthly</button>
+                Monthly ($4.99/mo)</button>
             </div>
 
           </div>
@@ -1063,7 +1517,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Core JavaScript controllers -->
-  <script src="app.js?v=1.2.1"></script>
+  <script src="app.js?v=1.2.6"></script>
 
   <!-- Vercel Web Analytics -->
   <script>
