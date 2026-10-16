@@ -1,5 +1,5 @@
 // Service Worker for OmniTool Hub PWA
-const CACHE_NAME = "omnitool-v71";
+const CACHE_NAME = "omnitool-v73";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
@@ -38,18 +38,17 @@ const ASSETS_TO_CACHE = [
   "tools/ip-subnet-calculator.js"
 ];
 
-
 // Install Event
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("[Service Worker] Caching App Shell");
+      console.log("[Service Worker] Caching App Shell v72");
       return cache.addAll(ASSETS_TO_CACHE);
     }).then(() => self.skipWaiting())
   );
 });
 
-// Activate Event (Cleanup Old Caches)
+// Activate Event (Cleanup Old Caches immediately)
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
@@ -65,7 +64,17 @@ self.addEventListener("activate", (e) => {
   );
 });
 
-// Fetch Event (Cache-First, Network Fallback)
+// Message listener for manual cache purge
+self.addEventListener("message", (e) => {
+  if (e.data && e.data.action === "skipWaiting") {
+    self.skipWaiting();
+  }
+  if (e.data && e.data.action === "clearCache") {
+    caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
+  }
+});
+
+// Fetch Event (Network-First for HTML/JS/JSON to ensure zero stale cache, Cache-First for static assets)
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
 
@@ -76,8 +85,21 @@ self.addEventListener("fetch", (e) => {
     e.request.url.includes("icons8.com") ||
     e.request.url.includes("cdnjs.cloudflare.com");
 
-  // Only intercept local requests or specific whitelisted external assets
   if (!isLocal && !isCachableExternal) return;
+
+  // Network-First for JS files, JSON configs, and HTML documents to guarantee instant updates
+  if (isLocal && (url.pathname.endsWith(".js") || url.pathname.endsWith(".json") || url.pathname.endsWith(".html") || url.pathname.endsWith("/"))) {
+    e.respondWith(
+      fetch(e.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const resClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
+        }
+        return networkResponse;
+      }).catch(() => caches.match(e.request))
+    );
+    return;
+  }
 
   e.respondWith(
     caches.match(e.request).then((cachedResponse) => {
@@ -85,9 +107,7 @@ self.addEventListener("fetch", (e) => {
         return cachedResponse;
       }
 
-      // If resource not in cache, fetch it from network
       return fetch(e.request).then((networkResponse) => {
-        // Cache external fonts or icon assets dynamically
         if (isCachableExternal) {
           return caches.open(CACHE_NAME).then((cache) => {
             cache.put(e.request, networkResponse.clone());
@@ -96,12 +116,10 @@ self.addEventListener("fetch", (e) => {
         }
         return networkResponse;
       });
-    }).catch((err) => {
-      // Offline fallback for navigation requests
+    }).catch(() => {
       if (e.request.mode === "navigate") {
         return caches.match("index.html");
       }
-      throw err; // Re-throw to propagate network failure to browser correctly
     })
   );
 });

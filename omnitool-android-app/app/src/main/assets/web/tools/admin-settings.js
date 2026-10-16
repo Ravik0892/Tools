@@ -7,21 +7,379 @@ export default {
     return `
       <div class="tool-content-layout split-view">
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>OmniTool Hub Settings</h3>
+          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+            <div>
+              <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: var(--text-main);">OmniTool Hub Control Center</h3>
+              <div style="font-size: 11px; color: #10b981; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px;">
+                <span style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+                Engine v1.3.0 Live • Client-Side Security &amp; Offline Storage Active
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="tool-btn secondary" id="btn-adm-lock-session" style="font-size: 11.5px; height: 34px; padding: 0 10px; color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.3);" title="Lock Admin Session and return to dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <span>Lock &amp; Exit</span>
+              </button>
+              <button type="button" class="tool-btn secondary" id="btn-adm-hard-refresh" style="font-size: 11.5px; height: 34px; padding: 0 10px;" title="Purge browser service worker cache and reload latest files">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>
+                <span>Force Refresh / Clear Cache</span>
+              </button>
+              <button type="button" class="tool-btn primary" id="btn-adm-save-top" style="font-size: 12px; height: 34px; padding: 0 16px; font-weight: 700;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                <span>Save All Settings</span>
+              </button>
+            </div>
           </div>
 
-          <!-- Tabs Nav bar -->
-          <div class="settings-tabs-bar" style="display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 16px;">
-            <button class="settings-tab-btn active" data-tab="tab-ads" style="background: none; border: none; border-bottom: 2px solid var(--accent-cyan); color: var(--accent-cyan); font-weight: 700; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Monetization &amp; Ads</button>
-            <button class="settings-tab-btn" data-tab="tab-aesthetics" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Theme &amp; Aesthetics</button>
-            <button class="settings-tab-btn" data-tab="tab-tools-visibility" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Tool Visibility</button>
-            <button class="settings-tab-btn" data-tab="tab-tiers" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Monetization Tiers</button>
-            <button class="settings-tab-btn" data-tab="tab-backup" style="background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 6px 12px; font-size: 13px; outline: none; white-space: nowrap;">Backup &amp; System</button>
+          <!-- Tabs Nav bar with Modern Pill Styling -->
+          <div class="settings-tabs-bar" style="display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 12px; margin-bottom: 18px; border-bottom: 1px solid var(--border-color);">
+            <button class="settings-tab-btn active" data-tab="tab-payments" style="background: rgba(0, 242, 254, 0.12); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); font-weight: 700; cursor: pointer; padding: 8px 14px; font-size: 13px; border-radius: 8px; outline: none; white-space: nowrap; transition: all 0.2s;">💳 Payment &amp; Checkout</button>
+            <button class="settings-tab-btn" data-tab="tab-ads" style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 8px 14px; font-size: 13px; border-radius: 8px; outline: none; white-space: nowrap; transition: all 0.2s;">📢 Monetization &amp; Ads</button>
+            <button class="settings-tab-btn" data-tab="tab-aesthetics" style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 8px 14px; font-size: 13px; border-radius: 8px; outline: none; white-space: nowrap; transition: all 0.2s;">🎨 Theme &amp; Aesthetics</button>
+            <button class="settings-tab-btn" data-tab="tab-tools-visibility" style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 8px 14px; font-size: 13px; border-radius: 8px; outline: none; white-space: nowrap; transition: all 0.2s;">👁️ Tool Visibility</button>
+            <button class="settings-tab-btn" data-tab="tab-tiers" style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 8px 14px; font-size: 13px; border-radius: 8px; outline: none; white-space: nowrap; transition: all 0.2s;">🔒 Monetization Tiers</button>
+            <button class="settings-tab-btn" data-tab="tab-backup" style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 8px 14px; font-size: 13px; border-radius: 8px; outline: none; white-space: nowrap; transition: all 0.2s;">⚙️ Backup &amp; System</button>
           </div>
 
-          <!-- TAB 1: Monetization & Ads Content -->
-          <div id="tab-ads" class="settings-tab-content">
+          <!-- TAB: Payment & Checkout Control -->
+          <div id="tab-payments" class="settings-tab-content">
+            <!-- Header with Live Test CTA -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px;">
+              <div>
+                <div style="font-size: 13.5px; font-weight: 800; color: var(--accent-cyan); letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
+                  <span>💳</span> UNIFIED PAYMENT GATEWAYS &amp; CHECKOUT
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+                  Configure UPI multi-account routing, bank transfers, international cards, custom gateways, and prices.
+                </div>
+              </div>
+              <button type="button" class="tool-btn primary" id="btn-adm-test-checkout" style="font-size: 11px; height: 32px; padding: 0 12px; display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>Test Live Checkout</span>
+              </button>
+            </div>
+
+            <!-- Card 1: Active Payment Gateways in Checkout -->
+            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px;">1. Enable / Disable Customer Gateways</span>
+                <span style="font-size: 10.5px; color: var(--text-muted);">Unchecked options are hidden from checkout modal</span>
+              </div>
+              <div class="adm-gw-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 8px;">
+                <label class="adm-gw-pill">
+                  <input type="checkbox" id="gw-toggle-upi" checked>
+                  <span class="adm-gw-icon">⚡</span>
+                  <span class="adm-gw-label">UPI &amp; QR</span>
+                </label>
+                <label class="adm-gw-pill">
+                  <input type="checkbox" id="gw-toggle-bank">
+                  <span class="adm-gw-icon">🏦</span>
+                  <span class="adm-gw-label">Bank Transfer</span>
+                </label>
+                <label class="adm-gw-pill">
+                  <input type="checkbox" id="gw-toggle-gumroad" checked>
+                  <span class="adm-gw-icon">🛒</span>
+                  <span class="adm-gw-label">Gumroad (Cards)</span>
+                </label>
+                <label class="adm-gw-pill">
+                  <input type="checkbox" id="gw-toggle-paypal" checked>
+                  <span class="adm-gw-icon">🅿️</span>
+                  <span class="adm-gw-label">PayPal</span>
+                </label>
+                <label class="adm-gw-pill">
+                  <input type="checkbox" id="gw-toggle-razorpay" checked>
+                  <span class="adm-gw-icon">💳</span>
+                  <span class="adm-gw-label">Razorpay</span>
+                </label>
+                <label class="adm-gw-pill">
+                  <input type="checkbox" id="gw-toggle-crypto" checked>
+                  <span class="adm-gw-icon">🪙</span>
+                  <span class="adm-gw-label">Crypto (USDT)</span>
+                </label>
+                <label class="adm-gw-pill">
+                  <input type="checkbox" id="gw-toggle-coffee" checked>
+                  <span class="adm-gw-icon">☕</span>
+                  <span class="adm-gw-label">Ko-fi / Coffee</span>
+                </label>
+                <label class="adm-gw-pill">
+                  <input type="checkbox" id="gw-toggle-guide" checked>
+                  <span class="adm-gw-icon">📖</span>
+                  <span class="adm-gw-label">Payment Guide</span>
+                </label>
+                <label class="adm-gw-pill adm-gw-pill-custom">
+                  <input type="checkbox" id="gw-toggle-custom">
+                  <span class="adm-gw-icon">✨</span>
+                  <span class="adm-gw-label">Custom Gateway</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Card 2: UPI Multi-Account Routing -->
+            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(0, 242, 254, 0.02); border: 1px solid rgba(0, 242, 254, 0.2);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px;">2. UPI Configuration &amp; App Routing</span>
+                <span id="upi-mode-badge" style="font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 242, 254, 0.3);">Mode: Single Universal UPI</span>
+              </div>
+              <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px;">Choose whether you want one universal UPI ID across all apps, or set dedicated separate UPI accounts per app (GPay, PhonePe, Paytm, BHIM, Cred).</p>
+
+              <!-- Mode Selection Buttons -->
+              <div class="adm-upi-mode-selector" style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
+                <label class="adm-mode-btn" style="flex: 1; min-width: 220px;">
+                  <input type="radio" name="omnitool_upi_mode_radio" value="single" checked id="upi-mode-single">
+                  <div class="adm-mode-box">
+                    <strong>⚡ Single Universal UPI ID</strong>
+                    <small>One UPI ID is used everywhere across GPay, PhonePe, Paytm, BHIM, and QR code.</small>
+                  </div>
+                </label>
+                <label class="adm-mode-btn" style="flex: 1; min-width: 220px;">
+                  <input type="radio" name="omnitool_upi_mode_radio" value="per_app" id="upi-mode-per-app">
+                  <div class="adm-mode-box">
+                    <strong>🎯 Separate UPI Account per App</strong>
+                    <small>Route payments to different bank accounts depending on which app the user clicks.</small>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Universal UPI Inputs -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="upi-gateway-id">Universal Primary UPI ID (VPA) <span style="color: var(--accent-rose);">*</span></label>
+                  <input type="text" class="form-input" id="upi-gateway-id" placeholder="e.g. ravik0892@okaxis">
+                  <span style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px; display: block;">Used for QR Code and fallback for apps without dedicated IDs.</span>
+                </div>
+                <div class="form-group">
+                  <label for="upi-gateway-name">Payee / Merchant Business Name <span style="color: var(--accent-rose);">*</span></label>
+                  <input type="text" class="form-input" id="upi-gateway-name" placeholder="e.g. OmniTool Hub">
+                  <span style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px; display: block;">Displays on customer's UPI payment screen.</span>
+                </div>
+              </div>
+
+              <!-- Dedicated App UPI Inputs Container -->
+              <div id="upi-per-app-container" style="margin-top: 10px; padding: 12px; border-radius: 8px; background: rgba(0, 0, 0, 0.25); border: 1px dashed rgba(0, 242, 254, 0.25); display: none;">
+                <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                  <span>🎯 App-Specific UPI Accounts</span>
+                  <span style="font-size: 10px; font-weight: 500; color: var(--text-muted);">Leave empty to use Universal UPI</span>
+                </div>
+                <div class="form-row" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                  <div class="form-group">
+                    <label for="upi-gpay-id" style="font-size: 11.5px;">🔵 Google Pay UPI ID</label>
+                    <input type="text" class="form-input" id="upi-gpay-id" placeholder="e.g. ravik-gpay@oksbi">
+                  </div>
+                  <div class="form-group">
+                    <label for="upi-phonepe-id" style="font-size: 11.5px;">🟣 PhonePe UPI ID</label>
+                    <input type="text" class="form-input" id="upi-phonepe-id" placeholder="e.g. ravik-phonepe@ybl">
+                  </div>
+                </div>
+                <div class="form-row" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 6px;">
+                  <div class="form-group">
+                    <label for="upi-paytm-id" style="font-size: 11.5px;">🔷 Paytm UPI ID</label>
+                    <input type="text" class="form-input" id="upi-paytm-id" placeholder="e.g. ravik-paytm@paytm">
+                  </div>
+                  <div class="form-group">
+                    <label for="upi-bhim-id" style="font-size: 11.5px;">🟢 BHIM UPI ID</label>
+                    <input type="text" class="form-input" id="upi-bhim-id" placeholder="e.g. ravik-bhim@upi">
+                  </div>
+                  <div class="form-group">
+                    <label for="upi-cred-id" style="font-size: 11.5px;">⚪ CRED UPI ID</label>
+                    <input type="text" class="form-input" id="upi-cred-id" placeholder="e.g. ravik-cred@axisbank">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Direct Bank Transfer -->
+            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+                <span style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px;">
+                  3. Direct Bank Transfer (IMPS / NEFT / RTGS)
+                </span>
+                <span style="font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);">
+                  🛡️ Security Recommendation: Kept hidden on public checkout by default
+                </span>
+              </div>
+              <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.45;">
+                <strong style="color: #f59e0b;">Privacy &amp; Security Note:</strong> Showing your personal savings bank account number publicly increases exposure to targeted phishing and fraudulent dispute freezes. UPI &amp; Gateways handle retail payments much more securely. Enable "Bank Transfer" in Card 1 only if you explicitly need manual bank transfers.
+              </p>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="bank-gateway-name">Bank Name</label>
+                  <input type="text" class="form-input" id="bank-gateway-name" placeholder="e.g. State Bank of India">
+                </div>
+                <div class="form-group">
+                  <label for="bank-gateway-holder">Account Beneficiary Name</label>
+                  <input type="text" class="form-input" id="bank-gateway-holder" placeholder="e.g. OmniTool Hub">
+                </div>
+              </div>
+              <div class="form-row" style="margin-top: 6px;">
+                <div class="form-group">
+                  <label for="bank-gateway-acc">Account Number</label>
+                  <input type="text" class="form-input" id="bank-gateway-acc" placeholder="e.g. 123456789012">
+                </div>
+                <div class="form-group">
+                  <label for="bank-gateway-ifsc">IFSC Code</label>
+                  <input type="text" class="form-input" id="bank-gateway-ifsc" placeholder="e.g. SBIN0001234">
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Cards & International Processors -->
+            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                4. International Processors &amp; Donations
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="gumroad-lifetime-url">Gumroad Lifetime Pass URL</label>
+                  <input type="text" class="form-input" id="gumroad-lifetime-url" placeholder="e.g. https://gumroad.com/l/your-lifetime-slug">
+                </div>
+                <div class="form-group">
+                  <label for="gumroad-monthly-url">Gumroad Pro Monthly URL</label>
+                  <input type="text" class="form-input" id="gumroad-monthly-url" placeholder="e.g. https://gumroad.com/l/your-monthly-slug">
+                </div>
+              </div>
+              <div class="form-row" style="margin-top: 6px;">
+                <div class="form-group">
+                  <label for="paypal-gateway-url">PayPal Payment Link / Profile</label>
+                  <input type="text" class="form-input" id="paypal-gateway-url" placeholder="e.g. https://www.paypal.com/paypalme/yourusername">
+                </div>
+                <div class="form-group">
+                  <label for="razorpay-gateway-url">Razorpay Payment Page URL</label>
+                  <input type="text" class="form-input" id="razorpay-gateway-url" placeholder="e.g. https://rzp.io/l/yourlink">
+                </div>
+              </div>
+              <div class="form-row" style="margin-top: 6px;">
+                <div class="form-group">
+                  <label for="coffee-url">Buy Me a Coffee URL</label>
+                  <input type="text" class="form-input" id="coffee-url" placeholder="e.g. https://www.buymeacoffee.com/yourusername">
+                </div>
+                <div class="form-group">
+                  <label for="kofi-url">Ko-fi Donation URL</label>
+                  <input type="text" class="form-input" id="kofi-url" placeholder="e.g. https://ko-fi.com/yourusername">
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 5: Cryptocurrency Wallets -->
+            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                5. Cryptocurrency Wallets
+              </div>
+              <div class="form-group">
+                <label for="crypto-usdt-address">USDT Deposit Address (TRC-20)</label>
+                <input type="text" class="form-input" id="crypto-usdt-address" placeholder="e.g. TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c">
+              </div>
+              <div class="form-row" style="margin-top: 6px;">
+                <div class="form-group">
+                  <label for="crypto-btc-address">Bitcoin Address (BTC)</label>
+                  <input type="text" class="form-input" id="crypto-btc-address" placeholder="e.g. bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh">
+                </div>
+                <div class="form-group">
+                  <label for="crypto-eth-address">Ethereum Address (ETH / ERC-20)</label>
+                  <input type="text" class="form-input" id="crypto-eth-address" placeholder="e.g. 0x71C53316E28b4923eFFe35E2D8527a2754664982">
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 6: Custom Payment System Builder -->
+            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(157, 78, 221, 0.03); border: 1px solid rgba(157, 78, 221, 0.25);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 700; font-size: 12px; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 0.5px;">6. Custom Payment System Builder</span>
+                <span style="font-size: 10.5px; color: var(--accent-purple); font-weight: 600;">Add Stripe, CashApp, Revolut, Zelle, or Invoicing</span>
+              </div>
+              <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px;">Add any custom payment method. Enable "Custom Gateway" in Card 1 above, then configure its appearance and checkout link here.</p>
+              
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; padding: 8px 10px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px dashed rgba(157, 78, 221, 0.3);">
+                <span style="font-size: 11px; color: var(--accent-purple); font-weight: 700;">1-Click Template:</span>
+                <button type="button" class="tool-btn secondary" id="preset-custom-stripe" style="font-size: 11px; padding: 3px 8px; height: 26px;">💳 Stripe</button>
+                <button type="button" class="tool-btn secondary" id="preset-custom-cashapp" style="font-size: 11px; padding: 3px 8px; height: 26px;">💵 Cash App</button>
+                <button type="button" class="tool-btn secondary" id="preset-custom-revolut" style="font-size: 11px; padding: 3px 8px; height: 26px;">🟣 Revolut</button>
+                <button type="button" class="tool-btn secondary" id="preset-custom-zelle" style="font-size: 11px; padding: 3px 8px; height: 26px;">⚡ Zelle</button>
+                <button type="button" class="tool-btn secondary" id="preset-custom-wise" style="font-size: 11px; padding: 3px 8px; height: 26px;">🌐 Wise</button>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="custom-gw-tab-label">Checkout Modal Tab Label</label>
+                  <input type="text" class="form-input" id="custom-gw-tab-label" placeholder="e.g. Stripe Checkout / CashApp">
+                </div>
+                <div class="form-group">
+                  <label for="custom-gw-icon">Tab Icon (Emoji)</label>
+                  <input type="text" class="form-input" id="custom-gw-icon" placeholder="e.g. 💳, ⚡, 🌐">
+                </div>
+              </div>
+              <div class="form-row" style="margin-top: 6px;">
+                <div class="form-group">
+                  <label for="custom-gw-title">Gateway Banner Title</label>
+                  <input type="text" class="form-input" id="custom-gw-title" placeholder="e.g. Direct Card / Stripe Payment">
+                </div>
+                <div class="form-group">
+                  <label for="custom-gw-badge">Badge / Subtitle</label>
+                  <input type="text" class="form-input" id="custom-gw-badge" placeholder="e.g. Instant License Activation">
+                </div>
+              </div>
+              <div class="form-row" style="margin-top: 6px;">
+                <div class="form-group">
+                  <label for="custom-gw-url">Payment Link / External Checkout URL</label>
+                  <input type="text" class="form-input" id="custom-gw-url" placeholder="e.g. https://buy.stripe.com/your-payment-link">
+                </div>
+                <div class="form-group">
+                  <label for="custom-gw-btn-text">Button Call-to-Action Text</label>
+                  <input type="text" class="form-input" id="custom-gw-btn-text" placeholder="e.g. Pay via Stripe / Open CashApp">
+                </div>
+              </div>
+              <div class="form-group" style="margin-top: 6px;">
+                <label for="custom-gw-desc">Customer Instructions / Description</label>
+                <input type="text" class="form-input" id="custom-gw-desc" placeholder="e.g. Secure 256-bit encrypted card checkout powered by Stripe.">
+              </div>
+              <div class="form-group" style="margin-top: 6px;">
+                <label for="custom-gw-features">Key Feature Bullet Points (One per line)</label>
+                <textarea class="input-textarea" id="custom-gw-features" style="min-height: 70px;" placeholder="✔ 256-Bit SSL Encrypted checkout&#10;✔ Instant automated verification&#10;✔ Supports Visa, Mastercard, Apple Pay"></textarea>
+              </div>
+            </div>
+
+            <!-- Card 7: Dynamic Pricing Controls -->
+            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                7. Dynamic Pricing &amp; Currency Controls
+              </div>
+              <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 10px;">Customize displayed plan amounts and UPI payment request values without touching code.</p>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="price-lifetime-usd">Lifetime Pass Price (USD)</label>
+                  <input type="text" class="form-input" id="price-lifetime-usd" placeholder="e.g. $29.99">
+                </div>
+                <div class="form-group">
+                  <label for="price-lifetime-inr">Lifetime Pass Price (INR)</label>
+                  <input type="text" class="form-input" id="price-lifetime-inr" placeholder="e.g. ₹2,499">
+                </div>
+              </div>
+              <div class="form-row" style="margin-top: 6px;">
+                <div class="form-group">
+                  <label for="price-monthly-usd">Pro Monthly Price (USD)</label>
+                  <input type="text" class="form-input" id="price-monthly-usd" placeholder="e.g. $4.99">
+                </div>
+                <div class="form-group">
+                  <label for="price-monthly-inr">Pro Monthly Price (INR)</label>
+                  <input type="text" class="form-input" id="price-monthly-inr" placeholder="e.g. ₹399">
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 8: VIP Custom License Keys -->
+            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                8. VIP Pre-Generated License Keys
+              </div>
+              <div class="form-group">
+                <label for="custom-license-keys">Custom Pre-Generated License Keys (Comma-separated)</label>
+                <input type="text" class="form-input" id="custom-license-keys" placeholder="e.g. VIP-2026, EARLY-BIRD-PASS, MONTHLY-DEV">
+                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Optional custom license keys or promotional codes you want to distribute to specific customers. Keys starting with "MONTHLY-" activate Pro Monthly; all others activate Lifetime Pass.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: Monetization & Ads Content -->
+          <div id="tab-ads" class="settings-tab-content" style="display: none;">
             <!-- Ad Global Toggle -->
             <div class="form-group" style="margin-bottom: 16px;">
               <label class="checkbox-label">
@@ -33,7 +391,7 @@ export default {
 
             <!-- Ad Network Selector -->
             <div class="form-group" id="ad-network-group" style="margin-bottom: 16px;">
-              <label for="ad-network-select">Active Ad Provider (Dashboard & Tools)</label>
+              <label for="ad-network-select">Active Ad Provider (Dashboard &amp; Tools)</label>
               <select class="form-select" id="ad-network-select">
                 <option value="dev">Developer Sponsor Ads (Default Local)</option>
                 <option value="adsense">Google AdSense</option>
@@ -179,113 +537,6 @@ export default {
               </div>
             </div>
 
-            <!-- Donation Settings -->
-            <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="coffee-url">Buy Me a Coffee URL</label>
-                  <input type="text" class="form-input" id="coffee-url" placeholder="e.g. https://www.buymeacoffee.com/yourusername">
-                </div>
-                <div class="form-group">
-                  <label for="kofi-url">Ko-fi Donation URL</label>
-                  <input type="text" class="form-input" id="kofi-url" placeholder="e.g. https://ko-fi.com/yourusername">
-                </div>
-              </div>
-              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your personal donation page links. Empty buttons will be automatically hidden from the sidebar.</p>
-            </div>
-
-            <!-- Payment Gateways & Unified Checkout Settings -->
-            <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
-              <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-                Payment Gateways &amp; Unified Checkout
-              </div>
-              <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Configure checkout links and payee details for Gumroad, UPI (GPay/PhonePe/Paytm/Kotak 811), PayPal, Razorpay, and Crypto wallets.</p>
-
-              <!-- Gumroad Links -->
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="gumroad-lifetime-url">Gumroad Lifetime Pass URL</label>
-                  <input type="text" class="form-input" id="gumroad-lifetime-url" placeholder="e.g. https://gumroad.com/l/your-lifetime-slug">
-                </div>
-                <div class="form-group">
-                  <label for="gumroad-monthly-url">Gumroad Pro Monthly URL</label>
-                  <input type="text" class="form-input" id="gumroad-monthly-url" placeholder="e.g. https://gumroad.com/l/your-monthly-slug">
-                </div>
-              </div>
-
-              <!-- PayPal & Razorpay Links -->
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="paypal-gateway-url">PayPal Payment Link / Profile</label>
-                  <input type="text" class="form-input" id="paypal-gateway-url" placeholder="e.g. https://paypal.me/yourusername">
-                </div>
-                <div class="form-group">
-                  <label for="razorpay-gateway-url">Razorpay Payment Page URL</label>
-                  <input type="text" class="form-input" id="razorpay-gateway-url" placeholder="e.g. https://rzp.io/l/yourlink">
-                </div>
-              </div>
-
-              <!-- UPI ID & Payee Name -->
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="upi-gateway-id">UPI ID (VPA)</label>
-                  <input type="text" class="form-input" id="upi-gateway-id" placeholder="e.g. ravik0892@okaxis">
-                </div>
-                <div class="form-group">
-                  <label for="upi-gateway-name">Payee Name / Merchant Name</label>
-                  <input type="text" class="form-input" id="upi-gateway-name" placeholder="e.g. OmniTool Hub">
-                </div>
-              </div>
-
-              <!-- Direct Bank Transfer Details (IMPS / NEFT) -->
-              <div style="margin-top: 10px; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1);">
-                <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px;">Direct Bank Transfer (IMPS / NEFT / RTGS)</div>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="bank-gateway-name">Bank Name</label>
-                    <input type="text" class="form-input" id="bank-gateway-name" placeholder="e.g. State Bank of India / Punjab National Bank">
-                  </div>
-                  <div class="form-group">
-                    <label for="bank-gateway-holder">Account Beneficiary Name</label>
-                    <input type="text" class="form-input" id="bank-gateway-holder" placeholder="e.g. Ravi Kumar / OmniTool Hub">
-                  </div>
-                </div>
-                <div class="form-row" style="margin-top: 6px;">
-                  <div class="form-group">
-                    <label for="bank-gateway-acc">Account Number</label>
-                    <input type="text" class="form-input" id="bank-gateway-acc" placeholder="e.g. 12345678901234">
-                  </div>
-                  <div class="form-group">
-                    <label for="bank-gateway-ifsc">IFSC Code</label>
-                    <input type="text" class="form-input" id="bank-gateway-ifsc" placeholder="e.g. SBIN0001234 / PUNB0123400">
-                  </div>
-                </div>
-              </div>
-
-              <!-- Crypto Wallets -->
-              <div class="form-group" style="margin-top: 6px;">
-                <label for="crypto-usdt-address">USDT Deposit Address (TRC-20)</label>
-                <input type="text" class="form-input" id="crypto-usdt-address" placeholder="e.g. TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c">
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="crypto-btc-address">Bitcoin Address (BTC)</label>
-                  <input type="text" class="form-input" id="crypto-btc-address" placeholder="e.g. bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh">
-                </div>
-                <div class="form-group">
-                  <label for="crypto-eth-address">Ethereum Address (ETH / ERC-20)</label>
-                  <input type="text" class="form-input" id="crypto-eth-address" placeholder="e.g. 0x71C53316E28b4923eFFe35E2D8527a2754664982">
-                </div>
-              </div>
-
-              <!-- Custom Pre-Generated License Keys -->
-              <div class="form-group" style="margin-top: 10px;">
-                <label for="custom-license-keys">Custom Pre-Generated License Keys (Comma-separated)</label>
-                <input type="text" class="form-input" id="custom-license-keys" placeholder="e.g. VIP-2026, EARLY-BIRD-PASS, MONTHLY-DEV">
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Optional custom license keys or promotional codes you want to distribute to specific customers. Keys starting with "MONTHLY-" activate Pro Monthly; all others activate Lifetime Pass.</p>
-              </div>
-            </div>
 
             <!-- Adsterra Smart Link Settings -->
             <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
@@ -424,6 +675,34 @@ export default {
                 <!-- Dynamically populated list of tools with tier dropdowns -->
               </div>
             </div>
+
+            <!-- Cryptographic License Key Generator -->
+            <div class="form-group" style="margin-top: 24px; padding: 16px; border: 1px solid rgba(0, 242, 254, 0.35); border-radius: 8px; background: rgba(0, 242, 254, 0.05);">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span style="font-size: 18px;">🔑</span>
+                <strong style="color: var(--accent-cyan); font-size: 14px;">Cryptographic License Key Generator</strong>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
+                Issue mathematically verified digital license keys for clients who pay via direct UPI QR, IMPS Bank Transfer, or Crypto. These keys are digitally signed and cannot be forged.
+              </p>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                <select class="form-select" id="admin-gen-tier" style="flex: 1; min-width: 140px; height: 36px; font-size: 12.5px;">
+                  <option value="lifetime">Lifetime PRO (OMNI-PRO-...)</option>
+                  <option value="premium">Pro Monthly (OMNI-MON-...)</option>
+                </select>
+                <input type="text" class="form-input" id="admin-gen-cust-id" placeholder="Client Name or Order ID" style="flex: 1; min-width: 140px; height: 36px; font-size: 12.5px;">
+                <button type="button" class="tool-btn primary" id="admin-gen-btn" style="height: 36px; padding: 0 16px; font-size: 12.5px;">
+                  ⚡ Generate Key
+                </button>
+              </div>
+              <div id="admin-gen-result-box" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.3); padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-color);">
+                <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; font-weight: 700;">Signed License Key (Ready to Deliver)</div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <input type="text" class="form-input" id="admin-gen-output" readonly style="font-family: monospace; font-weight: 700; color: #10b981; font-size: 13.5px;">
+                  <button type="button" class="tool-btn secondary" id="admin-gen-copy-btn" style="height: 36px;">Copy</button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- TAB 3: Backup & System Content -->
@@ -432,8 +711,8 @@ export default {
             <form id="admin-passcode-form" onsubmit="event.preventDefault();" class="form-group" style="margin-bottom: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
               <input type="text" name="username" autocomplete="username" style="display: none;">
               <label for="app-admin-passcode">Admin Access Passcode</label>
-              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Change the security passcode required to access the Settings panel (default: admin123).</div>
-              <input type="password" class="form-input" id="app-admin-passcode" placeholder="e.g. admin123" autocomplete="new-password">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Update the master passcode required to access the Settings panel.</div>
+              <input type="password" class="form-input" id="app-admin-passcode" placeholder="Enter new strong passcode" autocomplete="new-password">
             </form>
 
             <div class="form-group" style="margin-bottom: 18px;">
@@ -479,30 +758,80 @@ export default {
           </div>
         </div>
 
-        <!-- Right column: Live Previews -->
+        <!-- Right column: Dynamic Tab-Sensitive Live Previews -->
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>Live Ad Simulator</h3>
-            <span class="theme-badge" style="background: rgba(var(--accent-cyan-rgb), 0.15); color: var(--accent-cyan);" id="preview-network-badge">Local Sponsor</span>
+          <!-- 1. Live Payment & Checkout Simulator (Default for tab-payments) -->
+          <div id="preview-section-payments" class="adm-preview-section">
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3>Live Checkout Simulator</h3>
+              <span class="theme-badge" style="background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan);" id="preview-pay-badge">Live Sync</span>
+            </div>
+            <div style="padding: 14px; border-radius: 10px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); margin-bottom: 12px;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between;">
+                <span>Active Customer Gateways</span>
+                <span id="preview-pay-count" style="color: #10b981; font-weight: 700;">8 Active</span>
+              </div>
+              <div id="preview-pay-gateways-list" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;"></div>
+              
+              <!-- Live UPI & QR Interactive Card -->
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; text-align: center;">
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Customer QR Code Preview</div>
+                <div style="display: inline-block; padding: 10px; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);">
+                  <canvas id="adm-preview-qr-canvas" width="130" height="130" style="display: block; width: 130px; height: 130px;"></canvas>
+                </div>
+                <div id="adm-preview-vpa-label" style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent-cyan); margin-top: 10px;">ravik0892@okaxis</div>
+                <div id="adm-preview-mode-desc" style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">⚡ Single Universal UPI active across all apps</div>
+              </div>
+            </div>
+
+            <button type="button" class="tool-btn primary" id="btn-adm-test-checkout-preview" style="width: 100%; justify-content: center; height: 38px; font-size: 13px; font-weight: 700;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>Test Interactive Checkout Modal</span>
+            </button>
           </div>
 
-          <div class="ad-simulator-container">
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Simulated ad render based on active network settings:</p>
-            <div id="ad-preview-box" class="ad-preview-panel">
-              <!-- Rendered dynamically -->
+          <!-- 2. Live Ad Simulator (Shown when tab-ads is active) -->
+          <div id="preview-section-ads" class="adm-preview-section" style="display: none;">
+            <div class="panel-header">
+              <h3>Live Ad Simulator</h3>
+              <span class="theme-badge" style="background: rgba(var(--accent-cyan-rgb), 0.15); color: var(--accent-cyan);" id="preview-network-badge">Local Sponsor</span>
+            </div>
+            <div class="ad-simulator-container">
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Simulated ad render based on active network settings:</p>
+              <div id="ad-preview-box" class="ad-preview-panel"></div>
             </div>
           </div>
 
-          <div class="panel-header" style="margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 16px;">
-            <h3>Aesthetics Glow Preview</h3>
+          <!-- 3. Aesthetics Glow Preview (Shown when tab-aesthetics is active) -->
+          <div id="preview-section-aesthetics" class="adm-preview-section" style="display: none;">
+            <div class="panel-header">
+              <h3>Aesthetics Glow Preview</h3>
+            </div>
+            <div class="theme-preview-card" style="padding: 16px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: 10px; font-weight: 800; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 1px;">Brand Color Theme Demo</div>
+              <h4 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin: 0;">OmniTool Custom Glow</h4>
+              <p style="font-size: 12px; color: var(--text-muted); margin: 0;">This box reflects how the cyber accents appear globally on panels, buttons and links.</p>
+              <div style="display: flex; gap: 8px; margin-top: 6px;">
+                <span style="font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(var(--accent-cyan-rgb), 0.12); color: var(--accent-cyan); border: 1px solid rgba(var(--accent-cyan-rgb), 0.2);">Cyan Accent</span>
+                <span style="font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(var(--accent-purple-rgb), 0.12); color: var(--accent-purple); border: 1px solid rgba(var(--accent-purple-rgb), 0.2);">Purple Accent</span>
+              </div>
+            </div>
           </div>
-          <div class="theme-preview-card" style="padding: 16px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); display: flex; flex-direction: column; gap: 8px;">
-            <div style="font-size: 10px; font-weight: 800; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 1px;">Brand Color Theme Demo</div>
-            <h4 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin: 0;">OmniTool Custom Glow</h4>
-            <p style="font-size: 12px; color: var(--text-muted); margin: 0;">This box reflects how the cyber accents appear globally on panels, buttons and links.</p>
-            <div style="display: flex; gap: 8px; margin-top: 6px;">
-              <span style="font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(var(--accent-cyan-rgb), 0.12); color: var(--accent-cyan); border: 1px solid rgba(var(--accent-cyan-rgb), 0.2);">Cyan Accent</span>
-              <span style="font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(var(--accent-purple-rgb), 0.12); color: var(--accent-purple); border: 1px solid rgba(var(--accent-purple-rgb), 0.2);">Purple Accent</span>
+
+          <!-- 4. System Overview Stats (Shown for tools-visibility, tiers, backup) -->
+          <div id="preview-section-system" class="adm-preview-section" style="display: none;">
+            <div class="panel-header">
+              <h3>System Overview</h3>
+              <span class="theme-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">Online &amp; Secure</span>
+            </div>
+            <div style="padding: 14px; border-radius: 10px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color);">
+              <div style="font-size: 13px; font-weight: 700; color: #10b981; margin-bottom: 8px;">✅ 100% Client-Side Engine</div>
+              <p style="font-size: 11.5px; color: var(--text-muted); line-height: 1.4; margin: 0 0 10px 0;">All configurations and payments process directly in the user browser. No external database or intermediate tracking servers required.</p>
+              <div style="display: flex; flex-direction: column; gap: 6px; font-size: 11.5px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 8px;">
+                <div>• Service Worker: <strong style="color: var(--accent-cyan);">PWA Cache Active (v72)</strong></div>
+                <div>• Storage Engine: <strong style="color: var(--text-main);">Browser LocalStorage</strong></div>
+                <div>• Dynamic Routing: <strong style="color: var(--accent-purple);">Enabled</strong></div>
+              </div>
             </div>
           </div>
         </div>
@@ -576,17 +905,38 @@ export default {
         tabs.forEach(b => {
           b.classList.remove("active");
           b.style.color = "var(--text-muted)";
-          b.style.borderBottomColor = "transparent";
+          b.style.borderColor = "var(--border-color)";
+          b.style.background = "var(--bg-input)";
           b.style.fontWeight = "600";
         });
         btn.classList.add("active");
         btn.style.color = "var(--accent-cyan)";
-        btn.style.borderBottomColor = "var(--accent-cyan)";
+        btn.style.borderColor = "var(--accent-cyan)";
+        btn.style.background = "rgba(0, 242, 254, 0.12)";
         btn.style.fontWeight = "700";
 
         const tabId = btn.getAttribute("data-tab");
         container.querySelectorAll(".settings-tab-content").forEach(c => c.style.display = "none");
-        container.querySelector("#" + tabId).style.display = "block";
+        const activeTabEl = container.querySelector("#" + tabId);
+        if (activeTabEl) activeTabEl.style.display = "block";
+
+        // Switch right preview section dynamically
+        container.querySelectorAll(".adm-preview-section").forEach(s => s.style.display = "none");
+        if (tabId === "tab-payments") {
+          const s = container.querySelector("#preview-section-payments");
+          if (s) s.style.display = "block";
+          if (typeof updatePaymentSimulator === "function") updatePaymentSimulator();
+        } else if (tabId === "tab-ads") {
+          const s = container.querySelector("#preview-section-ads");
+          if (s) s.style.display = "block";
+          if (typeof updateSimulatorPreview === "function") updateSimulatorPreview();
+        } else if (tabId === "tab-aesthetics") {
+          const s = container.querySelector("#preview-section-aesthetics");
+          if (s) s.style.display = "block";
+        } else {
+          const s = container.querySelector("#preview-section-system");
+          if (s) s.style.display = "block";
+        }
         
         if (typeof appInstance.playSynthSound === 'function') {
           appInstance.playSynthSound('click');
@@ -684,6 +1034,260 @@ export default {
     const btnLoadOverride = container.querySelector("#btn-load-override");
     const btnDeleteOverride = container.querySelector("#btn-delete-override");
 
+    // Master Gateway Toggles selectors
+    const gwToggleUpi = container.querySelector("#gw-toggle-upi");
+    const gwToggleBank = container.querySelector("#gw-toggle-bank");
+    const gwToggleGumroad = container.querySelector("#gw-toggle-gumroad");
+    const gwTogglePaypal = container.querySelector("#gw-toggle-paypal");
+    const gwToggleRazorpay = container.querySelector("#gw-toggle-razorpay");
+    const gwToggleCrypto = container.querySelector("#gw-toggle-crypto");
+    const gwToggleCoffee = container.querySelector("#gw-toggle-coffee");
+    const gwToggleGuide = container.querySelector("#gw-toggle-guide");
+    const gwToggleCustom = container.querySelector("#gw-toggle-custom");
+
+    // UPI Multi-account selectors
+    const upiModeSingle = container.querySelector("#upi-mode-single");
+    const upiModePerApp = container.querySelector("#upi-mode-per-app");
+    const upiModeBadge = container.querySelector("#upi-mode-badge");
+    const upiPerAppContainer = container.querySelector("#upi-per-app-container");
+    const upiGpayId = container.querySelector("#upi-gpay-id");
+    const upiPhonepeId = container.querySelector("#upi-phonepe-id");
+    const upiPaytmId = container.querySelector("#upi-paytm-id");
+    const upiBhimId = container.querySelector("#upi-bhim-id");
+    const upiCredId = container.querySelector("#upi-cred-id");
+
+    // Custom Gateway selectors
+    const customGwTabLabel = container.querySelector("#custom-gw-tab-label");
+    const customGwIcon = container.querySelector("#custom-gw-icon");
+    const customGwTitle = container.querySelector("#custom-gw-title");
+    const customGwBadge = container.querySelector("#custom-gw-badge");
+    const customGwUrl = container.querySelector("#custom-gw-url");
+    const customGwBtnText = container.querySelector("#custom-gw-btn-text");
+    const customGwDesc = container.querySelector("#custom-gw-desc");
+    const customGwFeatures = container.querySelector("#custom-gw-features");
+
+    // Dynamic Pricing selectors
+    const priceLifetimeUsd = container.querySelector("#price-lifetime-usd");
+    const priceLifetimeInr = container.querySelector("#price-lifetime-inr");
+    const priceMonthlyUsd = container.querySelector("#price-monthly-usd");
+    const priceMonthlyInr = container.querySelector("#price-monthly-inr");
+
+    const btnAdmTestCheckout = container.querySelector("#btn-adm-test-checkout");
+
+    // UPI Mode UI helper
+    const setUpiModeUI = (mode) => {
+      if (mode === "per_app") {
+        if (upiModePerApp) upiModePerApp.checked = true;
+        if (upiPerAppContainer) upiPerAppContainer.style.display = "block";
+        if (upiModeBadge) {
+          upiModeBadge.innerText = "Mode: Separate App Routing";
+          upiModeBadge.style.color = "var(--accent-purple)";
+          upiModeBadge.style.borderColor = "rgba(157, 78, 221, 0.3)";
+          upiModeBadge.style.background = "rgba(157, 78, 221, 0.15)";
+        }
+      } else {
+        if (upiModeSingle) upiModeSingle.checked = true;
+        if (upiPerAppContainer) upiPerAppContainer.style.display = "none";
+        if (upiModeBadge) {
+          upiModeBadge.innerText = "Mode: Single Universal UPI";
+          upiModeBadge.style.color = "var(--accent-cyan)";
+          upiModeBadge.style.borderColor = "rgba(0, 242, 254, 0.3)";
+          upiModeBadge.style.background = "rgba(0, 242, 254, 0.15)";
+        }
+      }
+      updatePaymentSimulator();
+    };
+
+    // Payment Simulator display helper
+    const updatePaymentSimulator = () => {
+      const previewPayCount = container.querySelector("#preview-pay-count");
+      const previewPayGatewaysList = container.querySelector("#preview-pay-gateways-list");
+      const qrCanvas = container.querySelector("#adm-preview-qr-canvas");
+      const previewVpaLabel = container.querySelector("#adm-preview-vpa-label");
+      const previewModeDesc = container.querySelector("#adm-preview-mode-desc");
+
+      const activeGateways = [];
+      if (gwToggleUpi?.checked) activeGateways.push({ icon: "⚡", label: "UPI & QR" });
+      if (gwToggleBank?.checked) activeGateways.push({ icon: "🏦", label: "Bank Transfer" });
+      if (gwToggleGumroad?.checked) activeGateways.push({ icon: "🛒", label: "Gumroad" });
+      if (gwTogglePaypal?.checked) activeGateways.push({ icon: "🅿️", label: "PayPal" });
+      if (gwToggleRazorpay?.checked) activeGateways.push({ icon: "💳", label: "Razorpay" });
+      if (gwToggleCrypto?.checked) activeGateways.push({ icon: "🪙", label: "Crypto" });
+      if (gwToggleCoffee?.checked) activeGateways.push({ icon: "☕", label: "Coffee/Ko-fi" });
+      if (gwToggleGuide?.checked) activeGateways.push({ icon: "📖", label: "Guide" });
+      if (gwToggleCustom?.checked) activeGateways.push({ icon: customGwIcon?.value || "✨", label: customGwTabLabel?.value || "Custom" });
+
+      if (previewPayCount) {
+        previewPayCount.innerText = `${activeGateways.length} Active`;
+        previewPayCount.style.color = activeGateways.length > 0 ? "#10b981" : "var(--accent-rose)";
+      }
+
+      if (previewPayGatewaysList) {
+        previewPayGatewaysList.innerHTML = activeGateways.map(gw => `
+          <span style="font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.2); color: var(--text-main); display: inline-flex; align-items: center; gap: 4px;">
+            <span>${gw.icon}</span>
+            <span>${escapeHtml(gw.label)}</span>
+          </span>
+        `).join("") || `<span style="font-size: 11px; color: var(--accent-rose); font-style: italic;">No payment gateways enabled</span>`;
+      }
+
+      const vpa = (upiIdInput?.value || "ravik0892@okaxis").trim();
+      const name = encodeURIComponent((upiNameInput?.value || "OmniTool Hub").trim());
+      const rawPrice = (priceLifetimeInr?.value || "2499").replace(/[^0-9.]/g, '');
+      const amount = rawPrice || "2499";
+      const upiUri = `upi://pay?pa=${vpa}&pn=${name}&am=${amount}&cu=INR&tn=OmniTool%20Lifetime%20Pass`;
+
+      if (previewVpaLabel) {
+        previewVpaLabel.innerText = vpa;
+      }
+
+      const isPerApp = upiModePerApp && upiModePerApp.checked;
+      if (previewModeDesc) {
+        if (isPerApp) {
+          previewModeDesc.innerText = "🎯 Separate UPI routing active per app";
+          previewModeDesc.style.color = "var(--accent-purple)";
+        } else {
+          previewModeDesc.innerText = "⚡ Single Universal UPI active across all apps";
+          previewModeDesc.style.color = "var(--accent-cyan)";
+        }
+      }
+
+      if (qrCanvas && typeof appInstance.drawUpiQr === 'function') {
+        appInstance.drawUpiQr(upiUri, qrCanvas);
+      }
+    };
+
+    // Quick Templates for Custom Payment Gateways
+    const applyCustomTemplate = (preset) => {
+      if (preset === 'stripe') {
+        if (customGwTabLabel) customGwTabLabel.value = "Stripe";
+        if (customGwIcon) customGwIcon.value = "💳";
+        if (customGwTitle) customGwTitle.value = "Stripe Checkout / Debit & Credit Cards";
+        if (customGwBadge) customGwBadge.value = "Instant 256-Bit SSL Checkout";
+        if (customGwUrl) customGwUrl.value = "https://buy.stripe.com/your-stripe-link";
+        if (customGwBtnText) customGwBtnText.value = "Pay with Card / Apple Pay";
+        if (customGwDesc) customGwDesc.value = "Secure checkout processed by Stripe. Supports all international Visa, Mastercard, Amex, and Apple Pay.";
+        if (customGwFeatures) customGwFeatures.value = "✔ 256-Bit SSL Encrypted checkout\n✔ Instant automated license activation\n✔ All global debit/credit cards accepted";
+      } else if (preset === 'cashapp') {
+        if (customGwTabLabel) customGwTabLabel.value = "Cash App";
+        if (customGwIcon) customGwIcon.value = "💵";
+        if (customGwTitle) customGwTitle.value = "Cash App Pay ($Cashtag)";
+        if (customGwBadge) customGwBadge.value = "Direct Mobile Transfer";
+        if (customGwUrl) customGwUrl.value = "https://cash.app/$YourCashtag";
+        if (customGwBtnText) customGwBtnText.value = "Open Cash App";
+        if (customGwDesc) customGwDesc.value = "Send payment directly via Cash App to $YourCashtag with your email in note.";
+        if (customGwFeatures) customGwFeatures.value = "✔ Instant mobile fee-free transfer\n✔ Add your email in the note\n✔ License dispatched within 10 minutes";
+      } else if (preset === 'revolut') {
+        if (customGwTabLabel) customGwTabLabel.value = "Revolut";
+        if (customGwIcon) customGwIcon.value = "🟣";
+        if (customGwTitle) customGwTitle.value = "Revolut Pay / Revtag";
+        if (customGwBadge) customGwBadge.value = "Multi-Currency Direct";
+        if (customGwUrl) customGwUrl.value = "https://revolut.me/your-revtag";
+        if (customGwBtnText) customGwBtnText.value = "Pay via Revolut.me";
+        if (customGwDesc) customGwDesc.value = "Fast multi-currency transfer with zero fees via Revolut.me payment link.";
+        if (customGwFeatures) customGwFeatures.value = "✔ Supports EUR, GBP, USD, INR\n✔ Real-time cross-border transfer\n✔ Instant receipt generation";
+      } else if (preset === 'zelle') {
+        if (customGwTabLabel) customGwTabLabel.value = "Zelle";
+        if (customGwIcon) customGwIcon.value = "⚡";
+        if (customGwTitle) customGwTitle.value = "Zelle Bank Transfer";
+        if (customGwBadge) customGwBadge.value = "US Bank Direct";
+        if (customGwUrl) customGwUrl.value = "https://www.zellepay.com";
+        if (customGwBtnText) customGwBtnText.value = "Instructions for Zelle";
+        if (customGwDesc) customGwDesc.value = "Send Zelle payment to: billing@yourdomain.com. Include your name in the memo.";
+        if (customGwFeatures) customGwFeatures.value = "✔ Instant US direct bank-to-bank\n✔ No processing fees\n✔ Automated matching by email";
+      } else if (preset === 'wise') {
+        if (customGwTabLabel) customGwTabLabel.value = "Wise";
+        if (customGwIcon) customGwIcon.value = "🌐";
+        if (customGwTitle) customGwTitle.value = "Wise International Transfer";
+        if (customGwBadge) customGwBadge.value = "Mid-Market Exchange Rate";
+        if (customGwUrl) customGwUrl.value = "https://wise.com/pay/me/yourhandle";
+        if (customGwBtnText) customGwBtnText.value = "Pay via Wise";
+        if (customGwDesc) customGwDesc.value = "Send international payment in your local currency at the real mid-market exchange rate.";
+        if (customGwFeatures) customGwFeatures.value = "✔ Lowest international conversion fees\n✔ Direct local bank debit\n✔ Multi-currency support (50+ currencies)";
+      }
+      if (gwToggleCustom) gwToggleCustom.checked = true;
+      updatePaymentSimulator();
+      appInstance.showToast(`Applied ${preset.toUpperCase()} template! Custom Gateway enabled.`, "success");
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('click');
+      }
+    };
+
+    container.querySelector("#preset-custom-stripe")?.addEventListener("click", () => applyCustomTemplate('stripe'));
+    container.querySelector("#preset-custom-cashapp")?.addEventListener("click", () => applyCustomTemplate('cashapp'));
+    container.querySelector("#preset-custom-revolut")?.addEventListener("click", () => applyCustomTemplate('revolut'));
+    container.querySelector("#preset-custom-zelle")?.addEventListener("click", () => applyCustomTemplate('zelle'));
+    container.querySelector("#preset-custom-wise")?.addEventListener("click", () => applyCustomTemplate('wise'));
+
+    // Top action bar buttons
+    container.querySelector("#btn-adm-save-top")?.addEventListener("click", () => saveSettings());
+    container.querySelector("#btn-adm-test-checkout-preview")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (typeof appInstance.openCheckout === 'function') {
+        appInstance.openCheckout('lifetime');
+      }
+    });
+
+    container.querySelector("#btn-adm-hard-refresh")?.addEventListener("click", async () => {
+      if (confirm("Purge browser PWA service worker cache and reload latest code?")) {
+        try {
+          if ('serviceWorker' in navigator) {
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            for (const reg of registrations) {
+              if (reg.active) {
+                reg.active.postMessage({ action: 'clearCache' });
+              }
+              await reg.unregister();
+            }
+          }
+          if ('caches' in window) {
+            const cacheNames = await caches.keys();
+            for (const name of cacheNames) {
+              await caches.delete(name);
+            }
+          }
+          appInstance.showToast("PWA Cache purged successfully! Reloading...", "success");
+          setTimeout(() => {
+            window.location.reload(true);
+          }, 400);
+        } catch (err) {
+          window.location.reload(true);
+        }
+      }
+    });
+
+    // Payment fields reactive simulator updates
+    [gwToggleUpi, gwToggleBank, gwToggleGumroad, gwTogglePaypal, gwToggleRazorpay, gwToggleCrypto, gwToggleCoffee, gwToggleGuide, gwToggleCustom].forEach(toggle => {
+      toggle?.addEventListener("change", () => {
+        updatePaymentSimulator();
+        if (typeof appInstance.playSynthSound === 'function') {
+          appInstance.playSynthSound('click');
+        }
+      });
+    });
+
+    [upiIdInput, upiNameInput, priceLifetimeInr, customGwIcon, customGwTabLabel].forEach(input => {
+      input?.addEventListener("input", () => {
+        updatePaymentSimulator();
+      });
+    });
+
+    container.querySelectorAll('input[name="omnitool_upi_mode_radio"]').forEach(radio => {
+      radio.addEventListener("change", (e) => {
+        setUpiModeUI(e.target.value);
+        if (typeof appInstance.playSynthSound === 'function') {
+          appInstance.playSynthSound('click');
+        }
+      });
+    });
+
+    btnAdmTestCheckout?.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (typeof appInstance.openCheckout === 'function') {
+        appInstance.openCheckout('lifetime');
+      }
+    });
+
     // New configurations selectors
     const appDensity = container.querySelector("#app-density-select");
     const appStartup = container.querySelector("#app-startup-select");
@@ -757,6 +1361,68 @@ export default {
         tiersList.appendChild(itemDiv);
       });
     };
+
+    // Cryptographic License Key Generator handler
+    const genBtn = container.querySelector("#admin-gen-btn");
+    const genTier = container.querySelector("#admin-gen-tier");
+    const genCustId = container.querySelector("#admin-gen-cust-id");
+    const genResultBox = container.querySelector("#admin-gen-result-box");
+    const genOutput = container.querySelector("#admin-gen-output");
+    const genCopyBtn = container.querySelector("#admin-gen-copy-btn");
+
+    if (genBtn && genOutput) {
+      genBtn.onclick = async () => {
+        const tier = genTier ? genTier.value : "lifetime";
+        const customerId = genCustId ? genCustId.value.trim() : "";
+        const adminToken = sessionStorage.getItem("omnitool_admin_token") || "";
+
+        try {
+          const res = await fetch("/api/admin-generate-key", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + adminToken
+            },
+            body: JSON.stringify({ tier, customerId })
+          });
+          const contentType = res.headers.get("content-type") || "";
+          if (contentType.includes("application/json")) {
+            const data = await res.json();
+            if (res.ok && data.success) {
+              genOutput.value = data.licenseKey;
+              genResultBox.style.display = "block";
+              appInstance.showToast("🔑 Cryptographically signed key generated!", "success");
+              return;
+            }
+          }
+        } catch (_) {}
+
+        // Safe Local Dev Fallback (avoids exposing master secret in client bundle)
+        const isDevEnv = ["localhost", "127.0.0.1", ""].includes(window.location.hostname) || window.location.protocol === "file:";
+        if (isDevEnv) {
+          const tierCode = tier === "premium" ? "MON" : "PRO";
+          const id = (customerId.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8) || Math.random().toString(36).substring(2, 10).toUpperCase()).padEnd(8, "0");
+          const devKey = `OMNI-DEV-${tierCode}-${id}`;
+          genOutput.value = devKey;
+          genResultBox.style.display = "block";
+          appInstance.showToast("🛠️ Generated Local Dev Test Key. (Ensure START_SERVER.bat is running for production HMAC keys).", "info");
+        } else {
+          appInstance.showToast("Server API unreachable. Please ensure the backend serverless functions are active.", "error");
+        }
+      };
+
+      if (genCopyBtn) {
+        genCopyBtn.onclick = () => {
+          if (genOutput.value) {
+            navigator.clipboard.writeText(genOutput.value).then(() => {
+              genCopyBtn.innerText = "Copied!";
+              appInstance.showToast("License key copied to clipboard!", "success");
+              setTimeout(() => { genCopyBtn.innerText = "Copy"; }, 2000);
+            });
+          }
+        };
+      }
+    }
 
     container.querySelector("#btn-visibility-select-all")?.addEventListener("click", (e) => {
       e.preventDefault();
@@ -930,6 +1596,43 @@ export default {
         preserveSettingsReset.checked = localStorage.getItem("omnitool_preserve_settings_on_reset") === "true";
       }
 
+      // Load Payment Gateway Toggles
+      if (gwToggleUpi) gwToggleUpi.checked = appInstance.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
+      if (gwToggleBank) gwToggleBank.checked = appInstance.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
+      if (gwToggleGumroad) gwToggleGumroad.checked = appInstance.getConfigValue("omnitool_gw_gumroad_enabled", "true") !== "false";
+      if (gwTogglePaypal) gwTogglePaypal.checked = appInstance.getConfigValue("omnitool_gw_paypal_enabled", "true") !== "false";
+      if (gwToggleRazorpay) gwToggleRazorpay.checked = appInstance.getConfigValue("omnitool_gw_razorpay_enabled", "true") !== "false";
+      if (gwToggleCrypto) gwToggleCrypto.checked = appInstance.getConfigValue("omnitool_gw_crypto_enabled", "true") !== "false";
+      if (gwToggleCoffee) gwToggleCoffee.checked = appInstance.getConfigValue("omnitool_gw_coffee_enabled", "true") !== "false";
+      if (gwToggleGuide) gwToggleGuide.checked = appInstance.getConfigValue("omnitool_gw_guide_enabled", "true") !== "false";
+      if (gwToggleCustom) gwToggleCustom.checked = appInstance.getConfigValue("omnitool_gw_custom_enabled", "false") === "true";
+
+      // Load UPI Multi-account Mode & Dedicated IDs
+      const upiMode = appInstance.getConfigValue("omnitool_upi_mode", "single");
+      setUpiModeUI(upiMode);
+
+      if (upiGpayId) upiGpayId.value = appInstance.getConfigValue("omnitool_upi_gpay_id", "");
+      if (upiPhonepeId) upiPhonepeId.value = appInstance.getConfigValue("omnitool_upi_phonepe_id", "");
+      if (upiPaytmId) upiPaytmId.value = appInstance.getConfigValue("omnitool_upi_paytm_id", "");
+      if (upiBhimId) upiBhimId.value = appInstance.getConfigValue("omnitool_upi_bhim_id", "");
+      if (upiCredId) upiCredId.value = appInstance.getConfigValue("omnitool_upi_cred_id", "");
+
+      // Load Custom Gateway
+      if (customGwTabLabel) customGwTabLabel.value = appInstance.getConfigValue("omnitool_custom_gw_tab_label", "Custom Payment");
+      if (customGwIcon) customGwIcon.value = appInstance.getConfigValue("omnitool_custom_gw_icon", "💳");
+      if (customGwTitle) customGwTitle.value = appInstance.getConfigValue("omnitool_custom_gw_title", "Custom Payment System");
+      if (customGwBadge) customGwBadge.value = appInstance.getConfigValue("omnitool_custom_gw_badge", "Instant Activation");
+      if (customGwUrl) customGwUrl.value = appInstance.getConfigValue("omnitool_custom_gw_url", "#");
+      if (customGwBtnText) customGwBtnText.value = appInstance.getConfigValue("omnitool_custom_gw_btn_text", "Continue to Payment");
+      if (customGwDesc) customGwDesc.value = appInstance.getConfigValue("omnitool_custom_gw_desc", "Direct secure payment method.");
+      if (customGwFeatures) customGwFeatures.value = appInstance.getConfigValue("omnitool_custom_gw_features", "✔ 256-Bit SSL Encrypted checkout\n✔ Instant automated verification\n✔ Supports Visa, Mastercard, Apple Pay");
+
+      // Load Dynamic Pricing
+      if (priceLifetimeUsd) priceLifetimeUsd.value = appInstance.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
+      if (priceLifetimeInr) priceLifetimeInr.value = appInstance.getConfigValue("omnitool_price_lifetime_inr", "₹2,499");
+      if (priceMonthlyUsd) priceMonthlyUsd.value = appInstance.getConfigValue("omnitool_price_monthly_usd", "$4.99");
+      if (priceMonthlyInr) priceMonthlyInr.value = appInstance.getConfigValue("omnitool_price_monthly_inr", "₹399");
+
       // Load new settings
       appDensity.value = appInstance.getConfigValue("omnitool_layout_density", "comfortable");
       appStartup.value = appInstance.getConfigValue("omnitool_default_view", "dashboard");
@@ -937,7 +1640,8 @@ export default {
       appAudio.checked = appInstance.getConfigValue("omnitool_audio_feedback", "false") === "true";
       
       if (adminPasscode) {
-        adminPasscode.value = appInstance.getConfigValue("omnitool_admin_passcode", "admin123");
+        adminPasscode.value = "";
+        adminPasscode.placeholder = "Enter new admin passcode to update";
       }
 
       // Load monetization settings
@@ -946,6 +1650,7 @@ export default {
 
       toggleFormFields(adNetwork.value);
       updateSimulatorPreview();
+      updatePaymentSimulator();
       populateToolsVisibility();
       populateToolsTiers();
     };
@@ -1135,6 +1840,42 @@ export default {
         localStorage.setItem("omnitool_preserve_settings_on_reset", preserveSettingsReset.checked ? "true" : "false");
       }
 
+      // Save Payment Gateway Toggles
+      if (gwToggleUpi) localStorage.setItem("omnitool_gw_upi_enabled", gwToggleUpi.checked ? "true" : "false");
+      if (gwToggleBank) localStorage.setItem("omnitool_gw_bank_enabled", gwToggleBank.checked ? "true" : "false");
+      if (gwToggleGumroad) localStorage.setItem("omnitool_gw_gumroad_enabled", gwToggleGumroad.checked ? "true" : "false");
+      if (gwTogglePaypal) localStorage.setItem("omnitool_gw_paypal_enabled", gwTogglePaypal.checked ? "true" : "false");
+      if (gwToggleRazorpay) localStorage.setItem("omnitool_gw_razorpay_enabled", gwToggleRazorpay.checked ? "true" : "false");
+      if (gwToggleCrypto) localStorage.setItem("omnitool_gw_crypto_enabled", gwToggleCrypto.checked ? "true" : "false");
+      if (gwToggleCoffee) localStorage.setItem("omnitool_gw_coffee_enabled", gwToggleCoffee.checked ? "true" : "false");
+      if (gwToggleGuide) localStorage.setItem("omnitool_gw_guide_enabled", gwToggleGuide.checked ? "true" : "false");
+      if (gwToggleCustom) localStorage.setItem("omnitool_gw_custom_enabled", gwToggleCustom.checked ? "true" : "false");
+
+      // Save UPI Mode & App IDs
+      const activeUpiMode = upiModePerApp && upiModePerApp.checked ? "per_app" : "single";
+      localStorage.setItem("omnitool_upi_mode", activeUpiMode);
+      if (upiGpayId) localStorage.setItem("omnitool_upi_gpay_id", upiGpayId.value.trim());
+      if (upiPhonepeId) localStorage.setItem("omnitool_upi_phonepe_id", upiPhonepeId.value.trim());
+      if (upiPaytmId) localStorage.setItem("omnitool_upi_paytm_id", upiPaytmId.value.trim());
+      if (upiBhimId) localStorage.setItem("omnitool_upi_bhim_id", upiBhimId.value.trim());
+      if (upiCredId) localStorage.setItem("omnitool_upi_cred_id", upiCredId.value.trim());
+
+      // Save Custom Gateway
+      if (customGwTabLabel) localStorage.setItem("omnitool_custom_gw_tab_label", customGwTabLabel.value.trim());
+      if (customGwIcon) localStorage.setItem("omnitool_custom_gw_icon", customGwIcon.value.trim());
+      if (customGwTitle) localStorage.setItem("omnitool_custom_gw_title", customGwTitle.value.trim());
+      if (customGwBadge) localStorage.setItem("omnitool_custom_gw_badge", customGwBadge.value.trim());
+      if (customGwUrl) localStorage.setItem("omnitool_custom_gw_url", customGwUrl.value.trim());
+      if (customGwBtnText) localStorage.setItem("omnitool_custom_gw_btn_text", customGwBtnText.value.trim());
+      if (customGwDesc) localStorage.setItem("omnitool_custom_gw_desc", customGwDesc.value.trim());
+      if (customGwFeatures) localStorage.setItem("omnitool_custom_gw_features", customGwFeatures.value.trim());
+
+      // Save Dynamic Pricing
+      if (priceLifetimeUsd) localStorage.setItem("omnitool_price_lifetime_usd", priceLifetimeUsd.value.trim());
+      if (priceLifetimeInr) localStorage.setItem("omnitool_price_lifetime_inr", priceLifetimeInr.value.trim());
+      if (priceMonthlyUsd) localStorage.setItem("omnitool_price_monthly_usd", priceMonthlyUsd.value.trim());
+      if (priceMonthlyInr) localStorage.setItem("omnitool_price_monthly_inr", priceMonthlyInr.value.trim());
+
       // Save new configurations
       localStorage.setItem("omnitool_accent_preset", activePreset);
       localStorage.setItem("omnitool_layout_density", appDensity.value);
@@ -1142,13 +1883,22 @@ export default {
       localStorage.setItem("omnitool_clock_format", appClock.value);
       localStorage.setItem("omnitool_audio_feedback", appAudio.checked ? "true" : "false");
       
-      if (adminPasscode) {
+      if (adminPasscode && adminPasscode.value.trim()) {
         localStorage.setItem("omnitool_admin_passcode", adminPasscode.value.trim());
       }
 
       // Save Monetization Tiers
       localStorage.setItem("omnitool_monetization_active", monetizationGlobal.checked ? "true" : "false");
       localStorage.setItem("omnitool_user_tier", monetizationUserTier.value);
+      if (monetizationUserTier.value === "lifetime" || monetizationUserTier.value === "premium") {
+        const payload = {
+          tier: monetizationUserTier.value,
+          source: "admin_simulator",
+          iat: Date.now()
+        };
+        const encoded = btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+        localStorage.setItem("omnitool_license_token", `${encoded}.admin_simulated_sig`);
+      }
 
       const overrides = {};
       container.querySelectorAll(".tool-tier-override-select").forEach(select => {
@@ -1183,11 +1933,12 @@ export default {
         appInstance.refreshDonationButtons();
       }
 
-      appInstance.showToast("✅ Settings saved! Changes are live instantly. Use \"Export Config\" to download ad-config.json for deployment.", "success");
+      appInstance.showToast("✅ Settings & Payment Gateways saved! Changes are live across all tools.", "success");
       if (typeof appInstance.playSynthSound === 'function') {
         appInstance.playSynthSound('save');
       }
       updateSimulatorPreview();
+      updatePaymentSimulator();
 
       // Trigger active layouts update
       if (typeof appInstance.renderDashboard === 'function') {
@@ -1247,6 +1998,33 @@ export default {
         "omnitool_crypto_usdt": cryptoUsdtInput ? cryptoUsdtInput.value.trim() : "TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c",
         "omnitool_crypto_btc": cryptoBtcInput ? cryptoBtcInput.value.trim() : "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
         "omnitool_crypto_eth": cryptoEthInput ? cryptoEthInput.value.trim() : "0x71C53316E28b4923eFFe35E2D8527a2754664982",
+        "omnitool_gw_upi_enabled": gwToggleUpi ? (gwToggleUpi.checked ? "true" : "false") : "true",
+        "omnitool_gw_bank_enabled": gwToggleBank ? (gwToggleBank.checked ? "true" : "false") : "false",
+        "omnitool_gw_gumroad_enabled": gwToggleGumroad ? (gwToggleGumroad.checked ? "true" : "false") : "true",
+        "omnitool_gw_paypal_enabled": gwTogglePaypal ? (gwTogglePaypal.checked ? "true" : "false") : "true",
+        "omnitool_gw_razorpay_enabled": gwToggleRazorpay ? (gwToggleRazorpay.checked ? "true" : "false") : "true",
+        "omnitool_gw_crypto_enabled": gwToggleCrypto ? (gwToggleCrypto.checked ? "true" : "false") : "true",
+        "omnitool_gw_coffee_enabled": gwToggleCoffee ? (gwToggleCoffee.checked ? "true" : "false") : "true",
+        "omnitool_gw_guide_enabled": gwToggleGuide ? (gwToggleGuide.checked ? "true" : "false") : "true",
+        "omnitool_gw_custom_enabled": gwToggleCustom ? (gwToggleCustom.checked ? "true" : "false") : "false",
+        "omnitool_upi_mode": upiModePerApp && upiModePerApp.checked ? "per_app" : "single",
+        "omnitool_upi_gpay_id": upiGpayId ? upiGpayId.value.trim() : "",
+        "omnitool_upi_phonepe_id": upiPhonepeId ? upiPhonepeId.value.trim() : "",
+        "omnitool_upi_paytm_id": upiPaytmId ? upiPaytmId.value.trim() : "",
+        "omnitool_upi_bhim_id": upiBhimId ? upiBhimId.value.trim() : "",
+        "omnitool_upi_cred_id": upiCredId ? upiCredId.value.trim() : "",
+        "omnitool_custom_gw_tab_label": customGwTabLabel ? customGwTabLabel.value.trim() : "Custom Payment",
+        "omnitool_custom_gw_icon": customGwIcon ? customGwIcon.value.trim() : "💳",
+        "omnitool_custom_gw_title": customGwTitle ? customGwTitle.value.trim() : "Custom Payment System",
+        "omnitool_custom_gw_badge": customGwBadge ? customGwBadge.value.trim() : "Instant Activation",
+        "omnitool_custom_gw_url": customGwUrl ? customGwUrl.value.trim() : "#",
+        "omnitool_custom_gw_btn_text": customGwBtnText ? customGwBtnText.value.trim() : "Continue to Payment",
+        "omnitool_custom_gw_desc": customGwDesc ? customGwDesc.value.trim() : "Direct secure payment method.",
+        "omnitool_custom_gw_features": customGwFeatures ? customGwFeatures.value.trim() : "",
+        "omnitool_price_lifetime_usd": priceLifetimeUsd ? priceLifetimeUsd.value.trim() : "$29.99",
+        "omnitool_price_lifetime_inr": priceLifetimeInr ? priceLifetimeInr.value.trim() : "₹2,499",
+        "omnitool_price_monthly_usd": priceMonthlyUsd ? priceMonthlyUsd.value.trim() : "$4.99",
+        "omnitool_price_monthly_inr": priceMonthlyInr ? priceMonthlyInr.value.trim() : "₹399",
         "omnitool_adsterra_smart_link": adsterraSmartLink ? adsterraSmartLink.value.trim() : "",
         "omnitool_preserve_settings_on_reset": preserveSettingsReset ? (preserveSettingsReset.checked ? "true" : "false") : "false",
         "omnitool_accent_preset": activePreset,
@@ -1254,7 +2032,7 @@ export default {
         "omnitool_default_view": appStartup.value,
         "omnitool_clock_format": appClock.value,
         "omnitool_audio_feedback": appAudio.checked ? "true" : "false",
-        "omnitool_admin_passcode": adminPasscode ? adminPasscode.value.trim() : "admin123",
+        "omnitool_auth_mode": "secure_serverless",
         "omnitool_monetization_active": monetizationGlobal.checked ? "true" : "false",
         "omnitool_user_tier": monetizationUserTier.value,
         "omnitool_monetization_overrides": localStorage.getItem("omnitool_monetization_overrides") || "{}"
@@ -1370,7 +2148,28 @@ export default {
     });
 
     container.querySelector("#ad-settings-save")?.addEventListener("click", saveSettings);
-    container.querySelector("#app-backup-export")?.addEventListener("click", triggerAdConfigDownload);
+    container.querySelector("#btn-adm-save-top")?.addEventListener("click", saveSettings);
+    container.querySelector("#btn-adm-lock-session")?.addEventListener("click", () => {
+      sessionStorage.removeItem("omnitool_admin_authenticated");
+      sessionStorage.removeItem("omnitool_admin_token");
+      sessionStorage.removeItem("omnitool_stealth_admin_unlocked");
+      appInstance.showToast("🔒 Admin session locked. Returned to Dashboard.", "info");
+      appInstance.backToDashboard();
+    });
+    container.querySelector("#btn-adm-hard-refresh")?.addEventListener("click", () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (let reg of registrations) reg.unregister();
+        });
+      }
+      if ('caches' in window) {
+        caches.keys().then(names => Promise.all(names.map(name => caches.delete(name)))).then(() => {
+          location.reload();
+        });
+      } else {
+        location.reload();
+      }
+    });
     
     container.querySelector("#ad-settings-reset")?.addEventListener("click", () => {
       if (confirm("Reset Settings and ad placements to defaults?")) {

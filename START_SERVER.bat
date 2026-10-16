@@ -36,7 +36,7 @@ if %ERRORLEVEL% equ 0 (
     start http://127.0.0.1:8000
     echo Press Ctrl+C in this window anytime to stop the server.
     echo ----------------------------------------------------------
-    python -m http.server 8000
+    python scripts\local-server.py 8000
     goto :end
 )
 

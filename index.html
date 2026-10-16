@@ -31,7 +31,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=1.2.6">
+  <link rel="stylesheet" href="style.css?v=1.3.0">
+  <link rel="modulepreload" href="tools/utils.js">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/svg+xml"
@@ -305,6 +306,14 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
           <span>Ko-fi / Coffee</span>
         </button>
+        <button type="button" class="chk-tab-btn chk-tab-guide" data-gateway="guide" id="chk-tab-guide" role="tab" aria-selected="false" onclick="app.switchCheckoutGateway('guide')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <span>📖 Payment Guide &amp; Steps</span>
+        </button>
+        <button type="button" class="chk-tab-btn" data-gateway="custom" id="chk-tab-custom" role="tab" aria-selected="false" onclick="app.switchCheckoutGateway('custom')" style="display: none;">
+          <span id="chk-custom-tab-icon">💳</span>
+          <span id="chk-custom-tab-label">Custom Payment</span>
+        </button>
       </div>
 
       <!-- Gateway Panels Container -->
@@ -395,6 +404,10 @@
                 </div>
                 <div class="upi-dynamic-guide-box" id="upi-app-dynamic-guide">
                   Open <strong>any UPI app</strong> on your phone ➔ Scan the QR code or send to <code>ravik0892@okaxis</code> ➔ Enter 12-digit UTR below.
+                </div>
+                <div class="upi-guide-helper-bar">
+                  <span>💡 Not sure where to find your 12-digit UTR on GPay/PhonePe?</span>
+                  <button type="button" class="link-btn-text" onclick="app.switchCheckoutGateway('guide')">View Step-by-Step Guide &rarr;</button>
                 </div>
               </div>
             </div>
@@ -557,6 +570,92 @@
             </a>
           </div>
         </div>
+
+        <!-- 7. IN-MODAL STEP-BY-STEP PAYMENT GUIDE PANEL -->
+        <div class="checkout-panel" id="chk-panel-guide">
+          <div class="chk-guide-banner">
+            <div class="cpb-icon-circle" style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-size: 18px; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">📖</div>
+            <div class="cpb-text">
+              <strong style="color: var(--text-main); font-size: 13px;">Complete 4-Step Payment &amp; Instant Activation Guide</strong>
+              <span style="font-size: 11.5px; color: var(--text-muted); display: block; margin-top: 2px;">Follow these 4 simple steps to pay and unlock PRO immediately without waiting.</span>
+            </div>
+          </div>
+
+          <div class="chk-guide-steps-grid">
+            <div class="chk-guide-step-card">
+              <div class="cg-step-header"><span>Step 1</span> • Select Tier</div>
+              <div class="cg-step-title">Choose Lifetime or Monthly</div>
+              <div class="cg-step-desc">Click either the <strong>Lifetime Pass ($29.99 / ₹2,499)</strong> or <strong>Pro Monthly ($4.99/mo / ₹399)</strong> pill at top.</div>
+            </div>
+
+            <div class="chk-guide-step-card">
+              <div class="cg-step-header"><span>Step 2</span> • Pay Securely</div>
+              <div class="cg-step-title">Select Your Gateway</div>
+              <div class="cg-step-desc">Pick <strong>UPI / QR</strong> (GPay, PhonePe, Paytm), <strong>Cards via Gumroad</strong>, <strong>Bank IMPS</strong>, <strong>PayPal</strong>, or <strong>Crypto</strong>.</div>
+            </div>
+
+            <div class="chk-guide-step-card highlight">
+              <div class="cg-step-header green"><span>Step 3</span> • Locate Code</div>
+              <div class="cg-step-title">Copy UTR / License Key</div>
+              <div class="cg-step-desc">From your payment app receipt, copy the <strong>12-digit UTR</strong> (or Gumroad key from email, or Crypto TXID).</div>
+            </div>
+
+            <div class="chk-guide-step-card highlight">
+              <div class="cg-step-header green"><span>Step 4</span> • Unlock PRO</div>
+              <div class="cg-step-title">Instant Client-Side Activation</div>
+              <div class="cg-step-desc">Paste your 12-digit number into the activation box below and click <strong>"Unlock PRO Access"</strong>. Active in 0 seconds!</div>
+            </div>
+          </div>
+
+          <!-- UTR Locator Breakdown in Modal -->
+          <div class="chk-utr-matrix-box">
+            <div class="chk-utr-matrix-title">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>Where to find the 12-Digit UTR on popular payment apps:</span>
+            </div>
+            <div class="chk-utr-pills-row">
+              <div class="chk-utr-pill">🔵 Google Pay: <strong>UPI transaction ID (12 digits)</strong></div>
+              <div class="chk-utr-pill">🟣 PhonePe: <strong>UTR / Bank Ref (12 digits)</strong></div>
+              <div class="chk-utr-pill">🔷 Paytm: <strong>UPI Ref No (12 digits)</strong></div>
+              <div class="chk-utr-pill">⚪ Cred: <strong>Reference ID (12 digits)</strong></div>
+              <div class="chk-utr-pill">🏦 Net Banking: <strong>IMPS Ref / Journal No (12 digits)</strong></div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 10px;">
+            <button type="button" class="tool-btn primary" onclick="app.switchCheckoutGateway('upi')" style="font-size: 12px; height: 34px; padding: 0 14px;">
+              ⚡ Ready to Pay? Open UPI / QR Tab
+            </button>
+            <a href="guides/payment-guide.html" target="_blank" class="caf-guide-link" style="font-size: 12px;">
+              <span>Read Full Documentation &amp; FAQ Page &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 8. CUSTOM PAYMENT GATEWAY PANEL -->
+        <div class="checkout-panel" id="chk-panel-custom">
+          <div class="chk-panel-banner" id="chk-custom-banner" style="background: linear-gradient(135deg, rgba(0, 242, 254, 0.1) 0%, rgba(157, 78, 221, 0.1) 100%); border: 1px solid rgba(0, 242, 254, 0.25);">
+            <div class="cpb-icon-circle" id="chk-custom-icon-circle" style="font-size: 20px;">💳</div>
+            <div class="cpb-text">
+              <strong id="chk-custom-title-display">Custom Payment Gateway</strong>
+              <span id="chk-custom-desc-display">Direct secure payment method.</span>
+            </div>
+          </div>
+          <div class="chk-features-box" id="chk-custom-features-box">
+            <div class="chk-feature-item">✔ 256-Bit SSL Encrypted checkout</div>
+            <div class="chk-feature-item">✔ Instant automated verification</div>
+          </div>
+          <div class="chk-action-row">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="tool-btn primary chk-cta-btn" id="chk-custom-cta-btn">
+              <span id="chk-custom-cta-text">Continue to Payment</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+          <div class="upi-help-note" style="margin-top: 14px;">
+            <span>💡</span>
+            <span id="chk-custom-note-display">After completing your payment, enter your transaction reference number, customer email, or invoice key in the activation box below to unlock PRO immediately.</span>
+          </div>
+        </div>
       </div>
 
       <!-- Instant Key / UTR Redemption Box -->
@@ -572,10 +671,17 @@
           <input type="text" id="checkout-activation-input" class="form-input" placeholder="Enter 12-digit UPI UTR, Crypto TXID, or License Key" autocomplete="off" spellcheck="false">
           <button type="submit" class="tool-btn primary" id="checkout-activate-btn">Unlock PRO Access</button>
         </form>
-        <div class="caf-hints">
-          <span class="caf-hint-item"><span style="color: #10b981;">✔</span> 12-digit UPI UTR</span>
-          <span class="caf-hint-item"><span style="color: #10b981;">✔</span> Crypto TXID / Hash</span>
-          <span class="caf-hint-item"><span style="color: #10b981;">✔</span> Gumroad / PayPal Key</span>
+        <div id="caf-validation-status" class="caf-status-badge" style="display: none;"></div>
+        <div class="caf-sub-row">
+          <div class="caf-hints" style="margin: 0;">
+            <span class="caf-hint-item"><span style="color: #10b981;">✔</span> 12-digit UPI UTR</span>
+            <span class="caf-hint-item"><span style="color: #10b981;">✔</span> Crypto TXID / Hash</span>
+            <span class="caf-hint-item"><span style="color: #10b981;">✔</span> Gumroad / PayPal Key</span>
+          </div>
+          <a href="guides/payment-guide.html" target="_blank" class="caf-guide-link">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>Payment Guide &amp; FAQ &rarr;</span>
+          </a>
         </div>
       </div>
     </div>
@@ -1336,6 +1442,21 @@
               Get unlimited access to all 28 developer utilities with your preferred level of ad configuration.</p>
           </div>
 
+          <!-- STEP-BY-STEP PAYMENT & ACTIVATION GUIDE BANNER -->
+          <div class="plans-guide-banner">
+            <div class="pgb-left">
+              <span class="pgb-icon">📘</span>
+              <div class="pgb-text">
+                <strong>First Time Upgrading? Follow Our Quick Payment Guide</strong>
+                <span>Step-by-step instructions for UPI QR (GPay, PhonePe, Paytm), Cards via Gumroad, Bank IMPS, and instant 0-second UTR unlock.</span>
+              </div>
+            </div>
+            <div class="pgb-actions">
+              <a href="guides/payment-guide.html" target="_blank" class="tool-btn secondary" style="font-size: 12.5px; height: 38px; text-decoration: none;">Read Full Guide</a>
+              <button type="button" class="tool-btn primary" onclick="app.openCheckout('lifetime', 'guide')" style="font-size: 12.5px; height: 38px;">Guided Checkout</button>
+            </div>
+          </div>
+
           <div class="plans-grid">
 
             <!-- FREE PLAN -->
@@ -1449,16 +1570,19 @@
               us or have an activation code?</h4>
             <p style="margin: 0 0 12px 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Enter your
               activation passcode below to unlock your Pro or Lifetime membership status.</p>
-            <form id="plans-activation-form" style="display: flex; gap: 10px; width: 100%;"
+            <form id="plans-activation-form" style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;"
               onsubmit="event.preventDefault();">
-              <input type="text" name="username" autocomplete="username" style="display: none;">
-              <input type="password" id="plans-activation-code" class="form-input"
-                style="height: 38px; font-size: 13px; flex-grow: 1;" placeholder="Enter activation license key"
-                autocomplete="new-password">
+              <input type="text" id="plans-activation-code" class="form-input"
+                style="height: 38px; font-size: 13px; flex-grow: 1; min-width: 260px;" placeholder="Enter 12-digit UPI UTR, Crypto TXID, or License Key"
+                autocomplete="off" spellcheck="false">
               <button type="submit" class="tool-btn primary" id="plans-activate-btn"
                 style="height: 38px; white-space: nowrap; font-weight: 700; border-radius: 8px;">Activate
                 License</button>
             </form>
+            <div style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--text-muted);">
+              <span>Supports 12-digit UPI UTR, Crypto Hash, and Gumroad Keys</span>
+              <a href="guides/payment-guide.html" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-weight: 700;">Where to find my code? &rarr;</a>
+            </div>
           </div>
         </div>
 
@@ -1516,8 +1640,8 @@
   <!-- Toast system portal -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- Core JavaScript controllers -->
-  <script src="app.js?v=1.2.6"></script>
+  <!-- Core JavaScript controllers (Razorpay SDK loads on-demand upon checkout) -->
+  <script src="app.js?v=1.3.2"></script>
 
   <!-- Vercel Web Analytics -->
   <script>

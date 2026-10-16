@@ -29,10 +29,13 @@ npm run dev
 ```
 Once started, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
-### C. Python Static Server (Alternative)
-If you don't have Node.js installed, you can spin up a static server instantly using Python on port `8000`:
+### C. Python Server (Full API & POST Support)
+If you prefer Python over Node.js, run the enhanced Python server which supports both static file serving and all `/api/*` serverless simulation endpoints (POST & GET):
 ```bash
-# For Python 3.x
+# Recommended: Full API & POST support
+python scripts/local-server.py 8000
+
+# Alternative: Standard static-only server (Auth and Licenses use offline WebCrypto engine)
 python -m http.server 8000
 ```
 Once started, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
@@ -83,10 +86,31 @@ scripts\push_to_github.bat
 
 ---
 
-## 4. Admin Access & Master Credentials
+## 4. Security Architecture & Administrative Access
 
-| Feature | Access URL | Master Passcode | Description |
+OmniTool Hub implements an **Advanced Enterprise-Grade Cryptographic Security Architecture**:
+- **Automated Payment Gateway:** Real-time Razorpay order creation and HMAC-SHA256 signature verification via `/api/create-razorpay-order` and `/api/verify-razorpay-payment`.
+- **Gumroad License Verification:** Live verification via the official Gumroad API (`/api/verify-license`).
+- **Cryptographic License Tokens:** Digital tokens signed with HMAC-SHA256 master secrets that prevent client-side manipulation or privilege escalation.
+- **Client Anti-Tamper Watchdog:** Automatically detects and revokes unauthorized `localStorage` edits without valid signatures.
+- **Rate-Limited Admin Security:** Protected against brute-force attacks with IP rate limiting and SHA-256 password hashing.
+
+### A. Administrative Access Credentials
+
+| Feature | Access URL | Default Master Passcode | Description |
 | :--- | :--- | :--- | :--- |
-| **Admin Control Panel** | [http://127.0.0.1:8000/#admin](http://127.0.0.1:8000/#admin) | `admin123` | Accessible on local server. Configures ads, bank details, UPI ID, and crypto wallets. |
-| **Instant PRO Lifetime Unlock** | [http://127.0.0.1:8000/#plans](http://127.0.0.1:8000/#plans) | `admin123` | Enter master passcode into the license/activation field to instantly unlock Lifetime PRO access. |
+| **Admin Control Panel** | [http://127.0.0.1:8000/#admin](http://127.0.0.1:8000/#admin) | `OmniAdmin@2026#` | Protected by serverless rate-limited auth. Includes built-in Cryptographic License Key Generator. |
+| **Cryptographic License Generator** | Inside `#admin` &rarr; Monetization Tiers | Admin Token Required | Issues authentic signed license keys (`OMNI-PRO-...` / `OMNI-MON-...`) for manual payments. |
+
+### B. Production Environment Variables (Vercel)
+
+Set these environment variables in your Vercel Project Dashboard for live production payments:
+
+```env
+LICENSE_SECRET_KEY=your_private_cryptographic_secret_minimum_32_chars
+RAZORPAY_KEY_ID=rzp_live_your_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_secret_key
+GUMROAD_PRODUCT_PERMALINK=omnitool-pro
+ADMIN_PASSWORD_HASH=3dfd014c226f9ba7144e5fae62933e8ca7ebbf94f0e4b85da57774c43b9df7ea
+```
 

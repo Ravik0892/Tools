@@ -8,12 +8,12 @@ export default {
   defaultTemplates: {
     glowButton: {
       html: `<!-- Cyber Glow Button -->\n<div class="container">\n  <button class="cyber-btn">INJECT SYSTEM OVERRIDE</button>\n  <div id="counter-log">Access Logs: 0 inputs</div>\n</div>`,
-      css: `body {\n  background: #0d0e12;\n  color: #a9b2c3;\n  font-family: 'Outfit', sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 90vh;\n  margin: 0;\n}\n\n.container {\n  text-align: center;\n}\n\n.cyber-btn {\n  background: transparent;\n  color: #00f2fe;\n  border: 2px solid #00f2fe;\n  padding: 16px 32px;\n  font-weight: 700;\n  letter-spacing: 2px;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);\n  position: relative;\n  overflow: hidden;\n}\n\n.cyber-btn:hover {\n  background: #00f2fe;\n  color: #0d0e12;\n  box-shadow: 0 0 30px #00f2fe;\n  text-shadow: none;\n}\n\n#counter-log {\n  margin-top: 20px;\n  font-family: monospace;\n  font-size: 14px;\n  color: #9d4edd;\n}`,
+      css: `html, body {\n  height: 100%;\n  margin: 0;\n}\n\nbody {\n  background: #0d0e12;\n  color: #a9b2c3;\n  font-family: 'Outfit', sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.container {\n  text-align: center;\n}\n\n.cyber-btn {\n  background: transparent;\n  color: #00f2fe;\n  border: 2px solid #00f2fe;\n  padding: 16px 32px;\n  font-weight: 700;\n  letter-spacing: 2px;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);\n  position: relative;\n  overflow: hidden;\n}\n\n.cyber-btn:hover {\n  background: #00f2fe;\n  color: #0d0e12;\n  box-shadow: 0 0 30px #00f2fe;\n  text-shadow: none;\n}\n\n#counter-log {\n  margin-top: 20px;\n  font-family: monospace;\n  font-size: 14px;\n  color: #9d4edd;\n}`,
       js: `// Interactive button logic\nlet clicks = 0;\nconst btn = document.querySelector('.cyber-btn');\nconst logger = document.querySelector('#counter-log');\n\nbtn.addEventListener('click', () => {\n  clicks++;\n  logger.innerText = \`Access Logs: \${clicks} override request(s) sent\`;\n  console.log(\`[System Override] Command trigger sent! Total count: \${clicks}\`);\n  \n  if (clicks >= 5) {\n    console.warn("[ALERT] High frequency overrides detected. Restricting throttle!");\n  }\n});`
     },
     digitalClock: {
       html: `<!-- Glassmorphism Clock Widget -->\n<div class="clock-wrapper">\n  <div class="glass-clock">\n    <div class="clock-label">NEON ENGINE CLOCK</div>\n    <div id="clock-time">00:00:00</div>\n    <div id="clock-date">SYSTEM DATED</div>\n  </div>\n</div>`,
-      css: `body {\n  background: radial-gradient(circle, #1a1b26 0%, #0d0e12 100%);\n  color: #fff;\n  font-family: 'Outfit', sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 90vh;\n  margin: 0;\n}\n\n.clock-wrapper {\n  padding: 2px;\n  background: linear-gradient(135deg, #00f2fe, #9d4edd);\n  border-radius: 20px;\n  box-shadow: 0 10px 40px rgba(0,0,0,0.5);\n}\n\n.glass-clock {\n  background: rgba(13, 14, 18, 0.85);\n  backdrop-filter: blur(12px);\n  border-radius: 18px;\n  padding: 30px 40px;\n  text-align: center;\n}\n\n.clock-label {\n  font-size: 11px;\n  letter-spacing: 3px;\n  color: #00f2fe;\n  margin-bottom: 12px;\n  font-weight: 700;\n}\n\n#clock-time {\n  font-size: 44px;\n  font-family: monospace;\n  font-weight: bold;\n  color: #9d4edd;\n  text-shadow: 0 0 15px rgba(157, 78, 221, 0.6);\n  letter-spacing: 2px;\n}\n\n#clock-date {\n  margin-top: 12px;\n  font-size: 13px;\n  color: #565f89;\n  font-weight: 500;\n}`,
+      css: `html, body {\n  height: 100%;\n  margin: 0;\n}\n\nbody {\n  background: radial-gradient(circle, #1a1b26 0%, #0d0e12 100%);\n  color: #fff;\n  font-family: 'Outfit', sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.clock-wrapper {\n  padding: 2px;\n  background: linear-gradient(135deg, #00f2fe, #9d4edd);\n  border-radius: 20px;\n  box-shadow: 0 10px 40px rgba(0,0,0,0.5);\n}\n\n.glass-clock {\n  background: rgba(13, 14, 18, 0.85);\n  backdrop-filter: blur(12px);\n  border-radius: 18px;\n  padding: 30px 40px;\n  text-align: center;\n}\n\n.clock-label {\n  font-size: 11px;\n  letter-spacing: 3px;\n  color: #00f2fe;\n  margin-bottom: 12px;\n  font-weight: 700;\n}\n\n#clock-time {\n  font-size: 44px;\n  font-family: monospace;\n  font-weight: bold;\n  color: #9d4edd;\n  text-shadow: 0 0 15px rgba(157, 78, 221, 0.6);\n  letter-spacing: 2px;\n}\n\n#clock-date {\n  margin-top: 12px;\n  font-size: 13px;\n  color: #565f89;\n  font-weight: 500;\n}`,
       js: `// Run clock update routine\nconsole.log("[Daemon] Launching background clock thread...");\n\nfunction updateClock() {\n  const now = new Date();\n  const timeStr = now.toTimeString().split(' ')[0];\n  const dateStr = now.toDateString().toUpperCase();\n  \n  const timeEl = document.querySelector('#clock-time');\n  const dateEl = document.querySelector('#clock-date');\n  \n  if (timeEl) timeEl.innerText = timeStr;\n  if (dateEl) dateEl.innerText = dateStr;\n}\n\n// Run initially and then on interval\nupdateClock();\nsetInterval(updateClock, 1000);\n\nconsole.log("[Daemon] Clock initialized successfully.");`
     }
   },
@@ -46,7 +46,7 @@ export default {
               <div class="editor-header" style="background: rgba(157, 78, 221, 0.1); border-bottom: 1px solid rgba(157, 78, 221, 0.2); padding: 6px 12px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 11px; font-weight: bold; color: #9d4edd; letter-spacing: 1px;">HTML (Body Structure)</span>
               </div>
-              <textarea id="play-html" class="editor-textarea" style="flex: 1; width: 100%; border: none; background: transparent; color: #a9b2c3; font-family: var(--font-mono); font-size: 12px; padding: 10px; resize: none; outline: none; line-height: 1.5;" placeholder="Enter body HTML markup here..."></textarea>
+              <textarea id="play-html" class="editor-textarea" style="flex: 1; width: 100%; border: none; background: transparent; color: var(--text-main); font-family: var(--font-mono); font-size: 12.5px; padding: 12px; resize: none; outline: none; line-height: 1.55;" placeholder="Enter body HTML markup here..."></textarea>
             </div>
 
             <!-- CSS Editor -->
@@ -54,7 +54,7 @@ export default {
               <div class="editor-header" style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 12px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 11px; font-weight: bold; color: #10b981; letter-spacing: 1px;">CSS (Document Styling)</span>
               </div>
-              <textarea id="play-css" class="editor-textarea" style="flex: 1; width: 100%; border: none; background: transparent; color: #a9b2c3; font-family: var(--font-mono); font-size: 12px; padding: 10px; resize: none; outline: none; line-height: 1.5;" placeholder="Enter document CSS styles here..."></textarea>
+              <textarea id="play-css" class="editor-textarea" style="flex: 1; width: 100%; border: none; background: transparent; color: var(--text-main); font-family: var(--font-mono); font-size: 12.5px; padding: 12px; resize: none; outline: none; line-height: 1.55;" placeholder="Enter document CSS styles here..."></textarea>
             </div>
 
             <!-- JavaScript Editor -->
@@ -62,7 +62,7 @@ export default {
               <div class="editor-header" style="background: rgba(245, 158, 11, 0.1); border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding: 6px 12px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 11px; font-weight: bold; color: #f59e0b; letter-spacing: 1px;">JavaScript (Interactive Logic)</span>
               </div>
-              <textarea id="play-js" class="editor-textarea" style="flex: 1; width: 100%; border: none; background: transparent; color: #a9b2c3; font-family: var(--font-mono); font-size: 12px; padding: 10px; resize: none; outline: none; line-height: 1.5;" placeholder="Enter standard JavaScript executable logic..."></textarea>
+              <textarea id="play-js" class="editor-textarea" style="flex: 1; width: 100%; border: none; background: transparent; color: var(--text-main); font-family: var(--font-mono); font-size: 12.5px; padding: 12px; resize: none; outline: none; line-height: 1.55;" placeholder="Enter standard JavaScript executable logic..."></textarea>
             </div>
 
             <!-- External Resources CDN Box -->
@@ -76,7 +76,7 @@ export default {
               </div>
               <div id="play-libs-body" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 8px;">
                 <div style="display: flex; gap: 8px;">
-                  <select id="play-lib-select" style="flex: 1; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 4px; padding: 4px 8px; font-size: 12px; outline: none;">
+                  <select id="play-lib-select" class="form-select" style="flex: 1; height: 32px; padding: 4px 10px; font-size: 12px;">
                     <option value="">-- Choose Popular Library --</option>
                     <option value="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">Tailwind CSS (v2.2)</option>
                     <option value="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">Font Awesome Icons (v6.4)</option>
@@ -86,11 +86,11 @@ export default {
                     <option value="https://cdn.jsdelivr.net/npm/chart.js">Chart.js</option>
                     <option value="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">Animate.css</option>
                   </select>
-                  <button class="tool-btn secondary" id="btn-play-add-preset" style="font-size: 11px; padding: 4px 10px; height: 28px;">Add</button>
+                  <button class="tool-btn secondary" id="btn-play-add-preset" style="font-size: 11.5px; padding: 4px 12px; height: 32px;">Add</button>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                  <input type="text" id="play-lib-custom" placeholder="Paste custom CDN .css or .js URL..." style="flex: 1; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 4px; padding: 4px 8px; font-size: 12px; outline: none;">
-                  <button class="tool-btn secondary" id="btn-play-add-custom" style="font-size: 11px; padding: 4px 10px; height: 28px;">Add URL</button>
+                  <input type="text" id="play-lib-custom" class="form-input input-text" placeholder="Paste custom CDN .css or .js URL..." style="flex: 1; height: 32px; padding: 4px 10px; font-size: 12px;">
+                  <button class="tool-btn secondary" id="btn-play-add-custom" style="font-size: 11.5px; padding: 4px 12px; height: 32px;">Add URL</button>
                 </div>
                 <div id="play-libs-list" style="display: flex; flex-direction: column; gap: 4px; max-height: 100px; overflow-y: auto; padding: 4px 0;">
                   <!-- Active libraries list with delete buttons -->
@@ -106,43 +106,43 @@ export default {
             <h3>Visual Sandbox Preview</h3>
             <div style="display: flex; align-items: center; gap: 8px;">
               <!-- Device Selectors -->
-              <div class="device-selectors" style="display: flex; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 2px;">
-                <button class="device-btn" data-size="100%" title="Desktop (100%)" style="background: var(--accent-cyan); border: none; color: #000; cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 3px;">💻 Full</button>
-                <button class="device-btn" data-size="768px" title="Tablet (768px)" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 3px;">📟 Tablet</button>
-                <button class="device-btn" data-size="375px" title="Mobile (375px)" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 3px;">📱 Mobile</button>
+              <div class="device-selectors" style="display: flex; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 8px; padding: 3px; gap: 2px;">
+                <button class="device-btn" data-size="100%" title="Desktop (100%)" style="background: var(--accent-cyan); border: none; color: #000; cursor: pointer; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px;">💻 Full</button>
+                <button class="device-btn" data-size="768px" title="Tablet (768px)" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px;">📟 Tablet</button>
+                <button class="device-btn" data-size="375px" title="Mobile (375px)" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px;">📱 Mobile</button>
               </div>
               
               <!-- Download Button -->
-              <button class="tool-btn secondary" id="btn-play-download" style="font-size: 11px; height: 26px; padding: 0 8px; display: inline-flex; align-items: center; gap: 4px;" title="Download as Single HTML File">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <button class="tool-btn secondary" id="btn-play-download" style="font-size: 11.5px; height: 30px; padding: 0 10px; display: inline-flex; align-items: center; gap: 5px;" title="Download as Single HTML File">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 Download
               </button>
             </div>
           </div>
 
           <!-- Preview Sandbox Frame Container -->
-          <div id="play-sandbox-container" style="flex: 1.2; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; background: #fff; min-height: 250px; position: relative; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin: 0 auto; width: 100%;">
-            <iframe id="play-sandbox" style="width: 100%; height: 100%; border: none; background: #fff;" sandbox="allow-scripts"></iframe>
+          <div id="play-sandbox-container" style="flex: 1.2; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; background: #0c0e15; min-height: 270px; position: relative; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin: 0 auto; width: 100%;">
+            <iframe id="play-sandbox" style="width: 100%; height: 100%; border: none; background: transparent;" sandbox="allow-scripts"></iframe>
           </div>
 
           <!-- Sandbox System Console Output -->
-          <div style="flex: 0.8; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; background: #0c0d12; min-height: 160px; max-height: 250px;">
-            <div style="background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 6px 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px;">
-              <span style="font-size: 11.5px; font-weight: 600; color: var(--text-muted); font-family: monospace;">Simulated Debug Console</span>
+          <div style="flex: 0.8; display: flex; flex-direction: column; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; background: #07090e; min-height: 160px; max-height: 250px;">
+            <div style="background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border-color); padding: 8px 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px;">
+              <span style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); font-family: var(--font-mono); letter-spacing: 0.5px;">SIMULATED DEBUG CONSOLE</span>
               
-              <div style="display: flex; gap: 6px; align-items: center;">
+              <div style="display: flex; gap: 8px; align-items: center;">
                 <!-- Console Filters -->
-                <div class="console-filters" style="display: flex; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 1px;">
-                  <button class="console-filter-btn active" data-filter="all" style="background: rgba(255,255,255,0.08); border: none; color: var(--text-main); cursor: pointer; padding: 2px 6px; border-radius: 3px; font-size: 9.5px; font-family: monospace; font-weight: 600;">All</button>
-                  <button class="console-filter-btn" data-filter="log" style="background: transparent; border: none; color: #10b981; cursor: pointer; padding: 2px 6px; border-radius: 3px; font-size: 9.5px; font-family: monospace; font-weight: 600;">Logs (<span id="count-logs">0</span>)</button>
-                  <button class="console-filter-btn" data-filter="warn" style="background: transparent; border: none; color: #f59e0b; cursor: pointer; padding: 2px 6px; border-radius: 3px; font-size: 9.5px; font-family: monospace; font-weight: 600;">Warns (<span id="count-warns">0</span>)</button>
-                  <button class="console-filter-btn" data-filter="error" style="background: transparent; border: none; color: var(--accent-rose); cursor: pointer; padding: 2px 6px; border-radius: 3px; font-size: 9.5px; font-family: monospace; font-weight: 600;">Errs (<span id="count-errs">0</span>)</button>
+                <div class="console-filters" style="display: flex; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; gap: 2px;">
+                  <button class="console-filter-btn active" data-filter="all" style="background: rgba(255,255,255,0.08); border: none; color: var(--text-main); cursor: pointer; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-family: var(--font-mono); font-weight: 700;">All</button>
+                  <button class="console-filter-btn" data-filter="log" style="background: transparent; border: none; color: #10b981; cursor: pointer; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-family: var(--font-mono); font-weight: 700;">Logs (<span id="count-logs">0</span>)</button>
+                  <button class="console-filter-btn" data-filter="warn" style="background: transparent; border: none; color: #f59e0b; cursor: pointer; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-family: var(--font-mono); font-weight: 700;">Warns (<span id="count-warns">0</span>)</button>
+                  <button class="console-filter-btn" data-filter="error" style="background: transparent; border: none; color: var(--accent-rose); cursor: pointer; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-family: var(--font-mono); font-weight: 700;">Errs (<span id="count-errs">0</span>)</button>
                 </div>
-                <button class="tool-btn secondary" id="play-console-clear" style="font-size: 10px; height: 20px; padding: 0 8px; line-height: 1; border-color: rgba(255,255,255,0.08);">Clear</button>
+                <button class="tool-btn secondary" id="play-console-clear" style="font-size: 11px; height: 24px; padding: 0 10px; line-height: 1; border-color: var(--border-color);">Clear</button>
               </div>
             </div>
-            <div id="play-console-logs" style="flex: 1; overflow-y: auto; padding: 10px; font-family: var(--font-mono); font-size: 11px; display: flex; flex-direction: column; gap: 4px; line-height: 1.4; user-select: text;">
-              <div style="color: #636f88; font-style: italic;">Console log messages will print here during script runs.</div>
+            <div id="play-console-logs" style="flex: 1; overflow-y: auto; padding: 10px 14px; font-family: var(--font-mono); font-size: 11.5px; display: flex; flex-direction: column; gap: 4px; line-height: 1.45; user-select: text;">
+              <div style="color: var(--text-muted); font-style: italic;">Console log messages will print here during script runs.</div>
             </div>
           </div>
         </div>
@@ -562,6 +562,13 @@ export default {
           <meta charset="utf-8">
           ${styleTags}
           <style>
+            html, body {
+              margin: 0;
+              padding: 0;
+              min-height: 100%;
+              background-color: #0d0e12;
+              color: #a9b2c3;
+            }
             ${cssCode}
           </style>
           ${consoleInterceptor}

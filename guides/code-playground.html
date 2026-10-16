@@ -162,7 +162,7 @@
     }
 
     .top-nav-inner {
-      max-width: 900px;
+      max-width: 1240px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -227,7 +227,7 @@
 
     /* Breadcrumbs */
     .breadcrumbs-wrap {
-      max-width: 860px;
+      max-width: 1240px;
       margin: 24px auto 0 auto;
       padding: 0 20px;
     }
@@ -258,7 +258,7 @@
 
     /* Container */
     .container {
-      max-width: 1060px;
+      max-width: 1240px;
       margin: 20px auto 0 auto;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -594,6 +594,49 @@
       min-height: 260px;
     }
 
+    /* Embedded Live Playground Full-Fidelity Responsive Overrides */
+    .live-guide-tool-viewport .tool-content-layout.split-view {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px !important;
+      position: static !important;
+      width: 100% !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      min-height: unset !important;
+      box-shadow: none !important;
+      border-radius: 12px !important;
+      overflow: visible !important;
+      padding: 20px !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type::after {
+      display: none !important;
+    }
+
+    .live-guide-tool-viewport .adjust-settings-fab,
+    .live-guide-tool-viewport .split-view-backdrop,
+    .live-guide-tool-viewport .drawer-close-btn {
+      display: none !important;
+    }
+
+    @media (min-width: 960px) {
+      .live-guide-tool-viewport .tool-content-layout.split-view {
+        display: grid !important;
+        grid-template-columns: 1fr 1.05fr !important;
+        gap: 20px !important;
+        align-items: start !important;
+      }
+    }
+
     .guide-tool-loading {
       display: flex;
       flex-direction: column;
@@ -873,7 +916,7 @@
 
     const targetModule = 'code-playground.js';
     try {
-      const module = await import('../tools/' + targetModule);
+      const module = await import('../tools/' + targetModule + '?v=' + Date.now());
       const toolInstance = module.default;
       const viewport = document.getElementById('live-guide-tool-viewport');
       if (toolInstance && typeof toolInstance.renderUI === 'function' && viewport) {

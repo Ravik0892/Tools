@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/local-static-server.mjs 8000",
+    "start": "node scripts/local-static-server.mjs 8000",
     "generate-guides": "node scripts/generate-guides.mjs"
   }
 }

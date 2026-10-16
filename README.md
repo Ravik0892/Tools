@@ -185,28 +185,37 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 
 ---
 
-## 🔐 Admin Control Panel & Master Passcode
+## 🔐 Admin Control Panel & Cryptographic Security
 
-The built-in Admin Control Panel lets you configure advertisements, branding, payees, and payment gateways client-side.
+OmniTool Hub incorporates an enterprise-grade security architecture:
+- **Serverless API Authentication**: Admin panel protected by IP rate limiting, SHA-256 password hashing, and signed session tokens.
+- **Cryptographic License Verification**: License tokens are signed with HMAC-SHA256 master secrets that reject forged or tampered `localStorage` entries.
+- **Automated Razorpay Checkout**: Real-time payment verification with HMAC-SHA256 signature validation.
+- **Gumroad License Verification**: Real-time license verification against Gumroad's official API (`/api/verify-license`).
 
-*   **Admin Access URL**: [http://127.0.0.1:8000/#admin](http://127.0.0.1:8000/#admin) (or `#tool/admin-settings` on local server)
-*   **Default Master Passcode**: `admin123`
-*   **PRO Master Activation Key**: Entering `admin123` into the License Key / UTR field on the `#plans` page or `#checkout` modal instantly unlocks full Lifetime PRO access!
+*   **Local Admin Access URL**: [http://127.0.0.1:8000/#admin](http://127.0.0.1:8000/#admin) (works directly on local development server)
+*   **Hostinger / Live Site Stealth Admin Access**:
+    *   **Method 1 (Secret URL)**: `https://yourdomain.com/#admin?key=omni2026` (or `#omni-admin`)
+    *   **Method 2 (Keyboard Shortcut)**: Press `Ctrl + Shift + Alt + A` anywhere on the site.
+    *   **Method 3 (Stealth Click)**: Click the footer copyright / version text 5 times quickly.
+    *   *Note: For all regular public visitors, the Admin Panel is 100% invisible and inaccessible.*
+*   **Default Master Passcode**: `OmniAdmin@2026#` (Protected by brute-force lockout after 5 failed attempts)
+*   **Cryptographic License Key Generator**: Generate signed keys (`OMNI-PRO-...` / `OMNI-MON-...`) inside `#admin` &rarr; Monetization Tiers.
 
 ### Available Configurations in Admin Panel:
 1.  **Payment Gateways & Payee Information**:
+    *   **Automated Razorpay Integration**: Direct in-app checkout with automated instant verification for cards, NetBanking, and UPI apps.
     *   **UPI ID (VPA)**: Set your payee UPI address (default: `ravik0892@okaxis`).
-    *   **Direct Bank Transfer**: Configure your Bank Name (e.g. State Bank of India, Punjab National Bank, Kotak), Beneficiary Name, Account Number, and IFSC code for direct IMPS/NEFT transfers.
-    *   **Gumroad / PayPal / Razorpay / Ko-fi**: Link your personal checkout and donation pages.
+    *   **Direct Bank Transfer**: Configure your Bank Name, Beneficiary Name, Account Number, and IFSC code for direct IMPS/NEFT transfers.
+    *   **Gumroad / PayPal / Ko-fi**: Link your checkout and donation pages.
     *   **Crypto Wallets**: Set deposit addresses for USDT (TRC-20), Bitcoin (BTC), and Ethereum (ETH).
-    *   **Custom License Keys**: Distribute comma-separated custom passcodes (e.g. `VIP-2026`, `MONTHLY-PRO`).
 2.  **Monetization & Advertisements**:
     *   Toggle global ads on/off.
     *   Configure Google AdSense Client ID & Slot IDs or AdMob Smart Banners.
     *   Set custom Sponsor brand names, slogans, and affiliate links with per-tool overrides.
 3.  **Security & System**:
-    *   Change the master passcode anytime from the "Admin Access Passcode" field.
-    *   Export all configurations to [ad-config.json](file:///f:/Tools%20website/ad-config.json) with 1 click.
+    *   Generate authentic signed license keys for manual customer orders.
+    *   Export configurations to [ad-config.json](file:///f:/Tools%20website/ad-config.json) safely without sensitive secret exposure.
 
 ---
 

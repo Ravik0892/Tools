@@ -50,3 +50,6 @@ captures/
 .tempmediaStorage/
 scratch/
 *.bak
+.env
+.env.*
+.env.local
