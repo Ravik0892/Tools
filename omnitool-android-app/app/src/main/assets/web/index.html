@@ -31,7 +31,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=1.3.0">
+  <link rel="stylesheet" href="style.css?v=1.3.4">
+  <link rel="modulepreload" href="tools/utils.js">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/svg+xml"
@@ -485,16 +486,31 @@
           <div class="chk-panel-banner paypal-banner">
             <div class="cpb-icon-circle">🅿️</div>
             <div class="cpb-text">
-              <strong>Secure PayPal Checkout</strong>
-              <span>Pay safely with your PayPal balance, linked bank account, or debit/credit card.</span>
+              <strong>Secure PayPal &amp; International Cards</strong>
+              <span>Pay instantly with PayPal balance, Credit Card, or Debit Card worldwide.</span>
             </div>
           </div>
           <div class="chk-features-box">
-            <div class="chk-feature-item">✔ Worldwide buyer protection &amp; multi-currency support</div>
-            <div class="chk-feature-item">✔ No card details shared with this website</div>
-            <div class="chk-feature-item">✔ Safe international checkout in USD / EUR / GBP</div>
+            <div class="chk-feature-item">✔ 100% Instant Automated Activation — No manual code entry</div>
+            <div class="chk-feature-item">✔ Supports Visa, MasterCard, Amex, Discover &amp; PayPal Balance</div>
+            <div class="chk-feature-item">✔ Safe international checkout in USD / EUR / GBP / AUD</div>
           </div>
-          <div class="chk-action-row">
+          <!-- Order Summary Pill for International Users -->
+          <div class="paypal-order-summary-card" id="chk-paypal-summary-card">
+            <div class="pos-left">
+              <span class="pos-badge">Selected Plan</span>
+              <strong id="chk-paypal-plan-title">Lifetime Developer Pass</strong>
+              <small id="chk-paypal-plan-desc">One-time payment • Lifetime access to all 28 tools</small>
+            </div>
+            <div class="pos-right">
+              <span class="pos-amount" id="chk-paypal-amount-display">$29.99</span>
+              <span class="pos-tax">Digital Delivery (No Shipping)</span>
+            </div>
+          </div>
+          <!-- Automated PayPal Smart Buttons Container -->
+          <div id="chk-paypal-smart-container" style="display: none;"></div>
+          <!-- Fallback Link Row -->
+          <div class="chk-action-row" id="chk-paypal-fallback-row">
             <a href="https://www.paypal.com" target="_blank" rel="noopener noreferrer" class="tool-btn primary chk-cta-btn paypal-btn-style" id="chk-paypal-btn">
               <span>Pay with PayPal</span>
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -1063,7 +1079,7 @@
                 </div>
                 <!-- Interactive Surprise Me / Lucky Tool Action -->
                 <button class="mega-surprise-btn" id="mega-surprise-btn" title="Pick a random utility to test right now">
-                  <span class="surprise-dice-icon">🎲</span>
+                  <span class="surprise-dice-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8" cy="8" r="1.2" fill="currentColor"></circle><circle cx="16" cy="8" r="1.2" fill="currentColor"></circle><circle cx="12" cy="12" r="1.2" fill="currentColor"></circle><circle cx="8" cy="16" r="1.2" fill="currentColor"></circle><circle cx="16" cy="16" r="1.2" fill="currentColor"></circle></svg></span>
                   <span>Surprise Me</span>
                 </button>
               </div>
@@ -1266,7 +1282,7 @@
               </div>
               <div class="hero-metric-sep"></div>
               <button class="hero-lucky-btn" id="hero-surprise-btn" title="Pick a random utility to test right now">
-                <span class="lucky-dice">🎲</span>
+                <span class="lucky-dice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8" cy="8" r="1.2" fill="currentColor"></circle><circle cx="16" cy="8" r="1.2" fill="currentColor"></circle><circle cx="12" cy="12" r="1.2" fill="currentColor"></circle><circle cx="8" cy="16" r="1.2" fill="currentColor"></circle><circle cx="16" cy="16" r="1.2" fill="currentColor"></circle></svg></span>
                 <span>Surprise Me</span>
               </button>
             </div>
@@ -1639,11 +1655,8 @@
   <!-- Toast system portal -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- Razorpay Official Checkout SDK -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-  <!-- Core JavaScript controllers -->
-  <script src="app.js?v=1.3.1"></script>
+  <!-- Core JavaScript controllers (Razorpay SDK loads on-demand upon checkout) -->
+  <script src="app.js?v=1.3.5"></script>
 
   <!-- Vercel Web Analytics -->
   <script>

@@ -1,79 +1,64 @@
 # OmniTool Hub — Master Tools, Tabs & Features Catalog
 > **Comprehensive Reference Manual for Users & AI Agents**  
-> **Total Registered Core Tools**: 62 Tools  
-> **Integrated Sub-Tool Tabs**: 25+ Sub-Tool Engines  
-> **Architecture**: 100% Client-Side Sandbox • Offline-First PWA • Zero Data Transmission
+> **Master Suite Hubs**: 45 High-Performance Powerhouse Hubs (Consolidating 62+ Specialized Utilities)  
+> **Integrated Sub-Tool Tabs**: 35+ Integrated Sub-Tool Engines  
+> **Architecture**: 100% Client-Side Sandbox • Offline-First PWA • Zero Data Transmission • Seamless Route Aliases
 
 ---
 
-## 📑 Quick Navigation Index
+## 📑 Master Navigation Index (Unified Hubs & Specialized Suites)
 
-| ID | Tool Name | Category | Sub-Tabs / Modes | Default Status |
-|---|---|---|---|:---:|
+| Primary ID | Tool Hub / Suite Name | Category | Consolidated Sub-Tool Tabs & Engines | Legacy Hash Route Aliases |
+|---|---|---|---|---|
+| `pdf-converter-hub` | **Document & PDF Converter Hub** | Text | 📄 Word (.docx) • 📊 Excel (.xlsx/.csv) • 📑 PowerPoint (.pptx) • 🖼️ Images & Camera Scan • 💻 HTML/CSS • 📝 Markdown | `#tool/word-pdf`, `#tool/excel-pdf`, `#tool/pptx-pdf`, `#tool/images-to-pdf`, `#tool/scan-to-pdf`, `#tool/html-to-pdf`, `#tool/pdf-to-markdown` |
+| `pdf-editor-suite` | **PDF Editor, Sign & Markup Studio** | Text | ✍️ E-Sign & Cursive • ✏️ Vector Annotate & Draw • 📋 AcroForm Filler • 🏷️ Watermark & Page Numbers • ⬛ Redact PII | `#tool/sign-pdf`, `#tool/pdf-annotate`, `#tool/pdf-forms`, `#tool/pdf-watermark`, `#tool/redact-pdf` |
+| `pdf-security-suite` | **PDF Security, Repair & Archival** | Text | 🔒 AES-256 Protect & Unlock • 🛠️ Xref Stream Repair • 🏛️ ISO 19005 PDF/A Archival | `#tool/pdf-security`, `#tool/repair-pdf`, `#tool/pdf-to-pdfa` |
+| `pdf-utilities` | **PDF Page Studio & Organizer** | Text | ✂️ Split & Extract • 🔗 Merge Multi-Doc • 🔄 Rotate & Reorder • 🗜️ Compress PDF | `#tool/pdf-organizer`, `#tool/crop-pdf` |
+| `qr-studio` | **Dynamic QR & Barcode Studio** | Developer | 🎨 Artistic Gradient QR Generator • 📷 Live Camera & Barcode Scanner | `#tool/qr-generator`, `#tool/qr-scanner` |
+| `audio-suite` | **Audio Studio & Video Demuxer** | Media | 🎧 Universal Audio Transcoder (MP3/WAV/OGG) • 🎬 Video Audio Extractor & Waveform Trimmer | `#tool/audio-converter`, `#tool/mp4-to-mp3` |
+| `color-lab` | **Color Lab & Contrast Suite** | Design | 🎨 WCAG Palette Generator • 🌓 Shades & Tints • 👁️ Image Color Extractor & Eyedropper | `#tool/color-extractor` |
+| `datetime-suite` | **Date, Time & Epoch Suite** | Math | ⏰ Epoch Timestamp Converter • 📅 Date Calculator & Durations | `#tool/epoch-converter`, `#tool/date-calculator` |
+| `formatter-suite` | **Data Formatter & Converter Suite** | Developer | 📜 JSON Beautifier • 💾 SQL Formatter • 📊 CSV / YAML Transformer | `#tool/json-formatter`, `#tool/sql-beautifier`, `#tool/json-yaml-csv` |
+| `text-encoder-suite` | **Text Cases & Encoder Suite** | Text | 🔠 Case Transformations • 🔐 Base64 En/Decoder • 🌐 URL En/Decoder | `#tool/text-converter`, `#tool/base64`, `#tool/url-encoder` |
+| `crypto-suite` | **Cryptography & Security Suite** | Developer | #️⃣ Hashes (MD5/SHA) • 🔐 AES-256-GCM • 🗝️ Asymmetric RSA Keypairs | `#tool/hash-generator`, `#tool/aes-crypto`, `#tool/rsa-generator` |
+| `security-suite` | **Security & Passwords Suite** | Math | 🔑 Password Generator • 🎲 RFC 4122 UUID v4 Bulk Generator | `#tool/password-generator`, `#tool/uuid-generator` |
+| `css-studio` | **CSS Studio Suite** | Design | 🌈 Gradients • 🔳 Box Shadows • 🪟 Glassmorphism • ✂️ Clip Path | `#tool/gradient-generator`, `#tool/box-shadow`, `#tool/glassmorphism-generator` |
 | `pipeline-builder` | Smart Chain Pipeline Builder | Developer | Sequential Multi-Stage Transformer | Active |
-| `formatter-suite` | Data Formatter & Converter Suite | Developer | JSON, SQL, CSV / YAML | Active |
 | `jwt-decoder` | JWT Token Decoder & Inspector | Developer | Claims, Header, Expiry Stamps | Active |
-| `crypto-suite` | Cryptography & Security Suite | Developer | Hashes, AES-256 GCM, RSA Keypairs | Active |
 | `pii-anonymizer` | Client-Side PII Masker & Anonymizer | Developer | Redact, Hash, Mask | Active |
 | `code-playground` | HTML/CSS/JS Live Playground | Developer | HTML, CSS, JS, Console Debugger | Active |
 | `curl-converter` | cURL to Multi-Language Converter | Developer | Fetch, Axios, Python, Go HTTP | Active |
 | `cron-builder` | Visual Cron Expression Builder | Developer | 5-Field Builder, Explainer, Next Times | Active |
 | `json-to-types` | JSON-to-Code Interface Converter | Developer | TypeScript, Python, Go, Rust | Active |
-| `robots-generator` | Robots.txt Visual Builder *(Phase 1)* | Developer | Rule Builder, AI Bot Shield, Sitemap | Active |
-| `temp-mail` | Disposable Temp Mail Client *(Phase 2)* | Developer | 10s Auto-Sync, HTML Reader, Trash | Active |
-| `qr-generator` | Dynamic Art QR Code Studio | Developer | Styling, Gradients, Logo Stamp | Active |
-| `qr-scanner` | Online QR Code & Barcode Scanner *(Phase 1)* | Developer | Live Camera, File Drop, Clipboard | Active |
+| `robots-generator` | Robots.txt Visual Builder | Developer | Rule Builder, AI Bot Shield, Sitemap | Active |
+| `temp-mail` | Disposable Temp Mail Client | Developer | 10s Auto-Sync, HTML Reader, Trash | Active |
 | `seo-previewer` | Meta Tag & SEO SERP Previewer | Developer | Google, Facebook, Twitter, Discord | Active |
-| `url-parser` | URL Query Parser & UTM Builder | Developer | Rebuilt URL, UTM Builder, JSON Payload | Active |
-| `text-encoder-suite`| Text Cases & Encoder Suite | Text | Case Converter, Base64, URL Encoder | Active |
+| `url-parser` | URL Query Parser & UTM Builder | Text | Rebuilt URL, UTM Builder, JSON Payload | Active |
 | `markdown-preview` | Live Split-Pane Markdown Previewer | Text | Markdown Editor, Live HTML Preview | Active |
 | `text-diff` | Text Diff & Comparison Tool | Text | Side-by-Side & Unified Diff | Active |
-| `pdf-searcher` | Multi-PDF Searcher & Client-Side OCR| Text | Multi-Doc Search, Tesseract OCR | Active |
-| `pdf-utilities` | PDF Toolbox (Split, Merge, Compress)| Text | Split & Save, Merge, Rotate, Compress | Active |
-| `images-to-pdf` | Images to PDF Compiler *(Phase 1)* | Text | Visual Board, Page Layout, PDF-Lib | Active |
-| `sign-pdf` | Sign PDF Document *(Phase 3)* | Text | Draw, Cursive Type, Seal Stamp, Placement | Active |
-| `pdf-security` | PDF Security & Password Suite *(Phase 3)* | Text | AES Protect, Lock Permissions, Decrypt | Active |
-| `pdf-watermark` | PDF Watermark & Page Numbers *(Phase 3)* | Text | Diagonal Watermark, Dynamic Page Numbers | Active |
-| `pdf-organizer` | Visual PDF Page Organizer *(Phase 3)* | Text | Drag-and-Drop Reorder, 90° Rotate, Delete | Active |
-| `crop-pdf` | Crop PDF Margins & Trim Box *(Phase 3)* | Text | Interactive Bounding Box, Margins, Scope | Active |
-| `pdf-forms` | PDF Form Filler & AcroForms *(Phase 3)* | Text | AcroForm Inspector, Field Fill, Flatten | Active |
-| `redact-pdf` | PDF Redact & Privacy Sanitizer *(Phase 3)* | Text | Coordinate Sanitization, Blackout Boxes | Active |
-| `excel-pdf` | Excel to PDF & PDF to Excel *(Phase 4)* | Text | XLSX to PDF, PDF to XLSX Table Parser | Active |
-| `word-pdf` | Word to PDF & PDF to Word *(Phase 4)* | Text | DOCX to PDF, PDF to Native Word | Active |
-| `html-to-pdf` | HTML to PDF Webpage Studio *(Phase 4)* | Text | Live CSS Sandbox, Invoices, 3x Scaling | Active |
-| `pdf-to-markdown` | PDF to Markdown Converter *(Phase 4)* | Text | GFM Headings, Pipe Tables, .md Export | Active |
-| `pdf-ai` | AI PDF Summarizer & Translator *(Phase 4)* | Text | Bullet Briefs, Actions, Chat, 15+ Languages | Active |
-| `scan-to-pdf` | Camera Scan to PDF *(Phase 4)* | Text | Live Cam Viewfinder, B&W Filter, Multi-Shot | Active |
-| `pptx-pdf` | PowerPoint to PDF & PDF to PPTX *(Phase 5)* | Text | PPTX to PDF, PDF to Native PowerPoint | Active |
-| `compare-pdf` | Compare PDF Documents *(Phase 5)* | Text | Side-by-Side, Pixel Diff Heatmap, Wipe, Text | Active |
-| `pdf-annotate` | Annotate & Draw on PDF *(Phase 5)* | Text | Pen, Highlighter, Stamps, Boxes, Arrows | Active |
-| `repair-pdf` | PDF Repair & Stream Recovery *(Phase 5)* | Text | Binary Header Offset, Xref Rebuild, Salvage | Active |
-| `pdf-to-pdfa` | PDF to PDF/A Archival Converter *(Phase 5)* | Text | PDF/A-1b, 2b, 3b, sRGB Intent, XMP | Active |
+| `pdf-searcher` | Multi-PDF Searcher & Client-Side OCR | Text | Multi-Doc Search, Tesseract OCR | Active |
+| `pdf-ai` | AI PDF Summarizer & Translator | Text | Bullet Briefs, Actions, Chat, 15+ Languages | Active |
+| `compare-pdf` | Compare PDF Documents | Text | Side-by-Side, Pixel Diff Heatmap, Wipe, Text | Active |
 | `regex-tester` | Visual Regex & Extractor Suite | Text | Regex Matcher, Extractor & Replacer | Active |
 | `text-analyzer` | Text Readability & Syllable Analyzer | Text | Stats, Flesch Score, Keyword Density | Active |
-| `lorem-generator` | Smart Lorem Ipsum Generator *(Phase 1)* | Text | Latin, Cyberpunk, B2B, HTML/MD/JSON | Active |
-| `mock-data-generator`| CSV/JSON Mock Data Generator | Text | Schema Designer, 50k Rows, CSV/JSON | Active |
-| `audio-converter` | Universal Audio Transcoder *(Phase 5)* | Media | MP3, WAV, OGG, 128k-320k Bitrates, Gain | Active |
-| `screen-recorder` | Browser Screen & Tab Recorder *(Phase 2)* | Media | Monitor, Tab, Mic Mix, WebM/MP4 | Active |
-| `voice-recorder` | Voice Recorder & Waveform *(Phase 2)* | Media | Spectrum Bars, Oscilloscope, 16-bit WAV | Active |
-| `video-speed` | Video Playback Speed Controller *(Phase 2)*| Media | 0.1x-4.0x, Frame Stepper, A-B Loop | Active |
-| `mp4-to-mp3` | MP4 to MP3 & WAV Extractor *(Phase 2)* | Media | Web Audio Demux, Waveform, Trimmer | Active |
-| `video-to-gif` | Video to Animated GIF *(Phase 2)* | Media | Custom FPS, Resolution, LZW Compiler | Active |
-| `css-studio` | CSS Studio Suite | Design | Gradients, Box Shadows, Glassmorphism, Clip Path | Active |
-| `color-lab` | Color Lab & Contrast Suite | Design | Palette Generator, Shades, Contrast | Active |
-| `color-extractor` | Image Color Palette Extractor *(Phase 1)* | Design | Dominant Palette, Loupe Eyedropper | Active |
-| `favicon-generator`| Favicon & App Icon Suite *(Phase 1)* | Design | .ICO, Apple Touch, Android, Previews | Active |
-| `graphics-studio` | Graphics Designer & Screenshot Studio| Design | Background, Text Overlays, Filters | Active |
+| `lorem-generator` | Smart Lorem Ipsum Generator | Text | Latin, Cyberpunk, B2B, HTML/MD/JSON | Active |
+| `mock-data-generator` | CSV/JSON Mock Data Generator | Developer | Schema Designer, 50k Rows, CSV/JSON | Active |
+| `screenshot-capture` | Browser Screen & Window Screenshot Studio | Design | Snip Screen/Tab, macOS/Win11 Frames, Redaction, Markup | Active |
+| `screen-recorder` | Browser Screen & Tab Recorder | Design | Monitor, Tab, Mic Mix, WebM/MP4 | Active |
+| `voice-recorder` | Voice Recorder & Waveform | Design | Spectrum Bars, Oscilloscope, 16-bit WAV | Active |
+| `video-speed` | Video Playback Speed Controller | Design | 0.1x-4.0x, Frame Stepper, A-B Loop | Active |
+| `video-to-gif` | Video to Animated GIF | Design | Custom FPS, Resolution, LZW Compiler | Active |
+| `favicon-generator` | Favicon & App Icon Suite | Design | .ICO, Apple Touch, Android, Previews | Active |
+| `graphics-studio` | Graphics Designer & Screenshot Studio | Design | Background, Text Overlays, Filters | Active |
 | `image-converter` | Image Optimizer & Converter | Design | Format (PNG/JPG/WebP), Resizer, Quality | Active |
 | `svg-animator` | Interactive SVG Animation Studio | Design | Keyframes, Presets, Self-Draw, Playback | Active |
 | `calculator` | Scientific Calculator & Grapher | Math | Keypad, History, Constants, 2D Graph | Active |
-| `datetime-suite` | Date, Time & Epoch Suite | Math | Epoch Converter, Date Calculator | Active |
 | `unit-converter` | Universal Unit Converter | Math | Storage, Length, Weight, Temperature | Active |
-| `security-suite` | High-Entropy Passwords & UUIDs | Math | Password Generator, UUID v4 Bulk | Active |
-| `ip-subnet-calculator`| IP Subnet CIDR & MAC Address Suite| Math | Subnet CIDR Calculator, MAC OUI | Active |
-| `admin-settings` | Master Administration & Ads Panel | Admin | Payments, Ads, Aesthetics, Visibility, Tiers, Backup | Local/Stealth |
+| `ip-subnet-calculator` | IP Subnet CIDR & MAC Address Suite | Math | Subnet CIDR Calculator, MAC OUI | Active |
+| `admin-settings` | Master Administration & Ads Panel | Developer | Payments, Ads, Aesthetics, Visibility, Tiers, Backup | Local/Stealth |
 
 ---
+
 
 ## 💻 1. Developer Utilities & Data Pipelines
 
@@ -752,6 +737,36 @@
 ---
 
 ## 🎬 4. Media, Audio & Video Recording Suite
+
+### 4.0 `screenshot-capture` — Browser Screen & Window Screenshot Studio
+*   **Hash Route**: `#tool/screenshot-capture` (Aliases: `#tool/browser-capture`, `#tool/screenshot`, `#tool/screen-capture`)
+*   **Category**: Media & Design (`design-graphics`)
+*   **Core Purpose**: Studio-grade screen, browser tab, and application window capture with SaaS mockup frames, privacy redaction, and step-by-step annotation markups.
+*   **Capture Modes**:
+    *   **Live Snip**: Captures displays, app windows, or browser tabs via `getDisplayMedia` with 0s/3s/5s/10s countdown delay timer.
+    *   **Clipboard Paste**: Press `Ctrl + V` anywhere or click "Paste" to decode and load captured screenshots instantly.
+    *   **File Drag & Drop**: Drop PNG, JPG, WebP, SVG screenshots directly onto the canvas.
+    *   **Webcam Snapshot**: Capture live webcam snapshots with mirror flip.
+    *   **Built-in Presets**: 1-click preview templates (SaaS Analytics, Code Editor IDE, Hero Page, Terminal CLI).
+*   **Mockup & Window Frame Studio**:
+    *   Themes: macOS Dark Glass (with traffic lights & frosted URL bar), macOS Light Clean, Windows 11 Mica, Cyberpunk Neon Terminal, Minimalist Borderless Shadow, Mobile Smartphone.
+    *   Controls: Editable URL address, SSL padlock toggle, window title, corner radius slider (0-32px), elevation shadow presets (Elevated 3D, Subtle, Neon Glow).
+*   **Backdrop & Canvas Studio**:
+    *   Styles: Modern gradients (Hyper Cyan, Cosmic Purple, Sunset Glow, Cyberpunk Dark, Emerald, Aurora, Midnight, Mesh), Solid color, Transparent PNG alpha.
+    *   Aspect Ratios: Auto fit, 16:9, 1:1, Twitter/X (1200x675), OpenGraph (1200x630), 4:3, 9:16.
+    *   Canvas padding slider (0-140px).
+*   **Annotation & Privacy Markup**:
+    *   **Privacy Blur / Redact**: True pixelation mosaic redaction to permanently obscure passwords, tokens, API keys, and PII.
+    *   **Numbered Step Callouts**: Auto-incrementing 1, 2, 3... gradient circle badges for documentation & bug reporting.
+    *   **Interactive Crop**: Bounding box drag crop with real-time frame recalculation.
+    *   **Vector Markup**: Directional arrows, bounding boxes, circles, semi-transparent highlighters, 2x zoom loupe magnifier.
+    *   **Color Eyedropper**: Click any pixel on the screenshot to sample exact HEX/RGB with auto-copy.
+*   **Export Pipeline**:
+    *   **1-Click Copy to Clipboard**: Direct `navigator.clipboard.write` for pasting into Slack, Discord, Jira, Notion, GitHub issues.
+    *   **Formats**: Lossless PNG, compact WebP, JPEG with quality tuning, and single-page PDF.
+    *   **Resolution Multiplier**: 1x standard or 2x Ultra Retina 4K.
+
+---
 
 ### 4.1 `screen-recorder` — Browser Screen & Tab Recorder *(Phase 2)*
 *   **Hash Route**: `#tool/screen-recorder`

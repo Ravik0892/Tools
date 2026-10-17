@@ -542,7 +542,7 @@ export default {
 
       let html = "";
       if (diffResult.length === 0) {
-        html = '<div style="text-align: center; color: #10b981; font-weight: 600; padding: 30px;">✅ No text differences found on this page. Content is identical.</div>';
+        html = '<div style="text-align: center; color: #10b981; font-weight: 600; padding: 30px; display: flex; align-items: center; justify-content: center; gap: 8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="20 6 9 17 4 12"></polyline></svg> No text differences found on this page. Content is identical.</div>';
       } else {
         html = diffResult.map(chunk => {
           if (chunk.type === "added") {

@@ -113,11 +113,11 @@ const app = {
     },
     {
       id: "pdf-utilities",
-      name: "PDF Toolbox (Split, Merge, Convert & Compress)",
-      desc: "Split into PDF/PNG/JPG/WebP/Text, merge multiple PDFs, rotate/reorganize pages, and compress documents 100% client-side.",
+      name: "PDF Page Studio & Organizer",
+      desc: "Split into PDF/Images/Text, merge multiple PDFs, rearrange pages visually, crop margins, and compress documents 100% client-side.",
       category: "text",
       subcategory: "text-markdown",
-      subLabel: "Writers & Parsers",
+      subLabel: "PDF Page Studio",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
       monetization: "premium",
@@ -220,9 +220,9 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="16" y1="10" x2="16" y2="10.01"></line></svg>`
     },
     {
-      id: "qr-generator",
-      name: "Dynamic QR Code Studio",
-      desc: "Generate highly customized art QR codes with linear gradients, custom dot patterns, eye styles, and center logos client-side.",
+      id: "qr-studio",
+      name: "Dynamic QR & Barcode Studio",
+      desc: "Generate highly customized art QR codes with linear gradients, custom dot patterns, and logos, or scan QR codes and barcodes live via camera or upload.",
       category: "dev",
       subcategory: "dev-generators",
       subLabel: "Generators",
@@ -400,30 +400,6 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"></path></svg>`
     },
     {
-      id: "qr-scanner",
-      name: "QR Code & Barcode Scanner",
-      desc: "Scan QR codes and barcodes live from camera, file upload, or clipboard paste with 100% private client-side recognition and action parsing.",
-      category: "dev",
-      subcategory: "dev-generators",
-      subLabel: "Generators",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><rect x="7" y="7" width="10" height="10" rx="1"></rect></svg>`
-    },
-    {
-      id: "color-extractor",
-      name: "Image Color Palette Extractor",
-      desc: "Extract dominant palettes from photos, inspect pixels with a zoom eyedropper, test WCAG contrast, and export to CSS variables or Tailwind.",
-      category: "design",
-      subcategory: "design-color",
-      subLabel: "Color Management",
-      accent: "#ec4899",
-      accentRgb: "236, 72, 153",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path><circle cx="12" cy="12" r="3"></circle><path d="m19 5-3 3"></path></svg>`
-    },
-    {
       id: "favicon-generator",
       name: "Favicon & App Icon Suite",
       desc: "Generate complete icon packages (multi-res 16/32 .ico, Apple Touch 180px, Android 192/512px) with shape customizer, tab preview, and ZIP export.",
@@ -436,16 +412,16 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg>`
     },
     {
-      id: "images-to-pdf",
-      name: "Images to PDF Compiler",
-      desc: "Merge multiple JPG, PNG, and WebP images into a single clean PDF with visual reordering, rotation, page sizes (A4/Letter/Fit), and margins.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "Writers & Parsers",
+      id: "screenshot-capture",
+      name: "Browser Screen & Window Screenshot Studio",
+      desc: "Capture full screen, tabs, or app windows with countdown timer, wrap with macOS/Windows/Cyberpunk browser frames, redact PII passwords, and add step-by-step annotation callouts.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Graphics & Screen Studio",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
       monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><circle cx="10" cy="13" r="2"></circle><path d="m20 17-3-3-4 4"></path></svg>`
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>`
     },
     {
       id: "screen-recorder",
@@ -484,14 +460,14 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>`
     },
     {
-      id: "mp4-to-mp3",
-      name: "MP4 to MP3 & WAV Audio Extractor",
-      desc: "Demux and extract pristine audio tracks from MP4, WebM, and MOV video files with visual waveform preview and time range trimming.",
+      id: "audio-suite",
+      name: "Audio Studio & Extractor",
+      desc: "Cross-convert sound files between MP3, WAV, and OGG formats with bitrates up to 320k, or extract audio tracks from video files with visual waveform trimming.",
       category: "design",
       subcategory: "design-graphics",
       subLabel: "Audio & Video Media",
-      accent: "#9d4edd",
-      accentRgb: "157, 78, 221",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
       monetization: "free",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`
     },
@@ -520,136 +496,40 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`
     },
     {
-      id: "sign-pdf",
-      name: "Sign PDF Document",
-      desc: "Draw hand-written signatures, type elegant cursive names, or upload stamp seals, then position and embed them directly onto any PDF page.",
+      id: "pdf-converter-hub",
+      name: "Document & PDF Converter Hub",
+      desc: "Convert bi-directionally between Word (.docx), Excel (.xlsx/.csv), PowerPoint (.pptx), Images, Camera Scans, HTML/CSS, and Markdown.",
       category: "text",
       subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="m10 16 2 2 6-6"></path><path d="M7 17l1.5-1.5"></path></svg>`
-    },
-    {
-      id: "pdf-security",
-      name: "PDF Security & Password Suite",
-      desc: "Encrypt PDF files with AES passwords and permission locks, or remove passwords and decrypt protected PDF documents client-side.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#f43f5e",
-      accentRgb: "244, 63, 94",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
-    },
-    {
-      id: "pdf-watermark",
-      name: "PDF Watermark & Page Numbers",
-      desc: "Add customizable diagonal/horizontal text watermarks and stamp dynamic page numbers (Page X of Y) with position, font, and opacity controls.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#9d4edd",
-      accentRgb: "157, 78, 221",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>`
-    },
-    {
-      id: "pdf-organizer",
-      name: "Visual PDF Page Organizer",
-      desc: "Rearrange pages with drag-and-drop or order buttons, rotate pages in 90° increments, and delete unwanted pages with real-time thumbnail previews.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
+      subLabel: "Document Converters",
       accent: "#10b981",
       accentRgb: "16, 185, 129",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>`
-    },
-    {
-      id: "crop-pdf",
-      name: "Crop PDF Margins & Trim Box",
-      desc: "Trim excess white margins or crop documents to custom bounding dimensions with live interactive canvas box and scope controls.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#f59e0b",
-      accentRgb: "245, 158, 11",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v14a2 2 0 0 0 2 2h14"></path><path d="M18 22V8a2 2 0 0 0-2-2H2"></path></svg>`
-    },
-    {
-      id: "pdf-forms",
-      name: "PDF Form Filler & AcroForms",
-      desc: "Inspect and fill interactive PDF AcroForm fields (text fields, checkboxes, dropdowns, radio groups) directly in-browser and flatten or export.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="13" y2="17"></line><rect x="9" y="8" width="2" height="2"></rect></svg>`
-    },
-    {
-      id: "redact-pdf",
-      name: "PDF Redact & Privacy Sanitizer",
-      desc: "Permanently scrub sensitive text, PII, and financial details from PDF pages by drawing opaque redaction boxes burned into document streams.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#ec4899",
-      accentRgb: "236, 72, 153",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg>`
-    },
-    {
-      id: "excel-pdf",
-      name: "Excel to PDF & PDF to Excel",
-      desc: "Convert spreadsheets (XLSX, XLS, CSV) into presentation-ready PDF tables with custom themes, or extract PDF tables into structured Excel files.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "Office Converters",
-      accent: "#10b981",
-      accentRgb: "16, 185, 129",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M8 13h8M8 17h8M8 9h2"></path></svg>`
-    },
-    {
-      id: "word-pdf",
-      name: "Word to PDF & PDF to Word",
-      desc: "Convert Word DOCX documents into clean print-ready PDFs, or extract text, typography, and headings from PDFs into native Microsoft Word files.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "Office Converters",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
       monetization: "free",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`
     },
     {
-      id: "html-to-pdf",
-      name: "HTML to PDF Webpage Studio",
-      desc: "Convert raw HTML/CSS code or import HTML files into high-resolution PDFs with live sandbox preview and page-break controls.",
+      id: "pdf-editor-suite",
+      name: "PDF Editor, Sign & Markup Studio",
+      desc: "E-sign documents with cursive signatures, fill AcroForms, draw vector annotations, stamp watermarks, and permanently redact PII.",
       category: "text",
       subcategory: "text-markdown",
-      subLabel: "Office Converters",
-      accent: "#f59e0b",
-      accentRgb: "245, 158, 11",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`
-    },
-    {
-      id: "pdf-to-markdown",
-      name: "PDF to Markdown Converter",
-      desc: "Convert PDF documents into clean GitHub Flavored Markdown (GFM) with automatic detection of headings, bullet points, tables, and code snippets.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "Office Converters",
+      subLabel: "PDF Power Tools",
       accent: "#9d4edd",
       accentRgb: "157, 78, 221",
       monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`
+    },
+    {
+      id: "pdf-security-suite",
+      name: "PDF Security, Repair & Archival Suite",
+      desc: "Protect PDFs with AES encryption, remove passwords, repair corrupted xref tables & headers, and export ISO 19005 PDF/A archives.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Security & Repair",
+      accent: "#f43f5e",
+      accentRgb: "244, 63, 94",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
     },
     {
       id: "pdf-ai",
@@ -664,30 +544,6 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>`
     },
     {
-      id: "scan-to-pdf",
-      name: "Camera Scan to PDF",
-      desc: "Capture multi-page paper documents using your webcam or mobile camera with smart contrast filters (B&W/Greyscale/Color) and compile into PDF.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "Office Converters",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>`
-    },
-    {
-      id: "pptx-pdf",
-      name: "PowerPoint to PDF & PDF to PPTX",
-      desc: "Convert PowerPoint presentations (.pptx) into clean PDF documents or reverse convert PDFs into native editable PowerPoint slides.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "Office Converters",
-      accent: "#f59e0b",
-      accentRgb: "245, 158, 11",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M8 8h5a2.5 2.5 0 0 1 0 5H8z"></path><line x1="8" y1="8" x2="8" y2="16"></line></svg>`
-    },
-    {
       id: "compare-pdf",
       name: "Compare PDF Documents",
       desc: "Compare two revisions of a PDF side-by-side, highlight layout differences with a pixel difference heatmap, wipe slider, or text clause diff.",
@@ -698,54 +554,6 @@ const app = {
       accentRgb: "99, 102, 241",
       monetization: "free",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg>`
-    },
-    {
-      id: "pdf-annotate",
-      name: "Annotate & Draw on PDF",
-      desc: "Highlight passages, sketch freehand notes, stamp text markers, draw framing boxes, and arrows directly onto PDF pages with vector burning.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#ec4899",
-      accentRgb: "236, 72, 153",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`
-    },
-    {
-      id: "audio-converter",
-      name: "Audio Converter & Transcoder",
-      desc: "Convert sound files between MP3, WAV, and OGG formats with customizable bitrates (128k-320k), stereo/mono channels, and gain amplification.",
-      category: "dev",
-      subcategory: "dev-generators",
-      subLabel: "Audio & Media",
-      accent: "#10b981",
-      accentRgb: "16, 185, 129",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`
-    },
-    {
-      id: "repair-pdf",
-      name: "Repair & Recover PDF",
-      desc: "Analyze and repair damaged PDF files by realigning shifted binary headers, reconstructing broken xref tables, and salvaging readable page streams.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#00f2fe",
-      accentRgb: "0, 242, 254",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>`
-    },
-    {
-      id: "pdf-to-pdfa",
-      name: "PDF to PDF/A Archival",
-      desc: "Convert PDF documents to ISO 19005 archival standards (PDF/A-1b, PDF/A-2b, PDF/A-3b) with sRGB output intents and XMP conformance metadata.",
-      category: "text",
-      subcategory: "text-markdown",
-      subLabel: "PDF Power Tools",
-      accent: "#9d4edd",
-      accentRgb: "157, 78, 221",
-      monetization: "free",
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11H9z"></path></svg>`
     }
   ],
 
@@ -788,6 +596,7 @@ const app = {
     "color-extractor": ["color extractor", "palette", "eyedropper", "loupe", "sample color", "hex from image", "image colors", "dominant colors", "contrast"],
     "favicon-generator": ["favicon", "ico", "apple touch icon", "app icon", "pwa icon", "icon generator", "favicon.ico", "tab icon", "bookmark icon"],
     "images-to-pdf": ["image to pdf", "jpg to pdf", "png to pdf", "photos to pdf", "convert images", "pdf maker", "combine pictures", "pdf compiler"],
+    "screenshot-capture": ["screenshot", "screen capture", "browser capture", "tab capture", "window capture", "webpage capture", "mockup", "annotation", "screen grab", "snip", "snipping tool", "redact", "pixelate", "callout", "screenshot tool", "screen snip", "take screenshot"],
     "screen-recorder": ["screen recorder", "record screen", "capture screen", "screen capture", "record tab", "record video", "screen video", "screencast", "webcam record", "video recorder"],
     "voice-recorder": ["voice recorder", "audio recorder", "record voice", "mic recorder", "microphone", "sound recorder", "waveform", "wav recorder", "voice memo", "audio visualizer"],
     "video-speed": ["video speed", "playback speed", "speed controller", "slow motion", "speed up video", "slow video", "frame step", "loop video", "ab loop", "video player", "pitch"],
@@ -811,8 +620,12 @@ const app = {
     "compare-pdf": ["compare pdf", "pdf diff", "pdf difference", "visual diff", "side by side pdf", "pixel diff", "text clause diff", "pdf comparison", "revision checker"],
     "pdf-annotate": ["annotate pdf", "draw on pdf", "pdf highlighter", "markup pdf", "sketch pdf", "pdf pen", "stamp pdf", "burn annotations", "pdf canvas"],
     "audio-converter": ["audio converter", "mp3 converter", "wav to mp3", "ogg converter", "transcode audio", "audio bitrate", "sound converter", "music transcode", "flac to mp3"],
-    "repair-pdf": ["repair pdf", "fix pdf", "recover pdf", "corrupt pdf", "broken xref", "pdf reconstruct", "salvage pdf", "pdf stream repair", "unreadable pdf"],
-    "pdf-to-pdfa": ["pdf to pdf/a", "pdfa converter", "pdf/a-1b", "pdf/a-2b", "pdf/a-3b", "iso 19005", "archival pdf", "long term pdf", "zugferd pdf", "legal archive"]
+    "pdf-to-pdfa": ["pdf to pdf/a", "pdfa converter", "pdf/a-1b", "pdf/a-2b", "pdf/a-3b", "iso 19005", "archival pdf", "long term pdf", "zugferd pdf", "legal archive"],
+    "pdf-converter-hub": ["office to pdf", "word to pdf", "pdf to word", "docx to pdf", "excel to pdf", "pdf to excel", "xlsx to pdf", "pptx to pdf", "pdf to pptx", "powerpoint to pdf", "images to pdf", "jpg to pdf", "png to pdf", "camera scan to pdf", "html to pdf", "webpage to pdf", "pdf to markdown", "pdf to md", "document converter"],
+    "pdf-editor-suite": ["sign pdf", "pdf signature", "digital signature", "fill and sign", "annotate pdf", "draw on pdf", "pdf highlighter", "markup pdf", "fill pdf", "pdf forms", "acroform", "form filler", "watermark pdf", "pdf page numbers", "add watermark", "redact pdf", "sanitize pdf", "black out pdf", "censor pdf", "pdf editor"],
+    "pdf-security-suite": ["protect pdf", "unlock pdf", "encrypt pdf", "decrypt pdf", "pdf password", "secure pdf", "pdf permissions", "repair pdf", "fix pdf", "recover pdf", "corrupt pdf", "pdf reconstruct", "pdf to pdf/a", "pdfa converter", "iso 19005", "archival pdf"],
+    "qr-studio": ["qr", "barcode", "generate qr", "scan qr", "art qr", "qr code generator", "qr scanner", "webcam qr", "decode qr", "barcode reader"],
+    "audio-suite": ["audio converter", "mp3 converter", "wav to mp3", "ogg converter", "transcode audio", "mp4 to mp3", "video to audio", "extract audio", "demux audio", "audio trimmer", "waveform"]
   },
 
   // Centralized Tool Benefits Registry for visual guide cards
@@ -965,6 +778,10 @@ const app = {
       "<strong>Client-Side PDF Assembly</strong>: Merge JPG, PNG, and WebP images into a single polished PDF document without server uploads.",
       "<strong>Visual Page Board</strong>: Drag, rotate, reorder, and configure page sizes (A4, Letter, Auto-Fit) with margins and quality compression."
     ],
+    "screenshot-capture": [
+      "<strong>Universal Browser & Tab Snip</strong>: Capture native resolution screens, specific browser tabs, or app windows with an optional 3s-10s countdown delay timer.",
+      "<strong>SaaS Mockup & Redaction Studio</strong>: Frame captures in macOS/Windows 11 glass, permanently pixelate private passwords, and copy to clipboard in 1 click."
+    ],
     "screen-recorder": [
       "<strong>Full-Resolution Capture</strong>: Record whole displays, specific application windows, or browser tabs with 60 FPS clarity and live countdown.",
       "<strong>Mic & System Audio Mix</strong>: Blend microphone commentary seamlessly with internal browser audio using client-side AudioContext mixing."
@@ -1064,6 +881,26 @@ const app = {
     "pdf-to-pdfa": [
       "<strong>ISO 19005 Standardization</strong>: Conform documents to PDF/A-1b, PDF/A-2b, or PDF/A-3b standards for long-term legal archiving.",
       "<strong>Color & XMP Descriptor Injection</strong>: Embeds device-independent sRGB IEC61966-2.1 OutputIntents and XML conformance schemas."
+    ],
+    "pdf-converter-hub": [
+      "<strong>Universal File Interoperability</strong>: Cross-convert Word, Excel, PowerPoint, Camera Scans, HTML, and Markdown to and from standard PDF format.",
+      "<strong>Zero-Cloud Privacy</strong>: All document rendering, parsing, and conversions occur 100% locally in your browser memory."
+    ],
+    "pdf-editor-suite": [
+      "<strong>All-In-One Document Editor</strong>: Sign, fill AcroForms, sketch vector annotations, add watermarks, and permanently blackout PII in one unified canvas.",
+      "<strong>Vector Stream Baking</strong>: All markings, signatures, and redactions are permanently embedded into the PDF content stream."
+    ],
+    "pdf-security-suite": [
+      "<strong>Cryptographic Protection & Unlock</strong>: Secure documents with AES passwords and permission locks, or remove restrictions instantly.",
+      "<strong>Integrity Diagnostics & Archiving</strong>: Rebuild corrupt xref tables, recover damaged streams, and convert to ISO 19005 PDF/A."
+    ],
+    "qr-studio": [
+      "<strong>Art QR & Barcode Generation</strong>: Create custom branded QR codes with eye styling, logo stamping, and linear gradients.",
+      "<strong>High-Speed Camera Scanner</strong>: Decode QR codes and retail barcodes in real-time from webcam, photo upload, or clipboard."
+    ],
+    "audio-suite": [
+      "<strong>Universal Sound Transcoder</strong>: Convert between MP3, WAV, and OGG formats with bitrates up to 320k and custom gain.",
+      "<strong>Video Audio Demuxer</strong>: Extract soundtracks from MP4, WebM, and MOV video clips with interactive visual waveform trimming."
     ]
   },
 
@@ -1291,6 +1128,12 @@ const app = {
       { label: "A4, Letter & Fit Page Sizes", icon: "📐" },
       { label: "Pure Client-Side PDF-Lib", icon: "⚡" }
     ],
+    "screenshot-capture": [
+      { label: "Native Tab & Screen Snip", icon: "📸", primary: true },
+      { label: "macOS & Windows Mockup", icon: "🪟" },
+      { label: "PII & Password Redaction", icon: "⬛" },
+      { label: "1-Click Clipboard Copy", icon: "📋" }
+    ],
     "screen-recorder": [
       { label: "Screen, Window & Tab Capture", icon: "🖥️", primary: true },
       { label: "Mic Commentary Audio Mix", icon: "🎙️" },
@@ -1440,6 +1283,36 @@ const app = {
       { label: "PDF/A-1b, 2b & 3b Profiles", icon: "📜" },
       { label: "Embedded sRGB OutputIntent", icon: "🎨" },
       { label: "XMP Archival Metadata Packet", icon: "🏷️" }
+    ],
+    "pdf-converter-hub": [
+      { label: "Word, Excel & PPTX", icon: "📄", primary: true },
+      { label: "Images & Camera Scanner", icon: "📷" },
+      { label: "HTML/CSS & Markdown", icon: "💻" },
+      { label: "100% In-Browser", icon: "🔒" }
+    ],
+    "pdf-editor-suite": [
+      { label: "Draw & Cursive Sign", icon: "✍️", primary: true },
+      { label: "AcroForm Fill & Flatten", icon: "📋" },
+      { label: "Vector Markup & Watermark", icon: "✏️" },
+      { label: "Permanent Redaction", icon: "⬛" }
+    ],
+    "pdf-security-suite": [
+      { label: "AES-256 Encrypt & Unlock", icon: "🔒", primary: true },
+      { label: "Corrupt Xref Stream Repair", icon: "🛠️" },
+      { label: "ISO 19005 PDF/A Archive", icon: "🏛️" },
+      { label: "Zero Server Uploads", icon: "⚡" }
+    ],
+    "qr-studio": [
+      { label: "Art Gradients & Logos", icon: "🎨", primary: true },
+      { label: "Webcam & File Scanner", icon: "📷" },
+      { label: "1D/2D Barcode Support", icon: "📦" },
+      { label: "Client-Side Speed", icon: "⚡" }
+    ],
+    "audio-suite": [
+      { label: "MP3, WAV & OGG Transcode", icon: "🎧", primary: true },
+      { label: "Video Audio Demuxer", icon: "🎬" },
+      { label: "Visual Waveform Trimmer", icon: "📊" },
+      { label: "Bitrates up to 320k", icon: "⚡" }
     ]
   },
 
@@ -1601,6 +1474,10 @@ const app = {
       { targetId: "pdf-utilities", hint: "Compress, split, or encrypt your assembled PDF document" },
       { targetId: "image-converter", hint: "Optimize and resize image resolutions before compiling" }
     ],
+    "screenshot-capture": [
+      { targetId: "screen-recorder", hint: "Record continuous video tutorials of your screen with microphone audio" },
+      { targetId: "graphics-studio", hint: "Create promotional social banners and marketing graphics" }
+    ],
     "screen-recorder": [
       { targetId: "video-speed", hint: "Review and inspect screen recording with variable speed and frame stepper" },
       { targetId: "video-to-gif", hint: "Convert recorded screen clips into lightweight animated GIFs" },
@@ -1737,8 +1614,47 @@ const app = {
     "glassmorphism-generator": { suiteId: "css-studio", subtab: "glass" },
     "color-palette": { suiteId: "color-lab", subtab: "palette" },
     "color-shades": { suiteId: "color-lab", subtab: "shades" },
+    "color-extractor": { suiteId: "color-lab", subtab: "extract" },
     "epoch-converter": { suiteId: "datetime-suite", subtab: "epoch" },
-    "date-calculator": { suiteId: "datetime-suite", subtab: "date" }
+    "date-calculator": { suiteId: "datetime-suite", subtab: "date" },
+
+    // QR & Barcode Studio Suite
+    "qr-generator": { suiteId: "qr-studio", subtab: "qr-generator" },
+    "qr-scanner": { suiteId: "qr-studio", subtab: "qr-scanner" },
+
+    // Screenshot & Browser Capture Aliases
+    "browser-capture": { suiteId: "screenshot-capture" },
+    "screenshot": { suiteId: "screenshot-capture" },
+    "screen-capture": { suiteId: "screenshot-capture" },
+
+    // Audio Studio & Extractor Suite
+    "audio-converter": { suiteId: "audio-suite", subtab: "audio-converter" },
+    "mp4-to-mp3": { suiteId: "audio-suite", subtab: "mp4-to-mp3" },
+
+    // PDF Page Studio & Organizer
+    "pdf-organizer": { suiteId: "pdf-utilities", subtab: "rotate" },
+    "crop-pdf": { suiteId: "pdf-utilities", subtab: "split" },
+
+    // Universal Document & PDF Converter Hub
+    "word-pdf": { suiteId: "pdf-converter-hub", subtab: "word-pdf" },
+    "excel-pdf": { suiteId: "pdf-converter-hub", subtab: "excel-pdf" },
+    "pptx-pdf": { suiteId: "pdf-converter-hub", subtab: "pptx-pdf" },
+    "images-to-pdf": { suiteId: "pdf-converter-hub", subtab: "images-to-pdf" },
+    "scan-to-pdf": { suiteId: "pdf-converter-hub", subtab: "scan-to-pdf" },
+    "html-to-pdf": { suiteId: "pdf-converter-hub", subtab: "html-to-pdf" },
+    "pdf-to-markdown": { suiteId: "pdf-converter-hub", subtab: "pdf-to-markdown" },
+
+    // PDF Editor, Sign & Markup Studio
+    "sign-pdf": { suiteId: "pdf-editor-suite", subtab: "sign-pdf" },
+    "pdf-annotate": { suiteId: "pdf-editor-suite", subtab: "pdf-annotate" },
+    "pdf-forms": { suiteId: "pdf-editor-suite", subtab: "pdf-forms" },
+    "pdf-watermark": { suiteId: "pdf-editor-suite", subtab: "pdf-watermark" },
+    "redact-pdf": { suiteId: "pdf-editor-suite", subtab: "redact-pdf" },
+
+    // PDF Security, Repair & Archival Suite
+    "pdf-security": { suiteId: "pdf-security-suite", subtab: "pdf-security" },
+    "repair-pdf": { suiteId: "pdf-security-suite", subtab: "repair-pdf" },
+    "pdf-to-pdfa": { suiteId: "pdf-security-suite", subtab: "pdf-to-pdfa" }
   },
 
   async loadGlobalConfig() {
@@ -1923,7 +1839,7 @@ const app = {
       const randomIndex = Math.floor(Math.random() * availableTools.length);
       const chosenTool = availableTools[randomIndex];
 
-      this.showToast(`🎲 Surprise Discovery: Opening "${chosenTool.name}"!`, "info");
+      this.showToast(`Surprise Discovery: Opening "${chosenTool.name}"!`, "info");
 
       setTimeout(() => {
         this.navigateToTool(chosenTool.id);
@@ -1946,15 +1862,15 @@ const app = {
     if (!searchInputs.length) return;
 
     const prompts = [
-      "Search 26+ offline tools... (e.g. '3D Solar System' 🪐)",
-      "Try 'Smart Chain Pipeline Builder' ⚡",
-      "Try 'Audio Synth & Visualizer' 🎹",
-      "Try 'QR Code Generator Studio' 📱",
-      "Try 'Markdown Live Editor' 📝",
-      "Try 'Matrix Rain Simulation' 💻",
-      "Try 'JWT Token Decoder' 🔐",
-      "Try 'Color Palette Generator' 🎨",
-      "Try 'Speed Test & Ping Monitor' 🚀"
+      "Search 26+ offline tools... (e.g. '3D Solar System')",
+      "Try 'Smart Chain Pipeline Builder'",
+      "Try 'Audio Synth & Visualizer'",
+      "Try 'QR Code Generator Studio'",
+      "Try 'Markdown Live Editor'",
+      "Try 'Matrix Rain Simulation'",
+      "Try 'JWT Token Decoder'",
+      "Try 'Color Palette Generator'",
+      "Try 'Speed Test & Ping Monitor'"
     ];
 
     let promptIdx = 0;
@@ -4279,7 +4195,7 @@ const app = {
       if (!this._toolModuleCache) this._toolModuleCache = {};
       let module = this._toolModuleCache[toolId];
       if (!module) {
-        const cacheBust = '?v=1.3.2';
+        const cacheBust = '?v=1.3.5';
         module = await import('./tools/' + toolId + '.js' + cacheBust);
         this._toolModuleCache[toolId] = module;
       }
@@ -4340,332 +4256,9 @@ const app = {
 
       viewport.innerHTML = toolbarHtml + toolInstance.renderUI();
 
-      // Split view layout drawer enhancements for mobile viewports
-      const splitView = viewport.querySelector(".tool-content-layout.split-view");
-      if (splitView) {
-        // 1. Create and inject Backdrop overlay
-        const backdrop = document.createElement("div");
-        backdrop.className = "split-view-backdrop";
-        splitView.appendChild(backdrop);
+      // Split view layout drawer enhancements & draggable resizer
+      this.initLayoutSizer(viewport);
 
-        // 2. Create and inject FAB
-        const fab = document.createElement("button");
-        fab.className = "adjust-settings-fab";
-        fab.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-          <span>Adjust Inputs</span>
-        `;
-        splitView.appendChild(fab);
-
-        // 3. Get panels and inject a close button inside the drawer header
-        const panels = Array.from(splitView.querySelectorAll(".tool-panel:not(.tool-guide-card)"));
-        const drawer = panels[0];
-        const previewPanel = panels[1];
-        if (drawer) {
-          // Prepend floating dock header for corner floating mode in fullscreen
-          if (!drawer.querySelector(".floating-dock-header")) {
-            const dockHeader = document.createElement("div");
-            dockHeader.className = "floating-dock-header";
-            dockHeader.innerHTML = `
-              <div class="dock-title">
-                <span class="dock-dot"></span>
-                <span>Live Editor &amp; Controls</span>
-                <span class="dock-badge">Live Sync</span>
-              </div>
-              <div class="dock-actions">
-                <button type="button" class="dock-btn dock-size-btn" title="Toggle Compact / Wide View" aria-label="Toggle width">
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-                  <span>Width</span>
-                </button>
-                <button type="button" class="dock-btn dock-collapse-btn" title="Minimize to Corner" aria-label="Minimize editor">
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline></svg>
-                  <span>Minimize</span>
-                </button>
-              </div>
-            `;
-            drawer.prepend(dockHeader);
-
-            dockHeader.querySelector(".dock-collapse-btn").addEventListener("click", () => {
-              this.playSynthSound('click');
-              splitView.classList.remove("drawer-open");
-            });
-
-            dockHeader.querySelector(".dock-size-btn").addEventListener("click", () => {
-              this.playSynthSound('click');
-              drawer.classList.toggle("dock-wide");
-            });
-          }
-
-          const header = drawer.querySelector(".panel-header");
-          if (header && !header.querySelector(".drawer-close-btn")) {
-            const closeBtn = document.createElement("button");
-            closeBtn.className = "drawer-close-btn";
-            closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px; display: none;";
-            closeBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
-            header.appendChild(closeBtn);
-
-            closeBtn.addEventListener("click", () => {
-              this.playSynthSound('click');
-              splitView.classList.remove("drawer-open");
-            });
-          }
-
-          // 5. Add swipe gesture detector to close drawer
-          let touchStartX = 0;
-          let touchEndX = 0;
-          drawer.addEventListener("touchstart", (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-          }, { passive: true });
-          drawer.addEventListener("touchend", (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 60) {
-              this.playSynthSound('click');
-              splitView.classList.remove("drawer-open");
-            }
-          }, { passive: true });
-        }
-
-        // 4. Inject Draggable Resizer & Reset Section Handler (Desktop Split View)
-        if (drawer && previewPanel) {
-          let resizer = splitView.querySelector(".split-view-resizer");
-          if (!resizer) {
-            resizer = document.createElement("div");
-            resizer.className = "split-view-resizer";
-            resizer.setAttribute("role", "separator");
-            resizer.setAttribute("aria-orientation", "vertical");
-            resizer.setAttribute("tabindex", "0");
-            resizer.setAttribute("title", "Drag to resize sections • Double-click to reset (50/50)");
-            resizer.innerHTML = `
-              <div class="resizer-track"></div>
-              <div class="resizer-handle">
-                <div class="resizer-dots">
-                  <span></span><span></span><span></span>
-                </div>
-                <button class="resizer-reset-btn" title="Reset to 50/50 layout" aria-label="Reset layout">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
-                  <span>Reset</span>
-                </button>
-              </div>
-              <div class="resizer-tooltip">50% | 50%</div>
-            `;
-            drawer.after(resizer);
-            splitView.classList.add("has-resizer");
-          }
-
-          // Restore saved custom split ratio if any
-          const savedRatio = localStorage.getItem("omnitool_split_" + toolId);
-          if (savedRatio && !isNaN(parseFloat(savedRatio))) {
-            const r = Math.min(80, Math.max(20, parseFloat(savedRatio)));
-            splitView.style.setProperty("--split-ratio", r);
-            const tooltip = resizer.querySelector(".resizer-tooltip");
-            if (tooltip) tooltip.innerText = `${Math.round(r)}% | ${Math.round(100 - r)}%`;
-          } else {
-            splitView.style.removeProperty("--split-ratio");
-          }
-
-          // Reset Section Helper Function
-          const resetSplit = () => {
-            this.playSynthSound('click');
-            splitView.classList.add("is-animating");
-            splitView.style.removeProperty("--split-ratio");
-            localStorage.removeItem("omnitool_split_" + toolId);
-            const tooltip = resizer.querySelector(".resizer-tooltip");
-            if (tooltip) tooltip.innerText = "50% | 50%";
-            setTimeout(() => {
-              splitView.classList.remove("is-animating");
-            }, 300);
-            this.showToast("Layout reset to default (50/50)", "info");
-          };
-
-          // Double-click to reset
-          resizer.addEventListener("dblclick", (e) => {
-            e.preventDefault();
-            resetSplit();
-          });
-
-          // Reset button on handle
-          const resetHandleBtn = resizer.querySelector(".resizer-reset-btn");
-          if (resetHandleBtn) {
-            resetHandleBtn.addEventListener("click", (e) => {
-              e.stopPropagation();
-              resetSplit();
-            });
-          }
-
-          // Keyboard adjustment & reset
-          resizer.addEventListener("keydown", (e) => {
-            let current = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
-            if (e.key === "ArrowLeft") {
-              e.preventDefault();
-              current = Math.max(20, current - 3);
-              splitView.style.setProperty("--split-ratio", current);
-              localStorage.setItem("omnitool_split_" + toolId, current);
-              const tooltip = resizer.querySelector(".resizer-tooltip");
-              if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
-            } else if (e.key === "ArrowRight") {
-              e.preventDefault();
-              current = Math.min(80, current + 3);
-              splitView.style.setProperty("--split-ratio", current);
-              localStorage.setItem("omnitool_split_" + toolId, current);
-              const tooltip = resizer.querySelector(".resizer-tooltip");
-              if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
-            } else if (e.key === "Enter" || e.key === " " || e.key === "Delete" || e.key === "0") {
-              e.preventDefault();
-              resetSplit();
-            }
-          });
-
-          // Pointer dragging logic with setPointerCapture
-          let isDragging = false;
-          const tooltip = resizer.querySelector(".resizer-tooltip");
-
-          resizer.addEventListener("pointerdown", (e) => {
-            if (e.target.closest(".resizer-reset-btn")) return;
-            isDragging = true;
-            resizer.setPointerCapture(e.pointerId);
-            resizer.classList.add("active");
-            splitView.classList.add("is-resizing");
-            splitView.classList.remove("is-animating");
-          });
-
-          resizer.addEventListener("pointermove", (e) => {
-            if (!isDragging) return;
-            const rect = splitView.getBoundingClientRect();
-            if (rect.width <= 0) return;
-            const offsetX = e.clientX - rect.left;
-            let ratio = (offsetX / rect.width) * 100;
-            ratio = Math.min(80, Math.max(20, ratio));
-            splitView.style.setProperty("--split-ratio", ratio.toFixed(1));
-            if (tooltip) {
-              tooltip.innerText = `${Math.round(ratio)}% | ${Math.round(100 - ratio)}%`;
-            }
-          });
-
-          const stopDragging = (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            try { resizer.releasePointerCapture(e.pointerId); } catch (_) {}
-            resizer.classList.remove("active");
-            splitView.classList.remove("is-resizing");
-            const finalRatio = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
-            localStorage.setItem("omnitool_split_" + toolId, finalRatio.toFixed(1));
-          };
-
-          resizer.addEventListener("pointerup", stopDragging);
-          resizer.addEventListener("pointercancel", stopDragging);
-
-          // 5. Inject Reset Layout & Full Screen buttons in preview panel header
-          const previewHeader = previewPanel.querySelector(".panel-header");
-          if (previewHeader) {
-            if (!previewHeader.querySelector(".reset-split-btn")) {
-              const resetHeaderBtn = document.createElement("button");
-              resetHeaderBtn.className = "reset-split-btn tool-btn secondary";
-              resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; margin-right: 6px; gap: 4px; display: inline-flex; align-items: center;";
-              resetHeaderBtn.setAttribute("title", "Reset sections to 50/50 layout");
-              resetHeaderBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11">
-                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                  <polyline points="3 3 3 8 8 8"></polyline>
-                </svg>
-                <span>Reset 50/50</span>
-              `;
-              previewHeader.appendChild(resetHeaderBtn);
-              resetHeaderBtn.addEventListener("click", () => {
-                resetSplit();
-              });
-            }
-
-            if (!previewHeader.querySelector(".preview-fullscreen-btn")) {
-              const fsBtn = document.createElement("button");
-              fsBtn.id = "btn-preview-fullscreen-toggle";
-              fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
-              fsBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: 0; gap: 4px; display: inline-flex; align-items: center;";
-              fsBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                </svg>
-                <span>Full Screen</span>
-              `;
-              previewHeader.appendChild(fsBtn);
-
-              fsBtn.addEventListener("click", () => {
-                this.playSynthSound('click');
-                const isFS = previewPanel.classList.toggle("preview-fullscreen");
-                splitView.classList.toggle("has-fullscreen-preview", isFS);
-
-                if (isFS) {
-                  fsBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                      <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
-                    </svg>
-                    <span>Exit Full Screen</span>
-                  `;
-                  fsBtn.classList.remove("secondary");
-                  fsBtn.classList.add("accent-emerald");
-
-                  fab.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px;">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                    <span>Live Editor &amp; Controls</span>
-                  `;
-                  fab.setAttribute("title", "Expand Floating Corner Editor");
-
-                  // Auto-open floating corner dock so user immediately sees live editing capability
-                  splitView.classList.add("drawer-open");
-                } else {
-                  fsBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                    </svg>
-                    <span>Full Screen</span>
-                  `;
-                  fsBtn.classList.remove("accent-emerald");
-                  fsBtn.classList.add("secondary");
-
-                  fab.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
-                      <circle cx="12" cy="12" r="3"></circle>
-                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    <span>Adjust Inputs</span>
-                  `;
-                  fab.removeAttribute("title");
-                  splitView.classList.remove("drawer-open");
-                  drawer?.classList.remove("dock-wide");
-                }
-              });
-
-              // Keyboard Escape to minimize dock or exit fullscreen
-              const handleFsEscape = (e) => {
-                if (e.key === "Escape" && previewPanel.classList.contains("preview-fullscreen")) {
-                  if (splitView.classList.contains("drawer-open")) {
-                    splitView.classList.remove("drawer-open");
-                  } else {
-                    fsBtn.click();
-                  }
-                }
-              };
-              window.addEventListener("keydown", handleFsEscape);
-            }
-          }
-        }
-
-        // 6. Bind drawer toggle event listeners
-        fab.addEventListener("click", () => {
-          this.playSynthSound('click');
-          splitView.classList.toggle("drawer-open");
-        });
-
-        backdrop.addEventListener("click", () => {
-          this.playSynthSound('click');
-          splitView.classList.remove("drawer-open");
-        });
-      }
 
       // Inject "How it Benefits You" dynamic section inside any present guide card
       const guideCard = viewport.querySelector(".tool-guide-card");
@@ -4695,6 +4288,7 @@ const app = {
             "datetime-suite": "datetime-suite.html",
             "unit-converter": "unit-converter.html",
             "graphics-studio": "graphics-studio.html",
+            "screenshot-capture": "graphics-studio.html",
             "calculator": "calculator.html",
             "qr-generator": "qr-generator.html",
             "seo-previewer": "seo-previewer.html",
@@ -4801,6 +4395,9 @@ const app = {
       // Initialize tool module
       await toolInstance.init(viewport, this);
 
+      // Re-run initLayoutSizer for dynamically mounted subtools
+      this.initLayoutSizer(viewport);
+
       // Render connected workflow bridge cards
       this.renderWorkflowBridges(viewport, toolId);
 
@@ -4878,6 +4475,35 @@ const app = {
     }
   },
 
+  getFeatureIconSvg(icon) {
+    if (!icon) return "";
+    if (typeof icon === "string" && icon.trim().startsWith("<svg")) return icon;
+    
+    const svgMap = {
+      "✨": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"></path></svg>',
+      "🚀": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>',
+      "✅": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+      "✔": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+      "🎲": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8" cy="8" r="1.2" fill="currentColor"></circle><circle cx="16" cy="8" r="1.2" fill="currentColor"></circle><circle cx="12" cy="12" r="1.2" fill="currentColor"></circle><circle cx="8" cy="16" r="1.2" fill="currentColor"></circle><circle cx="16" cy="16" r="1.2" fill="currentColor"></circle></svg>',
+      "⚡": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
+      "🔒": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>',
+      "🛡️": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+      "🔄": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>',
+      "🔗": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
+      "💾": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline></svg>',
+      "🔍": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+      "👁️": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+      "🎨": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+      "⏱️": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+      "⏰": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+      "⚖️": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>',
+      "📄": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>',
+      "📑": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>'
+    };
+
+    return svgMap[icon] || icon;
+  },
+
   renderCapabilitiesBar(toolId) {
     const features = this.toolFeatures[toolId] || [
       { label: "100% Client-Side", icon: "⚡", primary: true },
@@ -4888,13 +4514,350 @@ const app = {
       <div class="tool-capabilities-bar">
         ${features.map(f => `
           <span class="tool-cap-chip ${f.primary ? 'primary' : ''}">
-            <span>${f.icon}</span>
+            <span class="cap-icon-box" style="display: inline-flex; align-items: center;">${this.getFeatureIconSvg(f.icon)}</span>
             <span>${f.label}</span>
           </span>
         `).join("")}
       </div>
     `;
   },
+
+  initLayoutSizer(container) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root) return;
+    const splitViews = (root.classList && root.classList.contains("split-view")) 
+      ? [root] 
+      : Array.from(root.querySelectorAll(".tool-content-layout.split-view"));
+    
+    splitViews.forEach(splitView => {
+      if (splitView.dataset.splitInitialized === "true") return;
+      splitView.dataset.splitInitialized = "true";
+
+      const toolId = this.activeTool || "default";
+
+      // 1. Create and inject Backdrop overlay
+      if (!splitView.querySelector(".split-view-backdrop")) {
+        const backdrop = document.createElement("div");
+        backdrop.className = "split-view-backdrop";
+        splitView.appendChild(backdrop);
+        backdrop.addEventListener("click", () => {
+          this.playSynthSound('click');
+          splitView.classList.remove("drawer-open");
+        });
+      }
+
+      // 2. Create and inject FAB
+      let fab = splitView.querySelector(".adjust-settings-fab");
+      if (!fab) {
+        fab = document.createElement("button");
+        fab.className = "adjust-settings-fab";
+        fab.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Adjust Inputs</span>
+        `;
+        splitView.appendChild(fab);
+        fab.addEventListener("click", () => {
+          this.playSynthSound('click');
+          splitView.classList.toggle("drawer-open");
+        });
+      }
+
+      // 3. Get panels and inject a close button inside the drawer header
+      const panels = Array.from(splitView.querySelectorAll(".tool-panel:not(.tool-guide-card)"));
+      const drawer = panels[0];
+      const previewPanel = panels[1];
+      if (drawer) {
+        if (!drawer.querySelector(".floating-dock-header")) {
+          const dockHeader = document.createElement("div");
+          dockHeader.className = "floating-dock-header";
+          dockHeader.innerHTML = `
+            <div class="dock-title">
+              <span class="dock-dot"></span>
+              <span>Live Editor &amp; Controls</span>
+              <span class="dock-badge">Live Sync</span>
+            </div>
+            <div class="dock-actions">
+              <button type="button" class="dock-btn dock-size-btn" title="Toggle Compact / Wide View" aria-label="Toggle width">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                <span>Width</span>
+              </button>
+              <button type="button" class="dock-btn dock-collapse-btn" title="Minimize to Corner" aria-label="Minimize editor">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline></svg>
+                <span>Minimize</span>
+              </button>
+            </div>
+          `;
+          drawer.prepend(dockHeader);
+
+          dockHeader.querySelector(".dock-collapse-btn").addEventListener("click", () => {
+            this.playSynthSound('click');
+            splitView.classList.remove("drawer-open");
+          });
+
+          dockHeader.querySelector(".dock-size-btn").addEventListener("click", () => {
+            this.playSynthSound('click');
+            drawer.classList.toggle("dock-wide");
+          });
+        }
+
+        const header = drawer.querySelector(".panel-header");
+        if (header && !header.querySelector(".drawer-close-btn")) {
+          const closeBtn = document.createElement("button");
+          closeBtn.className = "drawer-close-btn";
+          closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px; display: none;";
+          closeBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+          header.appendChild(closeBtn);
+
+          closeBtn.addEventListener("click", () => {
+            this.playSynthSound('click');
+            splitView.classList.remove("drawer-open");
+          });
+        }
+
+        // Swipe gesture detector to close drawer
+        let touchStartX = 0;
+        let touchEndX = 0;
+        drawer.addEventListener("touchstart", (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        drawer.addEventListener("touchend", (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          if (touchStartX - touchEndX > 60) {
+            this.playSynthSound('click');
+            splitView.classList.remove("drawer-open");
+          }
+        }, { passive: true });
+      }
+
+      // 4. Inject Draggable Resizer & Reset Section Handler (Desktop Split View)
+      if (drawer && previewPanel) {
+        let resizer = splitView.querySelector(".split-view-resizer");
+        if (!resizer) {
+          resizer = document.createElement("div");
+          resizer.className = "split-view-resizer";
+          resizer.setAttribute("role", "separator");
+          resizer.setAttribute("aria-orientation", "vertical");
+          resizer.setAttribute("tabindex", "0");
+          resizer.setAttribute("title", "Drag to resize sections • Double-click to reset (50/50)");
+          resizer.innerHTML = `
+            <div class="resizer-track"></div>
+            <div class="resizer-handle">
+              <div class="resizer-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <button class="resizer-reset-btn" title="Reset to 50/50 layout" aria-label="Reset layout">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                <span>Reset</span>
+              </button>
+            </div>
+            <div class="resizer-tooltip">50% | 50%</div>
+          `;
+          drawer.after(resizer);
+          splitView.classList.add("has-resizer");
+        }
+
+        // Restore saved custom split ratio if any
+        const savedRatio = localStorage.getItem("omnitool_split_" + toolId);
+        if (savedRatio && !isNaN(parseFloat(savedRatio))) {
+          const r = Math.min(80, Math.max(20, parseFloat(savedRatio)));
+          splitView.style.setProperty("--split-ratio", r);
+          const tooltip = resizer.querySelector(".resizer-tooltip");
+          if (tooltip) tooltip.innerText = `${Math.round(r)}% | ${Math.round(100 - r)}%`;
+        } else {
+          splitView.style.removeProperty("--split-ratio");
+        }
+
+        // Reset Section Helper Function
+        const resetSplit = () => {
+          this.playSynthSound('click');
+          splitView.classList.add("is-animating");
+          splitView.style.removeProperty("--split-ratio");
+          localStorage.removeItem("omnitool_split_" + toolId);
+          const tooltip = resizer.querySelector(".resizer-tooltip");
+          if (tooltip) tooltip.innerText = "50% | 50%";
+          setTimeout(() => {
+            splitView.classList.remove("is-animating");
+          }, 300);
+          this.showToast("Layout reset to default (50/50)", "info");
+        };
+
+        // Double-click to reset
+        resizer.addEventListener("dblclick", (e) => {
+          e.preventDefault();
+          resetSplit();
+        });
+
+        // Reset button on handle
+        const resetHandleBtn = resizer.querySelector(".resizer-reset-btn");
+        if (resetHandleBtn) {
+          resetHandleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            resetSplit();
+          });
+        }
+
+        // Keyboard adjustment & reset
+        resizer.addEventListener("keydown", (e) => {
+          let current = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            current = Math.max(20, current - 3);
+            splitView.style.setProperty("--split-ratio", current);
+            localStorage.setItem("omnitool_split_" + toolId, current);
+            const tooltip = resizer.querySelector(".resizer-tooltip");
+            if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
+          } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            current = Math.min(80, current + 3);
+            splitView.style.setProperty("--split-ratio", current);
+            localStorage.setItem("omnitool_split_" + toolId, current);
+            const tooltip = resizer.querySelector(".resizer-tooltip");
+            if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
+          } else if (e.key === "Enter" || e.key === " " || e.key === "Delete" || e.key === "0") {
+            e.preventDefault();
+            resetSplit();
+          }
+        });
+
+        // Pointer dragging logic with setPointerCapture
+        let isDragging = false;
+        const tooltip = resizer.querySelector(".resizer-tooltip");
+
+        resizer.addEventListener("pointerdown", (e) => {
+          if (e.target.closest(".resizer-reset-btn")) return;
+          isDragging = true;
+          resizer.setPointerCapture(e.pointerId);
+          resizer.classList.add("active");
+          splitView.classList.add("is-resizing");
+          splitView.classList.remove("is-animating");
+        });
+
+        resizer.addEventListener("pointermove", (e) => {
+          if (!isDragging) return;
+          const rect = splitView.getBoundingClientRect();
+          if (rect.width <= 0) return;
+          const offsetX = e.clientX - rect.left;
+          let ratio = (offsetX / rect.width) * 100;
+          ratio = Math.min(80, Math.max(20, ratio));
+          splitView.style.setProperty("--split-ratio", ratio.toFixed(1));
+          if (tooltip) {
+            tooltip.innerText = `${Math.round(ratio)}% | ${Math.round(100 - ratio)}%`;
+          }
+        });
+
+        const stopDragging = (e) => {
+          if (!isDragging) return;
+          isDragging = false;
+          try { resizer.releasePointerCapture(e.pointerId); } catch (_) {}
+          resizer.classList.remove("active");
+          splitView.classList.remove("is-resizing");
+          const finalRatio = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
+          localStorage.setItem("omnitool_split_" + toolId, finalRatio.toFixed(1));
+        };
+
+        resizer.addEventListener("pointerup", stopDragging);
+        resizer.addEventListener("pointercancel", stopDragging);
+
+        // 5. Inject Reset Layout & Full Screen buttons in preview panel header
+        const previewHeader = previewPanel.querySelector(".panel-header");
+        if (previewHeader) {
+          if (!previewHeader.querySelector(".reset-split-btn")) {
+            const resetHeaderBtn = document.createElement("button");
+            resetHeaderBtn.className = "reset-split-btn tool-btn secondary";
+            resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; margin-right: 6px; gap: 4px; display: inline-flex; align-items: center;";
+            resetHeaderBtn.setAttribute("title", "Reset sections to 50/50 layout");
+            resetHeaderBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <polyline points="3 3 3 8 8 8"></polyline>
+              </svg>
+              <span>Reset 50/50</span>
+            `;
+            previewHeader.appendChild(resetHeaderBtn);
+            resetHeaderBtn.addEventListener("click", () => {
+              resetSplit();
+            });
+          }
+
+          if (!previewHeader.querySelector(".preview-fullscreen-btn")) {
+            const fsBtn = document.createElement("button");
+            fsBtn.id = "btn-preview-fullscreen-toggle";
+            fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
+            fsBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: 0; gap: 4px; display: inline-flex; align-items: center;";
+            fsBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+              </svg>
+              <span>Full Screen</span>
+            `;
+            previewHeader.appendChild(fsBtn);
+
+            fsBtn.addEventListener("click", () => {
+              this.playSynthSound('click');
+              const isFS = previewPanel.classList.toggle("preview-fullscreen");
+              splitView.classList.toggle("has-fullscreen-preview", isFS);
+
+              if (isFS) {
+                fsBtn.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                    <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
+                  </svg>
+                  <span>Exit Full Screen</span>
+                `;
+                fsBtn.classList.remove("secondary");
+                fsBtn.classList.add("accent-emerald");
+
+                fab.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px;">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                  <span>Live Editor &amp; Controls</span>
+                `;
+                fab.setAttribute("title", "Expand Floating Corner Editor");
+                splitView.classList.add("drawer-open");
+              } else {
+                fsBtn.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                  </svg>
+                  <span>Full Screen</span>
+                `;
+                fsBtn.classList.remove("accent-emerald");
+                fsBtn.classList.add("secondary");
+
+                fab.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  </svg>
+                  <span>Adjust Inputs</span>
+                `;
+                fab.removeAttribute("title");
+                splitView.classList.remove("drawer-open");
+                drawer?.classList.remove("dock-wide");
+              }
+            });
+
+            const handleFsEscape = (e) => {
+              if (e.key === "Escape" && previewPanel.classList.contains("preview-fullscreen")) {
+                if (splitView.classList.contains("drawer-open")) {
+                  splitView.classList.remove("drawer-open");
+                } else {
+                  fsBtn.click();
+                }
+              }
+            };
+            window.addEventListener("keydown", handleFsEscape);
+          }
+        }
+      }
+    });
+  },
+
 
   renderWorkflowBridges(viewport, toolId) {
     if (!viewport) return;
@@ -5566,7 +5529,8 @@ const app = {
     "mock-data-generator": ["Generate up to 50,000 rows client-side", "Save complex nested schemas templates", "SQL INSERT statement compilation exports"],
     "admin-settings": ["Backup & restore encrypted system settings", "Audit logging local console metrics"],
     "code-playground": ["Tailwind, React, and Vue framework boilerplates", "Download workspaces as ZIP file structures"],
-    "ip-subnet-calculator": ["Supernet visual CIDR planner", "Offline OUI vendor MAC address registry database"]
+    "ip-subnet-calculator": ["Supernet visual CIDR planner", "Offline OUI vendor MAC address registry database"],
+    "screenshot-capture": ["Full page scrolling screenshot stitcher", "Cloud OCR text extraction from capture", "Direct GitHub / Jira issue integration"]
   },
 
   renderAdLockScreen(viewport, toolId, toolInstance, toolbarHtml) {
@@ -6185,6 +6149,135 @@ const app = {
     }
   },
 
+  // Automated International PayPal Smart Buttons Checkout
+  async renderPayPalSmartButtons() {
+    const clientId = this.getConfigValue("omnitool_paypal_client_id", "").trim();
+    const container = document.getElementById("chk-paypal-smart-container");
+    const fallbackRow = document.getElementById("chk-paypal-fallback-row");
+    if (!container) return;
+
+    if (!clientId) {
+      container.style.display = "none";
+      if (fallbackRow) fallbackRow.style.display = "flex";
+      return;
+    }
+
+    // PayPal Client ID is configured! Show smart container, hide fallback link
+    container.style.display = "block";
+    if (fallbackRow) fallbackRow.style.display = "none";
+
+    const plan = this.checkoutPlan || "lifetime";
+    const priceUSD = plan === "lifetime" ? 
+      (this.getConfigValue("omnitool_price_lifetime_usd", "$29.99").replace(/[^0-9.]/g, "") || "29.99") : 
+      (this.getConfigValue("omnitool_price_monthly_usd", "$4.99").replace(/[^0-9.]/g, "") || "4.99");
+
+    const elTitle = document.getElementById("chk-paypal-plan-title");
+    const elDesc = document.getElementById("chk-paypal-plan-desc");
+    const elAmt = document.getElementById("chk-paypal-amount-display");
+    if (elTitle) elTitle.innerText = plan === "lifetime" ? "Lifetime Developer Pass" : "Pro Monthly Subscription";
+    if (elDesc) elDesc.innerText = plan === "lifetime" ? "One-time payment • Lifetime access to all 28 tools" : "Monthly billing • Cancel anytime • 100% Ad-Free";
+    if (elAmt) elAmt.innerText = `$${priceUSD}`;
+
+    const scriptId = "paypal-sdk-script";
+    let sdkScript = document.getElementById(scriptId);
+
+    if (!window.paypal || sdkScript?.getAttribute("data-client-id") !== clientId) {
+      if (sdkScript) sdkScript.remove();
+      container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 12px; font-size: 12.5px;">Loading secure PayPal checkout...</div>`;
+      try {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement("script");
+          s.id = scriptId;
+          s.setAttribute("data-client-id", clientId);
+          s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(clientId)}&currency=USD&intent=capture`;
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      } catch (err) {
+        console.warn("PayPal SDK load error:", err);
+        container.style.display = "none";
+        if (fallbackRow) fallbackRow.style.display = "flex";
+        return;
+      }
+    }
+
+    if (!window.paypal || typeof window.paypal.Buttons !== "function") {
+      container.style.display = "none";
+      if (fallbackRow) fallbackRow.style.display = "flex";
+      return;
+    }
+
+    container.innerHTML = "";
+    try {
+      window.paypal.Buttons({
+        style: {
+          layout: "vertical",
+          color: "gold",
+          shape: "pill",
+          label: "paypal",
+          height: 46
+        },
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            application_context: {
+              brand_name: "OmniTool Hub",
+              shipping_preference: "NO_SHIPPING",
+              user_action: "PAY_NOW"
+            },
+            purchase_units: [{
+              description: plan === "lifetime" ? "OmniTool Hub Lifetime Developer Pass" : "OmniTool Hub Pro Monthly",
+              amount: {
+                currency_code: "USD",
+                value: priceUSD
+              }
+            }]
+          });
+        },
+        onApprove: async (data, actions) => {
+          this.showToast("Capturing and verifying PayPal payment...", "info");
+          try {
+            const details = await actions.order.capture();
+            const verifyRes = await fetch("/api/verify-paypal-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: data.orderID,
+                payerId: data.payerID || details.payer?.payer_id,
+                status: details.status,
+                plan
+              })
+            });
+
+            const verifyData = await verifyRes.json();
+            if (verifyRes.ok && verifyData.success) {
+              localStorage.setItem("omnitool_user_tier", verifyData.tier);
+              localStorage.setItem("omnitool_license_token", verifyData.token);
+              localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+              this.playSynthSound("success");
+              this.showToast(verifyData.message || "🎉 PayPal payment verified! Lifetime PRO unlocked.", "success");
+              this.closeCheckout();
+              this.renderPlansPage();
+            } else {
+              this.playSynthSound("error");
+              this.showToast(verifyData.error || "Payment verification failed.", "error");
+            }
+          } catch (vErr) {
+            this.showToast("Payment verification network error: " + vErr.message, "error");
+          }
+        },
+        onError: (err) => {
+          console.error("PayPal Smart Button error:", err);
+          this.showToast("PayPal error: " + (err.message || "Checkout canceled or declined."), "error");
+        }
+      }).render("#chk-paypal-smart-container");
+    } catch (e) {
+      console.warn("Failed to render PayPal buttons:", e);
+      container.style.display = "none";
+      if (fallbackRow) fallbackRow.style.display = "flex";
+    }
+  },
+
   // =========================================================================
   // UNIFIED MULTI-GATEWAY CHECKOUT ENGINE
   // =========================================================================
@@ -6462,6 +6555,7 @@ const app = {
 
     this.switchIndiaPayMethod("upi");
     this.selectUpiApp("any", "Any UPI App");
+    this.renderPayPalSmartButtons();
 
     modal.style.display = "flex";
     this.playSynthSound("click");
@@ -6719,6 +6813,10 @@ const app = {
     if (cryptoHint) {
       cryptoHint.innerText = `Send exact amount (≈ ${priceUsd} USDT) over selected network.`;
     }
+
+    if (this.checkoutGateway === "paypal") {
+      this.renderPayPalSmartButtons();
+    }
   },
 
   switchCheckoutGateway(gateway) {
@@ -6755,6 +6853,8 @@ const app = {
       const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
       const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
       this.drawUpiQr(upiUri);
+    } else if (gateway === "paypal") {
+      this.renderPayPalSmartButtons();
     }
   },
 

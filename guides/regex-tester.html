@@ -269,9 +269,8 @@
 
     /* Container */
     .container {
-      width: calc(100% - 40px);
       max-width: 1240px;
-      margin: 16px auto 0 auto;
+      margin: 20px auto 0 auto;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 16px;
@@ -279,7 +278,6 @@
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      box-sizing: border-box;
     }
 
     header {
@@ -522,14 +520,12 @@
     }
 
     footer.guide-footer {
-      width: 100%;
-      max-width: 1240px;
+      max-width: 860px;
       margin: 40px auto 0 auto;
       text-align: center;
       font-size: 13px;
       color: var(--text-muted);
       padding: 0 20px;
-      box-sizing: border-box;
     }
 
     footer.guide-footer a {
@@ -607,6 +603,49 @@
     .live-guide-tool-viewport {
       padding: 24px 20px;
       min-height: 260px;
+    }
+
+    /* Embedded Live Playground Full-Fidelity Responsive Overrides */
+    .live-guide-tool-viewport .tool-content-layout.split-view {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px !important;
+      position: static !important;
+      width: 100% !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      min-height: unset !important;
+      box-shadow: none !important;
+      border-radius: 12px !important;
+      overflow: visible !important;
+      padding: 20px !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type::after {
+      display: none !important;
+    }
+
+    .live-guide-tool-viewport .adjust-settings-fab,
+    .live-guide-tool-viewport .split-view-backdrop,
+    .live-guide-tool-viewport .drawer-close-btn {
+      display: none !important;
+    }
+
+    @media (min-width: 960px) {
+      .live-guide-tool-viewport .tool-content-layout.split-view {
+        display: grid !important;
+        grid-template-columns: 1fr 1.05fr !important;
+        gap: 20px !important;
+        align-items: start !important;
+      }
     }
 
     .guide-tool-loading {
@@ -868,7 +907,7 @@
 
     const targetModule = 'regex-tester.js';
     try {
-      const module = await import('../tools/' + targetModule + '?v=' + Date.now());
+      const module = await import('../tools/' + targetModule);
       const toolInstance = module.default;
       const viewport = document.getElementById('live-guide-tool-viewport');
       if (toolInstance && typeof toolInstance.renderUI === 'function' && viewport) {

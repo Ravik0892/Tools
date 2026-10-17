@@ -1,8 +1,8 @@
 # OmniTool Hub v2 (Masterpiece Edition) - Complete Project Manual
 
-OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **62 powerful developer, designer, media, text, and utility tools** organized in consolidated suites and standalone engines. By executing all logic directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
+OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **45 consolidated powerhouse hubs (merging 62+ specialized developer, designer, media, text, and math tools)** organized in smart tabbed suites and standalone engines. By executing all logic directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
 
-> 📖 **Master Directory**: For an exhaustive, in-depth technical manual of all 62 core tools, 25+ sub-tool tabs, operational inputs/outputs, and AI developer extension patterns, see [TOOLS_CATALOG.md](file:///f:/Tools%20website/TOOLS_CATALOG.md).
+> 📖 **Master Directory**: For an exhaustive, in-depth technical manual of all 45 core powerhouse hubs, 35+ sub-tool tabs, operational inputs/outputs, and backward-compatible route aliases, see [TOOLS_CATALOG.md](file:///f:/Tools%20website/TOOLS_CATALOG.md).
 > 🚀 **Roadmap**: For competitor audit comparison and planned feature rollouts, see [EXPANSION_PLAN.md](file:///f:/Tools%20website/EXPANSION_PLAN.md).
 
 ---
@@ -238,6 +238,11 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 #### 20. Graphics Designer & Screenshot Studio (`graphics-studio`)
 *   **Description**: Take webcam snapshots, overlay styled text layers, apply filters, and download or copy images directly.
 *   **Guide Page**: [graphics-studio.html](file:///f:/Tools%20website/guides/graphics-studio.html)
+
+#### 20b. Browser Screen & Window Screenshot Studio (`screenshot-capture`)
+*   **Description**: Capture full desktop, windows, or tabs with 3s-10s countdown delay, wrap in macOS/Windows 11 glass frames, pixelate confidential passwords, add step badges, and copy to clipboard in 1 click.
+*   **Guide Page**: [graphics-studio.html](file:///f:/Tools%20website/guides/graphics-studio.html)
+*   **Hash Routes**: `#tool/screenshot-capture`, `#tool/browser-capture`, `#tool/screenshot`
 
 #### 21. Image Optimizer & Converter (`image-converter`)
 *   **Description**: Adjust dimensions, manage quality ratios, and convert image formats (WebP, PNG, JPEG) client-side.

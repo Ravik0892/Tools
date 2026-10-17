@@ -113,11 +113,11 @@ const app = {
     },
     {
       id: "pdf-utilities",
-      name: "PDF Toolbox (Split, Merge, Convert & Compress)",
-      desc: "Split into PDF/PNG/JPG/WebP/Text, merge multiple PDFs, rotate/reorganize pages, and compress documents 100% client-side.",
+      name: "PDF Page Studio & Organizer",
+      desc: "Split into PDF/Images/Text, merge multiple PDFs, rearrange pages visually, crop margins, and compress documents 100% client-side.",
       category: "text",
       subcategory: "text-markdown",
-      subLabel: "Writers & Parsers",
+      subLabel: "PDF Page Studio",
       accent: "#00f2fe",
       accentRgb: "0, 242, 254",
       monetization: "premium",
@@ -220,9 +220,9 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="16" y1="10" x2="16" y2="10.01"></line></svg>`
     },
     {
-      id: "qr-generator",
-      name: "Dynamic QR Code Studio",
-      desc: "Generate highly customized art QR codes with linear gradients, custom dot patterns, eye styles, and center logos client-side.",
+      id: "qr-studio",
+      name: "Dynamic QR & Barcode Studio",
+      desc: "Generate highly customized art QR codes with linear gradients, custom dot patterns, and logos, or scan QR codes and barcodes live via camera or upload.",
       category: "dev",
       subcategory: "dev-generators",
       subLabel: "Generators",
@@ -374,6 +374,186 @@ const app = {
       accentRgb: "157, 78, 221",
       monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline><line x1="12" y1="2" x2="12" y2="22"></line></svg>`
+    },
+    {
+      id: "robots-generator",
+      name: "Robots.txt Visual Builder",
+      desc: "Create crawl directive rules, block AI web scrapers (GPTBot, CCBot), declare XML sitemaps, configure crawl delays, and validate syntax.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Generators",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4M8 16h.01M16 16h.01"></path></svg>`
+    },
+    {
+      id: "lorem-generator",
+      name: "Smart Lorem Ipsum Generator",
+      desc: "Generate customizable placeholder copy with classical Latin, Cyberpunk Tech, or Corporate jargon in paragraphs, lists, HTML, Markdown, or JSON.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Writers & Parsers",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"></path></svg>`
+    },
+    {
+      id: "favicon-generator",
+      name: "Favicon & App Icon Suite",
+      desc: "Generate complete icon packages (multi-res 16/32 .ico, Apple Touch 180px, Android 192/512px) with shape customizer, tab preview, and ZIP export.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Graphics & Screen Studio",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg>`
+    },
+    {
+      id: "screenshot-capture",
+      name: "Browser Screen & Window Screenshot Studio",
+      desc: "Capture full screen, tabs, or app windows with countdown timer, wrap with macOS/Windows/Cyberpunk browser frames, redact PII passwords, and add step-by-step annotation callouts.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Graphics & Screen Studio",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>`
+    },
+    {
+      id: "screen-recorder",
+      name: "Browser Screen & Tab Recorder",
+      desc: "Capture your full screen, window, or browser tab with microphone audio commentary, real-time timer, and instant WebM/MP4 download.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3" fill="currentColor"></circle></svg>`
+    },
+    {
+      id: "voice-recorder",
+      name: "Voice Recorder & Audio Waveform Studio",
+      desc: "Capture studio-grade voice memos with live frequency bars, smooth oscilloscope waves, noise suppression, and lossless 16-bit WAV export.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>`
+    },
+    {
+      id: "video-speed",
+      name: "Video Playback Speed Controller",
+      desc: "Adjust playback rate from 0.1x to 4.0x, step frame-by-frame, preserve audio pitch, and create continuous A-B section repeat loops.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>`
+    },
+    {
+      id: "audio-suite",
+      name: "Audio Studio & Extractor",
+      desc: "Cross-convert sound files between MP3, WAV, and OGG formats with bitrates up to 320k, or extract audio tracks from video files with visual waveform trimming.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`
+    },
+    {
+      id: "video-to-gif",
+      name: "Video to Animated GIF Converter",
+      desc: "Convert video clips into animated GIFs client-side with custom resolution, frame rate, duration clipping, and live progress monitor.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#ec4899",
+      accentRgb: "236, 72, 153",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>`
+    },
+    {
+      id: "temp-mail",
+      name: "Disposable Temp Mail Client",
+      desc: "Generate instant throwaway email addresses to verify accounts and avoid spam with 10s auto-refresh, notifications, and reader.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Privacy & Mail",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`
+    },
+    {
+      id: "pdf-converter-hub",
+      name: "Document & PDF Converter Hub",
+      desc: "Convert bi-directionally between Word (.docx), Excel (.xlsx/.csv), PowerPoint (.pptx), Images, Camera Scans, HTML/CSS, and Markdown.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Document Converters",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`
+    },
+    {
+      id: "pdf-editor-suite",
+      name: "PDF Editor, Sign & Markup Studio",
+      desc: "E-sign documents with cursive signatures, fill AcroForms, draw vector annotations, stamp watermarks, and permanently redact PII.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`
+    },
+    {
+      id: "pdf-security-suite",
+      name: "PDF Security, Repair & Archival Suite",
+      desc: "Protect PDFs with AES encryption, remove passwords, repair corrupted xref tables & headers, and export ISO 19005 PDF/A archives.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Security & Repair",
+      accent: "#f43f5e",
+      accentRgb: "244, 63, 94",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
+    },
+    {
+      id: "pdf-ai",
+      name: "AI PDF Summarizer & Translator",
+      desc: "Generate executive summaries, extract actionable commitments, chat with documents in Q&A mode, or translate PDFs into 15+ languages via Gemini & offline NLP.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "AI & Intelligence",
+      accent: "#ec4899",
+      accentRgb: "236, 72, 153",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>`
+    },
+    {
+      id: "compare-pdf",
+      name: "Compare PDF Documents",
+      desc: "Compare two revisions of a PDF side-by-side, highlight layout differences with a pixel difference heatmap, wipe slider, or text clause diff.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#6366f1",
+      accentRgb: "99, 102, 241",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg>`
     }
   ],
 
@@ -407,9 +587,45 @@ const app = {
     "admin-settings": ["admin", "settings", "ads", "adsense", "admob", "cache", "control panel", "passcode", "purge"],
     "code-playground": ["html", "css", "js", "playground", "sandbox", "iframe", "console", "live", "edit", "editor", "codepen"],
     "ip-subnet-calculator": ["ip", "subnet", "cidr", "host", "mac", "oui", "manufacturer", "network", "ipv4", "mask", "wildcard"],
-    "curl-converter": ["curl", "fetch", "axios", "python", "requests", "go", "http", "api", "client", "request", "header", "bearer"],
-    "cron-builder": ["cron", "schedule", "crontab", "timing", "interval", "timer", "job", "visual cron", "scheduler", "expression"],
-    "json-to-types": ["json to typescript", "pydantic", "go struct", "rust serde", "types", "interfaces", "schema", "models", "type generator"]
+    "curl-converter": ["curl", "fetch", "axios", "python", "requests", "go", "http", "api", "converter", "request", "header", "postman"],
+    "cron-builder": ["cron", "schedule", "crontab", "job", "timer", "schedule runner", "cron expression", "interval", "quartz", "task"],
+    "json-to-types": ["typescript", "interface", "pydantic", "go struct", "rust serde", "model", "type", "json to type", "schema", "class", "dto"],
+    "robots-generator": ["robots.txt", "robots", "crawler", "bot", "gptbot", "ccbot", "sitemap", "disallow", "allow", "crawl-delay", "seo", "search engine"],
+    "lorem-generator": ["lorem", "ipsum", "dummy text", "placeholder", "filler text", "latin", "generator", "paragraphs", "sentences", "words", "cyberpunk", "b2b"],
+    "qr-scanner": ["qr scanner", "scan qr", "barcode", "reader", "webcam", "camera", "decode qr", "jsqr", "qr reader", "scan barcode", "upc", "ean"],
+    "color-extractor": ["color extractor", "palette", "eyedropper", "loupe", "sample color", "hex from image", "image colors", "dominant colors", "contrast"],
+    "favicon-generator": ["favicon", "ico", "apple touch icon", "app icon", "pwa icon", "icon generator", "favicon.ico", "tab icon", "bookmark icon"],
+    "images-to-pdf": ["image to pdf", "jpg to pdf", "png to pdf", "photos to pdf", "convert images", "pdf maker", "combine pictures", "pdf compiler"],
+    "screenshot-capture": ["screenshot", "screen capture", "browser capture", "tab capture", "window capture", "webpage capture", "mockup", "annotation", "screen grab", "snip", "snipping tool", "redact", "pixelate", "callout", "screenshot tool", "screen snip", "take screenshot"],
+    "screen-recorder": ["screen recorder", "record screen", "capture screen", "screen capture", "record tab", "record video", "screen video", "screencast", "webcam record", "video recorder"],
+    "voice-recorder": ["voice recorder", "audio recorder", "record voice", "mic recorder", "microphone", "sound recorder", "waveform", "wav recorder", "voice memo", "audio visualizer"],
+    "video-speed": ["video speed", "playback speed", "speed controller", "slow motion", "speed up video", "slow video", "frame step", "loop video", "ab loop", "video player", "pitch"],
+    "mp4-to-mp3": ["mp4 to mp3", "video to audio", "extract audio", "convert mp4", "video to wav", "audio extractor", "sound from video", "demux audio", "trim audio"],
+    "video-to-gif": ["video to gif", "convert to gif", "make gif", "animated gif", "gif creator", "mp4 to gif", "webm to gif", "clip to gif", "gif converter", "gif maker"],
+    "temp-mail": ["temp mail", "disposable email", "throwaway email", "fake email", "temporary email", "10 minute mail", "test email", "spam shield", "inbox", "anonymous email"],
+    "sign-pdf": ["sign pdf", "pdf signature", "digital signature", "sign document", "signature pad", "e-sign", "stamp pdf", "draw signature", "fill and sign", "autograph"],
+    "pdf-security": ["protect pdf", "unlock pdf", "encrypt pdf", "decrypt pdf", "pdf password", "secure pdf", "pdf permissions", "remove pdf password", "aes encrypt pdf"],
+    "pdf-watermark": ["watermark pdf", "pdf page numbers", "add watermark", "stamp pdf", "confidential watermark", "page numbering", "bates numbering", "draft watermark", "footer page number"],
+    "pdf-organizer": ["organize pdf", "reorder pdf pages", "rotate pdf", "delete pdf pages", "remove pdf pages", "sort pdf", "pdf page manager", "arrange pdf"],
+    "crop-pdf": ["crop pdf", "trim pdf", "pdf margins", "remove whitespace", "cut pdf", "crop pages", "mediabox", "cropbox", "trim document"],
+    "pdf-forms": ["fill pdf", "pdf forms", "acroform", "pdf form filler", "interactive pdf", "fillable pdf", "flatten pdf", "form fields"],
+    "redact-pdf": ["redact pdf", "sanitize pdf", "black out pdf", "hide pdf text", "remove pii pdf", "censor pdf", "permanent redaction", "pdf privacy"],
+    "excel-pdf": ["excel to pdf", "pdf to excel", "xlsx to pdf", "pdf to xlsx", "csv to pdf", "spreadsheet pdf", "table to pdf", "convert excel", "sheetjs pdf"],
+    "word-pdf": ["word to pdf", "pdf to word", "docx to pdf", "pdf to docx", "convert docx", "pdf to doc", "convert word document", "doc converter"],
+    "html-to-pdf": ["html to pdf", "webpage to pdf", "convert html", "url to pdf", "invoice pdf", "html2pdf", "print webpage", "webpage snapshot", "css to pdf"],
+    "pdf-to-markdown": ["pdf to markdown", "pdf to md", "convert pdf to text", "extract markdown", "gfm converter", "pdf parser", "markdown extractor"],
+    "pdf-ai": ["ai pdf", "pdf summarizer", "translate pdf", "chat with pdf", "ask pdf", "gemini pdf", "document intelligence", "action items pdf", "multilingual pdf"],
+    "scan-to-pdf": ["scan to pdf", "camera scanner", "document scanner", "camscanner", "photo to pdf", "mobile scan", "scan paper", "contrast filter scanner"],
+    "pptx-pdf": ["pptx to pdf", "pdf to pptx", "powerpoint to pdf", "pdf to powerpoint", "slides to pdf", "presentation converter", "convert pptx", "keynote pdf"],
+    "compare-pdf": ["compare pdf", "pdf diff", "pdf difference", "visual diff", "side by side pdf", "pixel diff", "text clause diff", "pdf comparison", "revision checker"],
+    "pdf-annotate": ["annotate pdf", "draw on pdf", "pdf highlighter", "markup pdf", "sketch pdf", "pdf pen", "stamp pdf", "burn annotations", "pdf canvas"],
+    "audio-converter": ["audio converter", "mp3 converter", "wav to mp3", "ogg converter", "transcode audio", "audio bitrate", "sound converter", "music transcode", "flac to mp3"],
+    "pdf-to-pdfa": ["pdf to pdf/a", "pdfa converter", "pdf/a-1b", "pdf/a-2b", "pdf/a-3b", "iso 19005", "archival pdf", "long term pdf", "zugferd pdf", "legal archive"],
+    "pdf-converter-hub": ["office to pdf", "word to pdf", "pdf to word", "docx to pdf", "excel to pdf", "pdf to excel", "xlsx to pdf", "pptx to pdf", "pdf to pptx", "powerpoint to pdf", "images to pdf", "jpg to pdf", "png to pdf", "camera scan to pdf", "html to pdf", "webpage to pdf", "pdf to markdown", "pdf to md", "document converter"],
+    "pdf-editor-suite": ["sign pdf", "pdf signature", "digital signature", "fill and sign", "annotate pdf", "draw on pdf", "pdf highlighter", "markup pdf", "fill pdf", "pdf forms", "acroform", "form filler", "watermark pdf", "pdf page numbers", "add watermark", "redact pdf", "sanitize pdf", "black out pdf", "censor pdf", "pdf editor"],
+    "pdf-security-suite": ["protect pdf", "unlock pdf", "encrypt pdf", "decrypt pdf", "pdf password", "secure pdf", "pdf permissions", "repair pdf", "fix pdf", "recover pdf", "corrupt pdf", "pdf reconstruct", "pdf to pdf/a", "pdfa converter", "iso 19005", "archival pdf"],
+    "qr-studio": ["qr", "barcode", "generate qr", "scan qr", "art qr", "qr code generator", "qr scanner", "webcam qr", "decode qr", "barcode reader"],
+    "audio-suite": ["audio converter", "mp3 converter", "wav to mp3", "ogg converter", "transcode audio", "mp4 to mp3", "video to audio", "extract audio", "demux audio", "audio trimmer", "waveform"]
   },
 
   // Centralized Tool Benefits Registry for visual guide cards
@@ -537,6 +753,154 @@ const app = {
     "json-to-types": [
       "<strong>Automated Type Generation</strong>: Creates TypeScript interfaces, Python Pydantic models, Go structs, and Rust Serde models from raw JSON.",
       "<strong>Recursive Model Structuring</strong>: Automatically unpacks deeply nested JSON objects into individual strongly-typed interfaces."
+    ],
+    "robots-generator": [
+      "<strong>Visual Rule Builder</strong>: Assemble crawler access rules, user-agent directives, and crawl delays with instant syntax validation.",
+      "<strong>AI Scraper Protection</strong>: 1-click toggle to block modern AI crawlers (GPTBot, CCBot, ClaudeBot) from scraping your proprietary content."
+    ],
+    "lorem-generator": [
+      "<strong>Multi-Style Vocabularies</strong>: Switch between classical Latin Cicero prose, dystopian cyberpunk techno-babble, and corporate synergy jargon.",
+      "<strong>Structured Export</strong>: Generate clean plain text, semantic HTML paragraphs, markdown formatting, or JSON arrays ready for mock testing."
+    ],
+    "qr-scanner": [
+      "<strong>High-Speed Client Recognition</strong>: Decodes QR codes and 1D barcodes with zero cloud transmission via pure WebAssembly and jsQR.",
+      "<strong>Multi-Input Flexibility</strong>: Scan in real-time from webcam/mobile camera, drag-and-drop image files, or paste screenshots directly from clipboard."
+    ],
+    "color-extractor": [
+      "<strong>Dominant Palette Quantization</strong>: Extracts prominent accent colors, harmonized complementary shades, and CSS variable tokens.",
+      "<strong>Magnifier Eyedropper</strong>: Precision pixel loupe inspects uploaded images down to the individual pixel with real-time WCAG contrast checks."
+    ],
+    "favicon-generator": [
+      "<strong>Complete Multi-Platform Suite</strong>: Generates multi-layer Windows .ico (16/32), iOS Apple Touch icon (180), and Android PWA icons (192/512).",
+      "<strong>Live Device Previews</strong>: Preview how your icon looks inside dark/light browser tabs, iOS home screens, and Android app drawers."
+    ],
+    "images-to-pdf": [
+      "<strong>Client-Side PDF Assembly</strong>: Merge JPG, PNG, and WebP images into a single polished PDF document without server uploads.",
+      "<strong>Visual Page Board</strong>: Drag, rotate, reorder, and configure page sizes (A4, Letter, Auto-Fit) with margins and quality compression."
+    ],
+    "screenshot-capture": [
+      "<strong>Universal Browser & Tab Snip</strong>: Capture native resolution screens, specific browser tabs, or app windows with an optional 3s-10s countdown delay timer.",
+      "<strong>SaaS Mockup & Redaction Studio</strong>: Frame captures in macOS/Windows 11 glass, permanently pixelate private passwords, and copy to clipboard in 1 click."
+    ],
+    "screen-recorder": [
+      "<strong>Full-Resolution Capture</strong>: Record whole displays, specific application windows, or browser tabs with 60 FPS clarity and live countdown.",
+      "<strong>Mic & System Audio Mix</strong>: Blend microphone commentary seamlessly with internal browser audio using client-side AudioContext mixing."
+    ],
+    "voice-recorder": [
+      "<strong>Studio Audio Fidelity</strong>: Capture crystal-clear vocals with noise suppression, echo cancellation, and 16-bit uncompressed WAV export.",
+      "<strong>Real-Time Visualization</strong>: Dynamic audio frequency spectrum and oscilloscope waves render microphone audio instantly on HTML5 canvas."
+    ],
+    "video-speed": [
+      "<strong>0.1x to 4.0x Variable Rate</strong>: Adjust video playback speed smoothly with natural audio pitch preservation or experimental scaling.",
+      "<strong>A-B Looper & Frame Stepping</strong>: Set custom start and end loop markers to continuously repeat clips and step frame-by-frame with precision."
+    ],
+    "mp4-to-mp3": [
+      "<strong>Zero-Upload Audio Extraction</strong>: Demux and extract soundtracks directly from video files in your browser using pure Web Audio API.",
+      "<strong>Waveform Trimming & Quality</strong>: View audio wave profile and isolate specific song segments or interview clips with sub-second precision."
+    ],
+    "video-to-gif": [
+      "<strong>Client-Side GIF Compiler</strong>: Convert video clips into smooth animated GIFs with customizable resolution, frame rate, and duration clipping.",
+      "<strong>Instant Live Preview</strong>: Monitor frame extraction and encoding progress in real time before downloading the final shareable .gif."
+    ],
+    "temp-mail": [
+      "<strong>Instant Spam Shield</strong>: Generate disposable email addresses in one click to verify signups and safeguard your personal inbox from spam.",
+      "<strong>Automated 10s Sync</strong>: Auto-checks for new incoming messages every 10 seconds with sound notifications and HTML email viewer."
+    ],
+    "sign-pdf": [
+      "<strong>Multi-Mode Signing</strong>: Draw signatures with touch/mouse, type custom cursive scripts, or upload company stamp seals.",
+      "<strong>Pixel-Precise Positioning</strong>: Click to place, scale, and embed signatures anywhere across multi-page PDF documents."
+    ],
+    "pdf-security": [
+      "<strong>Client-Side Encryption</strong>: Lock documents with AES user and owner passwords plus granular printing and copying restrictions.",
+      "<strong>Zero-Trace Unlocking</strong>: Decrypt password-protected files in your browser and export clean unrestricted PDFs."
+    ],
+    "pdf-watermark": [
+      "<strong>Custom Text & Opacity</strong>: Apply angled or horizontal watermarks across all pages with custom typography and color schemes.",
+      "<strong>Dynamic Page Numbering</strong>: Stamp clean page numbers (Page X of Y, X/Y) with customizable header/footer positioning."
+    ],
+    "pdf-organizer": [
+      "<strong>Visual Page Grid</strong>: Preview every page thumbnail in an intuitive interactive board with drag-and-drop reordering.",
+      "<strong>Rotation & Pruning</strong>: Rotate oriented pages by 90° increments and delete unwanted pages before compiling."
+    ],
+    "crop-pdf": [
+      "<strong>Interactive Bounding Box</strong>: Visually define crop margins on canvas or input millimeter/point coordinates.",
+      "<strong>Flexible Scope Targeting</strong>: Apply margin crops across all pages, current page, or even/odd page spreads."
+    ],
+    "pdf-forms": [
+      "<strong>AcroForm Field Inspection</strong>: Automatically detect text fields, checkboxes, dropdowns, and radio buttons in fillable PDFs.",
+      "<strong>Flatten & Lock</strong>: Populate form data cleanly with optional flattening to prevent subsequent modifications."
+    ],
+    "redact-pdf": [
+      "<strong>True Coordinate Sanitization</strong>: Draw blackout boxes permanently baked into document streams to conceal confidential data.",
+      "<strong>100% Client-Side Privacy</strong>: Redactions occur entirely within your local browser memory with zero server uploads."
+    ],
+    "excel-pdf": [
+      "<strong>Dual-Direction Pipeline</strong>: Convert multi-sheet Excel files into formatted PDF tables or extract PDF data grids into clean .xlsx files.",
+      "<strong>Custom Table Styling</strong>: Customize page orientation, striped zebra fills, column font sizes, and custom accent colors."
+    ],
+    "word-pdf": [
+      "<strong>High-Fidelity DOCX Conversion</strong>: Preserve headings, bullet lists, table layouts, bold, and italics client-side without third-party APIs.",
+      "<strong>Native Microsoft Word Compatibility</strong>: Extracted Word files open seamlessly in Microsoft 365, Google Docs, Apple Pages, and LibreOffice."
+    ],
+    "html-to-pdf": [
+      "<strong>Live Split-Pane Sandbox</strong>: Write custom HTML/CSS and preview document rendering in real time before PDF compilation.",
+      "<strong>Vector-Grade Output</strong>: 2x and 3x retina canvas scaling produces ultra-sharp print typography and prevents pixel blur."
+    ],
+    "pdf-to-markdown": [
+      "<strong>Automated Typography Detection</strong>: Intelligently translates large font sizes into # and ## Markdown headings with zero manual tagging.",
+      "<strong>Table & List Preservation</strong>: Converts multi-column layouts into standard GitHub Flavored Markdown (GFM) pipe tables."
+    ],
+    "pdf-ai": [
+      "<strong>Executive Intelligence</strong>: Instantly generate 3-5 bullet takeaway summaries and structured action item deadlines.",
+      "<strong>Multilingual Translation & Chat</strong>: Translate documents into 15+ languages and converse directly with document contents in real time."
+    ],
+    "scan-to-pdf": [
+      "<strong>Smart Contrast Filtering</strong>: High-contrast B&W document filter whitens paper backgrounds and sharpens text strokes like an office scanner.",
+      "<strong>Multi-Page Camera Queue</strong>: Rapidly snap consecutive pages, reorder or rotate captures, and compile into a single document."
+    ],
+    "pptx-pdf": [
+      "<strong>High-Fidelity Slide Conversion</strong>: Parse XML presentations into crisp PDF slides or extract PDF visual slides into native Microsoft PowerPoint files.",
+      "<strong>Zero Software Dependencies</strong>: Create and convert slide decks without installing Microsoft PowerPoint or Adobe Acrobat."
+    ],
+    "compare-pdf": [
+      "<strong>Multi-Mode Visual Difference</strong>: Toggle between synchronized side-by-side view, pixel difference heatmap, and an interactive wipe slider.",
+      "<strong>Semantic Clause Diffing</strong>: Inspect line-by-line and token-level text changes with colored added/removed indicators and exportable reports."
+    ],
+    "pdf-annotate": [
+      "<strong>Full-Featured Drawing Studio</strong>: Freehand pen, highlighter, custom stamps, framing rectangles, and arrow markers.",
+      "<strong>Permanent Vector Burning</strong>: Bakes annotations directly into the document stream for consistent display on mobile and desktop readers."
+    ],
+    "audio-converter": [
+      "<strong>Lossless Audio Transcoding</strong>: Cross-convert between MP3, WAV, and OGG with bitrates up to 320 kbps using client-side Web Audio.",
+      "<strong>Volume Normalization & Channels</strong>: Downmix stereo to mono or amplify low-volume recordings up to 200% with real-time audio playback."
+    ],
+    "repair-pdf": [
+      "<strong>Deep Binary Structure Fixes</strong>: Realigns shifted file headers, closes unclosed streams, and rebuilds corrupted xref tables.",
+      "<strong>Permissive Page Salvage Fallback</strong>: Recovers readable pages from damaged or truncated files into a clean standardized document container."
+    ],
+    "pdf-to-pdfa": [
+      "<strong>ISO 19005 Standardization</strong>: Conform documents to PDF/A-1b, PDF/A-2b, or PDF/A-3b standards for long-term legal archiving.",
+      "<strong>Color & XMP Descriptor Injection</strong>: Embeds device-independent sRGB IEC61966-2.1 OutputIntents and XML conformance schemas."
+    ],
+    "pdf-converter-hub": [
+      "<strong>Universal File Interoperability</strong>: Cross-convert Word, Excel, PowerPoint, Camera Scans, HTML, and Markdown to and from standard PDF format.",
+      "<strong>Zero-Cloud Privacy</strong>: All document rendering, parsing, and conversions occur 100% locally in your browser memory."
+    ],
+    "pdf-editor-suite": [
+      "<strong>All-In-One Document Editor</strong>: Sign, fill AcroForms, sketch vector annotations, add watermarks, and permanently blackout PII in one unified canvas.",
+      "<strong>Vector Stream Baking</strong>: All markings, signatures, and redactions are permanently embedded into the PDF content stream."
+    ],
+    "pdf-security-suite": [
+      "<strong>Cryptographic Protection & Unlock</strong>: Secure documents with AES passwords and permission locks, or remove restrictions instantly.",
+      "<strong>Integrity Diagnostics & Archiving</strong>: Rebuild corrupt xref tables, recover damaged streams, and convert to ISO 19005 PDF/A."
+    ],
+    "qr-studio": [
+      "<strong>Art QR & Barcode Generation</strong>: Create custom branded QR codes with eye styling, logo stamping, and linear gradients.",
+      "<strong>High-Speed Camera Scanner</strong>: Decode QR codes and retail barcodes in real-time from webcam, photo upload, or clipboard."
+    ],
+    "audio-suite": [
+      "<strong>Universal Sound Transcoder</strong>: Convert between MP3, WAV, and OGG formats with bitrates up to 320k and custom gain.",
+      "<strong>Video Audio Demuxer</strong>: Extract soundtracks from MP4, WebM, and MOV video clips with interactive visual waveform trimming."
     ]
   },
 
@@ -727,6 +1091,228 @@ const app = {
       { label: "Go Structs & Rust Serde", icon: "🦀" },
       { label: "Recursive Nested Interfaces", icon: "🌳" },
       { label: "100% In-Browser Types", icon: "⚡" }
+    ],
+    "robots-generator": [
+      { label: "Visual Crawl Rule Builder", icon: "🤖", primary: true },
+      { label: "AI Bot Scraper Shield", icon: "🛡️" },
+      { label: "XML Sitemap Integration", icon: "🗺️" },
+      { label: "One-Click Robots.txt Export", icon: "💾" }
+    ],
+    "lorem-generator": [
+      { label: "Latin, Cyber & Corporate Modes", icon: "✍️", primary: true },
+      { label: "Paragraphs, Lists & Words", icon: "📜" },
+      { label: "HTML, Markdown & JSON Formats", icon: "🏷️" },
+      { label: "Live Word & Char Counters", icon: "🔢" }
+    ],
+    "qr-scanner": [
+      { label: "Webcam & Live Camera Scanning", icon: "📷", primary: true },
+      { label: "File Drop & Clipboard Paste", icon: "📋" },
+      { label: "Smart URL, WiFi & Action Detect", icon: "⚡" },
+      { label: "100% In-Browser Privacy", icon: "🔒" }
+    ],
+    "color-extractor": [
+      { label: "Dominant Palette Quantization", icon: "🎨", primary: true },
+      { label: "Zoom Magnifier Eyedropper", icon: "🔍" },
+      { label: "WCAG 2.1 Contrast Testing", icon: "👁️" },
+      { label: "CSS, Tailwind & JSON Export", icon: "📋" }
+    ],
+    "favicon-generator": [
+      { label: "Multi-Resolution .ICO Compiler", icon: "⭐", primary: true },
+      { label: "Apple Touch & Android PWA Icons", icon: "📱" },
+      { label: "Live Tab & Screen Previews", icon: "👁️" },
+      { label: "All-in-One ZIP Package", icon: "📦" }
+    ],
+    "images-to-pdf": [
+      { label: "JPG, PNG & WebP to PDF", icon: "📑", primary: true },
+      { label: "Visual Reorder & Rotate Board", icon: "🔄" },
+      { label: "A4, Letter & Fit Page Sizes", icon: "📐" },
+      { label: "Pure Client-Side PDF-Lib", icon: "⚡" }
+    ],
+    "screenshot-capture": [
+      { label: "Native Tab & Screen Snip", icon: "📸", primary: true },
+      { label: "macOS & Windows Mockup", icon: "🪟" },
+      { label: "PII & Password Redaction", icon: "⬛" },
+      { label: "1-Click Clipboard Copy", icon: "📋" }
+    ],
+    "screen-recorder": [
+      { label: "Screen, Window & Tab Capture", icon: "🖥️", primary: true },
+      { label: "Mic Commentary Audio Mix", icon: "🎙️" },
+      { label: "60 FPS / 1080p / 4K Modes", icon: "⚡" },
+      { label: "WebM & MP4 Download", icon: "💾" }
+    ],
+    "voice-recorder": [
+      { label: "Studio-Grade Vocals", icon: "🎙️", primary: true },
+      { label: "Live Spectrum & Oscilloscope", icon: "📊" },
+      { label: "Lossless 16-bit WAV Export", icon: "💾" },
+      { label: "Noise & Echo Suppression", icon: "✨" }
+    ],
+    "video-speed": [
+      { label: "0.1x to 4.0x Speed Control", icon: "⚡", primary: true },
+      { label: "Frame-by-Frame Stepper", icon: "🎞️" },
+      { label: "Pitch Preservation Engine", icon: "🎵" },
+      { label: "Continuous A-B Loop Repeater", icon: "🔄" }
+    ],
+    "mp4-to-mp3": [
+      { label: "Video to Audio Extraction", icon: "🎵", primary: true },
+      { label: "Interactive Audio Waveform", icon: "📊" },
+      { label: "Sub-Second Range Trimming", icon: "✂️" },
+      { label: "Studio WAV & WebM Export", icon: "💾" }
+    ],
+    "video-to-gif": [
+      { label: "Video to Animated GIF", icon: "🖼️", primary: true },
+      { label: "Custom Resolution & FPS", icon: "📐" },
+      { label: "Frame-by-Frame Progress", icon: "⏳" },
+      { label: "Pure Client-Side LZW", icon: "⚡" }
+    ],
+    "temp-mail": [
+      { label: "Instant Throwaway Address", icon: "✉️", primary: true },
+      { label: "10-Second Auto Refresh", icon: "⏱️" },
+      { label: "Built-in HTML Email Viewer", icon: "📖" },
+      { label: "100% Free & No Registration", icon: "🛡️" }
+    ],
+    "sign-pdf": [
+      { label: "Draw, Type & Stamp Signatures", icon: "✍️", primary: true },
+      { label: "Interactive Visual Placement", icon: "📍" },
+      { label: "Multi-Page PDF Support", icon: "📑" },
+      { label: "100% Client-Side PDF-Lib", icon: "⚡" }
+    ],
+    "pdf-security": [
+      { label: "AES Password Protection", icon: "🔒", primary: true },
+      { label: "Unlock & Decrypt PDFs", icon: "🔓" },
+      { label: "Print & Copy Restrictions", icon: "🛡️" },
+      { label: "Zero Cloud Uploads", icon: "⚡" }
+    ],
+    "pdf-watermark": [
+      { label: "Angled & Horizontal Watermarks", icon: "💧", primary: true },
+      { label: "Dynamic Page Numbers (X of Y)", icon: "🔢" },
+      { label: "Color, Opacity & Font Scale", icon: "🎨" },
+      { label: "Skip First Page Cover Option", icon: "📄" }
+    ],
+    "pdf-organizer": [
+      { label: "Drag & Reorder Page Grid", icon: "🔄", primary: true },
+      { label: "90° Page Rotation", icon: "🔁" },
+      { label: "Delete Unwanted Pages", icon: "🗑️" },
+      { label: "High-Fidelity Thumbnails", icon: "👁️" }
+    ],
+    "crop-pdf": [
+      { label: "Visual Bounding Box Crop", icon: "✂️", primary: true },
+      { label: "All / Even / Odd Scope", icon: "📐" },
+      { label: "Millimeter & Point Margins", icon: "📏" },
+      { label: "MediaBox & CropBox Engine", icon: "⚡" }
+    ],
+    "pdf-forms": [
+      { label: "Fill Interactive AcroForms", icon: "📝", primary: true },
+      { label: "Text, Checks & Dropdowns", icon: "🔘" },
+      { label: "Flatten & Lock Fields", icon: "🔒" },
+      { label: "Export Filled Documents", icon: "💾" }
+    ],
+    "redact-pdf": [
+      { label: "Permanent Stream Redaction", icon: "⬛", primary: true },
+      { label: "Blackout & Whiteout Boxes", icon: "🖌️" },
+      { label: "Scrub PII & Financial Data", icon: "🛡️" },
+      { label: "Zero Server Transmission", icon: "🔒" }
+    ],
+    "excel-pdf": [
+      { label: "Excel to PDF & PDF to Excel", icon: "📊", primary: true },
+      { label: "Multi-Sheet Tabs Supported", icon: "📑" },
+      { label: "Zebra & Grid Themes", icon: "🎨" },
+      { label: "Pure In-Browser SheetJS", icon: "⚡" }
+    ],
+    "word-pdf": [
+      { label: "DOCX to PDF & PDF to Word", icon: "📄", primary: true },
+      { label: "Preserves Tables & Headings", icon: "📐" },
+      { label: "Native Word (.docx) Export", icon: "💾" },
+      { label: "100% Client-Side Privacy", icon: "🔒" }
+    ],
+    "html-to-pdf": [
+      { label: "Live HTML/CSS Sandbox", icon: "💻", primary: true },
+      { label: "Pre-Built Invoice Templates", icon: "🧾" },
+      { label: "Page-Break CSS Controls", icon: "✂️" },
+      { label: "Crisp 3x Retina Scaling", icon: "✨" }
+    ],
+    "pdf-to-markdown": [
+      { label: "PDF to GitHub Markdown (GFM)", icon: "📝", primary: true },
+      { label: "Auto Heading (#) Detection", icon: "🏷️" },
+      { label: "Pipe Table Conversion", icon: "📊" },
+      { label: "One-Click .md Download", icon: "📥" }
+    ],
+    "pdf-ai": [
+      { label: "Executive Bullet Summaries", icon: "📌", primary: true },
+      { label: "Action Items & Deadlines", icon: "⚡" },
+      { label: "15+ Language Translations", icon: "🌐" },
+      { label: "Google Gemini & Offline NLP", icon: "🤖" }
+    ],
+    "scan-to-pdf": [
+      { label: "Live Camera Viewfinder", icon: "📷", primary: true },
+      { label: "Multi-Page Rapid Snapping", icon: "📑" },
+      { label: "B&W Document Contrast Filter", icon: "✨" },
+      { label: "Single/Multi-Page PDF Export", icon: "💾" }
+    ],
+    "pptx-pdf": [
+      { label: "PowerPoint (.pptx) to PDF", icon: "📊", primary: true },
+      { label: "PDF to PowerPoint Slides", icon: "📑" },
+      { label: "PptxGenJS Vector Slides", icon: "🎨" },
+      { label: "100% Client-Side Conversion", icon: "⚡" }
+    ],
+    "compare-pdf": [
+      { label: "Visual Page Comparison", icon: "👁️", primary: true },
+      { label: "Pixel Difference Heatmap", icon: "🔴" },
+      { label: "Interactive Wipe Slider", icon: "↔️" },
+      { label: "Text & Clause Diff Export", icon: "📝" }
+    ],
+    "pdf-annotate": [
+      { label: "Freehand Pen & Highlighter", icon: "✏️", primary: true },
+      { label: "Text Stamps & Bounding Boxes", icon: "🔤" },
+      { label: "Arrow Directional Pointers", icon: "➡️" },
+      { label: "Burn Annotations to PDF", icon: "💾" }
+    ],
+    "audio-converter": [
+      { label: "MP3, WAV & OGG Transcode", icon: "🎧", primary: true },
+      { label: "Bitrates up to 320 kbps", icon: "⚡" },
+      { label: "Stereo / Mono Downmix", icon: "🎛️" },
+      { label: "Volume Gain Booster (200%)", icon: "🔊" }
+    ],
+    "repair-pdf": [
+      { label: "Rebuild Damaged Xref Tables", icon: "🛠️", primary: true },
+      { label: "Fix Missing Trailers & Headers", icon: "🩹" },
+      { label: "Permissive Stream Salvage", icon: "📂" },
+      { label: "Real-Time Diagnostic Console", icon: "💻" }
+    ],
+    "pdf-to-pdfa": [
+      { label: "ISO 19005 Standardization", icon: "🏛️", primary: true },
+      { label: "PDF/A-1b, 2b & 3b Profiles", icon: "📜" },
+      { label: "Embedded sRGB OutputIntent", icon: "🎨" },
+      { label: "XMP Archival Metadata Packet", icon: "🏷️" }
+    ],
+    "pdf-converter-hub": [
+      { label: "Word, Excel & PPTX", icon: "📄", primary: true },
+      { label: "Images & Camera Scanner", icon: "📷" },
+      { label: "HTML/CSS & Markdown", icon: "💻" },
+      { label: "100% In-Browser", icon: "🔒" }
+    ],
+    "pdf-editor-suite": [
+      { label: "Draw & Cursive Sign", icon: "✍️", primary: true },
+      { label: "AcroForm Fill & Flatten", icon: "📋" },
+      { label: "Vector Markup & Watermark", icon: "✏️" },
+      { label: "Permanent Redaction", icon: "⬛" }
+    ],
+    "pdf-security-suite": [
+      { label: "AES-256 Encrypt & Unlock", icon: "🔒", primary: true },
+      { label: "Corrupt Xref Stream Repair", icon: "🛠️" },
+      { label: "ISO 19005 PDF/A Archive", icon: "🏛️" },
+      { label: "Zero Server Uploads", icon: "⚡" }
+    ],
+    "qr-studio": [
+      { label: "Art Gradients & Logos", icon: "🎨", primary: true },
+      { label: "Webcam & File Scanner", icon: "📷" },
+      { label: "1D/2D Barcode Support", icon: "📦" },
+      { label: "Client-Side Speed", icon: "⚡" }
+    ],
+    "audio-suite": [
+      { label: "MP3, WAV & OGG Transcode", icon: "🎧", primary: true },
+      { label: "Video Audio Demuxer", icon: "🎬" },
+      { label: "Visual Waveform Trimmer", icon: "📊" },
+      { label: "Bitrates up to 320k", icon: "⚡" }
     ]
   },
 
@@ -863,6 +1449,135 @@ const app = {
     "ip-subnet-calculator": [
       { targetId: "unit-converter", hint: "Convert network data transfer rates and subnet capacities" },
       { targetId: "calculator", hint: "Perform advanced binary calculations and address math" }
+    ],
+    "robots-generator": [
+      { targetId: "seo-previewer", hint: "Preview social cards and meta tags for indexed pages" },
+      { targetId: "url-parser", hint: "Analyze site URL paths and query parameters for disallow rules" }
+    ],
+    "lorem-generator": [
+      { targetId: "markdown-preview", hint: "Test how your dummy copy renders in markdown and HTML" },
+      { targetId: "text-analyzer", hint: "Check word count and readability scores of generated text" }
+    ],
+    "qr-scanner": [
+      { targetId: "qr-generator", hint: "Generate a custom branded QR code with extracted content" },
+      { targetId: "url-parser", hint: "Inspect and test decoded URL query parameters" }
+    ],
+    "color-extractor": [
+      { targetId: "color-lab", hint: "Fine-tune contrast ratios and generate harmonic shades" },
+      { targetId: "css-studio", hint: "Apply extracted colors directly to CSS gradients and glass cards" }
+    ],
+    "favicon-generator": [
+      { targetId: "seo-previewer", hint: "Inspect favicon appearance in Google SERP results" },
+      { targetId: "image-converter", hint: "Convert and optimize source graphics before icon compilation" }
+    ],
+    "images-to-pdf": [
+      { targetId: "pdf-utilities", hint: "Compress, split, or encrypt your assembled PDF document" },
+      { targetId: "image-converter", hint: "Optimize and resize image resolutions before compiling" }
+    ],
+    "screenshot-capture": [
+      { targetId: "screen-recorder", hint: "Record continuous video tutorials of your screen with microphone audio" },
+      { targetId: "graphics-studio", hint: "Create promotional social banners and marketing graphics" }
+    ],
+    "screen-recorder": [
+      { targetId: "video-speed", hint: "Review and inspect screen recording with variable speed and frame stepper" },
+      { targetId: "video-to-gif", hint: "Convert recorded screen clips into lightweight animated GIFs" },
+      { targetId: "mp4-to-mp3", hint: "Extract the audio or voice commentary from your screen recording" }
+    ],
+    "voice-recorder": [
+      { targetId: "mp4-to-mp3", hint: "Trim or process voice tracks alongside video soundtracks" },
+      { targetId: "screen-recorder", hint: "Record visual screen tutorials with full microphone commentary" }
+    ],
+    "video-speed": [
+      { targetId: "video-to-gif", hint: "Convert inspected video segment into an animated GIF clip" },
+      { targetId: "mp4-to-mp3", hint: "Extract the audio track from the loaded video" }
+    ],
+    "mp4-to-mp3": [
+      { targetId: "voice-recorder", hint: "Record voice notes or compare against extracted audio tracks" },
+      { targetId: "video-speed", hint: "Play video back at variable speeds with pitch control" }
+    ],
+    "video-to-gif": [
+      { targetId: "video-speed", hint: "Frame-step through video to identify exact GIF start/end moments" },
+      { targetId: "image-converter", hint: "Optimize and compress graphics or converted frames" }
+    ],
+    "temp-mail": [
+      { targetId: "security-suite", hint: "Generate secure passwords to use with your disposable email" },
+      { targetId: "qr-generator", hint: "Generate a QR code of your temporary inbox address" }
+    ],
+    "sign-pdf": [
+      { targetId: "pdf-security", hint: "Lock and password-protect your signed PDF document" },
+      { targetId: "pdf-watermark", hint: "Add confidential watermarks or numbering to your signed PDF" }
+    ],
+    "pdf-security": [
+      { targetId: "sign-pdf", hint: "Sign documents before encrypting with password protection" },
+      { targetId: "redact-pdf", hint: "Scrub sensitive PII before applying encryption locks" }
+    ],
+    "pdf-watermark": [
+      { targetId: "pdf-organizer", hint: "Organize and rotate pages before stamping watermarks" },
+      { targetId: "pdf-security", hint: "Encrypt watermarked documents for secure distribution" }
+    ],
+    "pdf-organizer": [
+      { targetId: "crop-pdf", hint: "Crop margins on organized and rotated pages" },
+      { targetId: "sign-pdf", hint: "Sign organized documents on designated signature pages" }
+    ],
+    "crop-pdf": [
+      { targetId: "pdf-organizer", hint: "Reorder or rotate pages after cropping margins" },
+      { targetId: "pdf-utilities", hint: "Compress cropped PDF to minimize file size" }
+    ],
+    "pdf-forms": [
+      { targetId: "sign-pdf", hint: "Add verified signatures or stamps to completed forms" },
+      { targetId: "pdf-security", hint: "Password-protect filled forms before emailing" }
+    ],
+    "redact-pdf": [
+      { targetId: "pdf-security", hint: "Encrypt sanitized documents with AES passwords" },
+      { targetId: "pdf-watermark", hint: "Stamp 'SANITIZED' or 'REDACTED' watermark across pages" }
+    ],
+    "excel-pdf": [
+      { targetId: "pdf-security", hint: "Encrypt financial spreadsheet PDFs with AES passwords" },
+      { targetId: "pdf-watermark", hint: "Add confidential watermarks to financial PDF tables" }
+    ],
+    "word-pdf": [
+      { targetId: "sign-pdf", hint: "Digitally sign contracts after converting from Word" },
+      { targetId: "pdf-security", hint: "Password-protect converted Word documents" }
+    ],
+    "html-to-pdf": [
+      { targetId: "pdf-watermark", hint: "Add page numbering or company stamps to HTML documents" },
+      { targetId: "pdf-organizer", hint: "Organize and rotate pages in compiled HTML PDFs" }
+    ],
+    "pdf-to-markdown": [
+      { targetId: "markdown-preview", hint: "Edit and format your converted Markdown in real time" },
+      { targetId: "text-analyzer", hint: "Check readability scores and word counts of extracted text" }
+    ],
+    "pdf-ai": [
+      { targetId: "pdf-to-markdown", hint: "Convert full document to Markdown before AI processing" },
+      { targetId: "word-pdf", hint: "Export AI summaries and translated documents into Word" }
+    ],
+    "scan-to-pdf": [
+      { targetId: "pdf-organizer", hint: "Reorder, rotate, or delete scanned pages in thumbnail grid" },
+      { targetId: "pdf-utilities", hint: "Compress scanned PDF to minimize file size" }
+    ],
+    "pptx-pdf": [
+      { targetId: "pdf-watermark", hint: "Watermark confidential presentation slides before distribution" },
+      { targetId: "pdf-security", hint: "Password-protect confidential slide decks" }
+    ],
+    "compare-pdf": [
+      { targetId: "pdf-annotate", hint: "Annotate and highlight discrepancies found during comparison" },
+      { targetId: "text-diff", hint: "Run granular line-by-line diff on specific clauses" }
+    ],
+    "pdf-annotate": [
+      { targetId: "sign-pdf", hint: "Add verified cursive or digital signature stamps" },
+      { targetId: "pdf-security", hint: "Lock and encrypt annotated document" }
+    ],
+    "audio-converter": [
+      { targetId: "mp4-to-mp3", hint: "Extract audio tracks directly from video clips" },
+      { targetId: "voice-recorder", hint: "Record and visualize microphone audio memos" }
+    ],
+    "repair-pdf": [
+      { targetId: "pdf-utilities", hint: "Optimize and compress repaired PDF structure" },
+      { targetId: "pdf-to-pdfa", hint: "Convert salvaged PDF to ISO archival compliance" }
+    ],
+    "pdf-to-pdfa": [
+      { targetId: "repair-pdf", hint: "Inspect and repair stream errors prior to archiving" },
+      { targetId: "pdf-security", hint: "Audit permissions and encryption parameters" }
     ]
   },
 
@@ -899,8 +1614,47 @@ const app = {
     "glassmorphism-generator": { suiteId: "css-studio", subtab: "glass" },
     "color-palette": { suiteId: "color-lab", subtab: "palette" },
     "color-shades": { suiteId: "color-lab", subtab: "shades" },
+    "color-extractor": { suiteId: "color-lab", subtab: "extract" },
     "epoch-converter": { suiteId: "datetime-suite", subtab: "epoch" },
-    "date-calculator": { suiteId: "datetime-suite", subtab: "date" }
+    "date-calculator": { suiteId: "datetime-suite", subtab: "date" },
+
+    // QR & Barcode Studio Suite
+    "qr-generator": { suiteId: "qr-studio", subtab: "qr-generator" },
+    "qr-scanner": { suiteId: "qr-studio", subtab: "qr-scanner" },
+
+    // Screenshot & Browser Capture Aliases
+    "browser-capture": { suiteId: "screenshot-capture" },
+    "screenshot": { suiteId: "screenshot-capture" },
+    "screen-capture": { suiteId: "screenshot-capture" },
+
+    // Audio Studio & Extractor Suite
+    "audio-converter": { suiteId: "audio-suite", subtab: "audio-converter" },
+    "mp4-to-mp3": { suiteId: "audio-suite", subtab: "mp4-to-mp3" },
+
+    // PDF Page Studio & Organizer
+    "pdf-organizer": { suiteId: "pdf-utilities", subtab: "rotate" },
+    "crop-pdf": { suiteId: "pdf-utilities", subtab: "split" },
+
+    // Universal Document & PDF Converter Hub
+    "word-pdf": { suiteId: "pdf-converter-hub", subtab: "word-pdf" },
+    "excel-pdf": { suiteId: "pdf-converter-hub", subtab: "excel-pdf" },
+    "pptx-pdf": { suiteId: "pdf-converter-hub", subtab: "pptx-pdf" },
+    "images-to-pdf": { suiteId: "pdf-converter-hub", subtab: "images-to-pdf" },
+    "scan-to-pdf": { suiteId: "pdf-converter-hub", subtab: "scan-to-pdf" },
+    "html-to-pdf": { suiteId: "pdf-converter-hub", subtab: "html-to-pdf" },
+    "pdf-to-markdown": { suiteId: "pdf-converter-hub", subtab: "pdf-to-markdown" },
+
+    // PDF Editor, Sign & Markup Studio
+    "sign-pdf": { suiteId: "pdf-editor-suite", subtab: "sign-pdf" },
+    "pdf-annotate": { suiteId: "pdf-editor-suite", subtab: "pdf-annotate" },
+    "pdf-forms": { suiteId: "pdf-editor-suite", subtab: "pdf-forms" },
+    "pdf-watermark": { suiteId: "pdf-editor-suite", subtab: "pdf-watermark" },
+    "redact-pdf": { suiteId: "pdf-editor-suite", subtab: "redact-pdf" },
+
+    // PDF Security, Repair & Archival Suite
+    "pdf-security": { suiteId: "pdf-security-suite", subtab: "pdf-security" },
+    "repair-pdf": { suiteId: "pdf-security-suite", subtab: "repair-pdf" },
+    "pdf-to-pdfa": { suiteId: "pdf-security-suite", subtab: "pdf-to-pdfa" }
   },
 
   async loadGlobalConfig() {
@@ -1085,7 +1839,7 @@ const app = {
       const randomIndex = Math.floor(Math.random() * availableTools.length);
       const chosenTool = availableTools[randomIndex];
 
-      this.showToast(`🎲 Surprise Discovery: Opening "${chosenTool.name}"!`, "info");
+      this.showToast(`Surprise Discovery: Opening "${chosenTool.name}"!`, "info");
 
       setTimeout(() => {
         this.navigateToTool(chosenTool.id);
@@ -1108,15 +1862,15 @@ const app = {
     if (!searchInputs.length) return;
 
     const prompts = [
-      "Search 26+ offline tools... (e.g. '3D Solar System' 🪐)",
-      "Try 'Smart Chain Pipeline Builder' ⚡",
-      "Try 'Audio Synth & Visualizer' 🎹",
-      "Try 'QR Code Generator Studio' 📱",
-      "Try 'Markdown Live Editor' 📝",
-      "Try 'Matrix Rain Simulation' 💻",
-      "Try 'JWT Token Decoder' 🔐",
-      "Try 'Color Palette Generator' 🎨",
-      "Try 'Speed Test & Ping Monitor' 🚀"
+      "Search 26+ offline tools... (e.g. '3D Solar System')",
+      "Try 'Smart Chain Pipeline Builder'",
+      "Try 'Audio Synth & Visualizer'",
+      "Try 'QR Code Generator Studio'",
+      "Try 'Markdown Live Editor'",
+      "Try 'Matrix Rain Simulation'",
+      "Try 'JWT Token Decoder'",
+      "Try 'Color Palette Generator'",
+      "Try 'Speed Test & Ping Monitor'"
     ];
 
     let promptIdx = 0;
@@ -1683,6 +2437,22 @@ const app = {
         sessionStorage.setItem("omnitool_stealth_admin_unlocked", "true");
         this.showToast("🛡️ Stealth Admin Triggered. Enter Master Passcode.", "info");
         this.navigateToTool("admin-settings", false);
+      }
+
+      // Power User Hotkeys: Alt + 1..9 jumps directly to pinned favorites #1 to #9
+      if (e.altKey && !e.ctrlKey && !e.shiftKey && e.key >= "1" && e.key <= "9") {
+        const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+        if (activeTag !== "textarea" && activeTag !== "input") {
+          const idx = parseInt(e.key, 10) - 1;
+          const favArray = Array.from(this.favorites);
+          if (favArray[idx]) {
+            e.preventDefault();
+            const targetId = favArray[idx];
+            const tool = this.tools.find(t => t.id === targetId);
+            this.showToast(`⚡ Quick Launch [Alt+${e.key}]: ${tool?.name || targetId}`, "info", 1500);
+            this.navigateToTool(targetId);
+          }
+        }
       }
     });
 
@@ -3415,15 +4185,22 @@ const app = {
         this.renderFileProtocolError(toolId);
         return;
       }
-      const isLocalhost = window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1" ||
-        window.location.hostname === "127.0.0.1.nip.io" ||
-        window.location.hostname === "host.docker.internal";
 
-      // Force browser to bust its cache whenever app version updates or during local development
-      const cacheBust = isLocalhost ? `?v=1.3.0&t=${Date.now()}` : '?v=1.3.0';
-      const module = await import('./tools/' + toolId + '.js' + cacheBust);
+      // Lifecycle Memory Management: Clean up previous tool's active intervals/workers/webcams
+      if (this._currentToolInstance && typeof this._currentToolInstance.cleanup === "function") {
+        try { this._currentToolInstance.cleanup(); } catch (err) { console.warn("Tool cleanup error:", err); }
+      }
+      this._currentToolInstance = null;
+
+      if (!this._toolModuleCache) this._toolModuleCache = {};
+      let module = this._toolModuleCache[toolId];
+      if (!module) {
+        const cacheBust = '?v=1.3.5';
+        module = await import('./tools/' + toolId + '.js' + cacheBust);
+        this._toolModuleCache[toolId] = module;
+      }
       const toolInstance = module.default;
+      this._currentToolInstance = toolInstance;
 
       // Monetization Lock Gate Validation
       const toolRegistryEntry = this.tools.find(t => t.id === toolId);
@@ -3479,332 +4256,9 @@ const app = {
 
       viewport.innerHTML = toolbarHtml + toolInstance.renderUI();
 
-      // Split view layout drawer enhancements for mobile viewports
-      const splitView = viewport.querySelector(".tool-content-layout.split-view");
-      if (splitView) {
-        // 1. Create and inject Backdrop overlay
-        const backdrop = document.createElement("div");
-        backdrop.className = "split-view-backdrop";
-        splitView.appendChild(backdrop);
+      // Split view layout drawer enhancements & draggable resizer
+      this.initLayoutSizer(viewport);
 
-        // 2. Create and inject FAB
-        const fab = document.createElement("button");
-        fab.className = "adjust-settings-fab";
-        fab.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-          <span>Adjust Inputs</span>
-        `;
-        splitView.appendChild(fab);
-
-        // 3. Get panels and inject a close button inside the drawer header
-        const panels = Array.from(splitView.querySelectorAll(".tool-panel:not(.tool-guide-card)"));
-        const drawer = panels[0];
-        const previewPanel = panels[1];
-        if (drawer) {
-          // Prepend floating dock header for corner floating mode in fullscreen
-          if (!drawer.querySelector(".floating-dock-header")) {
-            const dockHeader = document.createElement("div");
-            dockHeader.className = "floating-dock-header";
-            dockHeader.innerHTML = `
-              <div class="dock-title">
-                <span class="dock-dot"></span>
-                <span>Live Editor &amp; Controls</span>
-                <span class="dock-badge">Live Sync</span>
-              </div>
-              <div class="dock-actions">
-                <button type="button" class="dock-btn dock-size-btn" title="Toggle Compact / Wide View" aria-label="Toggle width">
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-                  <span>Width</span>
-                </button>
-                <button type="button" class="dock-btn dock-collapse-btn" title="Minimize to Corner" aria-label="Minimize editor">
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline></svg>
-                  <span>Minimize</span>
-                </button>
-              </div>
-            `;
-            drawer.prepend(dockHeader);
-
-            dockHeader.querySelector(".dock-collapse-btn").addEventListener("click", () => {
-              this.playSynthSound('click');
-              splitView.classList.remove("drawer-open");
-            });
-
-            dockHeader.querySelector(".dock-size-btn").addEventListener("click", () => {
-              this.playSynthSound('click');
-              drawer.classList.toggle("dock-wide");
-            });
-          }
-
-          const header = drawer.querySelector(".panel-header");
-          if (header && !header.querySelector(".drawer-close-btn")) {
-            const closeBtn = document.createElement("button");
-            closeBtn.className = "drawer-close-btn";
-            closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px; display: none;";
-            closeBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
-            header.appendChild(closeBtn);
-
-            closeBtn.addEventListener("click", () => {
-              this.playSynthSound('click');
-              splitView.classList.remove("drawer-open");
-            });
-          }
-
-          // 5. Add swipe gesture detector to close drawer
-          let touchStartX = 0;
-          let touchEndX = 0;
-          drawer.addEventListener("touchstart", (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-          }, { passive: true });
-          drawer.addEventListener("touchend", (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 60) {
-              this.playSynthSound('click');
-              splitView.classList.remove("drawer-open");
-            }
-          }, { passive: true });
-        }
-
-        // 4. Inject Draggable Resizer & Reset Section Handler (Desktop Split View)
-        if (drawer && previewPanel) {
-          let resizer = splitView.querySelector(".split-view-resizer");
-          if (!resizer) {
-            resizer = document.createElement("div");
-            resizer.className = "split-view-resizer";
-            resizer.setAttribute("role", "separator");
-            resizer.setAttribute("aria-orientation", "vertical");
-            resizer.setAttribute("tabindex", "0");
-            resizer.setAttribute("title", "Drag to resize sections • Double-click to reset (50/50)");
-            resizer.innerHTML = `
-              <div class="resizer-track"></div>
-              <div class="resizer-handle">
-                <div class="resizer-dots">
-                  <span></span><span></span><span></span>
-                </div>
-                <button class="resizer-reset-btn" title="Reset to 50/50 layout" aria-label="Reset layout">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
-                  <span>Reset</span>
-                </button>
-              </div>
-              <div class="resizer-tooltip">50% | 50%</div>
-            `;
-            drawer.after(resizer);
-            splitView.classList.add("has-resizer");
-          }
-
-          // Restore saved custom split ratio if any
-          const savedRatio = localStorage.getItem("omnitool_split_" + toolId);
-          if (savedRatio && !isNaN(parseFloat(savedRatio))) {
-            const r = Math.min(80, Math.max(20, parseFloat(savedRatio)));
-            splitView.style.setProperty("--split-ratio", r);
-            const tooltip = resizer.querySelector(".resizer-tooltip");
-            if (tooltip) tooltip.innerText = `${Math.round(r)}% | ${Math.round(100 - r)}%`;
-          } else {
-            splitView.style.removeProperty("--split-ratio");
-          }
-
-          // Reset Section Helper Function
-          const resetSplit = () => {
-            this.playSynthSound('click');
-            splitView.classList.add("is-animating");
-            splitView.style.removeProperty("--split-ratio");
-            localStorage.removeItem("omnitool_split_" + toolId);
-            const tooltip = resizer.querySelector(".resizer-tooltip");
-            if (tooltip) tooltip.innerText = "50% | 50%";
-            setTimeout(() => {
-              splitView.classList.remove("is-animating");
-            }, 300);
-            this.showToast("Layout reset to default (50/50)", "info");
-          };
-
-          // Double-click to reset
-          resizer.addEventListener("dblclick", (e) => {
-            e.preventDefault();
-            resetSplit();
-          });
-
-          // Reset button on handle
-          const resetHandleBtn = resizer.querySelector(".resizer-reset-btn");
-          if (resetHandleBtn) {
-            resetHandleBtn.addEventListener("click", (e) => {
-              e.stopPropagation();
-              resetSplit();
-            });
-          }
-
-          // Keyboard adjustment & reset
-          resizer.addEventListener("keydown", (e) => {
-            let current = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
-            if (e.key === "ArrowLeft") {
-              e.preventDefault();
-              current = Math.max(20, current - 3);
-              splitView.style.setProperty("--split-ratio", current);
-              localStorage.setItem("omnitool_split_" + toolId, current);
-              const tooltip = resizer.querySelector(".resizer-tooltip");
-              if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
-            } else if (e.key === "ArrowRight") {
-              e.preventDefault();
-              current = Math.min(80, current + 3);
-              splitView.style.setProperty("--split-ratio", current);
-              localStorage.setItem("omnitool_split_" + toolId, current);
-              const tooltip = resizer.querySelector(".resizer-tooltip");
-              if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
-            } else if (e.key === "Enter" || e.key === " " || e.key === "Delete" || e.key === "0") {
-              e.preventDefault();
-              resetSplit();
-            }
-          });
-
-          // Pointer dragging logic with setPointerCapture
-          let isDragging = false;
-          const tooltip = resizer.querySelector(".resizer-tooltip");
-
-          resizer.addEventListener("pointerdown", (e) => {
-            if (e.target.closest(".resizer-reset-btn")) return;
-            isDragging = true;
-            resizer.setPointerCapture(e.pointerId);
-            resizer.classList.add("active");
-            splitView.classList.add("is-resizing");
-            splitView.classList.remove("is-animating");
-          });
-
-          resizer.addEventListener("pointermove", (e) => {
-            if (!isDragging) return;
-            const rect = splitView.getBoundingClientRect();
-            if (rect.width <= 0) return;
-            const offsetX = e.clientX - rect.left;
-            let ratio = (offsetX / rect.width) * 100;
-            ratio = Math.min(80, Math.max(20, ratio));
-            splitView.style.setProperty("--split-ratio", ratio.toFixed(1));
-            if (tooltip) {
-              tooltip.innerText = `${Math.round(ratio)}% | ${Math.round(100 - ratio)}%`;
-            }
-          });
-
-          const stopDragging = (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            try { resizer.releasePointerCapture(e.pointerId); } catch (_) {}
-            resizer.classList.remove("active");
-            splitView.classList.remove("is-resizing");
-            const finalRatio = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
-            localStorage.setItem("omnitool_split_" + toolId, finalRatio.toFixed(1));
-          };
-
-          resizer.addEventListener("pointerup", stopDragging);
-          resizer.addEventListener("pointercancel", stopDragging);
-
-          // 5. Inject Reset Layout & Full Screen buttons in preview panel header
-          const previewHeader = previewPanel.querySelector(".panel-header");
-          if (previewHeader) {
-            if (!previewHeader.querySelector(".reset-split-btn")) {
-              const resetHeaderBtn = document.createElement("button");
-              resetHeaderBtn.className = "reset-split-btn tool-btn secondary";
-              resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; margin-right: 6px; gap: 4px; display: inline-flex; align-items: center;";
-              resetHeaderBtn.setAttribute("title", "Reset sections to 50/50 layout");
-              resetHeaderBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11">
-                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                  <polyline points="3 3 3 8 8 8"></polyline>
-                </svg>
-                <span>Reset 50/50</span>
-              `;
-              previewHeader.appendChild(resetHeaderBtn);
-              resetHeaderBtn.addEventListener("click", () => {
-                resetSplit();
-              });
-            }
-
-            if (!previewHeader.querySelector(".preview-fullscreen-btn")) {
-              const fsBtn = document.createElement("button");
-              fsBtn.id = "btn-preview-fullscreen-toggle";
-              fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
-              fsBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: 0; gap: 4px; display: inline-flex; align-items: center;";
-              fsBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                </svg>
-                <span>Full Screen</span>
-              `;
-              previewHeader.appendChild(fsBtn);
-
-              fsBtn.addEventListener("click", () => {
-                this.playSynthSound('click');
-                const isFS = previewPanel.classList.toggle("preview-fullscreen");
-                splitView.classList.toggle("has-fullscreen-preview", isFS);
-
-                if (isFS) {
-                  fsBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                      <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
-                    </svg>
-                    <span>Exit Full Screen</span>
-                  `;
-                  fsBtn.classList.remove("secondary");
-                  fsBtn.classList.add("accent-emerald");
-
-                  fab.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px;">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                    <span>Live Editor &amp; Controls</span>
-                  `;
-                  fab.setAttribute("title", "Expand Floating Corner Editor");
-
-                  // Auto-open floating corner dock so user immediately sees live editing capability
-                  splitView.classList.add("drawer-open");
-                } else {
-                  fsBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                    </svg>
-                    <span>Full Screen</span>
-                  `;
-                  fsBtn.classList.remove("accent-emerald");
-                  fsBtn.classList.add("secondary");
-
-                  fab.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
-                      <circle cx="12" cy="12" r="3"></circle>
-                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    <span>Adjust Inputs</span>
-                  `;
-                  fab.removeAttribute("title");
-                  splitView.classList.remove("drawer-open");
-                  drawer?.classList.remove("dock-wide");
-                }
-              });
-
-              // Keyboard Escape to minimize dock or exit fullscreen
-              const handleFsEscape = (e) => {
-                if (e.key === "Escape" && previewPanel.classList.contains("preview-fullscreen")) {
-                  if (splitView.classList.contains("drawer-open")) {
-                    splitView.classList.remove("drawer-open");
-                  } else {
-                    fsBtn.click();
-                  }
-                }
-              };
-              window.addEventListener("keydown", handleFsEscape);
-            }
-          }
-        }
-
-        // 6. Bind drawer toggle event listeners
-        fab.addEventListener("click", () => {
-          this.playSynthSound('click');
-          splitView.classList.toggle("drawer-open");
-        });
-
-        backdrop.addEventListener("click", () => {
-          this.playSynthSound('click');
-          splitView.classList.remove("drawer-open");
-        });
-      }
 
       // Inject "How it Benefits You" dynamic section inside any present guide card
       const guideCard = viewport.querySelector(".tool-guide-card");
@@ -3834,6 +4288,7 @@ const app = {
             "datetime-suite": "datetime-suite.html",
             "unit-converter": "unit-converter.html",
             "graphics-studio": "graphics-studio.html",
+            "screenshot-capture": "graphics-studio.html",
             "calculator": "calculator.html",
             "qr-generator": "qr-generator.html",
             "seo-previewer": "seo-previewer.html",
@@ -3940,6 +4395,9 @@ const app = {
       // Initialize tool module
       await toolInstance.init(viewport, this);
 
+      // Re-run initLayoutSizer for dynamically mounted subtools
+      this.initLayoutSizer(viewport);
+
       // Render connected workflow bridge cards
       this.renderWorkflowBridges(viewport, toolId);
 
@@ -4017,6 +4475,35 @@ const app = {
     }
   },
 
+  getFeatureIconSvg(icon) {
+    if (!icon) return "";
+    if (typeof icon === "string" && icon.trim().startsWith("<svg")) return icon;
+    
+    const svgMap = {
+      "✨": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"></path></svg>',
+      "🚀": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>',
+      "✅": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+      "✔": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+      "🎲": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8" cy="8" r="1.2" fill="currentColor"></circle><circle cx="16" cy="8" r="1.2" fill="currentColor"></circle><circle cx="12" cy="12" r="1.2" fill="currentColor"></circle><circle cx="8" cy="16" r="1.2" fill="currentColor"></circle><circle cx="16" cy="16" r="1.2" fill="currentColor"></circle></svg>',
+      "⚡": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
+      "🔒": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>',
+      "🛡️": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+      "🔄": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>',
+      "🔗": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
+      "💾": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline></svg>',
+      "🔍": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+      "👁️": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+      "🎨": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+      "⏱️": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+      "⏰": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+      "⚖️": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>',
+      "📄": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>',
+      "📑": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>'
+    };
+
+    return svgMap[icon] || icon;
+  },
+
   renderCapabilitiesBar(toolId) {
     const features = this.toolFeatures[toolId] || [
       { label: "100% Client-Side", icon: "⚡", primary: true },
@@ -4027,13 +4514,350 @@ const app = {
       <div class="tool-capabilities-bar">
         ${features.map(f => `
           <span class="tool-cap-chip ${f.primary ? 'primary' : ''}">
-            <span>${f.icon}</span>
+            <span class="cap-icon-box" style="display: inline-flex; align-items: center;">${this.getFeatureIconSvg(f.icon)}</span>
             <span>${f.label}</span>
           </span>
         `).join("")}
       </div>
     `;
   },
+
+  initLayoutSizer(container) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root) return;
+    const splitViews = (root.classList && root.classList.contains("split-view")) 
+      ? [root] 
+      : Array.from(root.querySelectorAll(".tool-content-layout.split-view"));
+    
+    splitViews.forEach(splitView => {
+      if (splitView.dataset.splitInitialized === "true") return;
+      splitView.dataset.splitInitialized = "true";
+
+      const toolId = this.activeTool || "default";
+
+      // 1. Create and inject Backdrop overlay
+      if (!splitView.querySelector(".split-view-backdrop")) {
+        const backdrop = document.createElement("div");
+        backdrop.className = "split-view-backdrop";
+        splitView.appendChild(backdrop);
+        backdrop.addEventListener("click", () => {
+          this.playSynthSound('click');
+          splitView.classList.remove("drawer-open");
+        });
+      }
+
+      // 2. Create and inject FAB
+      let fab = splitView.querySelector(".adjust-settings-fab");
+      if (!fab) {
+        fab = document.createElement("button");
+        fab.className = "adjust-settings-fab";
+        fab.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Adjust Inputs</span>
+        `;
+        splitView.appendChild(fab);
+        fab.addEventListener("click", () => {
+          this.playSynthSound('click');
+          splitView.classList.toggle("drawer-open");
+        });
+      }
+
+      // 3. Get panels and inject a close button inside the drawer header
+      const panels = Array.from(splitView.querySelectorAll(".tool-panel:not(.tool-guide-card)"));
+      const drawer = panels[0];
+      const previewPanel = panels[1];
+      if (drawer) {
+        if (!drawer.querySelector(".floating-dock-header")) {
+          const dockHeader = document.createElement("div");
+          dockHeader.className = "floating-dock-header";
+          dockHeader.innerHTML = `
+            <div class="dock-title">
+              <span class="dock-dot"></span>
+              <span>Live Editor &amp; Controls</span>
+              <span class="dock-badge">Live Sync</span>
+            </div>
+            <div class="dock-actions">
+              <button type="button" class="dock-btn dock-size-btn" title="Toggle Compact / Wide View" aria-label="Toggle width">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                <span>Width</span>
+              </button>
+              <button type="button" class="dock-btn dock-collapse-btn" title="Minimize to Corner" aria-label="Minimize editor">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline></svg>
+                <span>Minimize</span>
+              </button>
+            </div>
+          `;
+          drawer.prepend(dockHeader);
+
+          dockHeader.querySelector(".dock-collapse-btn").addEventListener("click", () => {
+            this.playSynthSound('click');
+            splitView.classList.remove("drawer-open");
+          });
+
+          dockHeader.querySelector(".dock-size-btn").addEventListener("click", () => {
+            this.playSynthSound('click');
+            drawer.classList.toggle("dock-wide");
+          });
+        }
+
+        const header = drawer.querySelector(".panel-header");
+        if (header && !header.querySelector(".drawer-close-btn")) {
+          const closeBtn = document.createElement("button");
+          closeBtn.className = "drawer-close-btn";
+          closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px; display: none;";
+          closeBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+          header.appendChild(closeBtn);
+
+          closeBtn.addEventListener("click", () => {
+            this.playSynthSound('click');
+            splitView.classList.remove("drawer-open");
+          });
+        }
+
+        // Swipe gesture detector to close drawer
+        let touchStartX = 0;
+        let touchEndX = 0;
+        drawer.addEventListener("touchstart", (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        drawer.addEventListener("touchend", (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          if (touchStartX - touchEndX > 60) {
+            this.playSynthSound('click');
+            splitView.classList.remove("drawer-open");
+          }
+        }, { passive: true });
+      }
+
+      // 4. Inject Draggable Resizer & Reset Section Handler (Desktop Split View)
+      if (drawer && previewPanel) {
+        let resizer = splitView.querySelector(".split-view-resizer");
+        if (!resizer) {
+          resizer = document.createElement("div");
+          resizer.className = "split-view-resizer";
+          resizer.setAttribute("role", "separator");
+          resizer.setAttribute("aria-orientation", "vertical");
+          resizer.setAttribute("tabindex", "0");
+          resizer.setAttribute("title", "Drag to resize sections • Double-click to reset (50/50)");
+          resizer.innerHTML = `
+            <div class="resizer-track"></div>
+            <div class="resizer-handle">
+              <div class="resizer-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <button class="resizer-reset-btn" title="Reset to 50/50 layout" aria-label="Reset layout">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                <span>Reset</span>
+              </button>
+            </div>
+            <div class="resizer-tooltip">50% | 50%</div>
+          `;
+          drawer.after(resizer);
+          splitView.classList.add("has-resizer");
+        }
+
+        // Restore saved custom split ratio if any
+        const savedRatio = localStorage.getItem("omnitool_split_" + toolId);
+        if (savedRatio && !isNaN(parseFloat(savedRatio))) {
+          const r = Math.min(80, Math.max(20, parseFloat(savedRatio)));
+          splitView.style.setProperty("--split-ratio", r);
+          const tooltip = resizer.querySelector(".resizer-tooltip");
+          if (tooltip) tooltip.innerText = `${Math.round(r)}% | ${Math.round(100 - r)}%`;
+        } else {
+          splitView.style.removeProperty("--split-ratio");
+        }
+
+        // Reset Section Helper Function
+        const resetSplit = () => {
+          this.playSynthSound('click');
+          splitView.classList.add("is-animating");
+          splitView.style.removeProperty("--split-ratio");
+          localStorage.removeItem("omnitool_split_" + toolId);
+          const tooltip = resizer.querySelector(".resizer-tooltip");
+          if (tooltip) tooltip.innerText = "50% | 50%";
+          setTimeout(() => {
+            splitView.classList.remove("is-animating");
+          }, 300);
+          this.showToast("Layout reset to default (50/50)", "info");
+        };
+
+        // Double-click to reset
+        resizer.addEventListener("dblclick", (e) => {
+          e.preventDefault();
+          resetSplit();
+        });
+
+        // Reset button on handle
+        const resetHandleBtn = resizer.querySelector(".resizer-reset-btn");
+        if (resetHandleBtn) {
+          resetHandleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            resetSplit();
+          });
+        }
+
+        // Keyboard adjustment & reset
+        resizer.addEventListener("keydown", (e) => {
+          let current = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            current = Math.max(20, current - 3);
+            splitView.style.setProperty("--split-ratio", current);
+            localStorage.setItem("omnitool_split_" + toolId, current);
+            const tooltip = resizer.querySelector(".resizer-tooltip");
+            if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
+          } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            current = Math.min(80, current + 3);
+            splitView.style.setProperty("--split-ratio", current);
+            localStorage.setItem("omnitool_split_" + toolId, current);
+            const tooltip = resizer.querySelector(".resizer-tooltip");
+            if (tooltip) tooltip.innerText = `${Math.round(current)}% | ${Math.round(100 - current)}%`;
+          } else if (e.key === "Enter" || e.key === " " || e.key === "Delete" || e.key === "0") {
+            e.preventDefault();
+            resetSplit();
+          }
+        });
+
+        // Pointer dragging logic with setPointerCapture
+        let isDragging = false;
+        const tooltip = resizer.querySelector(".resizer-tooltip");
+
+        resizer.addEventListener("pointerdown", (e) => {
+          if (e.target.closest(".resizer-reset-btn")) return;
+          isDragging = true;
+          resizer.setPointerCapture(e.pointerId);
+          resizer.classList.add("active");
+          splitView.classList.add("is-resizing");
+          splitView.classList.remove("is-animating");
+        });
+
+        resizer.addEventListener("pointermove", (e) => {
+          if (!isDragging) return;
+          const rect = splitView.getBoundingClientRect();
+          if (rect.width <= 0) return;
+          const offsetX = e.clientX - rect.left;
+          let ratio = (offsetX / rect.width) * 100;
+          ratio = Math.min(80, Math.max(20, ratio));
+          splitView.style.setProperty("--split-ratio", ratio.toFixed(1));
+          if (tooltip) {
+            tooltip.innerText = `${Math.round(ratio)}% | ${Math.round(100 - ratio)}%`;
+          }
+        });
+
+        const stopDragging = (e) => {
+          if (!isDragging) return;
+          isDragging = false;
+          try { resizer.releasePointerCapture(e.pointerId); } catch (_) {}
+          resizer.classList.remove("active");
+          splitView.classList.remove("is-resizing");
+          const finalRatio = parseFloat(getComputedStyle(splitView).getPropertyValue("--split-ratio")) || 50;
+          localStorage.setItem("omnitool_split_" + toolId, finalRatio.toFixed(1));
+        };
+
+        resizer.addEventListener("pointerup", stopDragging);
+        resizer.addEventListener("pointercancel", stopDragging);
+
+        // 5. Inject Reset Layout & Full Screen buttons in preview panel header
+        const previewHeader = previewPanel.querySelector(".panel-header");
+        if (previewHeader) {
+          if (!previewHeader.querySelector(".reset-split-btn")) {
+            const resetHeaderBtn = document.createElement("button");
+            resetHeaderBtn.className = "reset-split-btn tool-btn secondary";
+            resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; margin-right: 6px; gap: 4px; display: inline-flex; align-items: center;";
+            resetHeaderBtn.setAttribute("title", "Reset sections to 50/50 layout");
+            resetHeaderBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <polyline points="3 3 3 8 8 8"></polyline>
+              </svg>
+              <span>Reset 50/50</span>
+            `;
+            previewHeader.appendChild(resetHeaderBtn);
+            resetHeaderBtn.addEventListener("click", () => {
+              resetSplit();
+            });
+          }
+
+          if (!previewHeader.querySelector(".preview-fullscreen-btn")) {
+            const fsBtn = document.createElement("button");
+            fsBtn.id = "btn-preview-fullscreen-toggle";
+            fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
+            fsBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: 0; gap: 4px; display: inline-flex; align-items: center;";
+            fsBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+              </svg>
+              <span>Full Screen</span>
+            `;
+            previewHeader.appendChild(fsBtn);
+
+            fsBtn.addEventListener("click", () => {
+              this.playSynthSound('click');
+              const isFS = previewPanel.classList.toggle("preview-fullscreen");
+              splitView.classList.toggle("has-fullscreen-preview", isFS);
+
+              if (isFS) {
+                fsBtn.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                    <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
+                  </svg>
+                  <span>Exit Full Screen</span>
+                `;
+                fsBtn.classList.remove("secondary");
+                fsBtn.classList.add("accent-emerald");
+
+                fab.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px;">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                  <span>Live Editor &amp; Controls</span>
+                `;
+                fab.setAttribute("title", "Expand Floating Corner Editor");
+                splitView.classList.add("drawer-open");
+              } else {
+                fsBtn.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                  </svg>
+                  <span>Full Screen</span>
+                `;
+                fsBtn.classList.remove("accent-emerald");
+                fsBtn.classList.add("secondary");
+
+                fab.innerHTML = `
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  </svg>
+                  <span>Adjust Inputs</span>
+                `;
+                fab.removeAttribute("title");
+                splitView.classList.remove("drawer-open");
+                drawer?.classList.remove("dock-wide");
+              }
+            });
+
+            const handleFsEscape = (e) => {
+              if (e.key === "Escape" && previewPanel.classList.contains("preview-fullscreen")) {
+                if (splitView.classList.contains("drawer-open")) {
+                  splitView.classList.remove("drawer-open");
+                } else {
+                  fsBtn.click();
+                }
+              }
+            };
+            window.addEventListener("keydown", handleFsEscape);
+          }
+        }
+      }
+    });
+  },
+
 
   renderWorkflowBridges(viewport, toolId) {
     if (!viewport) return;
@@ -4178,6 +5002,12 @@ const app = {
       }
       return;
     }
+
+    // Lifecycle Memory Management: Clean up active tool when returning to dashboard
+    if (this._currentToolInstance && typeof this._currentToolInstance.cleanup === "function") {
+      try { this._currentToolInstance.cleanup(); } catch (err) { console.warn("Tool cleanup error:", err); }
+    }
+    this._currentToolInstance = null;
 
     this._guideArrowCleanup?.();
     this.playSynthSound('click');
@@ -4699,7 +5529,8 @@ const app = {
     "mock-data-generator": ["Generate up to 50,000 rows client-side", "Save complex nested schemas templates", "SQL INSERT statement compilation exports"],
     "admin-settings": ["Backup & restore encrypted system settings", "Audit logging local console metrics"],
     "code-playground": ["Tailwind, React, and Vue framework boilerplates", "Download workspaces as ZIP file structures"],
-    "ip-subnet-calculator": ["Supernet visual CIDR planner", "Offline OUI vendor MAC address registry database"]
+    "ip-subnet-calculator": ["Supernet visual CIDR planner", "Offline OUI vendor MAC address registry database"],
+    "screenshot-capture": ["Full page scrolling screenshot stitcher", "Cloud OCR text extraction from capture", "Direct GitHub / Jira issue integration"]
   },
 
   renderAdLockScreen(viewport, toolId, toolInstance, toolbarHtml) {
@@ -5242,6 +6073,19 @@ const app = {
         return;
       }
 
+      // Dynamically load Razorpay checkout script on-demand if not already loaded
+      if (typeof window.Razorpay !== "function") {
+        try {
+          await new Promise((resolve, reject) => {
+            const s = document.createElement("script");
+            s.src = "https://checkout.razorpay.com/v1/checkout.js";
+            s.onload = resolve;
+            s.onerror = reject;
+            document.head.appendChild(s);
+          });
+        } catch (_) {}
+      }
+
       if (typeof window.Razorpay === "function") {
         const options = {
           key: orderData.keyId,
@@ -5302,6 +6146,135 @@ const app = {
     } catch (err) {
       this.playSynthSound("error");
       this.showToast("Checkout error: " + err.message, "error");
+    }
+  },
+
+  // Automated International PayPal Smart Buttons Checkout
+  async renderPayPalSmartButtons() {
+    const clientId = this.getConfigValue("omnitool_paypal_client_id", "").trim();
+    const container = document.getElementById("chk-paypal-smart-container");
+    const fallbackRow = document.getElementById("chk-paypal-fallback-row");
+    if (!container) return;
+
+    if (!clientId) {
+      container.style.display = "none";
+      if (fallbackRow) fallbackRow.style.display = "flex";
+      return;
+    }
+
+    // PayPal Client ID is configured! Show smart container, hide fallback link
+    container.style.display = "block";
+    if (fallbackRow) fallbackRow.style.display = "none";
+
+    const plan = this.checkoutPlan || "lifetime";
+    const priceUSD = plan === "lifetime" ? 
+      (this.getConfigValue("omnitool_price_lifetime_usd", "$29.99").replace(/[^0-9.]/g, "") || "29.99") : 
+      (this.getConfigValue("omnitool_price_monthly_usd", "$4.99").replace(/[^0-9.]/g, "") || "4.99");
+
+    const elTitle = document.getElementById("chk-paypal-plan-title");
+    const elDesc = document.getElementById("chk-paypal-plan-desc");
+    const elAmt = document.getElementById("chk-paypal-amount-display");
+    if (elTitle) elTitle.innerText = plan === "lifetime" ? "Lifetime Developer Pass" : "Pro Monthly Subscription";
+    if (elDesc) elDesc.innerText = plan === "lifetime" ? "One-time payment • Lifetime access to all 28 tools" : "Monthly billing • Cancel anytime • 100% Ad-Free";
+    if (elAmt) elAmt.innerText = `$${priceUSD}`;
+
+    const scriptId = "paypal-sdk-script";
+    let sdkScript = document.getElementById(scriptId);
+
+    if (!window.paypal || sdkScript?.getAttribute("data-client-id") !== clientId) {
+      if (sdkScript) sdkScript.remove();
+      container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 12px; font-size: 12.5px;">Loading secure PayPal checkout...</div>`;
+      try {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement("script");
+          s.id = scriptId;
+          s.setAttribute("data-client-id", clientId);
+          s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(clientId)}&currency=USD&intent=capture`;
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      } catch (err) {
+        console.warn("PayPal SDK load error:", err);
+        container.style.display = "none";
+        if (fallbackRow) fallbackRow.style.display = "flex";
+        return;
+      }
+    }
+
+    if (!window.paypal || typeof window.paypal.Buttons !== "function") {
+      container.style.display = "none";
+      if (fallbackRow) fallbackRow.style.display = "flex";
+      return;
+    }
+
+    container.innerHTML = "";
+    try {
+      window.paypal.Buttons({
+        style: {
+          layout: "vertical",
+          color: "gold",
+          shape: "pill",
+          label: "paypal",
+          height: 46
+        },
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            application_context: {
+              brand_name: "OmniTool Hub",
+              shipping_preference: "NO_SHIPPING",
+              user_action: "PAY_NOW"
+            },
+            purchase_units: [{
+              description: plan === "lifetime" ? "OmniTool Hub Lifetime Developer Pass" : "OmniTool Hub Pro Monthly",
+              amount: {
+                currency_code: "USD",
+                value: priceUSD
+              }
+            }]
+          });
+        },
+        onApprove: async (data, actions) => {
+          this.showToast("Capturing and verifying PayPal payment...", "info");
+          try {
+            const details = await actions.order.capture();
+            const verifyRes = await fetch("/api/verify-paypal-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: data.orderID,
+                payerId: data.payerID || details.payer?.payer_id,
+                status: details.status,
+                plan
+              })
+            });
+
+            const verifyData = await verifyRes.json();
+            if (verifyRes.ok && verifyData.success) {
+              localStorage.setItem("omnitool_user_tier", verifyData.tier);
+              localStorage.setItem("omnitool_license_token", verifyData.token);
+              localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+              this.playSynthSound("success");
+              this.showToast(verifyData.message || "🎉 PayPal payment verified! Lifetime PRO unlocked.", "success");
+              this.closeCheckout();
+              this.renderPlansPage();
+            } else {
+              this.playSynthSound("error");
+              this.showToast(verifyData.error || "Payment verification failed.", "error");
+            }
+          } catch (vErr) {
+            this.showToast("Payment verification network error: " + vErr.message, "error");
+          }
+        },
+        onError: (err) => {
+          console.error("PayPal Smart Button error:", err);
+          this.showToast("PayPal error: " + (err.message || "Checkout canceled or declined."), "error");
+        }
+      }).render("#chk-paypal-smart-container");
+    } catch (e) {
+      console.warn("Failed to render PayPal buttons:", e);
+      container.style.display = "none";
+      if (fallbackRow) fallbackRow.style.display = "flex";
     }
   },
 
@@ -5582,6 +6555,7 @@ const app = {
 
     this.switchIndiaPayMethod("upi");
     this.selectUpiApp("any", "Any UPI App");
+    this.renderPayPalSmartButtons();
 
     modal.style.display = "flex";
     this.playSynthSound("click");
@@ -5839,6 +6813,10 @@ const app = {
     if (cryptoHint) {
       cryptoHint.innerText = `Send exact amount (≈ ${priceUsd} USDT) over selected network.`;
     }
+
+    if (this.checkoutGateway === "paypal") {
+      this.renderPayPalSmartButtons();
+    }
   },
 
   switchCheckoutGateway(gateway) {
@@ -5875,6 +6853,8 @@ const app = {
       const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
       const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
       this.drawUpiQr(upiUri);
+    } else if (gateway === "paypal") {
+      this.renderPayPalSmartButtons();
     }
   },
 

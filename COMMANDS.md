@@ -29,13 +29,13 @@ npm run dev
 ```
 Once started, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
-### C. Python Server (Full API & POST Support)
-If you prefer Python over Node.js, run the enhanced Python server which supports both static file serving and all `/api/*` serverless simulation endpoints (POST & GET):
+### C. Python Server (Full API & SPA Support)
+If you prefer Python over Node.js, run our custom Python server which includes built-in SPA routing (preventing 404s on page refresh) and all `/api/*` serverless endpoints:
 ```bash
-# Recommended: Full API & POST support
+# Recommended: Full API, POST support, and SPA route fallback (no 404s on refresh)
 python scripts/local-server.py 8000
 
-# Alternative: Standard static-only server (Auth and Licenses use offline WebCrypto engine)
+# Basic server: Note that python -m http.server does not support SPA rewrites, so refreshing on /tool/* will return 404
 python -m http.server 8000
 ```
 Once started, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.

@@ -118,7 +118,9 @@ export default {
 
           <!-- Empty State -->
           <div id="fav-empty-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 260px; text-align: center; border: 1px dashed var(--border-color); border-radius: 8px; background: rgba(0,0,0,0.15); padding: 20px;">
-            <div style="font-size: 28px; margin-bottom: 8px;">✨</div>
+            <div style="margin-bottom: 8px; color: var(--accent-cyan); display: flex; justify-content: center;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"></path></svg>
+            </div>
             <div style="font-size: 13px; font-weight: 600; color: var(--text-muted);">No assets compiled yet</div>
             <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Upload your logo on the left to compile the full favicon suite.</div>
           </div>

@@ -11,9 +11,10 @@ export default {
           <div class="panel-header">
             <h3>Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="color-lab-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 440px; margin-left: 15px;" id="color-lab-tabs">
               <button class="keyboard-tab active" data-tab="palette" style="font-size: 11px; padding: 4px 8px;">Palette Generator</button>
               <button class="keyboard-tab" data-tab="shades" style="font-size: 11px; padding: 4px 8px;">Shades & Tints</button>
+              <button class="keyboard-tab" data-tab="extract" style="font-size: 11px; padding: 4px 8px;">Extract from Image</button>
             </div>
           </div>
 
@@ -185,6 +186,9 @@ export default {
           </div>
         </div>
 
+        <!-- Tab 3: Extract from Image Container -->
+        <div id="panel-extract-container" class="tab-control-panel hidden" style="grid-column: 1 / -1; border: none; padding-top: 0; margin-top: 0;"></div>
+
         <!-- Quick Guide (Bottom) -->
         <div class="tool-guide-card" style="flex-basis: 100%;">
           <div class="tool-guide-header">
@@ -328,27 +332,79 @@ export default {
             <div class="tool-guide-step-text"><strong>Copy Swatches</strong>: Click tints, shades, or opacity blocks to copy values instantly.</div>
           </div>
         `
+      },
+      extract: {
+        title: "Quick Guide: Image Color Palette Extractor & Eyedropper",
+        steps: `
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">1</div>
+            <div class="tool-guide-step-text"><strong>Upload Image</strong>: Drop photo/graphic, browse, or paste with Ctrl+V.</div>
+          </div>
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">2</div>
+            <div class="tool-guide-step-text"><strong>Eyedropper</strong>: Hover crosshairs over any pixel to inspect color and zoom loupe.</div>
+          </div>
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">3</div>
+            <div class="tool-guide-step-text"><strong>Export Scheme</strong>: Copy HEX codes, CSS variables, or Tailwind color blocks.</div>
+          </div>
+        `
       }
     };
 
-    const switchTab = (tabId) => {
+    const panelExtract = container.querySelector("#panel-extract-container");
+    let extractMounted = false;
+
+    const switchTab = async (tabId) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
+      const isExtract = (tabId === "extract");
       panelPalette.classList.toggle("hidden", tabId !== "palette");
       panelShades.classList.toggle("hidden", tabId !== "shades");
       outputPalette.classList.toggle("hidden", tabId !== "palette");
       outputShades.classList.toggle("hidden", tabId !== "shades");
 
-      if (guideTitle && guideSteps) {
+      if (panelExtract) {
+        panelExtract.classList.toggle("hidden", !isExtract);
+        if (isExtract && !extractMounted) {
+          extractMounted = true;
+          panelExtract.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 280px; gap: 10px; color: var(--text-muted);">
+              <div style="width: 28px; height: 28px; border: 3px solid rgba(0,242,254,0.2); border-top-color: var(--accent-cyan); border-radius: 50%; animation: cl-spin 0.8s linear infinite;"></div>
+              <span>Mounting color extraction engine...</span>
+            </div>
+            <style>@keyframes cl-spin { to { transform: rotate(360deg); } }</style>
+          `;
+          try {
+            const mod = await import('./color-extractor.js');
+            if (mod && mod.default) {
+              panelExtract.innerHTML = mod.default.renderUI();
+              if (typeof mod.default.init === "function") {
+                mod.default.init(panelExtract, appInstance);
+              }
+            }
+          } catch (e) {
+            console.error("Failed to mount color-extractor:", e);
+          }
+        }
+      }
+
+      // Hide left/right config panels when in extract mode so extractor takes full layout
+      const leftCol = panelPalette.closest(".tool-panel");
+      const rightCol = outputPalette.closest(".tool-panel");
+      if (leftCol) leftCol.style.display = isExtract ? "none" : "";
+      if (rightCol) rightCol.style.display = isExtract ? "none" : "";
+
+      if (guideTitle && guideSteps && guides[tabId]) {
         guideTitle.innerText = guides[tabId].title;
         guideSteps.innerHTML = guides[tabId].steps;
       }
 
       if (tabId === "palette") {
-        verifyAccessibility(false);
+        if (typeof verifyAccessibility === "function") verifyAccessibility(false);
       } else if (tabId === "shades") {
-        renderAllSwatches();
+        if (typeof renderAllSwatches === "function") renderAllSwatches();
       }
     };
 

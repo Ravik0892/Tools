@@ -759,12 +759,23 @@ body {
   box-shadow: 0 2px 14px rgba(0, 242, 254, 0.2);
 }
 
-.lucky-dice {
-  display: inline-block;
+.lucky-dice,
+.surprise-dice-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.hero-lucky-btn:hover .lucky-dice {
+.lucky-dice svg,
+.surprise-dice-icon svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.hero-lucky-btn:hover .lucky-dice,
+.mega-surprise-btn:hover .surprise-dice-icon {
   transform: rotate(360deg);
 }
 
@@ -6324,8 +6335,9 @@ body {
   display: none !important;
 }
 
-/* Guide Scroll Arrow - Floating bottom center indicators */
+/* Guide Scroll Arrow - Hidden to prevent visual clutter */
 .guide-scroll-arrow {
+  display: none !important;
   position: absolute;
   bottom: 24px;
   left: 50%;
@@ -6337,8 +6349,7 @@ body {
   color: var(--accent-cyan);
   border-radius: 50%;
   width: 42px;
-  height: 42px;
-  display: flex;
+  display: none !important;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -8119,6 +8130,81 @@ body {
   color: #ffffff !important;
 }
 
+/* PayPal Smart Checkout Container & Order Summary */
+.paypal-order-summary-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(0, 112, 186, 0.08);
+  border: 1px solid rgba(0, 112, 186, 0.25);
+  border-radius: 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.pos-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.pos-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #38bdf8;
+  letter-spacing: 0.5px;
+}
+
+.pos-left strong {
+  font-size: 13.5px;
+  color: var(--text-main);
+}
+
+.pos-left small {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.pos-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.pos-amount {
+  font-size: 20px;
+  font-weight: 800;
+  color: #38bdf8;
+  font-family: var(--font-mono, monospace);
+}
+
+.pos-tax {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+#chk-paypal-smart-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 14px auto 0 auto;
+  min-height: 48px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+#chk-paypal-smart-container iframe {
+  border-radius: 8px !important;
+}
+
 .coffee-btn-style {
   background: linear-gradient(135deg, #ffdd00, #f59e0b) !important;
   border-color: #ffdd00 !important;
@@ -9258,6 +9344,15 @@ footer.guide-footer {
   user-select: none;
 }
 
+.tool-cap-chip svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2.2;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 .tool-cap-chip:hover {
   color: var(--accent-cyan);
   border-color: rgba(0, 242, 254, 0.35);
@@ -9403,6 +9498,122 @@ footer.guide-footer {
   color: var(--accent-cyan);
   transform: translateX(3px);
 }
+
+/* ==========================================================================
+   GLOBAL KEYBOARD TAB & SUITE NAVIGATION STYLES (Screenshot Fidelity)
+   ========================================================================== */
+.keyboard-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.keyboard-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.keyboard-tab.active {
+  background: rgba(0, 242, 254, 0.12) !important;
+  border-color: var(--accent-cyan) !important;
+  color: var(--accent-cyan) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.2) !important;
+}
+
+[data-theme="light"] .keyboard-tab {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #4b5563;
+}
+
+[data-theme="light"] .keyboard-tab:hover {
+  background: rgba(0, 0, 0, 0.07);
+  border-color: rgba(0, 0, 0, 0.14);
+  color: #111827;
+}
+
+[data-theme="light"] .keyboard-tab.active {
+  background: rgba(6, 182, 212, 0.14) !important;
+  border-color: #0891b2 !important;
+  color: #0e7490 !important;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.25) !important;
+}
+
+/* ==========================================================================
+   SCREENSHOT & BROWSER SCREEN CAPTURE STUDIO COMPONENT STYLES
+   ========================================================================== */
+.sc-studio-layout .sc-nav-tab.active {
+  background: rgba(0, 242, 254, 0.12) !important;
+  border-color: var(--accent-cyan) !important;
+  color: var(--accent-cyan) !important;
+  font-weight: 700;
+}
+
+.sc-tool-btn.active {
+  background: rgba(0, 242, 254, 0.15) !important;
+  border-color: var(--accent-cyan) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.25);
+}
+
+.sc-grad-thumb {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.18s ease;
+}
+
+.sc-grad-thumb:hover {
+  transform: translateY(-2px) scale(1.04);
+}
+
+.sc-grad-thumb.active {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.35);
+}
+
+.sc-color-chip {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sc-color-chip:hover {
+  transform: scale(1.15);
+}
+
+.sc-color-chip.active {
+  box-shadow: 0 0 0 2px #fff, 0 0 12px rgba(0, 242, 254, 0.5);
+}
+
+#sc-canvas-viewport::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#sc-canvas-viewport::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#sc-canvas-viewport::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+
+#sc-canvas-viewport::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
+}
+
 
 
 

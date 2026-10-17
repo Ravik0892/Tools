@@ -41,6 +41,7 @@ export default {
             <button class="settings-tab-btn" data-tab="tab-backup" style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600; cursor: pointer; padding: 8px 14px; font-size: 13px; border-radius: 8px; outline: none; white-space: nowrap; transition: all 0.2s;">⚙️ Backup &amp; System</button>
           </div>
 
+
           <!-- TAB: Payment & Checkout Control -->
           <div id="tab-payments" class="settings-tab-content">
             <!-- Header with Live Test CTA -->
@@ -239,9 +240,17 @@ export default {
               </div>
               <div class="form-row" style="margin-top: 6px;">
                 <div class="form-group">
-                  <label for="paypal-gateway-url">PayPal Payment Link / Profile</label>
-                  <input type="text" class="form-input" id="paypal-gateway-url" placeholder="e.g. https://www.paypal.com/paypalme/yourusername">
+                  <label for="paypal-client-id">PayPal Client ID <span style="font-size: 10px; color: #10b981; font-weight: 700;">(⚡ 100% Automated Smart Checkout)</span></label>
+                  <input type="text" class="form-input" id="paypal-client-id" placeholder="e.g. A21AAK... (From developer.paypal.com - 100% Free)">
+                  <span style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px; display: block;">When set, official PayPal Smart Buttons render in checkout and unlock PRO in 0-seconds with zero manual work.</span>
                 </div>
+                <div class="form-group">
+                  <label for="paypal-gateway-url">Fallback PayPal Profile Link</label>
+                  <input type="text" class="form-input" id="paypal-gateway-url" placeholder="e.g. https://www.paypal.com/paypalme/yourusername">
+                  <span style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px; display: block;">Used if PayPal Smart Buttons are not configured.</span>
+                </div>
+              </div>
+              <div class="form-row" style="margin-top: 6px;">
                 <div class="form-group">
                   <label for="razorpay-gateway-url">Razorpay Payment Page URL</label>
                   <input type="text" class="form-input" id="razorpay-gateway-url" placeholder="e.g. https://rzp.io/l/yourlink">
@@ -825,7 +834,10 @@ export default {
               <span class="theme-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">Online &amp; Secure</span>
             </div>
             <div style="padding: 14px; border-radius: 10px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color);">
-              <div style="font-size: 13px; font-weight: 700; color: #10b981; margin-bottom: 8px;">✅ 100% Client-Side Engine</div>
+              <div style="font-size: 13px; font-weight: 700; color: #10b981; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>100% Client-Side Engine</span>
+              </div>
               <p style="font-size: 11.5px; color: var(--text-muted); line-height: 1.4; margin: 0 0 10px 0;">All configurations and payments process directly in the user browser. No external database or intermediate tracking servers required.</p>
               <div style="display: flex; flex-direction: column; gap: 6px; font-size: 11.5px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 8px;">
                 <div>• Service Worker: <strong style="color: var(--accent-cyan);">PWA Cache Active (v72)</strong></div>
@@ -1015,6 +1027,7 @@ export default {
     const kofiUrl = container.querySelector("#kofi-url");
     const gumroadLifetime = container.querySelector("#gumroad-lifetime-url");
     const gumroadMonthly = container.querySelector("#gumroad-monthly-url");
+    const paypalClientIdInput = container.querySelector("#paypal-client-id");
     const paypalUrlInput = container.querySelector("#paypal-gateway-url");
     const razorpayUrlInput = container.querySelector("#razorpay-gateway-url");
     const upiIdInput = container.querySelector("#upi-gateway-id");
@@ -1577,6 +1590,7 @@ export default {
       kofiUrl.value = appInstance.getConfigValue("omnitool_kofi_url", "");
       if (gumroadLifetime) gumroadLifetime.value = appInstance.getConfigValue("omnitool_gumroad_lifetime_url", "https://gumroad.com");
       if (gumroadMonthly) gumroadMonthly.value = appInstance.getConfigValue("omnitool_gumroad_monthly_url", "https://gumroad.com");
+      if (paypalClientIdInput) paypalClientIdInput.value = appInstance.getConfigValue("omnitool_paypal_client_id", "");
       if (paypalUrlInput) paypalUrlInput.value = appInstance.getConfigValue("omnitool_paypal_url", "https://www.paypal.com");
       if (razorpayUrlInput) razorpayUrlInput.value = appInstance.getConfigValue("omnitool_razorpay_url", "https://razorpay.com");
       if (upiIdInput) upiIdInput.value = appInstance.getConfigValue("omnitool_upi_id", "ravik0892@okaxis");
@@ -1821,6 +1835,7 @@ export default {
       localStorage.setItem("omnitool_kofi_url", kofiUrl.value.trim());
       if (gumroadLifetime) localStorage.setItem("omnitool_gumroad_lifetime_url", gumroadLifetime.value.trim());
       if (gumroadMonthly) localStorage.setItem("omnitool_gumroad_monthly_url", gumroadMonthly.value.trim());
+      if (paypalClientIdInput) localStorage.setItem("omnitool_paypal_client_id", paypalClientIdInput.value.trim());
       if (paypalUrlInput) localStorage.setItem("omnitool_paypal_url", paypalUrlInput.value.trim());
       if (razorpayUrlInput) localStorage.setItem("omnitool_razorpay_url", razorpayUrlInput.value.trim());
       if (upiIdInput) localStorage.setItem("omnitool_upi_id", upiIdInput.value.trim());
@@ -1987,6 +2002,7 @@ export default {
         "omnitool_kofi_url": kofiUrl.value.trim(),
         "omnitool_gumroad_lifetime_url": gumroadLifetime ? gumroadLifetime.value.trim() : "https://gumroad.com",
         "omnitool_gumroad_monthly_url": gumroadMonthly ? gumroadMonthly.value.trim() : "https://gumroad.com",
+        "omnitool_paypal_client_id": paypalClientIdInput ? paypalClientIdInput.value.trim() : "",
         "omnitool_paypal_url": paypalUrlInput ? paypalUrlInput.value.trim() : "https://www.paypal.com",
         "omnitool_razorpay_url": razorpayUrlInput ? razorpayUrlInput.value.trim() : "https://razorpay.com",
         "omnitool_upi_id": upiIdInput ? upiIdInput.value.trim() : "ravik0892@okaxis",

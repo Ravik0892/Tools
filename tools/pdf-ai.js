@@ -95,8 +95,9 @@ export default {
               </div>
             </div>
 
-            <button type="button" class="tool-btn primary" id="btn-run-ai" disabled style="margin-top: 4px; justify-content: center; height: 42px; font-weight: 700;">
-              ✨ Run AI Document Analysis
+            <button type="button" class="tool-btn primary" id="btn-run-ai" disabled style="margin-top: 4px; justify-content: center; height: 42px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"></path></svg>
+              <span>Run AI Document Analysis</span>
             </button>
 
             <!-- Privacy Security Badge -->
@@ -123,7 +124,9 @@ export default {
             <!-- Standard Output Pane (Summary, Actions, Translation) -->
             <div id="ai-output-pane" style="display: ${this.activeMode !== 'chat' ? 'block' : 'none'}; flex: 1; overflow-y: auto; padding: 20px; font-size: 13.5px; line-height: 1.6; color: var(--text-main);">
               <div id="ai-empty-placeholder" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--text-muted); padding: 40px 20px;">
-                <div style="font-size: 42px; margin-bottom: 12px; opacity: 0.7;">✨</div>
+                <div style="margin-bottom: 12px; color: var(--accent-cyan); display: flex; justify-content: center;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="40" height="40"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"></path></svg>
+                </div>
                 <h4 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin: 0 0 6px 0;">AI Intelligence Output Ready</h4>
                 <p style="font-size: 12px; max-width: 380px; margin: 0; line-height: 1.5;">
                   Upload a PDF document on the left and select your task (Executive Summary, Action Items, or Translation) to begin processing.
@@ -214,6 +217,7 @@ export default {
           if (outputPane && chatPane) {
             outputPane.style.display = (this.activeMode !== "chat") ? "block" : "none";
             chatPane.style.display = (this.activeMode === "chat") ? "flex" : "none";
+          }
         });
       }
     });

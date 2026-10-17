@@ -1,5 +1,5 @@
 // Service Worker for OmniTool Hub PWA
-const CACHE_NAME = "omnitool-v73";
+const CACHE_NAME = "omnitool-v76";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
@@ -12,6 +12,12 @@ const ASSETS_TO_CACHE = [
   "tools/pipeline-builder.js",
   "tools/pdf-searcher.js",
   "tools/pdf-utilities.js",
+  "tools/pdf-ai.js",
+  "tools/pdf-converter-hub.js",
+  "tools/pdf-editor-suite.js",
+  "tools/pdf-security-suite.js",
+  "tools/qr-studio.js",
+  "tools/audio-suite.js",
   "tools/mock-data-generator.js",
   "tools/jwt-decoder.js",
   "tools/markdown-preview.js",
@@ -42,7 +48,7 @@ const ASSETS_TO_CACHE = [
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("[Service Worker] Caching App Shell v72");
+      console.log("[Service Worker] Caching App Shell v74");
       return cache.addAll(ASSETS_TO_CACHE);
     }).then(() => self.skipWaiting())
   );

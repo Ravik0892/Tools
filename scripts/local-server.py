@@ -25,6 +25,14 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
+    def do_GET(self):
+        # SPA Fallback: If requested path does not exist on disk and is not an API call, serve index.html
+        raw_path = self.path.split("?")[0].split("#")[0]
+        local_path = self.translate_path(self.path)
+        if not os.path.exists(local_path) and not raw_path.startswith("/api/"):
+            self.path = "/index.html"
+        return super().do_GET()
+
     def do_POST(self):
         content_length = int(self.headers.get("Content-Length", 0))
         post_data = self.rfile.read(content_length) if content_length > 0 else b"{}"
@@ -75,6 +83,13 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
             tier = "premium" if plan == "monthly" else "lifetime"
             token = f"{tier}_{int(time.time())}.verified_rzp"
             self._send_json(200, {"success": True, "tier": tier, "token": token, "message": "🎉 Payment verified!"})
+            return
+
+        if path == "/api/verify-paypal-payment":
+            plan = body.get("plan", "lifetime")
+            tier = "premium" if plan == "monthly" else "lifetime"
+            token = f"{tier}_{int(time.time())}.verified_paypal"
+            self._send_json(200, {"success": True, "tier": tier, "token": token, "message": "🎉 PayPal payment verified!"})
             return
 
         if path == "/api/submit-utr":
