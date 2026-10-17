@@ -5,7 +5,7 @@ export default {
   name: "Text Diff Comparison",
   renderUI() {
     return `
-      <div class="tool-content-layout">
+      <div class="tool-content-layout split-view">
         <div class="tool-panel">
           <div class="form-row">
             <div class="form-group">

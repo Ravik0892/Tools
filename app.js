@@ -374,6 +374,378 @@ const app = {
       accentRgb: "157, 78, 221",
       monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline><line x1="12" y1="2" x2="12" y2="22"></line></svg>`
+    },
+    {
+      id: "robots-generator",
+      name: "Robots.txt Visual Builder",
+      desc: "Create crawl directive rules, block AI web scrapers (GPTBot, CCBot), declare XML sitemaps, configure crawl delays, and validate syntax.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Generators",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4M8 16h.01M16 16h.01"></path></svg>`
+    },
+    {
+      id: "lorem-generator",
+      name: "Smart Lorem Ipsum Generator",
+      desc: "Generate customizable placeholder copy with classical Latin, Cyberpunk Tech, or Corporate jargon in paragraphs, lists, HTML, Markdown, or JSON.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Writers & Parsers",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"></path></svg>`
+    },
+    {
+      id: "qr-scanner",
+      name: "QR Code & Barcode Scanner",
+      desc: "Scan QR codes and barcodes live from camera, file upload, or clipboard paste with 100% private client-side recognition and action parsing.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Generators",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><rect x="7" y="7" width="10" height="10" rx="1"></rect></svg>`
+    },
+    {
+      id: "color-extractor",
+      name: "Image Color Palette Extractor",
+      desc: "Extract dominant palettes from photos, inspect pixels with a zoom eyedropper, test WCAG contrast, and export to CSS variables or Tailwind.",
+      category: "design",
+      subcategory: "design-color",
+      subLabel: "Color Management",
+      accent: "#ec4899",
+      accentRgb: "236, 72, 153",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path><circle cx="12" cy="12" r="3"></circle><path d="m19 5-3 3"></path></svg>`
+    },
+    {
+      id: "favicon-generator",
+      name: "Favicon & App Icon Suite",
+      desc: "Generate complete icon packages (multi-res 16/32 .ico, Apple Touch 180px, Android 192/512px) with shape customizer, tab preview, and ZIP export.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Graphics & Screen Studio",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg>`
+    },
+    {
+      id: "images-to-pdf",
+      name: "Images to PDF Compiler",
+      desc: "Merge multiple JPG, PNG, and WebP images into a single clean PDF with visual reordering, rotation, page sizes (A4/Letter/Fit), and margins.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Writers & Parsers",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><circle cx="10" cy="13" r="2"></circle><path d="m20 17-3-3-4 4"></path></svg>`
+    },
+    {
+      id: "screen-recorder",
+      name: "Browser Screen & Tab Recorder",
+      desc: "Capture your full screen, window, or browser tab with microphone audio commentary, real-time timer, and instant WebM/MP4 download.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3" fill="currentColor"></circle></svg>`
+    },
+    {
+      id: "voice-recorder",
+      name: "Voice Recorder & Audio Waveform Studio",
+      desc: "Capture studio-grade voice memos with live frequency bars, smooth oscilloscope waves, noise suppression, and lossless 16-bit WAV export.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>`
+    },
+    {
+      id: "video-speed",
+      name: "Video Playback Speed Controller",
+      desc: "Adjust playback rate from 0.1x to 4.0x, step frame-by-frame, preserve audio pitch, and create continuous A-B section repeat loops.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>`
+    },
+    {
+      id: "mp4-to-mp3",
+      name: "MP4 to MP3 & WAV Audio Extractor",
+      desc: "Demux and extract pristine audio tracks from MP4, WebM, and MOV video files with visual waveform preview and time range trimming.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`
+    },
+    {
+      id: "video-to-gif",
+      name: "Video to Animated GIF Converter",
+      desc: "Convert video clips into animated GIFs client-side with custom resolution, frame rate, duration clipping, and live progress monitor.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Audio & Video Media",
+      accent: "#ec4899",
+      accentRgb: "236, 72, 153",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>`
+    },
+    {
+      id: "temp-mail",
+      name: "Disposable Temp Mail Client",
+      desc: "Generate instant throwaway email addresses to verify accounts and avoid spam with 10s auto-refresh, notifications, and reader.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Privacy & Mail",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`
+    },
+    {
+      id: "sign-pdf",
+      name: "Sign PDF Document",
+      desc: "Draw hand-written signatures, type elegant cursive names, or upload stamp seals, then position and embed them directly onto any PDF page.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="m10 16 2 2 6-6"></path><path d="M7 17l1.5-1.5"></path></svg>`
+    },
+    {
+      id: "pdf-security",
+      name: "PDF Security & Password Suite",
+      desc: "Encrypt PDF files with AES passwords and permission locks, or remove passwords and decrypt protected PDF documents client-side.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#f43f5e",
+      accentRgb: "244, 63, 94",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
+    },
+    {
+      id: "pdf-watermark",
+      name: "PDF Watermark & Page Numbers",
+      desc: "Add customizable diagonal/horizontal text watermarks and stamp dynamic page numbers (Page X of Y) with position, font, and opacity controls.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>`
+    },
+    {
+      id: "pdf-organizer",
+      name: "Visual PDF Page Organizer",
+      desc: "Rearrange pages with drag-and-drop or order buttons, rotate pages in 90° increments, and delete unwanted pages with real-time thumbnail previews.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>`
+    },
+    {
+      id: "crop-pdf",
+      name: "Crop PDF Margins & Trim Box",
+      desc: "Trim excess white margins or crop documents to custom bounding dimensions with live interactive canvas box and scope controls.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v14a2 2 0 0 0 2 2h14"></path><path d="M18 22V8a2 2 0 0 0-2-2H2"></path></svg>`
+    },
+    {
+      id: "pdf-forms",
+      name: "PDF Form Filler & AcroForms",
+      desc: "Inspect and fill interactive PDF AcroForm fields (text fields, checkboxes, dropdowns, radio groups) directly in-browser and flatten or export.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="13" y2="17"></line><rect x="9" y="8" width="2" height="2"></rect></svg>`
+    },
+    {
+      id: "redact-pdf",
+      name: "PDF Redact & Privacy Sanitizer",
+      desc: "Permanently scrub sensitive text, PII, and financial details from PDF pages by drawing opaque redaction boxes burned into document streams.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#ec4899",
+      accentRgb: "236, 72, 153",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg>`
+    },
+    {
+      id: "excel-pdf",
+      name: "Excel to PDF & PDF to Excel",
+      desc: "Convert spreadsheets (XLSX, XLS, CSV) into presentation-ready PDF tables with custom themes, or extract PDF tables into structured Excel files.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Office Converters",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M8 13h8M8 17h8M8 9h2"></path></svg>`
+    },
+    {
+      id: "word-pdf",
+      name: "Word to PDF & PDF to Word",
+      desc: "Convert Word DOCX documents into clean print-ready PDFs, or extract text, typography, and headings from PDFs into native Microsoft Word files.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Office Converters",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`
+    },
+    {
+      id: "html-to-pdf",
+      name: "HTML to PDF Webpage Studio",
+      desc: "Convert raw HTML/CSS code or import HTML files into high-resolution PDFs with live sandbox preview and page-break controls.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Office Converters",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`
+    },
+    {
+      id: "pdf-to-markdown",
+      name: "PDF to Markdown Converter",
+      desc: "Convert PDF documents into clean GitHub Flavored Markdown (GFM) with automatic detection of headings, bullet points, tables, and code snippets.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Office Converters",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`
+    },
+    {
+      id: "pdf-ai",
+      name: "AI PDF Summarizer & Translator",
+      desc: "Generate executive summaries, extract actionable commitments, chat with documents in Q&A mode, or translate PDFs into 15+ languages via Gemini & offline NLP.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "AI & Intelligence",
+      accent: "#ec4899",
+      accentRgb: "236, 72, 153",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>`
+    },
+    {
+      id: "scan-to-pdf",
+      name: "Camera Scan to PDF",
+      desc: "Capture multi-page paper documents using your webcam or mobile camera with smart contrast filters (B&W/Greyscale/Color) and compile into PDF.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Office Converters",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>`
+    },
+    {
+      id: "pptx-pdf",
+      name: "PowerPoint to PDF & PDF to PPTX",
+      desc: "Convert PowerPoint presentations (.pptx) into clean PDF documents or reverse convert PDFs into native editable PowerPoint slides.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "Office Converters",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M8 8h5a2.5 2.5 0 0 1 0 5H8z"></path><line x1="8" y1="8" x2="8" y2="16"></line></svg>`
+    },
+    {
+      id: "compare-pdf",
+      name: "Compare PDF Documents",
+      desc: "Compare two revisions of a PDF side-by-side, highlight layout differences with a pixel difference heatmap, wipe slider, or text clause diff.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#6366f1",
+      accentRgb: "99, 102, 241",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg>`
+    },
+    {
+      id: "pdf-annotate",
+      name: "Annotate & Draw on PDF",
+      desc: "Highlight passages, sketch freehand notes, stamp text markers, draw framing boxes, and arrows directly onto PDF pages with vector burning.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#ec4899",
+      accentRgb: "236, 72, 153",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`
+    },
+    {
+      id: "audio-converter",
+      name: "Audio Converter & Transcoder",
+      desc: "Convert sound files between MP3, WAV, and OGG formats with customizable bitrates (128k-320k), stereo/mono channels, and gain amplification.",
+      category: "dev",
+      subcategory: "dev-generators",
+      subLabel: "Audio & Media",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`
+    },
+    {
+      id: "repair-pdf",
+      name: "Repair & Recover PDF",
+      desc: "Analyze and repair damaged PDF files by realigning shifted binary headers, reconstructing broken xref tables, and salvaging readable page streams.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>`
+    },
+    {
+      id: "pdf-to-pdfa",
+      name: "PDF to PDF/A Archival",
+      desc: "Convert PDF documents to ISO 19005 archival standards (PDF/A-1b, PDF/A-2b, PDF/A-3b) with sRGB output intents and XMP conformance metadata.",
+      category: "text",
+      subcategory: "text-markdown",
+      subLabel: "PDF Power Tools",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11H9z"></path></svg>`
     }
   ],
 
@@ -409,7 +781,38 @@ const app = {
     "ip-subnet-calculator": ["ip", "subnet", "cidr", "host", "mac", "oui", "manufacturer", "network", "ipv4", "mask", "wildcard"],
     "curl-converter": ["curl", "fetch", "axios", "python", "requests", "go", "http", "api", "converter", "request", "header", "postman"],
     "cron-builder": ["cron", "schedule", "crontab", "job", "timer", "schedule runner", "cron expression", "interval", "quartz", "task"],
-    "json-to-types": ["typescript", "interface", "pydantic", "go struct", "rust serde", "model", "type", "json to type", "schema", "class", "dto"]
+    "json-to-types": ["typescript", "interface", "pydantic", "go struct", "rust serde", "model", "type", "json to type", "schema", "class", "dto"],
+    "robots-generator": ["robots.txt", "robots", "crawler", "bot", "gptbot", "ccbot", "sitemap", "disallow", "allow", "crawl-delay", "seo", "search engine"],
+    "lorem-generator": ["lorem", "ipsum", "dummy text", "placeholder", "filler text", "latin", "generator", "paragraphs", "sentences", "words", "cyberpunk", "b2b"],
+    "qr-scanner": ["qr scanner", "scan qr", "barcode", "reader", "webcam", "camera", "decode qr", "jsqr", "qr reader", "scan barcode", "upc", "ean"],
+    "color-extractor": ["color extractor", "palette", "eyedropper", "loupe", "sample color", "hex from image", "image colors", "dominant colors", "contrast"],
+    "favicon-generator": ["favicon", "ico", "apple touch icon", "app icon", "pwa icon", "icon generator", "favicon.ico", "tab icon", "bookmark icon"],
+    "images-to-pdf": ["image to pdf", "jpg to pdf", "png to pdf", "photos to pdf", "convert images", "pdf maker", "combine pictures", "pdf compiler"],
+    "screen-recorder": ["screen recorder", "record screen", "capture screen", "screen capture", "record tab", "record video", "screen video", "screencast", "webcam record", "video recorder"],
+    "voice-recorder": ["voice recorder", "audio recorder", "record voice", "mic recorder", "microphone", "sound recorder", "waveform", "wav recorder", "voice memo", "audio visualizer"],
+    "video-speed": ["video speed", "playback speed", "speed controller", "slow motion", "speed up video", "slow video", "frame step", "loop video", "ab loop", "video player", "pitch"],
+    "mp4-to-mp3": ["mp4 to mp3", "video to audio", "extract audio", "convert mp4", "video to wav", "audio extractor", "sound from video", "demux audio", "trim audio"],
+    "video-to-gif": ["video to gif", "convert to gif", "make gif", "animated gif", "gif creator", "mp4 to gif", "webm to gif", "clip to gif", "gif converter", "gif maker"],
+    "temp-mail": ["temp mail", "disposable email", "throwaway email", "fake email", "temporary email", "10 minute mail", "test email", "spam shield", "inbox", "anonymous email"],
+    "sign-pdf": ["sign pdf", "pdf signature", "digital signature", "sign document", "signature pad", "e-sign", "stamp pdf", "draw signature", "fill and sign", "autograph"],
+    "pdf-security": ["protect pdf", "unlock pdf", "encrypt pdf", "decrypt pdf", "pdf password", "secure pdf", "pdf permissions", "remove pdf password", "aes encrypt pdf"],
+    "pdf-watermark": ["watermark pdf", "pdf page numbers", "add watermark", "stamp pdf", "confidential watermark", "page numbering", "bates numbering", "draft watermark", "footer page number"],
+    "pdf-organizer": ["organize pdf", "reorder pdf pages", "rotate pdf", "delete pdf pages", "remove pdf pages", "sort pdf", "pdf page manager", "arrange pdf"],
+    "crop-pdf": ["crop pdf", "trim pdf", "pdf margins", "remove whitespace", "cut pdf", "crop pages", "mediabox", "cropbox", "trim document"],
+    "pdf-forms": ["fill pdf", "pdf forms", "acroform", "pdf form filler", "interactive pdf", "fillable pdf", "flatten pdf", "form fields"],
+    "redact-pdf": ["redact pdf", "sanitize pdf", "black out pdf", "hide pdf text", "remove pii pdf", "censor pdf", "permanent redaction", "pdf privacy"],
+    "excel-pdf": ["excel to pdf", "pdf to excel", "xlsx to pdf", "pdf to xlsx", "csv to pdf", "spreadsheet pdf", "table to pdf", "convert excel", "sheetjs pdf"],
+    "word-pdf": ["word to pdf", "pdf to word", "docx to pdf", "pdf to docx", "convert docx", "pdf to doc", "convert word document", "doc converter"],
+    "html-to-pdf": ["html to pdf", "webpage to pdf", "convert html", "url to pdf", "invoice pdf", "html2pdf", "print webpage", "webpage snapshot", "css to pdf"],
+    "pdf-to-markdown": ["pdf to markdown", "pdf to md", "convert pdf to text", "extract markdown", "gfm converter", "pdf parser", "markdown extractor"],
+    "pdf-ai": ["ai pdf", "pdf summarizer", "translate pdf", "chat with pdf", "ask pdf", "gemini pdf", "document intelligence", "action items pdf", "multilingual pdf"],
+    "scan-to-pdf": ["scan to pdf", "camera scanner", "document scanner", "camscanner", "photo to pdf", "mobile scan", "scan paper", "contrast filter scanner"],
+    "pptx-pdf": ["pptx to pdf", "pdf to pptx", "powerpoint to pdf", "pdf to powerpoint", "slides to pdf", "presentation converter", "convert pptx", "keynote pdf"],
+    "compare-pdf": ["compare pdf", "pdf diff", "pdf difference", "visual diff", "side by side pdf", "pixel diff", "text clause diff", "pdf comparison", "revision checker"],
+    "pdf-annotate": ["annotate pdf", "draw on pdf", "pdf highlighter", "markup pdf", "sketch pdf", "pdf pen", "stamp pdf", "burn annotations", "pdf canvas"],
+    "audio-converter": ["audio converter", "mp3 converter", "wav to mp3", "ogg converter", "transcode audio", "audio bitrate", "sound converter", "music transcode", "flac to mp3"],
+    "repair-pdf": ["repair pdf", "fix pdf", "recover pdf", "corrupt pdf", "broken xref", "pdf reconstruct", "salvage pdf", "pdf stream repair", "unreadable pdf"],
+    "pdf-to-pdfa": ["pdf to pdf/a", "pdfa converter", "pdf/a-1b", "pdf/a-2b", "pdf/a-3b", "iso 19005", "archival pdf", "long term pdf", "zugferd pdf", "legal archive"]
   },
 
   // Centralized Tool Benefits Registry for visual guide cards
@@ -537,6 +940,130 @@ const app = {
     "json-to-types": [
       "<strong>Automated Type Generation</strong>: Creates TypeScript interfaces, Python Pydantic models, Go structs, and Rust Serde models from raw JSON.",
       "<strong>Recursive Model Structuring</strong>: Automatically unpacks deeply nested JSON objects into individual strongly-typed interfaces."
+    ],
+    "robots-generator": [
+      "<strong>Visual Rule Builder</strong>: Assemble crawler access rules, user-agent directives, and crawl delays with instant syntax validation.",
+      "<strong>AI Scraper Protection</strong>: 1-click toggle to block modern AI crawlers (GPTBot, CCBot, ClaudeBot) from scraping your proprietary content."
+    ],
+    "lorem-generator": [
+      "<strong>Multi-Style Vocabularies</strong>: Switch between classical Latin Cicero prose, dystopian cyberpunk techno-babble, and corporate synergy jargon.",
+      "<strong>Structured Export</strong>: Generate clean plain text, semantic HTML paragraphs, markdown formatting, or JSON arrays ready for mock testing."
+    ],
+    "qr-scanner": [
+      "<strong>High-Speed Client Recognition</strong>: Decodes QR codes and 1D barcodes with zero cloud transmission via pure WebAssembly and jsQR.",
+      "<strong>Multi-Input Flexibility</strong>: Scan in real-time from webcam/mobile camera, drag-and-drop image files, or paste screenshots directly from clipboard."
+    ],
+    "color-extractor": [
+      "<strong>Dominant Palette Quantization</strong>: Extracts prominent accent colors, harmonized complementary shades, and CSS variable tokens.",
+      "<strong>Magnifier Eyedropper</strong>: Precision pixel loupe inspects uploaded images down to the individual pixel with real-time WCAG contrast checks."
+    ],
+    "favicon-generator": [
+      "<strong>Complete Multi-Platform Suite</strong>: Generates multi-layer Windows .ico (16/32), iOS Apple Touch icon (180), and Android PWA icons (192/512).",
+      "<strong>Live Device Previews</strong>: Preview how your icon looks inside dark/light browser tabs, iOS home screens, and Android app drawers."
+    ],
+    "images-to-pdf": [
+      "<strong>Client-Side PDF Assembly</strong>: Merge JPG, PNG, and WebP images into a single polished PDF document without server uploads.",
+      "<strong>Visual Page Board</strong>: Drag, rotate, reorder, and configure page sizes (A4, Letter, Auto-Fit) with margins and quality compression."
+    ],
+    "screen-recorder": [
+      "<strong>Full-Resolution Capture</strong>: Record whole displays, specific application windows, or browser tabs with 60 FPS clarity and live countdown.",
+      "<strong>Mic & System Audio Mix</strong>: Blend microphone commentary seamlessly with internal browser audio using client-side AudioContext mixing."
+    ],
+    "voice-recorder": [
+      "<strong>Studio Audio Fidelity</strong>: Capture crystal-clear vocals with noise suppression, echo cancellation, and 16-bit uncompressed WAV export.",
+      "<strong>Real-Time Visualization</strong>: Dynamic audio frequency spectrum and oscilloscope waves render microphone audio instantly on HTML5 canvas."
+    ],
+    "video-speed": [
+      "<strong>0.1x to 4.0x Variable Rate</strong>: Adjust video playback speed smoothly with natural audio pitch preservation or experimental scaling.",
+      "<strong>A-B Looper & Frame Stepping</strong>: Set custom start and end loop markers to continuously repeat clips and step frame-by-frame with precision."
+    ],
+    "mp4-to-mp3": [
+      "<strong>Zero-Upload Audio Extraction</strong>: Demux and extract soundtracks directly from video files in your browser using pure Web Audio API.",
+      "<strong>Waveform Trimming & Quality</strong>: View audio wave profile and isolate specific song segments or interview clips with sub-second precision."
+    ],
+    "video-to-gif": [
+      "<strong>Client-Side GIF Compiler</strong>: Convert video clips into smooth animated GIFs with customizable resolution, frame rate, and duration clipping.",
+      "<strong>Instant Live Preview</strong>: Monitor frame extraction and encoding progress in real time before downloading the final shareable .gif."
+    ],
+    "temp-mail": [
+      "<strong>Instant Spam Shield</strong>: Generate disposable email addresses in one click to verify signups and safeguard your personal inbox from spam.",
+      "<strong>Automated 10s Sync</strong>: Auto-checks for new incoming messages every 10 seconds with sound notifications and HTML email viewer."
+    ],
+    "sign-pdf": [
+      "<strong>Multi-Mode Signing</strong>: Draw signatures with touch/mouse, type custom cursive scripts, or upload company stamp seals.",
+      "<strong>Pixel-Precise Positioning</strong>: Click to place, scale, and embed signatures anywhere across multi-page PDF documents."
+    ],
+    "pdf-security": [
+      "<strong>Client-Side Encryption</strong>: Lock documents with AES user and owner passwords plus granular printing and copying restrictions.",
+      "<strong>Zero-Trace Unlocking</strong>: Decrypt password-protected files in your browser and export clean unrestricted PDFs."
+    ],
+    "pdf-watermark": [
+      "<strong>Custom Text & Opacity</strong>: Apply angled or horizontal watermarks across all pages with custom typography and color schemes.",
+      "<strong>Dynamic Page Numbering</strong>: Stamp clean page numbers (Page X of Y, X/Y) with customizable header/footer positioning."
+    ],
+    "pdf-organizer": [
+      "<strong>Visual Page Grid</strong>: Preview every page thumbnail in an intuitive interactive board with drag-and-drop reordering.",
+      "<strong>Rotation & Pruning</strong>: Rotate oriented pages by 90° increments and delete unwanted pages before compiling."
+    ],
+    "crop-pdf": [
+      "<strong>Interactive Bounding Box</strong>: Visually define crop margins on canvas or input millimeter/point coordinates.",
+      "<strong>Flexible Scope Targeting</strong>: Apply margin crops across all pages, current page, or even/odd page spreads."
+    ],
+    "pdf-forms": [
+      "<strong>AcroForm Field Inspection</strong>: Automatically detect text fields, checkboxes, dropdowns, and radio buttons in fillable PDFs.",
+      "<strong>Flatten & Lock</strong>: Populate form data cleanly with optional flattening to prevent subsequent modifications."
+    ],
+    "redact-pdf": [
+      "<strong>True Coordinate Sanitization</strong>: Draw blackout boxes permanently baked into document streams to conceal confidential data.",
+      "<strong>100% Client-Side Privacy</strong>: Redactions occur entirely within your local browser memory with zero server uploads."
+    ],
+    "excel-pdf": [
+      "<strong>Dual-Direction Pipeline</strong>: Convert multi-sheet Excel files into formatted PDF tables or extract PDF data grids into clean .xlsx files.",
+      "<strong>Custom Table Styling</strong>: Customize page orientation, striped zebra fills, column font sizes, and custom accent colors."
+    ],
+    "word-pdf": [
+      "<strong>High-Fidelity DOCX Conversion</strong>: Preserve headings, bullet lists, table layouts, bold, and italics client-side without third-party APIs.",
+      "<strong>Native Microsoft Word Compatibility</strong>: Extracted Word files open seamlessly in Microsoft 365, Google Docs, Apple Pages, and LibreOffice."
+    ],
+    "html-to-pdf": [
+      "<strong>Live Split-Pane Sandbox</strong>: Write custom HTML/CSS and preview document rendering in real time before PDF compilation.",
+      "<strong>Vector-Grade Output</strong>: 2x and 3x retina canvas scaling produces ultra-sharp print typography and prevents pixel blur."
+    ],
+    "pdf-to-markdown": [
+      "<strong>Automated Typography Detection</strong>: Intelligently translates large font sizes into # and ## Markdown headings with zero manual tagging.",
+      "<strong>Table & List Preservation</strong>: Converts multi-column layouts into standard GitHub Flavored Markdown (GFM) pipe tables."
+    ],
+    "pdf-ai": [
+      "<strong>Executive Intelligence</strong>: Instantly generate 3-5 bullet takeaway summaries and structured action item deadlines.",
+      "<strong>Multilingual Translation & Chat</strong>: Translate documents into 15+ languages and converse directly with document contents in real time."
+    ],
+    "scan-to-pdf": [
+      "<strong>Smart Contrast Filtering</strong>: High-contrast B&W document filter whitens paper backgrounds and sharpens text strokes like an office scanner.",
+      "<strong>Multi-Page Camera Queue</strong>: Rapidly snap consecutive pages, reorder or rotate captures, and compile into a single document."
+    ],
+    "pptx-pdf": [
+      "<strong>High-Fidelity Slide Conversion</strong>: Parse XML presentations into crisp PDF slides or extract PDF visual slides into native Microsoft PowerPoint files.",
+      "<strong>Zero Software Dependencies</strong>: Create and convert slide decks without installing Microsoft PowerPoint or Adobe Acrobat."
+    ],
+    "compare-pdf": [
+      "<strong>Multi-Mode Visual Difference</strong>: Toggle between synchronized side-by-side view, pixel difference heatmap, and an interactive wipe slider.",
+      "<strong>Semantic Clause Diffing</strong>: Inspect line-by-line and token-level text changes with colored added/removed indicators and exportable reports."
+    ],
+    "pdf-annotate": [
+      "<strong>Full-Featured Drawing Studio</strong>: Freehand pen, highlighter, custom stamps, framing rectangles, and arrow markers.",
+      "<strong>Permanent Vector Burning</strong>: Bakes annotations directly into the document stream for consistent display on mobile and desktop readers."
+    ],
+    "audio-converter": [
+      "<strong>Lossless Audio Transcoding</strong>: Cross-convert between MP3, WAV, and OGG with bitrates up to 320 kbps using client-side Web Audio.",
+      "<strong>Volume Normalization & Channels</strong>: Downmix stereo to mono or amplify low-volume recordings up to 200% with real-time audio playback."
+    ],
+    "repair-pdf": [
+      "<strong>Deep Binary Structure Fixes</strong>: Realigns shifted file headers, closes unclosed streams, and rebuilds corrupted xref tables.",
+      "<strong>Permissive Page Salvage Fallback</strong>: Recovers readable pages from damaged or truncated files into a clean standardized document container."
+    ],
+    "pdf-to-pdfa": [
+      "<strong>ISO 19005 Standardization</strong>: Conform documents to PDF/A-1b, PDF/A-2b, or PDF/A-3b standards for long-term legal archiving.",
+      "<strong>Color & XMP Descriptor Injection</strong>: Embeds device-independent sRGB IEC61966-2.1 OutputIntents and XML conformance schemas."
     ]
   },
 
@@ -727,6 +1254,192 @@ const app = {
       { label: "Go Structs & Rust Serde", icon: "🦀" },
       { label: "Recursive Nested Interfaces", icon: "🌳" },
       { label: "100% In-Browser Types", icon: "⚡" }
+    ],
+    "robots-generator": [
+      { label: "Visual Crawl Rule Builder", icon: "🤖", primary: true },
+      { label: "AI Bot Scraper Shield", icon: "🛡️" },
+      { label: "XML Sitemap Integration", icon: "🗺️" },
+      { label: "One-Click Robots.txt Export", icon: "💾" }
+    ],
+    "lorem-generator": [
+      { label: "Latin, Cyber & Corporate Modes", icon: "✍️", primary: true },
+      { label: "Paragraphs, Lists & Words", icon: "📜" },
+      { label: "HTML, Markdown & JSON Formats", icon: "🏷️" },
+      { label: "Live Word & Char Counters", icon: "🔢" }
+    ],
+    "qr-scanner": [
+      { label: "Webcam & Live Camera Scanning", icon: "📷", primary: true },
+      { label: "File Drop & Clipboard Paste", icon: "📋" },
+      { label: "Smart URL, WiFi & Action Detect", icon: "⚡" },
+      { label: "100% In-Browser Privacy", icon: "🔒" }
+    ],
+    "color-extractor": [
+      { label: "Dominant Palette Quantization", icon: "🎨", primary: true },
+      { label: "Zoom Magnifier Eyedropper", icon: "🔍" },
+      { label: "WCAG 2.1 Contrast Testing", icon: "👁️" },
+      { label: "CSS, Tailwind & JSON Export", icon: "📋" }
+    ],
+    "favicon-generator": [
+      { label: "Multi-Resolution .ICO Compiler", icon: "⭐", primary: true },
+      { label: "Apple Touch & Android PWA Icons", icon: "📱" },
+      { label: "Live Tab & Screen Previews", icon: "👁️" },
+      { label: "All-in-One ZIP Package", icon: "📦" }
+    ],
+    "images-to-pdf": [
+      { label: "JPG, PNG & WebP to PDF", icon: "📑", primary: true },
+      { label: "Visual Reorder & Rotate Board", icon: "🔄" },
+      { label: "A4, Letter & Fit Page Sizes", icon: "📐" },
+      { label: "Pure Client-Side PDF-Lib", icon: "⚡" }
+    ],
+    "screen-recorder": [
+      { label: "Screen, Window & Tab Capture", icon: "🖥️", primary: true },
+      { label: "Mic Commentary Audio Mix", icon: "🎙️" },
+      { label: "60 FPS / 1080p / 4K Modes", icon: "⚡" },
+      { label: "WebM & MP4 Download", icon: "💾" }
+    ],
+    "voice-recorder": [
+      { label: "Studio-Grade Vocals", icon: "🎙️", primary: true },
+      { label: "Live Spectrum & Oscilloscope", icon: "📊" },
+      { label: "Lossless 16-bit WAV Export", icon: "💾" },
+      { label: "Noise & Echo Suppression", icon: "✨" }
+    ],
+    "video-speed": [
+      { label: "0.1x to 4.0x Speed Control", icon: "⚡", primary: true },
+      { label: "Frame-by-Frame Stepper", icon: "🎞️" },
+      { label: "Pitch Preservation Engine", icon: "🎵" },
+      { label: "Continuous A-B Loop Repeater", icon: "🔄" }
+    ],
+    "mp4-to-mp3": [
+      { label: "Video to Audio Extraction", icon: "🎵", primary: true },
+      { label: "Interactive Audio Waveform", icon: "📊" },
+      { label: "Sub-Second Range Trimming", icon: "✂️" },
+      { label: "Studio WAV & WebM Export", icon: "💾" }
+    ],
+    "video-to-gif": [
+      { label: "Video to Animated GIF", icon: "🖼️", primary: true },
+      { label: "Custom Resolution & FPS", icon: "📐" },
+      { label: "Frame-by-Frame Progress", icon: "⏳" },
+      { label: "Pure Client-Side LZW", icon: "⚡" }
+    ],
+    "temp-mail": [
+      { label: "Instant Throwaway Address", icon: "✉️", primary: true },
+      { label: "10-Second Auto Refresh", icon: "⏱️" },
+      { label: "Built-in HTML Email Viewer", icon: "📖" },
+      { label: "100% Free & No Registration", icon: "🛡️" }
+    ],
+    "sign-pdf": [
+      { label: "Draw, Type & Stamp Signatures", icon: "✍️", primary: true },
+      { label: "Interactive Visual Placement", icon: "📍" },
+      { label: "Multi-Page PDF Support", icon: "📑" },
+      { label: "100% Client-Side PDF-Lib", icon: "⚡" }
+    ],
+    "pdf-security": [
+      { label: "AES Password Protection", icon: "🔒", primary: true },
+      { label: "Unlock & Decrypt PDFs", icon: "🔓" },
+      { label: "Print & Copy Restrictions", icon: "🛡️" },
+      { label: "Zero Cloud Uploads", icon: "⚡" }
+    ],
+    "pdf-watermark": [
+      { label: "Angled & Horizontal Watermarks", icon: "💧", primary: true },
+      { label: "Dynamic Page Numbers (X of Y)", icon: "🔢" },
+      { label: "Color, Opacity & Font Scale", icon: "🎨" },
+      { label: "Skip First Page Cover Option", icon: "📄" }
+    ],
+    "pdf-organizer": [
+      { label: "Drag & Reorder Page Grid", icon: "🔄", primary: true },
+      { label: "90° Page Rotation", icon: "🔁" },
+      { label: "Delete Unwanted Pages", icon: "🗑️" },
+      { label: "High-Fidelity Thumbnails", icon: "👁️" }
+    ],
+    "crop-pdf": [
+      { label: "Visual Bounding Box Crop", icon: "✂️", primary: true },
+      { label: "All / Even / Odd Scope", icon: "📐" },
+      { label: "Millimeter & Point Margins", icon: "📏" },
+      { label: "MediaBox & CropBox Engine", icon: "⚡" }
+    ],
+    "pdf-forms": [
+      { label: "Fill Interactive AcroForms", icon: "📝", primary: true },
+      { label: "Text, Checks & Dropdowns", icon: "🔘" },
+      { label: "Flatten & Lock Fields", icon: "🔒" },
+      { label: "Export Filled Documents", icon: "💾" }
+    ],
+    "redact-pdf": [
+      { label: "Permanent Stream Redaction", icon: "⬛", primary: true },
+      { label: "Blackout & Whiteout Boxes", icon: "🖌️" },
+      { label: "Scrub PII & Financial Data", icon: "🛡️" },
+      { label: "Zero Server Transmission", icon: "🔒" }
+    ],
+    "excel-pdf": [
+      { label: "Excel to PDF & PDF to Excel", icon: "📊", primary: true },
+      { label: "Multi-Sheet Tabs Supported", icon: "📑" },
+      { label: "Zebra & Grid Themes", icon: "🎨" },
+      { label: "Pure In-Browser SheetJS", icon: "⚡" }
+    ],
+    "word-pdf": [
+      { label: "DOCX to PDF & PDF to Word", icon: "📄", primary: true },
+      { label: "Preserves Tables & Headings", icon: "📐" },
+      { label: "Native Word (.docx) Export", icon: "💾" },
+      { label: "100% Client-Side Privacy", icon: "🔒" }
+    ],
+    "html-to-pdf": [
+      { label: "Live HTML/CSS Sandbox", icon: "💻", primary: true },
+      { label: "Pre-Built Invoice Templates", icon: "🧾" },
+      { label: "Page-Break CSS Controls", icon: "✂️" },
+      { label: "Crisp 3x Retina Scaling", icon: "✨" }
+    ],
+    "pdf-to-markdown": [
+      { label: "PDF to GitHub Markdown (GFM)", icon: "📝", primary: true },
+      { label: "Auto Heading (#) Detection", icon: "🏷️" },
+      { label: "Pipe Table Conversion", icon: "📊" },
+      { label: "One-Click .md Download", icon: "📥" }
+    ],
+    "pdf-ai": [
+      { label: "Executive Bullet Summaries", icon: "📌", primary: true },
+      { label: "Action Items & Deadlines", icon: "⚡" },
+      { label: "15+ Language Translations", icon: "🌐" },
+      { label: "Google Gemini & Offline NLP", icon: "🤖" }
+    ],
+    "scan-to-pdf": [
+      { label: "Live Camera Viewfinder", icon: "📷", primary: true },
+      { label: "Multi-Page Rapid Snapping", icon: "📑" },
+      { label: "B&W Document Contrast Filter", icon: "✨" },
+      { label: "Single/Multi-Page PDF Export", icon: "💾" }
+    ],
+    "pptx-pdf": [
+      { label: "PowerPoint (.pptx) to PDF", icon: "📊", primary: true },
+      { label: "PDF to PowerPoint Slides", icon: "📑" },
+      { label: "PptxGenJS Vector Slides", icon: "🎨" },
+      { label: "100% Client-Side Conversion", icon: "⚡" }
+    ],
+    "compare-pdf": [
+      { label: "Visual Page Comparison", icon: "👁️", primary: true },
+      { label: "Pixel Difference Heatmap", icon: "🔴" },
+      { label: "Interactive Wipe Slider", icon: "↔️" },
+      { label: "Text & Clause Diff Export", icon: "📝" }
+    ],
+    "pdf-annotate": [
+      { label: "Freehand Pen & Highlighter", icon: "✏️", primary: true },
+      { label: "Text Stamps & Bounding Boxes", icon: "🔤" },
+      { label: "Arrow Directional Pointers", icon: "➡️" },
+      { label: "Burn Annotations to PDF", icon: "💾" }
+    ],
+    "audio-converter": [
+      { label: "MP3, WAV & OGG Transcode", icon: "🎧", primary: true },
+      { label: "Bitrates up to 320 kbps", icon: "⚡" },
+      { label: "Stereo / Mono Downmix", icon: "🎛️" },
+      { label: "Volume Gain Booster (200%)", icon: "🔊" }
+    ],
+    "repair-pdf": [
+      { label: "Rebuild Damaged Xref Tables", icon: "🛠️", primary: true },
+      { label: "Fix Missing Trailers & Headers", icon: "🩹" },
+      { label: "Permissive Stream Salvage", icon: "📂" },
+      { label: "Real-Time Diagnostic Console", icon: "💻" }
+    ],
+    "pdf-to-pdfa": [
+      { label: "ISO 19005 Standardization", icon: "🏛️", primary: true },
+      { label: "PDF/A-1b, 2b & 3b Profiles", icon: "📜" },
+      { label: "Embedded sRGB OutputIntent", icon: "🎨" },
+      { label: "XMP Archival Metadata Packet", icon: "🏷️" }
     ]
   },
 
@@ -863,6 +1576,131 @@ const app = {
     "ip-subnet-calculator": [
       { targetId: "unit-converter", hint: "Convert network data transfer rates and subnet capacities" },
       { targetId: "calculator", hint: "Perform advanced binary calculations and address math" }
+    ],
+    "robots-generator": [
+      { targetId: "seo-previewer", hint: "Preview social cards and meta tags for indexed pages" },
+      { targetId: "url-parser", hint: "Analyze site URL paths and query parameters for disallow rules" }
+    ],
+    "lorem-generator": [
+      { targetId: "markdown-preview", hint: "Test how your dummy copy renders in markdown and HTML" },
+      { targetId: "text-analyzer", hint: "Check word count and readability scores of generated text" }
+    ],
+    "qr-scanner": [
+      { targetId: "qr-generator", hint: "Generate a custom branded QR code with extracted content" },
+      { targetId: "url-parser", hint: "Inspect and test decoded URL query parameters" }
+    ],
+    "color-extractor": [
+      { targetId: "color-lab", hint: "Fine-tune contrast ratios and generate harmonic shades" },
+      { targetId: "css-studio", hint: "Apply extracted colors directly to CSS gradients and glass cards" }
+    ],
+    "favicon-generator": [
+      { targetId: "seo-previewer", hint: "Inspect favicon appearance in Google SERP results" },
+      { targetId: "image-converter", hint: "Convert and optimize source graphics before icon compilation" }
+    ],
+    "images-to-pdf": [
+      { targetId: "pdf-utilities", hint: "Compress, split, or encrypt your assembled PDF document" },
+      { targetId: "image-converter", hint: "Optimize and resize image resolutions before compiling" }
+    ],
+    "screen-recorder": [
+      { targetId: "video-speed", hint: "Review and inspect screen recording with variable speed and frame stepper" },
+      { targetId: "video-to-gif", hint: "Convert recorded screen clips into lightweight animated GIFs" },
+      { targetId: "mp4-to-mp3", hint: "Extract the audio or voice commentary from your screen recording" }
+    ],
+    "voice-recorder": [
+      { targetId: "mp4-to-mp3", hint: "Trim or process voice tracks alongside video soundtracks" },
+      { targetId: "screen-recorder", hint: "Record visual screen tutorials with full microphone commentary" }
+    ],
+    "video-speed": [
+      { targetId: "video-to-gif", hint: "Convert inspected video segment into an animated GIF clip" },
+      { targetId: "mp4-to-mp3", hint: "Extract the audio track from the loaded video" }
+    ],
+    "mp4-to-mp3": [
+      { targetId: "voice-recorder", hint: "Record voice notes or compare against extracted audio tracks" },
+      { targetId: "video-speed", hint: "Play video back at variable speeds with pitch control" }
+    ],
+    "video-to-gif": [
+      { targetId: "video-speed", hint: "Frame-step through video to identify exact GIF start/end moments" },
+      { targetId: "image-converter", hint: "Optimize and compress graphics or converted frames" }
+    ],
+    "temp-mail": [
+      { targetId: "security-suite", hint: "Generate secure passwords to use with your disposable email" },
+      { targetId: "qr-generator", hint: "Generate a QR code of your temporary inbox address" }
+    ],
+    "sign-pdf": [
+      { targetId: "pdf-security", hint: "Lock and password-protect your signed PDF document" },
+      { targetId: "pdf-watermark", hint: "Add confidential watermarks or numbering to your signed PDF" }
+    ],
+    "pdf-security": [
+      { targetId: "sign-pdf", hint: "Sign documents before encrypting with password protection" },
+      { targetId: "redact-pdf", hint: "Scrub sensitive PII before applying encryption locks" }
+    ],
+    "pdf-watermark": [
+      { targetId: "pdf-organizer", hint: "Organize and rotate pages before stamping watermarks" },
+      { targetId: "pdf-security", hint: "Encrypt watermarked documents for secure distribution" }
+    ],
+    "pdf-organizer": [
+      { targetId: "crop-pdf", hint: "Crop margins on organized and rotated pages" },
+      { targetId: "sign-pdf", hint: "Sign organized documents on designated signature pages" }
+    ],
+    "crop-pdf": [
+      { targetId: "pdf-organizer", hint: "Reorder or rotate pages after cropping margins" },
+      { targetId: "pdf-utilities", hint: "Compress cropped PDF to minimize file size" }
+    ],
+    "pdf-forms": [
+      { targetId: "sign-pdf", hint: "Add verified signatures or stamps to completed forms" },
+      { targetId: "pdf-security", hint: "Password-protect filled forms before emailing" }
+    ],
+    "redact-pdf": [
+      { targetId: "pdf-security", hint: "Encrypt sanitized documents with AES passwords" },
+      { targetId: "pdf-watermark", hint: "Stamp 'SANITIZED' or 'REDACTED' watermark across pages" }
+    ],
+    "excel-pdf": [
+      { targetId: "pdf-security", hint: "Encrypt financial spreadsheet PDFs with AES passwords" },
+      { targetId: "pdf-watermark", hint: "Add confidential watermarks to financial PDF tables" }
+    ],
+    "word-pdf": [
+      { targetId: "sign-pdf", hint: "Digitally sign contracts after converting from Word" },
+      { targetId: "pdf-security", hint: "Password-protect converted Word documents" }
+    ],
+    "html-to-pdf": [
+      { targetId: "pdf-watermark", hint: "Add page numbering or company stamps to HTML documents" },
+      { targetId: "pdf-organizer", hint: "Organize and rotate pages in compiled HTML PDFs" }
+    ],
+    "pdf-to-markdown": [
+      { targetId: "markdown-preview", hint: "Edit and format your converted Markdown in real time" },
+      { targetId: "text-analyzer", hint: "Check readability scores and word counts of extracted text" }
+    ],
+    "pdf-ai": [
+      { targetId: "pdf-to-markdown", hint: "Convert full document to Markdown before AI processing" },
+      { targetId: "word-pdf", hint: "Export AI summaries and translated documents into Word" }
+    ],
+    "scan-to-pdf": [
+      { targetId: "pdf-organizer", hint: "Reorder, rotate, or delete scanned pages in thumbnail grid" },
+      { targetId: "pdf-utilities", hint: "Compress scanned PDF to minimize file size" }
+    ],
+    "pptx-pdf": [
+      { targetId: "pdf-watermark", hint: "Watermark confidential presentation slides before distribution" },
+      { targetId: "pdf-security", hint: "Password-protect confidential slide decks" }
+    ],
+    "compare-pdf": [
+      { targetId: "pdf-annotate", hint: "Annotate and highlight discrepancies found during comparison" },
+      { targetId: "text-diff", hint: "Run granular line-by-line diff on specific clauses" }
+    ],
+    "pdf-annotate": [
+      { targetId: "sign-pdf", hint: "Add verified cursive or digital signature stamps" },
+      { targetId: "pdf-security", hint: "Lock and encrypt annotated document" }
+    ],
+    "audio-converter": [
+      { targetId: "mp4-to-mp3", hint: "Extract audio tracks directly from video clips" },
+      { targetId: "voice-recorder", hint: "Record and visualize microphone audio memos" }
+    ],
+    "repair-pdf": [
+      { targetId: "pdf-utilities", hint: "Optimize and compress repaired PDF structure" },
+      { targetId: "pdf-to-pdfa", hint: "Convert salvaged PDF to ISO archival compliance" }
+    ],
+    "pdf-to-pdfa": [
+      { targetId: "repair-pdf", hint: "Inspect and repair stream errors prior to archiving" },
+      { targetId: "pdf-security", hint: "Audit permissions and encryption parameters" }
     ]
   },
 
