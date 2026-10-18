@@ -99,11 +99,11 @@ if (renderUiMissing.length > 0) {
 // Check index.html for critical elements
 const indexHtml = fs.readFileSync('index.html', 'utf8');
 const checks = [
-  { id: 'app.js script tag', test: indexHtml.includes('src="app.js"') },
-  { id: 'style.css link', test: indexHtml.includes('href="style.css"') },
-  { id: 'tool-view container', test: indexHtml.includes('id="tool-view"') },
-  { id: 'tool-container', test: indexHtml.includes('id="tool-container"') },
-  { id: 'sidebar / nav', test: indexHtml.includes('id="tools-list"') || indexHtml.includes('sidebar') },
+  { id: 'app.js script tag', test: /src=["']app\.js(?:\?[^"']*)?["']/.test(indexHtml) },
+  { id: 'style.css link', test: /href=["']style\.css(?:\?[^"']*)?["']/.test(indexHtml) },
+  { id: 'active tool viewport container', test: indexHtml.includes('id="active-tool-viewport"') },
+  { id: 'tool-container class', test: indexHtml.includes('class="tool-container"') },
+  { id: 'sidebar / nav', test: indexHtml.includes('id="tools-list"') || indexHtml.includes('sidebar') || indexHtml.includes('app-sidebar') },
   { id: 'search input', test: indexHtml.includes('id="tool-search"') || indexHtml.includes('search') },
   { id: 'theme toggle', test: indexHtml.includes('theme') }
 ];

@@ -563,8 +563,8 @@ const app = {
     "formatter-suite": ["json", "yaml", "csv", "sql", "beautifier", "formatter", "converter", "validator", "minify", "minify json", "format json", "xml"],
     "text-encoder-suite": ["base64", "url", "hex", "binary", "case", "upper", "lower", "camel", "snake", "kebab", "slug", "text case", "encode", "decode", "ascii", "unicode"],
     "jwt-decoder": ["jwt", "token", "decoder", "header", "payload", "claims", "expire", "auth", "json web token", "verify"],
-    "crypto-suite": ["md5", "sha1", "sha256", "sha512", "hash", "aes", "encrypt", "decrypt", "rsa", "key", "keys", "checksum", "cryptography", "cipher", "salt", "passphrase"],
-    "pii-anonymizer": ["pii", "anonymizer", "masker", "redact", "hash", "sha256", "gdpr", "hipaa", "privacy", "logs", "scrub", "ip", "email", "credit card", "security", "anonymize"],
+    "crypto-suite": ["md5", "sha1", "sha-1", "sha256", "sha-256", "256", "sha512", "sha-512", "512", "sha384", "sha-384", "sha3", "keccak", "ripemd160", "hash", "hasher", "hash generator", "checksum", "integrity", "aes", "aes-256", "aes256", "aes-128", "aes-192", "cipher", "encrypt", "decrypt", "symmetric encryption", "cbc", "gcm", "ctr", "rsa", "rsa-2048", "rsa-4096", "keypair", "public key", "private key", "salt", "passphrase", "cryptography"],
+    "pii-anonymizer": ["pii", "anonymizer", "masker", "redact", "hash", "sha256", "sha-256", "256", "gdpr", "hipaa", "privacy", "logs", "scrub", "ip", "email", "credit card", "security", "anonymize", "mask sensitive data"],
     "markdown-preview": ["markdown", "preview", "editor", "md", "html", "writer", "parser", "live editor"],
     "text-diff": ["diff", "difference", "compare", "comparison", "text diff", "side-by-side", "line-by-line", "patch", "text compare"],
     "pdf-searcher": ["pdf", "search", "ocr", "text extract", "scan", "scanned pdf", "image to text", "tesseract", "recognize", "reader"],
@@ -1589,10 +1589,206 @@ const app = {
   recents: [],
   globalConfig: null,
 
+  // Search & Filter system states
+  activeSearchFilter: "all",
+  activeCpFilter: "all",
+
   // Command Palette states
   cpOpen: false,
   cpIndex: 0,
   cpFiltered: [],
+
+  // Guides Registry for Instant Documentation Search
+  guidesList: [
+    { id: "pipeline-builder", fileName: "pipeline-builder.html", title: "Smart Chain Pipeline Builder", description: "Learn how to build, reorder, execute, and preview chain data processing pipelines client-side using Smart Chain Pipeline Builder." },
+    { id: "text-encoder-suite", fileName: "text-encoder-suite.html", title: "Text Cases & Encoder Suite", description: "Learn how to convert case representations (UPPER, lower, camel, snake, kebab) and run Base64 or URL encoding/decoding operations." },
+    { id: "jwt-decoder", fileName: "jwt-decoder.html", title: "JWT Decoder & Token Parser", description: "Learn how to decode JSON Web Tokens (JWT) to inspect header parameters, claim payloads, and verify signatures." },
+    { id: "crypto-suite", fileName: "crypto-suite.html", title: "Cryptography Suite", description: "Learn how to generate hashes, run symmetric AES-256 ciphers, and construct RSA keypairs client-side." },
+    { id: "markdown-preview", fileName: "markdown-preview.html", title: "Live Markdown Editor & Previewer", description: "Learn how to write markdown schemas, edit content with live syntax highlights, and preview formatted HTML." },
+    { id: "text-diff", fileName: "text-diff.html", title: "Text Diff Comparison Tool", description: "Learn how to compare two texts side-by-side or line-by-line and highlight visual differences." },
+    { id: "pdf-searcher", fileName: "pdf-searcher.html", title: "Multi-PDF Searcher & OCR", description: "Learn how to search multiple PDF documents and perform client-side Optical Character Recognition (OCR)." },
+    { id: "pdf-utilities", fileName: "pdf-utilities.html", title: "PDF Toolbox (Split, Merge, Convert & Compress)", description: "Learn how to split into PDF, PNG, JPG, or WebP, merge multiple PDFs, rotate/reorganize pages, and compress documents 100% client-side." },
+    { id: "regex-tester", fileName: "regex-tester.html", title: "Visual Regex & Extractor Suite", description: "Learn how to test regular expressions, capture matching groups, and extract structured variables." },
+    { id: "css-studio", fileName: "css-studio.html", title: "CSS Studio Suite", description: "Learn how to build gradients, shadow layers, and frosted glassmorphism elements visually." },
+    { id: "color-lab", fileName: "color-lab.html", title: "Color Lab & Contrast Suite", description: "Learn how to create WCAG-compliant color palettes and evaluate contrast readability ratios." },
+    { id: "security-suite", fileName: "security-suite.html", title: "Security & Passwords Suite", description: "Learn how to generate randomized passwords, analyze entropy, and compile bulk UUID keys." },
+    { id: "datetime-suite", fileName: "datetime-suite.html", title: "Date & Time Suite", description: "Learn how to convert Unix epochs, calculate durations, and calculate offset dates." },
+    { id: "unit-converter", fileName: "unit-converter.html", title: "Unit Converter", description: "Learn how to convert storage metrics, lengths, weights, and temperatures across global standards." },
+    { id: "graphics-studio", fileName: "graphics-studio.html", title: "Graphics Designer & Screenshot Studio", description: "Learn how to capture snapshots, build banners, overlay text, and apply premium vintage filters." },
+    { id: "calculator", fileName: "calculator.html", title: "Scientific Calculator", description: "Learn how to execute calculations, save histories, and compile trigonometric operations." },
+    { id: "qr-generator", fileName: "qr-generator.html", title: "Dynamic QR Code Studio", description: "Learn how to design custom vector QR codes with gradients, dots, and centered logos." },
+    { id: "seo-previewer", fileName: "seo-previewer.html", title: "Meta Tag & SEO Previewer", description: "Learn how to design meta tags and preview mockups of search engines and social cards." },
+    { id: "image-converter", fileName: "image-converter.html", title: "Image Optimizer & Converter", description: "Learn how to compress file sizes, resize dimensions, and convert formats client-side." },
+    { id: "svg-animator", fileName: "svg-animator.html", title: "SVG Animation Studio", description: "Learn how to animate SVG vectors, visualize paths, and export animated SVG files." },
+    { id: "url-parser", fileName: "url-parser.html", title: "URL Query Parser & Builder", description: "Learn how to parse web addresses, isolate domain routes, edit parameters in a grid, and generate clean links with UTM structures." },
+    { id: "text-analyzer", fileName: "text-analyzer.html", title: "Text Readability & Analyzer", description: "Learn how to evaluate reading times, keyword densities, and calculate Flesch readability scores." },
+    { id: "mock-data-generator", fileName: "mock-data-generator.html", title: "Private CSV/JSON Mock Data Generator", description: "Learn how to design schemas, configure column formats, and generate mock datasets client-side." },
+    { id: "code-playground", fileName: "code-playground.html", title: "HTML/CSS/JS Live Playground", description: "Learn how to write and test front-end HTML, CSS, and JS code in real-time, load external CDN libraries, and debug using simulated logs." },
+    { id: "pii-anonymizer", fileName: "pii-anonymizer.html", title: "Client-Side PII Masker & Anonymizer", description: "Learn how to detect, redact, hash, and mask sensitive Personal Identifiable Information (PII) from server logs locally." },
+    { id: "json-formatter", fileName: "json-formatter.html", title: "JSON, SQL & CSV Data Formatter Suite", description: "Learn how to format, validate, and convert JSON, SQL, and CSV datasets entirely client-side using OmniTool Hub's privacy-focused utility suites." },
+    { id: "ip-subnet-calculator", fileName: "ip-subnet-calculator.html", title: "IP Subnet & MAC Address Calculator", description: "Learn how to calculate IPv4 CIDR subnets, discover usable host ranges, inspect wildcard masks, and look up MAC OUI vendors client-side." },
+    { id: "payment-guide", fileName: "payment-guide.html", title: "OmniTool Hub Payment & PRO Activation Guide", description: "Learn how to activate lifetime PRO access, configure Razorpay, PayPal, or Stripe, and verify zero-fee licensing." }
+  ],
+
+  // Utility classification helper: sorts items into Suites, Features, Standalone Tools, Pro, and Free
+  classifyTool(tool) {
+    if (!tool) return { isSuite: false, isFeature: false, isTool: false, isPro: false, isFree: true };
+    const id = (tool.id || "").toLowerCase();
+    const name = (tool.name || "").toLowerCase();
+    const subcategory = (tool.subcategory || "").toLowerCase();
+
+    // 1. Suites: Multi-utility suites, studios, hubs, labs, toolboxes
+    const isSuite = (
+      id.includes("suite") ||
+      id.includes("studio") ||
+      id.includes("lab") ||
+      id.includes("hub") ||
+      id.includes("utilities") ||
+      id.includes("toolbox") ||
+      name.includes("suite") ||
+      name.includes("studio") ||
+      name.includes("lab") ||
+      name.includes("toolbox") ||
+      name.includes("hub")
+    );
+
+    // 2. Features: Interactive workflow builders, anonymizers, playgrounds, specialized engines
+    const featureIds = [
+      "pipeline-builder",
+      "pii-anonymizer",
+      "code-playground",
+      "mock-data-generator",
+      "svg-animator",
+      "seo-previewer",
+      "markdown-preview",
+      "text-diff",
+      "pdf-searcher",
+      "regex-tester",
+      "cron-builder",
+      "robots-generator"
+    ];
+    const isFeature = (
+      featureIds.includes(id) ||
+      subcategory.includes("pipeline") ||
+      name.includes("playground") ||
+      name.includes("anonymizer") ||
+      name.includes("builder") ||
+      name.includes("previewer") ||
+      name.includes("animator")
+    );
+
+    // 3. Standalone Tools: Single-purpose utilities
+    const isTool = !isSuite;
+
+    let overrides = {};
+    try {
+      overrides = JSON.parse(localStorage.getItem("omnitool_monetization_overrides") || "{}");
+    } catch (e) { }
+    const effectiveMonetization = overrides[tool.id] || tool.monetization || "free";
+
+    const isPro = effectiveMonetization === "premium" || effectiveMonetization === "ad-lock";
+    const isFree = effectiveMonetization === "free";
+
+    return { isSuite, isFeature, isTool, isPro, isFree };
+  },
+
+  // Intelligent Multi-Term, Hyphen-Insensitive, and Descriptive Search Matcher
+  matchSearchQuery(searchableText, query) {
+    if (!query) return true;
+    const clean = query.toLowerCase().trim();
+    if (!clean) return true;
+
+    const rawTarget = (searchableText || "").toLowerCase();
+    // 1. Direct exact substring match
+    if (rawTarget.includes(clean)) return true;
+
+    // 2. Alphanumeric match (handles hyphens, slashes, spaces like "sha-256" vs "sha256", "aes-256" vs "aes256", "utf-8" vs "utf8")
+    const cleanAlnum = clean.replace(/[^a-z0-9]/g, "");
+    const targetAlnum = rawTarget.replace(/[^a-z0-9]/g, "");
+    if (cleanAlnum.length >= 2 && targetAlnum.includes(cleanAlnum)) return true;
+
+    // 3. Tokenized Descriptive / Multi-word match
+    // Filter conversational stop words (e.g. "how to hash my password in sha 256")
+    const stopWords = new Set([
+      "how", "to", "can", "i", "a", "an", "the", "in", "on", "of", "for", "with",
+      "and", "or", "from", "my", "me", "is", "it", "do", "does", "by", "using",
+      "want", "need", "into", "between", "some", "any", "that", "this", "tool",
+      "tools", "utility", "utilities", "online", "free"
+    ]);
+
+    const allTokens = clean.split(/[\s,\-_./+]+/).filter(Boolean);
+    const meaningfulTokens = allTokens.filter(t => !stopWords.has(t) && t.length > 1);
+    const searchTokens = meaningfulTokens.length > 0 ? meaningfulTokens : allTokens;
+
+    if (searchTokens.length === 0) return true;
+
+    let matchedTokensCount = 0;
+    for (const token of searchTokens) {
+      const tokenAlnum = token.replace(/[^a-z0-9]/g, "");
+      if (rawTarget.includes(token) || (tokenAlnum.length >= 2 && targetAlnum.includes(tokenAlnum))) {
+        matchedTokensCount++;
+      }
+    }
+
+    const matchRatio = matchedTokensCount / searchTokens.length;
+    // For 1 or 2 tokens require complete match; for 3+ tokens allow natural language variations (at least 55% match)
+    if (searchTokens.length <= 2) {
+      return matchRatio === 1;
+    } else {
+      return matchRatio >= 0.55;
+    }
+  },
+
+  // Generates comprehensive searchable text corpus for any tool (name, desc, tags, keywords, benefits, aliases)
+  getToolSearchText(tool) {
+    if (!tool) return "";
+    const parts = [
+      tool.id || "",
+      tool.name || "",
+      tool.desc || "",
+      tool.subLabel || "",
+      tool.category || "",
+      tool.subcategory || ""
+    ];
+
+    if (tool.keywords && Array.isArray(tool.keywords)) {
+      parts.push(...tool.keywords);
+    } else if (this.toolKeywords && this.toolKeywords[tool.id]) {
+      parts.push(...this.toolKeywords[tool.id]);
+    }
+
+    if (this.toolBenefits && this.toolBenefits[tool.id]) {
+      parts.push(...this.toolBenefits[tool.id]);
+    }
+
+    // Suite subtab aliases
+    if (tool.id === "crypto-suite") {
+      parts.push("sha-256", "sha256", "sha 256", "256", "sha-512", "sha512", "512", "sha-1", "sha1", "md5", "sha-384", "keccak", "aes-256", "aes256", "aes-128", "rsa-2048", "rsa-4096", "hash generator", "checksum", "cipher", "salt", "secret key");
+    } else if (tool.id === "security-suite") {
+      parts.push("password", "uuid", "guid", "v4", "v7", "entropy", "bulk uuid", "random string", "passphrase", "diceware");
+    } else if (tool.id === "formatter-suite") {
+      parts.push("json beautifier", "sql formatter", "yaml to json", "json to csv", "csv to json", "format query", "database syntax");
+    } else if (tool.id === "text-encoder-suite") {
+      parts.push("base-64", "base64", "url encode", "url decode", "camelcase", "snake_case", "kebab-case", "pascalcase");
+    }
+
+    return parts.join(" ");
+  },
+
+  getGuideSearchText(guide) {
+    if (!guide) return "";
+    const parts = [
+      guide.id || "",
+      guide.fileName || "",
+      guide.title || "",
+      guide.description || "",
+      guide.tag || ""
+    ];
+    if (this.toolKeywords && this.toolKeywords[guide.id]) {
+      parts.push(...this.toolKeywords[guide.id]);
+    }
+    return parts.join(" ");
+  },
 
   pendingPaste: null,
   isInitialLoad: true,
@@ -1713,7 +1909,7 @@ const app = {
     this.renderFavoritesCount();
     this.initClock();
     this.initTheme();
-    this.initLayoutSizer();
+    this.initLayoutScale();
     this.bindEvents();
     this.buildSidebarToolMenu();
     this.buildMegaMenu();
@@ -1723,6 +1919,7 @@ const app = {
     this.initNavbarSpotlight();
     this.initSurpriseTool();
     this.initDynamicSearchPlaceholder();
+    this.initSearchFilters();
     this.checkFileProtocolWarning();
     this.initCheckoutModal();
 
@@ -2043,6 +2240,13 @@ const app = {
       }
     }
 
+    // If navigating via hash from a /tool/ path, reset pathname cleanly to root
+    if (hash && window.history && window.history.pushState && window.location.pathname.startsWith("/tool/")) {
+      try {
+        window.history.pushState(null, "", "/" + hash);
+      } catch (e) {}
+    }
+
     if (hash === "#plans") {
       this.renderPlansPage();
       return;
@@ -2058,7 +2262,7 @@ const app = {
       const parts = hash.replace("#checkout", "").split("/").filter(Boolean);
       let plan = "lifetime";
       let gw = null;
-      const validGateways = ["gumroad", "upi", "paypal", "razorpay", "crypto", "coffee", "guide"];
+      const validGateways = ["gumroad", "upi", "bank", "paypal", "razorpay", "crypto", "coffee", "guide", "custom"];
       for (const p of parts) {
         const lower = p.toLowerCase();
         if (lower === "monthly" || lower === "lifetime") {
@@ -2269,7 +2473,17 @@ const app = {
       window.location.hostname === "127.0.0.1.nip.io" ||
       window.location.hostname === "host.docker.internal";
     if (isLocalhost) {
-      console.log("[Dev] Service Worker bypassed on localhost.");
+      console.log("[Dev] Service Worker bypassed on localhost. Purging old cache...");
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => {
+          for (const reg of regs) reg.unregister();
+        });
+      }
+      if ("caches" in window) {
+        caches.keys().then(keys => {
+          for (const k of keys) caches.delete(k);
+        });
+      }
       return;
     }
     if ("serviceWorker" in navigator) {
@@ -3020,33 +3234,107 @@ const app = {
     const hiddenToolsStr = this.getConfigValue("omnitool_hidden_tools", "");
     const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
 
-    this.cpFiltered = this.tools.filter(t =>
-      !hiddenToolsSet.has(t.id) &&
-      (t.name.toLowerCase().includes(clean) ||
-        t.desc.toLowerCase().includes(clean) ||
-        t.subLabel.toLowerCase().includes(clean) ||
-        (t.keywords && t.keywords.some(kw => kw.toLowerCase().includes(clean))))
-    );
+    const cpFilter = this.activeCpFilter || "all";
+    let results = [];
 
+    if (cpFilter === "guides") {
+      // Search only documentation guides using intelligent search
+      const matchingGuides = (this.guidesList || []).filter(g =>
+        this.matchSearchQuery(this.getGuideSearchText(g), clean)
+      );
+
+      results = matchingGuides.map(g => ({
+        isGuide: true,
+        id: g.id,
+        name: g.title,
+        desc: g.description,
+        url: "guides/" + g.fileName,
+        tag: "Guide",
+        icon: `<div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(157, 78, 221, 0.15); border: 1px solid rgba(157, 78, 221, 0.3); border-radius: 8px; font-size: 16px; flex-shrink: 0;">📚</div>`
+      }));
+    } else {
+      // Filter tools based on query and active CP category filter using intelligent search
+      let matchingTools = this.tools.filter(t =>
+        !hiddenToolsSet.has(t.id) &&
+        this.matchSearchQuery(this.getToolSearchText(t), clean)
+      );
+
+      if (cpFilter === "tools") {
+        matchingTools = matchingTools.filter(t => this.classifyTool(t).isTool);
+      } else if (cpFilter === "suites") {
+        matchingTools = matchingTools.filter(t => this.classifyTool(t).isSuite);
+      } else if (cpFilter === "features") {
+        matchingTools = matchingTools.filter(t => this.classifyTool(t).isFeature);
+      }
+
+      results = matchingTools.map(t => {
+        const cls = this.classifyTool(t);
+        const tag = cls.isSuite ? "Suite" : (cls.isFeature ? "Feature" : "Tool");
+        return {
+          isGuide: false,
+          id: t.id,
+          name: t.name,
+          desc: t.desc,
+          tag: tag,
+          icon: t.icon
+        };
+      });
+
+      // If cpFilter === "all" and search query is entered, also search guides
+      if (cpFilter === "all" && clean.length > 0) {
+        const matchingGuides = (this.guidesList || []).filter(g =>
+          this.matchSearchQuery(this.getGuideSearchText(g), clean)
+        );
+
+        const guideResults = matchingGuides.map(g => ({
+          isGuide: true,
+          id: g.id,
+          name: g.title,
+          desc: g.description,
+          url: "guides/" + g.fileName,
+          tag: "Guide",
+          icon: `<div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(157, 78, 221, 0.15); border: 1px solid rgba(157, 78, 221, 0.3); border-radius: 8px; font-size: 16px; flex-shrink: 0;">📚</div>`
+        }));
+
+        results = results.concat(guideResults);
+      }
+    }
+
+    this.cpFiltered = results;
     this.cpIndex = 0;
 
     if (this.cpFiltered.length === 0) {
-      listEl.innerHTML = `<div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px;">No commands or tools match "${query}"</div>`;
+      listEl.innerHTML = `<div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px;">No commands or items match "${query}"</div>`;
       return;
     }
 
-    this.cpFiltered.forEach((tool, idx) => {
+    this.cpFiltered.forEach((itemData, idx) => {
       const item = document.createElement("div");
       item.className = `cp-item ${idx === 0 ? 'selected' : ''}`;
+      const tagStyle = itemData.isGuide
+        ? "background: rgba(157, 78, 221, 0.15); color: #c77dff; border: 1px solid rgba(157, 78, 221, 0.3);"
+        : (itemData.tag === "Suite"
+          ? "background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);"
+          : (itemData.tag === "Feature"
+            ? "background: rgba(255, 0, 128, 0.15); color: #ff0080; border: 1px solid rgba(255, 0, 128, 0.3);"
+            : "background: rgba(255, 255, 255, 0.08); color: var(--text-muted); border: 1px solid var(--border-color);"));
+
       item.innerHTML = `
-        ${tool.icon}
+        ${itemData.icon}
         <div class="cp-item-info">
-          <span class="cp-item-title">${tool.name}</span>
-          <span class="cp-item-desc">${tool.desc}</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="cp-item-title">${itemData.name}</span>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; ${tagStyle}">${itemData.tag}</span>
+          </div>
+          <span class="cp-item-desc">${itemData.desc}</span>
         </div>
       `;
       item.addEventListener("click", () => {
-        this.navigateToTool(tool.id);
+        if (itemData.isGuide) {
+          window.open(itemData.url, "_blank");
+        } else {
+          this.navigateToTool(itemData.id);
+        }
         this.toggleCommandPalette(false);
       });
       listEl.appendChild(item);
@@ -3070,7 +3358,12 @@ const app = {
 
   triggerCommandPaletteSelection() {
     if (this.cpFiltered.length > 0 && this.cpFiltered[this.cpIndex]) {
-      this.navigateToTool(this.cpFiltered[this.cpIndex].id);
+      const selected = this.cpFiltered[this.cpIndex];
+      if (selected.isGuide) {
+        window.open(selected.url, "_blank");
+      } else {
+        this.navigateToTool(selected.id);
+      }
       this.toggleCommandPalette(false);
     }
   },
@@ -3309,8 +3602,10 @@ const app = {
     // Clear search bars
     const searchBar = document.getElementById("tool-search");
     const searchBarMobile = document.getElementById("tool-search-mobile");
+    const clearBtn = document.getElementById("tool-search-clear");
     if (searchBar) searchBar.value = "";
     if (searchBarMobile) searchBarMobile.value = "";
+    if (clearBtn) clearBtn.style.display = "none";
 
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) titleEl.innerText = this.getCategoryLabel(category);
@@ -3334,8 +3629,10 @@ const app = {
     // Clear search bars
     const searchBar = document.getElementById("tool-search");
     const searchBarMobile = document.getElementById("tool-search-mobile");
+    const clearBtn = document.getElementById("tool-search-clear");
     if (searchBar) searchBar.value = "";
     if (searchBarMobile) searchBarMobile.value = "";
+    if (clearBtn) clearBtn.style.display = "none";
 
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) {
@@ -3783,6 +4080,11 @@ const app = {
       // Flat grid display for specific subcategory selection
       this.renderToolsList(grid, activeList);
     }
+
+    this.updateSearchFilterCounts();
+    if (this.activeSearchFilter !== "all" || (document.getElementById("tool-search") && document.getElementById("tool-search").value)) {
+      this.filterDashboard(document.getElementById("tool-search")?.value || "");
+    }
   },
 
   renderToolsList(container, list) {
@@ -3875,6 +4177,118 @@ const app = {
     });
   },
 
+  // Initialize Search Quick Filter Chips, Clear buttons, and Command Palette tabs
+  initSearchFilters() {
+    // 1. Dashboard filter chips
+    const chips = document.querySelectorAll(".search-filter-chip");
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        const filter = chip.getAttribute("data-filter") || "all";
+        this.setSearchFilter(filter);
+      });
+    });
+
+    // 2. Clear button for search input
+    const clearBtn = document.getElementById("tool-search-clear");
+    const mainSearch = document.getElementById("tool-search");
+    if (clearBtn && mainSearch) {
+      clearBtn.addEventListener("click", () => {
+        mainSearch.value = "";
+        clearBtn.style.display = "none";
+        mainSearch.focus();
+        this.filterDashboard("");
+        if (typeof this.playSynthSound === "function") this.playSynthSound("click");
+      });
+    }
+
+    // 3. Command Palette filter tabs
+    const cpTabs = document.querySelectorAll(".cp-filter-tab");
+    cpTabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        const cpFilter = tab.getAttribute("data-cp-filter") || "all";
+        this.setCpFilter(cpFilter);
+      });
+    });
+
+    this.updateSearchFilterCounts();
+  },
+
+  setSearchFilter(filter) {
+    this.activeSearchFilter = filter;
+    document.querySelectorAll(".search-filter-chip").forEach(chip => {
+      if (chip.getAttribute("data-filter") === filter) {
+        chip.classList.add("active");
+      } else {
+        chip.classList.remove("active");
+      }
+    });
+
+    if (typeof this.playSynthSound === "function") {
+      this.playSynthSound("click");
+    }
+
+    const searchInput = document.getElementById("tool-search");
+    const query = searchInput ? searchInput.value : "";
+    this.filterDashboard(query);
+  },
+
+  setCpFilter(filter) {
+    this.activeCpFilter = filter;
+    document.querySelectorAll(".cp-filter-tab").forEach(tab => {
+      if (tab.getAttribute("data-cp-filter") === filter) {
+        tab.classList.add("active");
+      } else {
+        tab.classList.remove("active");
+      }
+    });
+
+    if (typeof this.playSynthSound === "function") {
+      this.playSynthSound("click");
+    }
+
+    const searchInput = document.getElementById("cp-search-input");
+    const query = searchInput ? searchInput.value : "";
+    this.searchCommandPalette(query);
+  },
+
+  updateSearchFilterCounts() {
+    const hiddenToolsStr = this.getConfigValue("omnitool_hidden_tools", "");
+    const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
+    const visibleTools = (this.tools || []).filter(t => !hiddenToolsSet.has(t.id));
+
+    let counts = {
+      all: visibleTools.length,
+      tools: 0,
+      suites: 0,
+      features: 0,
+      pro: 0,
+      free: 0,
+      guides: this.guidesList ? this.guidesList.length : 28
+    };
+
+    visibleTools.forEach(tool => {
+      const c = this.classifyTool(tool);
+      if (c.isTool) counts.tools++;
+      if (c.isSuite) counts.suites++;
+      if (c.isFeature) counts.features++;
+      if (c.isPro) counts.pro++;
+      if (c.isFree) counts.free++;
+    });
+
+    const setBadge = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.innerText = val;
+    };
+
+    setBadge("sfc-count-all", counts.all);
+    setBadge("sfc-count-tools", counts.tools);
+    setBadge("sfc-count-suites", counts.suites);
+    setBadge("sfc-count-features", counts.features);
+    setBadge("sfc-count-guides", counts.guides);
+    setBadge("sfc-count-pro", counts.pro);
+    setBadge("sfc-count-free", counts.free);
+  },
+
   filterDashboard(query) {
     const cleanQuery = query.toLowerCase().trim();
 
@@ -3884,8 +4298,13 @@ const app = {
     if (mainSearch && mainSearch.value !== query) mainSearch.value = query;
     if (mobileSearch && mobileSearch.value !== query) mobileSearch.value = query;
 
+    const clearBtn = document.getElementById("tool-search-clear");
+    if (clearBtn) {
+      clearBtn.style.display = cleanQuery.length > 0 ? "flex" : "none";
+    }
+
     // Switch to Dashboard category for searches to display flat grids
-    if (cleanQuery && (this.activeCategory !== "all" || this.activeSubcategory !== "all")) {
+    if ((cleanQuery || (this.activeSearchFilter && this.activeSearchFilter !== "all")) && (this.activeCategory !== "all" || this.activeSubcategory !== "all")) {
       this.activeCategory = "all";
       this.activeSubcategory = "all";
       document.querySelectorAll(".subnav-link").forEach(l => l.classList.remove("active"));
@@ -3898,47 +4317,183 @@ const app = {
       this.renderDashboard();
     }
 
+    const grid = document.getElementById("tools-grid");
     const cards = document.querySelectorAll(".tool-card");
     const sections = document.querySelectorAll(".dashboard-sub-section");
     let matchCount = 0;
 
-    // Show/hide individual cards
-    cards.forEach(card => {
-      const title = card.querySelector(".tool-card-body h3").innerText.toLowerCase();
-      const desc = card.querySelector(".tool-card-body p").innerText.toLowerCase();
-      const tag = card.querySelector(".tool-badge").innerText.toLowerCase();
+    // Remove any previously rendered dynamic search guides or empty state
+    const prevGuides = document.getElementById("dashboard-guide-search-section");
+    if (prevGuides) prevGuides.remove();
+    const prevMatchingGuides = document.getElementById("search-matching-guides-section");
+    if (prevMatchingGuides) prevMatchingGuides.remove();
+    const prevEmpty = document.getElementById("search-empty-state");
+    if (prevEmpty) prevEmpty.remove();
 
-      const toolId = card.querySelector(".card-fav-btn")?.getAttribute("data-tool");
-      const tool = this.tools.find(t => t.id === toolId);
-      const keywords = tool && tool.keywords ? tool.keywords.join(" ").toLowerCase() : "";
+    if (this.activeSearchFilter === "guides") {
+      // 1. GUIDES ONLY FILTER (Intelligent Match)
+      cards.forEach(card => card.style.display = "none");
+      sections.forEach(sec => sec.style.display = "none");
 
-      if (
-        title.includes(cleanQuery) ||
-        desc.includes(cleanQuery) ||
-        tag.includes(cleanQuery) ||
-        keywords.includes(cleanQuery)
-      ) {
-        card.style.display = "flex";
-        matchCount++;
-      } else {
-        card.style.display = "none";
+      const matchingGuides = (this.guidesList || []).filter(g =>
+        this.matchSearchQuery(this.getGuideSearchText(g), cleanQuery)
+      );
+
+      matchCount = matchingGuides.length;
+
+      if (grid && matchingGuides.length > 0) {
+        const guideSection = document.createElement("div");
+        guideSection.id = "dashboard-guide-search-section";
+        guideSection.setAttribute("style", "grid-column: 1 / -1; width: 100%;");
+        guideSection.innerHTML = `
+          <div style="margin-bottom: 20px;">
+            <h3 class="dashboard-sub-title" style="display: flex; align-items: center; gap: 8px;">
+              <span>📚</span>
+              <span>Official Step-by-Step Tool Guides (${matchingGuides.length})</span>
+            </h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Comprehensive documentation, offline client-side tutorials, API schemas, and interactive guides.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+            ${matchingGuides.map(g => `
+              <a href="guides/${g.fileName}" class="guide-search-card" target="_blank" rel="noopener">
+                <div class="guide-search-card-header">
+                  <span class="guide-search-tag">Guide</span>
+                  <span style="font-size: 18px;">📚</span>
+                </div>
+                <div class="guide-search-body">
+                  <h3 class="guide-search-title">${g.title}</h3>
+                  <p class="guide-search-desc">${g.description}</p>
+                </div>
+                <div class="guide-search-footer">
+                  <span>Read Full Guide</span>
+                  <span>→</span>
+                </div>
+              </a>
+            `).join("")}
+          </div>
+        `;
+        grid.appendChild(guideSection);
       }
-    });
+    } else {
+      // 2. TOOLS, SUITES, FEATURES, PRO, FREE, OR ALL FILTER (Intelligent Match)
+      cards.forEach(card => {
+        const toolId = card.querySelector(".card-fav-btn")?.getAttribute("data-tool");
+        const tool = this.tools.find(t => t.id === toolId);
+        if (!tool) {
+          card.style.display = "none";
+          return;
+        }
 
-    // Show/hide subcategory section blocks if they have visible card items inside
-    sections.forEach(section => {
-      const visibleCards = Array.from(section.querySelectorAll(".tool-card")).filter(c => c.style.display !== "none");
-      if (visibleCards.length > 0) {
-        section.style.display = "block";
-      } else {
-        section.style.display = "none";
+        const cls = this.classifyTool(tool);
+
+        let filterMatch = true;
+        if (this.activeSearchFilter === "tools") filterMatch = cls.isTool;
+        else if (this.activeSearchFilter === "suites") filterMatch = cls.isSuite;
+        else if (this.activeSearchFilter === "features") filterMatch = cls.isFeature;
+        else if (this.activeSearchFilter === "pro") filterMatch = cls.isPro;
+        else if (this.activeSearchFilter === "free") filterMatch = cls.isFree;
+
+        const textMatch = this.matchSearchQuery(this.getToolSearchText(tool), cleanQuery);
+
+        if (filterMatch && textMatch) {
+          card.style.display = "flex";
+          matchCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      // Show/hide subcategory section blocks if they have visible card items inside
+      sections.forEach(section => {
+        const visibleCards = Array.from(section.querySelectorAll(".tool-card")).filter(c => c.style.display !== "none");
+        if (visibleCards.length > 0) {
+          section.style.display = "block";
+        } else {
+          section.style.display = "none";
+        }
+      });
+
+      // If "All" category is selected and user typed a search query, also display matching guides below
+      if (this.activeSearchFilter === "all" && cleanQuery.length > 0 && grid) {
+        const matchingGuides = (this.guidesList || []).filter(g =>
+          this.matchSearchQuery(this.getGuideSearchText(g), cleanQuery)
+        );
+
+        if (matchingGuides.length > 0) {
+          const guideMatchesSec = document.createElement("div");
+          guideMatchesSec.id = "search-matching-guides-section";
+          guideMatchesSec.setAttribute("style", "grid-column: 1 / -1; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); width: 100%;");
+          guideMatchesSec.innerHTML = `
+            <div style="margin-bottom: 16px;">
+              <h3 class="dashboard-sub-title" style="display: flex; align-items: center; gap: 8px;">
+                <span>📚</span>
+                <span>Relevant Documentation Guides (${matchingGuides.length})</span>
+              </h3>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+              ${matchingGuides.map(g => `
+                <a href="guides/${g.fileName}" class="guide-search-card" target="_blank" rel="noopener">
+                  <div class="guide-search-card-header">
+                    <span class="guide-search-tag">Guide</span>
+                    <span style="font-size: 18px;">📚</span>
+                  </div>
+                  <div class="guide-search-body">
+                    <h3 class="guide-search-title">${g.title}</h3>
+                    <p class="guide-search-desc">${g.description}</p>
+                  </div>
+                  <div class="guide-search-footer">
+                    <span>Read Full Guide</span>
+                    <span>→</span>
+                  </div>
+                </a>
+              `).join("")}
+            </div>
+          `;
+          grid.appendChild(guideMatchesSec);
+        }
       }
-    });
+    }
 
+    // Render Empty State if no utilities match
+    if (matchCount === 0 && grid) {
+      const emptyState = document.createElement("div");
+      emptyState.id = "search-empty-state";
+      emptyState.setAttribute("style", "grid-column: 1 / -1; text-align: center; padding: 48px 20px; background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 16px; margin: 20px 0; width: 100%;");
+      emptyState.innerHTML = `
+        <div style="font-size: 42px; margin-bottom: 12px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));">🔍</div>
+        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">No Utilities Found</h3>
+        <p style="font-size: 14px; color: var(--text-muted); max-width: 480px; margin: 0 auto 20px auto;">
+          We couldn't find any utilities matching ${cleanQuery ? `"${cleanQuery}"` : "your filter"} under the "${this.activeSearchFilter.toUpperCase()}" filter category.
+        </p>
+        <button type="button" class="btn btn-primary" id="btn-reset-search-filters" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #fff;">
+          <span>↺</span> Reset Filters & Show All
+        </button>
+      `;
+      grid.appendChild(emptyState);
+
+      document.getElementById("btn-reset-search-filters")?.addEventListener("click", () => {
+        if (mainSearch) mainSearch.value = "";
+        if (mobileSearch) mobileSearch.value = "";
+        this.setSearchFilter("all");
+      });
+    }
+
+    // Update Header View Title
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) {
       if (cleanQuery) {
-        titleEl.innerText = `Search Results (${matchCount})`;
+        const filterSuffix = this.activeSearchFilter === "all" ? "" : ` • ${this.activeSearchFilter.toUpperCase()}`;
+        titleEl.innerText = `Search Results (${matchCount})${filterSuffix}`;
+      } else if (this.activeSearchFilter !== "all") {
+        const filterNames = {
+          tools: "⚡ Standalone Tools",
+          suites: "📦 Multi-Tool Suites",
+          features: "✨ Interactive Features",
+          pro: "💎 PRO Utilities",
+          free: "🆓 Free Utilities",
+          guides: "📚 Documentation Guides"
+        };
+        titleEl.innerText = `${filterNames[this.activeSearchFilter] || "Filtered Utilities"} (${matchCount})`;
       } else {
         titleEl.innerText = "Dashboard";
       }
@@ -4061,6 +4616,13 @@ const app = {
                 <input type="password" id="admin-passcode-input" placeholder="••••••••" style="width: 100%; height: 42px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-main); font-size: 16px; outline: none; transition: all 0.2s;" autocomplete="current-password" required>
               </div>
               <button type="submit" class="tool-btn primary" style="width: 100%; justify-content: center; height: 42px; font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.2s;">Unlock Control Panel</button>
+              ${isLocalhost ? `
+              <div style="font-size: 11.5px; color: var(--text-muted); background: rgba(0, 242, 254, 0.08); border: 1px dashed rgba(0, 242, 254, 0.28); padding: 8px 12px; border-radius: 8px; text-align: left; line-height: 1.5;">
+                <span style="color: var(--accent-cyan); font-weight: 700;">Local Master Passcodes:</span> <code style="color: #fff; background: rgba(255,255,255,0.1); padding: 1px 5px; border-radius: 4px;">admin123</code> or <code style="color: #fff; background: rgba(255,255,255,0.1); padding: 1px 5px; border-radius: 4px;">OmniAdmin@2026#</code>
+                <div style="margin-top: 6px; display: flex; justify-content: flex-end;">
+                  <button type="button" id="admin-reset-lockout-btn" style="background: none; border: none; color: var(--accent-cyan); font-size: 10.5px; cursor: pointer; text-decoration: underline; padding: 0;">Reset Lockout Timer</button>
+                </div>
+              </div>` : ''}
             </form>
             
           </div>
@@ -4079,11 +4641,22 @@ const app = {
         const input = viewport.querySelector("#admin-passcode-input");
         if (input) input.focus();
 
+        viewport.querySelector("#admin-reset-lockout-btn")?.addEventListener("click", () => {
+          sessionStorage.removeItem("omnitool_admin_failed_attempts");
+          sessionStorage.removeItem("omnitool_admin_lock_until");
+          if (input) {
+            input.disabled = false;
+            input.value = "";
+            input.focus();
+          }
+          this.showToast("Lockout timer and failed attempts reset!", "success");
+        });
+
         form?.addEventListener("submit", async (e) => {
           e.preventDefault();
 
           const lockUntil = Number(sessionStorage.getItem("omnitool_admin_lock_until") || 0);
-          if (Date.now() < lockUntil) {
+          if (Date.now() < lockUntil && !isLocalhost) {
             const remMin = Math.ceil((lockUntil - Date.now()) / 60000);
             this.showToast(`Too many failed attempts. Form locked for ${remMin} minutes.`, "error");
             if (input) input.disabled = true;
@@ -4131,11 +4704,13 @@ const app = {
               const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
 
               // Validates:
-              // - Master Passcode: "OmniAdmin@2026#"
+              // - Master Passcodes: "OmniAdmin@2026#" or "admin123"
               // - Local admin custom passcode override
               const customPasscode = localStorage.getItem("omnitool_admin_passcode") || "";
               const isMaster = enteredPasscode === "OmniAdmin@2026#" ||
+                enteredPasscode === "admin123" ||
                 hashHex === "efb6854ff3cb28f0f3cc0604b481df3eb4ffe5b765361e6d597f7ac5be6ae3a8" ||
+                hashHex === "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9" ||
                 hashHex === "3dfd014c226f9ba7144e5fae62933e8ca7ebbf94f0e4b85da57774c43b9df7ea";
               const isCustom = customPasscode && (enteredPasscode === customPasscode);
 
@@ -4193,9 +4768,14 @@ const app = {
       this._currentToolInstance = null;
 
       if (!this._toolModuleCache) this._toolModuleCache = {};
-      let module = this._toolModuleCache[toolId];
+      const isLocalhost = window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.hostname === "127.0.0.1.nip.io" ||
+        window.location.hostname === "host.docker.internal";
+      const cacheBust = isLocalhost ? `?t=${Date.now()}` : '?v=1.3.8';
+      
+      let module = isLocalhost ? null : this._toolModuleCache[toolId];
       if (!module) {
-        const cacheBust = '?v=1.3.5';
         module = await import('./tools/' + toolId + '.js' + cacheBust);
         this._toolModuleCache[toolId] = module;
       }
@@ -5278,7 +5858,7 @@ const app = {
 
       // Apply changes instantly
       this.initTheme();
-      this.initLayoutSizer();
+      this.initLayoutScale();
       this.initClock();
 
       // Re-render dashboard to apply density changes if visible
@@ -5403,7 +5983,7 @@ const app = {
     }, 800);
   },
 
-  initLayoutSizer() {
+  initLayoutScale() {
     const scale = localStorage.getItem("omnitool_layout_scale") || "1.0";
     this.applyLayoutScale(scale);
 
@@ -5729,11 +6309,31 @@ const app = {
     if (plansView) {
       plansView.style.display = "block";
 
-      // Update "Current Plan" status visual states
+      // Update "Current Plan" status visual states and dynamic prices
       const userTier = this.validateSecurityTier();
       const btnFree = plansView.querySelector("#plan-btn-free");
       const btnLifetime = plansView.querySelector("#plan-btn-lifetime");
       const btnMonthly = plansView.querySelector("#plan-btn-monthly");
+
+      const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
+      const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
+
+      // Update card price displays
+      const elLifetimePrice = document.getElementById("plan-price-lifetime-display");
+      if (elLifetimePrice) elLifetimePrice.innerText = priceLifetimeUsd;
+      const elMonthlyPrice = document.getElementById("plan-price-monthly-display");
+      if (elMonthlyPrice) elMonthlyPrice.innerText = priceMonthlyUsd;
+
+      // Gateway enable toggles
+      const upiEnabled = this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
+      const bankEnabled = this.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
+      const gumroadEnabled = this.getConfigValue("omnitool_gw_gumroad_enabled", "true") !== "false";
+      const paypalEnabled = this.getConfigValue("omnitool_gw_paypal_enabled", "true") !== "false";
+      const razorpayEnabled = this.getConfigValue("omnitool_gw_razorpay_enabled", "true") !== "false";
+      const cryptoEnabled = this.getConfigValue("omnitool_gw_crypto_enabled", "true") !== "false";
+      const coffeeEnabled = this.getConfigValue("omnitool_gw_coffee_enabled", "true") !== "false";
+      const customEnabled = this.getConfigValue("omnitool_gw_custom_enabled", "false") === "true";
+      const anyGatewayEnabled = upiEnabled || bankEnabled || gumroadEnabled || paypalEnabled || razorpayEnabled || cryptoEnabled || customEnabled || coffeeEnabled;
 
       if (btnFree && btnLifetime && btnMonthly) {
         btnFree.disabled = true;
@@ -5741,11 +6341,11 @@ const app = {
         btnFree.className = "tool-btn secondary";
 
         btnLifetime.disabled = false;
-        btnLifetime.innerText = "Buy Lifetime Pass";
+        btnLifetime.innerText = anyGatewayEnabled ? `Buy Lifetime Pass (${priceLifetimeUsd})` : "Checkout Paused (Maintenance)";
         btnLifetime.className = "tool-btn primary";
 
         btnMonthly.disabled = false;
-        btnMonthly.innerText = "Subscribe Monthly";
+        btnMonthly.innerText = anyGatewayEnabled ? `Subscribe Monthly (${priceMonthlyUsd}/mo)` : "Checkout Paused (Maintenance)";
         btnMonthly.className = "tool-btn primary";
 
         if (userTier === "free") {
@@ -5769,6 +6369,64 @@ const app = {
       titleEl.innerText = "Membership Pricing Plans";
       titleEl.style.display = "block";
     }
+
+    // Synchronize payment method strip badges with enabled gateways
+    const upiEnabled = this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
+    const bankEnabled = this.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
+    const gumroadEnabled = this.getConfigValue("omnitool_gw_gumroad_enabled", "true") !== "false";
+    const paypalEnabled = this.getConfigValue("omnitool_gw_paypal_enabled", "true") !== "false";
+    const razorpayEnabled = this.getConfigValue("omnitool_gw_razorpay_enabled", "true") !== "false";
+    const cryptoEnabled = this.getConfigValue("omnitool_gw_crypto_enabled", "true") !== "false";
+    const customEnabled = this.getConfigValue("omnitool_gw_custom_enabled", "false") === "true";
+    const anyGatewayEnabled = upiEnabled || bankEnabled || gumroadEnabled || paypalEnabled || razorpayEnabled || cryptoEnabled || customEnabled;
+
+    const customTabLabel = this.getConfigValue("omnitool_custom_gw_tab_label", "Custom Payment");
+    const customIcon = this.getConfigValue("omnitool_custom_gw_icon", "✨");
+
+    document.querySelectorAll(".plan-gateways-strip").forEach(strip => {
+      strip.querySelectorAll(".pg-badge").forEach(badge => {
+        const onclickAttr = badge.getAttribute("onclick") || "";
+        if (onclickAttr.includes("'upi'")) {
+          badge.style.display = (upiEnabled || bankEnabled) ? "inline-flex" : "none";
+          if (!upiEnabled && bankEnabled) {
+            badge.innerText = "🏦 Bank";
+            badge.title = "Pay via Bank IMPS / NEFT";
+          } else if (upiEnabled) {
+            badge.innerText = "⚡ UPI / QR";
+            badge.title = "Pay with UPI QR / GPay / PhonePe / Paytm";
+          }
+        } else if (onclickAttr.includes("'gumroad'")) {
+          badge.style.display = gumroadEnabled ? "inline-flex" : "none";
+        } else if (onclickAttr.includes("'paypal'")) {
+          badge.style.display = paypalEnabled ? "inline-flex" : "none";
+        } else if (onclickAttr.includes("'razorpay'")) {
+          badge.style.display = razorpayEnabled ? "inline-flex" : "none";
+        } else if (onclickAttr.includes("'crypto'")) {
+          badge.style.display = cryptoEnabled ? "inline-flex" : "none";
+        } else if (onclickAttr.includes("'custom'")) {
+          badge.style.display = customEnabled ? "inline-flex" : "none";
+          if (customEnabled) {
+            badge.innerText = `${customIcon} ${customTabLabel}`;
+            badge.title = `Pay via ${customTabLabel}`;
+          }
+        }
+      });
+
+      // Handle fallback notice if all gateways are disabled
+      let pausedNotice = strip.querySelector(".pg-badge-paused-notice");
+      if (!anyGatewayEnabled) {
+        if (!pausedNotice) {
+          pausedNotice = document.createElement("span");
+          pausedNotice.className = "pg-badge-paused-notice";
+          pausedNotice.style.cssText = "font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: rgba(245, 158, 11, 0.1); border: 1px dashed rgba(245, 158, 11, 0.35); color: #f59e0b; display: inline-flex; align-items: center; gap: 4px;";
+          pausedNotice.innerHTML = `<span>🔒</span><span>Checkout Temporarily Paused</span>`;
+          strip.appendChild(pausedNotice);
+        }
+        pausedNotice.style.display = "inline-flex";
+      } else if (pausedNotice) {
+        pausedNotice.style.display = "none";
+      }
+    });
 
     // Bind Plan cards directly to Unified Checkout Modal
     const btnLifetime = document.getElementById("plan-btn-lifetime");
@@ -5859,6 +6517,24 @@ const app = {
         }
       }
 
+      if (signature === "vip_authorized_sig") {
+        const allowedKeysStr = this.getConfigValue("omnitool_custom_license_keys", "");
+        const allowedKeys = allowedKeysStr.split(",").map(k => k.trim().toUpperCase()).filter(Boolean);
+        if (payload.keyId && allowedKeys.includes(payload.keyId.toUpperCase())) {
+          return rawTier;
+        }
+      }
+
+      if (signature === "local_dev_token") {
+        const isDevEnv = ["localhost", "127.0.0.1", ""].includes(window.location.hostname) || window.location.protocol === "file:";
+        if (isDevEnv) {
+          return rawTier;
+        } else {
+          localStorage.setItem("omnitool_user_tier", "free");
+          return "free";
+        }
+      }
+
       return rawTier;
     } catch {
       localStorage.setItem("omnitool_user_tier", "free");
@@ -5873,11 +6549,20 @@ const app = {
     const cleanPrefix = raw.replace(/^(UTR|REF|TXID|KEY|CODE|JOURNAL)[:\s\-_]*/i, "").trim();
     const cleanDigits = cleanPrefix.replace(/[\s\-_]/g, "");
 
+    // Check VIP Custom keys first
+    const customKeysStr = this.getConfigValue("omnitool_custom_license_keys", "");
+    if (customKeysStr) {
+      const allowedKeys = customKeysStr.split(",").map(k => k.trim().toUpperCase()).filter(Boolean);
+      if (allowedKeys.includes(cleanPrefix.toUpperCase())) {
+        return { status: "valid", text: "✓ VIP Promotional License Key Detected • Click Unlock!" };
+      }
+    }
+
     if (/^\d{12}$/.test(cleanDigits)) {
-      return { status: "valid", text: `✓ 12-Digit UPI UTR Detected (${cleanDigits}) • Submit for Bank Clearance` };
+      return { status: "valid", text: `✓ 12-Digit UPI / Bank UTR Detected (${cleanDigits}) • Submit for Bank Clearance` };
     }
     if (/^\d{1,11}$/.test(cleanDigits)) {
-      return { status: "typing", text: `Entering UPI UTR (${cleanDigits.length}/12 digits)...` };
+      return { status: "typing", text: `Entering UPI / Bank UTR (${cleanDigits.length}/12 digits)...` };
     }
     if (/^0x[a-fA-F0-9]{64}$/.test(cleanPrefix) || /^[a-fA-F0-9]{64}$/.test(cleanPrefix)) {
       return { status: "valid", text: "✓ 64-char Crypto TXID Detected • Submit for Verification" };
@@ -5905,7 +6590,33 @@ const app = {
     const cleanPrefix = rawCode.replace(/^(UTR|REF|TXID|KEY|CODE|JOURNAL)[:\s\-_]*/i, "").trim();
     const cleanDigits = cleanPrefix.replace(/[\s\-_]/g, "");
 
-    // 1. Check if it's a 12-digit UPI / Bank IMPS UTR or 64-char Crypto TXID
+    // 1. Check VIP Custom Keys from Admin Settings Card 8
+    const customKeysStr = this.getConfigValue("omnitool_custom_license_keys", "");
+    if (customKeysStr) {
+      const allowedKeys = customKeysStr.split(",").map(k => k.trim().toUpperCase()).filter(Boolean);
+      const cleanUpper = cleanPrefix.toUpperCase();
+      if (allowedKeys.includes(cleanUpper)) {
+        const tier = cleanUpper.startsWith("MONTHLY-") || cleanUpper.startsWith("MON-") ? "premium" : "lifetime";
+        const payload = {
+          tier: tier,
+          source: "custom_vip_key",
+          keyId: cleanUpper,
+          iat: Date.now()
+        };
+        const encoded = btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+        const token = `${encoded}.vip_authorized_sig`;
+        localStorage.setItem("omnitool_user_tier", tier);
+        localStorage.setItem("omnitool_license_token", token);
+        localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+        this.playSynthSound("success");
+        this.showToast(`🎉 VIP License Code accepted! Activated ${tier === "premium" ? "Pro Monthly" : "Lifetime PRO"}.`, "success");
+        this.closeCheckout();
+        this.renderPlansPage();
+        return true;
+      }
+    }
+
+    // 2. Check if it's a 12-digit UPI / Bank IMPS UTR or 64-char Crypto TXID
     const isUpiOrBank = /^\d{12}$/.test(cleanDigits);
     const isCrypto = /^0x[a-fA-F0-9]{64}$/.test(cleanPrefix) || /^[a-fA-F0-9]{64}$/.test(cleanPrefix);
 
@@ -5987,7 +6698,9 @@ const app = {
     const upperCode = cleanPrefix.toUpperCase();
     if (isDevEnv && upperCode.startsWith("OMNI-DEV-")) {
       const tier = upperCode.includes("MON") ? "premium" : "lifetime";
-      const token = `${tier}_${Date.now()}.local_dev_token`;
+      const devPayload = { tier, iat: Date.now() };
+      const encodedPayload = btoa(JSON.stringify(devPayload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      const token = `${encodedPayload}.local_dev_token`;
       localStorage.setItem("omnitool_user_tier", tier);
       localStorage.setItem("omnitool_license_token", token);
       localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
@@ -6426,16 +7139,29 @@ const app = {
     const modal = document.getElementById("checkout-modal");
     if (!modal) return;
 
+    // Master enable toggles
+    const upiEnabled = this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
+    const bankEnabled = this.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
+    const gumroadEnabled = this.getConfigValue("omnitool_gw_gumroad_enabled", "true") !== "false";
+    const paypalEnabled = this.getConfigValue("omnitool_gw_paypal_enabled", "true") !== "false";
+    const razorpayEnabled = this.getConfigValue("omnitool_gw_razorpay_enabled", "true") !== "false";
+    const cryptoEnabled = this.getConfigValue("omnitool_gw_crypto_enabled", "true") !== "false";
+    const coffeeEnabled = this.getConfigValue("omnitool_gw_coffee_enabled", "true") !== "false";
+    const guideEnabled = this.getConfigValue("omnitool_gw_guide_enabled", "true") !== "false";
+    const customEnabled = this.getConfigValue("omnitool_gw_custom_enabled", "false") === "true";
+
+    const upiOrBankEnabled = upiEnabled || bankEnabled;
+
     // Filter gateway tabs based on master enable toggles
     const gwConfigs = [
-      { key: "gumroad", enabled: this.getConfigValue("omnitool_gw_gumroad_enabled", "true") !== "false" },
-      { key: "upi", enabled: this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false" },
-      { key: "paypal", enabled: this.getConfigValue("omnitool_gw_paypal_enabled", "true") !== "false" },
-      { key: "razorpay", enabled: this.getConfigValue("omnitool_gw_razorpay_enabled", "true") !== "false" },
-      { key: "crypto", enabled: this.getConfigValue("omnitool_gw_crypto_enabled", "true") !== "false" },
-      { key: "coffee", enabled: this.getConfigValue("omnitool_gw_coffee_enabled", "true") !== "false" },
-      { key: "guide", enabled: this.getConfigValue("omnitool_gw_guide_enabled", "true") !== "false" },
-      { key: "custom", enabled: this.getConfigValue("omnitool_gw_custom_enabled", "false") === "true" }
+      { key: "gumroad", enabled: gumroadEnabled },
+      { key: "upi", enabled: upiOrBankEnabled },
+      { key: "paypal", enabled: paypalEnabled },
+      { key: "razorpay", enabled: razorpayEnabled },
+      { key: "crypto", enabled: cryptoEnabled },
+      { key: "coffee", enabled: coffeeEnabled },
+      { key: "custom", enabled: customEnabled },
+      { key: "guide", enabled: guideEnabled }
     ];
 
     let firstAvailableGw = null;
@@ -6443,16 +7169,62 @@ const app = {
       const tabEl = document.getElementById(`chk-tab-${key}`);
       if (tabEl) {
         tabEl.style.display = enabled ? "inline-flex" : "none";
-        if (enabled && !firstAvailableGw) {
+        if (enabled && !firstAvailableGw && key !== "guide") {
           firstAvailableGw = key;
         }
       }
     });
 
+    // If only guide is enabled
+    if (!firstAvailableGw && guideEnabled) {
+      firstAvailableGw = "guide";
+    }
+
+    // Dynamic label for UPI / Bank tab
+    const tabUpiEl = document.getElementById("chk-tab-upi");
+    if (tabUpiEl) {
+      const labelSpan = tabUpiEl.querySelector("span");
+      if (labelSpan) {
+        if (upiEnabled && bankEnabled) {
+          labelSpan.innerText = "UPI / Bank Transfer";
+        } else if (upiEnabled) {
+          labelSpan.innerText = "UPI & QR Code";
+        } else if (bankEnabled) {
+          labelSpan.innerText = "Bank Transfer";
+        }
+      }
+    }
+
+    // Fallback panel if all gateways are disabled
+    const nonePanel = document.getElementById("chk-panel-none");
+    if (!firstAvailableGw) {
+      modal.querySelectorAll(".chk-tab-btn").forEach(t => t.style.display = "none");
+      modal.querySelectorAll(".checkout-panel").forEach(p => p.classList.remove("active"));
+      if (nonePanel) {
+        nonePanel.style.display = "block";
+        nonePanel.classList.add("active");
+      }
+      modal.style.display = "flex";
+      this.playSynthSound("click");
+      return;
+    } else if (nonePanel) {
+      nonePanel.style.display = "none";
+      nonePanel.classList.remove("active");
+    }
+
     let effectiveInitialGw = initialGateway;
-    const requestedGwEnabled = gwConfigs.find(g => g.key === initialGateway)?.enabled;
+    if (effectiveInitialGw === "bank") {
+      effectiveInitialGw = bankEnabled ? "upi" : null;
+      if (bankEnabled) {
+        this.switchIndiaPayMethod("bank");
+      }
+    }
+    if (effectiveInitialGw === "upi" && !upiEnabled && !bankEnabled) {
+      effectiveInitialGw = null;
+    }
+    const requestedGwEnabled = gwConfigs.find(g => g.key === effectiveInitialGw)?.enabled;
     if (!effectiveInitialGw || !requestedGwEnabled) {
-      effectiveInitialGw = firstAvailableGw || "gumroad";
+      effectiveInitialGw = firstAvailableGw;
     }
 
     this.switchCheckoutPlan(plan);
@@ -6546,25 +7318,164 @@ const app = {
       customFeaturesBox.innerHTML = lines.map(line => `<div class="chk-feature-item">${line.startsWith("✔") ? line : "✔ " + line}</div>`).join("");
     }
 
-    // Privacy Protection: Hide direct bank details unless explicitly enabled by admin
-    const bankEnabled = this.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
+    // Configure UPI vs Bank sub-views and switcher
     const elBankTab = document.getElementById("ipm-tab-bank");
+    const elUpiTab = document.getElementById("ipm-tab-upi");
     const elSwitcher = document.querySelector(".india-pay-method-switcher");
-    if (elBankTab) elBankTab.style.display = bankEnabled ? "flex" : "none";
-    if (elSwitcher) elSwitcher.style.display = bankEnabled ? "flex" : "none";
+    const elUpiView = document.getElementById("ipm-view-upi");
+    const elBankView = document.getElementById("ipm-view-bank");
 
-    this.switchIndiaPayMethod("upi");
-    this.selectUpiApp("any", "Any UPI App");
+    if (elBankTab) elBankTab.style.display = bankEnabled ? "flex" : "none";
+    if (elUpiTab) elUpiTab.style.display = upiEnabled ? "flex" : "none";
+    if (elSwitcher) elSwitcher.style.display = (upiEnabled && bankEnabled) ? "flex" : "none";
+
+    if (upiEnabled) {
+      if (elUpiView) elUpiView.style.display = "block";
+      if (elBankView) elBankView.style.display = "none";
+      this.switchIndiaPayMethod("upi");
+      this.selectUpiApp("any", "Any UPI App");
+    } else if (bankEnabled) {
+      if (elUpiView) elUpiView.style.display = "none";
+      if (elBankView) elBankView.style.display = "block";
+      this.switchIndiaPayMethod("bank");
+    } else {
+      if (elUpiView) elUpiView.style.display = "none";
+      if (elBankView) elBankView.style.display = "none";
+    }
+
+    // Dynamic Guide Synchronization: Update Step 2 text, UTR matrix, and CTA button
+    const activeGatewayNames = [];
+    if (upiEnabled) activeGatewayNames.push("UPI / QR (GPay, PhonePe, Paytm)");
+    if (gumroadEnabled) activeGatewayNames.push("Cards via Gumroad");
+    if (bankEnabled) activeGatewayNames.push("Bank IMPS / NEFT");
+    if (paypalEnabled) activeGatewayNames.push("PayPal");
+    if (razorpayEnabled) activeGatewayNames.push("Razorpay");
+    if (cryptoEnabled) activeGatewayNames.push("Crypto (USDT)");
+    if (customEnabled) activeGatewayNames.push(customTabLabel || "Custom Payment");
+    if (coffeeEnabled) activeGatewayNames.push("Ko-fi / Coffee");
+
+    const guideStep2Desc = document.getElementById("chk-guide-step2-desc");
+    if (guideStep2Desc) {
+      if (activeGatewayNames.length > 0) {
+        guideStep2Desc.innerHTML = `Pick <strong>${activeGatewayNames.join("</strong>, <strong>")}</strong>.`;
+      } else {
+        guideStep2Desc.innerHTML = `No payment gateways currently enabled. Please contact support.`;
+      }
+    }
+
+    const guideStep3Desc = document.getElementById("chk-guide-step3-desc");
+    if (guideStep3Desc) {
+      if (upiEnabled || bankEnabled) {
+        guideStep3Desc.innerHTML = `From your payment app receipt, copy the <strong>12-digit UTR</strong> (or Gumroad key from email, or Crypto TXID).`;
+      } else if (cryptoEnabled) {
+        guideStep3Desc.innerHTML = `Copy your <strong>Transaction Hash (TXID)</strong> from your crypto wallet confirmation.`;
+      } else {
+        guideStep3Desc.innerHTML = `Copy your <strong>License Key</strong> or order receipt number from your confirmation email.`;
+      }
+    }
+
+    // UTR Matrix visibility based on UPI/Bank toggles
+    const utrMatrixBox = document.getElementById("chk-utr-matrix-box");
+    const utrGpay = document.getElementById("chk-utr-pill-gpay");
+    const utrPhonepe = document.getElementById("chk-utr-pill-phonepe");
+    const utrPaytm = document.getElementById("chk-utr-pill-paytm");
+    const utrCred = document.getElementById("chk-utr-pill-cred");
+    const utrBank = document.getElementById("chk-utr-pill-bank");
+
+    if (utrGpay) utrGpay.style.display = upiEnabled ? "block" : "none";
+    if (utrPhonepe) utrPhonepe.style.display = upiEnabled ? "block" : "none";
+    if (utrPaytm) utrPaytm.style.display = upiEnabled ? "block" : "none";
+    if (utrCred) utrCred.style.display = upiEnabled ? "block" : "none";
+    if (utrBank) utrBank.style.display = bankEnabled ? "block" : "none";
+
+    if (utrMatrixBox) {
+      utrMatrixBox.style.display = (upiEnabled || bankEnabled) ? "block" : "none";
+    }
+
+    // Activation footer input placeholder & hints dynamically reflecting enabled methods
+    const actInput = document.getElementById("checkout-activation-input");
+    if (actInput) {
+      if (upiEnabled && bankEnabled) {
+        actInput.placeholder = "Enter 12-digit UPI / Bank UTR, Crypto TXID, or License Key...";
+      } else if (upiEnabled) {
+        actInput.placeholder = "Enter 12-digit UPI UTR, Crypto TXID, or License Key...";
+      } else if (bankEnabled) {
+        actInput.placeholder = "Enter 12-digit Bank IMPS/NEFT UTR, Crypto TXID, or License Key...";
+      } else if (cryptoEnabled) {
+        actInput.placeholder = "Enter Crypto TXID (Transaction Hash) or License Key...";
+      } else {
+        actInput.placeholder = "Enter Gumroad / PayPal License Key or Order ID...";
+      }
+    }
+
+    const hintUtr = document.getElementById("chk-hint-utr");
+    const hintCrypto = document.getElementById("chk-hint-crypto");
+    const hintKey = document.getElementById("chk-hint-key");
+
+    if (hintUtr) {
+      if (upiEnabled && bankEnabled) {
+        hintUtr.style.display = "inline-flex";
+        hintUtr.innerHTML = `<span style="color: #10b981;">✔</span> 12-digit UPI / Bank UTR`;
+      } else if (upiEnabled) {
+        hintUtr.style.display = "inline-flex";
+        hintUtr.innerHTML = `<span style="color: #10b981;">✔</span> 12-digit UPI UTR`;
+      } else if (bankEnabled) {
+        hintUtr.style.display = "inline-flex";
+        hintUtr.innerHTML = `<span style="color: #10b981;">✔</span> 12-digit Bank UTR`;
+      } else {
+        hintUtr.style.display = "none";
+      }
+    }
+    if (hintCrypto) hintCrypto.style.display = cryptoEnabled ? "inline-flex" : "none";
+    if (hintKey) hintKey.style.display = (gumroadEnabled || paypalEnabled || razorpayEnabled || customEnabled) ? "inline-flex" : "none";
+
+    // Guide CTA Ready Button
+    const guideReadyBtn = document.getElementById("chk-guide-ready-btn");
+    if (guideReadyBtn) {
+      if (firstAvailableGw && firstAvailableGw !== "guide") {
+        guideReadyBtn.style.display = "inline-flex";
+        let btnText = "⚡ Ready to Pay? Open Checkout Tab";
+        if (firstAvailableGw === "upi") {
+          btnText = upiEnabled ? "⚡ Ready to Pay? Open UPI / QR Tab" : "🏦 Ready to Pay? Open Bank Transfer Tab";
+        } else if (firstAvailableGw === "gumroad") {
+          btnText = "💳 Ready to Pay? Open Cards (Gumroad) Tab";
+        } else if (firstAvailableGw === "paypal") {
+          btnText = "🅿️ Ready to Pay? Open PayPal Tab";
+        } else if (firstAvailableGw === "crypto") {
+          btnText = "🪙 Ready to Pay? Open Crypto Tab";
+        } else if (firstAvailableGw === "razorpay") {
+          btnText = "⚡ Ready to Pay? Open Razorpay Tab";
+        } else if (firstAvailableGw === "custom") {
+          btnText = `✨ Ready to Pay? Open ${customTabLabel || "Payment"} Tab`;
+        }
+        guideReadyBtn.innerText = btnText;
+        this.firstAvailablePaymentGateway = firstAvailableGw;
+      } else {
+        guideReadyBtn.style.display = "none";
+        this.firstAvailablePaymentGateway = null;
+      }
+    }
+
     this.renderPayPalSmartButtons();
 
     modal.style.display = "flex";
     this.playSynthSound("click");
   },
 
+  handleGuideReadyClick() {
+    if (this.firstAvailablePaymentGateway) {
+      this.switchCheckoutGateway(this.firstAvailablePaymentGateway);
+    }
+  },
+
   switchIndiaPayMethod(method = "upi") {
+    const upiEnabled = this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
     const bankEnabled = this.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
     if (method === "bank" && !bankEnabled) {
       method = "upi";
+    }
+    if (method === "upi" && !upiEnabled && bankEnabled) {
+      method = "bank";
     }
 
     const upiTab = document.getElementById("ipm-tab-upi");
@@ -6747,8 +7658,13 @@ const app = {
   switchCheckoutPlan(plan = "lifetime") {
     this.checkoutPlan = plan;
 
-    const priceUsd = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_usd", "$29.99") : this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
-    const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+    const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
+    const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499");
+    const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
+    const priceMonthlyInr = this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+
+    const priceUsd = plan === "lifetime" ? priceLifetimeUsd : priceMonthlyUsd;
+    const priceInr = plan === "lifetime" ? priceLifetimeInr : priceMonthlyInr;
     const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
 
     const pillLifetime = document.getElementById("chk-pill-lifetime");
@@ -6762,6 +7678,17 @@ const app = {
         pillLifetime.classList.remove("active");
       }
     }
+
+    // Dynamically update plan pills with configured prices
+    const elPillPriceLifetime = document.getElementById("chk-pill-price-lifetime");
+    if (elPillPriceLifetime) elPillPriceLifetime.innerText = priceLifetimeUsd;
+    const elPillInrLifetime = document.getElementById("chk-pill-inr-lifetime");
+    if (elPillInrLifetime) elPillInrLifetime.innerText = `${priceLifetimeInr} INR`;
+
+    const elPillPriceMonthly = document.getElementById("chk-pill-price-monthly");
+    if (elPillPriceMonthly) elPillPriceMonthly.innerHTML = `${priceMonthlyUsd} <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/mo</span>`;
+    const elPillInrMonthly = document.getElementById("chk-pill-inr-monthly");
+    if (elPillInrMonthly) elPillInrMonthly.innerText = `${priceMonthlyInr} INR`;
 
     const modalTitle = document.getElementById("checkout-title");
     if (modalTitle) {
@@ -6846,13 +7773,19 @@ const app = {
     this.playSynthSound("click");
 
     if (gateway === "upi") {
-      const plan = this.checkoutPlan || "lifetime";
-      const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
-      const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
-      const effectiveUpi = this.getEffectiveUpiId(this.selectedUpiApp || "any");
-      const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
-      const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
-      this.drawUpiQr(upiUri);
+      const upiEnabled = this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
+      const bankEnabled = this.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
+      if (!upiEnabled && bankEnabled) {
+        this.switchIndiaPayMethod("bank");
+      } else {
+        const plan = this.checkoutPlan || "lifetime";
+        const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+        const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
+        const effectiveUpi = this.getEffectiveUpiId(this.selectedUpiApp || "any");
+        const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
+        const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
+        this.drawUpiQr(upiUri);
+      }
     } else if (gateway === "paypal") {
       this.renderPayPalSmartButtons();
     }
@@ -6966,6 +7899,9 @@ const app = {
     });
   }
 };
+
+// Global instance export for inline handlers
+window.app = app;
 
 // Start application
 window.addEventListener("DOMContentLoaded", () => {

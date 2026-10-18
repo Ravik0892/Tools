@@ -663,8 +663,8 @@
       </a>
       <div class="nav-actions">
         <a href="index.html" class="nav-link-btn">📚 All Guides</a>
-        <a href="../index.html#plans" class="nav-link-btn">💎 Plans</a>
-        <a href="../index.html#checkout" class="nav-launch-btn">⚡ Open Checkout</a>
+        <a href="/#plans" class="nav-link-btn">💎 Plans</a>
+        <a href="/#checkout" class="nav-launch-btn" onclick="return launchAppCheckout('lifetime')">⚡ Open Checkout</a>
       </div>
     </div>
   </nav>
@@ -672,7 +672,7 @@
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">Home</a>
+      <a href="/">Home</a>
       <span>/</span>
       <a href="index.html">Guides Hub</a>
       <span>/</span>
@@ -718,7 +718,7 @@
         <div class="roadmap-card">
           <div class="rc-number">Step 02</div>
           <div class="rc-title">Choose Payment Gateway</div>
-          <div class="rc-desc">
+          <div class="rc-desc" id="guide-roadmap-step2-desc">
             Select your preferred method: <strong>UPI QR (GPay, PhonePe, Paytm, BHIM, Cred)</strong>, <strong>Cards via Gumroad</strong>, <strong>Bank Transfer (IMPS)</strong>, <strong>PayPal</strong>, or <strong>Crypto (USDT)</strong>.
           </div>
         </div>
@@ -726,7 +726,7 @@
         <div class="roadmap-card">
           <div class="rc-number">Step 03</div>
           <div class="rc-title">Locate Your Reference ID</div>
-          <div class="rc-desc">
+          <div class="rc-desc" id="guide-roadmap-step3-desc">
             Copy the <strong>12-digit UTR</strong> from your UPI/Bank app receipt, your <strong>Gumroad License Key</strong> from your email invoice, or your <strong>Crypto TXID</strong>.
           </div>
         </div>
@@ -792,201 +792,209 @@
       </div>
 
       <!-- SECTION 3: UPI APPS WALKTHROUGH -->
-      <h2><span class="step-circle">2</span> Paying via Indian UPI (GPay, PhonePe, Paytm, BHIM, Cred)</h2>
-      <p>
-        UPI is the fastest and most popular payment method in India with zero transaction fees. You can pay via QR code or by copying the official UPI ID.
-      </p>
-
-      <div class="highlight-card">
-        <h3>⚡ Official Payee UPI Credentials</h3>
+      <div id="guide-sec-upi-steps">
+        <h2><span class="step-circle">2</span> Paying via Indian UPI (GPay, PhonePe, Paytm, BHIM, Cred)</h2>
         <p>
-          Payee UPI ID (VPA): <code style="color: var(--accent-cyan); font-weight: 700;">ravik0892@okaxis</code> &bull; Payee Name: <strong>OmniTool Hub</strong> &bull; Amount: <strong>₹2,499 INR</strong> (Lifetime) or <strong>₹399 INR</strong> (Monthly)
+          UPI is the fastest and most popular payment method in India with zero transaction fees. You can pay via QR code or by copying the official UPI ID.
         </p>
+
+        <div class="highlight-card">
+          <h3>⚡ Official Payee UPI Credentials</h3>
+          <p>
+            Payee UPI ID (VPA): <code style="color: var(--accent-cyan); font-weight: 700;">ravik0892@okaxis</code> &bull; Payee Name: <strong>OmniTool Hub</strong> &bull; Amount: <strong>₹2,499 INR</strong> (Lifetime) or <strong>₹399 INR</strong> (Monthly)
+          </p>
+        </div>
+
+        <p><strong>How to Complete UPI Payment:</strong></p>
+        <ol style="margin-left: 20px; margin-bottom: 24px; color: var(--text-muted); font-size: 14.5px;">
+          <li style="margin-bottom: 8px;">Open <a href="/#checkout" onclick="return launchAppCheckout('lifetime', 'upi')" style="color: var(--accent-cyan); font-weight: 600;">OmniTool Hub Checkout</a> and select <strong>"UPI / Bank Transfer"</strong>.</li>
+          <li style="margin-bottom: 8px;">Scan the dynamic QR code displayed on screen with any UPI app on your mobile phone, OR copy the UPI ID <code>ravik0892@okaxis</code>.</li>
+          <li style="margin-bottom: 8px;">Verify that the payee name says <strong>OmniTool Hub</strong> or <strong>Ravi Kumar</strong> and authorize the transfer with your UPI PIN.</li>
+          <li style="margin-bottom: 8px;">Once the payment confirms, open the transaction details screen to find your <strong>12-digit UTR / Reference ID</strong>.</li>
+        </ol>
       </div>
 
-      <p><strong>How to Complete UPI Payment:</strong></p>
-      <ol style="margin-left: 20px; margin-bottom: 24px; color: var(--text-muted); font-size: 14.5px;">
-        <li style="margin-bottom: 8px;">Open <a href="../index.html#checkout" style="color: var(--accent-cyan); font-weight: 600;">OmniTool Hub Checkout</a> and select <strong>"UPI / Bank Transfer"</strong>.</li>
-        <li style="margin-bottom: 8px;">Scan the dynamic QR code displayed on screen with any UPI app on your mobile phone, OR copy the UPI ID <code>ravik0892@okaxis</code>.</li>
-        <li style="margin-bottom: 8px;">Verify that the payee name says <strong>OmniTool Hub</strong> or <strong>Ravi Kumar</strong> and authorize the transfer with your UPI PIN.</li>
-        <li style="margin-bottom: 8px;">Once the payment confirms, open the transaction details screen to find your <strong>12-digit UTR / Reference ID</strong>.</li>
-      </ol>
-
       <!-- SECTION 4: WHERE TO FIND UTR -->
-      <h2><span class="step-circle">3</span> Where to Find the 12-Digit UTR on Your Payment App</h2>
-      <p>
-        Different payment apps use slightly different labels for the 12-digit transaction number. Here is exactly what to look for in each app:
-      </p>
+      <div id="guide-sec-utr-matrix">
+        <h2><span class="step-circle">3</span> Where to Find the 12-Digit UTR on Your Payment App</h2>
+        <p>
+          Different payment apps use slightly different labels for the 12-digit transaction number. Here is exactly what to look for in each app:
+        </p>
 
-      <div class="app-cards-grid">
-        <!-- Google Pay -->
-        <div class="app-card">
-          <div class="app-card-header">
-            <div class="app-card-title">
-              <span>🔵</span>
-              <span>Google Pay (GPay)</span>
+        <div class="app-cards-grid">
+          <!-- Google Pay -->
+          <div class="app-card" id="guide-card-gpay">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <span>🔵</span>
+                <span>Google Pay (GPay)</span>
+              </div>
+              <span class="app-card-badge">Most Popular</span>
             </div>
-            <span class="app-card-badge">Most Popular</span>
+            <div class="app-label-callout">
+              Look for: <strong>UPI transaction ID</strong>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+              Tap the completed transaction in your GPay activity history. Scroll down below the amount and bank details.
+            </p>
+            <div class="app-example-box">
+              UPI transaction ID: <strong>428901234567</strong> (12 numeric digits)
+            </div>
           </div>
-          <div class="app-label-callout">
-            Look for: <strong>UPI transaction ID</strong>
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
-            Tap the completed transaction in your GPay activity history. Scroll down below the amount and bank details.
-          </p>
-          <div class="app-example-box">
-            UPI transaction ID: <strong>428901234567</strong> (12 numeric digits)
-          </div>
-        </div>
 
-        <!-- PhonePe -->
-        <div class="app-card">
-          <div class="app-card-header">
-            <div class="app-card-title">
-              <span>🟣</span>
-              <span>PhonePe</span>
+          <!-- PhonePe -->
+          <div class="app-card" id="guide-card-phonepe">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <span>🟣</span>
+                <span>PhonePe</span>
+              </div>
+              <span class="app-card-badge">Instant</span>
             </div>
-            <span class="app-card-badge">Instant</span>
+            <div class="app-label-callout">
+              Look for: <strong>UTR</strong> or <strong>Bank Reference No.</strong>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+              Open your PhonePe History &rarr; Tap the payment &rarr; Tap "Transfer Details".
+            </p>
+            <div class="app-example-box">
+              UTR: <strong>428901234567</strong> (12 numeric digits)
+            </div>
           </div>
-          <div class="app-label-callout">
-            Look for: <strong>UTR</strong> or <strong>Bank Reference No.</strong>
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
-            Open your PhonePe History &rarr; Tap the payment &rarr; Tap "Transfer Details".
-          </p>
-          <div class="app-example-box">
-            UTR: <strong>428901234567</strong> (12 numeric digits)
-          </div>
-        </div>
 
-        <!-- Paytm -->
-        <div class="app-card">
-          <div class="app-card-header">
-            <div class="app-card-title">
-              <span>🔷</span>
-              <span>Paytm</span>
+          <!-- Paytm -->
+          <div class="app-card" id="guide-card-paytm">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <span>🔷</span>
+                <span>Paytm</span>
+              </div>
+              <span class="app-card-badge">Instant</span>
             </div>
-            <span class="app-card-badge">Instant</span>
+            <div class="app-label-callout">
+              Look for: <strong>UPI Ref No.</strong>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+              Tap "Balance &amp; History" &rarr; select the transaction. Look right below the timestamp.
+            </p>
+            <div class="app-example-box">
+              UPI Ref No: <strong>428901234567</strong> (12 numeric digits)
+            </div>
           </div>
-          <div class="app-label-callout">
-            Look for: <strong>UPI Ref No.</strong>
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
-            Tap "Balance &amp; History" &rarr; select the transaction. Look right below the timestamp.
-          </p>
-          <div class="app-example-box">
-            UPI Ref No: <strong>428901234567</strong> (12 numeric digits)
-          </div>
-        </div>
 
-        <!-- Cred -->
-        <div class="app-card">
-          <div class="app-card-header">
-            <div class="app-card-title">
-              <span>⚪</span>
-              <span>Cred UPI</span>
+          <!-- Cred -->
+          <div class="app-card" id="guide-card-cred">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <span>⚪</span>
+                <span>Cred UPI</span>
+              </div>
+              <span class="app-card-badge">Instant</span>
             </div>
-            <span class="app-card-badge">Instant</span>
+            <div class="app-label-callout">
+              Look for: <strong>Reference ID</strong> or <strong>UTR</strong>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+              In Cred &rarr; Pay &rarr; Transaction History &rarr; select payment to view the 12-digit receipt number.
+            </p>
+            <div class="app-example-box">
+              Reference ID: <strong>428901234567</strong> (12 numeric digits)
+            </div>
           </div>
-          <div class="app-label-callout">
-            Look for: <strong>Reference ID</strong> or <strong>UTR</strong>
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
-            In Cred &rarr; Pay &rarr; Transaction History &rarr; select payment to view the 12-digit receipt number.
-          </p>
-          <div class="app-example-box">
-            Reference ID: <strong>428901234567</strong> (12 numeric digits)
-          </div>
-        </div>
 
-        <!-- BHIM UPI -->
-        <div class="app-card">
-          <div class="app-card-header">
-            <div class="app-card-title">
-              <span>🟢</span>
-              <span>BHIM UPI</span>
+          <!-- BHIM UPI -->
+          <div class="app-card" id="guide-card-bhim">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <span>🟢</span>
+                <span>BHIM UPI</span>
+              </div>
+              <span class="app-card-badge">NPCI</span>
             </div>
-            <span class="app-card-badge">NPCI</span>
+            <div class="app-label-callout">
+              Look for: <strong>Transaction ID</strong> or <strong>UTR</strong>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+              Tap "Transactions" tab &rarr; Tap the receipt to expand full details.
+            </p>
+            <div class="app-example-box">
+              UTR: <strong>428901234567</strong> (12 numeric digits)
+            </div>
           </div>
-          <div class="app-label-callout">
-            Look for: <strong>Transaction ID</strong> or <strong>UTR</strong>
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
-            Tap "Transactions" tab &rarr; Tap the receipt to expand full details.
-          </p>
-          <div class="app-example-box">
-            UTR: <strong>428901234567</strong> (12 numeric digits)
-          </div>
-        </div>
 
-        <!-- Bank IMPS / NetBanking -->
-        <div class="app-card">
-          <div class="app-card-header">
-            <div class="app-card-title">
-              <span>🏦</span>
-              <span>Bank IMPS / SMS</span>
+          <!-- Bank IMPS / NetBanking -->
+          <div class="app-card" id="guide-card-bank">
+            <div class="app-card-header">
+              <div class="app-card-title">
+                <span>🏦</span>
+                <span>Bank IMPS / SMS</span>
+              </div>
+              <span class="app-card-badge">24x7</span>
             </div>
-            <span class="app-card-badge">24x7</span>
-          </div>
-          <div class="app-label-callout">
-            Look for: <strong>IMPS Ref / RRN / UTR</strong>
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
-            Check your bank transfer confirmation screen or the SMS alert received on your registered mobile number.
-          </p>
-          <div class="app-example-box">
-            SMS: "...IMPS Ref <strong>428901234567</strong> to OmniTool..."
+            <div class="app-label-callout">
+              Look for: <strong>IMPS Ref / RRN / UTR</strong>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+              Check your bank transfer confirmation screen or the SMS alert received on your registered mobile number.
+            </p>
+            <div class="app-example-box">
+              SMS: "...IMPS Ref <strong>428901234567</strong> to OmniTool..."
+            </div>
           </div>
         </div>
       </div>
 
       <!-- SECTION 5: DIRECT BANK TRANSFER -->
-      <h2><span class="step-circle">4</span> Paying via Direct Bank Transfer (IMPS / NEFT)</h2>
-      <p>
-        If you prefer Net Banking over mobile UPI apps, you can send an IMPS 24x7 or NEFT transfer directly to our official bank account:
-      </p>
+      <div id="guide-sec-bank-transfer">
+        <h2><span class="step-circle">4</span> Paying via Direct Bank Transfer (IMPS / NEFT)</h2>
+        <p>
+          If you prefer Net Banking over mobile UPI apps, you can send an IMPS 24x7 or NEFT transfer directly to our official bank account:
+        </p>
 
-      <div style="background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 24px;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; font-size: 13.5px;">
-          <div>
-            <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700;">Beneficiary Name:</span>
-            <div style="color: var(--text-main); font-weight: 700; margin-top: 2px;">OmniTool Hub</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700;">Bank Name:</span>
-            <div style="color: var(--text-main); font-weight: 700; margin-top: 2px;">State Bank of India (SBI)</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700;">Account Number:</span>
-            <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-weight: 700; margin-top: 2px;">123456789012</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700;">IFSC Code:</span>
-            <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-weight: 700; margin-top: 2px;">SBIN0001234</div>
+        <div style="background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; font-size: 13.5px;">
+            <div>
+              <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700;">Beneficiary Name:</span>
+              <div style="color: var(--text-main); font-weight: 700; margin-top: 2px;">OmniTool Hub</div>
+            </div>
+            <div>
+              <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700;">Bank Name:</span>
+              <div style="color: var(--text-main); font-weight: 700; margin-top: 2px;">State Bank of India (SBI)</div>
+            </div>
+            <div>
+              <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700;">Account Number:</span>
+              <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-weight: 700; margin-top: 2px;">123456789012</div>
+            </div>
+            <div>
+              <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700;">IFSC Code:</span>
+              <div style="color: var(--accent-cyan); font-family: var(--font-mono); font-weight: 700; margin-top: 2px;">SBIN0001234</div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- SECTION 6: GUMROAD, PAYPAL, RAZORPAY & CRYPTO -->
-      <h2><span class="step-circle">5</span> Cards, PayPal, Razorpay &amp; Cryptocurrency</h2>
-      <p>
-        For international developers outside India, or users who want to pay with credit cards, Apple Pay, Google Pay, PayPal, or Crypto:
-      </p>
+      <div id="guide-sec-other-gateways">
+        <h2><span class="step-circle">5</span> Cards, PayPal, Razorpay &amp; Cryptocurrency</h2>
+        <p>
+          For international developers outside India, or users who want to pay with credit cards, Apple Pay, Google Pay, PayPal, or Crypto:
+        </p>
 
-      <ul style="margin-left: 20px; margin-bottom: 24px; color: var(--text-muted); font-size: 14.5px;">
-        <li style="margin-bottom: 10px;">
-          <strong>Gumroad (Global Cards / Apple Pay / Google Pay):</strong> Click the <em>"Continue to Gumroad Checkout"</em> button. After payment, Gumroad automatically emails you an invoice containing your unique License Key (e.g. <code>OMNI-ABCD-1234-EFGH</code>). Paste this key into the activation box to unlock PRO.
-        </li>
-        <li style="margin-bottom: 10px;">
-          <strong>PayPal:</strong> Pay directly using your PayPal balance, linked bank account, or international credit card. Check your PayPal transaction receipt for your confirmation ID or email key.
-        </li>
-        <li style="margin-bottom: 10px;">
-          <strong>Razorpay:</strong> Supports all Indian debit/credit cards, 50+ NetBanking banks, and domestic digital wallets.
-        </li>
-        <li style="margin-bottom: 10px;">
-          <strong>Crypto (USDT / BTC / ETH):</strong> Send the approximate dollar equivalent to the TRC-20, Bitcoin, or Ethereum address displayed in the Crypto tab. Once confirmed on the blockchain, paste your <strong>64-character Transaction Hash (TXID)</strong> to unlock PRO.
-        </li>
-      </ul>
+        <ul style="margin-left: 20px; margin-bottom: 24px; color: var(--text-muted); font-size: 14.5px;">
+          <li id="guide-li-gumroad" style="margin-bottom: 10px;">
+            <strong>Gumroad (Global Cards / Apple Pay / Google Pay):</strong> Click the <em>"Continue to Gumroad Checkout"</em> button. After payment, Gumroad automatically emails you an invoice containing your unique License Key (e.g. <code>OMNI-ABCD-1234-EFGH</code>). Paste this key into the activation box to unlock PRO.
+          </li>
+          <li id="guide-li-paypal" style="margin-bottom: 10px;">
+            <strong>PayPal:</strong> Pay directly using your PayPal balance, linked bank account, or international credit card. Check your PayPal transaction receipt for your confirmation ID or email key.
+          </li>
+          <li id="guide-li-razorpay" style="margin-bottom: 10px;">
+            <strong>Razorpay:</strong> Supports all Indian debit/credit cards, 50+ NetBanking banks, and domestic digital wallets.
+          </li>
+          <li id="guide-li-crypto" style="margin-bottom: 10px;">
+            <strong>Crypto (USDT / BTC / ETH):</strong> Send the approximate dollar equivalent to the TRC-20, Bitcoin, or Ethereum address displayed in the Crypto tab. Once confirmed on the blockchain, paste your <strong>64-character Transaction Hash (TXID)</strong> to unlock PRO.
+          </li>
+        </ul>
+      </div>
 
       <!-- SECTION 7: FAQS & TROUBLESHOOTING -->
       <h2><span class="step-circle">6</span> Frequently Asked Questions &amp; Troubleshooting</h2>
@@ -1033,12 +1041,106 @@
           Unlock all 28 offline developer tools, bypass video ads, and get unlimited processing power. Instant activation in just 4 clicks.
         </p>
         <div class="cta-buttons-row">
-          <a href="../index.html#checkout" class="cta-primary-btn">⚡ Launch Checkout Modal</a>
-          <a href="../index.html#plans" class="cta-secondary-btn">View Membership Plans</a>
+          <a href="/#checkout" class="cta-primary-btn" onclick="return launchAppCheckout('lifetime')">⚡ Launch Checkout Modal</a>
+          <a href="/#plans" class="cta-secondary-btn">View Membership Plans</a>
         </div>
       </div>
     </article>
   </main>
 
+  <script>
+    function launchAppCheckout(plan = 'lifetime', gw = null) {
+      try {
+        if (window.opener && !window.opener.closed && window.opener.app && typeof window.opener.app.openCheckout === 'function') {
+          window.opener.app.openCheckout(plan, gw);
+          window.opener.focus();
+          return false;
+        }
+      } catch (e) {}
+      window.location.href = window.location.origin + '/#checkout' + (gw ? '/' + gw : '');
+      return false;
+    }
+
+    (function syncPaymentGuide() {
+      try {
+        const upiEnabled = localStorage.getItem("omnitool_gw_upi_enabled") !== "false";
+        const bankEnabled = localStorage.getItem("omnitool_gw_bank_enabled") === "true";
+        const gumroadEnabled = localStorage.getItem("omnitool_gw_gumroad_enabled") !== "false";
+        const paypalEnabled = localStorage.getItem("omnitool_gw_paypal_enabled") !== "false";
+        const razorpayEnabled = localStorage.getItem("omnitool_gw_razorpay_enabled") !== "false";
+        const cryptoEnabled = localStorage.getItem("omnitool_gw_crypto_enabled") !== "false";
+
+        // UTR cards
+        const gpay = document.getElementById("guide-card-gpay");
+        const phonepe = document.getElementById("guide-card-phonepe");
+        const paytm = document.getElementById("guide-card-paytm");
+        const cred = document.getElementById("guide-card-cred");
+        const bhim = document.getElementById("guide-card-bhim");
+        const bankCard = document.getElementById("guide-card-bank");
+
+        if (gpay) gpay.style.display = upiEnabled ? "flex" : "none";
+        if (phonepe) phonepe.style.display = upiEnabled ? "flex" : "none";
+        if (paytm) paytm.style.display = upiEnabled ? "flex" : "none";
+        if (cred) cred.style.display = upiEnabled ? "flex" : "none";
+        if (bhim) bhim.style.display = upiEnabled ? "flex" : "none";
+        if (bankCard) bankCard.style.display = bankEnabled ? "flex" : "none";
+
+        const utrSec = document.getElementById("guide-sec-utr-matrix");
+        if (utrSec) utrSec.style.display = (upiEnabled || bankEnabled) ? "block" : "none";
+
+        const upiSteps = document.getElementById("guide-sec-upi-steps");
+        if (upiSteps) upiSteps.style.display = upiEnabled ? "block" : "none";
+
+        // Bank transfer section
+        const bankSec = document.getElementById("guide-sec-bank-transfer");
+        if (bankSec) bankSec.style.display = bankEnabled ? "block" : "none";
+
+        // Other gateways
+        const liGumroad = document.getElementById("guide-li-gumroad");
+        const liPaypal = document.getElementById("guide-li-paypal");
+        const liRazorpay = document.getElementById("guide-li-razorpay");
+        const liCrypto = document.getElementById("guide-li-crypto");
+
+        if (liGumroad) liGumroad.style.display = gumroadEnabled ? "list-item" : "none";
+        if (liPaypal) liPaypal.style.display = paypalEnabled ? "list-item" : "none";
+        if (liRazorpay) liRazorpay.style.display = razorpayEnabled ? "list-item" : "none";
+        if (liCrypto) liCrypto.style.display = cryptoEnabled ? "list-item" : "none";
+
+        const otherSec = document.getElementById("guide-sec-other-gateways");
+        if (otherSec) otherSec.style.display = (gumroadEnabled || paypalEnabled || razorpayEnabled || cryptoEnabled) ? "block" : "none";
+
+        // Update Roadmap Step 2 text dynamically
+        const activeNames = [];
+        if (upiEnabled) activeNames.push("UPI QR (GPay, PhonePe, Paytm, BHIM, Cred)");
+        if (gumroadEnabled) activeNames.push("Cards via Gumroad");
+        if (bankEnabled) activeNames.push("Bank Transfer (IMPS / NEFT)");
+        if (paypalEnabled) activeNames.push("PayPal");
+        if (razorpayEnabled) activeNames.push("Razorpay");
+        if (cryptoEnabled) activeNames.push("Crypto (USDT)");
+
+        const step2Desc = document.getElementById("guide-roadmap-step2-desc");
+        if (step2Desc) {
+          if (activeNames.length > 0) {
+            step2Desc.innerHTML = "Select your preferred method: <strong>" + activeNames.join("</strong>, <strong>") + "</strong>.";
+          } else {
+            step2Desc.innerHTML = "No payment gateways currently enabled. Please contact support.";
+          }
+        }
+
+        const step3Desc = document.getElementById("guide-roadmap-step3-desc");
+        if (step3Desc) {
+          if (upiEnabled || bankEnabled) {
+            step3Desc.innerHTML = "Copy the <strong>12-digit UTR</strong> from your UPI/Bank app receipt, your <strong>Gumroad License Key</strong> from your email invoice, or your <strong>Crypto TXID</strong>.";
+          } else if (cryptoEnabled) {
+            step3Desc.innerHTML = "Copy your <strong>Transaction Hash (TXID)</strong> from your crypto wallet receipt.";
+          } else {
+            step3Desc.innerHTML = "Copy your <strong>License Key</strong> or order receipt number from your confirmation email.";
+          }
+        }
+      } catch (e) {
+        console.warn("Guide sync error:", e);
+      }
+    })();
+  </script>
 </body>
 </html>

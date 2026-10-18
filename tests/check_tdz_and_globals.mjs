@@ -16,11 +16,12 @@ for (const file of files) {
     issues++;
   }
 
-  // Check for common bugs like unmatched brackets or unescaped templates
-  const openBraces = (content.match(/{/g) || []).length;
-  const closeBraces = (content.match(/}/g) || []).length;
-  if (openBraces !== closeBraces) {
-    console.error(`[BRACE MISMATCH] in ${file}: ${openBraces} '{' vs ${closeBraces} '}'`);
+  // Check syntax and structure via node --check
+  try {
+    const { execSync } = await import('child_process');
+    execSync(`node --check "${path.join(toolsDir, file)}"`, { stdio: 'pipe' });
+  } catch (err) {
+    console.error(`[SYNTAX ERROR] in ${file}:`, err.message);
     issues++;
   }
 }

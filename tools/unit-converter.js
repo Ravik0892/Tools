@@ -175,23 +175,23 @@ export default {
     };
 
     const runConvert = () => {
-      const cat = unitCat.value;
-      const fromUnit = unitFromSel.value;
-      const toUnit = unitToSel.value;
-      const val = parseFloat(unitFromVal.value);
+      const cat = (unitCat && units[unitCat.value]) ? unitCat.value : "data";
+      const fromUnit = unitFromSel ? unitFromSel.value : Object.keys(units[cat])[0];
+      const toUnit = unitToSel ? unitToSel.value : (Object.keys(units[cat])[1] || fromUnit);
+      const val = unitFromVal ? parseFloat(unitFromVal.value) : 1;
 
       if (isNaN(val)) {
-        unitToVal.value = "0";
+        if (unitToVal) unitToVal.value = "0";
         if (resultLabel) resultLabel.textContent = "";
         return;
       }
 
       const res = convertValue(val, fromUnit, toUnit, cat);
-      unitToVal.value = res;
+      if (unitToVal) unitToVal.value = res;
       if (resultLabel) resultLabel.textContent = `${val} ${fromUnit} = ${res} ${toUnit}`;
 
       // Update full matrix table
-      if (matrixTable) {
+      if (matrixTable && units[cat]) {
         const allUnits = Object.keys(units[cat]);
         matrixTable.innerHTML = allUnits.map(unitName => {
           const eqVal = convertValue(val, fromUnit, unitName, cat);
@@ -207,8 +207,9 @@ export default {
     };
 
     const populateUnits = () => {
-      const cat = unitCat.value;
-      const items = Object.keys(units[cat]);
+      const cat = (unitCat && units[unitCat.value]) ? unitCat.value : "data";
+      if (unitCat) unitCat.value = cat;
+      const items = Object.keys(units[cat] || {});
 
       unitFromSel.innerHTML = "";
       unitToSel.innerHTML = "";

@@ -1150,7 +1150,7 @@ body {
   gap: 24px;
 }
 
-@media (min-width: 1201px) {
+@media (min-width: 1025px) {
   .tool-content-layout.split-view {
     grid-template-columns: 1fr 1fr;
     align-items: start;
@@ -1379,7 +1379,7 @@ body {
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .split-view-resizer {
     display: none !important;
   }
@@ -6769,7 +6769,7 @@ body {
 }
 
 /* Mobile Split View Drawer Enhancements */
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .tool-content-layout.split-view {
     position: relative;
     display: flex;
@@ -8658,6 +8658,18 @@ body {
   border-color: rgba(0, 242, 254, 0.35);
   color: var(--text-main);
   transform: translateY(-1px);
+}
+
+.pg-badge-custom {
+  background: rgba(157, 78, 221, 0.1);
+  border-color: rgba(157, 78, 221, 0.25);
+  color: #c084fc;
+}
+
+.pg-badge-custom:hover {
+  background: rgba(157, 78, 221, 0.2);
+  border-color: var(--accent-purple);
+  color: #ffffff;
 }
 
 /* Light Theme Overrides */

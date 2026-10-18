@@ -38,7 +38,7 @@ python scripts/local-server.py 8000
 # Basic server: Note that python -m http.server does not support SPA rewrites, so refreshing on /tool/* will return 404
 python -m http.server 8000
 ```
-Once started, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
+Once started, open [ http://127.0.0.1:8000 ]( http://127.0.0.1:8000 ) in your browser.
 
 ---
 

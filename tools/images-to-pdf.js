@@ -10,60 +10,18 @@ export default {
   renderUI() {
     return `
       <div class="tool-content-layout split-view">
-        <!-- Configuration & Image Board (Left Panel) -->
-        <div class="tool-panel">
-          <div class="panel-header">
-            <div>
-              <h3 style="margin: 0; font-size: 16px;">Images to PDF Compiler</h3>
-              <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">
-                Convert multiple photos, scans, and graphics into a single clean PDF.
-              </p>
-            </div>
-            <div style="display: flex; gap: 6px;">
-              <button class="tool-btn secondary" id="i2p-clear-btn" style="font-size: 11px; padding: 4px 10px; display: none;">Clear All</button>
-              <button class="tool-btn secondary" id="i2p-add-more-btn" style="font-size: 11px; padding: 4px 10px; display: none;">+ Add Images</button>
-            </div>
-          </div>
-
-          <!-- Upload Dropzone -->
-          <div id="i2p-dropzone" style="border: 2px dashed rgba(0, 242, 254, 0.35); background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 36px 20px; text-align: center; cursor: pointer; transition: all 0.25s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 44px; height: 44px; color: var(--accent-cyan); margin-bottom: 12px;">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="12" y1="18" x2="12" y2="12"></line>
-              <polyline points="9 15 12 12 15 15"></polyline>
-            </svg>
-            <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">
-              Drag &amp; drop multiple images here, or browse files
-            </div>
-            <div style="font-size: 11px; color: var(--text-muted);">
-              JPG, PNG, WebP, GIF, and BMP supported. Reorder pages after uploading.
-            </div>
-            <input type="file" id="i2p-file-input" multiple accept="image/*" style="display: none;">
-          </div>
-
-          <!-- Page Thumbnails Board (Visible after images added) -->
-          <div id="i2p-board-wrapper" style="display: none; flex-direction: column; gap: 12px; margin-top: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span id="i2p-page-count-badge" style="font-size: 12px; font-weight: 700; color: var(--accent-cyan);">0 Pages Loaded</span>
-              <span style="font-size: 11px; color: var(--text-muted);">Use arrows to arrange page sequence</span>
-            </div>
-
-            <div id="i2p-thumbnails-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; max-height: 380px; overflow-y: auto; padding: 4px;">
-              <!-- Dynamic Thumbnail Cards injected here -->
-            </div>
-          </div>
-        </div>
-
-        <!-- PDF Settings & Build Action (Right Panel) -->
+        <!-- PDF Settings & Build Action (Left Panel / Editor) -->
         <div class="tool-panel">
           <div class="panel-header">
             <div>
               <h3 style="margin: 0; font-size: 16px;">PDF Document Settings</h3>
+              <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">
+                Configure page sizing, margins, and compression options.
+              </p>
             </div>
             <button class="tool-btn primary" id="i2p-compile-btn" style="font-size: 11px; padding: 4px 16px; font-weight: 700;" disabled>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              <span>Compile &amp; Download PDF</span>
+              <span>Compile PDF</span>
             </button>
           </div>
 
@@ -135,6 +93,51 @@ export default {
               <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;">
                 <div id="i2p-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00f2fe, #9d4edd); transition: width 0.15s ease;"></div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration & Image Board (Right Panel / Preview & Results) -->
+        <div class="tool-panel" style="flex: 1.4;">
+          <div class="panel-header">
+            <div>
+              <h3 style="margin: 0; font-size: 16px;">Document Page Layout &amp; Preview</h3>
+              <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">
+                Visual thumbnail sequence. Drag or use arrows to reorder pages.
+              </p>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="tool-btn secondary" id="i2p-clear-btn" style="font-size: 11px; padding: 4px 10px; display: none;">Clear All</button>
+              <button class="tool-btn secondary" id="i2p-add-more-btn" style="font-size: 11px; padding: 4px 10px; display: none;">+ Add Images</button>
+            </div>
+          </div>
+
+          <!-- Upload Dropzone -->
+          <div id="i2p-dropzone" style="border: 2px dashed rgba(0, 242, 254, 0.35); background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 36px 20px; text-align: center; cursor: pointer; transition: all 0.25s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 44px; height: 44px; color: var(--accent-cyan); margin-bottom: 12px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="12" y1="18" x2="12" y2="12"></line>
+              <polyline points="9 15 12 12 15 15"></polyline>
+            </svg>
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">
+              Drag &amp; drop multiple images here, or browse files
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+              JPG, PNG, WebP, GIF, and BMP supported. Reorder pages after uploading.
+            </div>
+            <input type="file" id="i2p-file-input" multiple accept="image/*" style="display: none;">
+          </div>
+
+          <!-- Page Thumbnails Board (Visible after images added) -->
+          <div id="i2p-board-wrapper" style="display: none; flex-direction: column; gap: 12px; margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span id="i2p-page-count-badge" style="font-size: 12px; font-weight: 700; color: var(--accent-cyan);">0 Pages Loaded</span>
+              <span style="font-size: 11px; color: var(--text-muted);">Use arrows to arrange page sequence</span>
+            </div>
+
+            <div id="i2p-thumbnails-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; max-height: 380px; overflow-y: auto; padding: 4px;">
+              <!-- Dynamic Thumbnail Cards injected here -->
             </div>
           </div>
         </div>

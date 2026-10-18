@@ -80,7 +80,6 @@ export default {
                   <div id="aes-strength-bar" style="width: 0%; height: 100%; background-color: #ef4444; transition: all 0.3s ease;"></div>
                 </div>
               </div>
-            </div>
             <div class="form-group">
               <label for="aes-iterations">PBKDF2 Iterations</label>
               <div class="slider-group">

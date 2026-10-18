@@ -17,82 +17,11 @@ export default {
   renderUI() {
     return `
       <div class="tool-content-layout split-view">
-        <!-- Video Player & Viewport (Left Panel) -->
-        <div class="tool-panel">
-          <div class="panel-header">
-            <div>
-              <h3 style="margin: 0; font-size: 16px;">Video Player &amp; Controller</h3>
-              <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">
-                Precision playback speed adjustment, frame-stepping, and continuous A-B loops.
-              </p>
-            </div>
-            <button class="tool-btn secondary" id="vs-change-file-btn" style="font-size: 11px; padding: 4px 10px; display: none;">Change Video</button>
-          </div>
-
-          <!-- Upload Dropzone (When no video loaded) -->
-          <div id="vs-dropzone" style="border: 2px dashed rgba(0, 242, 254, 0.35); background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.25s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 240px;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width: 48px; height: 48px; color: var(--accent-cyan); margin-bottom: 12px;">
-              <polygon points="23 7 16 12 23 17 23 7"></polygon>
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-            </svg>
-            <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">
-              Drag &amp; drop a video file here, or click to browse
-            </div>
-            <div style="font-size: 11px; color: var(--text-muted);">
-              Supports MP4, WebM, OGG, MKV, MOV. Handled 100% in local memory.
-            </div>
-            <input type="file" id="vs-file-input" accept="video/*" style="display: none;">
-          </div>
-
-          <!-- Video Element & Scrubbing Deck -->
-          <div id="vs-player-container" style="display: none; flex-direction: column; gap: 10px;">
-            <div style="width: 100%; max-height: 420px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); position: relative;">
-              <video id="vs-video" playsinline style="width: 100%; height: 100%; max-height: 420px; object-fit: contain;"></video>
-              
-              <!-- Speed Overlay Badge -->
-              <div id="vs-current-speed-badge" style="position: absolute; top: 12px; right: 12px; background: rgba(0, 0, 0, 0.75); border: 1px solid rgba(0, 242, 254, 0.4); color: var(--accent-cyan); font-weight: 800; font-size: 12px; padding: 4px 10px; border-radius: 6px; pointer-events: none;">
-                1.00x
-              </div>
-
-              <!-- A-B Loop Active Indicator -->
-              <div id="vs-loop-badge" style="display: none; position: absolute; top: 12px; left: 12px; background: rgba(245, 158, 11, 0.85); color: #000; font-weight: 800; font-size: 11px; padding: 4px 10px; border-radius: 6px; pointer-events: none;">
-                LOOP A ⇄ B
-              </div>
-            </div>
-
-            <!-- Custom Timeline Scrubber & Timestamps -->
-            <div style="display: flex; flex-direction: column; gap: 4px;">
-              <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: monospace; color: var(--text-muted);">
-                <span id="vs-current-time">00:00:00.00</span>
-                <span id="vs-total-time">00:00:00.00</span>
-              </div>
-              <input type="range" id="vs-timeline" min="0" max="100" value="0" step="0.01" style="width: 100%; accent-color: var(--accent-cyan); cursor: pointer;">
-            </div>
-
-            <!-- Frame Stepper & Playback Controls Strip -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px;">
-              <div style="display: flex; gap: 6px;">
-                <button class="tool-btn secondary" id="vs-step-back-5s" title="Back 5s (Left Arrow)" style="font-size: 11px; padding: 4px 8px;">-5s</button>
-                <button class="tool-btn secondary" id="vs-step-back-frame" title="Step Back 1 Frame (,)" style="font-size: 11px; padding: 4px 8px;">◀ 1 Frame</button>
-              </div>
-
-              <div style="display: flex; gap: 8px; align-items: center;">
-                <button class="tool-btn primary" id="vs-play-btn" style="font-size: 12px; padding: 6px 18px; min-width: 80px; text-align: center;">Play</button>
-              </div>
-
-              <div style="display: flex; gap: 6px;">
-                <button class="tool-btn secondary" id="vs-step-fwd-frame" title="Step Forward 1 Frame (.)" style="font-size: 11px; padding: 4px 8px;">1 Frame ▶</button>
-                <button class="tool-btn secondary" id="vs-step-fwd-5s" title="Forward 5s (Right Arrow)" style="font-size: 11px; padding: 4px 8px;">+5s</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Speed Tuning & A-B Looper (Right Panel) -->
+        <!-- Speed Tuning & A-B Looper (Left Panel: Controls & Editor) -->
         <div class="tool-panel">
           <div class="panel-header">
             <h3 style="margin: 0; font-size: 16px;">Speed &amp; Loop Controls</h3>
-            <span id="vs-video-info-badge" style="font-size: 11px; color: var(--accent-cyan); font-weight: 700;"></span>
+            <button class="tool-btn secondary" id="vs-change-file-btn" style="font-size: 11px; padding: 4px 10px; display: none;">Change Video</button>
           </div>
 
           <!-- Speed Slider & Presets -->
@@ -165,6 +94,77 @@ export default {
                 <span><kbd style="background: #222; padding: 1px 4px; border-radius: 3px;">←</kbd> <kbd style="background: #222; padding: 1px 4px; border-radius: 3px;">→</kbd> Seek 5 Seconds</span>
                 <span><kbd style="background: #222; padding: 1px 4px; border-radius: 3px;">,</kbd> <kbd style="background: #222; padding: 1px 4px; border-radius: 3px;">.</kbd> Frame Step Back / Fwd</span>
                 <span><kbd style="background: #222; padding: 1px 4px; border-radius: 3px;">[</kbd> <kbd style="background: #222; padding: 1px 4px; border-radius: 3px;">]</kbd> Set Loop A / B</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Player & Viewport (Right Panel: Result & Playback) -->
+        <div class="tool-panel">
+          <div class="panel-header">
+            <div>
+              <h3 style="margin: 0; font-size: 16px;">Video Player &amp; Viewport</h3>
+              <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">
+                Precision playback with high frame rate inspection.
+              </p>
+            </div>
+            <span id="vs-video-info-badge" style="font-size: 11px; color: var(--accent-cyan); font-weight: 700;"></span>
+          </div>
+
+          <!-- Upload Dropzone (When no video loaded) -->
+          <div id="vs-dropzone" style="border: 2px dashed rgba(0, 242, 254, 0.35); background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.25s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 240px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width: 48px; height: 48px; color: var(--accent-cyan); margin-bottom: 12px;">
+              <polygon points="23 7 16 12 23 17 23 7"></polygon>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">
+              Drag &amp; drop a video file here, or click to browse
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+              Supports MP4, WebM, OGG, MKV, MOV. Handled 100% in local memory.
+            </div>
+            <input type="file" id="vs-file-input" accept="video/*" style="display: none;">
+          </div>
+
+          <!-- Video Element & Scrubbing Deck -->
+          <div id="vs-player-container" style="display: none; flex-direction: column; gap: 10px;">
+            <div style="width: 100%; max-height: 420px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); position: relative;">
+              <video id="vs-video" playsinline style="width: 100%; height: 100%; max-height: 420px; object-fit: contain;"></video>
+              
+              <!-- Speed Overlay Badge -->
+              <div id="vs-current-speed-badge" style="position: absolute; top: 12px; right: 12px; background: rgba(0, 0, 0, 0.75); border: 1px solid rgba(0, 242, 254, 0.4); color: var(--accent-cyan); font-weight: 800; font-size: 12px; padding: 4px 10px; border-radius: 6px; pointer-events: none;">
+                1.00x
+              </div>
+
+              <!-- A-B Loop Active Indicator -->
+              <div id="vs-loop-badge" style="display: none; position: absolute; top: 12px; left: 12px; background: rgba(245, 158, 11, 0.85); color: #000; font-weight: 800; font-size: 11px; padding: 4px 10px; border-radius: 6px; pointer-events: none;">
+                LOOP A ⇄ B
+              </div>
+            </div>
+
+            <!-- Custom Timeline Scrubber & Timestamps -->
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: monospace; color: var(--text-muted);">
+                <span id="vs-current-time">00:00:00.00</span>
+                <span id="vs-total-time">00:00:00.00</span>
+              </div>
+              <input type="range" id="vs-timeline" min="0" max="100" value="0" step="0.01" style="width: 100%; accent-color: var(--accent-cyan); cursor: pointer;">
+            </div>
+
+            <!-- Frame Stepper & Playback Controls Strip -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px;">
+              <div style="display: flex; gap: 6px;">
+                <button class="tool-btn secondary" id="vs-step-back-5s" title="Back 5s (Left Arrow)" style="font-size: 11px; padding: 4px 8px;">-5s</button>
+                <button class="tool-btn secondary" id="vs-step-back-frame" title="Step Back 1 Frame (,)" style="font-size: 11px; padding: 4px 8px;">◀ 1 Frame</button>
+              </div>
+
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <button class="tool-btn primary" id="vs-play-btn" style="font-size: 12px; padding: 6px 18px; min-width: 80px; text-align: center;">Play</button>
+              </div>
+
+              <div style="display: flex; gap: 6px;">
+                <button class="tool-btn secondary" id="vs-step-fwd-frame" title="Step Forward 1 Frame (.)" style="font-size: 11px; padding: 4px 8px;">1 Frame ▶</button>
+                <button class="tool-btn secondary" id="vs-step-fwd-5s" title="Forward 5s (Right Arrow)" style="font-size: 11px; padding: 4px 8px;">+5s</button>
               </div>
             </div>
           </div>

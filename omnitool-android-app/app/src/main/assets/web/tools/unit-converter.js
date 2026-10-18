@@ -161,8 +161,9 @@ export default {
     };
 
     const populateUnits = () => {
-      const cat = unitCat.value;
-      const items = Object.keys(units[cat]);
+      const cat = (unitCat && units[unitCat.value]) ? unitCat.value : "data";
+      if (unitCat) unitCat.value = cat;
+      const items = Object.keys(units[cat] || {});
 
       unitFromSel.innerHTML = "";
       unitToSel.innerHTML = "";

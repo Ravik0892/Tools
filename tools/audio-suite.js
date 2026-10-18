@@ -14,34 +14,10 @@ export default {
   ],
 
   renderUI() {
-    const tabsHtml = this.subtools.map(st => `
-      <button class="keyboard-tab ${st.id === this.activeSubtool ? 'active' : ''}" data-subtool="${st.id}" style="font-size: 11px; padding: 5px 12px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
-        <span>${st.icon}</span>
-        <span>${st.label}</span>
-      </button>
-    `).join("");
-
     return `
-      <div class="suite-wrapper" id="audio-suite-wrapper">
-        <!-- Suite Header Strip with Tabs -->
-        <div class="suite-tab-header" style="background: rgba(13, 18, 29, 0.7); backdrop-filter: var(--glass-blur); border: 1px solid var(--border-color); border-radius: 12px; padding: 8px 14px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
-            <span class="tool-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); font-weight: 700; font-size: 11px; padding: 4px 8px; border-radius: 6px;">
-              AUDIO STUDIO
-            </span>
-            <span id="audio-active-label" style="font-size: 13px; font-weight: 700; color: var(--text-main);">
-              Audio Transcoder
-            </span>
-          </div>
-
-          <!-- Tabs (matching screenshot layout) -->
-          <div style="display: flex; gap: 6px; overflow-x: auto; max-width: 100%; padding-bottom: 2px;" id="audio-tabs-bar">
-            ${tabsHtml}
-          </div>
-        </div>
-
-        <!-- Active Sub-tool Container -->
-        <div id="audio-subtool-host" style="min-height: 480px;">
+      <div class="suite-wrapper" id="audio-suite-wrapper" style="width: 100%;">
+        <!-- Active Sub-tool Container (Direct 2-view split layout) -->
+        <div id="audio-subtool-host" style="min-height: 480px; width: 100%;">
           <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 350px; gap: 12px; color: var(--text-muted);">
             <div style="width: 32px; height: 32px; border: 3px solid rgba(16,185,129,0.2); border-top-color: var(--accent-emerald); border-radius: 50%; animation: audio-spin 0.8s linear infinite;"></div>
             <span>Loading audio studio...</span>
@@ -53,14 +29,14 @@ export default {
         @keyframes audio-spin {
           to { transform: rotate(360deg); }
         }
-        #audio-tabs-bar::-webkit-scrollbar {
+        .suite-tabs-nav::-webkit-scrollbar {
           height: 3px;
         }
-        #audio-tabs-bar::-webkit-scrollbar-thumb {
+        .suite-tabs-nav::-webkit-scrollbar-thumb {
           background: rgba(255, 255, 255, 0.1);
           border-radius: 3px;
         }
-        .keyboard-tab {
+        .suite-tabs-nav .keyboard-tab {
           background: rgba(255, 255, 255, 0.04);
           border: 1px solid rgba(255, 255, 255, 0.08);
           color: var(--text-muted);
@@ -69,40 +45,77 @@ export default {
           transition: all 0.2s ease;
           font-weight: 500;
         }
-        .keyboard-tab:hover {
+        .suite-tabs-nav .keyboard-tab:hover {
           background: rgba(255, 255, 255, 0.08);
           color: var(--text-main);
         }
-        .keyboard-tab.active {
-          background: rgba(0, 242, 254, 0.12);
-          border-color: #00f2fe;
-          color: #00f2fe;
+        .suite-tabs-nav .keyboard-tab.active {
+          background: rgba(16, 185, 129, 0.15);
+          border-color: #10b981;
+          color: #34d399;
           font-weight: 700;
-          box-shadow: 0 0 10px rgba(0, 242, 254, 0.15);
+          box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+        }
+        @media (max-width: 900px) {
+          .suite-tabs-nav {
+            max-width: 100% !important;
+            margin-left: 0 !important;
+            margin-top: 6px;
+            width: 100%;
+          }
         }
       </style>
     `;
   },
 
+  injectTabs(editorHeader, appInstance, loadSubtoolFn) {
+    if (!editorHeader) return;
+
+    let tabsNav = editorHeader.querySelector(".suite-tabs-nav");
+    if (!tabsNav) {
+      tabsNav = document.createElement("div");
+      tabsNav.className = "suite-tabs-nav";
+      tabsNav.id = "audio-tabs-bar";
+      tabsNav.style.cssText = "display: flex; gap: 5px; align-items: center; overflow-x: auto; max-width: calc(100% - 150px); scrollbar-width: none; margin-left: auto; padding: 2px 0;";
+
+      const actionBtn = editorHeader.querySelector(".tool-btn, .keyboard-tab");
+      if (actionBtn && actionBtn.parentElement === editorHeader) {
+        editorHeader.insertBefore(tabsNav, actionBtn);
+      } else {
+        editorHeader.appendChild(tabsNav);
+      }
+    }
+
+    tabsNav.innerHTML = this.subtools.map(st => `
+      <button type="button" class="keyboard-tab ${st.id === this.activeSubtool ? 'active' : ''}" data-subtool="${st.id}" style="font-size: 11px; padding: 4px 10px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; flex-shrink: 0;" title="${st.title}">
+        <span>${st.icon}</span>
+        <span>${st.label}</span>
+      </button>
+    `).join("");
+
+    tabsNav.querySelectorAll(".keyboard-tab").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.subtool;
+        if (id && id !== this.activeSubtool) {
+          const splitView = editorHeader.closest(".tool-content-layout.split-view");
+          const panels = splitView ? splitView.querySelectorAll(".tool-panel:not(.tool-guide-card)") : null;
+          const previewPanel = panels && panels.length > 1 ? panels[1] : null;
+          const wasFullscreen = previewPanel && previewPanel.classList.contains("preview-fullscreen");
+          const wasDrawerOpen = splitView && splitView.classList.contains("drawer-open");
+          loadSubtoolFn(id, wasFullscreen, wasDrawerOpen);
+        }
+      });
+    });
+  },
+
   async init(container, appInstance) {
     const host = container.querySelector("#audio-subtool-host");
-    const label = container.querySelector("#audio-active-label");
-    const tabButtons = container.querySelectorAll("#audio-tabs-bar .keyboard-tab");
 
-    const loadSubtool = async (subtoolId) => {
+    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false) => {
       this.activeSubtool = subtoolId;
-
-      // Update Tab Styles
-      tabButtons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.subtool === subtoolId);
-      });
-
       const config = this.subtools.find(st => st.id === subtoolId) || this.subtools[0];
-      if (label) {
-        label.innerText = config.title;
-      }
 
-      // Show sleek loading state
       if (host) {
         host.innerHTML = `
           <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 350px; gap: 12px; color: var(--text-muted);">
@@ -113,7 +126,7 @@ export default {
       }
 
       try {
-        const module = await import(`./${subtoolId}.js`);
+        const module = await import(`./${subtoolId}.js?t=${Date.now()}`);
         if (module && module.default) {
           this.currentModule = module.default;
           if (host) {
@@ -121,9 +134,38 @@ export default {
             if (typeof module.default.init === "function") {
               module.default.init(host, appInstance);
             }
-            // Re-apply split-view resizer if present
             if (typeof appInstance.initLayoutSizer === "function") {
               appInstance.initLayoutSizer();
+            }
+
+            // Find editor panel (Panel 0, Configuration/Editor) and inject tabs
+            const splitView = host.querySelector(".tool-content-layout.split-view");
+            const panels = splitView ? splitView.querySelectorAll(".tool-panel:not(.tool-guide-card)") : host.querySelectorAll(".tool-panel:not(.tool-guide-card)");
+            const editorPanel = panels && panels.length > 0 ? panels[0] : null;
+            const previewPanel = panels && panels.length > 1 ? panels[1] : null;
+
+            if (editorPanel) {
+              const editorHeader = editorPanel.querySelector(".panel-header");
+              if (editorHeader) {
+                this.injectTabs(editorHeader, appInstance, loadSubtool);
+              }
+            }
+
+            // Ensure preview panel stays clean (no suite tabs on preview screen)
+            if (previewPanel) {
+              const strayTabs = previewPanel.querySelectorAll(".suite-tabs-nav");
+              strayTabs.forEach(el => el.remove());
+
+              // Preserve full-screen mode across tab switches
+              if (retainFullscreen) {
+                const fsBtn = previewPanel.querySelector(".preview-fullscreen-btn");
+                if (fsBtn) {
+                  fsBtn.click();
+                  if (retainDrawerOpen && splitView) {
+                    splitView.classList.add("drawer-open");
+                  }
+                }
+              }
             }
           }
         }
@@ -141,17 +183,6 @@ export default {
       }
     };
 
-    // Tab button click listeners
-    tabButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.subtool;
-        if (id && id !== this.activeSubtool) {
-          loadSubtool(id);
-        }
-      });
-    });
-
-    // Check if initial subtab was requested via URL redirect
     const initial = appInstance.activeSubtab || this.activeSubtool || "audio-converter";
     appInstance.activeSubtab = null;
     loadSubtool(initial);

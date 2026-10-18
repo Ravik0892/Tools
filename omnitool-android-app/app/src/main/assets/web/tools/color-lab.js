@@ -331,6 +331,9 @@ export default {
       }
     };
 
+    let verifyAccessibility = null;
+    let renderAllSwatches = null;
+
     const switchTab = (tabId) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
@@ -355,8 +358,6 @@ export default {
     tabs.forEach(tab => {
       tab.addEventListener("click", () => switchTab(tab.dataset.tab));
     });
-
-    switchTab(initialTab);
 
     // ==========================================
     // PALETTE GENERATOR & CONTRAST
@@ -399,7 +400,7 @@ export default {
       return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
     };
 
-    const verifyAccessibility = (skipHexSync = false) => {
+    verifyAccessibility = (skipHexSync = false) => {
       if (!cFg || !cBg) return;
       const fg = cFg.value;
       const bg = cBg.value;
@@ -901,7 +902,7 @@ export default {
       return rgbToHex(r, g, b);
     };
 
-    const renderAllSwatches = () => {
+    renderAllSwatches = () => {
       if (activeTab !== "shades") return;
       const baseStr = shadesInput.value.trim();
       const rgb = colorToRgb(baseStr);
@@ -1046,5 +1047,6 @@ export default {
     renderSavedPalettes();
     verifyAccessibility(false);
     renderAllSwatches();
+    switchTab(initialTab);
   }
 };

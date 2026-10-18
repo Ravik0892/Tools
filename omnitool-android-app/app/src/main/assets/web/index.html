@@ -257,8 +257,8 @@
             </div>
           </div>
           <div class="cpp-right">
-            <div class="cpp-price">$29.99</div>
-            <div class="cpp-inr">₹2,499 INR</div>
+            <div class="cpp-price" id="chk-pill-price-lifetime">$29.99</div>
+            <div class="cpp-inr" id="chk-pill-inr-lifetime">₹2,499 INR</div>
           </div>
         </div>
 
@@ -274,8 +274,8 @@
             </div>
           </div>
           <div class="cpp-right">
-            <div class="cpp-price">$4.99 <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/mo</span></div>
-            <div class="cpp-inr">₹399 INR</div>
+            <div class="cpp-price" id="chk-pill-price-monthly">$4.99 <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/mo</span></div>
+            <div class="cpp-inr" id="chk-pill-inr-monthly">₹399 INR</div>
           </div>
         </div>
       </div>
@@ -606,13 +606,13 @@
             <div class="chk-guide-step-card">
               <div class="cg-step-header"><span>Step 2</span> • Pay Securely</div>
               <div class="cg-step-title">Select Your Gateway</div>
-              <div class="cg-step-desc">Pick <strong>UPI / QR</strong> (GPay, PhonePe, Paytm), <strong>Cards via Gumroad</strong>, <strong>Bank IMPS</strong>, <strong>PayPal</strong>, or <strong>Crypto</strong>.</div>
+              <div class="cg-step-desc" id="chk-guide-step2-desc">Pick <strong>UPI / QR</strong> (GPay, PhonePe, Paytm), <strong>Cards via Gumroad</strong>, <strong>Bank IMPS</strong>, <strong>PayPal</strong>, or <strong>Crypto</strong>.</div>
             </div>
 
             <div class="chk-guide-step-card highlight">
               <div class="cg-step-header green"><span>Step 3</span> • Locate Code</div>
               <div class="cg-step-title">Copy UTR / License Key</div>
-              <div class="cg-step-desc">From your payment app receipt, copy the <strong>12-digit UTR</strong> (or Gumroad key from email, or Crypto TXID).</div>
+              <div class="cg-step-desc" id="chk-guide-step3-desc">From your payment app receipt, copy the <strong>12-digit UTR</strong> (or Gumroad key from email, or Crypto TXID).</div>
             </div>
 
             <div class="chk-guide-step-card highlight">
@@ -623,23 +623,23 @@
           </div>
 
           <!-- UTR Locator Breakdown in Modal -->
-          <div class="chk-utr-matrix-box">
+          <div class="chk-utr-matrix-box" id="chk-utr-matrix-box">
             <div class="chk-utr-matrix-title">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
               <span>Where to find the 12-Digit UTR on popular payment apps:</span>
             </div>
             <div class="chk-utr-pills-row">
-              <div class="chk-utr-pill">🔵 Google Pay: <strong>UPI transaction ID (12 digits)</strong></div>
-              <div class="chk-utr-pill">🟣 PhonePe: <strong>UTR / Bank Ref (12 digits)</strong></div>
-              <div class="chk-utr-pill">🔷 Paytm: <strong>UPI Ref No (12 digits)</strong></div>
-              <div class="chk-utr-pill">⚪ Cred: <strong>Reference ID (12 digits)</strong></div>
-              <div class="chk-utr-pill">🏦 Net Banking: <strong>IMPS Ref / Journal No (12 digits)</strong></div>
+              <div class="chk-utr-pill" id="chk-utr-pill-gpay">🔵 Google Pay: <strong>UPI transaction ID (12 digits)</strong></div>
+              <div class="chk-utr-pill" id="chk-utr-pill-phonepe">🟣 PhonePe: <strong>UTR / Bank Ref (12 digits)</strong></div>
+              <div class="chk-utr-pill" id="chk-utr-pill-paytm">🔷 Paytm: <strong>UPI Ref No (12 digits)</strong></div>
+              <div class="chk-utr-pill" id="chk-utr-pill-cred">⚪ Cred: <strong>Reference ID (12 digits)</strong></div>
+              <div class="chk-utr-pill" id="chk-utr-pill-bank">🏦 Net Banking: <strong>IMPS Ref / Journal No (12 digits)</strong></div>
             </div>
           </div>
 
           <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 10px;">
-            <button type="button" class="tool-btn primary" onclick="app.switchCheckoutGateway('upi')" style="font-size: 12px; height: 34px; padding: 0 14px;">
-              ⚡ Ready to Pay? Open UPI / QR Tab
+            <button type="button" class="tool-btn primary" id="chk-guide-ready-btn" onclick="app.handleGuideReadyClick()" style="font-size: 12px; height: 34px; padding: 0 14px;">
+              ⚡ Ready to Pay? Open Checkout Tab
             </button>
             <a href="guides/payment-guide.html" target="_blank" class="caf-guide-link" style="font-size: 12px;">
               <span>Read Full Documentation &amp; FAQ Page &rarr;</span>
@@ -671,6 +671,16 @@
             <span id="chk-custom-note-display">After completing your payment, enter your transaction reference number, customer email, or invoice key in the activation box below to unlock PRO immediately.</span>
           </div>
         </div>
+
+        <!-- 9. NO GATEWAYS ACTIVE FALLBACK PANEL -->
+        <div class="checkout-panel" id="chk-panel-none" style="display: none; text-align: center; padding: 36px 20px;">
+          <div style="font-size: 32px; margin-bottom: 12px;">🔒</div>
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Online Checkout Temporarily Paused</h3>
+          <p style="font-size: 13px; color: var(--text-muted); max-width: 440px; margin: 0 auto 16px auto;">All payment gateways are currently undergoing scheduled maintenance or have been disabled by the administrator. Please check back soon or contact support for manual activation.</p>
+          <div style="display: flex; gap: 10px; justify-content: center;">
+            <button type="button" class="tool-btn secondary" onclick="app.closeCheckout()">Close Window</button>
+          </div>
+        </div>
       </div>
 
       <!-- Instant Key / UTR Redemption Box -->
@@ -689,9 +699,9 @@
         <div id="caf-validation-status" class="caf-status-badge" style="display: none;"></div>
         <div class="caf-sub-row">
           <div class="caf-hints" style="margin: 0;">
-            <span class="caf-hint-item"><span style="color: #10b981;">✔</span> 12-digit UPI UTR</span>
-            <span class="caf-hint-item"><span style="color: #10b981;">✔</span> Crypto TXID / Hash</span>
-            <span class="caf-hint-item"><span style="color: #10b981;">✔</span> Gumroad / PayPal Key</span>
+            <span class="caf-hint-item" id="chk-hint-utr"><span style="color: #10b981;">✔</span> 12-digit UPI UTR</span>
+            <span class="caf-hint-item" id="chk-hint-crypto"><span style="color: #10b981;">✔</span> Crypto TXID / Hash</span>
+            <span class="caf-hint-item" id="chk-hint-key"><span style="color: #10b981;">✔</span> Gumroad / PayPal Key</span>
           </div>
           <a href="guides/payment-guide.html" target="_blank" class="caf-guide-link">
             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
@@ -1514,8 +1524,10 @@
                   Developer Pass</div>
                 <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">Lifetime Pass
                 </h2>
-                <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">$29.99
-                  <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ one-time</span></div>
+                <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">
+                  <span id="plan-price-lifetime-display">$29.99</span>
+                  <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ one-time</span>
+                </div>
                 <ul
                   style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
@@ -1527,12 +1539,13 @@
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-orange);">⚠</span> Banner &amp; sidebar ads still exist</li>
                 </ul>
-                <div class="plan-gateways-strip">
+                <div class="plan-gateways-strip" id="plan-gateways-strip-lifetime">
                   <span class="pg-badge" onclick="app.openCheckout('lifetime', 'gumroad')" title="Pay with Debit/Credit Card via Gumroad">💳 Cards</span>
                   <span class="pg-badge" onclick="app.openCheckout('lifetime', 'upi')" title="Pay with UPI QR / GPay / PhonePe / Paytm">⚡ UPI / QR</span>
                   <span class="pg-badge" onclick="app.openCheckout('lifetime', 'paypal')" title="Pay via PayPal International">🅿️ PayPal</span>
-                  <span class="pg-badge" onclick="app.openCheckout('lifetime', 'gumroad')" title="Pay via Gumroad Checkout">🛒 Gumroad</span>
+                  <span class="pg-badge" onclick="app.openCheckout('lifetime', 'razorpay')" title="Pay via Razorpay">💳 Razorpay</span>
                   <span class="pg-badge" onclick="app.openCheckout('lifetime', 'crypto')" title="Pay via USDT / BTC / ETH">🪙 Crypto</span>
+                  <span class="pg-badge pg-badge-custom" onclick="app.openCheckout('lifetime', 'custom')" title="Pay via Custom Gateway" style="display: none;">✨ Custom</span>
                 </div>
               </div>
               <button class="tool-btn primary" id="plan-btn-lifetime" onclick="app.openCheckout('lifetime')"
@@ -1552,8 +1565,10 @@
                   Power User</div>
                 <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">Pro Monthly
                 </h2>
-                <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">$4.99
-                  <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ month</span></div>
+                <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">
+                  <span id="plan-price-monthly-display">$4.99</span>
+                  <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ month</span>
+                </div>
                 <ul
                   style="list-style: none; padding: 0; margin: 0 0 20px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
@@ -1565,11 +1580,12 @@
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-cyan);">✔</span> Cleans up banner &amp; sidebar ads</li>
                 </ul>
-                <div class="plan-gateways-strip">
+                <div class="plan-gateways-strip" id="plan-gateways-strip-monthly">
                   <span class="pg-badge" onclick="app.openCheckout('monthly', 'gumroad')" title="Subscribe with Debit/Credit Card">💳 Cards</span>
                   <span class="pg-badge" onclick="app.openCheckout('monthly', 'upi')" title="Pay Monthly via UPI QR">⚡ UPI / QR</span>
                   <span class="pg-badge" onclick="app.openCheckout('monthly', 'paypal')" title="Subscribe via PayPal">🅿️ PayPal</span>
-                  <span class="pg-badge" onclick="app.openCheckout('monthly', 'gumroad')" title="Subscribe via Gumroad">🛒 Gumroad</span>
+                  <span class="pg-badge" onclick="app.openCheckout('monthly', 'razorpay')" title="Pay via Razorpay">💳 Razorpay</span>
+                  <span class="pg-badge pg-badge-custom" onclick="app.openCheckout('monthly', 'custom')" title="Pay via Custom Gateway" style="display: none;">✨ Custom</span>
                 </div>
               </div>
               <button class="tool-btn primary" id="plan-btn-monthly" onclick="app.openCheckout('monthly')"
@@ -1656,7 +1672,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Core JavaScript controllers (Razorpay SDK loads on-demand upon checkout) -->
-  <script src="app.js?v=1.3.5"></script>
+  <script src="app.js?v=1.4.0"></script>
 
   <!-- Vercel Web Analytics -->
   <script>

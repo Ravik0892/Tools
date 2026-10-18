@@ -423,27 +423,19 @@ export default {
       </style>
 
       <div class="tool-content-layout split-view">
-        <!-- Top Panel: Input URL -->
-        <div class="tool-panel" style="grid-column: 1 / -1;">
+        <!-- Left Column: Input URL & Params (Editor) -->
+        <div class="tool-panel">
           <div class="panel-header">
-            <h3>Input URL</h3>
+            <h3>URL &amp; Parameter Editor</h3>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="url-parser-input">Input Web Address / URL</label>
             <input type="text" class="form-input" id="url-parser-input" placeholder="https://example.com/search?q=query&category=dev&sort=date" aria-label="Input URL">
           </div>
 
-          <!-- Dynamic URL Component Inspector -->
-          <div id="url-inspector-card" class="url-inspector-container" style="display: none;">
-            <div style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">URL Inspector</div>
-            <div id="url-inspector-badges" class="url-badges-grid"></div>
-          </div>
-        </div>
-
-        <!-- Left Column: Params & Tools -->
-        <div class="tool-panel">
-          <div class="panel-header" style="justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <div class="panel-header" style="justify-content: space-between; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--border-color); padding-top: 12px;">
             <div style="display: flex; gap: 12px; align-items: center;">
-              <h3 id="query-section-title" style="margin: 0;">Query Parameters</h3>
+              <h3 id="query-section-title" style="margin: 0; font-size: 13px;">Query Parameters</h3>
               <div class="tool-tabs" style="display: flex; gap: 4px; padding: 2px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid var(--border-color);">
                 <button class="tool-tab-btn active" id="url-tab-grid" style="padding: 4px 10px; font-size: 11px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-radius: 4px;">Table Grid</button>
                 <button class="tool-tab-btn" id="url-tab-bulk" style="padding: 4px 10px; font-size: 11px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-radius: 4px;">Bulk Edit</button>
@@ -474,7 +466,7 @@ export default {
           </div>
         </div>
 
-        <!-- Right Column: Rebuild, UTM Form, and QR Code -->
+        <!-- Right Column: Rebuild, UTM Form, and QR Code (Result) -->
         <div class="tool-panel">
           <div class="panel-header" style="justify-content: flex-start; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); margin-bottom: 15px;">
             <div class="tool-tabs" style="display: flex; gap: 4px; padding: 2px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid var(--border-color); width: 100%;">
@@ -492,6 +484,12 @@ export default {
                 <button class="tool-btn accent-emerald" id="url-copy-btn" style="padding: 4px 10px; font-size: 11px; height: 28px;"><svg viewBox="0 0 24 24" style="width: 12px; height: 12px; margin-right: 4px;" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy URL</button>
               </div>
               <textarea class="input-textarea" id="url-output" readonly placeholder="Parsed output URL will appear here..." style="min-height: 80px; font-family: var(--font-mono); font-size: 13px;" aria-label="Output URL"></textarea>
+            </div>
+
+            <!-- Dynamic URL Component Inspector -->
+            <div id="url-inspector-card" class="url-inspector-container" style="display: none; margin-top: 4px;">
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">URL Inspector</div>
+              <div id="url-inspector-badges" class="url-badges-grid"></div>
             </div>
             
             <!-- QR Code Generator -->

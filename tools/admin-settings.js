@@ -28,6 +28,10 @@ export default {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                 <span>Save All Settings</span>
               </button>
+              <button type="button" class="tool-btn" id="btn-adm-publish-live" style="font-size: 12px; height: 34px; padding: 0 16px; font-weight: 800; background: linear-gradient(135deg, #10b981, #00f2fe); color: #0a0f1d; border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 242, 254, 0.3); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;" title="Save configurations to ad-config.json and deploy to live website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M12 2v10M12 2l4 4M12 2L8 6"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>Deploy to Live Site 🚀</span>
+              </button>
             </div>
           </div>
 
@@ -115,8 +119,14 @@ export default {
               </div>
             </div>
 
+            <!-- Card 1 Fallback Alert: Shown only when all gateways are unchecked -->
+            <div id="adm-pay-none-alert" style="display: none; padding: 14px 16px; border-radius: 10px; background: rgba(245, 158, 11, 0.08); border: 1px dashed rgba(245, 158, 11, 0.35); text-align: center; color: #f59e0b; margin-bottom: 16px;">
+              <strong style="font-size: 13px;">⚠️ All Customer Gateways Disabled</strong>
+              <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; margin-bottom: 0;">Every payment method is currently unchecked above. The checkout modal will show a paused notice. Check any gateway pill above to reactivate it and reveal its configuration fields.</p>
+            </div>
+
             <!-- Card 2: UPI Multi-Account Routing -->
-            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(0, 242, 254, 0.02); border: 1px solid rgba(0, 242, 254, 0.2);">
+            <div class="adm-pay-card" id="adm-pay-card-upi" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(0, 242, 254, 0.02); border: 1px solid rgba(0, 242, 254, 0.2);">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <span style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px;">2. UPI Configuration &amp; App Routing</span>
                 <span id="upi-mode-badge" style="font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 242, 254, 0.3);">Mode: Single Universal UPI</span>
@@ -189,7 +199,7 @@ export default {
             </div>
 
             <!-- Card 3: Direct Bank Transfer -->
-            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+            <div class="adm-pay-card" id="adm-pay-card-bank" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
                 <span style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px;">
                   3. Direct Bank Transfer (IMPS / NEFT / RTGS)
@@ -224,11 +234,11 @@ export default {
             </div>
 
             <!-- Card 4: Cards & International Processors -->
-            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+            <div class="adm-pay-card" id="adm-pay-card-international" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
               <div style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
                 4. International Processors &amp; Donations
               </div>
-              <div class="form-row">
+              <div class="form-row" id="adm-row-gumroad">
                 <div class="form-group">
                   <label for="gumroad-lifetime-url">Gumroad Lifetime Pass URL</label>
                   <input type="text" class="form-input" id="gumroad-lifetime-url" placeholder="e.g. https://gumroad.com/l/your-lifetime-slug">
@@ -238,7 +248,7 @@ export default {
                   <input type="text" class="form-input" id="gumroad-monthly-url" placeholder="e.g. https://gumroad.com/l/your-monthly-slug">
                 </div>
               </div>
-              <div class="form-row" style="margin-top: 6px;">
+              <div class="form-row" id="adm-row-paypal" style="margin-top: 6px;">
                 <div class="form-group">
                   <label for="paypal-client-id">PayPal Client ID <span style="font-size: 10px; color: #10b981; font-weight: 700;">(⚡ 100% Automated Smart Checkout)</span></label>
                   <input type="text" class="form-input" id="paypal-client-id" placeholder="e.g. A21AAK... (From developer.paypal.com - 100% Free)">
@@ -250,13 +260,13 @@ export default {
                   <span style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px; display: block;">Used if PayPal Smart Buttons are not configured.</span>
                 </div>
               </div>
-              <div class="form-row" style="margin-top: 6px;">
+              <div class="form-row" id="adm-row-razorpay" style="margin-top: 6px;">
                 <div class="form-group">
                   <label for="razorpay-gateway-url">Razorpay Payment Page URL</label>
                   <input type="text" class="form-input" id="razorpay-gateway-url" placeholder="e.g. https://rzp.io/l/yourlink">
                 </div>
               </div>
-              <div class="form-row" style="margin-top: 6px;">
+              <div class="form-row" id="adm-row-coffee" style="margin-top: 6px;">
                 <div class="form-group">
                   <label for="coffee-url">Buy Me a Coffee URL</label>
                   <input type="text" class="form-input" id="coffee-url" placeholder="e.g. https://www.buymeacoffee.com/yourusername">
@@ -269,7 +279,7 @@ export default {
             </div>
 
             <!-- Card 5: Cryptocurrency Wallets -->
-            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+            <div class="adm-pay-card" id="adm-pay-card-crypto" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
               <div style="font-weight: 700; font-size: 12px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
                 5. Cryptocurrency Wallets
               </div>
@@ -290,7 +300,7 @@ export default {
             </div>
 
             <!-- Card 6: Custom Payment System Builder -->
-            <div class="adm-pay-card" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(157, 78, 221, 0.03); border: 1px solid rgba(157, 78, 221, 0.25);">
+            <div class="adm-pay-card" id="adm-pay-card-custom" style="margin-bottom: 16px; padding: 14px; border-radius: 10px; background: rgba(157, 78, 221, 0.03); border: 1px solid rgba(157, 78, 221, 0.25);">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <span style="font-weight: 700; font-size: 12px; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 0.5px;">6. Custom Payment System Builder</span>
                 <span style="font-size: 10.5px; color: var(--accent-purple); font-weight: 600;">Add Stripe, CashApp, Revolut, Zelle, or Invoicing</span>
@@ -724,6 +734,37 @@ export default {
               <input type="password" class="form-input" id="app-admin-passcode" placeholder="Enter new strong passcode" autocomplete="new-password">
             </form>
 
+            <!-- LIVE WEBSITE DEPLOYMENT CARD -->
+            <div class="form-group" style="margin-bottom: 22px; border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 12px; padding: 18px; background: rgba(0, 242, 254, 0.04);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                <label style="color: var(--accent-cyan); font-weight: 800; font-size: 14px; margin-bottom: 0; display: flex; align-items: center; gap: 6px;">
+                  <span>🚀</span> Live Website Deployment &amp; GitHub Sync
+                </label>
+                <span class="tool-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 11px;">GitHub / Vercel Connected</span>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
+                Directly writes your latest configurations to <code style="color: var(--accent-cyan);">ad-config.json</code> and pushes changes to GitHub. Vercel automatically detects the push and deploys your changes to the live site within seconds.
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
+                <div>
+                  <label for="adm-deploy-commit-msg" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Git Commit Message</label>
+                  <input type="text" id="adm-deploy-commit-msg" class="form-input" value="chore(config): update live site settings via Admin Panel" style="font-size: 12px; height: 34px;">
+                </div>
+                <div>
+                  <label for="adm-deploy-hook-url" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Optional: Vercel Deploy Hook URL</label>
+                  <input type="text" id="adm-deploy-hook-url" class="form-input" placeholder="https://api.vercel.com/v1/integrations/deploy/prj_.../..." style="font-size: 12px; height: 34px;">
+                </div>
+              </div>
+
+              <button type="button" class="tool-btn" id="btn-adm-deploy-sync" style="width: 100%; justify-content: center; height: 42px; font-weight: 800; font-size: 13.5px; background: linear-gradient(135deg, #10b981, #00f2fe); color: #0a0f1d; border: none; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3); cursor: pointer;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M12 2v10M12 2l4 4M12 2L8 6"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>Save &amp; Send to Live Website</span>
+              </button>
+
+              <div id="adm-deploy-status-box" style="display: none; margin-top: 12px; padding: 10px 12px; border-radius: 8px; font-size: 11.5px; font-family: var(--font-mono); line-height: 1.4; max-height: 140px; overflow-y: auto;"></div>
+            </div>
+
             <div class="form-group" style="margin-bottom: 18px;">
               <label>Export Global Configurations</label>
               <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Generate and download an ad-config.json file to place in the website's root directory for site-wide global settings.</div>
@@ -783,13 +824,20 @@ export default {
               <div id="preview-pay-gateways-list" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;"></div>
               
               <!-- Live UPI & QR Interactive Card -->
-              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; text-align: center;">
+              <div id="adm-preview-upi-card" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; text-align: center;">
                 <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Customer QR Code Preview</div>
                 <div style="display: inline-block; padding: 10px; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);">
                   <canvas id="adm-preview-qr-canvas" width="130" height="130" style="display: block; width: 130px; height: 130px;"></canvas>
                 </div>
                 <div id="adm-preview-vpa-label" style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent-cyan); margin-top: 10px;">ravik0892@okaxis</div>
                 <div id="adm-preview-mode-desc" style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">⚡ Single Universal UPI active across all apps</div>
+              </div>
+
+              <!-- UPI Disabled State Card -->
+              <div id="adm-preview-upi-disabled" style="display: none; background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 10px; padding: 20px 14px; text-align: center;">
+                <div style="font-size: 24px; margin-bottom: 6px;">⚡🚫</div>
+                <div style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">UPI &amp; QR Gateway Disabled</div>
+                <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">Hidden from customer checkout modal and pricing tables. Check "UPI &amp; QR" above to reactivate.</div>
               </div>
             </div>
 
@@ -1111,6 +1159,46 @@ export default {
       updatePaymentSimulator();
     };
 
+    // Reactive Visibility: Instantly show/hide configuration cards and rows based on Card 1 toggles
+    const syncPaymentCardsVisibility = () => {
+      const cardUpi = container.querySelector("#adm-pay-card-upi");
+      const cardBank = container.querySelector("#adm-pay-card-bank");
+      const cardIntl = container.querySelector("#adm-pay-card-international");
+      const rowGumroad = container.querySelector("#adm-row-gumroad");
+      const rowPaypal = container.querySelector("#adm-row-paypal");
+      const rowRazorpay = container.querySelector("#adm-row-razorpay");
+      const rowCoffee = container.querySelector("#adm-row-coffee");
+      const cardCrypto = container.querySelector("#adm-pay-card-crypto");
+      const cardCustom = container.querySelector("#adm-pay-card-custom");
+      const noneAlert = container.querySelector("#adm-pay-none-alert");
+
+      const upiOn = gwToggleUpi ? gwToggleUpi.checked : true;
+      const bankOn = gwToggleBank ? gwToggleBank.checked : false;
+      const gumroadOn = gwToggleGumroad ? gwToggleGumroad.checked : true;
+      const paypalOn = gwTogglePaypal ? gwTogglePaypal.checked : true;
+      const razorpayOn = gwToggleRazorpay ? gwToggleRazorpay.checked : true;
+      const cryptoOn = gwToggleCrypto ? gwToggleCrypto.checked : true;
+      const coffeeOn = gwToggleCoffee ? gwToggleCoffee.checked : true;
+      const customOn = gwToggleCustom ? gwToggleCustom.checked : false;
+
+      if (cardUpi) cardUpi.style.display = upiOn ? "block" : "none";
+      if (cardBank) cardBank.style.display = bankOn ? "block" : "none";
+
+      if (rowGumroad) rowGumroad.style.display = gumroadOn ? "grid" : "none";
+      if (rowPaypal) rowPaypal.style.display = paypalOn ? "grid" : "none";
+      if (rowRazorpay) rowRazorpay.style.display = razorpayOn ? "grid" : "none";
+      if (rowCoffee) rowCoffee.style.display = coffeeOn ? "grid" : "none";
+
+      const anyIntlOn = gumroadOn || paypalOn || razorpayOn || coffeeOn;
+      if (cardIntl) cardIntl.style.display = anyIntlOn ? "block" : "none";
+
+      if (cardCrypto) cardCrypto.style.display = cryptoOn ? "block" : "none";
+      if (cardCustom) cardCustom.style.display = customOn ? "block" : "none";
+
+      const anyGatewayOn = upiOn || bankOn || anyIntlOn || cryptoOn || customOn;
+      if (noneAlert) noneAlert.style.display = anyGatewayOn ? "none" : "block";
+    };
+
     // Payment Simulator display helper
     const updatePaymentSimulator = () => {
       const previewPayCount = container.querySelector("#preview-pay-count");
@@ -1144,29 +1232,38 @@ export default {
         `).join("") || `<span style="font-size: 11px; color: var(--accent-rose); font-style: italic;">No payment gateways enabled</span>`;
       }
 
-      const vpa = (upiIdInput?.value || "ravik0892@okaxis").trim();
-      const name = encodeURIComponent((upiNameInput?.value || "OmniTool Hub").trim());
-      const rawPrice = (priceLifetimeInr?.value || "2499").replace(/[^0-9.]/g, '');
-      const amount = rawPrice || "2499";
-      const upiUri = `upi://pay?pa=${vpa}&pn=${name}&am=${amount}&cu=INR&tn=OmniTool%20Lifetime%20Pass`;
+      const upiCard = container.querySelector("#adm-preview-upi-card");
+      const upiDisabledNotice = container.querySelector("#adm-preview-upi-disabled");
+      const isUpiActive = !!(gwToggleUpi && gwToggleUpi.checked);
 
-      if (previewVpaLabel) {
-        previewVpaLabel.innerText = vpa;
-      }
+      if (upiCard) upiCard.style.display = isUpiActive ? "block" : "none";
+      if (upiDisabledNotice) upiDisabledNotice.style.display = isUpiActive ? "none" : "block";
 
-      const isPerApp = upiModePerApp && upiModePerApp.checked;
-      if (previewModeDesc) {
-        if (isPerApp) {
-          previewModeDesc.innerText = "🎯 Separate UPI routing active per app";
-          previewModeDesc.style.color = "var(--accent-purple)";
-        } else {
-          previewModeDesc.innerText = "⚡ Single Universal UPI active across all apps";
-          previewModeDesc.style.color = "var(--accent-cyan)";
+      if (isUpiActive) {
+        const vpa = (upiIdInput?.value || "ravik0892@okaxis").trim();
+        const name = encodeURIComponent((upiNameInput?.value || "OmniTool Hub").trim());
+        const rawPrice = (priceLifetimeInr?.value || "2499").replace(/[^0-9.]/g, '');
+        const amount = rawPrice || "2499";
+        const upiUri = `upi://pay?pa=${vpa}&pn=${name}&am=${amount}&cu=INR&tn=OmniTool%20Lifetime%20Pass`;
+
+        if (previewVpaLabel) {
+          previewVpaLabel.innerText = vpa;
         }
-      }
 
-      if (qrCanvas && typeof appInstance.drawUpiQr === 'function') {
-        appInstance.drawUpiQr(upiUri, qrCanvas);
+        const isPerApp = upiModePerApp && upiModePerApp.checked;
+        if (previewModeDesc) {
+          if (isPerApp) {
+            previewModeDesc.innerText = "🎯 Separate UPI routing active per app";
+            previewModeDesc.style.color = "var(--accent-purple)";
+          } else {
+            previewModeDesc.innerText = "⚡ Single Universal UPI active across all apps";
+            previewModeDesc.style.color = "var(--accent-cyan)";
+          }
+        }
+
+        if (qrCanvas && typeof appInstance.drawUpiQr === 'function') {
+          appInstance.drawUpiQr(upiUri, qrCanvas);
+        }
       }
     };
 
@@ -1219,7 +1316,9 @@ export default {
         if (customGwFeatures) customGwFeatures.value = "✔ Lowest international conversion fees\n✔ Direct local bank debit\n✔ Multi-currency support (50+ currencies)";
       }
       if (gwToggleCustom) gwToggleCustom.checked = true;
+      syncPaymentCardsVisibility();
       updatePaymentSimulator();
+      saveSettings(true);
       appInstance.showToast(`Applied ${preset.toUpperCase()} template! Custom Gateway enabled.`, "success");
       if (typeof appInstance.playSynthSound === 'function') {
         appInstance.playSynthSound('click');
@@ -1234,12 +1333,21 @@ export default {
 
     // Top action bar buttons
     container.querySelector("#btn-adm-save-top")?.addEventListener("click", () => saveSettings());
-    container.querySelector("#btn-adm-test-checkout-preview")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (typeof appInstance.openCheckout === 'function') {
-        appInstance.openCheckout('lifetime');
+    const triggerTestCheckout = (e) => {
+      if (e) e.preventDefault();
+      try {
+        saveSettings(true);
+      } catch (err) {
+        console.warn("Pre-save before test checkout:", err);
       }
-    });
+      if (typeof appInstance?.openCheckout === 'function') {
+        appInstance.openCheckout('lifetime');
+      } else if (typeof window.app?.openCheckout === 'function') {
+        window.app.openCheckout('lifetime');
+      }
+    };
+    container.querySelector("#btn-adm-test-checkout")?.addEventListener("click", triggerTestCheckout);
+    container.querySelector("#btn-adm-test-checkout-preview")?.addEventListener("click", triggerTestCheckout);
 
     container.querySelector("#btn-adm-hard-refresh")?.addEventListener("click", async () => {
       if (confirm("Purge browser PWA service worker cache and reload latest code?")) {
@@ -1269,10 +1377,12 @@ export default {
       }
     });
 
-    // Payment fields reactive simulator updates
+    // Payment fields reactive visibility and simulator updates
     [gwToggleUpi, gwToggleBank, gwToggleGumroad, gwTogglePaypal, gwToggleRazorpay, gwToggleCrypto, gwToggleCoffee, gwToggleGuide, gwToggleCustom].forEach(toggle => {
       toggle?.addEventListener("change", () => {
+        syncPaymentCardsVisibility();
         updatePaymentSimulator();
+        saveSettings(true); // Persist immediately so live checkout tests stay 100% in sync
         if (typeof appInstance.playSynthSound === 'function') {
           appInstance.playSynthSound('click');
         }
@@ -1292,13 +1402,6 @@ export default {
           appInstance.playSynthSound('click');
         }
       });
-    });
-
-    btnAdmTestCheckout?.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (typeof appInstance.openCheckout === 'function') {
-        appInstance.openCheckout('lifetime');
-      }
     });
 
     // New configurations selectors
@@ -1665,6 +1768,7 @@ export default {
       toggleFormFields(adNetwork.value);
       updateSimulatorPreview();
       updatePaymentSimulator();
+      syncPaymentCardsVisibility();
       populateToolsVisibility();
       populateToolsTiers();
     };
@@ -1790,7 +1894,8 @@ export default {
     };
 
     // Save configurations
-    const saveSettings = () => {
+    const saveSettings = (silent = false) => {
+      const isSilent = silent === true;
       localStorage.setItem("omnitool_ad_global", adGlobal.checked ? "true" : "false");
       localStorage.setItem("omnitool_ad_network", adNetwork.value);
       localStorage.setItem("omnitool_sidebar_ad_network", sidebarAdNetwork.value);
@@ -1831,8 +1936,8 @@ export default {
           localStorage.setItem("omnitool_sponsor_overrides", overrides.join(","));
         }
       }
-      localStorage.setItem("omnitool_coffee_url", coffeeUrl.value.trim());
-      localStorage.setItem("omnitool_kofi_url", kofiUrl.value.trim());
+      if (coffeeUrl) localStorage.setItem("omnitool_coffee_url", coffeeUrl.value.trim());
+      if (kofiUrl) localStorage.setItem("omnitool_kofi_url", kofiUrl.value.trim());
       if (gumroadLifetime) localStorage.setItem("omnitool_gumroad_lifetime_url", gumroadLifetime.value.trim());
       if (gumroadMonthly) localStorage.setItem("omnitool_gumroad_monthly_url", gumroadMonthly.value.trim());
       if (paypalClientIdInput) localStorage.setItem("omnitool_paypal_client_id", paypalClientIdInput.value.trim());
@@ -1892,20 +1997,22 @@ export default {
       if (priceMonthlyInr) localStorage.setItem("omnitool_price_monthly_inr", priceMonthlyInr.value.trim());
 
       // Save new configurations
-      localStorage.setItem("omnitool_accent_preset", activePreset);
-      localStorage.setItem("omnitool_layout_density", appDensity.value);
-      localStorage.setItem("omnitool_default_view", appStartup.value);
-      localStorage.setItem("omnitool_clock_format", appClock.value);
-      localStorage.setItem("omnitool_audio_feedback", appAudio.checked ? "true" : "false");
+      if (activePreset) localStorage.setItem("omnitool_accent_preset", activePreset);
+      if (appDensity) localStorage.setItem("omnitool_layout_density", appDensity.value);
+      if (appStartup) localStorage.setItem("omnitool_default_view", appStartup.value);
+      if (appClock) localStorage.setItem("omnitool_clock_format", appClock.value);
+      if (appAudio) localStorage.setItem("omnitool_audio_feedback", appAudio.checked ? "true" : "false");
       
       if (adminPasscode && adminPasscode.value.trim()) {
         localStorage.setItem("omnitool_admin_passcode", adminPasscode.value.trim());
+        adminPasscode.value = "";
+        adminPasscode.placeholder = "Passcode updated successfully";
       }
 
       // Save Monetization Tiers
-      localStorage.setItem("omnitool_monetization_active", monetizationGlobal.checked ? "true" : "false");
-      localStorage.setItem("omnitool_user_tier", monetizationUserTier.value);
-      if (monetizationUserTier.value === "lifetime" || monetizationUserTier.value === "premium") {
+      if (monetizationGlobal) localStorage.setItem("omnitool_monetization_active", monetizationGlobal.checked ? "true" : "false");
+      if (monetizationUserTier) localStorage.setItem("omnitool_user_tier", monetizationUserTier.value);
+      if (monetizationUserTier && (monetizationUserTier.value === "lifetime" || monetizationUserTier.value === "premium")) {
         const payload = {
           tier: monetizationUserTier.value,
           source: "admin_simulator",
@@ -1948,10 +2055,13 @@ export default {
         appInstance.refreshDonationButtons();
       }
 
-      appInstance.showToast("✅ Settings & Payment Gateways saved! Changes are live across all tools.", "success");
-      if (typeof appInstance.playSynthSound === 'function') {
-        appInstance.playSynthSound('save');
+      if (!isSilent) {
+        appInstance.showToast("✅ Settings & Payment Gateways saved! Changes are live across all tools.", "success");
+        if (typeof appInstance.playSynthSound === 'function') {
+          appInstance.playSynthSound('save');
+        }
       }
+      syncPaymentCardsVisibility();
       updateSimulatorPreview();
       updatePaymentSimulator();
 
@@ -1967,8 +2077,8 @@ export default {
       }
     };
 
-    // Export global configurations to ad-config.json
-    const triggerAdConfigDownload = () => {
+    // Unified configuration exporter: packages all settings for ad-config.json and live site deployment
+    const buildExportConfig = () => {
       const hiddenTools = [];
       container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
         if (!cb.checked) {
@@ -1976,7 +2086,7 @@ export default {
         }
       });
 
-      const data = {
+      const configData = {
         "omnitool_hidden_tools": hiddenTools.join(","),
         "omnitool_ad_global": adGlobal.checked ? "true" : "false",
         "omnitool_ad_network": adNetwork.value,
@@ -1993,11 +2103,11 @@ export default {
         "omnitool_admob_unit_tool": admobTool.value.trim(),
         "omnitool_admob_unit_side": admobSide.value.trim(),
         "omnitool_custom_ad_html": customCode.value,
-        "omnitool_sponsor_brand": localStorage.getItem("omnitool_sponsor_brand") || "HexaCloud Host",
-        "omnitool_sponsor_icon": localStorage.getItem("omnitool_sponsor_icon") || "cloud",
-        "omnitool_sponsor_slogan": localStorage.getItem("omnitool_sponsor_slogan") || "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.",
-        "omnitool_sponsor_url": localStorage.getItem("omnitool_sponsor_url") || "#",
-        "omnitool_sponsor_btn_text": localStorage.getItem("omnitool_sponsor_btn_text") || "Claim Now",
+        "omnitool_sponsor_brand": localStorage.getItem("omnitool_sponsor_brand") || (sponsorBrand ? sponsorBrand.value.trim() : "HexaCloud Host"),
+        "omnitool_sponsor_icon": localStorage.getItem("omnitool_sponsor_icon") || (sponsorIcon ? sponsorIcon.value : "cloud"),
+        "omnitool_sponsor_slogan": localStorage.getItem("omnitool_sponsor_slogan") || (sponsorSlogan ? sponsorSlogan.value.trim() : "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit."),
+        "omnitool_sponsor_url": localStorage.getItem("omnitool_sponsor_url") || (sponsorUrl ? sponsorUrl.value.trim() : "#"),
+        "omnitool_sponsor_btn_text": localStorage.getItem("omnitool_sponsor_btn_text") || (sponsorBtnText ? sponsorBtnText.value.trim() : "Claim Now"),
         "omnitool_coffee_url": coffeeUrl.value.trim(),
         "omnitool_kofi_url": kofiUrl.value.trim(),
         "omnitool_gumroad_lifetime_url": gumroadLifetime ? gumroadLifetime.value.trim() : "https://gumroad.com",
@@ -2014,6 +2124,7 @@ export default {
         "omnitool_crypto_usdt": cryptoUsdtInput ? cryptoUsdtInput.value.trim() : "TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c",
         "omnitool_crypto_btc": cryptoBtcInput ? cryptoBtcInput.value.trim() : "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
         "omnitool_crypto_eth": cryptoEthInput ? cryptoEthInput.value.trim() : "0x71C53316E28b4923eFFe35E2D8527a2754664982",
+        "omnitool_custom_license_keys": customLicenseKeys ? customLicenseKeys.value.trim() : (localStorage.getItem("omnitool_custom_license_keys") || ""),
         "omnitool_gw_upi_enabled": gwToggleUpi ? (gwToggleUpi.checked ? "true" : "false") : "true",
         "omnitool_gw_bank_enabled": gwToggleBank ? (gwToggleBank.checked ? "true" : "false") : "false",
         "omnitool_gw_gumroad_enabled": gwToggleGumroad ? (gwToggleGumroad.checked ? "true" : "false") : "true",
@@ -2055,15 +2166,21 @@ export default {
       };
 
       const overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
-      data["omnitool_sponsor_overrides"] = overridesStr;
+      configData["omnitool_sponsor_overrides"] = overridesStr;
       overridesStr.split(",").filter(Boolean).forEach(toolId => {
-        data["omnitool_sponsor_brand_" + toolId] = localStorage.getItem("omnitool_sponsor_brand_" + toolId) || "";
-        data["omnitool_sponsor_icon_" + toolId] = localStorage.getItem("omnitool_sponsor_icon_" + toolId) || "cloud";
-        data["omnitool_sponsor_slogan_" + toolId] = localStorage.getItem("omnitool_sponsor_slogan_" + toolId) || "";
-        data["omnitool_sponsor_url_" + toolId] = localStorage.getItem("omnitool_sponsor_url_" + toolId) || "";
-        data["omnitool_sponsor_btn_text_" + toolId] = localStorage.getItem("omnitool_sponsor_btn_text_" + toolId) || "";
+        configData["omnitool_sponsor_brand_" + toolId] = localStorage.getItem("omnitool_sponsor_brand_" + toolId) || "";
+        configData["omnitool_sponsor_icon_" + toolId] = localStorage.getItem("omnitool_sponsor_icon_" + toolId) || "cloud";
+        configData["omnitool_sponsor_slogan_" + toolId] = localStorage.getItem("omnitool_sponsor_slogan_" + toolId) || "";
+        configData["omnitool_sponsor_url_" + toolId] = localStorage.getItem("omnitool_sponsor_url_" + toolId) || "";
+        configData["omnitool_sponsor_btn_text_" + toolId] = localStorage.getItem("omnitool_sponsor_btn_text_" + toolId) || "";
       });
 
+      return configData;
+    };
+
+    // Export global configurations to ad-config.json
+    const triggerAdConfigDownload = () => {
+      const data = buildExportConfig();
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -2074,6 +2191,94 @@ export default {
       appInstance.showToast("ad-config.json downloaded! Place this file in your website root folder to apply configurations globally.", "success");
       if (typeof appInstance.playSynthSound === 'function') {
         appInstance.playSynthSound('success');
+      }
+    };
+
+    // Deploy to Live Website handler
+    const deployToLive = async (triggerBtn) => {
+      saveSettings();
+
+      const origText = triggerBtn ? triggerBtn.innerHTML : "";
+      if (triggerBtn) {
+        triggerBtn.disabled = true;
+        triggerBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path></svg>
+          <span>Deploying to Live Site...</span>
+        `;
+      }
+
+      const statusBox = container.querySelector("#adm-deploy-status-box");
+      if (statusBox) {
+        statusBox.style.display = "block";
+        statusBox.style.background = "rgba(0, 242, 254, 0.08)";
+        statusBox.style.border = "1px solid rgba(0, 242, 254, 0.25)";
+        statusBox.style.color = "var(--text-main)";
+        statusBox.innerHTML = `⏳ Packaging configurations and contacting deployment engine...`;
+      }
+
+      appInstance.showToast("🚀 Packaging configurations and deploying to Live Website...", "info");
+
+      const configData = buildExportConfig();
+
+      const commitMsgInput = container.querySelector("#adm-deploy-commit-msg");
+      const commitMsg = commitMsgInput ? commitMsgInput.value.trim() : "chore(config): update live site settings via Admin Panel";
+      const hookInput = container.querySelector("#adm-deploy-hook-url");
+      const hookUrl = hookInput ? hookInput.value.trim() : (localStorage.getItem("omnitool_vercel_deploy_hook_url") || "");
+      if (hookUrl) localStorage.setItem("omnitool_vercel_deploy_hook_url", hookUrl);
+
+      try {
+        const res = await fetch("/api/deploy-live", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            config: configData,
+            commitMessage: commitMsg,
+            deployHookUrl: hookUrl,
+            pushToLive: true
+          })
+        });
+
+        if (res.ok) {
+          const result = await res.json();
+          if (result.success) {
+            appInstance.showToast(result.message || "🚀 Successfully published to live website!", "success");
+            if (typeof appInstance.playSynthSound === 'function') {
+              appInstance.playSynthSound('success');
+            }
+            if (statusBox) {
+              statusBox.style.background = "rgba(16, 185, 129, 0.1)";
+              statusBox.style.border = "1px solid rgba(16, 185, 129, 0.35)";
+              statusBox.style.color = "#10b981";
+              statusBox.innerHTML = `
+                <div style="font-weight: 700; margin-bottom: 4px;">✅ Live Deployment Succeeded</div>
+                <div style="color: var(--text-muted); font-size: 11px;">${result.gitPushed ? 'Changes committed and pushed to remote GitHub repository. Vercel deployment triggered!' : 'Saved to ad-config.json.'}</div>
+                ${result.gitOutput ? `<pre style="margin-top: 6px; padding: 6px; background: rgba(0,0,0,0.3); border-radius: 4px; overflow-x: auto; font-size: 10.5px;">${result.gitOutput}</pre>` : ''}
+              `;
+            }
+          } else {
+            throw new Error(result.error || "Deployment failed");
+          }
+        } else {
+          throw new Error(`Server returned HTTP ${res.status}`);
+        }
+      } catch (err) {
+        console.warn("[Deploy] Live API deployment notice:", err);
+        triggerAdConfigDownload();
+        appInstance.showToast("Saved to ad-config.json! Run scripts/push_to_github.bat or git push to deploy.", "info");
+        if (statusBox) {
+          statusBox.style.background = "rgba(245, 158, 11, 0.1)";
+          statusBox.style.border = "1px solid rgba(245, 158, 11, 0.35)";
+          statusBox.style.color = "#f59e0b";
+          statusBox.innerHTML = `
+            <div style="font-weight: 700; margin-bottom: 4px;">⚠️ Local File Exported</div>
+            <div style="color: var(--text-muted); font-size: 11px;">ad-config.json has been exported. To push to live, run <code>scripts\\push_to_github.bat</code> or run <code>git push origin main</code>.</div>
+          `;
+        }
+      } finally {
+        if (triggerBtn) {
+          triggerBtn.disabled = false;
+          triggerBtn.innerHTML = origText;
+        }
       }
     };
 
@@ -2094,7 +2299,8 @@ export default {
           let count = 0;
           for (const [key, value] of Object.entries(data)) {
             if (key.startsWith("omnitool_")) {
-              localStorage.setItem(key, value);
+              const valToStore = (typeof value === "object" && value !== null) ? JSON.stringify(value) : String(value);
+              localStorage.setItem(key, valToStore);
               count++;
             }
           }
@@ -2165,26 +2371,18 @@ export default {
 
     container.querySelector("#ad-settings-save")?.addEventListener("click", saveSettings);
     container.querySelector("#btn-adm-save-top")?.addEventListener("click", saveSettings);
+    container.querySelector("#btn-adm-publish-live")?.addEventListener("click", (e) => deployToLive(e.currentTarget));
+    container.querySelector("#btn-adm-deploy-sync")?.addEventListener("click", (e) => deployToLive(e.currentTarget));
+    container.querySelector("#app-backup-export")?.addEventListener("click", () => {
+      saveSettings();
+      triggerAdConfigDownload();
+    });
     container.querySelector("#btn-adm-lock-session")?.addEventListener("click", () => {
       sessionStorage.removeItem("omnitool_admin_authenticated");
       sessionStorage.removeItem("omnitool_admin_token");
       sessionStorage.removeItem("omnitool_stealth_admin_unlocked");
       appInstance.showToast("🔒 Admin session locked. Returned to Dashboard.", "info");
       appInstance.backToDashboard();
-    });
-    container.querySelector("#btn-adm-hard-refresh")?.addEventListener("click", () => {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          for (let reg of registrations) reg.unregister();
-        });
-      }
-      if ('caches' in window) {
-        caches.keys().then(names => Promise.all(names.map(name => caches.delete(name)))).then(() => {
-          location.reload();
-        });
-      } else {
-        location.reload();
-      }
     });
     
     container.querySelector("#ad-settings-reset")?.addEventListener("click", () => {
@@ -2255,6 +2453,9 @@ export default {
     });
 
     container.querySelector("#settings-guide-load-sample")?.addEventListener("click", () => {
+      const aestheticsTabBtn = container.querySelector(".settings-tab-btn[data-tab='tab-aesthetics']");
+      if (aestheticsTabBtn) aestheticsTabBtn.click();
+
       if (activeExampleIndex === 0) {
         const swatch = container.querySelector(".color-swatch-item[data-preset='vaporwave']");
         if (swatch) {
