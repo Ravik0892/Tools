@@ -18,9 +18,49 @@ const types = {
   ".webmanifest": "application/manifest+json"
 };
 
-createServer((req, res) => {
+createServer(async (req, res) => {
   const url = new URL(req.url || "/", `http://${req.headers.host}`);
   let pathname = decodeURIComponent(url.pathname);
+
+  // Dispatch /api/* to serverless functions
+  if (pathname.startsWith("/api/")) {
+    const endpoint = pathname.replace(/^\/api\//, "").replace(/\.js$/, "");
+    const apiPath = join(root, "api", `${endpoint}.js`);
+    if (existsSync(apiPath)) {
+      let bodyData = "";
+      req.on("data", chunk => { bodyData += chunk; });
+      req.on("end", async () => {
+        try {
+          req.body = bodyData ? JSON.parse(bodyData) : {};
+        } catch {
+          req.body = bodyData;
+        }
+
+        // Response helpers for Vercel Serverless Function compatibility
+        res.status = function(code) { this.statusCode = code; return this; };
+        res.json = function(data) {
+          this.setHeader("Content-Type", "application/json; charset=utf-8");
+          this.end(JSON.stringify(data));
+        };
+
+        try {
+          const mod = await import(`file://${apiPath.replace(/\\/g, "/")}?t=${Date.now()}`);
+          if (typeof mod.default === "function") {
+            await mod.default(req, res);
+          } else {
+            res.status(500).json({ error: "API handler is not a function" });
+          }
+        } catch (err) {
+          res.status(500).json({ error: err.message });
+        }
+      });
+      return;
+    } else {
+      res.writeHead(404, { "Content-Type": "application/json" }).end(JSON.stringify({ error: "API endpoint not found" }));
+      return;
+    }
+  }
+
   if (pathname === "/") pathname = "/index.html";
 
   const resolved = normalize(join(root, pathname));

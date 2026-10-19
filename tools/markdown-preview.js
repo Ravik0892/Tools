@@ -28,6 +28,9 @@ export default {
         <div class="tool-panel">
           <div class="panel-header">
             <h3>Live Visual Preview</h3>
+            <button class="tool-btn accent-emerald" id="md-copy-btn">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy Output
+            </button>
           </div>
           <div class="markdown-preview" id="md-preview-output"></div>
         </div>
@@ -134,6 +137,23 @@ export default {
     container.querySelector("#md-clear")?.addEventListener("click", () => {
       mdInput.value = "";
       renderMarkdown();
+    });
+
+    const copyBtn = container.querySelector("#md-copy-btn");
+    copyBtn?.addEventListener("click", () => {
+      const htmlToCopy = mdOutput.innerHTML || "";
+      if (!htmlToCopy.trim()) {
+        appInstance.showToast("Nothing to copy yet.", "warning");
+        return;
+      }
+      navigator.clipboard.writeText(htmlToCopy).then(() => {
+        const originalHtml = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+        setTimeout(() => { copyBtn.innerHTML = originalHtml; }, 2000);
+        appInstance.showToast("HTML preview markup copied to clipboard!", "success");
+      }).catch(() => {
+        appInstance.showToast("Failed to copy to clipboard", "error");
+      });
     });
     
     const insertMarkdownHelper = (prefix, suffix = "") => {

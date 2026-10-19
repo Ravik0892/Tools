@@ -8,12 +8,12 @@ export default {
   defaultTemplates: {
     glowButton: {
       html: `<!-- Cyber Glow Button -->\n<div class="container">\n  <button class="cyber-btn">INJECT SYSTEM OVERRIDE</button>\n  <div id="counter-log">Access Logs: 0 inputs</div>\n</div>`,
-      css: `body {\n  background: #0d0e12;\n  color: #a9b2c3;\n  font-family: 'Outfit', sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 90vh;\n  margin: 0;\n}\n\n.container {\n  text-align: center;\n}\n\n.cyber-btn {\n  background: transparent;\n  color: #00f2fe;\n  border: 2px solid #00f2fe;\n  padding: 16px 32px;\n  font-weight: 700;\n  letter-spacing: 2px;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);\n  position: relative;\n  overflow: hidden;\n}\n\n.cyber-btn:hover {\n  background: #00f2fe;\n  color: #0d0e12;\n  box-shadow: 0 0 30px #00f2fe;\n  text-shadow: none;\n}\n\n#counter-log {\n  margin-top: 20px;\n  font-family: monospace;\n  font-size: 14px;\n  color: #9d4edd;\n}`,
+      css: `html, body {\n  height: 100%;\n  margin: 0;\n}\n\nbody {\n  background: #0d0e12;\n  color: #a9b2c3;\n  font-family: 'Outfit', sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.container {\n  text-align: center;\n}\n\n.cyber-btn {\n  background: transparent;\n  color: #00f2fe;\n  border: 2px solid #00f2fe;\n  padding: 16px 32px;\n  font-weight: 700;\n  letter-spacing: 2px;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);\n  position: relative;\n  overflow: hidden;\n}\n\n.cyber-btn:hover {\n  background: #00f2fe;\n  color: #0d0e12;\n  box-shadow: 0 0 30px #00f2fe;\n  text-shadow: none;\n}\n\n#counter-log {\n  margin-top: 20px;\n  font-family: monospace;\n  font-size: 14px;\n  color: #9d4edd;\n}`,
       js: `// Interactive button logic\nlet clicks = 0;\nconst btn = document.querySelector('.cyber-btn');\nconst logger = document.querySelector('#counter-log');\n\nbtn.addEventListener('click', () => {\n  clicks++;\n  logger.innerText = \`Access Logs: \${clicks} override request(s) sent\`;\n  console.log(\`[System Override] Command trigger sent! Total count: \${clicks}\`);\n  \n  if (clicks >= 5) {\n    console.warn("[ALERT] High frequency overrides detected. Restricting throttle!");\n  }\n});`
     },
     digitalClock: {
       html: `<!-- Glassmorphism Clock Widget -->\n<div class="clock-wrapper">\n  <div class="glass-clock">\n    <div class="clock-label">NEON ENGINE CLOCK</div>\n    <div id="clock-time">00:00:00</div>\n    <div id="clock-date">SYSTEM DATED</div>\n  </div>\n</div>`,
-      css: `body {\n  background: radial-gradient(circle, #1a1b26 0%, #0d0e12 100%);\n  color: #fff;\n  font-family: 'Outfit', sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 90vh;\n  margin: 0;\n}\n\n.clock-wrapper {\n  padding: 2px;\n  background: linear-gradient(135deg, #00f2fe, #9d4edd);\n  border-radius: 20px;\n  box-shadow: 0 10px 40px rgba(0,0,0,0.5);\n}\n\n.glass-clock {\n  background: rgba(13, 14, 18, 0.85);\n  backdrop-filter: blur(12px);\n  border-radius: 18px;\n  padding: 30px 40px;\n  text-align: center;\n}\n\n.clock-label {\n  font-size: 11px;\n  letter-spacing: 3px;\n  color: #00f2fe;\n  margin-bottom: 12px;\n  font-weight: 700;\n}\n\n#clock-time {\n  font-size: 44px;\n  font-family: monospace;\n  font-weight: bold;\n  color: #9d4edd;\n  text-shadow: 0 0 15px rgba(157, 78, 221, 0.6);\n  letter-spacing: 2px;\n}\n\n#clock-date {\n  margin-top: 12px;\n  font-size: 13px;\n  color: #565f89;\n  font-weight: 500;\n}`,
+      css: `html, body {\n  height: 100%;\n  margin: 0;\n}\n\nbody {\n  background: radial-gradient(circle, #1a1b26 0%, #0d0e12 100%);\n  color: #fff;\n  font-family: 'Outfit', sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.clock-wrapper {\n  padding: 2px;\n  background: linear-gradient(135deg, #00f2fe, #9d4edd);\n  border-radius: 20px;\n  box-shadow: 0 10px 40px rgba(0,0,0,0.5);\n}\n\n.glass-clock {\n  background: rgba(13, 14, 18, 0.85);\n  backdrop-filter: blur(12px);\n  border-radius: 18px;\n  padding: 30px 40px;\n  text-align: center;\n}\n\n.clock-label {\n  font-size: 11px;\n  letter-spacing: 3px;\n  color: #00f2fe;\n  margin-bottom: 12px;\n  font-weight: 700;\n}\n\n#clock-time {\n  font-size: 44px;\n  font-family: monospace;\n  font-weight: bold;\n  color: #9d4edd;\n  text-shadow: 0 0 15px rgba(157, 78, 221, 0.6);\n  letter-spacing: 2px;\n}\n\n#clock-date {\n  margin-top: 12px;\n  font-size: 13px;\n  color: #565f89;\n  font-weight: 500;\n}`,
       js: `// Run clock update routine\nconsole.log("[Daemon] Launching background clock thread...");\n\nfunction updateClock() {\n  const now = new Date();\n  const timeStr = now.toTimeString().split(' ')[0];\n  const dateStr = now.toDateString().toUpperCase();\n  \n  const timeEl = document.querySelector('#clock-time');\n  const dateEl = document.querySelector('#clock-date');\n  \n  if (timeEl) timeEl.innerText = timeStr;\n  if (dateEl) dateEl.innerText = dateStr;\n}\n\n// Run initially and then on interval\nupdateClock();\nsetInterval(updateClock, 1000);\n\nconsole.log("[Daemon] Clock initialized successfully.");`
     }
   },
@@ -121,8 +121,8 @@ export default {
           </div>
 
           <!-- Preview Sandbox Frame Container -->
-          <div id="play-sandbox-container" style="flex: 1.2; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; background: #fff; min-height: 250px; position: relative; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin: 0 auto; width: 100%;">
-            <iframe id="play-sandbox" style="width: 100%; height: 100%; border: none; background: #fff;" sandbox="allow-scripts"></iframe>
+          <div id="play-sandbox-container" style="flex: 1.2; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; background: #0c0e15; min-height: 270px; position: relative; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin: 0 auto; width: 100%;">
+            <iframe id="play-sandbox" style="width: 100%; height: 100%; border: none; background: transparent;" sandbox="allow-scripts"></iframe>
           </div>
 
           <!-- Sandbox System Console Output -->
@@ -562,6 +562,13 @@ export default {
           <meta charset="utf-8">
           ${styleTags}
           <style>
+            html, body {
+              margin: 0;
+              padding: 0;
+              min-height: 100%;
+              background-color: #0d0e12;
+              color: #a9b2c3;
+            }
             ${cssCode}
           </style>
           ${consoleInterceptor}

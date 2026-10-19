@@ -313,7 +313,8 @@ export default {
     let lastEpochResultText = "";
 
     const convertTimestamp = () => {
-      const val = epInput.value.trim();
+      if (!epInput) return;
+      const val = String(epInput.value ?? "").trim();
       if (!val) return;
       let ts = parseInt(val, 10);
       if (isNaN(ts)) {

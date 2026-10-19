@@ -297,6 +297,12 @@ const QRCode = (() => {
   };
 })();
 
+if (typeof window !== "undefined") {
+  window.OmniQRCode = QRCode;
+}
+
+export { QRCode };
+
 // --- EXPORT TOOL INTERFACE ---
 export default {
   id: "qr-generator",

@@ -1020,7 +1020,7 @@ const template = (tool, allTools) => {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=1.2.2">
+  <link rel="stylesheet" href="../style.css?v=1.3.4">
 
   <!-- JSON-LD Structured Data for Rich Search Snippets -->
   <script type="application/ld+json">
@@ -1117,10 +1117,14 @@ const template = (tool, allTools) => {
       line-height: 1.65;
       padding: 0 0 60px 0;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
     }
 
     /* Top Navigation Bar */
     .top-nav {
+      width: 100%;
       background: rgba(7, 9, 14, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -1132,12 +1136,13 @@ const template = (tool, allTools) => {
     }
 
     .top-nav-inner {
-      max-width: 900px;
+      max-width: 1240px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 16px;
+      width: 100%;
     }
 
     .nav-brand {
@@ -1148,6 +1153,7 @@ const template = (tool, allTools) => {
       color: var(--text-main);
       font-weight: 800;
       font-size: 16px;
+      flex-shrink: 0;
     }
 
     .nav-brand svg {
@@ -1160,6 +1166,7 @@ const template = (tool, allTools) => {
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     .nav-link-btn {
@@ -1171,6 +1178,10 @@ const template = (tool, allTools) => {
       border-radius: 6px;
       border: 1px solid var(--border-color);
       transition: all 0.2s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .nav-link-btn:hover {
@@ -1188,6 +1199,10 @@ const template = (tool, allTools) => {
       padding: 7px 16px;
       border-radius: 6px;
       transition: all 0.2s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .nav-launch-btn:hover {
@@ -1197,9 +1212,11 @@ const template = (tool, allTools) => {
 
     /* Breadcrumbs */
     .breadcrumbs-wrap {
-      max-width: 860px;
-      margin: 24px auto 0 auto;
+      width: 100%;
+      max-width: 1240px;
+      margin: 20px auto 0 auto;
       padding: 0 20px;
+      box-sizing: border-box;
     }
 
     .breadcrumbs {
@@ -1228,7 +1245,7 @@ const template = (tool, allTools) => {
 
     /* Container */
     .container {
-      max-width: 1060px;
+      max-width: 1240px;
       margin: 20px auto 0 auto;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -1562,6 +1579,49 @@ const template = (tool, allTools) => {
     .live-guide-tool-viewport {
       padding: 24px 20px;
       min-height: 260px;
+    }
+
+    /* Embedded Live Playground Full-Fidelity Responsive Overrides */
+    .live-guide-tool-viewport .tool-content-layout.split-view {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px !important;
+      position: static !important;
+      width: 100% !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      min-height: unset !important;
+      box-shadow: none !important;
+      border-radius: 12px !important;
+      overflow: visible !important;
+      padding: 20px !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type::after {
+      display: none !important;
+    }
+
+    .live-guide-tool-viewport .adjust-settings-fab,
+    .live-guide-tool-viewport .split-view-backdrop,
+    .live-guide-tool-viewport .drawer-close-btn {
+      display: none !important;
+    }
+
+    @media (min-width: 960px) {
+      .live-guide-tool-viewport .tool-content-layout.split-view {
+        display: grid !important;
+        grid-template-columns: 1fr 1.05fr !important;
+        gap: 20px !important;
+        align-items: start !important;
+      }
     }
 
     .guide-tool-loading {

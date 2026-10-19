@@ -1,6 +1,9 @@
 # OmniTool Hub v2 (Masterpiece Edition) - Complete Project Manual
 
-OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **27 powerful developer and utility tools** organized in consolidated suites. By executing calculations directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
+OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **45 consolidated powerhouse hubs (merging 62+ specialized developer, designer, media, text, and math tools)** organized in smart tabbed suites and standalone engines. By executing all logic directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
+
+> 📖 **Master Directory**: For an exhaustive, in-depth technical manual of all 45 core powerhouse hubs, 35+ sub-tool tabs, operational inputs/outputs, and backward-compatible route aliases, see [TOOLS_CATALOG.md](file:///f:/Tools%20website/TOOLS_CATALOG.md).
+> 🚀 **Roadmap**: For competitor audit comparison and planned feature rollouts, see [EXPANSION_PLAN.md](file:///f:/Tools%20website/EXPANSION_PLAN.md).
 
 ---
 
@@ -76,7 +79,15 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 *   **Description**: Write frontend code with live sandboxed preview rendering and a simulated console debugger.
 *   **Guide Page**: [code-playground.html](file:///f:/Tools%20website/guides/code-playground.html)
 
-#### 9. Settings & Ad Control Panel (`admin-settings`)
+#### 9. Robots.txt Visual Builder (`robots-generator`)
+*   **Description**: Visual crawl directive builder with AI web scraper protection (GPTBot, CCBot), crawl-delay, sitemaps, and live syntax validation.
+*   **Sub-tabs**: Visual Rule Editor, AI Bot Shield, Raw Preview, .txt Download.
+
+#### 10. QR Code & Barcode Scanner (`qr-scanner`)
+*   **Description**: High-speed offline QR and 1D barcode scanner supporting live webcam/camera streams, image drag-and-drop, and clipboard paste.
+*   **Sub-tabs**: Live Camera Scanner, File & Clipboard Upload, Smart Action Parser.
+
+#### 11. Settings & Ad Control Panel (`admin-settings`)
 *   **Description**: Toggles banner ad placements, saves global options, and handles application cache purging (available on local hosts).
 
 ---
@@ -121,6 +132,90 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 *   **Description**: Analyzes writing structure for syllables, readability grades (Flesch score), reading time, and keyword densities.
 *   **Guide Page**: [text-analyzer.html](file:///f:/Tools%20website/guides/text-analyzer.html)
 
+#### 18. Smart Lorem Ipsum Generator (`lorem-generator`)
+*   **Description**: Flexible dummy text generator featuring classical Latin, Cyberpunk Tech, and Corporate B2B vocabularies in paragraphs, lists, HTML, Markdown, or JSON.
+*   **Sub-tabs**: Dummy Text Generator, Scope & Units, HTML/Markdown/JSON Formats.
+
+#### 19. Images to PDF Compiler (`images-to-pdf`)
+*   **Description**: Compile multiple JPG, PNG, and WebP images into a single clean PDF with visual thumbnail drag-reorder, rotation, page sizing (A4/Letter/Fit), and margins.
+*   **Sub-tabs**: Image Board, Page Layout & Margins, PDF-Lib Assembly.
+
+#### 20. Sign PDF Document (`sign-pdf`) *(Phase 3)*
+*   **Description**: Draw hand-written signatures on touch/mouse pad, generate typed cursive signatures, or upload stamp seals, then position and embed them directly onto any PDF page.
+*   **Sub-tabs**: Draw Pad, Cursive Type, PNG Seal Upload, Interactive Placement.
+
+#### 21. PDF Security & Password Suite (`pdf-security`) *(Phase 3)*
+*   **Description**: Protect PDF documents with AES user passwords and granular printing/copy restrictions, or remove passwords and decrypt documents client-side.
+*   **Sub-tabs**: Protect PDF (AES Encryption), Unlock & Decrypt PDF.
+
+#### 22. PDF Watermark & Page Numbers (`pdf-watermark`) *(Phase 3)*
+*   **Description**: Stamp semi-transparent angled or horizontal text watermarks across pages, and add dynamic page numbers (Page X of Y) with position, margin, and cover-page skip controls.
+*   **Sub-tabs**: Text Watermark, Dynamic Page Numbering, Scope & Opacity.
+
+#### 23. Visual PDF Page Organizer (`pdf-organizer`) *(Phase 3)*
+*   **Description**: Visual thumbnail grid to reorder pages with drag-and-drop or order buttons, rotate pages 90° clockwise, and delete unwanted pages before export.
+*   **Sub-tabs**: Visual Page Grid, Reorder, 90° Rotate, Page Prune & Recompile.
+
+#### 24. Crop PDF Margins & Trim Box (`crop-pdf`) *(Phase 3)*
+*   **Description**: Trim excess white borders or crop documents to custom dimensions with interactive canvas bounding box, millimeter inputs, and all/even/odd page scopes.
+*   **Sub-tabs**: Interactive Canvas Box, Margin Coordinates, Scope Engine.
+
+#### 25. PDF Form Filler & AcroForms (`pdf-forms`) *(Phase 3)*
+*   **Description**: Ingest fillable PDFs, inspect interactive AcroForm fields (text fields, checkboxes, dropdowns, radio groups), fill values in UI, and optionally flatten fields.
+*   **Sub-tabs**: AcroForm Inspector, Field Value Editor, Form Flatten & Export.
+
+#### 26. PDF Redact & Privacy Sanitizer (`redact-pdf`) *(Phase 3)*
+*   **Description**: Permanently sanitize PDF documents by burning opaque blackout or whiteout redaction rectangles directly into document coordinate streams.
+*   **Sub-tabs**: Coordinate Redaction Overlay, Blackout/Whiteout Boxes, Sanitized Export.
+
+#### 27. Excel to PDF & PDF to Excel (`excel-pdf`) *(Phase 4)*
+*   **Description**: Convert multi-sheet workbooks (XLSX, XLS, CSV) into presentation-ready PDF tables, or parse PDF table coordinates into clean Excel spreadsheets.
+*   **Sub-tabs**: Excel to PDF (Zebra/Grid Themes), PDF to Excel Table Parser.
+
+#### 28. Word to PDF & PDF to Word (`word-pdf`) *(Phase 4)*
+*   **Description**: Convert Word DOCX files into print-styled PDFs with preserved tables and headings, or extract text into editable Microsoft Word (.docx/.doc) files.
+*   **Sub-tabs**: DOCX to PDF, PDF to Native Word Export.
+
+#### 29. HTML to PDF Webpage Studio (`html-to-pdf`) *(Phase 4)*
+*   **Description**: Convert custom HTML/CSS code or imported webpages into ultra-sharp PDFs with live sandbox editing, commercial invoice presets, and page-break rules.
+*   **Sub-tabs**: Live Code Editor, Template Presets, 3x Retina PDF Compiler.
+
+#### 30. PDF to Markdown Converter (`pdf-to-markdown`) *(Phase 4)*
+*   **Description**: Convert PDF documents into GitHub Flavored Markdown (GFM) with auto-heading detection, bullet lists, pipe tables, and live side-by-side preview.
+*   **Sub-tabs**: Markdown Source Editor, Live GFM Preview, .md Download.
+
+#### 31. AI PDF Summarizer & Translator (`pdf-ai`) *(Phase 4)*
+*   **Description**: Extract executive bullet summaries, generate action items and deadlines, chat with documents in Q&A mode, or translate into 15+ languages via Gemini & offline NLP.
+*   **Sub-tabs**: Executive Summary, Action Items, 15+ Language Translation, Document Q&A.
+
+#### 32. Camera Scan to PDF (`scan-to-pdf`) *(Phase 4)*
+*   **Description**: Capture physical paper documents using your camera or webcam with real-time B&W high-contrast document filters, multi-page tray, and PDF-Lib assembly.
+*   **Sub-tabs**: Camera Viewfinder, Contrast Document Filter, Multi-Page Queue.
+
+#### 33. PowerPoint to PDF & PDF to PPTX (`pptx-pdf`) *(Phase 5)*
+*   **Description**: Convert OpenXML PowerPoint presentations into landscape PDFs or reverse-convert PDF pages into native editable Microsoft PowerPoint slides via PptxGenJS.
+*   **Sub-tabs**: PowerPoint to PDF, PDF to PowerPoint (.pptx).
+
+#### 34. Compare PDF Documents (`compare-pdf`) *(Phase 5)*
+*   **Description**: Compare two revisions of a PDF side-by-side with synchronized scrolling, pixel difference heatmap overlay, wipe slider, or text clause diffing.
+*   **Sub-tabs**: Visual Diff (Side-by-Side, Heatmap, Wipe Slider), Text & Clause Diff.
+
+#### 35. Annotate & Draw on PDF (`pdf-annotate`) *(Phase 5)*
+*   **Description**: Markup and illustrate PDF documents directly with freehand pen, highlighter, custom typography stamps, boxes, and arrows with vector burning.
+*   **Sub-tabs**: Freehand Pen, Highlighter, Text Stamp, Rectangles, Arrow Pointers, Vector Burn.
+
+#### 36. Universal Audio Transcoder (`audio-converter`) *(Phase 5)*
+*   **Description**: Convert sound files between MP3, WAV, and OGG formats with customizable bitrates (128k-320k), stereo/mono downmix, and 200% volume amplification.
+*   **Sub-tabs**: MP3 Transcoder (Lamejs), Studio WAV (PCM), Volume Gain Modulation.
+
+#### 37. PDF Repair & Stream Recovery (`repair-pdf`) *(Phase 5)*
+*   **Description**: Inspect damaged PDF files, strip shifted header offsets, append missing EOF markers, reconstruct broken xref tables, and salvage readable pages.
+*   **Sub-tabs**: Binary Diagnostics Console, Header Realignment, Xref Rebuild, Permissive Stream Salvage.
+
+#### 38. PDF to PDF/A Archival Converter (`pdf-to-pdfa`) *(Phase 5)*
+*   **Description**: Convert documents to ISO 19005 standards (PDF/A-1b, PDF/A-2b, PDF/A-3b) for long-term legal preservation with sRGB OutputIntents and XMP metadata.
+*   **Sub-tabs**: ISO Profile Selector, sRGB Color Intent, XMP Conformance Packet.
+
 ---
 
 ### 🎨 Design & Styling Tools
@@ -144,6 +239,11 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 *   **Description**: Take webcam snapshots, overlay styled text layers, apply filters, and download or copy images directly.
 *   **Guide Page**: [graphics-studio.html](file:///f:/Tools%20website/guides/graphics-studio.html)
 
+#### 20b. Browser Screen & Window Screenshot Studio (`screenshot-capture`)
+*   **Description**: Capture full desktop, windows, or tabs with 3s-10s countdown delay, wrap in macOS/Windows 11 glass frames, pixelate confidential passwords, add step badges, and copy to clipboard in 1 click.
+*   **Guide Page**: [graphics-studio.html](file:///f:/Tools%20website/guides/graphics-studio.html)
+*   **Hash Routes**: `#tool/screenshot-capture`, `#tool/browser-capture`, `#tool/screenshot`
+
 #### 21. Image Optimizer & Converter (`image-converter`)
 *   **Description**: Adjust dimensions, manage quality ratios, and convert image formats (WebP, PNG, JPEG) client-side.
 *   **Guide Page**: [image-converter.html](file:///f:/Tools%20website/guides/image-converter.html)
@@ -151,6 +251,14 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 #### 22. SVG Animation Studio (`svg-animator`)
 *   **Description**: Import SVG vectors, visualize paths, apply motion keyframe presets (self-drawing, neon pulse, spin), and export animated SVGs.
 *   **Guide Page**: [svg-animator.html](file:///f:/Tools%20website/guides/svg-animator.html)
+
+#### 23. Image Color Palette Extractor (`color-extractor`)
+*   **Description**: Extract dominant color palettes, test WCAG contrast, and inspect pixels with a zoom eyedropper loupe.
+*   **Sub-tabs**: Dominant Palette, Zoom Eyedropper, Contrast Checker, CSS/Tailwind Exports.
+
+#### 24. Favicon & App Icon Suite (`favicon-generator`)
+*   **Description**: Generate complete multi-resolution .ico (16/32), iOS Apple Touch, Android PWA icons, and HTML meta tags.
+*   **Sub-tabs**: Icon Generator, Tab & Device Previews, ZIP Archive Download.
 
 ---
 
@@ -182,6 +290,43 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 #### 27. Unit Converter (`unit-converter`)
 *   **Description**: Convert metrics, weights, temperature indexes, and digital bytes storage dimensions.
 *   **Guide Page**: [unit-converter.html](file:///f:/Tools%20website/guides/unit-converter.html)
+
+---
+
+## 🔐 Admin Control Panel & Cryptographic Security
+
+OmniTool Hub incorporates an enterprise-grade security architecture:
+- **Serverless API Authentication**: Admin panel protected by IP rate limiting, SHA-256 password hashing, and signed session tokens.
+- **Cryptographic License Verification**: License tokens are signed with HMAC-SHA256 master secrets that reject forged or tampered `localStorage` entries.
+- **Automated Razorpay Checkout**: Real-time payment verification with HMAC-SHA256 signature validation.
+- **Gumroad License Verification**: Real-time license verification against Gumroad's official API (`/api/verify-license`).
+
+*   **Local Admin Access URL**: [http://127.0.0.1:8000/#admin](http://127.0.0.1:8000/#admin) (works directly on local development server)
+*   **Hostinger / Live Site Stealth Admin Access**:
+    *   **Method 1 (Secret URL)**: `https://yourdomain.com/#admin?key=omni2026` (or `#omni-admin`)
+    *   **Method 2 (Keyboard Shortcut)**: Press `Ctrl + Shift + Alt + A` anywhere on the site.
+    *   **Method 3 (Stealth Click)**: Click the footer copyright / version text 5 times quickly.
+    *   *Note: For all regular public visitors, the Admin Panel is 100% invisible and inaccessible.*
+*   **Default Master Passcode**: `OmniAdmin@2026#` (Protected by brute-force lockout after 5 failed attempts)
+*   **Cryptographic License Key Generator**: Generate signed keys (`OMNI-PRO-...` / `OMNI-MON-...`) inside `#admin` &rarr; Monetization Tiers.
+
+### Available Configurations in Admin Panel:
+1.  **Payment Gateways & Payee Information**:
+    *   **Automated Razorpay Integration**: Direct in-app checkout with automated instant verification for cards, NetBanking, and UPI apps.
+    *   **UPI ID (VPA)**: Set your payee UPI address (default: `ravik0892@okaxis`).
+    *   **Direct Bank Transfer**: Configure your Bank Name, Beneficiary Name, Account Number, and IFSC code for direct IMPS/NEFT transfers.
+    *   **Gumroad / PayPal / Ko-fi**: Link your checkout and donation pages.
+    *   **Crypto Wallets**: Set deposit addresses for USDT (TRC-20), Bitcoin (BTC), and Ethereum (ETH).
+2.  **Monetization & Advertisements**:
+    *   Toggle global ads on/off.
+    *   Configure Google AdSense Client ID & Slot IDs or AdMob Smart Banners.
+    *   Set custom Sponsor brand names, slogans, and affiliate links with per-tool overrides.
+3.  **Tool Visibility & Monetization Tiers (On / Off Control)**:
+    *   **1-Click On / Off Visibility**: Under `👁️ Tool Visibility`, toggle any individual tool (including all new Phase 1 additions) on or off to hide/show from the main dashboard, command palette, and sidebar menus.
+    *   **Tier Customization**: Under `🔒 Monetization Tiers`, set any tool to Free, Ad-Locked (watch video to unlock), or Pro Premium.
+4.  **Security & System**:
+    *   Generate authentic signed license keys for manual customer orders.
+    *   Export configurations to [ad-config.json](file:///f:/Tools%20website/ad-config.json) safely without sensitive secret exposure.
 
 ---
 
@@ -219,3 +364,9 @@ Open **[index.html](file:///f:/Tools%20website/index.html)** and paste ad units 
 1. Create a free account on [Netlify](https://www.netlify.com/) or [Vercel](https://vercel.com/).
 2. Drag and drop the `f:\Tools website` directory directly into the Netlify dashboard upload block, or link your GitHub repository.
 3. The platform will automatically deploy your static files and provide a secure, HTTPS subdomain instantly.
+
+---
+
+## 🗺️ Expansion & Feature Parity Plan
+For the complete 65-tool competitive gap analysis against [omnitools-hub.vercel.app](https://omnitools-hub.vercel.app/) and our 4-phase technical implementation roadmap for adding all 34 missing tools, see [EXPANSION_PLAN.md](file:///f:/Tools%20website/EXPANSION_PLAN.md).
+

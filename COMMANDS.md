@@ -6,7 +6,19 @@ This file lists the commands and batch scripts available to run, build, and main
 
 ## 1. Local Development Servers
 
-### A. Node.js Local Server (Recommended)
+> [!IMPORTANT]
+> **Why is a local server required?**
+> Modern web browsers (Google Chrome, Microsoft Edge, Brave, etc.) enforce strict CORS security policies. Opening `index.html` directly via `file:///` causes the browser to block JavaScript ES Module imports (`import()`), Web Workers, and PWA Service Workers with the error:
+> *"Failed to resolve module specifier... The base URL is about:blank because import() is called from a CORS-cross-origin script."*
+> Always run via a local server (or our 1-click launcher) so all 26+ offline tools load instantly.
+
+### A. 1-Click Launcher for Windows (Fastest)
+Simply double-click:
+*   [START_SERVER.bat](file:///f:/Tools%20website/START_SERVER.bat) in the project root directory.
+
+It will automatically check for Node.js (or Python), launch the server on port `8000`, and open [http://127.0.0.1:8000](http://127.0.0.1:8000) directly in your browser.
+
+### B. Node.js Local Server (Recommended via CLI)
 This runs the built-in lightweight local static server on port `8000`:
 ```bash
 # Install dependencies (if needed)
@@ -17,14 +29,16 @@ npm run dev
 ```
 Once started, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
-### B. Python Static Server (Alternative)
-If you don't have Node.js installed, you can spin up a static server instantly using Python on port `8083`:
+### C. Python Server (Full API & SPA Support)
+If you prefer Python over Node.js, run our custom Python server which includes built-in SPA routing (preventing 404s on page refresh) and all `/api/*` serverless endpoints:
 ```bash
-# For Python 3.x
-python -m http.server 8083
-http://localhost:8083
+# Recommended: Full API, POST support, and SPA route fallback (no 404s on refresh)
+python scripts/local-server.py 8000
+
+# Basic server: Note that python -m http.server does not support SPA rewrites, so refreshing on /tool/* will return 404
+python -m http.server 8000
 ```
-Once started, open [http://127.0.0.1:8083](http://127.0.0.1:8083) in your browser.
+Once started, open [ http://127.0.0.1:8000 ]( http://127.0.0.1:8000 ) in your browser.
 
 ---
 
@@ -69,3 +83,34 @@ Instantly pushes local commits to the current branch:
 ```cmd
 scripts\push_to_github.bat
 ```
+
+---
+
+## 4. Security Architecture & Administrative Access
+
+OmniTool Hub implements an **Advanced Enterprise-Grade Cryptographic Security Architecture**:
+- **Automated Payment Gateway:** Real-time Razorpay order creation and HMAC-SHA256 signature verification via `/api/create-razorpay-order` and `/api/verify-razorpay-payment`.
+- **Gumroad License Verification:** Live verification via the official Gumroad API (`/api/verify-license`).
+- **Cryptographic License Tokens:** Digital tokens signed with HMAC-SHA256 master secrets that prevent client-side manipulation or privilege escalation.
+- **Client Anti-Tamper Watchdog:** Automatically detects and revokes unauthorized `localStorage` edits without valid signatures.
+- **Rate-Limited Admin Security:** Protected against brute-force attacks with IP rate limiting and SHA-256 password hashing.
+
+### A. Administrative Access Credentials
+
+| Feature | Access URL | Default Master Passcode | Description |
+| :--- | :--- | :--- | :--- |
+| **Admin Control Panel** | [http://127.0.0.1:8000/#admin](http://127.0.0.1:8000/#admin) | `OmniAdmin@2026#` | Protected by serverless rate-limited auth. Includes built-in Cryptographic License Key Generator. |
+| **Cryptographic License Generator** | Inside `#admin` &rarr; Monetization Tiers | Admin Token Required | Issues authentic signed license keys (`OMNI-PRO-...` / `OMNI-MON-...`) for manual payments. |
+
+### B. Production Environment Variables (Vercel)
+
+Set these environment variables in your Vercel Project Dashboard for live production payments:
+
+```env
+LICENSE_SECRET_KEY=your_private_cryptographic_secret_minimum_32_chars
+RAZORPAY_KEY_ID=rzp_live_your_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_secret_key
+GUMROAD_PRODUCT_PERMALINK=omnitool-pro
+ADMIN_PASSWORD_HASH=3dfd014c226f9ba7144e5fae62933e8ca7ebbf94f0e4b85da57774c43b9df7ea
+```
+
