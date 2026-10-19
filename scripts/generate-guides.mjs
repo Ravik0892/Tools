@@ -1001,21 +1001,21 @@ const template = (tool, allTools) => {
   <title>${tool.title}</title>
   <meta name="description" content="${tool.description}">
   <meta name="keywords" content="${tool.tag}, ${tool.h1}, OmniTool Hub, developer tools, client-side, offline, privacy">
-  <link rel="canonical" href="https://omnitool-hub.vercel.app/guides/${tool.fileName}">
+  <link rel="canonical" href="https://omnitool.worldsneed.com/guides/${tool.fileName}">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="${tool.title}">
   <meta property="og:description" content="${tool.description}">
-  <meta property="og:url" content="https://omnitool-hub.vercel.app/guides/${tool.fileName}">
+  <meta property="og:url" content="https://omnitool.worldsneed.com/guides/${tool.fileName}">
   <meta property="og:site_name" content="OmniTool Hub">
-  <meta property="og:image" content="https://omnitool-hub.vercel.app/social_media_assets/opengraph_landscape_1200x630.svg">
+  <meta property="og:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${tool.title}">
   <meta name="twitter:description" content="${tool.description}">
-  <meta name="twitter:image" content="https://omnitool-hub.vercel.app/social_media_assets/twitter_header_1500x500.svg">
+  <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/twitter_header_1500x500.svg">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1035,19 +1035,19 @@ const template = (tool, allTools) => {
             "@type": "ListItem",
             "position": 1,
             "name": "OmniTool Hub",
-            "item": "https://omnitool-hub.vercel.app/"
+            "item": "https://omnitool.worldsneed.com/"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Guides Hub",
-            "item": "https://omnitool-hub.vercel.app/guides/index.html"
+            "item": "https://omnitool.worldsneed.com/guides/index.html"
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": "${tool.h1}",
-            "item": "https://omnitool-hub.vercel.app/guides/${tool.fileName}"
+            "item": "https://omnitool.worldsneed.com/guides/${tool.fileName}"
           }
         ]
       },
@@ -1064,12 +1064,12 @@ const template = (tool, allTools) => {
           "name": "OmniTool Hub",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://omnitool-hub.vercel.app/social_media_assets/profile_avatar_icon_1080x1080.svg"
+            "url": "https://omnitool.worldsneed.com/social_media_assets/profile_avatar_icon_1080x1080.svg"
           }
         },
         "datePublished": "2026-06-27",
         "dateModified": "2026-10-13",
-        "mainEntityOfPage": "https://omnitool-hub.vercel.app/guides/${tool.fileName}"
+        "mainEntityOfPage": "https://omnitool.worldsneed.com/guides/${tool.fileName}"
       },
       {
         "@type": "HowTo",
@@ -1900,21 +1900,21 @@ const generateGuidesHub = (allTools) => {
   <meta name="description" content="Explore free, step-by-step guides and tutorials for over ${allTools.length} privacy-first developer, security, PDF, and design utilities. Learn how to process data safely client-side.">
   <meta name="keywords" content="developer tools guides, online tools tutorials, pdf tools guide, json formatter tutorial, jwt decoder guide, offline web tools, client side utilities">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://omnitool-hub.vercel.app/guides/">
+  <link rel="canonical" href="https://omnitool.worldsneed.com/guides/">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="OmniTool Hub Guides & Documentation Hub | ${allTools.length}+ In-Browser Tools">
   <meta property="og:description" content="Master ${allTools.length}+ offline-first developer, cryptography, PDF, and utility tools with comprehensive guides and tutorials.">
-  <meta property="og:url" content="https://omnitool-hub.vercel.app/guides/">
+  <meta property="og:url" content="https://omnitool.worldsneed.com/guides/">
   <meta property="og:site_name" content="OmniTool Hub">
-  <meta property="og:image" content="https://omnitool-hub.vercel.app/social_media_assets/opengraph_landscape_1200x630.svg">
+  <meta property="og:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="OmniTool Hub Guides & Documentation Hub">
   <meta name="twitter:description" content="Comprehensive guides and tutorials for ${allTools.length}+ in-browser utility tools. Zero server uploads.">
-  <meta name="twitter:image" content="https://omnitool-hub.vercel.app/social_media_assets/twitter_header_1500x500.svg">
+  <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/twitter_header_1500x500.svg">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1930,11 +1930,11 @@ const generateGuidesHub = (allTools) => {
         "@type": "CollectionPage",
         "name": "OmniTool Hub Guides & Documentation Hub",
         "description": "Complete collection of user guides, tutorials, and security breakdowns for ${allTools.length}+ client-side utility tools.",
-        "url": "https://omnitool-hub.vercel.app/guides/",
+        "url": "https://omnitool.worldsneed.com/guides/",
         "isPartOf": {
           "@type": "WebSite",
           "name": "OmniTool Hub",
-          "url": "https://omnitool-hub.vercel.app/"
+          "url": "https://omnitool.worldsneed.com/"
         }
       },
       {
@@ -1946,7 +1946,7 @@ const generateGuidesHub = (allTools) => {
             "@type": "ListItem",
             "position": ${idx + 1},
             "name": "${t.h1}",
-            "url": "https://omnitool-hub.vercel.app/guides/${t.fileName}"
+            "url": "https://omnitool.worldsneed.com/guides/${t.fileName}"
           }`).join(',\n          ')}
         ]
       },
