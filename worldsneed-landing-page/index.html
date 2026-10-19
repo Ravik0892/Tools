@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorldsNeed — For a World That Needs Everything</title>
+  <meta name="description"
+    content="WorldsNeed is an ambitious digital ecosystem building privacy-first developer tools, multi-language learning suites, interactive experiences, and everyday solutions. Free forever.">
+  <meta name="keywords"
+    content="WorldsNeed, OmniTool Hub, WordsNeed Dictionary, Cyber Bird, free developer tools, privacy tools, digital ecosystem, offline first">
+  <meta name="author" content="WorldsNeed">
+  <meta name="theme-color" content="#070c18">
+
+  <link rel="canonical" href="https://worldsneed.com/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://worldsneed.com/">
+  <meta property="og:title" content="WorldsNeed — For a World That Needs Everything">
+  <meta property="og:description"
+    content="A unified digital ecosystem building privacy-first developer tools, vocabulary exploration, and creative digital solutions.">
+  <meta property="og:image" content="https://worldsneed.com/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WorldsNeed — For a World That Needs Everything">
+  <meta name="twitter:description"
+    content="Explore our live and upcoming projects: OmniTool Hub, WordsNeed Dictionary, and future creative platforms.">
+
+  <!-- Google Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- JSON-LD Structured Data for Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "WorldsNeed",
+    "url": "https://worldsneed.com",
+    "logo": "https://worldsneed.com/favicon.ico",
+    "description": "A digital product ecosystem crafting privacy-first developer utilities, learning hubs, and creative applications.",
+    "sameAs": [
+      "https://github.com/Ravik0892/Tools",
+      "https://omnitool.worldsneed.com",
+      "https://wordsneed-dictionary.vercel.app/"
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow ambient-cyan" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-violet" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-emerald" aria-hidden="true"></div>
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Navigation Bar -->
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="WorldsNeed Homepage">
+        <div class="brand-glyph" aria-hidden="true">
+          <span class="glyph-dot dot-1"></span>
+          <span class="glyph-dot dot-2"></span>
+          <span class="glyph-dot dot-3"></span>
+          <span class="glyph-dot dot-4"></span>
+        </div>
+        <span class="brand-text">Worlds<span class="brand-accent">Need</span></span>
+        <span class="badge-tag">ECOSYSTEM</span>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+        <a class="nav-item" href="#projects">Live Projects</a>
+        <a class="nav-item" href="#ecosystem">Architecture</a>
+        <a class="nav-item" href="#philosophy">Core Values</a>
+        <a class="nav-item" href="#roadmap">Future Pipeline</a>
+        <a class="nav-cta-btn" href="#projects">
+          <span>Explore Platforms</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="arrow-icon">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
+      </nav>
+
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+        <span class="toggle-bar"></span>
+        <span class="toggle-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-pill-badge">
+            <span class="pulse-indicator"></span>
+            <span class="pill-text">THE WORLDSNEED ECOSYSTEM • CRAFTING THE FUTURE</span>
+          </div>
+
+          <h1 class="hero-title">
+            For a world<br>
+            that needs <span class="gradient-headline">everything.</span>
+          </h1>
+
+          <p class="hero-description">
+            WorldsNeed creates beautiful, zero-latency digital platforms, privacy-first developer tools, multi-language
+            dictionaries, and creative interactive experiences. 100% free, crafted with passion, built for real human needs.
+          </p>
+
+          <div class="hero-action-group">
+            <a class="btn-primary" href="#projects">
+              <span>Explore Live Products</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="btn-icon">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
+            </a>
+            <a class="btn-secondary" href="#roadmap">
+              <span>View Upcoming Pipeline</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <div class="hero-metrics-strip">
+            <div class="metric-item">
+              <span class="metric-val">50+</span>
+              <span class="metric-lbl">In-Browser Tools</span>
+            </div>
+            <div class="metric-sep"></div>
+            <div class="metric-item">
+              <span class="metric-val">100%</span>
+              <span class="metric-lbl">Zero-Data Tracking</span>
+            </div>
+            <div class="metric-sep"></div>
+            <div class="metric-item">
+              <span class="metric-val">₹0.00</span>
+              <span class="metric-lbl">Always Free to Use</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Concept Art -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit-system">
+            <div class="orbital-ring ring-outer"></div>
+            <div class="orbital-ring ring-middle"></div>
+            <div class="orbital-ring ring-inner"></div>
+
+            <div class="core-hub-card">
+              <div class="core-halo"></div>
+              <div class="core-symbol">W</div>
+              <div class="core-label">WORLDSNEED HUB</div>
+            </div>
+
+            <!-- Orbiting Satellite Nodes -->
+            <div class="satellite-node node-tools" data-tilt>
+              <div class="node-icon">🛠️</div>
+              <div class="node-details">
+                <strong>OmniTool</strong>
+                <span>50+ Utilities</span>
+              </div>
+            </div>
+
+            <div class="satellite-node node-words" data-tilt>
+              <div class="node-icon">📚</div>
+              <div class="node-details">
+                <strong>WordsNeed</strong>
+                <span>Vocabulary Hub</span>
+              </div>
+            </div>
+
+            <div class="satellite-node node-game" data-tilt>
+              <div class="node-icon">🕹️</div>
+              <div class="node-details">
+                <strong>Cyber Bird</strong>
+                <span>Arcade Game</span>
+              </div>
+            </div>
+
+            <div class="satellite-node node-future" data-tilt>
+              <div class="node-icon">✨</div>
+              <div class="node-details">
+                <strong>AI & Learn</strong>
+                <span>In Development</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Portfolio Showcase -->
+    <section class="section-wrap" id="projects">
+      <div class="container">
+        <div class="section-header-block">
+          <div>
+            <div class="kicker-tag">01 / DISCOVER PRODUCTS</div>
+            <h2 class="section-title">Built with purpose.<br><span class="muted-text">Ready for your everyday needs.</span></h2>
+          </div>
+          <div class="filter-tab-bar" role="tablist">
+            <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All Products</button>
+            <button class="filter-tab" data-filter="live" role="tab" aria-selected="false">Active Now</button>
+            <button class="filter-tab" data-filter="upcoming" role="tab" aria-selected="false">Future Pipeline</button>
+          </div>
+        </div>
+
+        <div class="project-grid" id="project-grid">
+          <!-- Project 01: OmniTool Hub -->
+          <article class="project-card featured-card" data-category="live">
+            <div class="card-glow-layer"></div>
+            <div class="card-topline">
+              <div class="badge-status live-status">
+                <span class="live-dot"></span> LIVE ECOSYSTEM
+              </div>
+              <span class="card-category">DEVELOPER & PRIVACY UTILITIES</span>
+            </div>
+
+            <div class="card-visual visual-tools">
+              <div class="mock-browser-window">
+                <div class="mock-header">
+                  <div class="mock-dots"><span></span><span></span><span></span></div>
+                  <div class="mock-url">https://omnitool.worldsneed.com</div>
+                </div>
+                <div class="mock-body">
+                  <div class="tool-chip"><span class="chip-dot cyan"></span> PDF Studio (Split/Merge/OCR)</div>
+                  <div class="tool-chip"><span class="chip-dot purple"></span> JSON / SQL Beautifier</div>
+                  <div class="tool-chip"><span class="chip-dot emerald"></span> AES-256 & RSA Cryptography</div>
+                  <div class="tool-chip"><span class="chip-dot amber"></span> Smart Chain Pipeline Builder</div>
+                </div>
+              </div>
+              <div class="floating-badge-pill">⚡ 100% In-Browser Memory</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-index-row">
+                <span class="card-num">PROJECT 001</span>
+                <span class="card-badge-tag">FLAGSHIP APPLICATION</span>
+              </div>
+              <h3 class="card-title">OmniTool Hub</h3>
+              <p class="card-desc">
+                An all-in-one developer and utility suite featuring 50+ modular tools running 100% client-side. Zero cloud uploads, zero latency, offline PWA support, and military-grade privacy.
+              </p>
+
+              <div class="card-specs">
+                <span class="spec-tag">50+ Modular Tools</span>
+                <span class="spec-tag">Wasm & Web Crypto</span>
+                <span class="spec-tag">Offline PWA</span>
+                <span class="spec-tag">Zero Ads Distraction</span>
+              </div>
+
+              <div class="card-actions">
+                <a class="card-launch-btn primary-launch" href="https://omnitool.worldsneed.com" target="_blank" rel="noopener">
+                  <span>Launch OmniTool Hub</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="arrow-icon">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </a>
+                <a class="card-alt-link" href="https://omnitool-hub.vercel.app/" target="_blank" rel="noopener" title="Vercel Mirror">
+                  Mirror ↗
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 02: WordsNeed Dictionary -->
+          <article class="project-card featured-card" data-category="live">
+            <div class="card-glow-layer"></div>
+            <div class="card-topline">
+              <div class="badge-status live-status">
+                <span class="live-dot"></span> LIVE WEB APP
+              </div>
+              <span class="card-category">LANGUAGE, VOCABULARY & EDUCATION</span>
+            </div>
+
+            <div class="card-visual visual-dictionary">
+              <div class="book-card-display">
+                <div class="book-spine"></div>
+                <div class="book-cover">
+                  <div class="book-title">Aa</div>
+                  <div class="word-chips-flow">
+                    <span class="w-chip w1">Ecosystem</span>
+                    <span class="w-chip w2">ज्ञान</span>
+                    <span class="w-chip w3">言葉</span>
+                    <span class="w-chip w4">Discovery</span>
+                  </div>
+                </div>
+              </div>
+              <div class="floating-badge-pill">📖 Modern Next.js App</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-index-row">
+                <span class="card-num">PROJECT 002</span>
+                <span class="card-badge-tag">NEXT.JS PLATFORM</span>
+              </div>
+              <h3 class="card-title">WordsNeed Dictionary</h3>
+              <p class="card-desc">
+                A high-performance modern dictionary and word explorer crafted with Next.js, responsive typography, audio pronunciations, contextual synonyms, and multi-lingual word search.
+              </p>
+
+              <div class="card-specs">
+                <span class="spec-tag">Next.js Turbopack</span>
+                <span class="spec-tag">Audio Pronunciation</span>
+                <span class="spec-tag">Curriculum Ready</span>
+                <span class="spec-tag">Lightning Search</span>
+              </div>
+
+              <div class="card-actions">
+                <a class="card-launch-btn primary-launch" href="https://wordsneed-dictionary.vercel.app/" target="_blank" rel="noopener">
+                  <span>Launch WordsNeed</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="arrow-icon">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 03: Cyber Bird: Neon Flight -->
+          <article class="project-card" data-category="live">
+            <div class="card-glow-layer"></div>
+            <div class="card-topline">
+              <div class="badge-status live-status">
+                <span class="live-dot"></span> LIVE INDIE GAME
+              </div>
+              <span class="card-category">GAMES, PLAY & CREATIVE</span>
+            </div>
+
+            <div class="card-visual visual-game">
+              <div class="game-arcade-display">
+                <div class="synthwave-sun"></div>
+                <div class="synthwave-grid"></div>
+                <div class="cyber-bird-avatar">◆</div>
+                <div class="speed-lines"></div>
+              </div>
+              <div class="floating-badge-pill">🕹️ Playable in Browser</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-index-row">
+                <span class="card-num">PROJECT 003</span>
+                <span class="card-badge-tag">INDIE ARCADE</span>
+              </div>
+              <h3 class="card-title">Cyber Bird: Neon Flight</h3>
+              <p class="card-desc">
+                A high-speed neon-soaked endless flight arcade game. Test your reflex timing across retro-futuristic synthwave tracks with responsive physics and immersive sound.
+              </p>
+
+              <div class="card-specs">
+                <span class="spec-tag">HTML5 Canvas</span>
+                <span class="spec-tag">Synthwave Aesthetics</span>
+                <span class="spec-tag">Zero Installation</span>
+              </div>
+
+              <div class="card-actions">
+                <a class="card-launch-btn primary-launch" href="https://worldsneed.itch.io/cyber-bird-neon-flight" target="_blank" rel="noopener">
+                  <span>Play on Itch.io</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="arrow-icon">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 04: WorldsNeed Learn -->
+          <article class="project-card upcoming-card" data-category="upcoming">
+            <div class="card-glow-layer"></div>
+            <div class="card-topline">
+              <div class="badge-status dev-status">
+                <span class="dev-dot"></span> IN DEVELOPMENT
+              </div>
+              <span class="card-category">EDUCATION & INTERACTIVE LEARNING</span>
+            </div>
+
+            <div class="card-visual visual-learn">
+              <div class="curriculum-tree-mock">
+                <div class="tree-node active"><i>01</i> Chapter 1: Fundamentals</div>
+                <div class="tree-line"></div>
+                <div class="tree-node"><i>02</i> Interactive Quizzes & Practice</div>
+                <div class="tree-line"></div>
+                <div class="tree-node"><i>03</i> Master Class & Cheat Sheets</div>
+              </div>
+              <div class="floating-badge-pill">📚 Free Knowledge Hub</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-index-row">
+                <span class="card-num">PROJECT 004</span>
+                <span class="card-badge-tag">COMING Q2 2027</span>
+              </div>
+              <h3 class="card-title">WorldsNeed Learn</h3>
+              <p class="card-desc">
+                An open, interactive curriculum platform delivering structured textbook chapters, code playgrounds, visual diagrams, and instant feedback quizzes without subscription fees.
+              </p>
+
+              <div class="card-specs">
+                <span class="spec-tag">Structured Courses</span>
+                <span class="spec-tag">Interactive Exercises</span>
+                <span class="spec-tag">100% Free Access</span>
+              </div>
+
+              <div class="card-actions">
+                <span class="badge-upcoming-pill">🚀 Pipeline In Progress</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 05: AI Social Media Studio -->
+          <article class="project-card upcoming-card" data-category="upcoming">
+            <div class="card-glow-layer"></div>
+            <div class="card-topline">
+              <div class="badge-status dev-status">
+                <span class="dev-dot"></span> PROTOTYPING
+              </div>
+              <span class="card-category">AI WORKFLOWS & CONTENT CREATION</span>
+            </div>
+
+            <div class="card-visual visual-ai">
+              <div class="ai-prompt-mock">
+                <div class="prompt-bar">✨ Generate weekly content calendar...</div>
+                <div class="prompt-tags">
+                  <span>LinkedIn Post</span>
+                  <span>Twitter Thread</span>
+                  <span>Instagram Hook</span>
+                </div>
+              </div>
+              <div class="floating-badge-pill">🤖 Intelligent Automation</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-index-row">
+                <span class="card-num">PROJECT 005</span>
+                <span class="card-badge-tag">AI PIPELINE</span>
+              </div>
+              <h3 class="card-title">AI Content & Media Studio</h3>
+              <p class="card-desc">
+                A smart productivity assistant designed for creators, solopreneurs, and educators. Multi-platform content generation, schedule orchestration, and brand voice alignment.
+              </p>
+
+              <div class="card-specs">
+                <span class="spec-tag">Gemini AI Models</span>
+                <span class="spec-tag">One-Click Multi-Format</span>
+                <span class="spec-tag">Local Vault</span>
+              </div>
+
+              <div class="card-actions">
+                <span class="badge-upcoming-pill">⚙️ Architecture Phase</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 06: Open Developer & Creator Kit -->
+          <article class="project-card upcoming-card" data-category="upcoming">
+            <div class="card-glow-layer"></div>
+            <div class="card-topline">
+              <div class="badge-status concept-status">
+                <span class="concept-dot"></span> CONCEPT PHASE
+              </div>
+              <span class="card-category">OPEN APIS & CLIENT UTILITIES</span>
+            </div>
+
+            <div class="card-visual visual-code">
+              <div class="code-terminal-mock">
+                <code>$ npm install @worldsneed/tools-core</code>
+                <code>> Ready. Zero cloud telemetry.</code>
+              </div>
+              <div class="floating-badge-pill">📦 Open Source Kits</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-index-row">
+                <span class="card-num">PROJECT 006</span>
+                <span class="card-badge-tag">OPEN INFRASTRUCTURE</span>
+              </div>
+              <h3 class="card-title">WorldsNeed Open Kits</h3>
+              <p class="card-desc">
+                Packaging our modular WebAssembly tools, formatters, and client-side crypto engines as open-source micro-libraries for global developers to embed into their own web apps.
+              </p>
+
+              <div class="card-specs">
+                <span class="spec-tag">MIT Open Source</span>
+                <span class="spec-tag">Zero Telemetry</span>
+                <span class="spec-tag">Browser Micro-Libs</span>
+              </div>
+
+              <div class="card-actions">
+                <span class="badge-upcoming-pill">💡 Idea In Incubation</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture & Ecosystem Connection -->
+    <section class="section-wrap" id="ecosystem">
+      <div class="container">
+        <div class="ecosystem-banner">
+          <div class="ecosystem-grid">
+            <div class="eco-copy">
+              <div class="kicker-tag">02 / UNIFIED TOPOLOGY</div>
+              <h2 class="eco-title">One Mother Brand.<br><span class="gradient-headline">Specialized Subdomains.</span></h2>
+              <p class="eco-desc">
+                Instead of a cluttered all-in-one portal, WorldsNeed organizes every product under its own dedicated, blazing-fast subdomain. Clean URLs, isolated performance, and a unified brand identity.
+              </p>
+
+              <div class="subdomain-list">
+                <div class="subdomain-row">
+                  <span class="sd-badge">MAIN PORTAL</span>
+                  <span class="sd-url">worldsneed.com</span>
+                  <span class="sd-role">Ecosystem Home & Directory</span>
+                </div>
+                <div class="subdomain-row">
+                  <span class="sd-badge cyan-badge">UTILITY SUITE</span>
+                  <span class="sd-url">omnitool.worldsneed.com</span>
+                  <span class="sd-role">50+ Client-Side Developer Tools</span>
+                </div>
+                <div class="subdomain-row">
+                  <span class="sd-badge purple-badge">KNOWLEDGE</span>
+                  <span class="sd-url">dictionary.worldsneed.com</span>
+                  <span class="sd-role">Next.js Multi-lingual Dictionary</span>
+                </div>
+                <div class="subdomain-row">
+                  <span class="sd-badge amber-badge">FUTURE</span>
+                  <span class="sd-url">learn.worldsneed.com</span>
+                  <span class="sd-role">Interactive Courses & Lessons</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="eco-visual" aria-hidden="true">
+              <div class="dns-radar-card">
+                <div class="radar-circle rc-1"></div>
+                <div class="radar-circle rc-2"></div>
+                <div class="radar-circle rc-3"></div>
+                <div class="radar-center">
+                  <div class="pulse-ring"></div>
+                  <strong>worldsneed.com</strong>
+                  <span>Central Cloudflare Edge</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Philosophy / Pillars -->
+    <section class="section-wrap" id="philosophy">
+      <div class="container">
+        <div class="section-header-block center-text">
+          <div class="kicker-tag">03 / OUR CORE VALUES</div>
+          <h2 class="section-title">Built on principles that put <span class="gradient-headline">people first.</span></h2>
+          <p class="section-subtitle">
+            Most modern tech platforms lock features behind paywalls or sell user telemetry. WorldsNeed is built with a different mindset.
+          </p>
+        </div>
+
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="val-icon-box">🔒</div>
+            <h3 class="val-title">Absolute Privacy by Architecture</h3>
+            <p class="val-desc">
+              Your files, code, and text never leave your device. We prioritize client-side WebAssembly, Web Crypto, and Canvas so your data remains strictly yours.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="val-icon-box">⚡</div>
+            <h3 class="val-title">Zero Artificial Friction</h3>
+            <p class="val-desc">
+              No mandatory accounts just to format JSON, calculate a subnet, or read a definition. You land on the page, the tool works immediately, with zero lag.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="val-icon-box">🌍</div>
+            <h3 class="val-title">Radical Free Access</h3>
+            <p class="val-desc">
+              Knowledge and developer tooling should be universally accessible regardless of whether a student has an international credit card or savings.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="val-icon-box">🛠️</div>
+            <h3 class="val-title">Modern Engineering Craft</h3>
+            <p class="val-desc">
+              Built on ultra-fast edge infrastructure (Cloudflare Pages, Vercel) with clean semantic code, dark mode aesthetics, and micro-animations that feel like native apps.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap & Timeline -->
+    <section class="section-wrap" id="roadmap">
+      <div class="container">
+        <div class="section-header-block center-text">
+          <div class="kicker-tag">04 / THE JOURNEY AHEAD</div>
+          <h2 class="section-title">One step at a time.<br><span class="muted-text">Continuous evolution.</span></h2>
+          <p class="section-subtitle">A transparent look at what has been built, what is active now, and where WorldsNeed is heading.</p>
+        </div>
+
+        <div class="timeline-wrapper">
+          <div class="timeline-item completed">
+            <div class="timeline-marker">✓</div>
+            <div class="timeline-content">
+              <span class="timeline-date">PHASE 1 • COMPLETED</span>
+              <h4 class="timeline-title">Core Foundation & Flagship Products</h4>
+              <p>Launched OmniTool Hub with 50+ privacy tools, deployed WordsNeed Dictionary on Next.js, and published Cyber Bird arcade game.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item active">
+            <div class="timeline-marker">●</div>
+            <div class="timeline-content">
+              <span class="timeline-date">PHASE 2 • IN MOTION (CURRENT)</span>
+              <h4 class="timeline-title">Subdomain Unification & Edge Deployment</h4>
+              <p>Consolidating all projects under <code>worldsneed.com</code>, implementing clean SPA routing, SEO rich snippets, and Cloudflare Pages edge acceleration.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item upcoming">
+            <div class="timeline-marker">○</div>
+            <div class="timeline-content">
+              <span class="timeline-date">PHASE 3 • UPCOMING</span>
+              <h4 class="timeline-title">Interactive Education & Learning Hub</h4>
+              <p>Rolling out <code>learn.worldsneed.com</code> with comprehensive chapter notes, visual concept explainers, and self-paced quizzes.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item upcoming">
+            <div class="timeline-marker">○</div>
+            <div class="timeline-content">
+              <span class="timeline-date">PHASE 4 • FUTURE VISION</span>
+              <h4 class="timeline-title">AI Automation Studio & Open Source Core</h4>
+              <p>Publishing browser micro-libraries and creator workflow assistants for developers worldwide.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing Call to Action & Community -->
+    <section class="section-wrap cta-section">
+      <div class="container">
+        <div class="cta-card">
+          <div class="cta-ornament">✳</div>
+          <h2 class="cta-title">“The future is built one useful idea at a time.”</h2>
+          <p class="cta-subtitle">
+            WorldsNeed is at the beginning of an exciting journey. Explore the tools we have built today, and follow along as we create what tomorrow needs.
+          </p>
+
+          <div class="cta-btn-row">
+            <a class="btn-primary" href="#projects">
+              <span>Start Exploring Products</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="btn-icon">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
+            </a>
+            <a class="btn-secondary" href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">
+              <span>View GitHub Codebase</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <a class="brand footer-brand" href="#top">
+            <div class="brand-glyph" aria-hidden="true">
+              <span class="glyph-dot dot-1"></span>
+              <span class="glyph-dot dot-2"></span>
+              <span class="glyph-dot dot-3"></span>
+              <span class="glyph-dot dot-4"></span>
+            </div>
+            <span class="brand-text">Worlds<span class="brand-accent">Need</span></span>
+          </a>
+          <p class="footer-tagline">For a world that needs everything. Useful digital tools, knowledge, and solutions.</p>
+        </div>
+
+        <div class="footer-links-grid">
+          <div class="footer-col">
+            <span class="footer-col-title">ECOSYSTEM PLATFORMS</span>
+            <a class="footer-link" href="https://omnitool.worldsneed.com" target="_blank" rel="noopener">OmniTool Hub (50+ Utilities)</a>
+            <a class="footer-link" href="https://wordsneed-dictionary.vercel.app/" target="_blank" rel="noopener">WordsNeed Dictionary</a>
+            <a class="footer-link" href="https://worldsneed.itch.io/cyber-bird-neon-flight" target="_blank" rel="noopener">Cyber Bird: Neon Flight</a>
+          </div>
+
+          <div class="footer-col">
+            <span class="footer-col-title">NAVIGATION</span>
+            <a class="footer-link" href="#projects">All Projects</a>
+            <a class="footer-link" href="#ecosystem">Architecture</a>
+            <a class="footer-link" href="#philosophy">Core Values</a>
+            <a class="footer-link" href="#roadmap">Future Pipeline</a>
+          </div>
+
+          <div class="footer-col">
+            <span class="footer-col-title">OPEN ACCESS</span>
+            <a class="footer-link" href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub Repository</a>
+            <span class="footer-note">100% Free & Open Ecosystem</span>
+            <a class="footer-link" href="#top">Back to Top ↑</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="year">2026</span> WorldsNeed. Built with pride for the global community.</p>
+        <div class="footer-badge">
+          <span class="status-dot"></span> All Systems Operational
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

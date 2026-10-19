@@ -4,6 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // Ensure base href is set for clean URL routing when running over HTTP/HTTPS
+    // While keeping file:/// protocol untouched for Android assets and local offline file opening
+    if (window.location.protocol.startsWith('http')) {
+      document.write('<base href="/">');
+    }
+  </script>
   <title>OmniTool Hub | The Ultimate All-in-One Utility Suite</title>
   <meta name="description"
     content="A premium, free, privacy-first developer and utility tools web application. 50+ tools running 100% client-side — no data ever leaves your device.">
@@ -118,11 +125,11 @@
       </div>
       <!-- Quick Category Filter Tabs in Command Palette -->
       <div class="cp-filters-row" id="cp-filters-row">
-        <button type="button" class="cp-filter-tab active" data-cp-filter="all">All</button>
-        <button type="button" class="cp-filter-tab" data-cp-filter="tools">⚡ Tools</button>
-        <button type="button" class="cp-filter-tab" data-cp-filter="suites">📦 Suites</button>
-        <button type="button" class="cp-filter-tab" data-cp-filter="features">✨ Features</button>
-        <button type="button" class="cp-filter-tab" data-cp-filter="guides">📚 Guides</button>
+        <button type="button" class="cp-filter-tab active" data-cp-filter="all" title="Show all 46 tools and utilities">All</button>
+        <button type="button" class="cp-filter-tab" data-cp-filter="tools" title="Focused, fast single-purpose utilities">⚡ Single Tools</button>
+        <button type="button" class="cp-filter-tab" data-cp-filter="suites" title="All-in-one multi-utility studios & hubs">📦 Tool Suites</button>
+        <button type="button" class="cp-filter-tab" data-cp-filter="features" title="Visual builders, playgrounds & workflows">✨ Interactive Apps</button>
+        <button type="button" class="cp-filter-tab" data-cp-filter="guides" title="Step-by-step tutorials and developer guides">📚 Guides</button>
       </div>
       <div class="cp-results-list" id="cp-results-list">
         <!-- Filled dynamically by script -->
@@ -1318,41 +1325,55 @@
               <button type="button" id="tool-search-clear" class="search-clear-btn" aria-label="Clear search" style="display: none;" title="Clear search">✕</button>
             </div>
 
-            <!-- Search Quick Filter Chips (All, Tools, Suites, Features, Guides, PRO, Free) -->
-            <div class="search-filters-bar" id="search-filters-bar">
-              <button type="button" class="search-filter-chip active" data-filter="all" id="sfc-all">
+            <!-- Search Quick Filter Chips (All, Single Tools, Tool Suites, Interactive Apps, PRO, Free, Guides) -->
+            <div class="search-filters-bar" id="search-filters-bar" role="toolbar" aria-label="Tool classification filters">
+              <button type="button" class="search-filter-chip active" data-filter="all" id="sfc-all"
+                aria-label="Show all 46 tools"
+                data-tooltip="Show all 46 privacy-first offline utilities">
                 <span class="sfc-icon">🌐</span>
-                <span>All</span>
+                <span class="sfc-label">All</span>
                 <span class="sfc-count" id="sfc-count-all">46</span>
               </button>
-              <button type="button" class="search-filter-chip" data-filter="tools" id="sfc-tools">
+              <button type="button" class="search-filter-chip" data-filter="tools" id="sfc-tools"
+                aria-label="Filter by single tools (26 items)"
+                data-tooltip="Single-purpose utilities (e.g. JWT Decoder, QR Scanner, Hasher)">
                 <span class="sfc-icon">⚡</span>
-                <span>Tools</span>
-                <span class="sfc-count" id="sfc-count-tools">24</span>
+                <span class="sfc-label">Single Tools</span>
+                <span class="sfc-count" id="sfc-count-tools">26</span>
               </button>
-              <button type="button" class="search-filter-chip" data-filter="suites" id="sfc-suites">
+              <button type="button" class="search-filter-chip" data-filter="suites" id="sfc-suites"
+                aria-label="Filter by tool suites (20 items)"
+                data-tooltip="All-in-one multi-utility studios & hubs (e.g. Crypto Suite, Data Formatter, Graphics Studio)">
                 <span class="sfc-icon">📦</span>
-                <span>Suites</span>
-                <span class="sfc-count" id="sfc-count-suites">14</span>
+                <span class="sfc-label">Tool Suites</span>
+                <span class="sfc-count" id="sfc-count-suites">20</span>
               </button>
-              <button type="button" class="search-filter-chip" data-filter="features" id="sfc-features">
+              <button type="button" class="search-filter-chip" data-filter="features" id="sfc-features"
+                aria-label="Filter by interactive apps & workflows (13 items)"
+                data-tooltip="Visual builders, playgrounds & workflows (e.g. Pipeline Builder, PII Masker, Code Playground)">
                 <span class="sfc-icon">✨</span>
-                <span>Features</span>
-                <span class="sfc-count" id="sfc-count-features">8</span>
+                <span class="sfc-label">Interactive Apps</span>
+                <span class="sfc-count" id="sfc-count-features">13</span>
               </button>
-              <button type="button" class="search-filter-chip" data-filter="pro" id="sfc-pro">
+              <button type="button" class="search-filter-chip" data-filter="pro" id="sfc-pro"
+                aria-label="Filter by PRO utilities (30 items)"
+                data-tooltip="Advanced professional-grade offline utilities with premium features">
                 <span class="sfc-icon">💎</span>
-                <span>PRO</span>
+                <span class="sfc-label">PRO</span>
                 <span class="sfc-count" id="sfc-count-pro">30</span>
               </button>
-              <button type="button" class="search-filter-chip" data-filter="free" id="sfc-free">
+              <button type="button" class="search-filter-chip" data-filter="free" id="sfc-free"
+                aria-label="Filter by 100% free utilities (16 items)"
+                data-tooltip="100% free forever utilities with zero limits or ad gates">
                 <span class="sfc-icon">🆓</span>
-                <span>Free</span>
+                <span class="sfc-label">Free</span>
                 <span class="sfc-count" id="sfc-count-free">16</span>
               </button>
-              <button type="button" class="search-filter-chip" data-filter="guides" id="sfc-guides">
+              <button type="button" class="search-filter-chip" data-filter="guides" id="sfc-guides"
+                aria-label="Filter by documentation guides (28 items)"
+                data-tooltip="Step-by-step developer tutorials, architecture guides, and offline recipes">
                 <span class="sfc-icon">📚</span>
-                <span>Guides</span>
+                <span class="sfc-label">Guides</span>
                 <span class="sfc-count" id="sfc-count-guides">28</span>
               </button>
             </div>
@@ -1724,7 +1745,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Core JavaScript controllers (Razorpay SDK loads on-demand upon checkout) -->
-  <script src="app.js?v=2.1.0"></script>
+  <script src="app.js?v=2.1.1"></script>
 
   <!-- Vercel Web Analytics -->
   <script>

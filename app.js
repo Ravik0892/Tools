@@ -1,7 +1,7 @@
 // OmniTool Hub - Core Application Engine v2 (Masterpiece Accordion Edition)
 
 const app = {
-  APP_VERSION: "2.1.0",
+  APP_VERSION: "2.1.1",
   // Registry of all tools with subcategory designations
   tools: [
     {
@@ -2347,19 +2347,32 @@ const app = {
     const sidebar = document.getElementById("app-sidebar");
     if (sidebar) sidebar.classList.remove("show");
 
-    // Support Clean Path URLs (e.g. /tool/jwt-decoder or /tool/pdf-utilities)
-    if (!hash && pathname.startsWith("/tool/")) {
+    // 1. Clean Path URL Direct Loading (e.g. /tool/jwt-decoder or /tool/pdf-utilities)
+    if (pathname.startsWith("/tool/")) {
       const cleanToolId = pathname.replace(/^\/tool\//, "").replace(/\/$/, "");
       if (cleanToolId) {
-        hash = "#tool/" + cleanToolId;
+        const redirect = this.toolRedirects[cleanToolId];
+        if (redirect) {
+          this.activeSubtab = redirect.subtab;
+          this.navigateToTool(redirect.suiteId, false);
+          return;
+        }
+
+        const toolExists = this.tools.some(t => t.id === cleanToolId);
+        if (toolExists) {
+          this.navigateToTool(cleanToolId, false);
+          return;
+        }
       }
     }
 
-    // If navigating via hash from a /tool/ path, reset pathname cleanly to root
-    if (hash && window.history && window.history.pushState && window.location.pathname.startsWith("/tool/")) {
-      try {
-        window.history.pushState(null, "", "/" + hash);
-      } catch (e) {}
+    // If navigating to a non-tool hash route while pathname still has /tool/, cleanly reset pathname to root
+    if (pathname.startsWith("/tool/") && hash && !hash.startsWith("#tool/")) {
+      if (window.history && window.history.replaceState) {
+        try {
+          window.history.replaceState(null, "", "/" + hash);
+        } catch (e) {}
+      }
     }
 
     if (hash === "#plans") {
@@ -2428,6 +2441,13 @@ const app = {
 
     if (hash.startsWith("#tool/")) {
       const toolId = hash.replace("#tool/", "");
+
+      // Promote hash URL to clean path without # for Google search & modern UX
+      if (window.history && window.history.replaceState) {
+        try {
+          window.history.replaceState({ toolId }, "", "/tool/" + toolId);
+        } catch (e) {}
+      }
 
       const redirect = this.toolRedirects[toolId];
       if (redirect) {
@@ -3581,6 +3601,13 @@ const app = {
 
   playSynthSound(type = 'click') {
     if (this.isInitialLoad) return;
+    const nowMs = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    if (this._lastSoundTime && (nowMs - this._lastSoundTime) < 140 && this._lastSoundType === type) {
+      return; // Debounce rapid duplicate audio triggers
+    }
+    this._lastSoundTime = nowMs;
+    this._lastSoundType = type;
+
     // Trigger tactile haptics automatically on sound plays
     if (type === 'click') {
       this.triggerHaptics('light');
@@ -4308,7 +4335,10 @@ const app = {
     `).join("");
 
     bar.querySelectorAll(".category-tab-pill").forEach(pill => {
-      pill.addEventListener("click", () => {
+      pill.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (window.location.hash === `#${pill.dataset.hash}`) return;
+        this.playSynthSound('click');
         window.location.hash = pill.dataset.hash;
       });
     });
@@ -4454,7 +4484,7 @@ const app = {
       this.renderDashboard();
     }
 
-    const grid = document.getElementById("tools-grid");
+    const grid = document.getElementById("tools-card-grid") || document.getElementById("tools-grid");
     const cards = document.querySelectorAll(".tool-card");
     const sections = document.querySelectorAll(".dashboard-sub-section");
     let matchCount = 0;
@@ -4623,9 +4653,9 @@ const app = {
         titleEl.innerText = `Search Results (${matchCount})${filterSuffix}`;
       } else if (this.activeSearchFilter !== "all") {
         const filterNames = {
-          tools: "⚡ Standalone Tools",
-          suites: "📦 Multi-Tool Suites",
-          features: "✨ Interactive Features",
+          tools: "⚡ Single Tools",
+          suites: "📦 Tool Suites",
+          features: "✨ Interactive Apps & Workflows",
           pro: "💎 PRO Utilities",
           free: "🆓 Free Utilities",
           guides: "📚 Documentation Guides"
@@ -4922,6 +4952,21 @@ const app = {
       // Monetization Lock Gate Validation
       const toolRegistryEntry = this.tools.find(t => t.id === toolId);
       const defaultMonetization = toolRegistryEntry ? toolRegistryEntry.monetization : "free";
+
+      // Dynamic SEO Meta Tags Update for Google Search and social crawlers
+      if (toolRegistryEntry) {
+        document.title = `${toolRegistryEntry.name} | OmniTool Hub`;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute("content", toolRegistryEntry.desc);
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute("href", `https://omnitool-hub.vercel.app/tool/${toolRegistryEntry.id}`);
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.setAttribute("content", `${toolRegistryEntry.name} | OmniTool Hub`);
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute("content", toolRegistryEntry.desc);
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) ogUrl.setAttribute("content", `https://omnitool-hub.vercel.app/tool/${toolRegistryEntry.id}`);
+      }
 
       let overrides = {};
       try {
@@ -5721,13 +5766,16 @@ const app = {
     }
 
     // Lifecycle Memory Management: Clean up active tool when returning to dashboard
+    const wasInTool = !!this.activeTool;
     if (this._currentToolInstance && typeof this._currentToolInstance.cleanup === "function") {
       try { this._currentToolInstance.cleanup(); } catch (err) { console.warn("Tool cleanup error:", err); }
     }
     this._currentToolInstance = null;
 
     this._guideArrowCleanup?.();
-    this.playSynthSound('click');
+    if (wasInTool) {
+      this.playSynthSound('click');
+    }
 
     const viewport = document.getElementById("active-tool-viewport");
     if (viewport) {
@@ -5761,6 +5809,19 @@ const app = {
         titleEl.innerText = this.getSubcategoryLabel(this.activeSubcategory);
       }
     }
+
+    // Restore default SEO Meta Tags for main application
+    document.title = "OmniTool Hub | The Ultimate All-in-One Utility Suite";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", "A premium, free, privacy-first developer and utility tools web application. 50+ tools running 100% client-side — no data ever leaves your device.");
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute("href", "https://omnitool-hub.vercel.app/");
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", "OmniTool Hub | All-in-One Utility Suite");
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute("content", "50+ free developer and utility tools. 100% offline-first, client-side, no tracking.");
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute("content", "https://omnitool-hub.vercel.app/");
 
     const searchBar = document.getElementById("tool-search");
     if (searchBar && searchBar.value) {

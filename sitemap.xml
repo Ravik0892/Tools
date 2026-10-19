@@ -190,5 +190,60 @@
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>
+
+  <!-- Direct Clean Tool URLs for Maximum Google Search Indexing -->
+  <url><loc>https://omnitool-hub.vercel.app/tool/pipeline-builder</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/formatter-suite</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/json-formatter</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/text-encoder-suite</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/base64</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/jwt-decoder</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/crypto-suite</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/hash-generator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/aes-crypto</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/pii-anonymizer</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/markdown-preview</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/text-diff</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/pdf-searcher</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/pdf-utilities</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/regex-tester</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/css-studio</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/color-lab</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/security-suite</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/password-generator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/uuid-generator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/datetime-suite</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/epoch-converter</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/unit-converter</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/graphics-studio</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/calculator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/qr-studio</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/qr-generator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/qr-scanner</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/seo-previewer</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/image-converter</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/svg-animator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/url-parser</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/text-analyzer</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/mock-data-generator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/code-playground</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/ip-subnet-calculator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/curl-converter</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/cron-builder</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/json-to-types</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/robots-generator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/lorem-generator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/favicon-generator</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/screenshot-capture</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/screen-recorder</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/voice-recorder</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/video-speed</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/audio-suite</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/video-to-gif</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/temp-mail</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/pdf-converter-hub</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/pdf-editor-suite</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/pdf-security-suite</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/pdf-ai</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://omnitool-hub.vercel.app/tool/compare-pdf</loc><lastmod>2026-10-19</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
 </urlset>

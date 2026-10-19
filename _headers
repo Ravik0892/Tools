@@ -1,0 +1,26 @@
+# ==============================================================================
+# Cloudflare Pages Security and Caching Headers (_headers)
+# ==============================================================================
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(self), clipboard-read=(self), clipboard-write=(self)
+
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+  Service-Worker-Allowed: /
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/(style.css|app.js)
+  Cache-Control: public, max-age=0, must-revalidate
+
+/tools/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/social_media_assets/*
+  Cache-Control: public, max-age=31536000, immutable

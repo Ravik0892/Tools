@@ -1,0 +1,9 @@
+# Cloudflare Pages Security and Caching Headers for worldsneed.com
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/(styles.css|script.js)
+  Cache-Control: public, max-age=0, must-revalidate
