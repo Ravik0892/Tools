@@ -1,6 +1,7 @@
 // OmniTool Hub - Core Application Engine v2 (Masterpiece Accordion Edition)
 
 const app = {
+  APP_VERSION: "2.1.0",
   // Registry of all tools with subcategory designations
   tools: [
     {
@@ -555,6 +556,38 @@ const app = {
       monetization: "free",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg>`
     }
+  ],
+
+  // Registry of all documentation & help guides
+  guidesList: [
+    { id: "pipeline-builder", title: "Smart Chain Pipeline Builder Guide", url: "guides/pipeline-builder.html" },
+    { id: "json-formatter", title: "Data Formatter & Converter Guide", url: "guides/json-formatter.html" },
+    { id: "text-encoder-suite", title: "Text Cases & Encoder Guide", url: "guides/text-encoder-suite.html" },
+    { id: "jwt-decoder", title: "JWT Decoder Guide", url: "guides/jwt-decoder.html" },
+    { id: "crypto-suite", title: "Cryptography Suite Guide", url: "guides/crypto-suite.html" },
+    { id: "pii-anonymizer", title: "Client-Side PII Masker Guide", url: "guides/pii-anonymizer.html" },
+    { id: "markdown-preview", title: "Live Markdown Previewer Guide", url: "guides/markdown-preview.html" },
+    { id: "text-diff", title: "Text Diff Comparison Guide", url: "guides/text-diff.html" },
+    { id: "pdf-searcher", title: "PDF Index & Search Guide", url: "guides/pdf-searcher.html" },
+    { id: "pdf-utilities", title: "PDF Utilities Suite Guide", url: "guides/pdf-utilities.html" },
+    { id: "regex-tester", title: "Regular Expression Tester Guide", url: "guides/regex-tester.html" },
+    { id: "text-analyzer", title: "Text Analyzer Guide", url: "guides/text-analyzer.html" },
+    { id: "css-studio", title: "CSS Studio Guide", url: "guides/css-studio.html" },
+    { id: "color-lab", title: "Color Lab Suite Guide", url: "guides/color-lab.html" },
+    { id: "graphics-studio", title: "Graphics Studio Guide", url: "guides/graphics-studio.html" },
+    { id: "image-converter", title: "Image Converter Guide", url: "guides/image-converter.html" },
+    { id: "svg-animator", title: "SVG Animator Guide", url: "guides/svg-animator.html" },
+    { id: "security-suite", title: "Security Suite Guide", url: "guides/security-suite.html" },
+    { id: "datetime-suite", title: "Datetime Suite Guide", url: "guides/datetime-suite.html" },
+    { id: "calculator", title: "Scientific Calculator Guide", url: "guides/calculator.html" },
+    { id: "unit-converter", title: "Unit Converter Guide", url: "guides/unit-converter.html" },
+    { id: "url-parser", title: "URL Parser Guide", url: "guides/url-parser.html" },
+    { id: "code-playground", title: "Code Playground Guide", url: "guides/code-playground.html" },
+    { id: "qr-generator", title: "QR Generator Guide", url: "guides/qr-generator.html" },
+    { id: "seo-previewer", title: "SEO Previewer Guide", url: "guides/seo-previewer.html" },
+    { id: "mock-data-generator", title: "Mock Data Generator Guide", url: "guides/mock-data-generator.html" },
+    { id: "ip-subnet-calculator", title: "IP Subnet & MAC Suite Guide", url: "guides/ip-subnet-calculator.html" },
+    { id: "payment-guide", title: "Payment & Activation Guide", url: "guides/payment-guide.html" }
   ],
 
   // Centralized Tool Keywords mapping for enhanced search functionality
@@ -1682,7 +1715,7 @@ const app = {
 
     let overrides = {};
     try {
-      overrides = JSON.parse(localStorage.getItem("omnitool_monetization_overrides") || "{}");
+      overrides = JSON.parse(this.getConfigValue("omnitool_monetization_overrides", "{}"));
     } catch (e) { }
     const effectiveMonetization = overrides[tool.id] || tool.monetization || "free";
 
@@ -1867,6 +1900,13 @@ const app = {
       if (response.ok) {
         this.globalConfig = await response.json();
         console.log("[Config] Loaded global configuration:", this.globalConfig);
+        if (this.globalConfig && typeof this.globalConfig === "object") {
+          Object.entries(this.globalConfig).forEach(([k, v]) => {
+            if (localStorage.getItem(k) === null && typeof v === "string") {
+              try { localStorage.setItem(k, v); } catch (_) {}
+            }
+          });
+        }
       }
     } catch (e) {
       console.log("[Config] No global ad-config.json found or failed to load. Falling back to local storage.", e);
@@ -1922,6 +1962,7 @@ const app = {
     this.initSearchFilters();
     this.checkFileProtocolWarning();
     this.initCheckoutModal();
+    this.syncToolCounts();
 
     // Pre-load utilities for pipeline builder integration and global helpers
     if (window.location.protocol !== "file:") {
@@ -1955,7 +1996,7 @@ const app = {
           <span class="fpb-icon">⚠️</span>
           <div class="fpb-text">
             <strong>Direct File Mode (<code>file:///</code>) Detected</strong>
-            <span>Browser CORS security blocks JavaScript tool modules when opened directly from disk. Run <strong>npm run dev</strong> or double-click <strong>START_SERVER.bat</strong> to run all 26+ offline tools at <strong>http://127.0.0.1:8000</strong>.</span>
+            <span>Browser CORS security blocks JavaScript tool modules when opened directly from disk. Run <strong>npm run dev</strong> or double-click <strong>START_SERVER.bat</strong> to run all ${this.tools.length}+ offline tools at <strong>http://127.0.0.1:8000</strong>.</span>
           </div>
         </div>
         <div class="fpb-actions">
@@ -2059,7 +2100,7 @@ const app = {
     if (!searchInputs.length) return;
 
     const prompts = [
-      "Search 26+ offline tools... (e.g. '3D Solar System')",
+      "Search " + this.tools.length + "+ offline tools... (e.g. 'JSON', 'PDF', 'Base64')",
       "Try 'Smart Chain Pipeline Builder'",
       "Try 'Audio Synth & Visualizer'",
       "Try 'QR Code Generator Studio'",
@@ -2079,6 +2120,80 @@ const app = {
         }
       });
     }, 3800);
+  },
+
+  syncGuidesUI() {
+    const count = this.guidesList ? this.guidesList.length : 28;
+
+    // 1. Guides count in metrics / badges
+    const sfcGuides = document.getElementById("sfc-count-guides");
+    if (sfcGuides) sfcGuides.textContent = count;
+
+    document.querySelectorAll(".dynamic-guides-count").forEach(el => {
+      el.textContent = count;
+    });
+
+    // 2. Hub link text on homepage
+    const hubLink = document.getElementById("home-guides-hub-link");
+    if (hubLink) {
+      hubLink.innerHTML = `📚 All <span class="dynamic-guides-count">${count}</span> Guides &amp; Tutorials Hub &rarr;`;
+    }
+
+    // 3. Grid container dynamic synchronization
+    const grid = document.getElementById("home-guides-grid");
+    if (grid && this.guidesList && this.guidesList.length) {
+      let html = `<a href="guides/index.html" id="home-guides-hub-link" style="color: var(--accent-cyan); text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color var(--transition-fast);">📚 All <span class="dynamic-guides-count">${count}</span> Guides &amp; Tutorials Hub &rarr;</a>`;
+      this.guidesList.forEach(g => {
+        html += `\n              <a href="${g.url}" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">${g.title}</a>`;
+      });
+      grid.innerHTML = html;
+    }
+  },
+
+  syncToolCounts() {
+    const count = this.tools.length;
+    const countDisplay = `${count}+`;
+
+    // 1. Hero metric
+    const heroNum = document.getElementById("hero-tools-count") || document.querySelector(".hero-metric-item .hero-metric-num");
+    if (heroNum) {
+      heroNum.textContent = countDisplay;
+    }
+
+    // 2. Elements with data-tool-count or class dynamic-tool-count
+    document.querySelectorAll(".dynamic-tool-count, [data-bind='tool-count']").forEach(el => {
+      el.textContent = countDisplay;
+    });
+
+    // 3. Checkout / PRO plan description
+    document.querySelectorAll(".dynamic-plan-desc, .cpp-desc").forEach(el => {
+      if (el.textContent.includes("offline tools") || el.textContent.includes("Lifetime updates")) {
+        el.innerHTML = `Pay once, keep forever • All <span class="dynamic-tool-count">${countDisplay}</span> offline tools • Lifetime updates`;
+      }
+    });
+
+    // 4. Search input placeholder
+    const searchInputs = [
+      document.getElementById("tool-search"),
+      document.getElementById("tool-search-mobile")
+    ].filter(Boolean);
+    searchInputs.forEach(input => {
+      if (!input.value) {
+        input.setAttribute("placeholder", `Search ${countDisplay} offline tools... (e.g. 'JSON', 'PDF', 'Base64')`);
+      }
+    });
+
+    // 5. File protocol banner
+    const fpb = document.getElementById("file-protocol-banner");
+    if (fpb) {
+      const textSpan = fpb.querySelector(".fpb-text span");
+      if (textSpan && textSpan.innerHTML.includes("offline tools")) {
+        textSpan.innerHTML = textSpan.innerHTML.replace(/\d+\+?\s+offline tools/gi, `${countDisplay} offline tools`);
+      }
+    }
+
+    // 6. Synchronize Guides UI and count
+    this.syncGuidesUI();
   },
 
   initPwaInstallBanner() {
@@ -2491,22 +2606,42 @@ const app = {
         navigator.serviceWorker.register("sw.js").then(
           (reg) => {
             console.log("[PWA] Service Worker registered with scope: ", reg.scope);
-            if (navigator.serviceWorker.controller) {
-              reg.addEventListener("updatefound", () => {
-                const installingWorker = reg.installing;
-                if (installingWorker) {
-                  installingWorker.addEventListener("statechange", () => {
-                    if (installingWorker.state === "activated") {
-                      console.log("[PWA] New service worker activated, reloading page...");
-                      window.location.reload();
-                    }
-                  });
-                }
-              });
-            }
+
+            // Proactively check for updates when user returns to or focuses the tab
+            document.addEventListener("visibilitychange", () => {
+              if (document.visibilityState === "visible") {
+                reg.update().catch(() => {});
+              }
+            });
+            window.addEventListener("focus", () => {
+              reg.update().catch(() => {});
+            });
+
+            // Handle new service worker discovery
+            reg.addEventListener("updatefound", () => {
+              const installingWorker = reg.installing;
+              if (installingWorker) {
+                installingWorker.addEventListener("statechange", () => {
+                  if (installingWorker.state === "installed" && navigator.serviceWorker.controller) {
+                    console.log("[PWA] New service worker installed. Skipping waiting...");
+                    installingWorker.postMessage({ action: "skipWaiting" });
+                  }
+                });
+              }
+            });
           },
           (err) => console.error("[PWA] Service Worker registration failed: ", err)
         );
+
+        // When new service worker takes control, reload to show fresh code
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          if (!refreshing) {
+            refreshing = true;
+            console.log("[PWA] Controller changed, refreshing to load newest version...");
+            window.location.reload();
+          }
+        });
       });
     }
   },
@@ -3870,6 +4005,8 @@ const app = {
     const grid = document.getElementById("tools-card-grid");
     if (!grid) return;
 
+    this.syncToolCounts();
+
     this.renderCategoryTabs();
 
     grid.innerHTML = "";
@@ -4090,9 +4227,9 @@ const app = {
   renderToolsList(container, list) {
     let overrides = {};
     try {
-      overrides = JSON.parse(localStorage.getItem("omnitool_monetization_overrides") || "{}");
+      overrides = JSON.parse(this.getConfigValue("omnitool_monetization_overrides", "{}"));
     } catch (e) { }
-    const isMonetizationActive = localStorage.getItem("omnitool_monetization_active") === "true";
+    const isMonetizationActive = this.getConfigValue("omnitool_monetization_active", "false") === "true";
 
     list.forEach(tool => {
       const isFav = this.favorites.has(tool.id);
@@ -4772,7 +4909,7 @@ const app = {
         window.location.hostname === "127.0.0.1" ||
         window.location.hostname === "127.0.0.1.nip.io" ||
         window.location.hostname === "host.docker.internal";
-      const cacheBust = isLocalhost ? `?t=${Date.now()}` : '?v=1.3.8';
+      const cacheBust = isLocalhost ? `?t=${Date.now()}` : `?v=${this.APP_VERSION}`;
       
       let module = isLocalhost ? null : this._toolModuleCache[toolId];
       if (!module) {
@@ -4788,11 +4925,11 @@ const app = {
 
       let overrides = {};
       try {
-        overrides = JSON.parse(localStorage.getItem("omnitool_monetization_overrides") || "{}");
+        overrides = JSON.parse(this.getConfigValue("omnitool_monetization_overrides", "{}"));
       } catch (e) { }
 
       const effectiveMonetization = overrides[toolId] || defaultMonetization;
-      const isMonetizationActive = localStorage.getItem("omnitool_monetization_active") === "true";
+      const isMonetizationActive = this.getConfigValue("omnitool_monetization_active", "false") === "true";
 
       const isFav = this.favorites.has(toolId);
       const toolbarHtml = `
@@ -5537,7 +5674,7 @@ const app = {
             You opened OmniTool Hub directly from your hard drive (<code>file:///...</code>). Modern browsers block JavaScript ES module imports (<code>import()</code>) on local files to protect your system.
           </p>
           <div class="fpc-steps-box">
-            <h3>⚡ How to run <strong>${toolName}</strong> and all 26+ offline tools:</h3>
+            <h3>⚡ How to run <strong>${toolName}</strong> and all ${this.tools.length}+ offline tools:</h3>
             <div class="fpc-step">
               <span class="fpc-step-num">1</span>
               <div>
@@ -5870,8 +6007,8 @@ const app = {
 
   async clearAppCache() {
     const confirmed = await this.showConfirm(
-      "Clear Cache & Reset",
-      "Are you sure you want to clear the site cache, local databases, and reset all settings? This will resolve any browser lagging or out-of-memory problems and reload the page."
+      "Flush Offline Cache",
+      "Are you sure you want to flush the offline service worker cache and reload? Your saved configurations and admin preferences will be preserved."
     );
     if (!confirmed) {
       return;
@@ -5882,31 +6019,16 @@ const app = {
 
     const cleanupPromises = [];
 
-    // Capture preserved settings if marked
-    const preserveSettings = localStorage.getItem("omnitool_preserve_settings_on_reset") === "true";
+    // Capture preserved settings if marked (defaults to true so flush cache does not wipe configurations)
+    const preserveSettings = localStorage.getItem("omnitool_preserve_settings_on_reset") !== "false";
     let preservedData = {};
     if (preserveSettings) {
-      const keysToPreserve = [
-        "omnitool_preserve_settings_on_reset",
-        "omnitool_adsterra_smart_link",
-        "omnitool_coffee_url",
-        "omnitool_kofi_url",
-        "omnitool_admin_passcode",
-        "omnitool_theme",
-        "omnitool_accent_preset",
-        "omnitool_layout_density",
-        "omnitool_clock_format",
-        "omnitool_audio_feedback",
-        "omnitool_user_tier",
-        "omnitool_monetization_active",
-        "omnitool_monetization_overrides",
-        "omnitool_favorites",
-        "omnitool_recents"
-      ];
-      keysToPreserve.forEach(key => {
-        const val = localStorage.getItem(key);
-        if (val !== null) preservedData[key] = val;
-      });
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith("omnitool_")) {
+          preservedData[key] = localStorage.getItem(key);
+        }
+      }
     }
 
     // 1. Clear LocalStorage and SessionStorage
@@ -6888,7 +7010,7 @@ const app = {
     const elDesc = document.getElementById("chk-paypal-plan-desc");
     const elAmt = document.getElementById("chk-paypal-amount-display");
     if (elTitle) elTitle.innerText = plan === "lifetime" ? "Lifetime Developer Pass" : "Pro Monthly Subscription";
-    if (elDesc) elDesc.innerText = plan === "lifetime" ? "One-time payment • Lifetime access to all 28 tools" : "Monthly billing • Cancel anytime • 100% Ad-Free";
+    if (elDesc) elDesc.innerText = plan === "lifetime" ? `One-time payment • Lifetime access to all ${this.tools.length}+ tools` : "Monthly billing • Cancel anytime • 100% Ad-Free";
     if (elAmt) elAmt.innerText = `$${priceUSD}`;
 
     const scriptId = "paypal-sdk-script";
@@ -7173,6 +7295,11 @@ const app = {
           firstAvailableGw = key;
         }
       }
+      const panelEl = document.getElementById(`chk-panel-${key}`);
+      if (panelEl && !enabled) {
+        panelEl.classList.remove("active");
+        panelEl.style.display = "none";
+      }
     });
 
     // If only guide is enabled
@@ -7180,7 +7307,7 @@ const app = {
       firstAvailableGw = "guide";
     }
 
-    // Dynamic label for UPI / Bank tab
+    // Dynamic label for UPI / Bank tab and sub-views
     const tabUpiEl = document.getElementById("chk-tab-upi");
     if (tabUpiEl) {
       const labelSpan = tabUpiEl.querySelector("span");
@@ -7193,6 +7320,16 @@ const app = {
           labelSpan.innerText = "Bank Transfer";
         }
       }
+    }
+
+    // Configure internal UPI vs Bank switcher
+    const switcher = modal.querySelector(".india-pay-method-switcher");
+    const ipmTabUpi = document.getElementById("ipm-tab-upi");
+    const ipmTabBank = document.getElementById("ipm-tab-bank");
+    if (ipmTabUpi) ipmTabUpi.style.display = upiEnabled ? "flex" : "none";
+    if (ipmTabBank) ipmTabBank.style.display = bankEnabled ? "flex" : "none";
+    if (switcher) {
+      switcher.style.display = (upiEnabled && bankEnabled) ? "flex" : "none";
     }
 
     // Fallback panel if all gateways are disabled
@@ -7225,6 +7362,14 @@ const app = {
     const requestedGwEnabled = gwConfigs.find(g => g.key === effectiveInitialGw)?.enabled;
     if (!effectiveInitialGw || !requestedGwEnabled) {
       effectiveInitialGw = firstAvailableGw;
+    }
+
+    if (effectiveInitialGw === "upi") {
+      if (!upiEnabled && bankEnabled) {
+        this.switchIndiaPayMethod("bank");
+      } else {
+        this.switchIndiaPayMethod("upi");
+      }
     }
 
     this.switchCheckoutPlan(plan);
@@ -7747,6 +7892,40 @@ const app = {
   },
 
   switchCheckoutGateway(gateway) {
+    const upiEnabled = this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
+    const bankEnabled = this.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
+    const gumroadEnabled = this.getConfigValue("omnitool_gw_gumroad_enabled", "true") !== "false";
+    const paypalEnabled = this.getConfigValue("omnitool_gw_paypal_enabled", "true") !== "false";
+    const razorpayEnabled = this.getConfigValue("omnitool_gw_razorpay_enabled", "true") !== "false";
+    const cryptoEnabled = this.getConfigValue("omnitool_gw_crypto_enabled", "true") !== "false";
+    const coffeeEnabled = this.getConfigValue("omnitool_gw_coffee_enabled", "true") !== "false";
+    const guideEnabled = this.getConfigValue("omnitool_gw_guide_enabled", "true") !== "false";
+    const customEnabled = this.getConfigValue("omnitool_gw_custom_enabled", "false") === "true";
+
+    const isEnabled = (gw) => {
+      if (gw === "upi") return upiEnabled || bankEnabled;
+      if (gw === "bank") return bankEnabled;
+      if (gw === "gumroad") return gumroadEnabled;
+      if (gw === "paypal") return paypalEnabled;
+      if (gw === "razorpay") return razorpayEnabled;
+      if (gw === "crypto") return cryptoEnabled;
+      if (gw === "coffee") return coffeeEnabled;
+      if (gw === "guide") return guideEnabled;
+      if (gw === "custom") return customEnabled;
+      return false;
+    };
+
+    if (gateway === "bank") {
+      gateway = "upi";
+      this.switchIndiaPayMethod("bank");
+    }
+
+    if (gateway && !isEnabled(gateway)) {
+      const candidates = ["gumroad", "upi", "paypal", "razorpay", "crypto", "coffee", "custom", "guide"];
+      const fallback = candidates.find(c => isEnabled(c));
+      gateway = fallback || null;
+    }
+
     this.checkoutGateway = gateway;
     const modal = document.getElementById("checkout-modal");
     if (!modal) return;
@@ -7763,10 +7942,12 @@ const app = {
     });
 
     modal.querySelectorAll(".checkout-panel").forEach(panel => {
-      if (panel.id === `chk-panel-${gateway}`) {
+      if (gateway && panel.id === `chk-panel-${gateway}`) {
         panel.classList.add("active");
+        panel.style.display = "block";
       } else {
         panel.classList.remove("active");
+        panel.style.display = "none";
       }
     });
 

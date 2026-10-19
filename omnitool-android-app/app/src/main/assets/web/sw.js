@@ -1,5 +1,5 @@
-// Service Worker for OmniTool Hub PWA
-const CACHE_NAME = "omnitool-v79";
+// Service Worker for OmniTool Hub PWA (Network-First Core for Instant Updates)
+const CACHE_NAME = "omnitool-v80";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
@@ -12,6 +12,25 @@ const ASSETS_TO_CACHE = [
   "tools/pipeline-builder.js",
   "tools/pdf-searcher.js",
   "tools/pdf-utilities.js",
+  "tools/pdf-ai.js",
+  "tools/pdf-converter-hub.js",
+  "tools/pdf-editor-suite.js",
+  "tools/pdf-security-suite.js",
+  "tools/compare-pdf.js",
+  "tools/qr-studio.js",
+  "tools/audio-suite.js",
+  "tools/voice-recorder.js",
+  "tools/screen-recorder.js",
+  "tools/screenshot-capture.js",
+  "tools/video-speed.js",
+  "tools/video-to-gif.js",
+  "tools/temp-mail.js",
+  "tools/cron-builder.js",
+  "tools/json-to-types.js",
+  "tools/robots-generator.js",
+  "tools/lorem-generator.js",
+  "tools/favicon-generator.js",
+  "tools/curl-converter.js",
   "tools/mock-data-generator.js",
   "tools/jwt-decoder.js",
   "tools/markdown-preview.js",
@@ -38,17 +57,17 @@ const ASSETS_TO_CACHE = [
   "tools/ip-subnet-calculator.js"
 ];
 
-// Install Event
+// Install Event - Pre-cache core shell assets and immediately take over
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("[Service Worker] Caching App Shell v72");
+      console.log(`[Service Worker] Caching App Shell ${CACHE_NAME}`);
       return cache.addAll(ASSETS_TO_CACHE);
     }).then(() => self.skipWaiting())
   );
 });
 
-// Activate Event (Cleanup Old Caches immediately)
+// Activate Event - Clean up any old caches and immediately claim clients
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
@@ -64,7 +83,7 @@ self.addEventListener("activate", (e) => {
   );
 });
 
-// Message listener for manual cache purge
+// Message listener for manual cache purge and skipWaiting
 self.addEventListener("message", (e) => {
   if (e.data && e.data.action === "skipWaiting") {
     self.skipWaiting();
@@ -74,7 +93,9 @@ self.addEventListener("message", (e) => {
   }
 });
 
-// Fetch Event (Network-First for HTML/JS/JSON to ensure zero stale cache, Cache-First for static assets)
+// Fetch Event:
+// Network-First for HTML, JS, CSS, JSON & Tools to guarantee instant delivery of new code/styles.
+// Falls back to cache seamlessly when offline.
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
 
@@ -87,8 +108,17 @@ self.addEventListener("fetch", (e) => {
 
   if (!isLocal && !isCachableExternal) return;
 
-  // Network-First for JS files, JSON configs, and HTML documents to guarantee instant updates
-  if (isLocal && (url.pathname.endsWith(".js") || url.pathname.endsWith(".json") || url.pathname.endsWith(".html") || url.pathname.endsWith("/"))) {
+  // Network-First for JS files, CSS stylesheets, JSON configs, and HTML documents to guarantee instant updates
+  const isCodeOrDoc = isLocal && (
+    url.pathname.endsWith(".js") ||
+    url.pathname.endsWith(".css") ||
+    url.pathname.endsWith(".json") ||
+    url.pathname.endsWith(".html") ||
+    url.pathname.endsWith("/") ||
+    url.pathname.includes("/tools/")
+  );
+
+  if (isCodeOrDoc) {
     e.respondWith(
       fetch(e.request).then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
@@ -101,6 +131,7 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
+  // Static Media / Fonts: Cache-First with Network Fallback
   e.respondWith(
     caches.match(e.request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -108,7 +139,7 @@ self.addEventListener("fetch", (e) => {
       }
 
       return fetch(e.request).then((networkResponse) => {
-        if (isCachableExternal) {
+        if (isCachableExternal || isLocal) {
           return caches.open(CACHE_NAME).then((cache) => {
             cache.put(e.request, networkResponse.clone());
             return networkResponse;

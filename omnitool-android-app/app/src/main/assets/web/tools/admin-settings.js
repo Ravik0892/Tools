@@ -567,7 +567,7 @@ export default {
             <!-- Cache Settings -->
             <div class="form-group" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
               <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--text-main);">
-                <input type="checkbox" id="preserve-settings-reset" style="width: 16px; height: 16px; accent-color: var(--accent-cyan);">
+                <input type="checkbox" id="preserve-settings-reset" checked style="width: 16px; height: 16px; accent-color: var(--accent-cyan);">
                 <span>Preserve Configurations on Cache Reset</span>
               </label>
               <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">If checked, clearing the app cache via the top-right button will preserve your custom configurations (donation links, Adsterra links, theme settings, and passcodes).</p>
@@ -1005,7 +1005,7 @@ export default {
     });
 
     // Swatches clicking logic
-    let activePreset = localStorage.getItem("omnitool_accent_preset") || "default";
+    let activePreset = appInstance.getConfigValue("omnitool_accent_preset", "default");
     const swatches = container.querySelectorAll(".color-swatch-item");
     
     // Highlight saved swatch
@@ -1332,7 +1332,6 @@ export default {
     container.querySelector("#preset-custom-wise")?.addEventListener("click", () => applyCustomTemplate('wise'));
 
     // Top action bar buttons
-    container.querySelector("#btn-adm-save-top")?.addEventListener("click", () => saveSettings());
     const triggerTestCheckout = (e) => {
       if (e) e.preventDefault();
       try {
@@ -1453,7 +1452,7 @@ export default {
 
       let overrides = {};
       try {
-        overrides = JSON.parse(localStorage.getItem("omnitool_monetization_overrides") || "{}");
+        overrides = JSON.parse(appInstance.getConfigValue("omnitool_monetization_overrides", "{}"));
       } catch (e) {}
 
       appInstance.tools.forEach(tool => {
@@ -1711,7 +1710,7 @@ export default {
         adsterraSmartLink.value = appInstance.getConfigValue("omnitool_adsterra_smart_link", "");
       }
       if (preserveSettingsReset) {
-        preserveSettingsReset.checked = localStorage.getItem("omnitool_preserve_settings_on_reset") === "true";
+        preserveSettingsReset.checked = appInstance.getConfigValue("omnitool_preserve_settings_on_reset", "true") !== "false";
       }
 
       // Load Payment Gateway Toggles
@@ -1763,8 +1762,12 @@ export default {
       }
 
       // Load monetization settings
-      monetizationGlobal.checked = localStorage.getItem("omnitool_monetization_active") === "true";
-      monetizationUserTier.value = localStorage.getItem("omnitool_user_tier") || "free";
+      monetizationGlobal.checked = appInstance.getConfigValue("omnitool_monetization_active", "false") === "true";
+      monetizationUserTier.value = appInstance.getConfigValue("omnitool_user_tier", "free");
+
+      // Synchronize theme accent preset swatch
+      activePreset = appInstance.getConfigValue("omnitool_accent_preset", "default");
+      highlightSwatch(activePreset);
 
       toggleFormFields(adNetwork.value);
       updateSimulatorPreview();
@@ -2021,6 +2024,11 @@ export default {
         };
         const encoded = btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
         localStorage.setItem("omnitool_license_token", `${encoded}.admin_simulated_sig`);
+      } else {
+        const existingToken = localStorage.getItem("omnitool_license_token") || "";
+        if (existingToken.endsWith(".admin_simulated_sig")) {
+          localStorage.removeItem("omnitool_license_token");
+        }
       }
 
       const overrides = {};
@@ -2056,6 +2064,29 @@ export default {
         appInstance.refreshDonationButtons();
       }
 
+      // Keep app globalConfig immediately in sync in memory
+      const configData = buildExportConfig();
+      if (appInstance && typeof appInstance === "object") {
+        appInstance.globalConfig = Object.assign(appInstance.globalConfig || {}, configData);
+      }
+
+      // Auto-persist directly to ad-config.json on disk so changes survive browser closes & offline reloads
+      try {
+        fetch("/api/deploy-live", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            config: configData,
+            pushToLive: false
+          }),
+          keepalive: true
+        }).then(res => {
+          if (res.ok) {
+            console.log("[Settings] Auto-persisted configurations to ad-config.json on disk.");
+          }
+        }).catch(() => {});
+      } catch (_) {}
+
       if (!isSilent) {
         appInstance.showToast("✅ Settings & Payment Gateways saved! Changes are live across all tools.", "success");
         if (typeof appInstance.playSynthSound === 'function') {
@@ -2079,7 +2110,7 @@ export default {
     };
 
     // Unified configuration exporter: packages all settings for ad-config.json and live site deployment
-    const buildExportConfig = () => {
+    function buildExportConfig() {
       const hiddenTools = [];
       container.querySelectorAll(".tool-visibility-checkbox").forEach(cb => {
         if (!cb.checked) {
@@ -2089,28 +2120,28 @@ export default {
 
       const configData = {
         "omnitool_hidden_tools": hiddenTools.join(","),
-        "omnitool_ad_global": adGlobal.checked ? "true" : "false",
-        "omnitool_ad_network": adNetwork.value,
-        "omnitool_sidebar_ad_network": sidebarAdNetwork.value,
-        "omnitool_ad_show_dash": showDash.checked ? "true" : "false",
-        "omnitool_ad_show_tool": showTool.checked ? "true" : "false",
-        "omnitool_ad_show_side": showSide.checked ? "true" : "false",
-        "omnitool_adsense_pub": adsensePub.value.trim(),
-        "omnitool_adsense_slot_dash": adsenseDash.value.trim(),
-        "omnitool_adsense_slot_tool": adsenseTool.value.trim(),
-        "omnitool_adsense_slot_side": adsenseSide.value.trim(),
-        "omnitool_admob_app": admobApp.value.trim(),
-        "omnitool_admob_unit_dash": admobDash.value.trim(),
-        "omnitool_admob_unit_tool": admobTool.value.trim(),
-        "omnitool_admob_unit_side": admobSide.value.trim(),
-        "omnitool_custom_ad_html": customCode.value,
-        "omnitool_sponsor_brand": localStorage.getItem("omnitool_sponsor_brand") || (sponsorBrand ? sponsorBrand.value.trim() : "HexaCloud Host"),
-        "omnitool_sponsor_icon": localStorage.getItem("omnitool_sponsor_icon") || (sponsorIcon ? sponsorIcon.value : "cloud"),
-        "omnitool_sponsor_slogan": localStorage.getItem("omnitool_sponsor_slogan") || (sponsorSlogan ? sponsorSlogan.value.trim() : "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit."),
-        "omnitool_sponsor_url": localStorage.getItem("omnitool_sponsor_url") || (sponsorUrl ? sponsorUrl.value.trim() : "#"),
-        "omnitool_sponsor_btn_text": localStorage.getItem("omnitool_sponsor_btn_text") || (sponsorBtnText ? sponsorBtnText.value.trim() : "Claim Now"),
-        "omnitool_coffee_url": coffeeUrl.value.trim(),
-        "omnitool_kofi_url": kofiUrl.value.trim(),
+        "omnitool_ad_global": adGlobal ? (adGlobal.checked ? "true" : "false") : "true",
+        "omnitool_ad_network": adNetwork ? adNetwork.value : "dev",
+        "omnitool_sidebar_ad_network": sidebarAdNetwork ? sidebarAdNetwork.value : "inherit",
+        "omnitool_ad_show_dash": showDash ? (showDash.checked ? "true" : "false") : "true",
+        "omnitool_ad_show_tool": showTool ? (showTool.checked ? "true" : "false") : "true",
+        "omnitool_ad_show_side": showSide ? (showSide.checked ? "true" : "false") : "true",
+        "omnitool_adsense_pub": adsensePub ? adsensePub.value.trim() : "ca-pub-XXXXXXXXXX",
+        "omnitool_adsense_slot_dash": adsenseDash ? adsenseDash.value.trim() : "1111111111",
+        "omnitool_adsense_slot_tool": adsenseTool ? adsenseTool.value.trim() : "2222222222",
+        "omnitool_adsense_slot_side": adsenseSide ? adsenseSide.value.trim() : "3333333333",
+        "omnitool_admob_app": admobApp ? admobApp.value.trim() : "ca-app-pub-XXXXXXXXXX~XXXXXXXXXX",
+        "omnitool_admob_unit_dash": admobDash ? admobDash.value.trim() : "ca-app-pub-XXXXXXXXXX/1111111111",
+        "omnitool_admob_unit_tool": admobTool ? admobTool.value.trim() : "ca-app-pub-XXXXXXXXXX/2222222222",
+        "omnitool_admob_unit_side": admobSide ? admobSide.value.trim() : "ca-app-pub-XXXXXXXXXX/3333333333",
+        "omnitool_custom_ad_html": customCode ? customCode.value : "",
+        "omnitool_sponsor_brand": appInstance.getConfigValue("omnitool_sponsor_brand", sponsorBrand ? sponsorBrand.value.trim() : "HexaCloud Host"),
+        "omnitool_sponsor_icon": appInstance.getConfigValue("omnitool_sponsor_icon", sponsorIcon ? sponsorIcon.value : "cloud"),
+        "omnitool_sponsor_slogan": appInstance.getConfigValue("omnitool_sponsor_slogan", sponsorSlogan ? sponsorSlogan.value.trim() : "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit."),
+        "omnitool_sponsor_url": appInstance.getConfigValue("omnitool_sponsor_url", sponsorUrl ? sponsorUrl.value.trim() : "#"),
+        "omnitool_sponsor_btn_text": appInstance.getConfigValue("omnitool_sponsor_btn_text", sponsorBtnText ? sponsorBtnText.value.trim() : "Claim Now"),
+        "omnitool_coffee_url": coffeeUrl ? coffeeUrl.value.trim() : "",
+        "omnitool_kofi_url": kofiUrl ? kofiUrl.value.trim() : "",
         "omnitool_gumroad_lifetime_url": gumroadLifetime ? gumroadLifetime.value.trim() : "https://gumroad.com",
         "omnitool_gumroad_monthly_url": gumroadMonthly ? gumroadMonthly.value.trim() : "https://gumroad.com",
         "omnitool_paypal_client_id": paypalClientIdInput ? paypalClientIdInput.value.trim() : "",
@@ -2125,7 +2156,7 @@ export default {
         "omnitool_crypto_usdt": cryptoUsdtInput ? cryptoUsdtInput.value.trim() : "TYDzmHwQkP2aE7wGz8hL9qR1vB4sN6mX5c",
         "omnitool_crypto_btc": cryptoBtcInput ? cryptoBtcInput.value.trim() : "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
         "omnitool_crypto_eth": cryptoEthInput ? cryptoEthInput.value.trim() : "0x71C53316E28b4923eFFe35E2D8527a2754664982",
-        "omnitool_custom_license_keys": customLicenseKeys ? customLicenseKeys.value.trim() : (localStorage.getItem("omnitool_custom_license_keys") || ""),
+        "omnitool_custom_license_keys": customLicenseKeys ? customLicenseKeys.value.trim() : (appInstance.getConfigValue("omnitool_custom_license_keys", "")),
         "omnitool_gw_upi_enabled": gwToggleUpi ? (gwToggleUpi.checked ? "true" : "false") : "true",
         "omnitool_gw_bank_enabled": gwToggleBank ? (gwToggleBank.checked ? "true" : "false") : "false",
         "omnitool_gw_gumroad_enabled": gwToggleGumroad ? (gwToggleGumroad.checked ? "true" : "false") : "true",
@@ -2154,26 +2185,26 @@ export default {
         "omnitool_price_monthly_usd": priceMonthlyUsd ? priceMonthlyUsd.value.trim() : "$4.99",
         "omnitool_price_monthly_inr": priceMonthlyInr ? priceMonthlyInr.value.trim() : "₹399",
         "omnitool_adsterra_smart_link": adsterraSmartLink ? adsterraSmartLink.value.trim() : "",
-        "omnitool_preserve_settings_on_reset": preserveSettingsReset ? (preserveSettingsReset.checked ? "true" : "false") : "false",
-        "omnitool_accent_preset": activePreset,
-        "omnitool_layout_density": appDensity.value,
-        "omnitool_default_view": appStartup.value,
-        "omnitool_clock_format": appClock.value,
-        "omnitool_audio_feedback": appAudio.checked ? "true" : "false",
+        "omnitool_preserve_settings_on_reset": preserveSettingsReset ? (preserveSettingsReset.checked ? "true" : "false") : "true",
+        "omnitool_accent_preset": activePreset || appInstance.getConfigValue("omnitool_accent_preset", "default"),
+        "omnitool_layout_density": appDensity ? appDensity.value : appInstance.getConfigValue("omnitool_layout_density", "comfortable"),
+        "omnitool_default_view": appStartup ? appStartup.value : appInstance.getConfigValue("omnitool_default_view", "dashboard"),
+        "omnitool_clock_format": appClock ? appClock.value : appInstance.getConfigValue("omnitool_clock_format", "24"),
+        "omnitool_audio_feedback": appAudio ? (appAudio.checked ? "true" : "false") : appInstance.getConfigValue("omnitool_audio_feedback", "false"),
         "omnitool_auth_mode": "secure_serverless",
-        "omnitool_monetization_active": monetizationGlobal.checked ? "true" : "false",
-        "omnitool_user_tier": monetizationUserTier.value,
-        "omnitool_monetization_overrides": localStorage.getItem("omnitool_monetization_overrides") || "{}"
+        "omnitool_monetization_active": monetizationGlobal ? (monetizationGlobal.checked ? "true" : "false") : appInstance.getConfigValue("omnitool_monetization_active", "false"),
+        "omnitool_user_tier": monetizationUserTier ? monetizationUserTier.value : appInstance.getConfigValue("omnitool_user_tier", "free"),
+        "omnitool_monetization_overrides": appInstance.getConfigValue("omnitool_monetization_overrides", "{}")
       };
 
-      const overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
+      const overridesStr = appInstance.getConfigValue("omnitool_sponsor_overrides", "");
       configData["omnitool_sponsor_overrides"] = overridesStr;
       overridesStr.split(",").filter(Boolean).forEach(toolId => {
-        configData["omnitool_sponsor_brand_" + toolId] = localStorage.getItem("omnitool_sponsor_brand_" + toolId) || "";
-        configData["omnitool_sponsor_icon_" + toolId] = localStorage.getItem("omnitool_sponsor_icon_" + toolId) || "cloud";
-        configData["omnitool_sponsor_slogan_" + toolId] = localStorage.getItem("omnitool_sponsor_slogan_" + toolId) || "";
-        configData["omnitool_sponsor_url_" + toolId] = localStorage.getItem("omnitool_sponsor_url_" + toolId) || "";
-        configData["omnitool_sponsor_btn_text_" + toolId] = localStorage.getItem("omnitool_sponsor_btn_text_" + toolId) || "";
+        configData["omnitool_sponsor_brand_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_brand_" + toolId, "");
+        configData["omnitool_sponsor_icon_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_icon_" + toolId, "cloud");
+        configData["omnitool_sponsor_slogan_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_slogan_" + toolId, "");
+        configData["omnitool_sponsor_url_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_url_" + toolId, "");
+        configData["omnitool_sponsor_btn_text_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_btn_text_" + toolId, "");
       });
 
       return configData;
@@ -2187,8 +2218,10 @@ export default {
       const a = document.createElement("a");
       a.href = url;
       a.download = "ad-config.json";
+      document.body.appendChild(a);
       a.click();
-      URL.revokeObjectURL(url);
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
       appInstance.showToast("ad-config.json downloaded! Place this file in your website root folder to apply configurations globally.", "success");
       if (typeof appInstance.playSynthSound === 'function') {
         appInstance.playSynthSound('success');
@@ -2391,7 +2424,13 @@ export default {
         const keysToRemove = [];
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key.startsWith("omnitool_ad_") || key.startsWith("omnitool_adsense_") || key.startsWith("omnitool_admob_") || key.startsWith("omnitool_custom_")) {
+          if (
+            key.startsWith("omnitool_ad_") ||
+            key.startsWith("omnitool_adsense_") ||
+            key.startsWith("omnitool_admob_") ||
+            key === "omnitool_custom_ad_html" ||
+            key.startsWith("omnitool_sponsor_")
+          ) {
             keysToRemove.push(key);
           }
         }

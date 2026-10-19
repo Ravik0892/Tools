@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=1.3.4">
+  <link rel="stylesheet" href="style.css?v=2.1.0">
   <link rel="modulepreload" href="tools/utils.js">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -115,6 +115,14 @@
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
+      </div>
+      <!-- Quick Category Filter Tabs in Command Palette -->
+      <div class="cp-filters-row" id="cp-filters-row">
+        <button type="button" class="cp-filter-tab active" data-cp-filter="all">All</button>
+        <button type="button" class="cp-filter-tab" data-cp-filter="tools">⚡ Tools</button>
+        <button type="button" class="cp-filter-tab" data-cp-filter="suites">📦 Suites</button>
+        <button type="button" class="cp-filter-tab" data-cp-filter="features">✨ Features</button>
+        <button type="button" class="cp-filter-tab" data-cp-filter="guides">📚 Guides</button>
       </div>
       <div class="cp-results-list" id="cp-results-list">
         <!-- Filled dynamically by script -->
@@ -253,7 +261,7 @@
                 <span class="cpp-name">Lifetime Developer Pass</span>
                 <span class="cpp-tag">Best Value</span>
               </div>
-              <div class="cpp-desc">Pay once, keep forever • All 26+ offline tools • Lifetime updates</div>
+              <div class="cpp-desc dynamic-plan-desc">Pay once, keep forever • All <span class="dynamic-tool-count">46+</span> offline tools • Lifetime updates</div>
             </div>
           </div>
           <div class="cpp-right">
@@ -500,7 +508,7 @@
             <div class="pos-left">
               <span class="pos-badge">Selected Plan</span>
               <strong id="chk-paypal-plan-title">Lifetime Developer Pass</strong>
-              <small id="chk-paypal-plan-desc">One-time payment • Lifetime access to all 28 tools</small>
+              <small id="chk-paypal-plan-desc">One-time payment • Lifetime access to all <span class="dynamic-tool-count">46+</span> tools</small>
             </div>
             <div class="pos-right">
               <span class="pos-amount" id="chk-paypal-amount-display">$29.99</span>
@@ -1277,7 +1285,7 @@
             <p>Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
             <div class="hero-metrics-strip">
               <div class="hero-metric-item">
-                <span class="hero-metric-num">26+</span>
+                <span class="hero-metric-num dynamic-tool-count" id="hero-tools-count">46+</span>
                 <span class="hero-metric-label">Offline Tools</span>
               </div>
               <div class="hero-metric-sep"></div>
@@ -1307,6 +1315,46 @@
               </svg>
               <input type="text" id="tool-search" class="search-bar"
                 placeholder="Search utilities... (e.g. JSON, encoder, base64)" aria-label="Search Tools">
+              <button type="button" id="tool-search-clear" class="search-clear-btn" aria-label="Clear search" style="display: none;" title="Clear search">✕</button>
+            </div>
+
+            <!-- Search Quick Filter Chips (All, Tools, Suites, Features, Guides, PRO, Free) -->
+            <div class="search-filters-bar" id="search-filters-bar">
+              <button type="button" class="search-filter-chip active" data-filter="all" id="sfc-all">
+                <span class="sfc-icon">🌐</span>
+                <span>All</span>
+                <span class="sfc-count" id="sfc-count-all">46</span>
+              </button>
+              <button type="button" class="search-filter-chip" data-filter="tools" id="sfc-tools">
+                <span class="sfc-icon">⚡</span>
+                <span>Tools</span>
+                <span class="sfc-count" id="sfc-count-tools">24</span>
+              </button>
+              <button type="button" class="search-filter-chip" data-filter="suites" id="sfc-suites">
+                <span class="sfc-icon">📦</span>
+                <span>Suites</span>
+                <span class="sfc-count" id="sfc-count-suites">14</span>
+              </button>
+              <button type="button" class="search-filter-chip" data-filter="features" id="sfc-features">
+                <span class="sfc-icon">✨</span>
+                <span>Features</span>
+                <span class="sfc-count" id="sfc-count-features">8</span>
+              </button>
+              <button type="button" class="search-filter-chip" data-filter="pro" id="sfc-pro">
+                <span class="sfc-icon">💎</span>
+                <span>PRO</span>
+                <span class="sfc-count" id="sfc-count-pro">30</span>
+              </button>
+              <button type="button" class="search-filter-chip" data-filter="free" id="sfc-free">
+                <span class="sfc-icon">🆓</span>
+                <span>Free</span>
+                <span class="sfc-count" id="sfc-count-free">16</span>
+              </button>
+              <button type="button" class="search-filter-chip" data-filter="guides" id="sfc-guides">
+                <span class="sfc-icon">📚</span>
+                <span>Guides</span>
+                <span class="sfc-count" id="sfc-count-guides">28</span>
+              </button>
             </div>
           </div>
 
@@ -1325,7 +1373,7 @@
             <div style="background: linear-gradient(135deg, rgba(0, 242, 254, 0.08), rgba(157, 78, 221, 0.08)); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 14px; padding: 24px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
               <div>
                 <span style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--accent-cyan); letter-spacing: 0.5px;">📚 Knowledge Base &amp; Tutorials</span>
-                <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-top: 4px;">Explore All 27 Tool Documentation Guides</h2>
+                <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-top: 4px;">Explore All <span class="dynamic-guides-count">28</span> Tool Documentation Guides</h2>
                 <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px; max-width: 620px;">Learn how to format data, merge PDFs, decode JWTs, and run cryptographic suites offline with zero server data retention.</p>
               </div>
               <a href="guides/index.html" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #000; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 242, 254, 0.35); white-space: nowrap;">Browse Guides Hub &rarr;</a>
@@ -1340,9 +1388,9 @@
               </svg>
               Detailed Tool Documentation &amp; Help Guides
             </h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
-              <a href="guides/index.html"
-                style="color: var(--accent-cyan); text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color var(--transition-fast);">📚 All 27 Guides &amp; Tutorials Hub &rarr;</a>
+            <div id="home-guides-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
+              <a href="guides/index.html" id="home-guides-hub-link"
+                style="color: var(--accent-cyan); text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color var(--transition-fast);">📚 All <span class="dynamic-guides-count">28</span> Guides &amp; Tutorials Hub &rarr;</a>
               <a href="guides/pipeline-builder.html"
                 style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
                 onmouseover="this.style.color='var(--accent-cyan)'"
@@ -1451,6 +1499,10 @@
                 style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
                 onmouseover="this.style.color='var(--accent-cyan)'"
                 onmouseout="this.style.color='var(--text-muted)'">IP Subnet &amp; MAC Suite Guide</a>
+              <a href="guides/payment-guide.html"
+                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
+                onmouseover="this.style.color='var(--accent-cyan)'"
+                onmouseout="this.style.color='var(--text-muted)'">Payment &amp; Activation Guide</a>
             </div>
           </div>
         </div>
@@ -1464,7 +1516,7 @@
                 style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Membership
                 Plan</span></h1>
             <p style="font-size: 14.5px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.5;">
-              Get unlimited access to all 28 developer utilities with your preferred level of ad configuration.</p>
+              Get unlimited access to all <span class="dynamic-tool-count">46+</span> developer utilities with your preferred level of ad configuration.</p>
           </div>
 
           <!-- STEP-BY-STEP PAYMENT & ACTIVATION GUIDE BANNER -->
@@ -1531,7 +1583,7 @@
                 <ul
                   style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
-                      style="color: var(--accent-cyan);">✔</span> Lifetime access to all 28 tools</li>
+                      style="color: var(--accent-cyan);">✔</span> Lifetime access to all <span class="dynamic-tool-count">46+</span> tools</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-cyan);">✔</span> Bypass all video ads/lock screens</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
@@ -1570,9 +1622,9 @@
                   <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ month</span>
                 </div>
                 <ul
-                  style="list-style: none; padding: 0; margin: 0 0 20px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
+                  style="list-style: none; padding: 0; margin: 0 20px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
-                      style="color: var(--accent-cyan);">✔</span> Full access to all 28 tools</li>
+                      style="color: var(--accent-cyan);">✔</span> Full access to all <span class="dynamic-tool-count">46+</span> tools</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-cyan);">✔</span> Bypass all video ads/lock screens</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
@@ -1672,7 +1724,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Core JavaScript controllers (Razorpay SDK loads on-demand upon checkout) -->
-  <script src="app.js?v=1.4.0"></script>
+  <script src="app.js?v=2.1.0"></script>
 
   <!-- Vercel Web Analytics -->
   <script>
