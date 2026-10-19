@@ -79,7 +79,15 @@
   ],
   "rewrites": [
     {
-      "source": "/tool/:toolId",
+      "source": "/tool/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/category/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(plans|payment-guide|favorites|dashboard|privacy|about|contact|terms)",
       "destination": "/index.html"
     }
   ]
