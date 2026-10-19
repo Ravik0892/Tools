@@ -61,10 +61,10 @@
   ExpiresByType font/woff "access plus 1 year"
   ExpiresByType font/ttf "access plus 1 year"
 
-  # CSS and Scripts
-  ExpiresByType text/css "access plus 1 month"
-  ExpiresByType text/javascript "access plus 1 month"
-  ExpiresByType application/javascript "access plus 1 month"
+  # CSS and Scripts (Revalidate immediately so updates appear instantly)
+  ExpiresByType text/css "access plus 0 seconds"
+  ExpiresByType text/javascript "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 0 seconds"
 </IfModule>
 
 # 4. Gzip & Deflate Compression for Lightning-Fast Loading

@@ -10,7 +10,7 @@ This file lists the commands and batch scripts available to run, build, and main
 > **Why is a local server required?**
 > Modern web browsers (Google Chrome, Microsoft Edge, Brave, etc.) enforce strict CORS security policies. Opening `index.html` directly via `file:///` causes the browser to block JavaScript ES Module imports (`import()`), Web Workers, and PWA Service Workers with the error:
 > *"Failed to resolve module specifier... The base URL is about:blank because import() is called from a CORS-cross-origin script."*
-> Always run via a local server (or our 1-click launcher) so all 26+ offline tools load instantly.
+> Always run via a local server (or our 1-click launcher) so all 50+ offline tools load instantly.
 
 ### A. 1-Click Launcher for Windows (Fastest)
 Simply double-click:

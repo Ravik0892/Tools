@@ -975,7 +975,8 @@ const toolMeta = {
   'code-playground': { category: 'dev', categoryName: 'Developer Tools', icon: '💻', color: '#00f2fe' },
   'pii-anonymizer': { category: 'crypto', categoryName: 'Crypto & Privacy', icon: '🕵️', color: '#f59e0b' },
   'json-formatter': { category: 'dev', categoryName: 'Developer Tools', icon: '📋', color: '#00f2fe' },
-  'ip-subnet-calculator': { category: 'math', categoryName: 'Math & Time', icon: '🌐', color: '#00f2fe' }
+  'ip-subnet-calculator': { category: 'math', categoryName: 'Math & Time', icon: '🌐', color: '#00f2fe' },
+  'payment-guide': { category: 'dev', categoryName: 'PRO & Billing', icon: '💎', color: '#00f2fe' }
 };
 
 function getRelatedTools(currentTool, allTools) {
@@ -1704,7 +1705,7 @@ const template = (tool, allTools) => {
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All 26 Guides</a>
+        <a href="index.html" class="nav-link-btn">📚 All ${allTools.length} Guides</a>
         <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
         <a href="${tool.ctaHref}" class="nav-launch-btn">🚀 ${tool.ctaLabel}</a>
       </div>
@@ -1791,14 +1792,14 @@ const template = (tool, allTools) => {
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
       <a href="${tool.ctaHref}" class="cta-btn">🚀 ${tool.ctaLabel}</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All 26+ Tool Guides &rarr;</a>
+      <a href="index.html" class="all-guides-cta">📚 Browse All ${allTools.length} Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All 26 Guides &rarr;</a>
+        <a href="index.html">View All ${allTools.length} Guides &rarr;</a>
       </div>
       <div class="related-grid">
         ${related.map(rel => {
@@ -1895,16 +1896,16 @@ const generateGuidesHub = (allTools) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniTool Hub Guides & Documentation Hub | 26+ Free Developer Utilities</title>
-  <meta name="description" content="Explore free, step-by-step guides and tutorials for over 26 privacy-first developer, security, PDF, and design utilities. Learn how to process data safely client-side.">
+  <title>OmniTool Hub Guides & Documentation Hub | ${allTools.length}+ Free Developer Utilities</title>
+  <meta name="description" content="Explore free, step-by-step guides and tutorials for over ${allTools.length} privacy-first developer, security, PDF, and design utilities. Learn how to process data safely client-side.">
   <meta name="keywords" content="developer tools guides, online tools tutorials, pdf tools guide, json formatter tutorial, jwt decoder guide, offline web tools, client side utilities">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://omnitool-hub.vercel.app/guides/">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="OmniTool Hub Guides & Documentation Hub | 26+ In-Browser Tools">
-  <meta property="og:description" content="Master 26+ offline-first developer, cryptography, PDF, and utility tools with comprehensive guides and tutorials.">
+  <meta property="og:title" content="OmniTool Hub Guides & Documentation Hub | ${allTools.length}+ In-Browser Tools">
+  <meta property="og:description" content="Master ${allTools.length}+ offline-first developer, cryptography, PDF, and utility tools with comprehensive guides and tutorials.">
   <meta property="og:url" content="https://omnitool-hub.vercel.app/guides/">
   <meta property="og:site_name" content="OmniTool Hub">
   <meta property="og:image" content="https://omnitool-hub.vercel.app/social_media_assets/opengraph_landscape_1200x630.svg">
@@ -1912,7 +1913,7 @@ const generateGuidesHub = (allTools) => {
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="OmniTool Hub Guides & Documentation Hub">
-  <meta name="twitter:description" content="Comprehensive guides and tutorials for 26+ in-browser utility tools. Zero server uploads.">
+  <meta name="twitter:description" content="Comprehensive guides and tutorials for ${allTools.length}+ in-browser utility tools. Zero server uploads.">
   <meta name="twitter:image" content="https://omnitool-hub.vercel.app/social_media_assets/twitter_header_1500x500.svg">
 
   <!-- Typography & Icons -->
@@ -1928,7 +1929,7 @@ const generateGuidesHub = (allTools) => {
       {
         "@type": "CollectionPage",
         "name": "OmniTool Hub Guides & Documentation Hub",
-        "description": "Complete collection of user guides, tutorials, and security breakdowns for 26+ client-side utility tools.",
+        "description": "Complete collection of user guides, tutorials, and security breakdowns for ${allTools.length}+ client-side utility tools.",
         "url": "https://omnitool-hub.vercel.app/guides/",
         "isPartOf": {
           "@type": "WebSite",
@@ -2545,7 +2546,7 @@ const generateGuidesHub = (allTools) => {
       <div class="hero-badge">📚 Comprehensive Documentation &amp; Knowledge Base</div>
       <h1 class="hero-title">OmniTool Hub Guides &amp; Tutorials</h1>
       <p class="hero-subtitle">
-        Deep dive into usage instructions, privacy architecture, and power-user configurations for all 26+ utility tools. All operations run 100% inside your browser memory with zero tracking.
+        Deep dive into usage instructions, privacy architecture, and power-user configurations for all ${allTools.length}+ utility tools. All operations run 100% inside your browser memory with zero tracking.
       </p>
 
       <!-- Live Search Bar -->
@@ -2756,6 +2757,27 @@ const generateGuidesHub = (allTools) => {
 `;
 };
 
+// Additional guides that have custom, handcrafted interactive tutorials
+const extraGuides = [
+  {
+    id: "payment-guide",
+    fileName: "payment-guide.html",
+    title: "Step-by-Step Payment & License Activation Guide | OmniTool Hub PRO",
+    description: "Learn how to pay via UPI (GPay, PhonePe, Paytm), Cards via Gumroad, PayPal, Bank IMPS, or Crypto, and unlock PRO instantly with your 12-digit UTR.",
+    h1: "Payment & License Activation Guide",
+    tag: "PRO & Billing",
+    tabs: [
+      { badge: "UPI / QR" },
+      { badge: "Cards & PayPal" },
+      { badge: "Instant Unlock" }
+    ],
+    ctaHref: "../index.html#plans",
+    ctaLabel: "View Membership Plans"
+  }
+];
+
+const allHubGuides = [...toolsData, ...extraGuides];
+
 // Paths to write
 const projectRoot = path.join(__dirname, '..');
 const guidesDirRoot = path.join(projectRoot, 'guides');
@@ -2767,7 +2789,7 @@ fs.mkdirSync(androidGuidesDir, { recursive: true });
 
 let count = 0;
 for (const tool of toolsData) {
-  const content = template(tool, toolsData);
+  const content = template(tool, allHubGuides);
   
   // Write to root guides
   fs.writeFileSync(path.join(guidesDirRoot, tool.fileName), content, 'utf8');
@@ -2780,10 +2802,11 @@ for (const tool of toolsData) {
 }
 
 // Generate Master Guides & Documentation Hub
-const hubContent = generateGuidesHub(toolsData);
+const hubContent = generateGuidesHub(allHubGuides);
 fs.writeFileSync(path.join(guidesDirRoot, 'index.html'), hubContent, 'utf8');
 fs.writeFileSync(path.join(androidGuidesDir, 'index.html'), hubContent, 'utf8');
 console.log('Generated master Guides Hub: guides/index.html');
 
-console.log(`Successfully generated ${count} static HTML blog posts / guides and master index.`);
+console.log(`Successfully generated ${count} static HTML blog posts / guides and master index with all ${allHubGuides.length} guides.`);
+
 
