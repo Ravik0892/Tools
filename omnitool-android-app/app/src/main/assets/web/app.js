@@ -4959,13 +4959,13 @@ const app = {
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.setAttribute("content", toolRegistryEntry.desc);
         const canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) canonical.setAttribute("href", `https://omnitool-hub.vercel.app/tool/${toolRegistryEntry.id}`);
+        if (canonical) canonical.setAttribute("href", `https://omnitool.worldsneed.com/tool/${toolRegistryEntry.id}`);
         const ogTitle = document.querySelector('meta[property="og:title"]');
         if (ogTitle) ogTitle.setAttribute("content", `${toolRegistryEntry.name} | OmniTool Hub`);
         const ogDesc = document.querySelector('meta[property="og:description"]');
         if (ogDesc) ogDesc.setAttribute("content", toolRegistryEntry.desc);
         const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) ogUrl.setAttribute("content", `https://omnitool-hub.vercel.app/tool/${toolRegistryEntry.id}`);
+        if (ogUrl) ogUrl.setAttribute("content", `https://omnitool.worldsneed.com/tool/${toolRegistryEntry.id}`);
       }
 
       let overrides = {};
@@ -5815,13 +5815,13 @@ const app = {
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute("content", "A premium, free, privacy-first developer and utility tools web application. 50+ tools running 100% client-side — no data ever leaves your device.");
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute("href", "https://omnitool-hub.vercel.app/");
+    if (canonical) canonical.setAttribute("href", "https://omnitool.worldsneed.com/");
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) ogTitle.setAttribute("content", "OmniTool Hub | All-in-One Utility Suite");
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc) ogDesc.setAttribute("content", "50+ free developer and utility tools. 100% offline-first, client-side, no tracking.");
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute("content", "https://omnitool-hub.vercel.app/");
+    if (ogUrl) ogUrl.setAttribute("content", "https://omnitool.worldsneed.com/");
 
     const searchBar = document.getElementById("tool-search");
     if (searchBar && searchBar.value) {

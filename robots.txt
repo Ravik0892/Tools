@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://omnitool-hub.vercel.app/sitemap.xml
+Sitemap: https://omnitool.worldsneed.com/sitemap.xml
