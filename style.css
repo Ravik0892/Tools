@@ -4266,6 +4266,7 @@ body {
   #sidebar-open-btn {
     display: none !important;
   }
+}
 
   .main-header {
     height: 72px;
@@ -4906,6 +4907,14 @@ body {
     pointer-events: auto;
   }
 
+  @media (max-width: 480px) {
+    .header-prefs-menu {
+      width: min(290px, calc(100vw - 20px));
+      right: -4px;
+      top: calc(100% + 8px);
+    }
+  }
+
   [data-theme="light"] .header-prefs-menu {
     background: rgba(255, 255, 255, 0.95);
     border-color: rgba(0, 0, 0, 0.08);
@@ -5494,7 +5503,6 @@ body {
     padding: 8px 10px;
     border-radius: 6px;
   }
-}
 
 /* Light Theme Overrides for Dropdowns */
 [data-theme="light"] .mega-menu-panel,
