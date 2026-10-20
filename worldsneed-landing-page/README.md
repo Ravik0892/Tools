@@ -54,6 +54,6 @@ You can deploy this in **under 2 minutes** using Cloudflare Pages:
 ## 🔗 Live Projects Linked in the Landing Page
 
 1. **OmniTool Hub**: `https://omnitool.worldsneed.com` (50+ In-Browser Utilities)
-2. **WordsNeed Dictionary**: `https://wordsneed-dictionary.vercel.app/`
+2. **WordsNeed**: `https://words.worldsneed.com` (Vocabulary & Multilingual Explorer)
 3. **Cyber Bird: Neon Flight**: `https://worldsneed.itch.io/cyber-bird-neon-flight`
 4. **Future Roadmap**: `learn.worldsneed.com`, AI Content Studio, and Open Developer Kits.

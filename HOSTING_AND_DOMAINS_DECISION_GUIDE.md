@@ -353,7 +353,7 @@ For your proposed `AD-LOCK` tier (unlocking a tool for 24 hours by watching an a
 
 ## 14. The 1-Domain + Subdomains Strategy: Is It Good? (Verdict: EXCELLENT!)
 
-Using **`worldsneed.com`** as your master root domain and putting each project on a **subdomain** is the smartest, most profitable architecture.
+Using **worldsneed.com** as your master root domain and putting each project on a **subdomain** is the smartest, most profitable architecture.
 
 ```
                           ┌──────────────────────────┐
@@ -361,15 +361,15 @@ Using **`worldsneed.com`** as your master root domain and putting each project o
                           └─────────────┬────────────┘
          ┌──────────────────────────────┼──────────────────────────────┐
          ▼                              ▼                              ▼
-┌──────────────────────┐       ┌──────────────────────┐       ┌──────────────────────┐
-│ tools.worldsneed.com │       │ learn.worldsneed.com │       │  ai.worldsneed.com   │
-│ (OmniTool Hub)       │       │ (Educational Hub)    │       │ (AI Studio App)      │
-└──────────────────────┘       └──────────────────────┘       └──────────────────────┘
+┌────────────────────────┐     ┌──────────────────────┐       ┌──────────────────────┐
+│ omnitool.worldsneed.com│     │ learn.worldsneed.com │       │  ai.worldsneed.com   │
+│ (OmniTool Hub)         │     │ (Educational Hub)    │       │ (AI Studio App)      │
+└────────────────────────┘     └──────────────────────┘       └──────────────────────┘
                                         │
                                         ▼
                                ┌──────────────────────────┐
-                               │ dictionary.worldsneed.com│
-                               │ (WordsNeed Dictionary)   │
+                               │   words.worldsneed.com   │
+                               │ (WordsNeed Vocabulary)   │
                                └──────────────────────────┘
 ```
 
@@ -383,14 +383,14 @@ Using **`worldsneed.com`** as your master root domain and putting each project o
 * You don't have to wait 2 to 4 weeks getting separate approvals for every single site!
 
 #### 3. Cross-Promotion & Traffic Synergy
-* A visitor using your dictionary at `dictionary.worldsneed.com` sees your navigation bar pointing to `tools.worldsneed.com` and `learn.worldsneed.com`.
+* A visitor using your vocabulary & multilingual explorer at `words.worldsneed.com` sees your navigation bar pointing to `omnitool.worldsneed.com` and `learn.worldsneed.com`.
 * All your projects help each other grow without paying for advertising.
 
 #### 4. Clean Cloudflare Pages Setup
-* In Cloudflare Pages, each project connects to its own subdomain:
-  * Root Portal (`worldsneed-portal` repo) ➔ `worldsneed.com`
-  * Dictionary (`wordsneed-dictionary` repo) ➔ `dictionary.worldsneed.com`
-  * Developer Tools (`Tools website` repo) ➔ `tools.worldsneed.com`
+* In Cloudflare Pages / DNS, each project connects to its own subdomain:
+  * Root Portal (`worldsneed-landing-page`) ➔ `worldsneed.com`
+  * Words & Language (`wordsneed` repo) ➔ `words.worldsneed.com`
+  * Developer Tools (`Tools website` repo) ➔ `omnitool.worldsneed.com`
   * Educational Platform ➔ `learn.worldsneed.com`
   * AI Studio App ➔ `ai.worldsneed.com`
 * Each gets its own independent automatic deployment and free SSL certificate!
@@ -422,8 +422,8 @@ Having a parent company/brand gives your projects legitimacy and authority.
 
 | Project | Longer Subdomain | Cleaner Recommended Subdomain | Why Shorter is Better |
 | :--- | :--- | :--- | :--- |
-| **Dictionary** | `wordsneed.worldsneed.com` | **`dictionary.worldsneed.com`** | `wordsneed.worldsneed.com` is a tongue-twister (confuses "words" and "worlds"). `dictionary.worldsneed.com` is crystal clear! |
-| **OmniTool Hub** | `omnitool-hub.worldsneed.com` | **`tools.worldsneed.com`** or **`omnitool.worldsneed.com`** | Removing hyphens makes it easier to type on mobile keyboards. |
+| **WordsNeed** | `wordsneed.worldsneed.com` | **`words.worldsneed.com`** | `words.worldsneed.com` is short, punchy, and broad. It encompasses dictionaries, vocabulary, idioms, word games, and languages without being limited. |
+| **OmniTool Hub** | `omnitool-hub.worldsneed.com` | **`omnitool.worldsneed.com`** | Clean, branded, memorable. |
 | **Education Hub** | `educational-website.worldsneed.com` | **`learn.worldsneed.com`** or **`edu.worldsneed.com`** | Short, punchy, looks like Khan Academy or Coursera. |
 | **AI Content Studio** | `ai-social-media.worldsneed.com` | **`ai.worldsneed.com`** | Modern, premium, ultra-fast to remember. |
 
@@ -460,8 +460,8 @@ Google will **instantly reject** your site if you don't have these in your heade
 4. **Terms of Service**: Standard rules for using your tools.
 
 #### Step 2: Content Volume (Substantial Original Content)
-* **For your Dictionary (`dictionary.worldsneed.com`)**: Ensure at least 80–100+ words with full definitions, examples, and pronunciation cards are live (your current app already has 88+ words!).
-* **For OmniTool Hub (`tools.worldsneed.com`)**: Ensure all 28+ tools are functional with clear descriptions and guides.
+* **For WordsNeed (`words.worldsneed.com`)**: Ensure words with full definitions, examples, and pronunciation cards are live.
+* **For OmniTool Hub (`omnitool.worldsneed.com`)**: Ensure all 50+ tools are functional with clear descriptions and guides.
 * **On the root `worldsneed.com`**: Have a professional intro portal explaining all available tools and platforms.
 
 #### Step 3: Index Your Pages on Google Search Console
