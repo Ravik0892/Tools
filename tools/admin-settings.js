@@ -262,9 +262,19 @@ export default {
               </div>
               <div class="form-row" id="adm-row-razorpay" style="margin-top: 6px;">
                 <div class="form-group">
-                  <label for="razorpay-gateway-url">Razorpay Payment Page URL</label>
-                  <input type="text" class="form-input" id="razorpay-gateway-url" placeholder="e.g. https://rzp.io/l/yourlink">
+                  <label for="razorpay-lifetime-url">Razorpay Lifetime Pass URL (₹2,499)</label>
+                  <input type="text" class="form-input" id="razorpay-lifetime-url" placeholder="e.g. https://rzp.io/rzp/omnitool-pro">
+                  <span style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px; display: block;">Payment Page / Link for Lifetime Developer Pass.</span>
                 </div>
+                <div class="form-group">
+                  <label for="razorpay-monthly-url">Razorpay Pro Monthly URL (₹399)</label>
+                  <input type="text" class="form-input" id="razorpay-monthly-url" placeholder="e.g. https://rzp.io/rzp/omnitool-monthly">
+                  <span style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px; display: block;">Payment Page / Link for Pro Monthly Pass.</span>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top: 6px;">
+                <label for="razorpay-gateway-url">Fallback / Universal Razorpay URL</label>
+                <input type="text" class="form-input" id="razorpay-gateway-url" placeholder="e.g. https://rzp.io/rzp/omnitool-pro">
               </div>
               <div class="form-row" id="adm-row-coffee" style="margin-top: 6px;">
                 <div class="form-group">
@@ -1077,6 +1087,8 @@ export default {
     const gumroadMonthly = container.querySelector("#gumroad-monthly-url");
     const paypalClientIdInput = container.querySelector("#paypal-client-id");
     const paypalUrlInput = container.querySelector("#paypal-gateway-url");
+    const razorpayLifetimeInput = container.querySelector("#razorpay-lifetime-url");
+    const razorpayMonthlyInput = container.querySelector("#razorpay-monthly-url");
     const razorpayUrlInput = container.querySelector("#razorpay-gateway-url");
     const upiIdInput = container.querySelector("#upi-gateway-id");
     const upiNameInput = container.querySelector("#upi-gateway-name");
@@ -1694,6 +1706,8 @@ export default {
       if (gumroadMonthly) gumroadMonthly.value = appInstance.getConfigValue("omnitool_gumroad_monthly_url", "https://gumroad.com");
       if (paypalClientIdInput) paypalClientIdInput.value = appInstance.getConfigValue("omnitool_paypal_client_id", "");
       if (paypalUrlInput) paypalUrlInput.value = appInstance.getConfigValue("omnitool_paypal_url", "https://www.paypal.com");
+      if (razorpayLifetimeInput) razorpayLifetimeInput.value = appInstance.getConfigValue("omnitool_razorpay_lifetime_url", "");
+      if (razorpayMonthlyInput) razorpayMonthlyInput.value = appInstance.getConfigValue("omnitool_razorpay_monthly_url", "");
       if (razorpayUrlInput) razorpayUrlInput.value = appInstance.getConfigValue("omnitool_razorpay_url", "https://razorpay.com");
       if (upiIdInput) upiIdInput.value = appInstance.getConfigValue("omnitool_upi_id", "ravik0892@okaxis");
       if (upiNameInput) upiNameInput.value = appInstance.getConfigValue("omnitool_upi_name", "OmniTool Hub");
@@ -1945,6 +1959,8 @@ export default {
       if (gumroadMonthly) localStorage.setItem("omnitool_gumroad_monthly_url", gumroadMonthly.value.trim());
       if (paypalClientIdInput) localStorage.setItem("omnitool_paypal_client_id", paypalClientIdInput.value.trim());
       if (paypalUrlInput) localStorage.setItem("omnitool_paypal_url", paypalUrlInput.value.trim());
+      if (razorpayLifetimeInput) localStorage.setItem("omnitool_razorpay_lifetime_url", razorpayLifetimeInput.value.trim());
+      if (razorpayMonthlyInput) localStorage.setItem("omnitool_razorpay_monthly_url", razorpayMonthlyInput.value.trim());
       if (razorpayUrlInput) localStorage.setItem("omnitool_razorpay_url", razorpayUrlInput.value.trim());
       if (upiIdInput) localStorage.setItem("omnitool_upi_id", upiIdInput.value.trim());
       if (upiNameInput) localStorage.setItem("omnitool_upi_name", upiNameInput.value.trim());
@@ -2145,6 +2161,8 @@ export default {
         "omnitool_gumroad_monthly_url": gumroadMonthly ? gumroadMonthly.value.trim() : "https://gumroad.com",
         "omnitool_paypal_client_id": paypalClientIdInput ? paypalClientIdInput.value.trim() : "",
         "omnitool_paypal_url": paypalUrlInput ? paypalUrlInput.value.trim() : "https://www.paypal.com",
+        "omnitool_razorpay_lifetime_url": razorpayLifetimeInput ? razorpayLifetimeInput.value.trim() : "",
+        "omnitool_razorpay_monthly_url": razorpayMonthlyInput ? razorpayMonthlyInput.value.trim() : "",
         "omnitool_razorpay_url": razorpayUrlInput ? razorpayUrlInput.value.trim() : "https://razorpay.com",
         "omnitool_upi_id": upiIdInput ? upiIdInput.value.trim() : "ravik0892@okaxis",
         "omnitool_upi_name": upiNameInput ? upiNameInput.value.trim() : "OmniTool Hub",

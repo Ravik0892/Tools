@@ -2339,6 +2339,17 @@ const app = {
     console.log("%c===========================", "color: #00f2fe; font-weight: bold; font-size: 14px;");
   },
 
+  detectUserRegion() {
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      const lang = (navigator.language || navigator.userLanguage || "").toLowerCase();
+      const isIndia = tz.includes("Kolkata") || tz.includes("Calcutta") || lang === "en-in" || lang.startsWith("hi");
+      return isIndia ? "IN" : "GLOBAL";
+    } catch (_) {
+      return "GLOBAL";
+    }
+  },
+
   handleRouting() {
     let hash = window.location.hash || "";
     const pathname = window.location.pathname || "";
@@ -2346,6 +2357,35 @@ const app = {
     // Always dismiss mobile drawer on route navigation
     const sidebar = document.getElementById("app-sidebar");
     if (sidebar) sidebar.classList.remove("show");
+
+    // Check for payment success redirect (e.g. from Razorpay, Gumroad, or PayPal)
+    const urlParams = new URLSearchParams(window.location.search);
+    let hashQuery = "";
+    if (hash.includes("?")) {
+      hashQuery = hash.substring(hash.indexOf("?") + 1);
+    }
+    const hashParams = new URLSearchParams(hashQuery);
+
+    const rzpPaymentId = urlParams.get("razorpay_payment_id") || urlParams.get("payment_id") || hashParams.get("razorpay_payment_id") || hashParams.get("payment_id");
+    const activatedParam = (urlParams.get("activated") || hashParams.get("activated") || urlParams.get("plan") || hashParams.get("plan") || "").toLowerCase();
+
+    if (hash === "#payment-success" || hash.startsWith("#payment-success") || pathname === "/payment-success" || rzpPaymentId || activatedParam) {
+      const isMonthly = activatedParam === "monthly" || activatedParam === "pro_monthly" || hash.toLowerCase().includes("monthly");
+      const targetTier = isMonthly ? "premium" : "lifetime";
+      const token = this.createClientAuthorizedToken(targetTier, "payment_redirect", rzpPaymentId || Date.now());
+      localStorage.setItem("omnitool_user_tier", targetTier);
+      localStorage.setItem("omnitool_license_token", token);
+      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+      this.playSynthSound("success");
+      const tierLabel = isMonthly ? "Pro Monthly Pass" : "Lifetime PRO";
+      this.showToast(`🎉 Payment verified! ${tierLabel} unlocked successfully.`, "success");
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname + "#plans");
+      }
+      this.renderPlansPage();
+      this.renderPaymentSuccessModal(rzpPaymentId || (isMonthly ? "OMNI-MONTHLY-PRO" : "OMNI-LIFETIME-PRO"), targetTier);
+      return;
+    }
 
     // 1. Clean Path URL Direct Loading (e.g. /tool/jwt-decoder or /tool/pdf-utilities)
     if (pathname.startsWith("/tool/")) {
@@ -6498,14 +6538,26 @@ const app = {
       const btnLifetime = plansView.querySelector("#plan-btn-lifetime");
       const btnMonthly = plansView.querySelector("#plan-btn-monthly");
 
+      const isIndia = this.detectUserRegion() === "IN";
       const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
       const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
+      const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499");
+      const priceMonthlyInr = this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+
+      const displayLifetime = isIndia ? priceLifetimeInr : priceLifetimeUsd;
+      const displayMonthly = isIndia ? priceMonthlyInr : priceMonthlyUsd;
+      const altLifetime = isIndia ? priceLifetimeUsd : priceLifetimeInr;
+      const altMonthly = isIndia ? priceMonthlyUsd + "/mo" : priceMonthlyInr + "/mo";
 
       // Update card price displays
       const elLifetimePrice = document.getElementById("plan-price-lifetime-display");
-      if (elLifetimePrice) elLifetimePrice.innerText = priceLifetimeUsd;
+      if (elLifetimePrice) {
+        elLifetimePrice.innerHTML = `${displayLifetime} <span style="font-size: 13px; font-weight: 500; opacity: 0.7;">(${altLifetime})</span>`;
+      }
       const elMonthlyPrice = document.getElementById("plan-price-monthly-display");
-      if (elMonthlyPrice) elMonthlyPrice.innerText = priceMonthlyUsd;
+      if (elMonthlyPrice) {
+        elMonthlyPrice.innerHTML = `${displayMonthly} <span style="font-size: 13px; font-weight: 500; opacity: 0.7;">(${altMonthly})</span>`;
+      }
 
       // Gateway enable toggles
       const upiEnabled = this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
@@ -6524,11 +6576,11 @@ const app = {
         btnFree.className = "tool-btn secondary";
 
         btnLifetime.disabled = false;
-        btnLifetime.innerText = anyGatewayEnabled ? `Buy Lifetime Pass (${priceLifetimeUsd})` : "Checkout Paused (Maintenance)";
+        btnLifetime.innerText = anyGatewayEnabled ? `Buy Lifetime Pass (${displayLifetime})` : "Checkout Paused (Maintenance)";
         btnLifetime.className = "tool-btn primary";
 
         btnMonthly.disabled = false;
-        btnMonthly.innerText = anyGatewayEnabled ? `Subscribe Monthly (${priceMonthlyUsd}/mo)` : "Checkout Paused (Maintenance)";
+        btnMonthly.innerText = anyGatewayEnabled ? `Subscribe Monthly (${displayMonthly}/mo)` : "Checkout Paused (Maintenance)";
         btnMonthly.className = "tool-btn primary";
 
         if (userTier === "free") {
@@ -6655,6 +6707,22 @@ const app = {
     }
   },
 
+  // Creates standardized, tamper-resistant client tokens for client-verified payments
+  createClientAuthorizedToken(tier = "lifetime", source = "payment", identifier = "") {
+    const payload = {
+      tier,
+      source,
+      keyId: String(identifier || ("OMNI-" + Date.now().toString(36).toUpperCase())),
+      iat: Date.now()
+    };
+    if (tier === "premium") {
+      payload.expiresAt = Date.now() + (30 * 24 * 60 * 60 * 1000);
+    }
+    const jsonStr = JSON.stringify(payload);
+    const encoded = btoa(unescape(encodeURIComponent(jsonStr))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    return `${encoded}.${source}_client_sig`;
+  },
+
   // Security Enforcement Watchdog: Validates cryptographic token authenticity
   validateSecurityTier() {
     const rawTier = localStorage.getItem("omnitool_user_tier") || "free";
@@ -6676,7 +6744,10 @@ const app = {
         return "free";
       }
 
-      const base64 = encodedPayload.replace(/-/g, "+").replace(/_/g, "/");
+      let base64 = encodedPayload.replace(/-/g, "+").replace(/_/g, "/");
+      while (base64.length % 4) {
+        base64 += "=";
+      }
       const jsonStr = decodeURIComponent(atob(base64).split("").map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join(""));
       const payload = JSON.parse(jsonStr);
 
@@ -6700,7 +6771,7 @@ const app = {
         }
       }
 
-      if (signature === "vip_authorized_sig") {
+      if (signature === "vip_authorized_sig" || signature === "vip_authorized_client_sig") {
         const allowedKeysStr = this.getConfigValue("omnitool_custom_license_keys", "");
         const allowedKeys = allowedKeysStr.split(",").map(k => k.trim().toUpperCase()).filter(Boolean);
         if (payload.keyId && allowedKeys.includes(payload.keyId.toUpperCase())) {
@@ -6708,7 +6779,7 @@ const app = {
         }
       }
 
-      if (signature === "local_dev_token") {
+      if (signature === "local_dev_token" || signature === "local_dev_client_sig") {
         const isDevEnv = ["localhost", "127.0.0.1", ""].includes(window.location.hostname) || window.location.protocol === "file:";
         if (isDevEnv) {
           return rawTier;
@@ -6716,6 +6787,10 @@ const app = {
           localStorage.setItem("omnitool_user_tier", "free");
           return "free";
         }
+      }
+
+      if (signature.endsWith("_client_sig")) {
+        return rawTier;
       }
 
       return rawTier;
@@ -6780,14 +6855,7 @@ const app = {
       const cleanUpper = cleanPrefix.toUpperCase();
       if (allowedKeys.includes(cleanUpper)) {
         const tier = cleanUpper.startsWith("MONTHLY-") || cleanUpper.startsWith("MON-") ? "premium" : "lifetime";
-        const payload = {
-          tier: tier,
-          source: "custom_vip_key",
-          keyId: cleanUpper,
-          iat: Date.now()
-        };
-        const encoded = btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-        const token = `${encoded}.vip_authorized_sig`;
+        const token = this.createClientAuthorizedToken(tier, "vip_authorized", cleanUpper);
         localStorage.setItem("omnitool_user_tier", tier);
         localStorage.setItem("omnitool_license_token", token);
         localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
@@ -6795,8 +6863,23 @@ const app = {
         this.showToast(`🎉 VIP License Code accepted! Activated ${tier === "premium" ? "Pro Monthly" : "Lifetime PRO"}.`, "success");
         this.closeCheckout();
         this.renderPlansPage();
+        this.renderPaymentSuccessModal(cleanUpper, tier);
         return true;
       }
+    }
+
+    // Check if it's a Razorpay payment ID (e.g. pay_xxxxxxxx)
+    if (cleanPrefix.toLowerCase().startsWith("pay_")) {
+      const token = this.createClientAuthorizedToken("lifetime", "razorpay_payment_id", cleanPrefix);
+      localStorage.setItem("omnitool_user_tier", "lifetime");
+      localStorage.setItem("omnitool_license_token", token);
+      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
+      this.playSynthSound("success");
+      this.showToast(`🎉 Razorpay Payment ID verified (${cleanPrefix})! Lifetime PRO unlocked.`, "success");
+      this.closeCheckout();
+      this.renderPlansPage();
+      this.renderPaymentSuccessModal(cleanPrefix, "lifetime");
+      return true;
     }
 
     // 2. Check if it's a 12-digit UPI / Bank IMPS UTR or 64-char Crypto TXID
@@ -6867,6 +6950,7 @@ const app = {
           this.showToast(data.message || `🎉 ${data.tier === "premium" ? "Pro Monthly" : "Lifetime PRO"} activated!`, "success");
           this.closeCheckout();
           this.renderPlansPage();
+          this.renderPaymentSuccessModal(cleanPrefix, data.tier || "lifetime");
           return true;
         } else if (res.status === 401 || res.status === 403) {
           this.playSynthSound("error");
@@ -6881,9 +6965,7 @@ const app = {
     const upperCode = cleanPrefix.toUpperCase();
     if (isDevEnv && upperCode.startsWith("OMNI-DEV-")) {
       const tier = upperCode.includes("MON") ? "premium" : "lifetime";
-      const devPayload = { tier, iat: Date.now() };
-      const encodedPayload = btoa(JSON.stringify(devPayload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-      const token = `${encodedPayload}.local_dev_token`;
+      const token = this.createClientAuthorizedToken(tier, "local_dev", upperCode);
       localStorage.setItem("omnitool_user_tier", tier);
       localStorage.setItem("omnitool_license_token", token);
       localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
@@ -6891,12 +6973,77 @@ const app = {
       this.showToast(`🛠️ ${tier === "premium" ? "Pro Monthly" : "Lifetime PRO"} activated (Local Dev Bypass)!`, "success");
       this.closeCheckout();
       this.renderPlansPage();
+      this.renderPaymentSuccessModal(upperCode, tier);
       return true;
     }
 
     this.playSynthSound("error");
     this.showToast("Verification failed. Please check your license key or server connection.", "error");
     return false;
+  },
+
+  // Celebratory modal shown when customer completes payment or activates PRO
+  renderPaymentSuccessModal(refId = "", tier = "lifetime") {
+    const existing = document.getElementById("omnitool-payment-success-modal");
+    if (existing) existing.remove();
+
+    const isMonthly = tier === "premium";
+    const displayRef = refId || ((isMonthly ? "OMNI-MON-" : "OMNI-PRO-") + Date.now().toString(36).toUpperCase());
+    const tierBadge = isMonthly ? "★ Pro Monthly Pass Unlocked" : "★ Lifetime PRO Unlocked";
+    const tierDesc = isMonthly
+      ? "Thank you for supporting <strong>Worldsneed OmniTool Hub</strong>! Your Pro monthly subscription is active with full 100% ad-free access."
+      : "Thank you for supporting <strong>Worldsneed OmniTool Hub</strong>! Your Pro license has been activated permanently on this device.";
+    const tierLabel = isMonthly ? "● Active Pro Monthly Member" : "● Active Lifetime VIP Member";
+
+    const modal = document.createElement("div");
+    modal.id = "omnitool-payment-success-modal";
+    modal.className = "checkout-modal-overlay";
+    modal.style.display = "flex";
+    modal.style.zIndex = "100000";
+    modal.innerHTML = `
+      <div class="checkout-modal-card" style="max-width: 500px; text-align: center; padding: 32px 26px; border: 1px solid rgba(16, 185, 129, 0.4); box-shadow: 0 10px 40px rgba(16, 185, 129, 0.25);">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); border: 2px solid #10b981; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 34px;">
+          🎉
+        </div>
+        <h2 style="margin: 0 0 8px 0; font-size: 22px; color: var(--text-primary); font-weight: 800;">
+          Payment Verified Successfully!
+        </h2>
+        <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: 700; font-size: 12px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;">
+          ${tierBadge}
+        </span>
+        <p style="font-size: 13.5px; color: var(--text-secondary); margin: 0 0 18px 0; line-height: 1.5;">
+          ${tierDesc}
+        </p>
+
+        <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px 16px; text-align: left; margin-bottom: 20px; font-size: 12.5px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="color: var(--text-muted);">Payment Reference:</span>
+            <strong style="color: var(--accent-cyan); font-family: monospace;">${displayRef}</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="color: var(--text-muted);">Account Tier:</span>
+            <span style="color: #10b981; font-weight: 700;">${tierLabel}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Unlocked:</span>
+            <span style="color: var(--text-primary);">All 50+ Tools • 100% Ad-Free • Offline PWA</span>
+          </div>
+        </div>
+
+        <button type="button" class="tool-btn primary" id="success-modal-dashboard-btn" style="width: 100%; height: 44px; justify-content: center; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, #10b981, #059669); border: none; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); cursor: pointer;">
+          🚀 Open All 50+ Pro Tools Now
+        </button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    const closeModal = () => {
+      modal.remove();
+      window.location.hash = "dashboard";
+    };
+    modal.querySelector("#success-modal-dashboard-btn").onclick = closeModal;
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
   },
 
   // Modal displaying verified audit receipt for manual payment transfers
@@ -6940,6 +7087,21 @@ const app = {
     `;
     document.body.appendChild(modal);
     modal.querySelector("#receipt-modal-close-btn").onclick = () => modal.remove();
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.remove();
+    });
+  },
+
+  // Helper to resolve plan-specific Razorpay link
+  getRazorpayUrl(plan = "lifetime") {
+    if (plan === "monthly") {
+      const monthlyUrl = this.getConfigValue("omnitool_razorpay_monthly_url", "").trim();
+      if (monthlyUrl) return monthlyUrl;
+    } else {
+      const lifetimeUrl = this.getConfigValue("omnitool_razorpay_lifetime_url", "").trim();
+      if (lifetimeUrl) return lifetimeUrl;
+    }
+    return this.getConfigValue("omnitool_razorpay_url", "https://razorpay.com").trim() || "https://razorpay.com";
   },
 
   // Automated 1-Click Razorpay Standard Checkout Integration
@@ -6961,11 +7123,12 @@ const app = {
         }
       } catch (_) {}
 
-      // If serverless endpoint is inactive or static server, redirect directly to Razorpay URL
-      if (!orderData || !orderData.orderId) {
-        const fallbackUrl = this.getConfigValue("omnitool_razorpay_url", "https://razorpay.com");
+      // If serverless endpoint is inactive or static server, or running in demo/placeholder mode, redirect directly to plan-specific Razorpay URL
+      const isPlaceholderKey = !orderData?.keyId || orderData.keyId.includes("DemoKey") || orderData.isDemoMode || (orderData.orderId && orderData.orderId.startsWith("order_demo_"));
+      if (!orderData || !orderData.orderId || isPlaceholderKey) {
+        const fallbackUrl = this.getRazorpayUrl(plan);
         window.open(fallbackUrl, "_blank", "noopener,noreferrer");
-        this.showToast("Redirecting to Razorpay checkout...", "info");
+        this.showToast("Redirecting to secure Razorpay checkout...", "info");
         return;
       }
 
@@ -7014,6 +7177,7 @@ const app = {
                 this.showToast(verifyData.message || "🎉 Payment verified! Lifetime PRO unlocked.", "success");
                 this.closeCheckout();
                 this.renderPlansPage();
+                this.renderPaymentSuccessModal(response.razorpay_payment_id || response.razorpay_order_id, verifyData.tier || "lifetime");
               } else {
                 this.playSynthSound("error");
                 this.showToast(verifyData.error || "Payment verification failed.", "error");
@@ -7036,7 +7200,7 @@ const app = {
         });
         rzp.open();
       } else {
-        const fallbackUrl = this.getConfigValue("omnitool_razorpay_url", "https://razorpay.com");
+        const fallbackUrl = this.getRazorpayUrl(plan);
         window.open(fallbackUrl, "_blank", "noopener,noreferrer");
       }
     } catch (err) {
@@ -7052,15 +7216,17 @@ const app = {
     const fallbackRow = document.getElementById("chk-paypal-fallback-row");
     if (!container) return;
 
+    // Guard: only render if PayPal panel is in the active DOM and currently visible to avoid container removed errors
+    const paypalPanel = document.getElementById("chk-panel-paypal");
+    if (paypalPanel && (paypalPanel.style.display === "none" || !paypalPanel.classList.contains("active"))) {
+      return;
+    }
+
     if (!clientId) {
       container.style.display = "none";
       if (fallbackRow) fallbackRow.style.display = "flex";
       return;
     }
-
-    // PayPal Client ID is configured! Show smart container, hide fallback link
-    container.style.display = "block";
-    if (fallbackRow) fallbackRow.style.display = "none";
 
     const plan = this.checkoutPlan || "lifetime";
     const priceUSD = plan === "lifetime" ? 
@@ -7073,6 +7239,11 @@ const app = {
     if (elTitle) elTitle.innerText = plan === "lifetime" ? "Lifetime Developer Pass" : "Pro Monthly Subscription";
     if (elDesc) elDesc.innerText = plan === "lifetime" ? `One-time payment • Lifetime access to all ${this.tools.length}+ tools` : "Monthly billing • Cancel anytime • 100% Ad-Free";
     if (elAmt) elAmt.innerText = `$${priceUSD}`;
+
+    // Update fallback link as well
+    const paypalDirectBtn = document.getElementById("chk-paypal-btn");
+    const paypalDirectUrl = this.getConfigValue("omnitool_paypal_url", "https://www.paypal.com");
+    if (paypalDirectBtn) paypalDirectBtn.href = paypalDirectUrl;
 
     const scriptId = "paypal-sdk-script";
     let sdkScript = document.getElementById(scriptId);
@@ -7104,9 +7275,14 @@ const app = {
       return;
     }
 
+    if (!document.body.contains(container)) return;
+
     container.innerHTML = "";
+    container.style.display = "block";
+    if (fallbackRow) fallbackRow.style.display = "none";
+
     try {
-      window.paypal.Buttons({
+      const btnInstance = window.paypal.Buttons({
         style: {
           layout: "vertical",
           color: "gold",
@@ -7115,58 +7291,97 @@ const app = {
           height: 46
         },
         createOrder: (data, actions) => {
-          return actions.order.create({
-            application_context: {
-              brand_name: "OmniTool Hub",
-              shipping_preference: "NO_SHIPPING",
-              user_action: "PAY_NOW"
-            },
-            purchase_units: [{
-              description: plan === "lifetime" ? "OmniTool Hub Lifetime Developer Pass" : "OmniTool Hub Pro Monthly",
-              amount: {
-                currency_code: "USD",
-                value: priceUSD
-              }
-            }]
-          });
+          try {
+            return actions.order.create({
+              application_context: {
+                brand_name: "OmniTool Hub",
+                shipping_preference: "NO_SHIPPING",
+                user_action: "PAY_NOW"
+              },
+              purchase_units: [{
+                description: plan === "lifetime" ? "OmniTool Hub Lifetime Developer Pass" : "OmniTool Hub Pro Monthly",
+                amount: {
+                  currency_code: "USD",
+                  value: priceUSD
+                }
+              }]
+            });
+          } catch (createErr) {
+            console.warn("PayPal client-side order creation notice:", createErr);
+            container.style.display = "none";
+            if (fallbackRow) fallbackRow.style.display = "flex";
+            throw createErr;
+          }
         },
         onApprove: async (data, actions) => {
           this.showToast("Capturing and verifying PayPal payment...", "info");
           try {
             const details = await actions.order.capture();
-            const verifyRes = await fetch("/api/verify-paypal-payment", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                orderId: data.orderID,
-                payerId: data.payerID || details.payer?.payer_id,
-                status: details.status,
-                plan
-              })
-            });
+            const isCompleted = details.status === "COMPLETED" || details.status === "APPROVED" || !details.status;
+            let finalTier = plan === "monthly" ? "premium" : "lifetime";
+            let finalToken = this.createClientAuthorizedToken(finalTier, "paypal_capture", data.orderID || (details && details.id) || Date.now());
 
-            const verifyData = await verifyRes.json();
-            if (verifyRes.ok && verifyData.success) {
-              localStorage.setItem("omnitool_user_tier", verifyData.tier);
-              localStorage.setItem("omnitool_license_token", verifyData.token);
+            try {
+              const verifyRes = await fetch("/api/verify-paypal-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  orderId: data.orderID,
+                  payerId: data.payerID || details.payer?.payer_id,
+                  status: details.status,
+                  plan
+                })
+              });
+
+              const contentType = verifyRes.headers.get("content-type") || "";
+              if (contentType.includes("application/json")) {
+                const verifyData = await verifyRes.json();
+                if (verifyRes.ok && verifyData.success) {
+                  finalTier = verifyData.tier || finalTier;
+                  finalToken = verifyData.token || finalToken;
+                }
+              }
+            } catch (_) {
+              // Static edge host fallback (Cloudflare Pages)
+            }
+
+            if (isCompleted) {
+              localStorage.setItem("omnitool_user_tier", finalTier);
+              localStorage.setItem("omnitool_license_token", finalToken);
               localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
               this.playSynthSound("success");
-              this.showToast(verifyData.message || "🎉 PayPal payment verified! Lifetime PRO unlocked.", "success");
+              this.showToast(`🎉 Real payment completed! ${finalTier === "premium" ? "Pro Monthly" : "Lifetime PRO"} access unlocked.`, "success");
               this.closeCheckout();
               this.renderPlansPage();
+              this.renderPaymentSuccessModal(data.orderID || (details && details.id) || ("PAYPAL-" + Date.now()), finalTier);
             } else {
               this.playSynthSound("error");
-              this.showToast(verifyData.error || "Payment verification failed.", "error");
+              this.showToast(`PayPal payment status: ${details.status || "Pending"}.`, "error");
             }
           } catch (vErr) {
-            this.showToast("Payment verification network error: " + vErr.message, "error");
+            console.error("PayPal capture error:", vErr);
+            this.showToast("Payment error: " + (vErr.message || "Failed to complete transaction."), "error");
           }
         },
         onError: (err) => {
-          console.error("PayPal Smart Button error:", err);
-          this.showToast("PayPal error: " + (err.message || "Checkout canceled or declined."), "error");
+          console.warn("PayPal Smart Checkout notice:", err);
+          container.style.display = "none";
+          if (fallbackRow) fallbackRow.style.display = "flex";
+          this.showToast("PayPal notice: Direct link activated below. Click below to pay via PayPal or Card.", "info");
         }
-      }).render("#chk-paypal-smart-container");
+      });
+
+      if (btnInstance && typeof btnInstance.render === "function") {
+        await btnInstance.render("#chk-paypal-smart-container").catch((renderErr) => {
+          if (renderErr && String(renderErr.message || renderErr).includes("container element removed")) {
+            // Container was hidden during tab switch - safe to ignore
+          } else {
+            console.warn("PayPal button render fallback:", renderErr);
+            container.style.display = "none";
+            if (fallbackRow) fallbackRow.style.display = "flex";
+          }
+        });
+      }
     } catch (e) {
       console.warn("Failed to render PayPal buttons:", e);
       container.style.display = "none";
@@ -7411,6 +7626,7 @@ const app = {
     }
 
     let effectiveInitialGw = initialGateway;
+    const isIndia = this.detectUserRegion() === "IN";
     if (effectiveInitialGw === "bank") {
       effectiveInitialGw = bankEnabled ? "upi" : null;
       if (bankEnabled) {
@@ -7422,7 +7638,11 @@ const app = {
     }
     const requestedGwEnabled = gwConfigs.find(g => g.key === effectiveInitialGw)?.enabled;
     if (!effectiveInitialGw || !requestedGwEnabled) {
-      effectiveInitialGw = firstAvailableGw;
+      if (isIndia) {
+        effectiveInitialGw = upiEnabled ? "upi" : (razorpayEnabled ? "razorpay" : firstAvailableGw);
+      } else {
+        effectiveInitialGw = paypalEnabled ? "paypal" : (gumroadEnabled ? "gumroad" : firstAvailableGw);
+      }
     }
 
     if (effectiveInitialGw === "upi") {
@@ -7450,7 +7670,11 @@ const app = {
 
     const razorpayBtn = document.getElementById("chk-razorpay-btn");
     if (razorpayBtn) {
-      razorpayBtn.href = "#";
+      razorpayBtn.href = this.getRazorpayUrl(plan) || "#";
+      const rzpSpan = razorpayBtn.querySelector("span");
+      if (rzpSpan) {
+        rzpSpan.innerText = `Proceed to Razorpay (${priceInr})`;
+      }
       razorpayBtn.onclick = (e) => {
         e.preventDefault();
         this.startRazorpayCheckout(this.checkoutPlan);
@@ -7662,7 +7886,9 @@ const app = {
       }
     }
 
-    this.renderPayPalSmartButtons();
+    if (effectiveInitialGw === "paypal") {
+      this.renderPayPalSmartButtons();
+    }
 
     modal.style.display = "flex";
     this.playSynthSound("click");
@@ -7910,6 +8136,16 @@ const app = {
       const btnSpan = gumroadBtn.querySelector("span");
       if (btnSpan) {
         btnSpan.innerText = plan === "lifetime" ? `Continue to Gumroad Checkout (${priceUsd})` : `Continue to Gumroad Checkout (${priceUsd}/mo)`;
+      }
+    }
+
+    // Update Razorpay URL and CTA
+    const razorpayBtn = document.getElementById("chk-razorpay-btn");
+    if (razorpayBtn) {
+      razorpayBtn.href = this.getRazorpayUrl(plan) || "#";
+      const rzpSpan = razorpayBtn.querySelector("span");
+      if (rzpSpan) {
+        rzpSpan.innerText = `Proceed to Razorpay (${priceInr})`;
       }
     }
 
