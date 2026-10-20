@@ -20,14 +20,14 @@ All websites and services are unified under the single parent domain **`worldsne
          ▼                                            ▼                                            ▼
 ┌───────────────────────────────┐            ┌───────────────────────────────┐            ┌───────────────────────────────┐
 │     Cloudflare Pages (#1)     │            │     Cloudflare Pages (#2)     │            │         Vercel Cloud          │
-│       worldsneed.com          │            │   omnitool.worldsneed.com     │            │   dictionary.worldsneed.com   │
+│       worldsneed.com          │            │   omnitool.worldsneed.com     │            │      words.worldsneed.com     │
 ├───────────────────────────────┤            ├───────────────────────────────┤            ├───────────────────────────────┤
 │ Source Folder:                │            │ Source Folder:                │            │ Project:                      │
-│ /worldsneed-landing-page      │            │ / (Repository Root)           │            │ WordsNeed Dictionary (Next.js)│
+│ /worldsneed-landing-page      │            │ / (Repository Root)           │            │ WordsNeed App (Next.js)       │
 │                               │            │                               │            │                               │
 │ Purpose:                      │            │ Purpose:                      │            │ Purpose:                      │
 │ Main Brand Hub, Showcase of   │            │ 50+ Client-Side Developer &   │            │ Multilingual Word Explorer,   │
-│ Live & Future Projects        │            │ Privacy Tools, PDF Studio     │            │ Grammar & Curriculum Hub      │
+│ Live & Future Projects        │            │ Privacy Tools, PDF Studio     │            │ Vocabulary & Language Hub     │
 └───────────────────────────────┘            └───────────────────────────────┘            └───────────────────────────────┘
 ```
 
@@ -101,11 +101,11 @@ To eliminate **HTTP 404 on page refresh** and ensure maximum Google Search ranki
 
 ### A. Google Search Console (GSC)
 * **Property Type:** **Domain Property** (`worldsneed.com`)
-* **Why Domain Property:** Automatically covers `worldsneed.com`, `www.worldsneed.com`, `omnitool.worldsneed.com`, `dictionary.worldsneed.com`, and all future subdomains under one account.
+* **Why Domain Property:** Automatically covers `worldsneed.com`, `www.worldsneed.com`, `omnitool.worldsneed.com`, `words.worldsneed.com`, and all future subdomains under one account.
 * **Verification:** Cloudflare DNS ➔ Add `TXT` record with Name `@` and Value `google-site-verification=...`.
 * **Sitemaps Submitted:**
   * `https://omnitool.worldsneed.com/sitemap.xml`
-  * `https://dictionary.worldsneed.com/sitemap.xml`
+  * `https://words.worldsneed.com/sitemap.xml`
 
 ### B. Bing Webmaster Tools — Removing Old Vercel Links
 When importing from Google Search Console into Bing Webmaster Tools, old `.vercel.app` URLs may appear:
