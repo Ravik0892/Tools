@@ -1703,8 +1703,8 @@ export default {
       sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
       coffeeUrl.value = appInstance.getConfigValue("omnitool_coffee_url", "");
       kofiUrl.value = appInstance.getConfigValue("omnitool_kofi_url", "");
-      if (gumroadLifetime) gumroadLifetime.value = appInstance.getConfigValue("omnitool_gumroad_lifetime_url", "https://gumroad.com");
-      if (gumroadMonthly) gumroadMonthly.value = appInstance.getConfigValue("omnitool_gumroad_monthly_url", "https://gumroad.com");
+      if (gumroadLifetime) gumroadLifetime.value = appInstance.getConfigValue("omnitool_gumroad_lifetime_url", "https://worldsneed.gumroad.com/l/omnitool-lifetime");
+      if (gumroadMonthly) gumroadMonthly.value = appInstance.getConfigValue("omnitool_gumroad_monthly_url", "https://worldsneed.gumroad.com/l/omnitool-monthly");
       if (paypalClientIdInput) paypalClientIdInput.value = appInstance.getConfigValue("omnitool_paypal_client_id", "");
       if (paypalUrlInput) paypalUrlInput.value = appInstance.getConfigValue("omnitool_paypal_url", "https://www.paypal.com");
       if (razorpayLifetimeInput) razorpayLifetimeInput.value = appInstance.getConfigValue("omnitool_razorpay_lifetime_url", "");
@@ -2158,8 +2158,8 @@ export default {
         "omnitool_sponsor_btn_text": appInstance.getConfigValue("omnitool_sponsor_btn_text", sponsorBtnText ? sponsorBtnText.value.trim() : "Claim Now"),
         "omnitool_coffee_url": coffeeUrl ? coffeeUrl.value.trim() : "",
         "omnitool_kofi_url": kofiUrl ? kofiUrl.value.trim() : "",
-        "omnitool_gumroad_lifetime_url": gumroadLifetime ? gumroadLifetime.value.trim() : "https://gumroad.com",
-        "omnitool_gumroad_monthly_url": gumroadMonthly ? gumroadMonthly.value.trim() : "https://gumroad.com",
+        "omnitool_gumroad_lifetime_url": gumroadLifetime ? gumroadLifetime.value.trim() : "https://worldsneed.gumroad.com/l/omnitool-lifetime",
+        "omnitool_gumroad_monthly_url": gumroadMonthly ? gumroadMonthly.value.trim() : "https://worldsneed.gumroad.com/l/omnitool-monthly",
         "omnitool_paypal_client_id": paypalClientIdInput ? paypalClientIdInput.value.trim() : "",
         "omnitool_paypal_url": paypalUrlInput ? paypalUrlInput.value.trim() : "https://www.paypal.com",
         "omnitool_razorpay_lifetime_url": razorpayLifetimeInput ? razorpayLifetimeInput.value.trim() : "",

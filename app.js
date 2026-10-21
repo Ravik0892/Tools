@@ -1901,8 +1901,10 @@ const app = {
         this.globalConfig = await response.json();
         console.log("[Config] Loaded global configuration:", this.globalConfig);
         if (this.globalConfig && typeof this.globalConfig === "object") {
+          const placeholders = ["https://gumroad.com", "https://www.paypal.com", "#", ""];
           Object.entries(this.globalConfig).forEach(([k, v]) => {
-            if (localStorage.getItem(k) === null && typeof v === "string") {
+            const current = localStorage.getItem(k);
+            if (current === null || (placeholders.includes(current.trim()) && typeof v === "string" && !placeholders.includes(v.trim()))) {
               try { localStorage.setItem(k, v); } catch (_) {}
             }
           });
@@ -1915,11 +1917,18 @@ const app = {
 
   getConfigValue(key, defaultValue) {
     const localVal = localStorage.getItem(key);
+    const globalVal = (this.globalConfig && this.globalConfig.hasOwnProperty(key)) ? this.globalConfig[key] : null;
+    const placeholders = ["https://gumroad.com", "https://www.paypal.com", "#", ""];
+
     if (localVal !== null) {
+      if (placeholders.includes(localVal.trim()) && globalVal && !placeholders.includes(String(globalVal).trim())) {
+        try { localStorage.setItem(key, globalVal); } catch (_) {}
+        return globalVal;
+      }
       return localVal;
     }
-    if (this.globalConfig && this.globalConfig.hasOwnProperty(key)) {
-      return this.globalConfig[key];
+    if (globalVal !== null && globalVal !== undefined) {
+      return globalVal;
     }
     return defaultValue;
   },
@@ -7539,6 +7548,13 @@ const app = {
     const modal = document.getElementById("checkout-modal");
     if (!modal) return;
 
+    const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
+    const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499");
+    const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
+    const priceMonthlyInr = this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+    const priceInr = plan === "lifetime" ? priceLifetimeInr : priceMonthlyInr;
+    const priceUsd = plan === "lifetime" ? priceLifetimeUsd : priceMonthlyUsd;
+
     // Master enable toggles
     const upiEnabled = this.getConfigValue("omnitool_gw_upi_enabled", "true") !== "false";
     const bankEnabled = this.getConfigValue("omnitool_gw_bank_enabled", "false") === "true";
@@ -7713,7 +7729,6 @@ const app = {
     const elBankIfsc = document.getElementById("chk-bank-ifsc-display");
     if (elBankIfsc) elBankIfsc.innerText = bankIfsc;
 
-    const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
     const elBankAmt = document.getElementById("chk-bank-transfer-amt");
     if (elBankAmt) elBankAmt.innerText = `${priceInr} INR`;
 
@@ -8132,8 +8147,8 @@ const app = {
     // Update Gumroad URL and CTA
     const gumroadBtn = document.getElementById("chk-gumroad-btn");
     if (gumroadBtn) {
-      const lifetimeUrl = this.getConfigValue("omnitool_gumroad_lifetime_url", "https://gumroad.com");
-      const monthlyUrl = this.getConfigValue("omnitool_gumroad_monthly_url", "https://gumroad.com");
+      const lifetimeUrl = this.getConfigValue("omnitool_gumroad_lifetime_url", "https://worldsneed.gumroad.com/l/omnitool-lifetime");
+      const monthlyUrl = this.getConfigValue("omnitool_gumroad_monthly_url", "https://worldsneed.gumroad.com/l/omnitool-monthly");
       gumroadBtn.href = plan === "lifetime" ? lifetimeUrl : monthlyUrl;
       const btnSpan = gumroadBtn.querySelector("span");
       if (btnSpan) {
