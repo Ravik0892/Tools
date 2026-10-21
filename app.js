@@ -2027,7 +2027,7 @@ const app = {
       contentArea.addEventListener("scroll", this.checkHeaderScroll, { passive: true });
     }
     window.addEventListener("scroll", this.checkHeaderScroll, { passive: true });
-    this.checkHeaderScroll();
+    requestAnimationFrame(() => this.checkHeaderScroll());
   },
 
   initNavbarSpotlight() {
@@ -2267,7 +2267,9 @@ const app = {
           line.className = "console-line";
           line.innerText = `> ${logText}`;
           logBox.appendChild(line);
-          logBox.scrollTop = logBox.scrollHeight;
+          requestAnimationFrame(() => {
+            logBox.scrollTop = logBox.scrollHeight;
+          });
         }, idx * 250);
       });
     }
@@ -4264,7 +4266,7 @@ const app = {
           section.className = "dashboard-sub-section";
           section.setAttribute("style", "grid-column: 1 / -1;");
 
-          const title = document.createElement("h3");
+          const title = document.createElement("h2");
           title.className = "dashboard-sub-title";
           title.innerText = subList[0].subLabel;
           section.appendChild(title);
@@ -4554,10 +4556,10 @@ const app = {
         guideSection.setAttribute("style", "grid-column: 1 / -1; width: 100%;");
         guideSection.innerHTML = `
           <div style="margin-bottom: 20px;">
-            <h3 class="dashboard-sub-title" style="display: flex; align-items: center; gap: 8px;">
+            <h2 class="dashboard-sub-title" style="display: flex; align-items: center; gap: 8px;">
               <span>📚</span>
               <span>Official Step-by-Step Tool Guides (${matchingGuides.length})</span>
-            </h3>
+            </h2>
             <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Comprehensive documentation, offline client-side tutorials, API schemas, and interactive guides.</p>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
@@ -4632,10 +4634,10 @@ const app = {
           guideMatchesSec.setAttribute("style", "grid-column: 1 / -1; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); width: 100%;");
           guideMatchesSec.innerHTML = `
             <div style="margin-bottom: 16px;">
-              <h3 class="dashboard-sub-title" style="display: flex; align-items: center; gap: 8px;">
+              <h2 class="dashboard-sub-title" style="display: flex; align-items: center; gap: 8px;">
                 <span>📚</span>
                 <span>Relevant Documentation Guides (${matchingGuides.length})</span>
-              </h3>
+              </h2>
             </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
               ${matchingGuides.map(g => `
@@ -5833,7 +5835,7 @@ const app = {
 
     const contentArea = document.getElementById("content-area");
     if (contentArea) contentArea.scrollTop = 0;
-    this.checkHeaderScroll?.();
+    requestAnimationFrame(() => this.checkHeaderScroll?.());
 
     this.activeTool = null;
     this.syncSidebarUI();

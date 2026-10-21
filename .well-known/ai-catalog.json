@@ -1,0 +1,130 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "OmniTool Hub",
+    "url": "https://omnitool.worldsneed.com"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:json-formatter",
+      "displayName": "JSON Formatter & Validator",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/json-formatter",
+      "description": "Validates, formats, prettifies, minifies, and inspects JSON data client-side with zero server latency.",
+      "representativeQueries": [
+        "format json document",
+        "validate and lint json",
+        "prettify json string",
+        "minify json payload"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:base64",
+      "displayName": "Base64 Encoder & Decoder",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/base64",
+      "description": "Encodes and decodes UTF-8 strings, binary data, and files to and from Base64 entirely in-browser.",
+      "representativeQueries": [
+        "encode string to base64",
+        "decode base64 string",
+        "convert file to base64 data uri"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:jwt-debugger",
+      "displayName": "JWT Debugger & Inspector",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/jwt-debugger",
+      "description": "Decodes JSON Web Tokens (JWT), parses header and payload claims, and verifies HMAC-SHA signatures securely without transmission.",
+      "representativeQueries": [
+        "decode jwt token",
+        "inspect jwt claims",
+        "verify jwt signature offline"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:regex-tester",
+      "displayName": "Regex Tester & Explainer",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/regex-tester",
+      "description": "Evaluates JavaScript regular expressions with real-time match highlighting, group extraction, and flags support.",
+      "representativeQueries": [
+        "test regular expression pattern",
+        "extract regex match groups",
+        "debug regex expression"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:hash-generator",
+      "displayName": "Cryptographic Hash Generator",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/hash-generator",
+      "description": "Generates SHA-256, SHA-512, SHA-1, and MD5 hashes using the browser's hardware-accelerated Web Crypto API.",
+      "representativeQueries": [
+        "calculate sha256 hash",
+        "generate md5 checksum",
+        "hash text string"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:uuid-generator",
+      "displayName": "UUID & GUID Generator",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/uuid-generator",
+      "description": "Generates RFC4122 v4 random and v7 timestamp-ordered UUIDs in custom batch sizes.",
+      "representativeQueries": [
+        "generate random uuid v4",
+        "create guid v7",
+        "generate bulk uuids"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:markdown-preview",
+      "displayName": "Markdown Live Editor & Previewer",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/markdown-preview",
+      "description": "Live GitHub Flavored Markdown editor with real-time HTML preview, word count, and export capabilities.",
+      "representativeQueries": [
+        "preview markdown document",
+        "convert markdown to html",
+        "edit gfm markdown live"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:color-converter",
+      "displayName": "Color Palette Studio & Converter",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/color-converter",
+      "description": "Converts color codes between HEX, RGB, HSL, and CMYK formats with harmonic color palette generation.",
+      "representativeQueries": [
+        "convert hex to rgb",
+        "convert rgb to hsl",
+        "generate color palette"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:diff-checker",
+      "displayName": "Text Difference Checker",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/diff-checker",
+      "description": "Side-by-side and unified text diff viewer highlighting additions, deletions, and inline modifications.",
+      "representativeQueries": [
+        "compare two text files",
+        "find difference between strings",
+        "generate text diff"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:css-minifier",
+      "displayName": "CSS Minifier & Optimizer",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/css-minifier",
+      "description": "Minifies CSS stylesheets, strips comments and redundant whitespace client-side.",
+      "representativeQueries": [
+        "minify css file",
+        "compress stylesheet",
+        "clean up css code"
+      ]
+    }
+  ]
+}

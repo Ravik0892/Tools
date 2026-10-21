@@ -8,6 +8,17 @@
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(self), clipboard-read=(self), clipboard-write=(self)
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+
+/(llms.txt|.well-known/llms.txt)
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+/(ai-catalog.json|.well-known/ai-catalog.json)
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=86400
+  Access-Control-Allow-Origin: *
 
 /sw.js
   Cache-Control: public, max-age=0, must-revalidate

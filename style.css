@@ -958,13 +958,13 @@ body {
   font-weight: 600;
   color: var(--text-muted);
   margin-bottom: 4px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 16px rgba(0, 242, 254, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 16px rgba(0, 242, 254, 0.12);
   animation: heroBadgeGlow 4s infinite ease-in-out;
 }
 
 @keyframes heroBadgeGlow {
-  0%, 100% { border-color: rgba(0, 242, 254, 0.22); }
-  50% { border-color: rgba(157, 78, 221, 0.35); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), 0 0 20px rgba(157, 78, 221, 0.12); }
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
 }
 
 .hero-badge-dot {
@@ -4382,12 +4382,11 @@ body {
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 9999px;
-    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.45), 0 0 18px rgba(0, 242, 254, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     z-index: 510;
     pointer-events: auto;
     overflow: visible;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    animation: navCapsuleAura 8s infinite ease-in-out;
   }
 
   /* Dynamic Cursor Spotlight Effect inside Capsule */
@@ -4401,15 +4400,6 @@ body {
     pointer-events: none;
     transition: opacity 0.3s ease;
     z-index: 0;
-  }
-
-  @keyframes navCapsuleAura {
-    0%, 100% {
-      box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.45), 0 0 18px rgba(0, 242, 254, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
-    50% {
-      box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.55), 0 0 26px rgba(157, 78, 221, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-    }
   }
 
   [data-theme="light"] .desktop-nav-menu {
@@ -4544,11 +4534,9 @@ body {
   @keyframes proSparklePulse {
     0%, 100% {
       transform: scale(1);
-      box-shadow: 0 2px 8px rgba(157, 78, 221, 0.45);
     }
     50% {
       transform: scale(1.08);
-      box-shadow: 0 2px 14px rgba(244, 63, 94, 0.65);
     }
   }
 
@@ -4704,7 +4692,7 @@ body {
 
   @keyframes clockPulse {
     0%, 100% { opacity: 0.5; transform: scale(0.9); }
-    50% { opacity: 1; transform: scale(1.25); box-shadow: 0 0 12px var(--accent-cyan); }
+    50% { opacity: 1; transform: scale(1.25); }
   }
 
   .clock-date {
@@ -5655,14 +5643,12 @@ body {
   align-items: center;
   justify-content: center;
   transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-    visibility 0.5s;
+    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .splash-overlay.fade-out {
   opacity: 0;
   transform: scale(1.03);
-  visibility: hidden;
   pointer-events: none;
 }
 
@@ -5748,14 +5734,17 @@ body {
 
 .splash-loader-progress {
   height: 100%;
-  width: 0;
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(0);
   background: linear-gradient(90deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
   animation: progressLoad 1.6s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+  will-change: transform;
 }
 
 @keyframes progressLoad {
   to {
-    width: 100%;
+    transform: scaleX(1);
   }
 }
 

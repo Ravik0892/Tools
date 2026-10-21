@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://omnitool.worldsneed.com/sitemap.xml
+Agentmap: https://omnitool.worldsneed.com/.well-known/ai-catalog.json
