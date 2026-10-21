@@ -66,17 +66,19 @@ export default async function handler(req, res) {
     if (isGumroadFormat) {
       const gumroadResult = await verifyGumroadLicense(rawCode);
       if (gumroadResult.valid) {
+        const isMonthly = gumroadResult.tier === "premium";
         const token = createSignedToken({
-          tier: "lifetime",
+          tier: gumroadResult.tier || "lifetime",
           keyId: rawCode,
           source: "gumroad",
-          email: gumroadResult.email
+          email: gumroadResult.email,
+          expiresAt: gumroadResult.expiresAt
         });
         res.status(200).json({
           success: true,
-          tier: "lifetime",
+          tier: gumroadResult.tier || "lifetime",
           token,
-          message: "🎉 Gumroad license verified! Lifetime PRO unlocked."
+          message: `🎉 Gumroad license verified! ${isMonthly ? "Pro Monthly" : "Lifetime PRO"} unlocked.`
         });
         return;
       } else {

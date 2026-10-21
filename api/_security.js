@@ -13,8 +13,10 @@ const MASTER_SECRET = process.env.LICENSE_SECRET_KEY || "omnitool_master_crypto_
 export const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || "rzp_test_OmniToolDemoKey";
 export const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || "OmniToolRazorpaySecretDemoKey";
 
-// Gumroad product permalink from environment
-export const GUMROAD_PRODUCT_PERMALINK = process.env.GUMROAD_PRODUCT_PERMALINK || "omnitool-pro";
+// Gumroad product permalinks from environment or user defaults
+export const GUMROAD_LIFETIME_PERMALINK = process.env.GUMROAD_LIFETIME_PERMALINK || "omnitool-lifetime";
+export const GUMROAD_MONTHLY_PERMALINK = process.env.GUMROAD_MONTHLY_PERMALINK || "omnitool-monthly";
+export const GUMROAD_PRODUCT_PERMALINK = process.env.GUMROAD_PRODUCT_PERMALINK || "omnitool-lifetime";
 
 // Admin password hash (SHA-256)
 // Default is SHA-256 of "OmniAdmin@2026#"
@@ -143,9 +145,10 @@ export function verifyRazorpaySignature(orderId, paymentId, signature) {
 }
 
 /**
- * Verifies a Gumroad License Key against the official Gumroad API
+ * Verifies a Gumroad License Key against the official Gumroad API.
+ * Automatically checks both Lifetime and Monthly product permalinks.
  */
-export async function verifyGumroadLicense(licenseKey, permalink = GUMROAD_PRODUCT_PERMALINK) {
+export async function verifyGumroadLicense(licenseKey, permalink = null) {
   if (!licenseKey || typeof licenseKey !== "string") {
     return { valid: false, error: "License key required." };
   }
@@ -157,6 +160,35 @@ export async function verifyGumroadLicense(licenseKey, permalink = GUMROAD_PRODU
     return { valid: false, error: "Invalid license key length." };
   }
 
+  // If specific permalink requested, verify against it directly
+  if (permalink) {
+    return await checkGumroadApi(cleanKey, permalink);
+  }
+
+  // 1. Check Lifetime product permalink first
+  const lifetimeRes = await checkGumroadApi(cleanKey, GUMROAD_LIFETIME_PERMALINK);
+  if (lifetimeRes.valid) {
+    return lifetimeRes;
+  }
+
+  // 2. Check Monthly product permalink
+  const monthlyRes = await checkGumroadApi(cleanKey, GUMROAD_MONTHLY_PERMALINK);
+  if (monthlyRes.valid) {
+    monthlyRes.tier = "premium";
+    monthlyRes.expiresAt = Date.now() + (30 * 24 * 60 * 60 * 1000);
+    return monthlyRes;
+  }
+
+  // 3. Fallback check if legacy permalink is set and different
+  if (GUMROAD_PRODUCT_PERMALINK && GUMROAD_PRODUCT_PERMALINK !== GUMROAD_LIFETIME_PERMALINK && GUMROAD_PRODUCT_PERMALINK !== GUMROAD_MONTHLY_PERMALINK) {
+    const fallbackRes = await checkGumroadApi(cleanKey, GUMROAD_PRODUCT_PERMALINK);
+    if (fallbackRes.valid) return fallbackRes;
+  }
+
+  return lifetimeRes.error && !lifetimeRes.error.includes("Invalid") ? lifetimeRes : monthlyRes;
+}
+
+async function checkGumroadApi(cleanKey, permalink) {
   try {
     const params = new URLSearchParams();
     params.append("product_permalink", permalink);
