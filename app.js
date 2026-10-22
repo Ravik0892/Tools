@@ -1,7 +1,10 @@
 // OmniTool Hub - Core Application Engine v2 (Masterpiece Accordion Edition)
 
 const app = {
-  APP_VERSION: "2.1.1",
+  APP_VERSION: "2.1.4",
+  getToolsBasePath() {
+    return (window.location.protocol === "file:" || !window.location.origin) ? "./tools/" : "/tools/";
+  },
   // Registry of all tools with subcategory designations
   tools: [
     {
@@ -1975,7 +1978,7 @@ const app = {
 
     // Pre-load utilities for pipeline builder integration and global helpers
     if (window.location.protocol !== "file:") {
-      import('./tools/utils.js').catch(err => console.error("Failed to pre-load utils:", err));
+      import(this.getToolsBasePath() + 'utils.js').catch(err => console.error("Failed to pre-load utils:", err));
     }
 
     // Render sidebar sponsor ad
@@ -2337,7 +2340,7 @@ const app = {
     console.log("%c=== MODULE DIAGNOSTICS ===", "color: #00f2fe; font-weight: bold; font-size: 14px;");
     for (const tool of this.tools) {
       try {
-        const module = await import('./tools/' + tool.id + '.js');
+        const module = await import(this.getToolsBasePath() + tool.id + '.js');
         if (module && module.default && typeof module.default.renderUI === 'function') {
           console.log(`%c[OK] Module "${tool.id}" loaded successfully.`, "color: #10b981;");
         } else {
@@ -4853,7 +4856,7 @@ const app = {
         viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
 
         // Preload admin-settings module in the background so it is instantly compiled and ready when unlocked
-        import('./tools/admin-settings.js').catch(() => { });
+        import(this.getToolsBasePath() + 'admin-settings.js').catch(() => { });
 
         const form = viewport.querySelector("#admin-auth-form");
         const input = viewport.querySelector("#admin-passcode-input");
@@ -4994,7 +4997,7 @@ const app = {
       
       let module = isLocalhost ? null : this._toolModuleCache[toolId];
       if (!module) {
-        module = await import('./tools/' + toolId + '.js' + cacheBust);
+        module = await import(this.getToolsBasePath() + toolId + '.js' + cacheBust);
         this._toolModuleCache[toolId] = module;
       }
       const toolInstance = module.default;
@@ -8359,7 +8362,7 @@ const app = {
     }
 
     // 2. Dynamically import local qr-generator module for 100% offline precision
-    import("./tools/qr-generator.js").then((mod) => {
+    import(this.getToolsBasePath() + "qr-generator.js").then((mod) => {
       const qrGen = mod.QRCode || window.OmniQRCode;
       if (qrGen && typeof qrGen.generate === "function") {
         try {
