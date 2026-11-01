@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bgGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06080e" />
+      <stop offset="50%" stop-color="#0b101c" />
+      <stop offset="100%" stop-color="#05070d" />
+    </linearGradient>
+
+    <linearGradient id="titleGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+
+    <pattern id="gridPattern4" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgGrad4)" />
+  <rect width="1200" height="800" fill="url(#gridPattern4)" />
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Header -->
+  <g transform="translate(50, 48)">
+    <rect width="250" height="26" rx="13" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="1" />
+    <text x="125" y="17" fill="#f59e0b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB &#8226; MARKDOWN SYNTAX</text>
+
+    <text x="0" y="66" fill="url(#titleGrad4)" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="800" letter-spacing="-0.5">GitHub Flavored Markdown (GFM) Cheat Sheet</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">Quick syntax reference for typography, tables, checklists, code blocks, footnotes, callout alerts, and math formulas.</text>
+  </g>
+
+  <!-- 3 Columns Section (Y: 155 to 540) -->
+  <!-- Col 1: Headers & Typography -->
+  <g transform="translate(50, 155)">
+    <rect width="350" height="380" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#f59e0b" />
+    <text x="32" y="23" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">HEADERS &amp; TYPOGRAPHY</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Headings -->
+      <g transform="translate(0, 0)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11"># H1 to ###### H6</text>
+        <text x="145" y="15" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="11.5">Document title to minor subhead</text>
+      </g>
+
+      <!-- Bold -->
+      <g transform="translate(0, 32)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11">**bold** or __bold__</text>
+        <text x="145" y="15" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Bold strong emphasis</text>
+      </g>
+
+      <!-- Italic -->
+      <g transform="translate(0, 64)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11">*italic* or _italic_</text>
+        <text x="145" y="15" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-style="italic">Italic emphasis</text>
+      </g>
+
+      <!-- Strikethrough -->
+      <g transform="translate(0, 96)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11">~~strikethrough~~</text>
+        <text x="145" y="15" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" text-decoration="line-through">Strikethrough text</text>
+      </g>
+
+      <!-- Blockquote -->
+      <g transform="translate(0, 128)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11">&gt; Quote text</text>
+        <text x="145" y="15" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="11.5">Blockquote (nested: &gt;&gt;)</text>
+      </g>
+
+      <!-- Horizontal Rule -->
+      <g transform="translate(0, 160)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11">--- or ***</text>
+        <text x="145" y="15" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11.5">Section divider break line</text>
+      </g>
+
+      <!-- Subscript / Superscript -->
+      <g transform="translate(0, 192)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11">&lt;sub&gt; / &lt;sup&gt;</text>
+        <text x="145" y="15" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11.5">H&lt;sub&gt;2&lt;/sub&gt;O / x&lt;sup&gt;2&lt;/sup&gt;</text>
+      </g>
+
+      <!-- Footnote -->
+      <g transform="translate(0, 224)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11">[^1] &amp; [^1]: Note</text>
+        <text x="145" y="15" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="11.5">Footnote reference link</text>
+      </g>
+
+      <!-- Keyboard tag -->
+      <g transform="translate(0, 256)">
+        <rect width="130" height="22" rx="4" fill="#1e293b" />
+        <text x="10" y="15" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11">&lt;kbd&gt;Ctrl&lt;/kbd&gt;</text>
+        <text x="145" y="15" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11.5">Renders as keyboard key badge</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Col 2: Lists, Tasks & Links -->
+  <g transform="translate(425, 155)">
+    <rect width="350" height="380" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#ec4899" />
+    <text x="32" y="23" fill="#f472b6" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">LISTS, TASKS &amp; HYPERLINKS</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Unordered -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" fill="#f472b6" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Unordered &amp; Ordered Lists</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10.5">- Apple or * Orange (Indent 2 spaces for nested)</text>
+        <text x="10" y="54" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10.5">1. First item   2. Second item</text>
+      </g>
+
+      <!-- Task Lists -->
+      <g transform="translate(0, 80)">
+        <text x="0" y="14" fill="#f472b6" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Interactive Task Checklists</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10.5">- [ ] Incomplete task item</text>
+        <text x="10" y="54" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10.5">- [x] Completed task checkbox</text>
+      </g>
+
+      <!-- Links & Images -->
+      <g transform="translate(0, 160)">
+        <text x="0" y="14" fill="#f472b6" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Hyperlinks &amp; Embedded Media</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="10.5">[Link Text](https://example.com)</text>
+        <text x="10" y="54" fill="#a855f7" font-family="'JetBrains Mono', monospace" font-size="10.5">![Alt Text](path/to/diagram.png)</text>
+      </g>
+
+      <!-- Autolinks -->
+      <g transform="translate(0, 240)">
+        <text x="0" y="14" fill="#f472b6" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Automatic Linking</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10.5">&lt;https://omnitool.app&gt; or bare URL</text>
+        <text x="10" y="54" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10.5">&lt;dev@omnitool.app&gt; (Email mailto)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Col 3: Tables & Code Blocks -->
+  <g transform="translate(800, 155)">
+    <rect width="350" height="380" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#8b5cf6" />
+    <text x="32" y="23" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">TABLES &amp; CODE FORMATTING</text>
+
+    <g transform="translate(18, 52)">
+      <!-- GFM Table with Alignment -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">GFM Tables with Column Alignment</text>
+        <rect x="0" y="22" width="314" height="84" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#cbd5e1" font-family="'JetBrains Mono', monospace" font-size="9.5">| Command | Left | Center | Right |</text>
+        <text x="10" y="54" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">| :------ | :--- | :----: | ----: |</text>
+        <text x="10" y="70" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="9.5">| git pull| fast | synced |  100% |</text>
+        <text x="10" y="86" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="9.5">| git push| origin | main |  200ms |</text>
+      </g>
+
+      <!-- Fenced Code Blocks -->
+      <g transform="translate(0, 120)">
+        <text x="0" y="14" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Syntax-Highlighted Code Blocks</text>
+        <rect x="0" y="22" width="314" height="74" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="10">```typescript</text>
+        <text x="10" y="54" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10">const banner: string = "Hello World";</text>
+        <text x="10" y="70" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="10">```</text>
+        <text x="10" y="88" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="10">Inline code: `const x = 42;`</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bottom Hero Banner: GitHub Callout Alerts & Math (Y: 555 to 730) -->
+  <g transform="translate(50, 555)">
+    <rect width="1100" height="175" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+
+    <text x="24" y="28" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">MODERN EXTENSIONS: GITHUB CALLOUT ALERTS &amp; KATEX MATH</text>
+
+    <!-- 5 Callout Pills -->
+    <g transform="translate(24, 46)">
+      <!-- NOTE -->
+      <g transform="translate(0, 0)">
+        <rect width="145" height="48" rx="6" fill="#0369a1" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
+        <text x="10" y="20" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700">&gt; [!NOTE]</text>
+        <text x="10" y="36" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">General information</text>
+      </g>
+
+      <!-- TIP -->
+      <g transform="translate(155, 0)">
+        <rect width="145" height="48" rx="6" fill="#047857" fill-opacity="0.2" stroke="#34d399" stroke-width="1" />
+        <text x="10" y="20" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700">&gt; [!TIP]</text>
+        <text x="10" y="36" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Helpful suggestions</text>
+      </g>
+
+      <!-- IMPORTANT -->
+      <g transform="translate(310, 0)">
+        <rect width="145" height="48" rx="6" fill="#7e22ce" fill-opacity="0.2" stroke="#c084fc" stroke-width="1" />
+        <text x="10" y="20" fill="#c084fc" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700">&gt; [!IMPORTANT]</text>
+        <text x="10" y="36" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Crucial directions</text>
+      </g>
+
+      <!-- WARNING -->
+      <g transform="translate(465, 0)">
+        <rect width="145" height="48" rx="6" fill="#b45309" fill-opacity="0.2" stroke="#fbbf24" stroke-width="1" />
+        <text x="10" y="20" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700">&gt; [!WARNING]</text>
+        <text x="10" y="36" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Urgent user warnings</text>
+      </g>
+
+      <!-- CAUTION -->
+      <g transform="translate(620, 0)">
+        <rect width="145" height="48" rx="6" fill="#be123c" fill-opacity="0.2" stroke="#f43f5e" stroke-width="1" />
+        <text x="10" y="20" fill="#f43f5e" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700">&gt; [!CAUTION]</text>
+        <text x="10" y="36" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Negative risks &amp; locks</text>
+      </g>
+
+      <!-- Math block -->
+      <g transform="translate(775, 0)">
+        <rect width="275" height="48" rx="6" fill="#131a2c" stroke="#334155" stroke-width="1" />
+        <text x="10" y="20" fill="#a855f7" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700">LaTeX Math Formulas</text>
+        <text x="10" y="36" fill="#cbd5e1" font-family="'JetBrains Mono', monospace" font-size="9.5">Inline: $E = mc^2$ | Block: $$...$$</text>
+      </g>
+    </g>
+
+    <!-- Bottom subtext -->
+    <g transform="translate(24, 110)">
+      <text x="0" y="16" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#8226; <tspan fill="#e2e8f0">GFM Task Lists</tspan> render real interactive inputs in modern Markdown previewers (like OmniTool Hub).</text>
+      <text x="0" y="34" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#8226; <tspan fill="#e2e8f0">Raw HTML Passthrough:</tspan> Elements like &lt;details&gt;&lt;summary&gt;Collapsible&lt;/summary&gt;&lt;/details&gt; are fully compliant with GFM.</text>
+    </g>
+  </g>
+</svg>

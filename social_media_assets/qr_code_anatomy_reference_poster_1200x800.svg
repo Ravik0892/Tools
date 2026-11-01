@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bgGradQR" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06080e" />
+      <stop offset="50%" stop-color="#0b101c" />
+      <stop offset="100%" stop-color="#05070d" />
+    </linearGradient>
+
+    <linearGradient id="titleGradQR" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="50%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+
+    <pattern id="gridPatternQR" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgGradQR)" />
+  <rect width="1200" height="800" fill="url(#gridPatternQR)" />
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Header -->
+  <g transform="translate(50, 48)">
+    <rect width="250" height="26" rx="13" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="125" y="17" fill="#10b981" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB &#8226; QR CODE ARCHITECTURE</text>
+
+    <text x="0" y="66" fill="url(#titleGradQR)" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="800" letter-spacing="-0.5">QR Code Anatomy &amp; Error Correction Matrix</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">ISO/IEC 18004 breakdown of finder eyes, alignment patterns, timing tracks, Reed-Solomon levels L/M/Q/H, and logo rules.</text>
+  </g>
+
+  <!-- Top Hero: Deconstructed QR Code Anatomy (Y: 155 to 295) -->
+  <g transform="translate(50, 155)">
+    <rect width="1100" height="140" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+
+    <!-- Mini stylized QR code diagram -->
+    <g transform="translate(24, 18)">
+      <rect width="104" height="104" rx="8" fill="#131a2c" stroke="#334155" stroke-width="1" />
+      <!-- Finder Top-Left -->
+      <rect x="10" y="10" width="28" height="28" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <rect x="18" y="18" width="12" height="12" rx="1" fill="#38bdf8" />
+      <!-- Finder Top-Right -->
+      <rect x="66" y="10" width="28" height="28" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <rect x="74" y="18" width="12" height="12" rx="1" fill="#38bdf8" />
+      <!-- Finder Bottom-Left -->
+      <rect x="10" y="66" width="28" height="28" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <rect x="18" y="74" width="12" height="12" rx="1" fill="#38bdf8" />
+      <!-- Alignment Pattern -->
+      <rect x="68" y="68" width="18" height="18" rx="1" fill="#7e22ce" stroke="#c084fc" stroke-width="1.5" />
+      <rect x="74" y="74" width="6" height="6" fill="#c084fc" />
+      <!-- Timing Lines -->
+      <line x1="42" y1="24" x2="62" y2="24" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3 3" />
+      <line x1="24" y1="42" x2="24" y2="62" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3 3" />
+    </g>
+
+    <!-- 5 Module Descriptions -->
+    <g transform="translate(150, 20)">
+      <!-- 1. Finder Eyes -->
+      <g transform="translate(0, 0)">
+        <rect width="210" height="48" rx="6" fill="#0369a1" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
+        <text x="10" y="20" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">1. Finder Patterns (Eyes)</text>
+        <text x="10" y="36" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10">3 corner 7x7 ratio boxes for 360&#176; orientation.</text>
+      </g>
+
+      <!-- 2. Alignment Pattern -->
+      <g transform="translate(225, 0)">
+        <rect width="220" height="48" rx="6" fill="#7e22ce" fill-opacity="0.2" stroke="#c084fc" stroke-width="1" />
+        <text x="10" y="20" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">2. Alignment Patterns</text>
+        <text x="10" y="36" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10">Corrects perspective on curved surfaces.</text>
+      </g>
+
+      <!-- 3. Timing Pattern -->
+      <g transform="translate(460, 0)">
+        <rect width="220" height="48" rx="6" fill="#b45309" fill-opacity="0.2" stroke="#fbbf24" stroke-width="1" />
+        <text x="10" y="20" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">3. Timing Tracks</text>
+        <text x="10" y="36" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10">Alternating modules clock grid coordinates.</text>
+      </g>
+
+      <!-- 4. Quiet Zone -->
+      <g transform="translate(695, 0)">
+        <rect width="235" height="48" rx="6" fill="#047857" fill-opacity="0.2" stroke="#34d399" stroke-width="1" />
+        <text x="10" y="20" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">4. Quiet Zone (Margin)</text>
+        <text x="10" y="36" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10">Mandatory 4-module blank border buffer.</text>
+      </g>
+
+      <!-- 5. Data & Format info -->
+      <g transform="translate(0, 56)">
+        <rect width="930" height="42" rx="6" fill="#131a2c" stroke="#334155" stroke-width="1" />
+        <text x="12" y="25" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="11">
+          <tspan fill="#34d399" font-weight="700">Format &amp; Version Information: </tspan>
+          Stores Reed-Solomon Error Correction Level (L/M/Q/H) and 1 of 8 masking patterns to ensure optical readability.
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- 3 Reference Columns (Y: 310 to 730) -->
+  <!-- Col 1: Reed-Solomon Error Correction Levels -->
+  <g transform="translate(50, 310)">
+    <rect width="350" height="420" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#10b981" />
+    <text x="32" y="23" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">REED-SOLOMON ERROR CORRECTION</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Level L -->
+      <g transform="translate(0, 0)">
+        <rect width="314" height="66" rx="6" fill="#131a2c" stroke="#334155" stroke-width="1" />
+        <text x="12" y="20" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">Level L (Low): ~7% Recovery</text>
+        <text x="12" y="36" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="12" dy="0">Maximum data density. Best for clean digital</tspan>
+          <tspan x="12" dy="13">screens with zero physical damage risk.</tspan>
+        </text>
+      </g>
+
+      <!-- Level M -->
+      <g transform="translate(0, 76)">
+        <rect width="314" height="66" rx="6" fill="#131a2c" stroke="#334155" stroke-width="1" />
+        <text x="12" y="20" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">Level M (Medium): ~15% Recovery</text>
+        <text x="12" y="36" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="12" dy="0">Industry standard default. Great balance of data</tspan>
+          <tspan x="12" dy="13">capacity and moderate resistance to smudges.</tspan>
+        </text>
+      </g>
+
+      <!-- Level Q -->
+      <g transform="translate(0, 152)">
+        <rect width="314" height="66" rx="6" fill="#131a2c" stroke="#334155" stroke-width="1" />
+        <text x="12" y="20" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">Level Q (Quartile): ~25% Recovery</text>
+        <text x="12" y="36" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="12" dy="0">Used for industrial labels, outdoor flyers,</tspan>
+          <tspan x="12" dy="13">and wrinkled print materials in harsh weather.</tspan>
+        </text>
+      </g>
+
+      <!-- Level H -->
+      <g transform="translate(0, 228)">
+        <rect width="314" height="76" rx="6" fill="#3b0764" fill-opacity="0.3" stroke="#a855f7" stroke-width="1" />
+        <text x="12" y="20" fill="#c084fc" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">Level H (High): ~30% Recovery</text>
+        <text x="12" y="38" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Crucial for Center Logo Overlays!</text>
+        <text x="12" y="50" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9">
+          <tspan x="12" dy="0">Allows covering up to 30% of code area with</tspan>
+          <tspan x="12" dy="12">branding without breaking scanner decoding.</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Col 2: Encoding Modes & Capacity -->
+  <g transform="translate(425, 310)">
+    <rect width="350" height="420" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#00f2fe" />
+    <text x="32" y="23" fill="#00f2fe" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">DATA ENCODING MODES &amp; LIMITS</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Numeric -->
+      <g transform="translate(0, 0)">
+        <rect width="314" height="66" rx="4" fill="#131a2c" />
+        <text x="12" y="20" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">1. Numeric Only Mode</text>
+        <text x="12" y="36" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Digits 0-9. Packs 3 digits into 10 bits.</text>
+        <text x="12" y="52" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10">Max Capacity: 7,089 Characters (Ver 40)</text>
+      </g>
+
+      <!-- Alphanumeric -->
+      <g transform="translate(0, 76)">
+        <rect width="314" height="66" rx="4" fill="#131a2c" />
+        <text x="12" y="20" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">2. Alphanumeric Mode</text>
+        <text x="12" y="36" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">45 chars: 0-9, A-Z, space, $ % * + - . / :</text>
+        <text x="12" y="52" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10">Max Capacity: 4,296 Characters</text>
+      </g>
+
+      <!-- Byte / UTF-8 -->
+      <g transform="translate(0, 152)">
+        <rect width="314" height="66" rx="4" fill="#131a2c" />
+        <text x="12" y="20" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">3. Byte Mode (UTF-8 / Binary)</text>
+        <text x="12" y="36" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Standard for web URLs, JSON, Unicode emojis.</text>
+        <text x="12" y="52" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10">Max Capacity: 2,953 Bytes</text>
+      </g>
+
+      <!-- Version Scaling -->
+      <g transform="translate(0, 230)">
+        <rect width="314" height="96" rx="6" fill="#1e293b" />
+        <text x="12" y="20" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">QR Versions 1 to 40 Grid Sizing</text>
+        <text x="12" y="38" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">&#8226; Version 1: 21 x 21 modules</text>
+        <text x="12" y="54" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">&#8226; Formula: Modules = 21 + 4 * (Version - 1)</text>
+        <text x="12" y="70" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">&#8226; Version 40: 177 x 177 modules</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Col 3: Design & Scanning Rules -->
+  <g transform="translate(800, 310)">
+    <rect width="350" height="420" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#8b5cf6" />
+    <text x="32" y="23" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">PRINT &amp; SCANNING BEST PRACTICES</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Rule 1: Contrast -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">1. High Optical Contrast Ratio</text>
+        <text x="0" y="28" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="0" dy="0">Ensure &#8805; <tspan fill="#f8fafc">4:1 contrast</tspan> between dots and bg.</tspan>
+          <tspan x="0" dy="13">Camera sensors binarize frames before decoding.</tspan>
+        </text>
+      </g>
+
+      <!-- Rule 2: Quiet Zone -->
+      <g transform="translate(0, 80)">
+        <text x="0" y="14" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">2. Protect the 4-Module Quiet Zone</text>
+        <text x="0" y="28" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="0" dy="0">Never crop or place text close to the QR edge!</tspan>
+          <tspan x="0" dy="13">Without margins, engines fail to isolate finders.</tspan>
+        </text>
+      </g>
+
+      <!-- Rule 3: Logo Area -->
+      <g transform="translate(0, 160)">
+        <text x="0" y="14" fill="#f43f5e" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">3. Logo Overlay Sizing Limits</text>
+        <text x="0" y="28" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="0" dy="0">Cover max <tspan fill="#f8fafc">20–25%</tspan> of center area with Level H.</tspan>
+          <tspan x="0" dy="13">Never obscure any of the 3 corner finder eyes.</tspan>
+        </text>
+      </g>
+
+      <!-- Rule 4: Dynamic URL -->
+      <g transform="translate(0, 240)">
+        <rect width="314" height="88" rx="6" fill="#131a2c" stroke="#38bdf8" stroke-width="0.8" />
+        <text x="10" y="20" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">Static vs Dynamic QR Destination</text>
+        <text x="10" y="36" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="10" dy="0">&#8226; Short URLs yield simpler QR versions (fewer</tspan>
+          <tspan x="10" dy="13">dots) which scan much faster from distance.</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>

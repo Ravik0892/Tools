@@ -14,6 +14,13 @@ const toolsData = [
     h1: "Smart Chain Pipeline Builder Guide",
     tag: "Data Pipelines",
     leadParagraph: "In modern software development, data transformation often requires chaining multiple discrete steps together, such as decoding a string, formatting it, and converting its text case. OmniTool Hub's Smart Chain Pipeline Builder allows you to design, reorder, execute, and preview these steps in series in a completely client-side sandbox environment.",
+    diagram: {
+      src: "../social_media_assets/data_pipeline_etl_architecture_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Data pipeline and ETL architecture poster detailing the 5-stage transformation pipeline, ETL vs ELT paradigms, map/filter/reduce operators, and idempotency",
+      caption: "Data Pipeline & ETL Architecture Master Reference: The 5-stage streaming pipeline flow, ETL vs ELT paradigms, functional operators, and idempotency principles."
+    },
     tabsTitle: "Pipeline Configurations & Tabs",
     tabs: [
       {
@@ -50,6 +57,13 @@ const toolsData = [
     h1: "Text Cases & Encoder Suite Guide",
     tag: "Transformations",
     leadParagraph: "Text formatting and base-encoding operations are everyday developer necessities. Whether you are standardizing API variables, decoding token values, or escaping query parameters, the Text Cases & Encoder Suite runs 100% locally to process your text strings securely.",
+    diagram: {
+      src: "../social_media_assets/encoding_standards_cheat_sheet_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Character encodings and data transformation reference poster showing UTF-8 bit architecture, Base64 conversion pipeline, Hex nibbles, and XML HTML entity rules",
+      caption: "Character Encodings & Data Transformations Reference: UTF-8 variable byte structures, Base64 3-to-4 transformation math, Hex byte sequences, and XML safe entities."
+    },
     tabsTitle: "Encoder Tools & Configurations",
     tabs: [
       {
@@ -86,6 +100,13 @@ const toolsData = [
     h1: "JWT Decoder & Token Parser Guide",
     tag: "Crypto & Security",
     leadParagraph: "JSON Web Tokens (JWT) are the standard for authorization in modern web applications. However, pasting tokens into unverified online decoders sends your claims, scopes, and user details to external servers. OmniTool Hub's JWT Decoder runs entirely client-side, giving you instant insight into token contents safely.",
+    diagram: {
+      src: "../social_media_assets/jwt_anatomy_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "JWT token anatomy and security structure reference poster showing header, payload claims, and HMAC/RSA signature verification",
+      caption: "JWT Token Anatomy & Security Structure: Header metadata, payload claims, cryptographic signature, and authentication protocols."
+    },
     tabsTitle: "Decoder Tabs & Verification",
     tabs: [
       {
@@ -122,6 +143,13 @@ const toolsData = [
     h1: "Cryptography & Key Generator Suite Guide",
     tag: "Crypto & Security",
     leadParagraph: "Cryptographic operations are fundamental to securing digital information. OmniTool Hub's Cryptography Suite exposes high-security standards (hashing, symmetric ciphers, asymmetric key generation) inside a client-side environment powered by the browser's native Web Crypto API.",
+    diagram: {
+      src: "../social_media_assets/crypto_algorithms_cheat_sheet_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Modern cryptography algorithms cheat sheet poster comparing SHA hashes, AES-256-GCM symmetric encryption, and RSA/Ed25519 asymmetric keypairs",
+      caption: "Modern Cryptography & Ciphers Quick Reference: One-way hashes, authenticated symmetric ciphers, asymmetric keys, and security best practices."
+    },
     tabsTitle: "Cryptographic Operations",
     tabs: [
       {
@@ -158,6 +186,13 @@ const toolsData = [
     h1: "Live Markdown Editor & Previewer Guide",
     tag: "Writers & Parsers",
     leadParagraph: "Markdown is the standard format for documentation, readmes, and content writing. OmniTool Hub's Live Markdown Editor and Previewer offers a responsive workspace to write Markdown syntax and view rendered HTML output in real time.",
+    diagram: {
+      src: "../social_media_assets/markdown_syntax_cheat_sheet_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "GitHub Flavored Markdown GFM cheatsheet poster showing headings, tables, task lists, code blocks, callout alerts, and LaTeX math formatting",
+      caption: "GitHub Flavored Markdown (GFM) Master Cheat Sheet: Complete syntax reference for typography, tables, checklists, callout alerts, and LaTeX math formulas."
+    },
     tabsTitle: "Editor Panels & Previews",
     tabs: [
       {
@@ -194,6 +229,13 @@ const toolsData = [
     h1: "Text Diff Comparison Tool Guide",
     tag: "Writers & Parsers",
     leadParagraph: "Identifying changes between two versions of a document, source file, or code snippet can be tedious. OmniTool Hub's Text Diff Comparison tool provides a side-by-side, visual review layout to highlight additions, deletions, and modifications client-side.",
+    diagram: {
+      src: "../social_media_assets/diff_patch_git_cheat_sheet_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Unified diff and patch anatomy cheat sheet diagram showing hunk headers, Git merge conflict markers, Myers diff algorithm, and 3-way merge model",
+      caption: "Unified Diff & Git Anatomy Quick Reference: Hunk headers (@@ -l,s +l,s @@), patch syntax, merge conflict markers, and 3-way merge model."
+    },
     tabsTitle: "Comparison Modes",
     tabs: [
       {
@@ -230,6 +272,13 @@ const toolsData = [
     h1: "Multi-PDF Searcher & OCR Guide",
     tag: "Writers & Parsers",
     leadParagraph: "Auditing multiple PDF documents or extracts for specific keywords can be time-consuming. OmniTool Hub's Multi-PDF Searcher and OCR suite lets you load multiple PDFs into a secure session, search across them instantly, and run OCR on scanned pages client-side.",
+    diagram: {
+      src: "../social_media_assets/pdf_search_ocr_pipeline_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Multi-PDF search and client-side OCR pipeline reference poster detailing text layer extraction, Tesseract WASM, and inverted index search",
+      caption: "Client-Side Multi-PDF Search & OCR Master Architecture: Document stream parsing, Tesseract WASM binarization, and inverted search index."
+    },
     tabsTitle: "PDF Workspace & OCR Features",
     tabs: [
       {
@@ -266,6 +315,13 @@ const toolsData = [
     h1: "PDF Toolbox (Split, Merge, Convert & Compress) Guide",
     tag: "Writers & Parsers",
     leadParagraph: "Standard PDF tools require uploading sensitive documents to third-party servers. OmniTool Hub's PDF Toolbox processes every operation entirely inside your browser memory using WebAssembly and client-side canvas rendering—ensuring 100% privacy, zero data retention, and blazing speed.",
+    diagram: {
+      src: "../social_media_assets/pdf_manipulation_matrix_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "PDF manipulation and transformation matrix poster detailing page split/merge, cross-reference tables, rasterization DPI, and lossless compression",
+      caption: "PDF Manipulation & Document Transformation Matrix: Object trees, page slicing, merging, rasterization DPI scaling, and lossless compression."
+    },
     tabsTitle: "Toolbox Capabilities & Operations",
     tabs: [
       {
@@ -307,6 +363,13 @@ const toolsData = [
     h1: "Visual Regex & Extractor Suite Guide",
     tag: "Pattern Analysis",
     leadParagraph: "Writing and debugging regular expressions (regex) can be complex. OmniTool Hub's Visual Regex & Extractor Suite helps you test patterns visually, capture match groups, and batch-extract variables (like emails, phone numbers, IPs, and URLs) client-side.",
+    diagram: {
+      src: "../social_media_assets/regex_cheat_sheet_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Regex master syntax quick-reference cheat sheet poster showing character classes, quantifiers, lookaround assertions, and production patterns",
+      caption: "Regex Master Quick-Reference Poster: Anchors, character classes, quantifiers, lookarounds, and ready-to-copy production validation patterns."
+    },
     tabsTitle: "Regex Workspace & Tools",
     tabs: [
       {
@@ -338,6 +401,13 @@ const toolsData = [
     h1: "CSS Studio Suite Guide",
     tag: "CSS Builders",
     leadParagraph: "Writing modern CSS layouts visually saves design time. OmniTool Hub's CSS Studio Suite provides an interactive design workspace to build linear & radial gradients, stack complex shadow layers, and create glassmorphism cards with copy-ready code output.",
+    diagram: {
+      src: "../social_media_assets/css_layout_flex_grid_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "CSS Flexbox and Modern Grid layout cheat sheet poster showing 1D axis alignment, 2D grid tracks, auto-fit repeat formulas, and decision matrix",
+      caption: "CSS Flexbox & CSS Grid Layout Master Reference: 1D axis alignment, 2D grid tracks, zero-media-query auto-fit repeat patterns, and decision matrix."
+    },
     tabsTitle: "Design Studio Categories",
     tabs: [
       {
@@ -374,6 +444,13 @@ const toolsData = [
     h1: "Color Lab & Contrast Suite Guide",
     tag: "Color Management",
     leadParagraph: "Designing accessible digital interfaces requires careful selection of colors. OmniTool Hub's Color Lab & Contrast Suite helps you build WCAG-compliant color palettes, check contrast accessibility ratios, and generate tints and shades client-side.",
+    diagram: {
+      src: "../social_media_assets/color_harmony_wheel_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Color harmony and palette theory reference poster showing complementary, analogous, triadic, split-complementary, tetradic, and WCAG contrast rules",
+      caption: "Color Harmony & Palette Theory Reference: The 6 core harmony formulas, angular relationships, and WCAG 2.2 accessibility contrast standards."
+    },
     tabsTitle: "Color Lab Capabilities",
     tabs: [
       {
@@ -410,6 +487,13 @@ const toolsData = [
     h1: "Security & Passwords Suite Guide",
     tag: "Security & Pass",
     leadParagraph: "Weak credentials and predictable keys expose systems to vulnerabilities. OmniTool Hub's Security & Passwords Suite exposes high-entropy generation tools (random passwords, RFC 4122 v4 UUID keys) inside a client-side environment powered by the Web Crypto API.",
+    diagram: {
+      src: "../social_media_assets/web_security_headers_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Web security headers cheatsheet poster detailing CSP directives, CORS preflight flow, HSTS, X-Content-Type-Options, and SameSite cookie defense flags",
+      caption: "Web Security Headers & Browser Defenses Reference: Essential HTTP headers, CSP directives, CORS preflight authorization flow, and cookie security flags."
+    },
     tabsTitle: "Security Generators",
     tabs: [
       {
@@ -441,6 +525,13 @@ const toolsData = [
     h1: "Date & Time Suite Guide",
     tag: "Calculator",
     leadParagraph: "Parsing epochs and calculating date durations can be tricky. OmniTool Hub's Date & Time Suite helps you convert Unix timestamps to human dates, calculate durations between times, and add/subtract time fields dynamically.",
+    diagram: {
+      src: "../social_media_assets/datetime_iso_unix_reference_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "ISO 8601, Unix epoch and timezone architecture poster showing ISO string token anatomy, Y2038 overflow, formatting tokens, and UTC storage rules",
+      caption: "ISO 8601 & Unix Timestamp Master Reference: Extended string anatomy, epoch seconds vs milliseconds, Y2038 overflow, and universal UTC storage rules."
+    },
     tabsTitle: "Date & Time Utilities",
     tabs: [
       {
@@ -472,6 +563,13 @@ const toolsData = [
     h1: "Universal Unit Converter Guide",
     tag: "Conversion",
     leadParagraph: "Converting measurements across different units requires precise conversions. OmniTool Hub's Unit Converter offers an instant, offline utility to translate weights, lengths, temperatures, data rates, and memory storage sizes.",
+    diagram: {
+      src: "../social_media_assets/unit_conversion_standards_cheat_sheet_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Scientific and digital unit conversion matrix poster comparing decimal SI vs binary IEC storage, physical constants, and energy standards",
+      caption: "Scientific & Digital Unit Conversion Matrix: SI metric constants, IEC vs Decimal storage, physical anchors, and energy equivalencies."
+    },
     tabsTitle: "Conversion Categories",
     tabs: [
       {
@@ -508,6 +606,13 @@ const toolsData = [
     h1: "Graphics Designer & Screenshot Studio Guide",
     tag: "Graphics & Screen Studio",
     leadParagraph: "Designing digital banners or adding overlays to screenshots should not require complex design software. OmniTool Hub's Graphics Designer and Screenshot Studio offers a lightweight design workspace to edit image assets, capture webcam snapshots, and apply vintage filters entirely client-side.",
+    diagram: {
+      src: "../social_media_assets/digital_imaging_canvas_master_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Digital imaging and canvas composition studio poster detailing HTML5 2D canvas context, affine matrices, Porter-Duff blend modes, and pixel kernels",
+      caption: "Digital Imaging & Canvas Composition Studio: 2D affine matrix transforms, Porter-Duff compositing, blend modes, and convolution kernels."
+    },
     tabsTitle: "Graphics Tools & Panels",
     tabs: [
       {
@@ -539,6 +644,13 @@ const toolsData = [
     h1: "Scientific Calculator Guide",
     tag: "Calculator",
     leadParagraph: "Perform math calculations without loading heavy spreadsheets. OmniTool Hub's Scientific Calculator provides an arithmetic console with trigonometric functions, logarithmic operations, and calculation history log support.",
+    diagram: {
+      src: "../social_media_assets/scientific_calculator_math_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Scientific computing and calculator math poster detailing Dijkstra's Shunting-Yard algorithm, IEEE-754 float precision, trigonometry, and combinatorics",
+      caption: "Scientific Computing & Calculator Algorithms: Shunting-Yard parsing, IEEE-754 floating-point standards, trigonometry, and combinatorics."
+    },
     tabsTitle: "Calculator Features",
     tabs: [
       {
@@ -570,6 +682,13 @@ const toolsData = [
     h1: "Dynamic QR Code Studio Guide",
     tag: "Generators",
     leadParagraph: "Standard QR generators offer basic layouts. OmniTool Hub's Dynamic QR Code Studio lets you design vector QR codes with custom dots, gradients, and logo overlays, all processed locally in your browser memory.",
+    diagram: {
+      src: "../social_media_assets/qr_code_anatomy_reference_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "QR code anatomy and error correction cheat sheet poster showing finder patterns, alignment patterns, quiet zone, Reed-Solomon levels L/M/Q/H, and logo rules",
+      caption: "QR Code Anatomy & Error Correction Reference: ISO/IEC 18004 components, Reed-Solomon recovery levels L/M/Q/H, and logo overlay best practices."
+    },
     tabsTitle: "QR Design Options",
     tabs: [
       {
@@ -601,6 +720,13 @@ const toolsData = [
     h1: "Meta Tag & SEO Previewer Guide",
     tag: "Generators",
     leadParagraph: "Optimizing search listings and social previews is key to web visibility. OmniTool Hub's Meta Tag & SEO Previewer lets you design meta tags and preview social cards for Google, Facebook, Twitter, and Discord, all in one local session.",
+    diagram: {
+      src: "../social_media_assets/seo_meta_tags_social_preview_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Open Graph and technical SEO meta tags poster showing social card mockups, Google SERP snippet anatomy, Twitter card directives, and canonical rules",
+      caption: "Open Graph, Twitter Cards & SERP Meta Reference: 1200x630 social card specifications, SERP snippet limits, robots directives, and canonical linking."
+    },
     tabsTitle: "SEO Preview Categories",
     tabs: [
       {
@@ -632,6 +758,13 @@ const toolsData = [
     h1: "Image Optimizer & Converter Guide",
     tag: "Graphics & Screen Studio",
     leadParagraph: "Compressing images or changing formats shouldn't require third-party servers. OmniTool Hub's Image Optimizer & Converter lets you resize dimensions, adjust compression quality, and convert image formats locally in your browser.",
+    diagram: {
+      src: "../social_media_assets/web_image_formats_matrix_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Modern web image formats matrix poster comparing AVIF, WebP, PNG, JPEG, and SVG compression, transparency, and responsive picture delivery",
+      caption: "Modern Web Image Formats & Compression Matrix: AVIF vs WebP vs PNG vs SVG comparison, responsive picture ladder, and quality factor tuning."
+    },
     tabsTitle: "Optimization Tools",
     tabs: [
       {
@@ -663,6 +796,13 @@ const toolsData = [
     h1: "SVG Animation Studio Guide",
     tag: "Graphics & Screen Studio",
     leadParagraph: "Add movement to standard vector graphics. OmniTool Hub's SVG Animation Studio lets you import SVG codes, inspect vector paths, apply keyframe presets, and export animated SVG files locally.",
+    diagram: {
+      src: "../social_media_assets/svg_animation_motion_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "SVG animation and vector motion essentials poster detailing path command syntax, stroke-dashoffset self-drawing, GPU transforms, and easing curves",
+      caption: "SVG Animation & Vector Motion Essentials: Path command syntax, stroke-dashoffset self-drawing, GPU transforms, and easing curves."
+    },
     tabsTitle: "Studio Panels & Animation",
     tabs: [
       {
@@ -694,6 +834,13 @@ const toolsData = [
     h1: "URL Query Parser & Builder Guide",
     tag: "Transformations",
     leadParagraph: "Inspecting complex web links with multiple tracking parameters can be messy. OmniTool Hub's URL Query Parser & Builder lets you split addresses into structured routes, manage query keys in a grid, and build clean URLs client-side.",
+    diagram: {
+      src: "../social_media_assets/url_anatomy_reference_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "URL structure and encoding reference poster detailing scheme, host, port, path, query parameters, percent-encoding matrix, and RFC 3986 rules",
+      caption: "Uniform Resource Identifier (URI/URL) Anatomy & Encoding Reference: RFC 3986 component breakdown, percent-encoding matrix, and encodeURI vs encodeURIComponent."
+    },
     tabsTitle: "Premium Capabilities",
     tabs: [
       {
@@ -736,6 +883,13 @@ const toolsData = [
     h1: "Text Readability & Analyzer Guide",
     tag: "Pattern Analysis",
     leadParagraph: "Analyzing text length and readability is essential for copywriting and SEO. OmniTool Hub's Text Readability & Analyzer lets you calculate Flesch Reading Ease scores, estimate reading time, and analyze keyword density client-side.",
+    diagram: {
+      src: "../social_media_assets/text_readability_linguistics_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Text readability and linguistic analysis cheat sheet poster detailing Flesch Reading Ease, syllable counting heuristics, lexical density, and reading speeds",
+      caption: "Text Readability & Linguistic Analysis Cheat Sheet: Flesch Reading Ease, syllable heuristics, lexical density, and reading ergonomics."
+    },
     tabsTitle: "Audit Categories",
     tabs: [
       {
@@ -767,6 +921,13 @@ const toolsData = [
     h1: "Private CSV/JSON Mock Data Generator Guide",
     tag: "Generators",
     leadParagraph: "Creating fake datasets for system testing or software prototyping can expose schemas when using online tools. OmniTool Hub's Mock Data Generator lets you design schemas, choose column types, and generate up to 50,000 rows of mock data entirely in browser memory.",
+    diagram: {
+      src: "../social_media_assets/mock_data_schema_architecture_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Mock data and schema generation architecture poster detailing relational foreign key integrity, probability distributions, RFC 4180 CSV, and memory streaming",
+      caption: "Mock Data & Schema Generation Architecture: Relational foreign key integrity, probability distributions, RFC 4180 CSV, and streaming."
+    },
     tabsTitle: "Schema Builder & Compiler",
     tabs: [
       {
@@ -798,6 +959,13 @@ const toolsData = [
     h1: "HTML/CSS/JS Live Playground Guide",
     tag: "Generators",
     leadParagraph: "Developing front-end UI sketches or testing interactive widgets usually requires creating local project files, setting up servers, or dealing with heavy web tools. OmniTool Hub's HTML/CSS/JS Live Playground provides a lightweight, instant developer environment running entirely in your browser sandbox, complete with responsive testing, CDN integrations, and active debugging console diagnostics.",
+    diagram: {
+      src: "../social_media_assets/web_sandbox_runtime_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Web sandbox and browser code playground runtime poster detailing iframe origin isolation, sandbox attribute flags, postMessage bus, and AST loop guards",
+      caption: "Web Sandbox & Browser Code Playground Runtime: IFrame origin isolation, sandbox attribute flags, postMessage RPC, and AST loop guards."
+    },
     tabsTitle: "Interactive Playground Features",
     tabs: [
       {
@@ -840,6 +1008,13 @@ const toolsData = [
     h1: "Client-Side PII Masker & Anonymizer Guide",
     tag: "Crypto & Security",
     leadParagraph: "Inspecting database logs, error traces, or transaction logs often risks leaking customer details like emails, IP addresses, and credit card numbers. OmniTool Hub's Client-Side PII Masker & Anonymizer processes all sensitive variables 100% locally inside your browser memory using robust regex identifiers, Luhn validation algorithms, and cryptographic SHA-256 hashes.",
+    diagram: {
+      src: "../social_media_assets/pii_masking_matrix_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "PII classification and data masking matrix poster showing direct vs indirect identifiers, pseudonymization, redaction, and k-anonymity",
+      caption: "PII Classification & Anonymization Matrix: Direct vs indirect quasi-identifiers, format-preserving masking, salted hashing, and k-anonymity."
+    },
     tabsTitle: "Anonymizer Configurations & Strategies",
     tabs: [
       {
@@ -882,6 +1057,13 @@ const toolsData = [
     h1: "JSON, SQL & CSV Data Formatter Suite Guide",
     tag: "Formatters & Parsers",
     leadParagraph: "In modern software engineering, data format conversions and payload validation are daily operations. However, pasting sensitive production payloads, proprietary database queries, or client lists into random online websites exposes your data to public servers, search indexers, and third-party trackers. OmniTool Hub's Data Formatter & Converter Suite runs 100% in your local browser memory buffer, ensuring complete confidentiality.",
+    diagram: {
+      src: "../social_media_assets/data_formats_comparison_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Data formats comparison matrix poster showing side-by-side JSON vs YAML vs CSV vs XML syntax and capability table",
+      caption: "Data Formats Reference Matrix: Side-by-side syntax comparison, nesting rules, comment support, and production use cases."
+    },
     tabsTitle: "Formatter Suite Navigation & Tab Details",
     tabs: [
       {
@@ -918,6 +1100,13 @@ const toolsData = [
     h1: "IP Subnet & MAC Address Calculator Guide",
     tag: "Network Utilities",
     leadParagraph: "Planning network architectures, partitioning VPC subnets, and diagnosing local hardware requires fast, accurate IP subnetting calculations. OmniTool Hub's IP Subnet & MAC Address Suite runs 100% in your browser without sending internal network topology details or private IP ranges to the cloud.",
+    diagram: {
+      src: "../social_media_assets/cidr_subnet_matrix_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "IPv4 subnetting and CIDR prefix reference matrix poster showing subnet masks, wildcards, usable host capacities, and RFC 1918 private ranges",
+      caption: "IPv4 Subnetting & CIDR Prefix Matrix: Masks, wildcard offsets, total address counts, usable hosts, and RFC 1918 private network ranges."
+    },
     tabsTitle: "Subnetting Features & Operations",
     tabs: [
       {
@@ -1009,13 +1198,13 @@ const template = (tool, allTools) => {
   <meta property="og:description" content="${tool.description}">
   <meta property="og:url" content="https://omnitool.worldsneed.com/guides/${tool.fileName}">
   <meta property="og:site_name" content="OmniTool Hub">
-  <meta property="og:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg">
+  <meta property="og:image" content="${tool.diagram ? 'https://omnitool.worldsneed.com/' + tool.diagram.src.replace(/^\.\.\//, '') : 'https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg'}">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${tool.title}">
   <meta name="twitter:description" content="${tool.description}">
-  <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/twitter_header_1500x500.svg">
+  <meta name="twitter:image" content="${tool.diagram ? 'https://omnitool.worldsneed.com/' + tool.diagram.src.replace(/^\.\.\//, '') : 'https://omnitool.worldsneed.com/social_media_assets/twitter_header_1500x500.svg'}">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1067,6 +1256,13 @@ const template = (tool, allTools) => {
             "url": "https://omnitool.worldsneed.com/social_media_assets/profile_avatar_icon_1080x1080.svg"
           }
         },
+        ${tool.diagram ? `"image": {
+          "@type": "ImageObject",
+          "url": "https://omnitool.worldsneed.com/` + tool.diagram.src.replace(/^\.\.\//, '') + `",
+          "width": 1200,
+          "height": 630,
+          "caption": "` + tool.diagram.caption.replace(/"/g, '\\"') + `"
+        },` : ''}
         "datePublished": "2026-06-27",
         "dateModified": "2026-10-13",
         "mainEntityOfPage": "https://omnitool.worldsneed.com/guides/${tool.fileName}"
@@ -1691,6 +1887,136 @@ const template = (tool, allTools) => {
         display: none;
       }
     }
+
+    /* Interactive Poster & Pan-Zoom Lightbox */
+    .poster-interactive-container {
+      position: relative;
+      cursor: zoom-in;
+      overflow: hidden;
+      background: #080c14;
+    }
+    .poster-interactive-container:hover .poster-zoom-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .poster-zoom-hint {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(14, 19, 31, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      color: var(--accent-cyan);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.9;
+      transform: translateY(0);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .poster-btn {
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      color: var(--accent-cyan);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .poster-btn:hover {
+      background: rgba(0, 242, 254, 0.2);
+      border-color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+    .poster-zoom-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999999;
+      background: rgba(5, 7, 12, 0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .poster-zoom-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    .zoom-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(14, 19, 31, 0.95);
+      z-index: 10;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .zoom-ctrl-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f3f4f6;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .zoom-ctrl-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+    .zoom-stage-viewport {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .zoom-stage-viewport:active {
+      cursor: grabbing;
+    }
+    .zoom-stage-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1200px;
+      height: 800px;
+      transform-origin: 0 0;
+      will-change: transform;
+      pointer-events: none;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
   </style>
 </head>
 <body>
@@ -1757,6 +2083,31 @@ const template = (tool, allTools) => {
       <p>
         ${tool.leadParagraph}
       </p>
+
+      ${tool.diagram ? `
+      <!-- Dedicated Technical Reference Poster & Cheat Sheet (With Pan & Zoom) -->
+      <figure class="guide-diagram-figure" style="margin: 32px 0 36px 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); background: rgba(10, 14, 23, 0.85); box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);">
+        <div class="poster-interactive-container" title="Click to Open Interactive Pan & Zoom Viewer">
+          <img src="${tool.diagram.src}" 
+               alt="${tool.diagram.alt.replace(/"/g, '&quot;')}" 
+               width="${tool.diagram.width || 1200}" 
+               height="${tool.diagram.height || 800}" 
+               loading="lazy" 
+               decoding="async" 
+               style="width: 100%; height: auto; display: block; max-width: 100%;">
+          <div class="poster-zoom-hint">
+            <span>🔍</span> Click to Pan &amp; Zoom
+          </div>
+        </div>
+        <figcaption style="padding: 12px 20px; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); background: rgba(14, 19, 31, 0.95); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <span>⚡ <strong>Quick Reference:</strong> ${tool.diagram.caption}</span>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="poster-btn poster-open-zoom-btn">🔍 Interactive Zoom &amp; Pan</button>
+            <a href="${tool.diagram.src}" download target="_blank" rel="noopener noreferrer" class="poster-btn" style="color: var(--accent-cyan); text-decoration: none;">⬇️ Download Poster</a>
+          </div>
+        </figcaption>
+      </figure>
+` : ''}
 
       <h2>${tool.tabsTitle}</h2>
       <p>
@@ -1829,6 +2180,28 @@ const template = (tool, allTools) => {
     </p>
   </footer>
 
+  ${tool.diagram ? `
+  <!-- Fullscreen Interactive Pan & Zoom Modal (Direct Body Child to escape container stacking contexts) -->
+  <div id="poster-zoom-modal" class="poster-zoom-modal" role="dialog" aria-modal="true" aria-label="Interactive Poster Viewer">
+    <div class="zoom-modal-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 13.5px; font-weight: 700; color: #f3f4f6;">${tool.h1.replace(/ Guide$/i, '')} &bull; Interactive Cheat Sheet</span>
+        <span style="font-size: 11px; color: #9ca3af; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); padding: 3px 8px; border-radius: 4px;">🖱️ Mouse Wheel to Zoom &bull; Drag to Pan &bull; Double-click to Reset</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="zoom-out-btn" class="zoom-ctrl-btn" title="Zoom Out (-)" style="width: 34px; height: 34px; font-size: 18px;">&minus;</button>
+        <span id="zoom-level-badge" style="font-size: 12px; font-weight: 700; color: #00f2fe; min-width: 48px; text-align: center; font-family: monospace;">100%</span>
+        <button id="zoom-in-btn" class="zoom-ctrl-btn" title="Zoom In (+)" style="width: 34px; height: 34px; font-size: 18px;">&#43;</button>
+        <button id="zoom-reset-btn" class="zoom-ctrl-btn" title="Reset View" style="padding: 0 10px; height: 34px; font-size: 12px;">↺ Reset</button>
+        <a href="${tool.diagram.src}" download class="zoom-ctrl-btn" style="padding: 0 12px; height: 34px; font-size: 12px; text-decoration: none; color: #00f2fe; background: rgba(0, 242, 254, 0.12); border-color: rgba(0, 242, 254, 0.3);">⬇️ Save</a>
+        <button id="zoom-close-btn" class="zoom-ctrl-btn" title="Close (Esc)" style="width: 34px; height: 34px; font-size: 20px; color: #f87171; background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.3); margin-left: 6px;">&times;</button>
+      </div>
+    </div>
+    <div id="zoom-stage-viewport" class="zoom-stage-viewport">
+      <img id="zoom-stage-img" class="zoom-stage-img" src="${tool.diagram.src}" width="${tool.diagram.width || 1200}" height="${tool.diagram.height || 800}" alt="${tool.diagram.alt.replace(/"/g, '&quot;')}">
+    </div>
+  </div>` : ''}
+
   <!-- Client-side adapter & dynamic tool mounter -->
   <script type="module">
     const guideApp = {
@@ -1883,6 +2256,195 @@ const template = (tool, allTools) => {
       }
     }
   </script>
+
+  ${tool.diagram ? `
+  <!-- Interactive Pan & Zoom Script -->
+  <script>
+    (function initPanZoomViewer() {
+      const trigger = document.querySelector('.poster-interactive-container');
+      const openBtn = document.querySelector('.poster-open-zoom-btn');
+      const modal = document.getElementById('poster-zoom-modal');
+      if (!trigger || !modal) return;
+
+      const viewport = document.getElementById('zoom-stage-viewport');
+      const img = document.getElementById('zoom-stage-img');
+      const badge = document.getElementById('zoom-level-badge');
+      const btnIn = document.getElementById('zoom-in-btn');
+      const btnOut = document.getElementById('zoom-out-btn');
+      const btnReset = document.getElementById('zoom-reset-btn');
+      const btnClose = document.getElementById('zoom-close-btn');
+
+      let scale = 1;
+      let posX = 0;
+      let posY = 0;
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+      let naturalW = 1200;
+      let naturalH = 800;
+
+      function centerAndFit() {
+        if (!viewport || !img) return;
+        const vw = viewport.clientWidth || window.innerWidth;
+        const vh = viewport.clientHeight || (window.innerHeight - 60);
+        if (vw <= 0 || vh <= 0) return;
+        const targetW = naturalW || 1200;
+        const targetH = naturalH || 800;
+        const fitScale = Math.min((vw * 0.92) / targetW, (vh * 0.92) / targetH, 1.25);
+        scale = Math.max(fitScale, 0.2);
+        posX = (vw - targetW * scale) / 2;
+        posY = (vh - targetH * scale) / 2;
+        applyTransform();
+      }
+
+      function applyTransform() {
+        if (!img) return;
+        img.style.transform = 'translate(' + posX + 'px, ' + posY + 'px) scale(' + scale + ')';
+        if (badge) badge.innerText = Math.round(scale * 100) + '%';
+      }
+
+      function openModal() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        naturalW = img.naturalWidth || 1200;
+        naturalH = img.naturalHeight || 800;
+        requestAnimationFrame(function() {
+          centerAndFit();
+          setTimeout(centerAndFit, 60);
+        });
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        isDragging = false;
+      }
+
+      window.addEventListener('resize', function() {
+        if (modal.classList.contains('active')) {
+          centerAndFit();
+        }
+      });
+
+      trigger.addEventListener('click', openModal);
+      if (openBtn) openBtn.addEventListener('click', openModal);
+      if (btnClose) btnClose.addEventListener('click', closeModal);
+
+      // Keyboard Shortcuts
+      window.addEventListener('keydown', function(e) {
+        if (!modal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeModal();
+        else if (e.key === '+' || e.key === '=') zoomBy(1.2);
+        else if (e.key === '-' || e.key === '_') zoomBy(0.8);
+        else if (e.key === '0' || e.key === 'r') centerAndFit();
+      });
+
+      // Zooming
+      function zoomBy(factor, clientX, clientY) {
+        const newScale = Math.min(Math.max(scale * factor, 0.35), 6.0); // 35% to 600%
+        const rect = viewport.getBoundingClientRect();
+        const vw = viewport.clientWidth;
+        const vh = viewport.clientHeight;
+        const focalX = clientX !== undefined ? (clientX - rect.left) : (vw / 2);
+        const focalY = clientY !== undefined ? (clientY - rect.top) : (vh / 2);
+
+        posX = focalX - (focalX - posX) * (newScale / scale);
+        posY = focalY - (focalY - posY) * (newScale / scale);
+        scale = newScale;
+        applyTransform();
+      }
+
+      if (btnIn) btnIn.addEventListener('click', function() { zoomBy(1.25); });
+      if (btnOut) btnOut.addEventListener('click', function() { zoomBy(0.8); });
+      if (btnReset) btnReset.addEventListener('click', centerAndFit);
+
+      // Wheel Zoom (smooth with mouse focal point)
+      viewport.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.15 : 0.85;
+        zoomBy(factor, e.clientX, e.clientY);
+      }, { passive: false });
+
+      // Mouse Dragging (pan)
+      viewport.addEventListener('mousedown', function(e) {
+        if (e.button !== 0) return;
+        isDragging = true;
+        startX = e.clientX - posX;
+        startY = e.clientY - posY;
+        viewport.style.cursor = 'grabbing';
+      });
+
+      window.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        posX = e.clientX - startX;
+        posY = e.clientY - startY;
+        applyTransform();
+      });
+
+      window.addEventListener('mouseup', function() {
+        if (isDragging) {
+          isDragging = false;
+          viewport.style.cursor = 'grab';
+        }
+      });
+
+      // Double Click to toggle between fit and 2.0x detail zoom
+      viewport.addEventListener('dblclick', function(e) {
+        if (scale > 1.3) {
+          centerAndFit();
+        } else {
+          zoomBy(2.2, e.clientX, e.clientY);
+        }
+      });
+
+      // Touch Support (Pinch & Pan on Mobile)
+      let touchStartDist = 0;
+      let touchStartScale = 1;
+      viewport.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          startX = e.touches[0].clientX - posX;
+          startY = e.touches[0].clientY - posY;
+        } else if (e.touches.length === 2) {
+          isDragging = false;
+          touchStartDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          touchStartScale = scale;
+        }
+      }, { passive: true });
+
+      viewport.addEventListener('touchmove', function(e) {
+        if (e.touches.length === 1 && isDragging) {
+          posX = e.touches[0].clientX - startX;
+          posY = e.touches[0].clientY - startY;
+          applyTransform();
+        } else if (e.touches.length === 2 && touchStartDist > 0) {
+          const dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+          const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+          const factor = dist / touchStartDist;
+          const newScale = Math.min(Math.max(touchStartScale * factor, 0.35), 6.0);
+          const rect = viewport.getBoundingClientRect();
+          const focalX = midX - rect.left;
+          const focalY = midY - rect.top;
+          posX = focalX - (focalX - posX) * (newScale / scale);
+          posY = focalY - (focalY - posY) * (newScale / scale);
+          scale = newScale;
+          applyTransform();
+        }
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', function() {
+        isDragging = false;
+        touchStartDist = 0;
+      }, { passive: true });
+    })();
+  </script>` : ''}
 
 </body>
 </html>
@@ -2573,7 +3135,7 @@ const generateGuidesHub = (allTools) => {
       </div>
     </header>
 
-    <!-- Guides Card Grid -->
+<!-- Guides Card Grid -->
     <section class="guides-grid" id="guides-grid">
       ${allTools.map(tool => {
         const meta = toolMeta[tool.id] || { category: 'dev', categoryName: 'Developer Tools', icon: '🛠️' };

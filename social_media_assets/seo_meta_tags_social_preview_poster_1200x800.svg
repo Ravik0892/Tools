@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bgGradSEO" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06080e" />
+      <stop offset="50%" stop-color="#0b101c" />
+      <stop offset="100%" stop-color="#05070d" />
+    </linearGradient>
+
+    <linearGradient id="titleGradSEO" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="50%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <pattern id="gridPatternSEO" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgGradSEO)" />
+  <rect width="1200" height="800" fill="url(#gridPatternSEO)" />
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Header -->
+  <g transform="translate(50, 48)">
+    <rect width="250" height="26" rx="13" fill="#fbbf24" fill-opacity="0.1" stroke="#fbbf24" stroke-opacity="0.3" stroke-width="1" />
+    <text x="125" y="17" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB &#8226; SEARCH &amp; SOCIAL SEO</text>
+
+    <text x="0" y="66" fill="url(#titleGradSEO)" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="800" letter-spacing="-0.5">Open Graph, Twitter Cards &amp; SERP Meta Reference</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">Essential standard guide for og:image dimensions, Twitter card structures, canonical URLs, and Google SERP snippets.</text>
+  </g>
+
+  <!-- Top Hero: Simulated Social Card & Google SERP Preview (Y: 155 to 295) -->
+  <g transform="translate(50, 155)">
+    <rect width="1100" height="140" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+
+    <!-- Left Box: Google SERP Snippet Preview -->
+    <g transform="translate(24, 20)">
+      <rect width="520" height="100" rx="8" fill="#131a2c" stroke="#334155" stroke-width="1" />
+      <text x="16" y="22" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11">https://omnitool.app &#8250; guides &#8250; regex-tester</text>
+      <text x="16" y="44" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="14.5" font-weight="600">Regex Master Syntax Reference &amp; Cheat Sheet | OmniTool Hub</text>
+      <text x="16" y="66" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Visual reference to character classes, quantifiers, lookarounds, and production regex patterns...</text>
+      <text x="16" y="86" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Max ~60 Chars Title (600px) &#8226; Max ~155 Chars Meta Description (960px)</text>
+    </g>
+
+    <!-- Right Box: Open Graph Social Card Preview -->
+    <g transform="translate(560, 20)">
+      <rect width="515" height="100" rx="8" fill="#131a2c" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="1" />
+      <!-- Mini image thumb -->
+      <rect x="12" y="12" width="110" height="76" rx="4" fill="#022c22" stroke="#10b981" stroke-width="1" />
+      <text x="67" y="46" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle">og:image</text>
+      <text x="67" y="62" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">1200x630 (1.91:1)</text>
+
+      <text x="135" y="28" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700">OMNITOOL.APP</text>
+      <text x="135" y="48" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700">Regex Master Syntax Quick-Reference</text>
+      <text x="135" y="68" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">A comprehensive visual guide to character classes and anchors...</text>
+    </g>
+  </g>
+
+  <!-- 3 Reference Columns (Y: 310 to 730) -->
+  <!-- Col 1: Open Graph Core Tags -->
+  <g transform="translate(50, 310)">
+    <rect width="350" height="420" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#38bdf8" />
+    <text x="32" y="23" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">OPEN GRAPH PROTOCOL (OG:)</text>
+
+    <g transform="translate(18, 52)">
+      <!-- og:image -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">og:image &amp; dimensions</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10">1200 x 630 px (Aspect ratio: 1.91:1)</text>
+        <text x="10" y="52" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Supported: PNG, JPEG, WebP. Keep file size under 8MB.</text>
+      </g>
+
+      <!-- og:title -->
+      <g transform="translate(0, 72)">
+        <text x="0" y="14" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">og:title &amp; og:description</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10">Title: 55-65 chars | Desc: 150-160 chars</text>
+        <text x="10" y="52" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Compelling summary for LinkedIn, Facebook, Discord, Slack.</text>
+      </g>
+
+      <!-- og:url -->
+      <g transform="translate(0, 144)">
+        <text x="0" y="14" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">og:url &amp; og:type</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10">Must be canonical URL (No session IDs)</text>
+        <text x="10" y="52" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10">og:type = "website" or "article"</text>
+      </g>
+
+      <!-- Code Snippet -->
+      <g transform="translate(0, 220)">
+        <rect width="314" height="110" rx="6" fill="#131a2c" stroke="#334155" stroke-width="1" />
+        <text x="10" y="20" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta property="og:title" content="..."&gt;</text>
+        <text x="10" y="38" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta property="og:image" content="..."&gt;</text>
+        <text x="10" y="56" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta property="og:image:width" content="1200"&gt;</text>
+        <text x="10" y="74" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta property="og:image:height" content="630"&gt;</text>
+        <text x="10" y="92" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta property="og:type" content="website"&gt;</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Col 2: Twitter Card Specifications -->
+  <g transform="translate(425, 310)">
+    <rect width="350" height="420" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#fbbf24" />
+    <text x="32" y="23" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">TWITTER / X CARDS SPECIFICATION</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Card Types -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">twitter:card options</text>
+        <rect x="0" y="22" width="314" height="66" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10">&#8226; "summary_large_image" (Recommended)</text>
+        <text x="10" y="54" fill="#cbd5e1" font-family="'JetBrains Mono', monospace" font-size="10">&#8226; "summary" (Small square thumbnail)</text>
+        <text x="10" y="70" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Large image card yields 3x higher click-through engagement.</text>
+      </g>
+
+      <!-- Twitter site and creator -->
+      <g transform="translate(0, 100)">
+        <text x="0" y="14" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">twitter:site &amp; twitter:creator</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10">@OmniToolHub / @author_handle</text>
+        <text x="10" y="52" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Attributes link previews to your official social account.</text>
+      </g>
+
+      <!-- Code Snippet -->
+      <g transform="translate(0, 175)">
+        <rect width="314" height="96" rx="6" fill="#131a2c" stroke="#334155" stroke-width="1" />
+        <text x="10" y="20" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta name="twitter:card" content="summary_large_image"&gt;</text>
+        <text x="10" y="38" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta name="twitter:site" content="@OmniTool"&gt;</text>
+        <text x="10" y="56" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta name="twitter:title" content="..."&gt;</text>
+        <text x="10" y="74" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9">&lt;meta name="twitter:image" content="..."&gt;</text>
+      </g>
+
+      <g transform="translate(0, 290)">
+        <text x="0" y="14" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="10">&#8226; Twitter automatically falls back to og:tags if twitter:tags omitted.</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Col 3: Search Engine Directives -->
+  <g transform="translate(800, 310)">
+    <rect width="350" height="420" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#a855f7" />
+    <text x="32" y="23" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">TECHNICAL SEARCH ENGINE META</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Canonical -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">1. Canonical URL Tag</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">&lt;link rel="canonical" href="https://..."&gt;</text>
+        <text x="10" y="52" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Prevents duplicate content issues from URL query parameters.</text>
+      </g>
+
+      <!-- Robots meta -->
+      <g transform="translate(0, 75)">
+        <text x="0" y="14" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">2. Robots Meta Directive</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="9">index, follow, max-image-preview:large</text>
+        <text x="10" y="52" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">max-image-preview:large enables Google Discover cards.</text>
+      </g>
+
+      <!-- JSON-LD -->
+      <g transform="translate(0, 150)">
+        <text x="0" y="14" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">3. JSON-LD Structured Data Schema</text>
+        <rect x="0" y="22" width="314" height="74" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9.5">schema.org / WebSite / SoftwareApp</text>
+        <text x="10" y="54" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="10">&#8226; Rich snippets (star ratings, tools)</text>
+        <text x="10" y="70" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="10">&#8226; BreadcrumbList schema in SERP</text>
+      </g>
+
+      <!-- Viewport -->
+      <g transform="translate(0, 245)">
+        <rect width="314" height="58" rx="4" fill="#1e293b" />
+        <text x="10" y="18" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9">
+          <tspan x="10" dy="0">&lt;meta name="viewport"</tspan>
+          <tspan x="10" dy="13">      content="width=device-width, initial-scale=1"&gt;</tspan>
+        </text>
+        <text x="10" y="48" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9">Mandatory for mobile indexing compliance.</text>
+      </g>
+    </g>
+  </g>
+</svg>
