@@ -36,12 +36,25 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
-    def do_GET(self):
-        # SPA Fallback: If requested path does not exist on disk and is not an API call, serve index.html
+    def do_HEAD(self):
         raw_path = self.path.split("?")[0].split("#")[0]
         local_path = self.translate_path(raw_path)
         if not os.path.exists(local_path) and not raw_path.startswith("/api/"):
-            self.path = "/index.html"
+            if raw_path in ["/landing", "/welcome", "/showcase"]:
+                self.path = "/landing.html"
+            else:
+                self.path = "/index.html"
+        return super().do_HEAD()
+
+    def do_GET(self):
+        # SPA Fallback: If requested path does not exist on disk and is not an API call, serve landing or index.html
+        raw_path = self.path.split("?")[0].split("#")[0]
+        local_path = self.translate_path(raw_path)
+        if not os.path.exists(local_path) and not raw_path.startswith("/api/"):
+            if raw_path in ["/landing", "/welcome", "/showcase"]:
+                self.path = "/landing.html"
+            else:
+                self.path = "/index.html"
         return super().do_GET()
 
     def do_POST(self):

@@ -1904,12 +1904,8 @@ const app = {
         this.globalConfig = await response.json();
         console.log("[Config] Loaded global configuration:", this.globalConfig);
         if (this.globalConfig && typeof this.globalConfig === "object") {
-          const placeholders = ["https://gumroad.com", "https://www.paypal.com", "#", ""];
           Object.entries(this.globalConfig).forEach(([k, v]) => {
-            const current = localStorage.getItem(k);
-            if (current === null || (placeholders.includes(current.trim()) && typeof v === "string" && !placeholders.includes(v.trim()))) {
-              try { localStorage.setItem(k, v); } catch (_) {}
-            }
+            try { localStorage.setItem(k, v); } catch (_) {}
           });
         }
       }
@@ -3184,40 +3180,62 @@ const app = {
         title: "About OmniTool Hub",
         icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
         content: `
-          <p class="about-lead">OmniTool Hub is a free, privacy-first, all-in-one utility toolkit built for developers, designers, students, and anyone who needs fast, reliable tools without leaving their browser.</p>
+          <p class="about-lead">OmniTool Hub is an all-in-one, privacy-first developer and utility suite developed under the <strong><a href="https://worldsneed.com" target="_blank" rel="noopener">WorldsNeed</a></strong> ecosystem, empowering developers, designers, students, and digital creators worldwide.</p>
 
-          <h3>Our Mission</h3>
-          <p>We believe powerful tools should be free, fast, and private. Every tool on OmniTool Hub runs 100% in your browser — your data never leaves your device, no accounts needed, no tracking, and no paid subscriptions.</p>
+          <!-- Ecosystem Feature Banner -->
+          <div class="about-ecosystem-card">
+            <div class="about-ecosystem-header">
+              <div class="about-ecosystem-badge">🌐 THE WORLDSNEED ECOSYSTEM</div>
+              <span class="about-ecosystem-tag">Flagship Platform</span>
+            </div>
+            <div class="about-ecosystem-body">
+              <h4>Built Under the WorldsNeed Umbrella</h4>
+              <p>OmniTool Hub is proudly created and maintained as the flagship developer platform within the <a href="https://worldsneed.com" target="_blank" rel="noopener">WorldsNeed</a> digital product family. WorldsNeed is committed to building high-utility, barrier-free web software—including multilingual linguistics tools (<a href="https://words.worldsneed.com" target="_blank" rel="noopener">WordsNeed</a>), offline-first productivity suites, and everyday web tools that protect user privacy.</p>
+              <div class="about-ecosystem-actions">
+                <a href="https://worldsneed.com" target="_blank" rel="noopener" class="about-ecosystem-btn">
+                  <span>Visit WorldsNeed.com</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+                <a href="https://words.worldsneed.com" target="_blank" rel="noopener" class="about-ecosystem-btn secondary">
+                  <span>Explore WordsNeed</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+              </div>
+            </div>
+          </div>
 
-          <h3>What We Offer</h3>
+          <h3>Our Mission &amp; Philosophy</h3>
+          <p>We believe essential digital tools should be free, lightning-fast, and completely private. Every tool on OmniTool Hub runs 100% locally in your browser memory — your sensitive code, API keys, JSON payloads, and confidential documents never leave your device. No forced accounts, zero server uploads, and no invasive tracking.</p>
+
+          <h3>Comprehensive Powerhouse Suites</h3>
           <div class="about-features-grid">
             <div class="about-feature-card">
-              <div class="about-feature-icon">🔧</div>
+              <div class="about-feature-icon">💻</div>
               <h4>Developer Tools</h4>
-              <p>JSON Formatter, Base64, JWT Decoder, Hash Generator, AES Encryption, URL Encoder, and more</p>
+              <p>JSON Formatter, Base64, JWT Debugger, Hash &amp; HMAC Generator, AES Encryption, URL Builder, and Smart Chain Pipelines</p>
             </div>
             <div class="about-feature-card">
               <div class="about-feature-icon">✍️</div>
               <h4>Text &amp; Writing</h4>
-              <p>Markdown Editor, Case Converter, Word Counter, Regex Tester, Diff Comparison Tool</p>
+              <p>Markdown Live Editor, Case Converter, Word Counter, Visual Regex Tester, and Diff Comparison Tool</p>
             </div>
             <div class="about-feature-card">
               <div class="about-feature-icon">🎨</div>
               <h4>Design &amp; Styling</h4>
-              <p>Color Palette Picker, Gradient Builder, CSS Generators, Art QR Code Generator</p>
+              <p>Color Palette Generator, Contrast Checker, CSS Studio, Gradient Generator, and Art QR Codes</p>
             </div>
             <div class="about-feature-card">
-              <div class="about-feature-icon">🔢</div>
-              <h4>Math &amp; Converter</h4>
-              <p>Scientific Calculator, Unit Converter, Strong Password &amp; Entropy Generator</p>
+              <div class="about-feature-icon">📄</div>
+              <h4>PDF &amp; Media Studio</h4>
+              <p>Client-side PDF Merger, Splitter, OCR Text Extractor, Image Optimizer, and SVG Animator</p>
             </div>
           </div>
 
-          <h3>Privacy By Design</h3>
-          <p>All tools are built with a client-side first architecture. We use no backend servers for tool processing. Your inputs stay in your browser and are never transmitted anywhere.</p>
+          <h3>Privacy By Architecture</h3>
+          <p>Unlike cloud converters that transmit and log your sensitive files on remote servers, OmniTool Hub is built with a strict client-side first architecture using WebAssembly, Web Crypto API, and JavaScript web workers. What you process stays solely between you and your machine.</p>
 
-          <h3>Open & Free</h3>
-          <p>OmniTool Hub is free to use for everyone. We support the platform through non-intrusive Google AdSense advertisements.</p>
+          <h3>Open &amp; Community Supported</h3>
+          <p>OmniTool Hub is free for all users worldwide. We sustain continuous development and high-speed delivery through non-intrusive sponsorships and Google AdSense partner advertisements.</p>
         `
       },
       contact: {
@@ -3901,7 +3919,7 @@ const app = {
 
   getAdHtml(location) {
     const userTier = this.validateSecurityTier();
-    if (userTier === "premium") return ""; // Pro Monthly subscribers get 100% Ad-Free experience
+    if (userTier === "premium" || userTier === "lifetime") return ""; // Pro Monthly & Lifetime members get 100% Ad-Free experience
 
     const isGlobalEnabled = this.getConfigValue("omnitool_ad_global", "true") !== "false";
     if (!isGlobalEnabled) return "";
@@ -5058,14 +5076,8 @@ const app = {
               return;
             }
           } else if (effectiveMonetization === "premium") {
-            // Check if they just unlocked it for this session click
-            const justUnlocked = sessionStorage.getItem("omnitool_premium_just_unlocked_" + toolId) === "true";
-            if (!justUnlocked) {
-              this.renderAdLockScreen(viewport, toolId, toolInstance, toolbarHtml);
-              return;
-            }
-            // Consume the temporary unlock token so going back to dashboard relocks it
-            sessionStorage.removeItem("omnitool_premium_just_unlocked_" + toolId);
+            this.renderPremiumLockScreen(viewport, toolId, toolInstance, toolbarHtml);
+            return;
           }
         }
       }
@@ -6379,8 +6391,8 @@ const app = {
 
           <div class="lock-header">
             <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: 0.5px;">Unlock Advanced Feature</h2>
-            <span style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.12); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0, 242, 254, 0.2); display: inline-block; margin-bottom: 12px; text-transform: uppercase;">📺 Ad-Lock Tier</span>
-            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Watch a brief sponsor video advertisement to unlock full access to <strong>${toolInstance.name}</strong> for the next 24 hours.</p>
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.12); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0, 242, 254, 0.2); display: inline-block; margin-bottom: 12px; text-transform: uppercase;">⚡ Sponsor-Supported Free Pass</span>
+            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Support our free open-source platform by checking out our featured developer partner to unlock <strong>${toolInstance.name}</strong> for this session.</p>
           </div>
 
           <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin: 6px 0;">
@@ -6390,7 +6402,7 @@ const app = {
 
           <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
             <button id="ad-unlock-btn" class="tool-btn primary" style="width: 100%; justify-content: center; height: 44px; font-size: 14px; font-weight: 700; border-radius: 8px;">
-              📺 Watch Video Ad to Unlock
+              ⚡ Unlock Free Session Pass
             </button>
             <button id="ad-premium-bypass-btn" class="tool-btn secondary" style="width: 100%; justify-content: center; height: 40px; font-size: 13px; font-weight: 600; border-radius: 8px;">
               💎 Get Premium Pass (Unlock All Permanently)
@@ -6405,65 +6417,19 @@ const app = {
 
     viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
 
-    // Watch ad simulator event
+    // Sponsor pass unlock event
     const unlockBtn = viewport.querySelector("#ad-unlock-btn");
     unlockBtn?.addEventListener("click", () => {
-      // 1. Mark as unlocked immediately in sessionStorage to handle current-tab redirects and back-button reloads
       sessionStorage.setItem("omnitool_ad_unlocked_" + toolId, "true");
-      sessionStorage.setItem("omnitool_premium_just_unlocked_" + toolId, "true");
 
-      // 2. Open the sponsor link
       const smartLink = this.getConfigValue("omnitool_adsterra_smart_link", "");
       if (smartLink && smartLink.trim() !== "") {
-        window.open(smartLink.trim(), "_blank");
+        window.open(smartLink.trim(), "_blank", "noopener,noreferrer");
       }
 
-      const startTime = Date.now();
-      let timerCompleted = false;
-
-      unlockBtn.disabled = true;
-      unlockBtn.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin" style="width: 16px; height: 16px; margin-right: 8px; animation: spin 1.5s linear infinite;">
-          <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-        </svg> Loading Sponsor Video...
-      `;
-
-      const checkUnlock = () => {
-        if (timerCompleted) return;
-        const elapsed = (Date.now() - startTime) / 1000;
-
-        if (elapsed >= 4) {
-          timerCompleted = true;
-          sessionStorage.setItem("omnitool_premium_just_unlocked_" + toolId, "true");
-          this.playSynthSound('success');
-          this.showToast(`✨ Ad-lock unlocked! Access granted for ${toolInstance.name}.`, "success");
-          this.navigateToTool(toolId, false);
-
-          document.removeEventListener("visibilitychange", onVisibilityChange);
-          window.removeEventListener("focus", onVisibilityChange);
-        } else {
-          if (elapsed >= 2.5) {
-            unlockBtn.innerHTML = `📺 Playing Video Ad (2s remaining)...`;
-          } else if (elapsed >= 1) {
-            unlockBtn.innerHTML = `📺 Playing Video Ad (5s remaining)...`;
-          }
-        }
-      };
-
-      const intervalId = setInterval(() => {
-        checkUnlock();
-        if (timerCompleted) clearInterval(intervalId);
-      }, 500);
-
-      const onVisibilityChange = () => {
-        if (document.visibilityState === "visible") {
-          checkUnlock();
-          if (timerCompleted) clearInterval(intervalId);
-        }
-      };
-
-      document.addEventListener("visibilitychange", onVisibilityChange);
-      window.addEventListener("focus", onVisibilityChange);
+      this.playSynthSound("success");
+      this.showToast(`✨ Session pass unlocked! Access granted for ${toolInstance.name}.`, "success");
+      this.navigateToTool(toolId, false);
     });
 
     viewport.querySelector("#ad-premium-bypass-btn")?.addEventListener("click", () => {
@@ -6553,9 +6519,9 @@ const app = {
       const btnMonthly = plansView.querySelector("#plan-btn-monthly");
 
       const isIndia = this.detectUserRegion() === "IN";
-      const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
+      const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$24.99");
       const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
-      const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499");
+      const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹799");
       const priceMonthlyInr = this.getConfigValue("omnitool_price_monthly_inr", "₹399");
 
       const displayLifetime = isIndia ? priceLifetimeInr : priceLifetimeUsd;
@@ -7244,7 +7210,7 @@ const app = {
 
     const plan = this.checkoutPlan || "lifetime";
     const priceUSD = plan === "lifetime" ? 
-      (this.getConfigValue("omnitool_price_lifetime_usd", "$29.99").replace(/[^0-9.]/g, "") || "29.99") : 
+      (this.getConfigValue("omnitool_price_lifetime_usd", "$24.99").replace(/[^0-9.]/g, "") || "29.99") : 
       (this.getConfigValue("omnitool_price_monthly_usd", "$4.99").replace(/[^0-9.]/g, "") || "4.99");
 
     const elTitle = document.getElementById("chk-paypal-plan-title");
@@ -7551,8 +7517,8 @@ const app = {
     const modal = document.getElementById("checkout-modal");
     if (!modal) return;
 
-    const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
-    const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499");
+    const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$24.99");
+    const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹799");
     const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
     const priceMonthlyInr = this.getConfigValue("omnitool_price_monthly_inr", "₹399");
     const priceInr = plan === "lifetime" ? priceLifetimeInr : priceMonthlyInr;
@@ -8013,7 +7979,7 @@ const app = {
 
     // 6. Update CTA button text & state & QR with effective UPI ID
     const plan = this.checkoutPlan || "lifetime";
-    const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+    const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹799") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
     const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
     const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
     const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
@@ -8040,7 +8006,7 @@ const app = {
     const effectiveUpi = this.getEffectiveUpiId(this.selectedUpiApp || "any");
     const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
     const plan = this.checkoutPlan || "lifetime";
-    const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+    const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹799") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
     const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
     const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
 
@@ -8110,8 +8076,8 @@ const app = {
   switchCheckoutPlan(plan = "lifetime") {
     this.checkoutPlan = plan;
 
-    const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
-    const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499");
+    const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$24.99");
+    const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹799");
     const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
     const priceMonthlyInr = this.getConfigValue("omnitool_price_monthly_inr", "₹399");
 
@@ -8277,7 +8243,7 @@ const app = {
         this.switchIndiaPayMethod("bank");
       } else {
         const plan = this.checkoutPlan || "lifetime";
-        const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹2,499") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+        const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹799") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
         const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
         const effectiveUpi = this.getEffectiveUpiId(this.selectedUpiApp || "any");
         const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
@@ -8305,7 +8271,7 @@ const app = {
     const addrInput = document.getElementById("chk-crypto-address");
     const coinLabel = document.getElementById("crypto-coin-label");
     const coinHint = document.getElementById("crypto-coin-hint");
-    const priceUSD = this.checkoutPlan === "lifetime" ? "$29.99" : "$4.99";
+    const priceUSD = this.checkoutPlan === "lifetime" ? "$24.99" : "$4.99";
 
     if (coin === "usdt") {
       if (coinLabel) coinLabel.innerText = "USDT (TRC-20) Deposit Address";

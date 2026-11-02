@@ -1,8 +1,9 @@
 // Service Worker for OmniTool Hub PWA (Network-First Core for Instant Updates)
-const CACHE_NAME = "omnitool-v84";
+const CACHE_NAME = "omnitool-v85";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
+  "landing.html",
   "style.css",
   "app.js",
   "favicon.ico",
@@ -115,7 +116,10 @@ self.addEventListener("fetch", (e) => {
     url.pathname.endsWith(".json") ||
     url.pathname.endsWith(".html") ||
     url.pathname.endsWith("/") ||
-    url.pathname.includes("/tools/")
+    url.pathname.includes("/tools/") ||
+    url.pathname === "/landing" ||
+    url.pathname === "/welcome" ||
+    url.pathname === "/showcase"
   );
 
   if (isCodeOrDoc) {
@@ -126,7 +130,12 @@ self.addEventListener("fetch", (e) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
         }
         return networkResponse;
-      }).catch(() => caches.match(e.request))
+      }).catch(() => {
+        if (url.pathname === "/landing" || url.pathname === "/welcome" || url.pathname === "/showcase") {
+          return caches.match("landing.html");
+        }
+        return caches.match(e.request);
+      })
     );
     return;
   }
@@ -149,6 +158,9 @@ self.addEventListener("fetch", (e) => {
       });
     }).catch(() => {
       if (e.request.mode === "navigate") {
+        if (url.pathname === "/landing" || url.pathname === "/welcome" || url.pathname === "/showcase") {
+          return caches.match("landing.html");
+        }
         return caches.match("index.html");
       }
     })

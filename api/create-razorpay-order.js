@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     const plan = body.plan === "monthly" ? "monthly" : "lifetime";
 
     // Amount in paise (1 INR = 100 paise)
-    const amountInPaise = plan === "monthly" ? 39900 : 249900;
+    const amountInPaise = plan === "monthly" ? 39900 : 79900;
     const currency = "INR";
     const receipt = `rcpt_${plan}_${Date.now()}`;
 
