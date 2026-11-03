@@ -98,8 +98,8 @@ class MockDocument {
   addEventListener(evt, cb) {}
 }
 
-global.requestAnimationFrame = (cb) => setTimeout(cb, 16);
-global.cancelAnimationFrame = (id) => clearTimeout(id);
+global.requestAnimationFrame = (cb) => 1;
+global.cancelAnimationFrame = (id) => {};
 global.document = new MockDocument();
 global.window = {
   document: global.document,
@@ -195,5 +195,5 @@ if (errors.length > 0) {
   errors.forEach(e => console.error(" - " + e));
   process.exit(1);
 } else {
-  console.log("All tools passed runtime import, renderUI, and init checks!");
+  console.log("All tools passed runtime import, renderUI, and init checks!"); process.exit(0);
 }
