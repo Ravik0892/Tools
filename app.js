@@ -1815,6 +1815,340 @@ const app = {
     }
   },
 
+  
+  // Centralized Curated Registry for Everyday / Beginner Mode (18 Essential Utilities)
+  beginnerToolsConfig: {
+    "pdf-utilities": {
+      name: "Combine, Cut & Compress PDF",
+      desc: "Merge multiple PDF files into one, delete or reorder pages, and make file sizes smaller.",
+      category: "documents",
+      categoryLabel: "PDF & Documents",
+      badge: "📄 PDF & Documents",
+      order: 1
+    },
+    "pdf-converter-hub": {
+      name: "Document to PDF Converter",
+      desc: "Convert Word documents, Excel sheets, images, and webpages into clean PDF files.",
+      category: "documents",
+      categoryLabel: "PDF & Documents",
+      badge: "📄 PDF & Documents",
+      order: 2
+    },
+    "pdf-editor-suite": {
+      name: "Sign & Fill PDF Forms",
+      desc: "Draw your signature on documents, fill out PDF form fields, and highlight important text.",
+      category: "documents",
+      categoryLabel: "PDF & Documents",
+      badge: "📄 PDF & Documents",
+      order: 3
+    },
+    "pdf-security-suite": {
+      name: "Password Protect & Unlock PDF",
+      desc: "Lock confidential PDFs with a password, unlock protected files, or repair broken documents.",
+      category: "documents",
+      categoryLabel: "PDF & Documents",
+      badge: "📄 PDF & Documents",
+      order: 4
+    },
+    "qr-studio": {
+      name: "Create & Scan QR Codes",
+      desc: "Generate custom QR codes for your Wi-Fi, website, contact card, or scan codes with your camera.",
+      category: "qr",
+      categoryLabel: "QR & Camera",
+      badge: "📱 QR & Camera",
+      order: 5
+    },
+    "screenshot-capture": {
+      name: "Screen Capture & Snipping Tool",
+      desc: "Take quick screenshots of any screen or browser tab, add arrows, blur private parts, and crop.",
+      category: "qr",
+      categoryLabel: "QR & Camera",
+      badge: "📱 QR & Camera",
+      order: 6
+    },
+    "voice-recorder": {
+      name: "Voice Memo & Audio Recorder",
+      desc: "Record clear audio notes with your microphone, trim mistakes, and save as MP3 or WAV.",
+      category: "media",
+      categoryLabel: "Audio & Video",
+      badge: "🎙️ Audio & Video",
+      order: 7
+    },
+    "screen-recorder": {
+      name: "Screen & Video Recorder",
+      desc: "Record your screen, browser window, or webcam with crystal-clear microphone audio.",
+      category: "media",
+      categoryLabel: "Audio & Video",
+      badge: "🎙️ Audio & Video",
+      order: 8
+    },
+    "video-to-gif": {
+      name: "Video to Animated GIF",
+      desc: "Turn any short video clip into a fun, lightweight GIF animation for chat or social media.",
+      category: "media",
+      categoryLabel: "Audio & Video",
+      badge: "🎙️ Audio & Video",
+      order: 9
+    },
+    "video-speed": {
+      name: "Video Speed Controller",
+      desc: "Speed up lectures, slow down tutorials (0.25x to 4x), loop scenes, and inspect frame-by-frame.",
+      category: "media",
+      categoryLabel: "Audio & Video",
+      badge: "🎙️ Audio & Video",
+      order: 10
+    },
+    "image-converter": {
+      name: "Photo & Image Converter",
+      desc: "Convert photos between JPG, PNG, WebP, reduce file sizes, and make images load faster.",
+      category: "images",
+      categoryLabel: "Photos & Colors",
+      badge: "🎨 Photos & Colors",
+      order: 11
+    },
+    "color-lab": {
+      name: "Color Picker & Palette Matcher",
+      desc: "Pick beautiful colors, copy HEX / RGB codes, and verify that text is easy to read.",
+      category: "images",
+      categoryLabel: "Photos & Colors",
+      badge: "🎨 Photos & Colors",
+      order: 12
+    },
+    "graphics-studio": {
+      name: "Photo & Banner Designer",
+      desc: "Draw on images, crop photos, add text banners, and apply Instagram-style filters.",
+      category: "images",
+      categoryLabel: "Photos & Colors",
+      badge: "🎨 Photos & Colors",
+      order: 13
+    },
+    "calculator": {
+      name: "Fast Online Calculator",
+      desc: "Perform quick math calculations, percentages, fractions, and scientific calculations.",
+      category: "math",
+      categoryLabel: "Math & Numbers",
+      badge: "🧮 Math & Numbers",
+      order: 14
+    },
+    "unit-converter": {
+      name: "Measurement & Unit Converter",
+      desc: "Convert weight (kg to lbs), length (inches to cm), temperature (C to F), and file sizes.",
+      category: "math",
+      categoryLabel: "Math & Numbers",
+      badge: "🧮 Math & Numbers",
+      order: 15
+    },
+    "datetime-suite": {
+      name: "Date, Age & Time Calculator",
+      desc: "Calculate your exact age, days between two dates, add or subtract days, and check world clocks.",
+      category: "math",
+      categoryLabel: "Math & Numbers",
+      badge: "🧮 Math & Numbers",
+      order: 16
+    },
+    "security-suite": {
+      name: "Strong Password Generator",
+      desc: "Create unhackable, secure passwords with letters, numbers, and symbols to protect accounts.",
+      category: "security",
+      categoryLabel: "Passwords & Text",
+      badge: "🔒 Passwords & Text",
+      order: 17
+    },
+    "text-analyzer": {
+      name: "Word & Character Counter",
+      desc: "Count words, letters, paragraphs, and check estimated reading time for essays and notes.",
+      category: "security",
+      categoryLabel: "Passwords & Text",
+      badge: "🔒 Passwords & Text",
+      order: 18
+    }
+  },
+
+  // Developer Intent Keywords for Smart Search Auto-Switching
+  devKeywords: [
+    "jwt", "token", "json", "yaml", "csv", "sql", "query", "database",
+    "regex", "regexp", "regular expression", "base64", "base-64", "sha256", "sha-256", 
+    "sha512", "sha-512", "md5", "hash", "hasher", "checksum", "rsa", "aes", "cipher", 
+    "encryption", "decrypt", "symmetric", "keypair", "cron", "crontab", "curl", "axios", 
+    "fetch", "ip subnet", "cidr", "mac address", "oui", "pydantic", "typescript", 
+    "interface", "go struct", "rust serde", "robots.txt", "robots", "crawler", 
+    "pii", "anonymizer", "redact", "masker", "pipeline", "smart chain", "formatter", 
+    "beautifier", "diff", "text diff", "epoch", "timestamp", "unix", "svg animate", 
+    "svg animation", "css studio", "glassmorphism", "admin settings", "temp mail", 
+    "disposable email", "code playground", "codepen"
+  ],
+
+  isBeginnerTool(toolId) {
+    return Boolean(this.beginnerToolsConfig && this.beginnerToolsConfig[toolId]);
+  },
+
+  initUiMode() {
+    let savedMode = null;
+    try {
+      savedMode = localStorage.getItem("omnitool_ui_mode");
+    } catch (_) {}
+
+    const hash = window.location.hash || "";
+    const pathname = window.location.pathname || "";
+    const isDirectDevRoute = (
+      hash.startsWith("#category/dev") ||
+      pathname.startsWith("/category/dev") ||
+      (pathname.startsWith("/tool/") && !this.isBeginnerTool(pathname.replace(/^\/tool\//, "").replace(/\/$/, ""))) ||
+      (hash.startsWith("#tool/") && !this.isBeginnerTool(hash.replace(/^#tool\//, "")))
+    );
+
+    this.uiMode = savedMode || (isDirectDevRoute ? "developer" : "beginner");
+    this.applyUiModeDOM();
+    this.bindUiModeEvents();
+  },
+
+  setUiMode(mode, save = true) {
+    if (mode !== "beginner" && mode !== "developer") return;
+    this.uiMode = mode;
+    if (save) {
+      try {
+        localStorage.setItem("omnitool_ui_mode", mode);
+      } catch (_) {}
+    }
+    this.applyUiModeDOM();
+    this.syncToolCounts();
+    if (typeof this.playSynthSound === "function") {
+      this.playSynthSound("click");
+    }
+
+    this.activeCategory = "all";
+    this.activeSubcategory = "all";
+
+    // Close mobile drawer if open
+    const sidebar = document.getElementById("app-sidebar");
+    if (sidebar) sidebar.classList.remove("show");
+
+    // If a tool is currently open, smoothly return to the dashboard of the newly selected mode
+    if (this.activeTool) {
+      this.backToDashboard(true);
+    } else {
+      this.renderDashboard();
+    }
+  },
+
+  applyUiModeDOM() {
+    document.body.setAttribute("data-ui-mode", this.uiMode);
+
+    const updatePills = (prefix) => {
+      const begBtn = document.getElementById(`${prefix}mode-btn-beginner`);
+      const devBtn = document.getElementById(`${prefix}mode-btn-developer`);
+      if (begBtn && devBtn) {
+        if (this.uiMode === "beginner") {
+          begBtn.classList.add("active");
+          devBtn.classList.remove("active");
+        } else {
+          devBtn.classList.add("active");
+          begBtn.classList.remove("active");
+        }
+      }
+    };
+
+    updatePills("");
+    updatePills("mobile-");
+    this.updateHeroForUiMode();
+  },
+
+  bindUiModeEvents() {
+    const bindBtn = (id, mode) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener("click", (e) => {
+          e.preventDefault();
+          this.setUiMode(mode);
+          this.showToast(mode === "beginner" ? "🟢 Switched to Everyday Mode" : "⚡ Switched to Developer Mode", "info");
+        });
+      }
+    };
+
+    bindBtn("mode-btn-beginner", "beginner");
+    bindBtn("mode-btn-developer", "developer");
+    bindBtn("mobile-mode-btn-beginner", "beginner");
+    bindBtn("mobile-mode-btn-developer", "developer");
+  },
+
+  updateHeroForUiMode() {
+    const isBeginner = this.uiMode === "beginner";
+    
+    // Badge
+    const badgeText = document.getElementById("hero-badge-text");
+    const badgeIcon = document.getElementById("hero-badge-icon");
+    if (badgeText) {
+      badgeText.textContent = isBeginner
+        ? "100% Free & Private • Zero Server Uploads • Works Offline"
+        : "100% Client-Side Sandbox • Zero Server Uploads";
+    }
+    if (badgeIcon) {
+      badgeIcon.textContent = isBeginner ? "✨" : "✦";
+    }
+
+    // Title
+    const heroTitle = document.getElementById("dashboard-hero-title");
+    if (heroTitle) {
+      heroTitle.innerHTML = isBeginner
+        ? 'Simple &amp; Free <span>Everyday Utilities</span>'
+        : 'All-in-One <span>OmniTool Hub</span>';
+    }
+
+    // Subtitle
+    const heroDesc = document.getElementById("dashboard-hero-desc");
+    if (heroDesc) {
+      heroDesc.innerHTML = isBeginner
+        ? 'Fast, private tools for PDFs, QR codes, voice recording, colors &amp; math. No signup, no tracking, completely free.'
+        : 'Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.';
+    }
+
+    // Metrics strip labels
+    const heroToolsLabel = document.getElementById("hero-tools-label");
+    if (heroToolsLabel) {
+      heroToolsLabel.textContent = isBeginner ? "Essential Utilities" : "Offline Tools";
+    }
+    const stat2Lbl = document.getElementById("hero-metric-stat2-lbl");
+    if (stat2Lbl) {
+      stat2Lbl.textContent = isBeginner ? "Uploads Required" : "Server Delay";
+    }
+    const stat2Val = document.getElementById("hero-metric-stat2-val");
+    if (stat2Val) {
+      stat2Val.textContent = isBeginner ? "0" : "0 ms";
+    }
+    const stat3Lbl = document.getElementById("hero-metric-stat3-lbl");
+    if (stat3Lbl) {
+      stat3Lbl.textContent = isBeginner ? "Private & Local" : "Client Privacy";
+    }
+    const surpriseText = document.getElementById("hero-surprise-text");
+    if (surpriseText) {
+      surpriseText.textContent = isBeginner ? "Pick Random" : "Surprise Me";
+    }
+
+    // Mode Switch Callout Banner
+    const callout = document.getElementById("hero-mode-switch-callout");
+    if (callout) {
+      if (isBeginner) {
+        callout.innerHTML = `
+          <div class="hero-mode-banner">
+            <span>💻 Need code formatters, JWT, or developer utilities?</span>
+            <button type="button" class="hero-mode-banner-btn" onclick="app.setUiMode('developer')">
+              <span>Switch to Developer Mode (46+ tools) &rarr;</span>
+            </button>
+          </div>
+        `;
+      } else {
+        callout.innerHTML = `
+          <div class="hero-mode-banner">
+            <span>🟢 Looking for simple everyday tools?</span>
+            <button type="button" class="hero-mode-banner-btn" onclick="app.setUiMode('beginner')">
+              <span>Switch to Everyday Mode &rarr;</span>
+            </button>
+          </div>
+        `;
+      }
+    }
+  },
+
   // Generates comprehensive searchable text corpus for any tool (name, desc, tags, keywords, benefits, aliases)
   getToolSearchText(tool) {
     if (!tool) return "";
@@ -1997,6 +2331,7 @@ const app = {
     this.renderFavoritesCount();
     this.initClock();
     this.initTheme();
+    this.initUiMode();
     this.initLayoutScale();
     this.bindEvents();
     this.buildSidebarToolMenu();
@@ -2199,8 +2534,10 @@ const app = {
   },
 
   syncToolCounts() {
-    const count = this.tools.length;
-    const countDisplay = `${count}+`;
+    const isBeginner = this.uiMode === "beginner";
+    const beginnerCount = Object.keys(this.beginnerToolsConfig || {}).length || 18;
+    const count = isBeginner ? beginnerCount : this.tools.length;
+    const countDisplay = isBeginner ? `${count}` : `${this.tools.length}+`;
 
     // 1. Hero metric
     const heroNum = document.getElementById("hero-tools-count") || document.querySelector(".hero-metric-item .hero-metric-num");
@@ -2402,7 +2739,7 @@ const app = {
 
   handleRouting() {
     let hash = window.location.hash || "";
-    const pathname = window.location.pathname || "";
+    let pathname = window.location.pathname || "";
 
     // Always dismiss mobile drawer on route navigation
     const sidebar = document.getElementById("app-sidebar");
@@ -2437,8 +2774,34 @@ const app = {
       return;
     }
 
-    // 1. Clean Path URL Direct Loading (e.g. /tool/jwt-decoder or /tool/pdf-utilities)
-    if (pathname.startsWith("/tool/")) {
+    // 1. Direct Tool Link via Hash (e.g. #tool/jwt-decoder or #tool/pdf-utilities)
+    if (hash.startsWith("#tool/")) {
+      const toolId = hash.replace("#tool/", "").replace(/\/$/, "");
+
+      // Promote hash URL to clean path without # for Google search & modern UX
+      if (window.history && window.history.replaceState) {
+        try {
+          window.history.replaceState({ toolId }, "", "/tool/" + toolId);
+        } catch (e) {}
+      }
+
+      const redirect = this.toolRedirects[toolId];
+      if (redirect) {
+        this.activeSubtab = redirect.subtab;
+        this.navigateToTool(redirect.suiteId, false);
+        return;
+      }
+
+      const toolExists = this.tools.some(t => t.id === toolId);
+      if (toolExists) {
+        this.navigateToTool(toolId, false);
+        return;
+      }
+    }
+
+    // 2. Direct Clean Path URL Loading (e.g. direct visit or reload of /tool/jwt-decoder)
+    // ONLY when NO other explicit hash route is being requested
+    if ((!hash || hash === "#") && pathname.startsWith("/tool/")) {
       const cleanToolId = pathname.replace(/^\/tool\//, "").replace(/\/$/, "");
       if (cleanToolId) {
         const redirect = this.toolRedirects[cleanToolId];
@@ -2456,28 +2819,30 @@ const app = {
       }
     }
 
-    // If navigating to a non-tool hash route while pathname still has /tool/, cleanly reset pathname to root
+    // 3. If navigating to a non-tool hash route while pathname still has /tool/, cleanly reset pathname to root
     if (pathname.startsWith("/tool/") && hash && !hash.startsWith("#tool/")) {
       if (window.history && window.history.replaceState) {
         try {
           window.history.replaceState(null, "", "/" + hash);
+          pathname = "/";
         } catch (e) {}
       }
     }
 
-    if (hash === "#plans") {
+    if (hash === "#plans" || pathname === "/plans") {
       this.renderPlansPage();
       return;
     }
 
-    if (hash === "#payment-guide") {
+    if (hash === "#payment-guide" || pathname === "/payment-guide") {
       this.renderPlansPage();
       this.openCheckout("lifetime", "guide");
       return;
     }
 
-    if (hash === "#checkout" || hash.startsWith("#checkout/")) {
-      const parts = hash.replace("#checkout", "").split("/").filter(Boolean);
+    if (hash === "#checkout" || hash.startsWith("#checkout/") || pathname === "/checkout" || pathname.startsWith("/checkout/")) {
+      const routeStr = hash.startsWith("#checkout") ? hash.replace("#checkout", "") : pathname.replace("/checkout", "");
+      const parts = routeStr.split("/").filter(Boolean);
       let plan = "lifetime";
       let gw = null;
       const validGateways = ["gumroad", "upi", "bank", "paypal", "razorpay", "crypto", "coffee", "guide", "custom"];
@@ -2512,48 +2877,24 @@ const app = {
     }
 
     // Legal pages required for AdSense approval
-    if (hash === "#privacy") {
+    if (hash === "#privacy" || pathname === "/privacy") {
       this.renderLegalPage("privacy");
       return;
     }
-    if (hash === "#about") {
+    if (hash === "#about" || pathname === "/about") {
       this.renderLegalPage("about");
       return;
     }
-    if (hash === "#contact") {
+    if (hash === "#contact" || pathname === "/contact") {
       this.renderLegalPage("contact");
       return;
     }
-    if (hash === "#terms") {
+    if (hash === "#terms" || pathname === "/terms") {
       this.renderLegalPage("terms");
       return;
     }
 
-    if (hash.startsWith("#tool/")) {
-      const toolId = hash.replace("#tool/", "");
-
-      // Promote hash URL to clean path without # for Google search & modern UX
-      if (window.history && window.history.replaceState) {
-        try {
-          window.history.replaceState({ toolId }, "", "/tool/" + toolId);
-        } catch (e) {}
-      }
-
-      const redirect = this.toolRedirects[toolId];
-      if (redirect) {
-        this.activeSubtab = redirect.subtab;
-        this.navigateToTool(redirect.suiteId, false);
-        return;
-      }
-
-      const toolExists = this.tools.some(t => t.id === toolId);
-      if (toolExists) {
-        this.navigateToTool(toolId, false);
-        return;
-      }
-    }
-
-    if (hash === "#favorites") {
+    if (hash === "#favorites" || pathname === "/favorites") {
       this.activeCategory = "fav";
       this.activeSubcategory = "all";
       this.syncSidebarUI();
@@ -2562,8 +2903,10 @@ const app = {
       return;
     }
 
-    if (hash.startsWith("#category/")) {
-      const filter = hash.replace("#category/", "");
+    if (hash.startsWith("#category/") || pathname.startsWith("/category/")) {
+      const filter = hash.startsWith("#category/")
+        ? hash.replace("#category/", "")
+        : pathname.replace(/^\/category\//, "").replace(/\/$/, "");
       this.activeCategory = "subcategory-filter";
       this.activeSubcategory = filter;
       this.syncSidebarUI();
@@ -2572,7 +2915,7 @@ const app = {
       return;
     }
 
-    if (hash === "#dashboard") {
+    if (hash === "#dashboard" || pathname === "/dashboard") {
       this.activeCategory = "all";
       this.activeSubcategory = "all";
       this.syncSidebarUI();
@@ -3377,7 +3720,7 @@ const app = {
           ${pg.content}
         </div>
         <div class="legal-back">
-          <button class="legal-back-btn" onclick="window.location.hash = 'dashboard'">
+          <button class="legal-back-btn" onclick="app.backToDashboard()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
             Back to Dashboard
           </button>
@@ -3867,8 +4210,16 @@ const app = {
     if (sidebar) sidebar.classList.remove("show");
 
     if (updateHash) {
-      window.location.hash = category === "fav" ? "favorites" : "dashboard";
-      return;
+      const targetHash = category === "fav" ? "#favorites" : "#dashboard";
+      if (window.history && window.history.pushState && window.location.pathname.startsWith('/tool/')) {
+        try {
+          window.history.pushState(null, "", "/" + targetHash);
+        } catch (e) {
+          window.location.hash = targetHash;
+        }
+      } else {
+        window.location.hash = targetHash;
+      }
     }
     this.activeCategory = category;
     this.activeSubcategory = "all";
@@ -3894,8 +4245,16 @@ const app = {
     if (sidebar) sidebar.classList.remove("show");
 
     if (updateHash) {
-      window.location.hash = "category/" + filter;
-      return;
+      const targetHash = "#category/" + filter;
+      if (window.history && window.history.pushState && window.location.pathname.startsWith('/tool/')) {
+        try {
+          window.history.pushState(null, "", "/" + targetHash);
+        } catch (e) {
+          window.location.hash = targetHash;
+        }
+      } else {
+        window.location.hash = targetHash;
+      }
     }
     this.activeCategory = "subcategory-filter";
     this.activeSubcategory = filter;
@@ -4175,18 +4534,29 @@ const app = {
     const existingAds = document.querySelectorAll("#dashboard-view > .sponsor-ad-block, #dashboard-view > .admob-adsense-mock, #dashboard-view > .adsense-production-container, #dashboard-view > .custom-ad-container");
     existingAds.forEach(el => el.remove());
 
-    // Filter tools based on selections
+    // Filter tools based on selections & current UI mode
     let activeList = [];
-    if (this.activeCategory === "fav") {
-      activeList = this.tools.filter(t => this.favorites.has(t.id));
-    } else if (this.activeCategory === "all") {
-      activeList = this.tools;
-    } else if (this.activeCategory === "subcategory-filter") {
-      if (this.activeSubcategory.endsWith("-all")) {
-        const catPrefix = this.activeSubcategory.split("-")[0];
-        activeList = this.tools.filter(t => t.category === catPrefix);
+    if (this.uiMode === "beginner") {
+      if (this.activeCategory === "fav") {
+        activeList = this.tools.filter(t => this.isBeginnerTool(t.id) && this.favorites.has(t.id));
+      } else if (this.activeCategory === "all") {
+        activeList = this.tools.filter(t => this.isBeginnerTool(t.id));
       } else {
-        activeList = this.tools.filter(t => t.subcategory === this.activeSubcategory);
+        activeList = this.tools.filter(t => this.isBeginnerTool(t.id) && this.beginnerToolsConfig[t.id]?.category === this.activeCategory);
+      }
+      activeList.sort((a, b) => ((this.beginnerToolsConfig[a.id]?.order || 99) - (this.beginnerToolsConfig[b.id]?.order || 99)));
+    } else {
+      if (this.activeCategory === "fav") {
+        activeList = this.tools.filter(t => this.favorites.has(t.id));
+      } else if (this.activeCategory === "all") {
+        activeList = this.tools;
+    } else if (this.activeCategory === "subcategory-filter") {
+        if (this.activeSubcategory.endsWith("-all")) {
+          const catPrefix = this.activeSubcategory.split("-")[0];
+          activeList = this.tools.filter(t => t.category === catPrefix);
+        } else {
+          activeList = this.tools.filter(t => t.subcategory === this.activeSubcategory);
+        }
       }
     }
 
@@ -4323,6 +4693,44 @@ const app = {
     }
 
     // Group activeList by subcategory if rendering "all" dashboard or "<category>-all"
+    if (this.uiMode === "beginner") {
+      if (this.activeCategory === "all") {
+        const beginnerGroups = [
+          { id: "documents", label: "📄 PDF & Document Utilities" },
+          { id: "media", label: "🎙️ Audio & Video Recording" },
+          { id: "qr", label: "📱 QR Codes & Screen Capture" },
+          { id: "images", label: "🎨 Photo Editing & Colors" },
+          { id: "math", label: "🧮 Calculator & Measurement Units" },
+          { id: "security", label: "🔒 Secure Passwords & Text Analysis" }
+        ];
+
+        beginnerGroups.forEach(grp => {
+          const grpList = activeList.filter(t => this.beginnerToolsConfig[t.id]?.category === grp.id);
+          if (grpList.length > 0) {
+            const section = document.createElement("div");
+            section.className = "dashboard-sub-section";
+            section.setAttribute("style", "grid-column: 1 / -1;");
+
+            const title = document.createElement("h2");
+            title.className = "dashboard-sub-title";
+            title.innerText = grp.label;
+            section.appendChild(title);
+
+            const subGrid = document.createElement("div");
+            subGrid.className = "tools-grid";
+            if (density === "compact") subGrid.classList.add("compact-layout");
+            this.renderToolsList(subGrid, grpList);
+
+            section.appendChild(subGrid);
+            grid.appendChild(section);
+          }
+        });
+      } else {
+        this.renderToolsList(grid, activeList);
+      }
+      return;
+    }
+
     const shouldGroup = (this.activeCategory === "all" || (this.activeCategory === "subcategory-filter" && this.activeSubcategory.endsWith("-all")));
 
     if (shouldGroup) {
@@ -4377,10 +4785,18 @@ const app = {
       card.setAttribute("style", `--card-accent: ${tool.accent}; --card-accent-rgb: ${tool.accentRgb};`);
       card.addEventListener("click", () => this.navigateToTool(tool.id));
 
+      const isBeginner = this.uiMode === "beginner";
+      const bConfig = this.beginnerToolsConfig ? this.beginnerToolsConfig[tool.id] : null;
+
+      const toolName = (isBeginner && bConfig) ? bConfig.name : tool.name;
+      const toolDesc = (isBeginner && bConfig) ? bConfig.desc : tool.desc;
+      const badgeText = (isBeginner && bConfig) ? bConfig.badge : tool.subLabel.toUpperCase();
+      const actionText = isBeginner ? "Open Utility" : "Launch Tool";
+
       const effectiveMonetization = overrides[tool.id] || tool.monetization || "free";
 
       card.innerHTML = `
-        <button class="card-fav-btn ${isFav ? 'is-fav' : ''}" data-tool="${tool.id}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}" aria-label="${isFav ? 'Remove ' + tool.name + ' from favorites' : 'Add ' + tool.name + ' to favorites'}">
+        <button class="card-fav-btn ${isFav ? 'is-fav' : ''}" data-tool="${tool.id}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}" aria-label="${isFav ? 'Remove ' + toolName + ' from favorites' : 'Add ' + toolName + ' to favorites'}">
           <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
         </button>
         <div class="tool-card-header">
@@ -4389,12 +4805,12 @@ const app = {
           </div>
         </div>
         <div class="tool-card-body">
-          <h3>${tool.name}</h3>
-          <p>${tool.desc}</p>
+          <h3>${toolName}</h3>
+          <p>${toolDesc}</p>
         </div>
         <div class="tool-card-footer">
           <div style="display: flex; align-items: center; gap: 6px;">
-            <span class="tool-badge">${tool.subLabel.toUpperCase()}</span>
+            <span class="tool-badge">${badgeText}</span>
             ${isMonetizationActive && effectiveMonetization !== "free" ? `
               <span class="monetization-badge ${effectiveMonetization}" style="font-size: 9px; font-weight: 800; color: ${effectiveMonetization === 'ad-lock' ? 'var(--accent-cyan)' : 'var(--accent-purple)'}; background: ${effectiveMonetization === 'ad-lock' ? 'rgba(0, 242, 254, 0.12)' : 'rgba(157, 78, 221, 0.12)'}; padding: 2px 6px; border-radius: 4px; border: 1px solid ${effectiveMonetization === 'ad-lock' ? 'rgba(0, 242, 254, 0.2)' : 'rgba(157, 78, 221, 0.2)'}; text-transform: uppercase; white-space: nowrap;">
                 ${effectiveMonetization === 'ad-lock' ? '📺 Ads' : '💎 Pro'}
@@ -4419,6 +4835,41 @@ const app = {
   renderCategoryTabs() {
     const bar = document.getElementById("category-tabs-bar");
     if (!bar) return;
+
+    if (this.uiMode === "beginner") {
+      const tabs = [
+        { id: "all", label: "All Everyday", icon: "🌐" },
+        { id: "documents", label: "PDF & Docs", icon: "📄" },
+        { id: "media", label: "Audio & Video", icon: "🎙️" },
+        { id: "qr", label: "QR & Snip", icon: "📱" },
+        { id: "images", label: "Photos & Colors", icon: "🎨" },
+        { id: "math", label: "Math & Calc", icon: "🧮" },
+        { id: "security", label: "Passwords", icon: "🔒" },
+        { id: "fav", label: "Favorites", icon: "⭐" }
+      ];
+
+      const currentActive = this.activeCategory || "all";
+
+      bar.innerHTML = tabs.map(tab => `
+        <button class="category-tab-pill ${currentActive === tab.id ? 'active' : ''}" data-beginner-cat="${tab.id}">
+          <span style="font-size: 14px; margin-right: 4px;">${tab.icon}</span>
+          <span>${tab.label}</span>
+        </button>
+      `).join("");
+
+      bar.querySelectorAll(".category-tab-pill").forEach(pill => {
+        pill.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const targetCat = pill.dataset.beginnerCat;
+          if (this.activeCategory === targetCat) return;
+          this.playSynthSound('click');
+          this.activeCategory = targetCat;
+          this.activeSubcategory = "all";
+          this.renderDashboard();
+        });
+      });
+      return;
+    }
 
     const activeCat = this.activeCategory;
     const activeSub = this.activeSubcategory;
@@ -4571,6 +5022,18 @@ const app = {
   filterDashboard(query) {
     const cleanQuery = query.toLowerCase().trim();
 
+    // Smart Intent Detection: Automatically switch to Developer Mode if technical terms are typed
+    if (this.uiMode === "beginner" && cleanQuery.length >= 2) {
+      const isDevQuery = (this.devKeywords || []).some(kw => cleanQuery === kw || cleanQuery.startsWith(kw) || cleanQuery.includes(kw));
+      if (isDevQuery) {
+        this.setUiMode("developer", false);
+        this.showToast(`⚡ Switched to Developer Mode for "${query}"`, "info");
+      }
+    } else if (this.uiMode === "developer" && (cleanQuery === "beginner" || cleanQuery === "simple" || cleanQuery === "everyday")) {
+      this.setUiMode("beginner");
+      this.showToast("🟢 Switched to Everyday Mode", "info");
+    }
+
     // Sync desktop and mobile search inputs
     const mainSearch = document.getElementById("tool-search");
     const mobileSearch = document.getElementById("tool-search-mobile");
@@ -4659,6 +5122,11 @@ const app = {
         const toolId = card.querySelector(".card-fav-btn")?.getAttribute("data-tool");
         const tool = this.tools.find(t => t.id === toolId);
         if (!tool) {
+          card.style.display = "none";
+          return;
+        }
+
+        if (this.uiMode === "beginner" && !this.isBeginnerTool(toolId)) {
           card.style.display = "none";
           return;
         }
@@ -4790,8 +5258,7 @@ const app = {
       } else {
         window.location.hash = "tool/" + toolId;
       }
-      this.navigateToTool(toolId, false);
-      return;
+      return this.navigateToTool(toolId, false);
     }
 
     // Close mobile drawer
@@ -5094,7 +5561,7 @@ const app = {
           <div class="tool-bar-left">
             <button class="back-btn" onclick="app.backToDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back</button>
             <div class="tool-title-info">
-              <h2>${toolInstance.name}</h2>
+              <h2>${(this.uiMode === "beginner" && this.beginnerToolsConfig && this.beginnerToolsConfig[toolId]) ? this.beginnerToolsConfig[toolId].name : toolInstance.name}</h2>
             </div>
           </div>
           <div class="tool-bar-right">
@@ -5865,20 +6332,25 @@ const app = {
   },
 
   backToDashboard(updateHash = true) {
+    if (!this.activeCategory) this.activeCategory = "all";
+    if (!this.activeSubcategory) this.activeSubcategory = "all";
+
+    // Close mobile drawer on back
+    const sidebar = document.getElementById("app-sidebar");
+    if (sidebar) sidebar.classList.remove("show");
+
     if (updateHash) {
+      const targetHash = this.activeCategory === "fav" ? "#favorites" :
+                         (this.activeCategory === "subcategory-filter" ? "#category/" + this.activeSubcategory : "#dashboard");
       if (window.history && window.history.pushState && window.location.pathname.startsWith('/tool/')) {
         try {
-          window.history.pushState(null, "", "/");
-        } catch (e) {}
-      }
-      if (this.activeCategory === "fav") {
-        window.location.hash = "favorites";
-      } else if (this.activeCategory === "subcategory-filter") {
-        window.location.hash = "category/" + this.activeSubcategory;
+          window.history.pushState(null, "", "/" + targetHash);
+        } catch (e) {
+          window.location.hash = targetHash;
+        }
       } else {
-        window.location.hash = "dashboard";
+        window.location.hash = targetHash;
       }
-      return;
     }
 
     // Lifecycle Memory Management: Clean up active tool when returning to dashboard
@@ -5909,7 +6381,9 @@ const app = {
 
     const contentArea = document.getElementById("content-area");
     if (contentArea) contentArea.scrollTop = 0;
-    requestAnimationFrame(() => this.checkHeaderScroll?.());
+    if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(() => this.checkHeaderScroll?.());
+    }
 
     this.activeTool = null;
     this.syncSidebarUI();
@@ -5938,6 +6412,10 @@ const app = {
     if (ogDesc) ogDesc.setAttribute("content", "50+ free developer and utility tools. 100% offline-first, client-side, no tracking.");
     const ogUrl = document.querySelector('meta[property="og:url"]');
     if (ogUrl) ogUrl.setAttribute("content", "https://omnitool.worldsneed.com/");
+
+    // Always ensure the dashboard is rendered fresh and hero text is in sync with current UI mode
+    this.updateHeroForUiMode?.();
+    this.renderDashboard();
 
     const searchBar = document.getElementById("tool-search");
     if (searchBar && searchBar.value) {

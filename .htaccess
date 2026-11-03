@@ -18,6 +18,11 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
+  # Clean URLs for landing page & product tour showcase
+  RewriteRule ^landing/?$ landing.html [L]
+  RewriteRule ^welcome/?$ landing.html [L]
+  RewriteRule ^showcase/?$ landing.html [L]
+
   # Don't rewrite guides folder if static guide exists
   RewriteCond %{REQUEST_URI} ^/guides/ [NC]
   RewriteCond %{REQUEST_FILENAME} -f
