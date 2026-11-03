@@ -746,7 +746,7 @@
     <!-- Responsive Collapsible Mobile Drawer (Hidden on Desktop) -->
     <aside class="sidebar" id="app-sidebar">
       <div class="sidebar-header">
-        <div class="logo">
+        <div class="logo header-logo-clickable" onclick="app.backToDashboard()" title="OmniTool Hub Home" style="cursor: pointer;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
@@ -758,6 +758,20 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
+      </div>
+
+      <!-- Mobile Experience Mode Switcher -->
+      <div class="mobile-mode-switcher-container">
+        <div class="ui-mode-capsule mobile" id="mobile-ui-mode-capsule" role="radiogroup" aria-label="Mobile Experience Mode">
+          <button type="button" class="ui-mode-pill active" data-mode="beginner" id="mobile-mode-btn-beginner">
+            <span class="ui-mode-dot beginner"></span>
+            <span>Everyday</span>
+          </button>
+          <button type="button" class="ui-mode-pill" data-mode="developer" id="mobile-mode-btn-developer">
+            <span class="ui-mode-icon">⚡</span>
+            <span>Developer</span>
+          </button>
+        </div>
       </div>
 
       <!-- Quick Search for Mobile -->
@@ -986,7 +1000,7 @@
           </button>
 
           <!-- Branding Logo -->
-          <div class="logo header-logo-clickable" onclick="window.location.hash = 'dashboard'" title="OmniTool Hub Home">
+          <div class="logo header-logo-clickable" onclick="app.backToDashboard()" title="OmniTool Hub Home">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
@@ -1000,6 +1014,18 @@
             <span class="clock-date" id="clock-date">Thu, Oct 15</span>
             <span class="clock-sep">•</span>
             <span class="clock-time" id="clock-text">12:00:00 PM</span>
+          </div>
+
+          <!-- Dual Experience Mode Switcher (Everyday vs Developer) -->
+          <div class="ui-mode-capsule" id="ui-mode-capsule" role="radiogroup" aria-label="Experience Mode Switcher">
+            <button type="button" class="ui-mode-pill active" data-mode="beginner" id="mode-btn-beginner" title="Everyday Mode: Simple, essential utilities with zero technical jargon">
+              <span class="ui-mode-dot beginner"></span>
+              <span class="ui-mode-text">Everyday</span>
+            </button>
+            <button type="button" class="ui-mode-pill" data-mode="developer" id="mode-btn-developer" title="Developer Mode: Full suite with 46+ tools, code formatters and crypto pipelines">
+              <span class="ui-mode-icon">⚡</span>
+              <span class="ui-mode-text">Developer</span>
+            </button>
           </div>
         </div>
 
@@ -1124,7 +1150,7 @@
             <span>Guides</span>
           </a>
 
-          <a class="nav-link tour-nav-link" href="/landing" id="desktop-tour-link" title="Product Tour & Features Showcase">
+          <a class="nav-link tour-nav-link" href="landing.html" id="desktop-tour-link" title="Product Tour & Features Showcase">
             <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
@@ -1295,13 +1321,13 @@
         <!-- DASHBOARD GRID VIEW -->
         <div id="dashboard-view">
           <div class="dashboard-hero">
-            <div class="hero-badge-pill">
+            <div class="hero-badge-pill" id="dashboard-hero-badge">
               <span class="hero-badge-dot"></span>
-              <span>100% Client-Side Sandbox • Zero Server Uploads</span>
-              <span class="hero-badge-sparkle">✦</span>
+              <span id="hero-badge-text">100% Client-Side Sandbox • Zero Server Uploads</span>
+              <span class="hero-badge-sparkle" id="hero-badge-icon">✦</span>
             </div>
-            <h1>All-in-One <span>OmniTool Hub</span></h1>
-            <p>Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
+            <h1 id="dashboard-hero-title">All-in-One <span>OmniTool Hub</span></h1>
+            <p id="dashboard-hero-desc">Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
             <div class="hero-metrics-strip">
               <div class="hero-metric-item">
                 <span class="hero-metric-num dynamic-tool-count" id="hero-tools-count">46+</span>
@@ -1323,6 +1349,7 @@
                 <span>Surprise Me</span>
               </button>
             </div>
+            <div id="hero-mode-switch-callout" class="hero-mode-switch-callout"></div>
           </div>
 
           <!-- Dashboard Search Bar -->
@@ -1543,6 +1570,12 @@
         <!-- MEMBERSHIP PLANS VIEW -->
         <div id="plans-view"
           style="display: none; padding: 40px 20px; max-width: 1000px; margin: 0 auto; text-align: center;">
+          <div style="text-align: left; margin-bottom: 24px;">
+            <button type="button" class="tool-btn secondary" id="plans-back-to-dash-btn" onclick="app.backToDashboard()" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; padding: 8px 16px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              Back to Dashboard
+            </button>
+          </div>
           <div class="plans-header" style="margin-bottom: 40px;">
             <h2 style="font-size: 32px; font-weight: 800; color: var(--text-main); margin-bottom: 12px;">Choose Your
               <span
@@ -1727,7 +1760,7 @@
         <footer class="app-footer">
           <div class="footer-content">
             <div class="footer-left">
-              <div class="footer-logo">
+              <div class="footer-logo header-logo-clickable" onclick="app.backToDashboard()" title="OmniTool Hub Home" style="cursor: pointer;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="footer-logo-icon">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
@@ -1739,13 +1772,13 @@
 
             <div class="footer-center">
               <div class="footer-links">
-                <a href="/landing" class="footer-link" style="color: var(--accent-cyan); font-weight: 700;">Product Tour</a>
+                <a href="landing.html" class="footer-link" style="color: var(--accent-cyan); font-weight: 700;">Product Tour</a>
                 <span class="footer-divider">•</span>
-                <a href="#dashboard" class="footer-link">Dashboard</a>
+                <a href="#dashboard" class="footer-link" onclick="event.preventDefault(); app.selectCategory('all');">Dashboard</a>
                 <span class="footer-divider">•</span>
                 <a href="guides/index.html" class="footer-link" style="color: var(--accent-cyan); font-weight: 700;">Guides &amp; Tutorials</a>
                 <span class="footer-divider">•</span>
-                <a href="#favorites" class="footer-link">Favorites</a>
+                <a href="#favorites" class="footer-link" onclick="event.preventDefault(); app.selectCategory('fav');">Favorites</a>
                 <span class="footer-divider">•</span>
                 <a href="#about" class="footer-link">About</a>
                 <span class="footer-divider">•</span>

@@ -10618,3 +10618,195 @@ footer.guide-footer {
     color: #000 !important;
   }
 }
+
+
+/* ==========================================================================
+   OmniTool Hub — World-Class Dual-UI Experience (Everyday vs. Developer Mode)
+   ========================================================================== */
+
+/* Experience Mode Switcher Capsule */
+.ui-mode-capsule {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  padding: 3px 4px;
+  gap: 2px;
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-left: 8px;
+}
+
+.ui-mode-capsule.mobile {
+  width: 100%;
+  margin-left: 0;
+  display: flex;
+  justify-content: stretch;
+}
+
+.mobile-mode-switcher-container {
+  padding: 10px 14px 6px 14px;
+}
+
+.ui-mode-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  user-select: none;
+  outline: none;
+}
+
+.ui-mode-pill:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ui-mode-pill.active {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(0, 242, 254, 0.16));
+  color: #fff;
+  border-color: rgba(16, 185, 129, 0.45);
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.25);
+}
+
+.ui-mode-pill[data-mode="developer"].active {
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.18), rgba(157, 78, 221, 0.22));
+  color: #fff;
+  border-color: rgba(0, 242, 254, 0.45);
+  box-shadow: 0 2px 10px rgba(0, 242, 254, 0.25);
+}
+
+.ui-mode-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.ui-mode-icon {
+  font-size: 13px;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] .ui-mode-capsule {
+  background: rgba(241, 245, 249, 0.92);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .ui-mode-pill {
+  color: #64748b;
+}
+
+[data-theme="light"] .ui-mode-pill:hover {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .ui-mode-pill.active {
+  background: #ffffff;
+  color: #047857;
+  border-color: #10b981;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+[data-theme="light"] .ui-mode-pill[data-mode="developer"].active {
+  background: #ffffff;
+  color: #6366f1;
+  border-color: #818cf8;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+/* Hero Mode Callout Banner */
+.hero-mode-switch-callout {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-mode-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  font-size: 12.5px;
+  color: var(--text-muted);
+  transition: all 0.22s ease;
+}
+
+.hero-mode-banner:hover {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 242, 254, 0.04);
+}
+
+.hero-mode-banner-btn {
+  background: none;
+  border: none;
+  color: var(--accent-cyan);
+  font-weight: 700;
+  font-size: 12.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: all 0.2s;
+}
+
+.hero-mode-banner-btn:hover {
+  color: #fff;
+}
+
+/* Beginner Mode Body State Modifications */
+body[data-ui-mode="beginner"] #search-filters-bar {
+  display: none !important;
+}
+
+body[data-ui-mode="beginner"] .dashboard-hero h1 span {
+  background: linear-gradient(135deg, #10b981, #00f2fe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body[data-ui-mode="beginner"] .hero-badge-pill {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+body[data-ui-mode="beginner"] .hero-badge-pill .hero-badge-dot {
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+
+/* Responsive adjustments for header capsule */
+@media (max-width: 900px) {
+  .header-left .ui-mode-capsule {
+    display: none;
+  }
+}

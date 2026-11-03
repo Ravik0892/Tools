@@ -146,6 +146,7 @@ const appInstance = {
   copyText: () => {},
   getConfigValue: (k, def) => def,
   navigateToTool: (id) => {},
+  backToDashboard: () => {},
   colorLabState: { currentColors: [], useSharedClipPath: false },
   cssStudioState: {},
   tools: []

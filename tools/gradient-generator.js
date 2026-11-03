@@ -9,6 +9,6 @@ export default {
   },
   init(container, appInstance) {
     console.warn("Legacy standalone module accessed. Redirecting to dashboard...");
-    appInstance.navigateToTool("dashboard");
+    appInstance.backToDashboard();
   }
 };

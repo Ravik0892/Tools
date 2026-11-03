@@ -62,6 +62,9 @@ createServer(async (req, res) => {
   }
 
   if (pathname === "/") pathname = "/index.html";
+  if (pathname === "/landing" || pathname === "/landing/" || pathname === "/welcome" || pathname === "/showcase") {
+    pathname = "/landing.html";
+  }
 
   const resolved = normalize(join(root, pathname));
   if (!resolved.startsWith(root)) {
