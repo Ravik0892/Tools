@@ -1415,7 +1415,6 @@ export default {
       });
     });
 
-
     // New configurations selectors
     const appDensity = container.querySelector("#app-density-select");
     const appStartup = container.querySelector("#app-startup-select");

@@ -7344,12 +7344,155 @@ body {
   .drawer-close-btn {
     display: none !important;
   }
+}
 
-  /* ======================================================== */
-  /*   FULLSCREEN PREVIEW: CORNER FLOATING LIVE EDITOR DOCK   */
-  /* ======================================================== */
+/* ======================================================== */
+/*   FULLSCREEN PREVIEW: UNIVERSAL LIVE EDITOR DOCK & FAB   */
+/*   (Desktop Floating Window + Mobile Bottom Sheet)        */
+/* ======================================================== */
 
-  /* In Fullscreen Preview mode, do NOT show a dark screen-blocking backdrop */
+/* Sleek Floating Trigger Pill in Corner (All Screen Sizes) */
+.tool-content-layout.split-view:has(.preview-fullscreen) .adjust-settings-fab,
+.tool-content-layout.split-view.has-fullscreen-preview .adjust-settings-fab {
+  display: inline-flex !important;
+  position: fixed !important;
+  bottom: 24px !important;
+  left: 24px !important;
+  right: auto !important;
+  z-index: 1000000 !important;
+  background: rgba(13, 15, 22, 0.92) !important;
+  backdrop-filter: blur(18px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+  border: 1px solid rgba(0, 242, 254, 0.45) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 242, 254, 0.3) !important;
+  color: var(--text-main) !important;
+  padding: 10px 18px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, box-shadow 0.25s ease !important;
+}
+
+.tool-content-layout.split-view:has(.preview-fullscreen) .adjust-settings-fab:hover,
+.tool-content-layout.split-view.has-fullscreen-preview .adjust-settings-fab:hover {
+  background: rgba(0, 242, 254, 0.15) !important;
+  border-color: var(--accent-cyan) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 36px rgba(0, 242, 254, 0.45) !important;
+}
+
+/* When the corner dock is expanded, gently hide the trigger button */
+.tool-content-layout.split-view:has(.preview-fullscreen).drawer-open .adjust-settings-fab,
+.tool-content-layout.split-view.has-fullscreen-preview.drawer-open .adjust-settings-fab {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(12px) scale(0.92) !important;
+}
+
+/* Floating Dock Header (Sticky inside the floating window/drawer) */
+.floating-dock-header {
+  display: none;
+}
+
+.tool-content-layout.split-view:has(.preview-fullscreen) .floating-dock-header,
+.tool-content-layout.split-view.has-fullscreen-preview .floating-dock-header {
+  display: flex !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 16px !important;
+  background: rgba(18, 22, 32, 0.96) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(0, 242, 254, 0.2) !important;
+  flex-shrink: 0 !important;
+}
+
+.floating-dock-header .dock-title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: var(--text-main) !important;
+}
+
+.floating-dock-header .dock-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: var(--accent-cyan) !important;
+  box-shadow: 0 0 8px var(--accent-cyan) !important;
+  display: inline-block !important;
+}
+
+.floating-dock-header .dock-badge {
+  font-size: 10px !important;
+  text-transform: uppercase !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  background: rgba(0, 242, 254, 0.15) !important;
+  color: var(--accent-cyan) !important;
+  border: 1px solid rgba(0, 242, 254, 0.3) !important;
+}
+
+.floating-dock-header .dock-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.floating-dock-header .dock-btn {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-muted) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.floating-dock-header .dock-btn:hover {
+  background: rgba(0, 242, 254, 0.15) !important;
+  color: var(--accent-cyan) !important;
+  border-color: rgba(0, 242, 254, 0.4) !important;
+}
+
+.floating-dock-header .dock-collapse-btn:hover {
+  background: rgba(244, 63, 94, 0.15) !important;
+  color: var(--accent-rose) !important;
+  border-color: rgba(244, 63, 94, 0.4) !important;
+}
+
+/* Inner tool panel padding when dock is active */
+.tool-content-layout.split-view:has(.preview-fullscreen) > .tool-panel:first-of-type > *:not(.floating-dock-header),
+.tool-content-layout.split-view.has-fullscreen-preview > .tool-panel:first-of-type > *:not(.floating-dock-header) {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+
+.tool-content-layout.split-view:has(.preview-fullscreen) .drawer-close-btn,
+.tool-content-layout.split-view.has-fullscreen-preview .drawer-close-btn {
+  display: none !important;
+}
+
+/* -------------------------------------------------------- */
+/*  Desktop Layout (Screens > 900px): Floating Corner Dock  */
+/* -------------------------------------------------------- */
+@media (min-width: 901px) {
+  /* In Desktop Fullscreen Preview mode, no dark screen-blocking backdrop */
   .tool-content-layout.split-view:has(.preview-fullscreen) .split-view-backdrop,
   .tool-content-layout.split-view.has-fullscreen-preview .split-view-backdrop {
     display: none !important;
@@ -7358,48 +7501,7 @@ body {
     visibility: hidden !important;
   }
 
-  /* Sleek Floating Trigger Pill in Corner */
-  .tool-content-layout.split-view:has(.preview-fullscreen) .adjust-settings-fab,
-  .tool-content-layout.split-view.has-fullscreen-preview .adjust-settings-fab {
-    display: inline-flex !important;
-    position: fixed !important;
-    bottom: 24px !important;
-    left: 24px !important;
-    right: auto !important;
-    z-index: 999999 !important;
-    background: rgba(13, 15, 22, 0.88) !important;
-    backdrop-filter: blur(18px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
-    border: 1px solid rgba(0, 242, 254, 0.4) !important;
-    border-radius: 999px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 16px rgba(0, 242, 254, 0.25) !important;
-    color: var(--text-main) !important;
-    padding: 10px 18px !important;
-    font-size: 12.5px !important;
-    font-weight: 700 !important;
-    align-items: center !important;
-    gap: 8px !important;
-    cursor: pointer !important;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, box-shadow 0.25s ease !important;
-  }
-
-  .tool-content-layout.split-view:has(.preview-fullscreen) .adjust-settings-fab:hover,
-  .tool-content-layout.split-view.has-fullscreen-preview .adjust-settings-fab:hover {
-    background: rgba(0, 242, 254, 0.12) !important;
-    border-color: var(--accent-cyan) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 12px 36px rgba(0, 242, 254, 0.4) !important;
-  }
-
-  /* When the corner dock is expanded, gently hide the trigger button */
-  .tool-content-layout.split-view:has(.preview-fullscreen).drawer-open .adjust-settings-fab,
-  .tool-content-layout.split-view.has-fullscreen-preview.drawer-open .adjust-settings-fab {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transform: translateY(12px) scale(0.92) !important;
-  }
-
-  /* The Floating Corner Editor Window (Collapsible & Expandable) */
+  /* The Floating Corner Editor Window (Desktop) */
   .tool-content-layout.split-view:has(.preview-fullscreen) > .tool-panel:first-of-type,
   .tool-content-layout.split-view.has-fullscreen-preview > .tool-panel:first-of-type {
     position: fixed !important;
@@ -7411,13 +7513,13 @@ body {
     max-width: calc(100vw - 48px) !important;
     height: 540px !important;
     max-height: calc(100vh - 100px) !important;
-    background: rgba(13, 15, 22, 0.92) !important;
+    background: rgba(13, 15, 22, 0.94) !important;
     backdrop-filter: blur(24px) saturate(190%) !important;
     -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
     border: 1px solid rgba(0, 242, 254, 0.35) !important;
     border-radius: 16px !important;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75), 0 0 28px rgba(0, 242, 254, 0.15) !important;
-    z-index: 1000000 !important;
+    z-index: 1000001 !important;
     display: flex !important;
     flex-direction: column !important;
     overflow-y: auto !important;
@@ -7429,7 +7531,7 @@ body {
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease !important;
   }
 
-  /* Expanded Floating Corner Dock */
+  /* Expanded Floating Corner Dock (Desktop) */
   .tool-content-layout.split-view:has(.preview-fullscreen).drawer-open > .tool-panel:first-of-type,
   .tool-content-layout.split-view.has-fullscreen-preview.drawer-open > .tool-panel:first-of-type {
     transform: translateY(0) scale(1) !important;
@@ -7437,106 +7539,99 @@ body {
     pointer-events: auto !important;
   }
 
-  /* Wide Mode Toggle Option */
+  /* Wide Mode Toggle Option (Desktop) */
   .tool-content-layout.split-view:has(.preview-fullscreen) > .tool-panel:first-of-type.dock-wide,
   .tool-content-layout.split-view.has-fullscreen-preview > .tool-panel:first-of-type.dock-wide {
     width: 640px !important;
     height: 600px !important;
   }
+}
 
-  /* Floating Dock Header (Sticky inside the corner window) */
-  .floating-dock-header {
-    display: none;
+/* -------------------------------------------------------- */
+/*  Mobile & Tablet (Screens <= 900px): Bottom Sheet Drawer */
+/* -------------------------------------------------------- */
+@media (max-width: 900px) {
+  /* Mobile FAB position in Fullscreen Preview */
+  .tool-content-layout.split-view:has(.preview-fullscreen) .adjust-settings-fab,
+  .tool-content-layout.split-view.has-fullscreen-preview .adjust-settings-fab {
+    bottom: 16px !important;
+    left: 16px !important;
+    right: auto !important;
+    padding: 9px 16px !important;
+    font-size: 11.5px !important;
+    z-index: 1000000 !important;
   }
 
-  .tool-content-layout.split-view:has(.preview-fullscreen) .floating-dock-header,
-  .tool-content-layout.split-view.has-fullscreen-preview .floating-dock-header {
-    display: flex !important;
-    position: sticky !important;
+  /* Mobile Backdrop in Fullscreen Preview: Dim and tap-to-minimize */
+  .tool-content-layout.split-view:has(.preview-fullscreen).drawer-open .split-view-backdrop,
+  .tool-content-layout.split-view.has-fullscreen-preview.drawer-open .split-view-backdrop {
+    position: fixed !important;
     top: 0 !important;
-    z-index: 50 !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 10px 16px !important;
-    background: rgba(18, 22, 32, 0.96) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border-bottom: 1px solid rgba(0, 242, 254, 0.2) !important;
-    flex-shrink: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    z-index: 1000000 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    display: block !important;
+    visibility: visible !important;
   }
 
-  .floating-dock-header .dock-title {
+  /* Mobile Fullscreen Editor: Sleek Bottom Sheet Drawer */
+  .tool-content-layout.split-view:has(.preview-fullscreen) > .tool-panel:first-of-type,
+  .tool-content-layout.split-view.has-fullscreen-preview > .tool-panel:first-of-type {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 82vh !important;
+    max-height: 85vh !important;
+    background: rgba(10, 14, 23, 0.98) !important;
+    backdrop-filter: blur(28px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+    border-top: 1px solid rgba(0, 242, 254, 0.4) !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-radius: 20px 20px 0 0 !important;
+    box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.85), 0 0 24px rgba(0, 242, 254, 0.2) !important;
+    z-index: 1000001 !important;
     display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    font-size: 12.5px !important;
-    font-weight: 700 !important;
-    color: var(--text-main) !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 0 !important;
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease !important;
   }
 
-  .floating-dock-header .dock-dot {
-    width: 8px !important;
-    height: 8px !important;
-    border-radius: 50% !important;
-    background: var(--accent-cyan) !important;
-    box-shadow: 0 0 8px var(--accent-cyan) !important;
-    display: inline-block !important;
+  /* Expanded State on Mobile */
+  .tool-content-layout.split-view:has(.preview-fullscreen).drawer-open > .tool-panel:first-of-type,
+  .tool-content-layout.split-view.has-fullscreen-preview.drawer-open > .tool-panel:first-of-type {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
 
-  .floating-dock-header .dock-badge {
-    font-size: 10px !important;
-    text-transform: uppercase !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.5px !important;
-    padding: 2px 7px !important;
-    border-radius: 4px !important;
-    background: rgba(0, 242, 254, 0.15) !important;
-    color: var(--accent-cyan) !important;
-    border: 1px solid rgba(0, 242, 254, 0.3) !important;
-  }
-
-  .floating-dock-header .dock-actions {
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-  }
-
-  .floating-dock-header .dock-btn {
-    background: rgba(255, 255, 255, 0.06) !important;
-    border: 1px solid var(--border-color) !important;
-    color: var(--text-muted) !important;
-    padding: 4px 10px !important;
-    border-radius: 6px !important;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 5px !important;
-    transition: all var(--transition-fast) !important;
-  }
-
-  .floating-dock-header .dock-btn:hover {
-    background: rgba(0, 242, 254, 0.15) !important;
-    color: var(--accent-cyan) !important;
-    border-color: rgba(0, 242, 254, 0.4) !important;
-  }
-
-  .floating-dock-header .dock-collapse-btn:hover {
-    background: rgba(244, 63, 94, 0.15) !important;
-    color: var(--accent-rose) !important;
-    border-color: rgba(244, 63, 94, 0.4) !important;
-  }
-
-  /* Inner tool panel padding when dock is active */
-  .tool-content-layout.split-view:has(.preview-fullscreen) > .tool-panel:first-of-type > *:not(.floating-dock-header),
-  .tool-content-layout.split-view.has-fullscreen-preview > .tool-panel:first-of-type > *:not(.floating-dock-header) {
-    padding-left: 18px !important;
-    padding-right: 18px !important;
-  }
-
-  .tool-content-layout.split-view:has(.preview-fullscreen) .drawer-close-btn {
+  /* Hide width toggle button on mobile bottom sheet */
+  .tool-content-layout.split-view:has(.preview-fullscreen) .dock-size-btn,
+  .tool-content-layout.split-view.has-fullscreen-preview .dock-size-btn {
     display: none !important;
+  }
+
+  /* Padding adjustments in full-screen preview on mobile */
+  .tool-content-layout.split-view > .tool-panel.preview-fullscreen {
+    padding: 14px 10px 70px !important;
   }
 }
 
@@ -10008,7 +10103,8 @@ footer.guide-footer {
   font-weight: 700;
 }
 
-.sc-tool-btn.active {
+.sc-tool-btn.active,
+.sc-bg-type-btn.active {
   background: rgba(0, 242, 254, 0.15) !important;
   border-color: var(--accent-cyan) !important;
   color: #ffffff !important;
@@ -10061,4 +10157,464 @@ footer.guide-footer {
 
 
 
-
+
+
+
+/* ==========================================================================
+   Enhanced Live Markdown Previewer Styles
+   ========================================================================== */
+
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+.markdown-preview h4 { font-size: 1.05em; }
+.markdown-preview h5 { font-size: 0.95em; color: var(--text-muted); }
+.markdown-preview h6 { font-size: 0.85em; color: var(--text-muted); text-transform: uppercase; }
+
+/* Markdown Anchor Links */
+.markdown-preview .md-heading-anchor {
+  color: var(--text-muted);
+  opacity: 0.35;
+  text-decoration: none;
+  margin-right: 6px;
+  font-weight: normal;
+  transition: opacity 0.2s;
+}
+.markdown-preview h1:hover .md-heading-anchor,
+.markdown-preview h2:hover .md-heading-anchor,
+.markdown-preview h3:hover .md-heading-anchor,
+.markdown-preview h4:hover .md-heading-anchor {
+  opacity: 1;
+  color: var(--accent-cyan);
+}
+
+/* Markdown Images */
+.markdown-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin: 12px 0;
+  display: block;
+}
+
+/* Markdown Horizontal Rule */
+.markdown-preview hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color) 20%, var(--border-color) 80%, transparent);
+  margin: 24px 0;
+}
+
+/* Markdown Tables */
+.markdown-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13.5px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+.markdown-preview th {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 14px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 2px solid var(--border-color);
+  color: var(--text-main);
+}
+.markdown-preview td {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.markdown-preview tr:last-child td {
+  border-bottom: none;
+}
+.markdown-preview tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+/* Task / Check Lists */
+.markdown-preview .task-list-item {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: -14px;
+  margin-bottom: 6px;
+}
+.markdown-preview .task-checkbox {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent-cyan);
+  cursor: default;
+}
+
+/* Inline Elements: del, mark, kbd */
+.markdown-preview del {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+.markdown-preview mark {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+.markdown-preview kbd {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-main);
+}
+
+/* Code Blocks with Language Header & Copy */
+.markdown-preview .md-code-block {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin: 14px 0;
+  overflow: hidden;
+  background: #080b11;
+}
+.markdown-preview .md-code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+}
+.markdown-preview .md-code-lang {
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.markdown-preview .md-copy-code-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 10.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+.markdown-preview .md-copy-code-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.markdown-preview .md-code-block pre {
+  margin: 0;
+  padding: 12px 14px;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* GitHub-Style Alert / Callout Boxes */
+.markdown-preview .md-alert {
+  border-left: 4px solid var(--border-color);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin: 14px 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+.markdown-preview .md-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.markdown-preview .md-alert-body {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.markdown-preview .md-alert-note {
+  border-left-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.06);
+}
+.markdown-preview .md-alert-note .md-alert-title { color: #60a5fa; }
+.markdown-preview .md-alert-tip {
+  border-left-color: #10b981;
+  background: rgba(16, 185, 129, 0.06);
+}
+.markdown-preview .md-alert-tip .md-alert-title { color: #34d399; }
+.markdown-preview .md-alert-warning {
+  border-left-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.06);
+}
+.markdown-preview .md-alert-warning .md-alert-title { color: #fbbf24; }
+.markdown-preview .md-alert-important {
+  border-left-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.06);
+}
+.markdown-preview .md-alert-important .md-alert-title { color: #a78bfa; }
+.markdown-preview .md-alert-caution {
+  border-left-color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+}
+.markdown-preview .md-alert-caution .md-alert-title { color: #f87171; }
+
+/* LaTeX / KaTeX Mathematical Formulas */
+.markdown-preview .md-math-block {
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-align: center;
+  overflow-x: auto;
+}
+.markdown-preview .md-math-display {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--accent-cyan);
+  font-size: 14.5px;
+  font-family: var(--font-mono);
+}
+.markdown-preview .md-math-inline {
+  display: inline-block;
+  padding: 1px 6px;
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  border-radius: 4px;
+  color: var(--accent-cyan);
+  font-size: 13px;
+  font-family: var(--font-mono);
+}
+.markdown-preview .katex-display {
+  margin: 8px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.markdown-preview.theme-light .md-math-block {
+  background: #f6f8fa;
+  border-color: #d0d7de;
+}
+.markdown-preview.theme-light .md-math-display,
+.markdown-preview.theme-light .md-math-inline {
+  color: #0969da;
+  background: #edf2ff;
+  border-color: rgba(9, 105, 218, 0.2);
+}
+
+/* Table of Contents View */
+.markdown-preview .md-toc-container {
+  padding: 8px 0;
+}
+.markdown-preview .md-toc-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--accent-cyan);
+}
+.markdown-preview .md-toc-list {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.markdown-preview .md-toc-item {
+  line-height: 1.4;
+}
+.markdown-preview .md-toc-item.level-1 { padding-left: 0; font-weight: 600; }
+.markdown-preview .md-toc-item.level-2 { padding-left: 16px; font-size: 13px; }
+.markdown-preview .md-toc-item.level-3 { padding-left: 32px; font-size: 12.5px; opacity: 0.9; }
+.markdown-preview .md-toc-item.level-4 { padding-left: 48px; font-size: 12px; opacity: 0.8; }
+.markdown-preview .md-toc-link {
+  color: var(--text-main);
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.2s;
+}
+.markdown-preview .md-toc-link:hover {
+  color: var(--accent-cyan);
+  text-decoration: underline;
+}
+
+/* Raw HTML View */
+.markdown-preview .md-raw-html {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: #a5b4fc;
+}
+
+/* Markdown Preview Themes */
+.markdown-preview.theme-github {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  border-color: #30363d;
+}
+.markdown-preview.theme-obsidian {
+  background-color: #1e1e1e;
+  color: #dcddde;
+  border-color: #2e2e2e;
+}
+.markdown-preview.theme-obsidian h1,
+.markdown-preview.theme-obsidian h2,
+.markdown-preview.theme-obsidian h3 {
+  color: #bb86fc;
+}
+.markdown-preview.theme-light {
+  background-color: #ffffff;
+  color: #24292f;
+  border-color: #d0d7de;
+}
+.markdown-preview.theme-light h1,
+.markdown-preview.theme-light h2,
+.markdown-preview.theme-light h3,
+.markdown-preview.theme-light h4 {
+  color: #0969da;
+}
+.markdown-preview.theme-light pre,
+.markdown-preview.theme-light code {
+  background-color: #f6f8fa;
+  color: #24292f;
+}
+.markdown-preview.theme-light blockquote {
+  background: #f6f8fa;
+  color: #57606a;
+}
+.markdown-preview.theme-light table {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+.markdown-preview.theme-light th {
+  background: #f6f8fa;
+  color: #24292f;
+  border-color: #d0d7de;
+}
+.markdown-preview.theme-light td {
+  border-color: #d0d7de;
+}
+.markdown-preview.theme-light tr:nth-child(even) td {
+  background: #f6f8fa;
+}
+
+/* Document Stats Footer */
+.md-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.md-stats-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.md-stat-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.md-stat-badge strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* Drag over highlight for editor */
+.input-textarea.drag-over {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.25) inset;
+}
+
+/* Layout Modes */
+.split-view.md-layout-editor-only > .tool-panel:nth-of-type(2) {
+  display: none !important;
+}
+.split-view.md-layout-editor-only > .tool-panel:nth-of-type(1) {
+  flex: 1 1 100% !important;
+  max-width: 100% !important;
+}
+.split-view.md-layout-preview-only > .tool-panel:nth-of-type(1) {
+  display: none !important;
+}
+.split-view.md-layout-preview-only > .tool-panel:nth-of-type(2) {
+  flex: 1 1 100% !important;
+  max-width: 100% !important;
+}
+
+/* View Mode Tabs */
+.md-view-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.md-view-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.md-view-tab.active {
+  background: var(--bg-card);
+  color: var(--accent-cyan);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Print styling */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .markdown-preview, .markdown-preview * {
+    visibility: visible;
+  }
+  .markdown-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border: none !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+}

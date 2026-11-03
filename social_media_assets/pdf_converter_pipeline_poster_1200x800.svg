@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="50%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="accentTitle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#34d399" />
+    </linearGradient>
+
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+  <rect width="1200" height="800" fill="url(#gridPattern)" />
+
+  <!-- Ambient Light Orbs -->
+  <circle cx="160" cy="140" r="180" fill="#38bdf8" opacity="0.05" />
+  <circle cx="1060" cy="180" r="200" fill="#34d399" opacity="0.05" />
+
+  <!-- Outer Cyber Border -->
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- HEADER -->
+  <g transform="translate(50, 48)">
+    <rect width="280" height="26" rx="13" fill="#38bdf8" fill-opacity="0.1" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="140" y="17" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB • DOCUMENT PROCESSING</text>
+    <text x="0" y="66" fill="url(#accentTitle)" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">Universal Document &amp; PDF Conversion Pipeline</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">Client-side compilation flow for Office (.docx, .xlsx, .pptx), Images, HTML, and Markdown.</text>
+  </g>
+
+  <!-- 3-COLUMN ARCHITECTURE GRID (Y: 155 to 680) -->
+  <g transform="translate(50, 155)">
+    <!-- Column 1 -->
+    <g transform="translate(0, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#38bdf8" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Conversion Ingestion Engines</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Word (.docx)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">XML / Mammoth AST to clean HTML &amp; PDF stream</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Excel (.xlsx, .csv)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">SheetJS workbook cell matrix with custom grid pa</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">gination</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">PowerPoint (.pptx)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Slide XML extraction, raster canvas shape render</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ing</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Image Gallery</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Multi-image auto-orient, DPI preservation, fit/f</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ill geometry</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Markdown &amp; HTML</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">CommonMark AST parsing, custom CSS print styling</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+    </g>
+
+    <!-- Column 2 -->
+    <g transform="translate(375, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#34d399" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">In-Memory PDF Generation Pipeline</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Input Sanitization</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Zero upload; files parsed entirely in browser me</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">mory</text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">PDF-Lib Assembler</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Vector typography, page geometry, AcroForm initi</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">alization</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Font Embedding</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">TrueType (TTF) &amp; OpenType (OTF) subset embedding</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Compression</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">FlateDecode stream compression for minimal file </text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">size</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Export Buffer</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Instant Blob / ArrayBuffer download with zero se</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">rver lag</text>
+      </g>
+    </g>
+
+    <!-- Column 3 -->
+    <g transform="translate(750, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#f59e0b" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Format Standards &amp; DPI Matrix</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">A4 Portrait</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">595.28 × 841.89 pt (210 × 297 mm)</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">US Letter</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">612.00 × 792.00 pt (8.5 × 11.0 in)</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Print Standard</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">300 DPI high-fidelity rasterization</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Screen Standard</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">72/96 DPI optimized vector scaling</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">ISO Standard</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ISO 32000-1 compliant PDF generation</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+    </g>
+  </g>
+
+  <!-- FOOTER -->
+  <g transform="translate(50, 712)">
+    <rect width="1100" height="42" rx="8" fill="#0d121f" stroke="#1e293b" stroke-width="1" />
+    <text x="20" y="26" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600">OmniTool Hub Master Technical Reference</text>
+    <text x="1080" y="26" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11" text-anchor="end">✓ 100% Client-Side Sandbox • Zero Server Uploads • Hardware Accelerated Vector Rasterizer</text>
+  </g>
+</svg>

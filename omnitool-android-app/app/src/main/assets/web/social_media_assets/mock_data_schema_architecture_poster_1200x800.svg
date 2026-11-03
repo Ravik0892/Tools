@@ -1,0 +1,287 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="50%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="accentCyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+
+    <linearGradient id="accentPurple" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <linearGradient id="accentAmber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+
+    <linearGradient id="accentEmerald" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+
+    <linearGradient id="accentRose" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+
+  <!-- Outer Protective Frame -->
+  <rect x="24" y="24" width="1152" height="752" rx="16" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- HEADER REGION (Y: 44 to 125) -->
+  <g transform="translate(50, 44)">
+    <!-- Badge -->
+    <rect width="320" height="22" rx="11" fill="#00f2fe" fill-opacity="0.12" stroke="#00f2fe" stroke-opacity="0.3" stroke-width="1" />
+    <circle cx="11" cy="11" r="4" fill="#00f2fe" />
+    <text x="22" y="15" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" letter-spacing="1.5">OMNITOOL HUB &#8226; GENERATORS</text>
+
+    <!-- Main Title -->
+    <text x="0" y="52" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="900" letter-spacing="0.5">MOCK DATA &amp; SCHEMA GENERATION ARCHITECTURE</text>
+
+    <!-- Subtitle -->
+    <text x="0" y="74" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12">Relational Integrity, Probability Distributions, RFC 4180 CSV, and Client-Side Streaming</text>
+  </g>
+
+  <!-- TOP OVERVIEW REGION (Y: 135 to 295) -->
+  <g transform="translate(50, 135)">
+    <rect width="1100" height="155" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    
+    <path d="M 0 12 Q 0 0 12 0 L 1088 0 Q 1100 0 1100 12 L 1100 32 L 0 32 Z" fill="#131a2c" />
+    <text x="20" y="21" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="800" letter-spacing="1">SYNTHETIC MOCK DATA PIPELINE &amp; RELATIONAL ARCHITECTURE</text>
+
+    <!-- Pipeline Stages -->
+    <g transform="translate(24, 46)">
+      <!-- Stage 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="240" height="92" rx="8" fill="#131a2c" stroke="#fbbf24" stroke-opacity="0.3" stroke-width="1" />
+        <circle cx="20" cy="20" r="10" fill="#b45309" />
+        <text x="20" y="24" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="800" text-anchor="middle">1</text>
+        <text x="38" y="24" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">Schema Field Definition</text>
+        <text x="12" y="48" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="12" dy="0">&#8226; Column data types &amp; constraints</tspan>
+          <tspan x="12" dy="14">&#8226; Faker categories (names, emails)</tspan>
+          <tspan x="12" dy="14">&#8226; RegEx generation patterns</tspan>
+        </text>
+      </g>
+
+      <polygon points="268,42 276,46 268,50" fill="#475569" />
+
+      <!-- Stage 2 -->
+      <g transform="translate(284, 0)">
+        <rect width="240" height="92" rx="8" fill="#131a2c" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+        <circle cx="20" cy="20" r="10" fill="#0369a1" />
+        <text x="20" y="24" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="800" text-anchor="middle">2</text>
+        <text x="38" y="24" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">Deterministic PRNG Engine</text>
+        <text x="12" y="48" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="12" dy="0">&#8226; Seedable pseudo-random generator</tspan>
+          <tspan x="12" dy="14">&#8226; Mulberry32 reproducible runs</tspan>
+          <tspan x="12" dy="14">&#8226; Gaussian &amp; uniform distributions</tspan>
+        </text>
+      </g>
+
+      <polygon points="532,42 540,46 532,50" fill="#475569" />
+
+      <!-- Stage 3 -->
+      <g transform="translate(548, 0)">
+        <rect width="240" height="92" rx="8" fill="#131a2c" stroke="#c084fc" stroke-opacity="0.3" stroke-width="1" />
+        <circle cx="20" cy="20" r="10" fill="#6b21a8" />
+        <text x="20" y="24" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="800" text-anchor="middle">3</text>
+        <text x="38" y="24" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">Relational Constraint Graph</text>
+        <text x="12" y="48" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="12" dy="0">&#8226; Primary / Foreign Key links (1:N)</tspan>
+          <tspan x="12" dy="14">&#8226; Parent-child row synchrony</tspan>
+          <tspan x="12" dy="14">&#8226; Unique constraint validation</tspan>
+        </text>
+      </g>
+
+      <polygon points="796,42 804,46 796,50" fill="#475569" />
+
+      <!-- Stage 4 -->
+      <g transform="translate(812, 0)">
+        <rect width="240" height="92" rx="8" fill="#131a2c" stroke="#34d399" stroke-opacity="0.3" stroke-width="1" />
+        <circle cx="20" cy="20" r="10" fill="#047857" />
+        <text x="20" y="24" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="800" text-anchor="middle">4</text>
+        <text x="38" y="24" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">Chunked Stream Export</text>
+        <text x="12" y="48" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="12" dy="0">&#8226; RFC 4180 CSV / JSON / SQL</tspan>
+          <tspan x="12" dy="14">&#8226; Web Worker memory streaming</tspan>
+          <tspan x="12" dy="14">&#8226; Instant local file download</tspan>
+        </text>
+      </g>
+    </g>
+    
+  </g>
+
+  <!-- 3 CORE COLUMNS REGION (Y: 308 to 745) -->
+  <!-- COLUMN 1 -->
+  <g transform="translate(50, 308)">
+    <rect width="350" height="437" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#fbbf24" />
+    <text x="32" y="23" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">FIELD TYPES &amp; RANDOM SEEDING</text>
+    <g transform="translate(18, 50)">
+      
+    <!-- Item 1 -->
+    <g transform="translate(0, 0)">
+      <text x="0" y="14" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">1. UUID v4 RFC 4122 Specification</text>
+      <rect x="0" y="28" width="314" height="66" rx="4" fill="#131a2c" />
+      <text x="10" y="44" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9.5">f47ac10b-58cc-4372-a567-0e02b2c3d479</text>
+      <text x="10" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">&#8226; 128-bit integer (122 random entropy bits)</text>
+      <text x="10" y="76" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">&#8226; Collision probability: 1 in 2.71 quintillion</text>
+    </g>
+
+    <!-- Item 2 -->
+    <g transform="translate(0, 110)">
+      <text x="0" y="14" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">2. Deterministic PRNG Seeding</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">Standard Math.random() cannot be seeded in JS.</tspan>
+        <tspan x="0" dy="13">OmniTool uses Mulberry32 with integer seeds:</tspan>
+        <tspan x="0" dy="13">Passing seed=42 always generates the exact same dataset.</tspan>
+      </text>
+    </g>
+
+    <!-- Item 3 -->
+    <g transform="translate(0, 190)">
+      <text x="0" y="14" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">3. RegEx-Driven Random Syntax</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">Generates custom formatted strings from regex:</tspan>
+        <tspan x="0" dy="13"><tspan fill="#f8fafc">/[A-Z]{2}[0-9]{4}-[A-Z0-9]{6}/</tspan></tspan>
+        <tspan x="0" dy="13">Ideal for license keys, tracking codes &amp; IDs.</tspan>
+      </text>
+    </g>
+
+    <!-- Card Pro Tip -->
+    <g transform="translate(0, 270)">
+      <rect width="314" height="100" rx="8" fill="#131a2c" stroke="#d97706" stroke-opacity="0.4" stroke-width="1" />
+      <text x="12" y="20" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700">&#128274; Zero-Server Security Policy</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="12" dy="0">Never use external mock data APIs that log your</tspan>
+        <tspan x="12" dy="13">schema designs. OmniTool runs 100% in local memory;</tspan>
+        <tspan x="12" dy="13">your proprietary schemas never leave the machine.</tspan>
+      </text>
+    </g>
+    
+    </g>
+  </g>
+
+  <!-- COLUMN 2 -->
+  <g transform="translate(425, 308)">
+    <rect width="350" height="437" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#38bdf8" />
+    <text x="32" y="23" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">RELATIONS &amp; DISTRIBUTIONS</text>
+    <g transform="translate(18, 50)">
+      
+    <!-- Item 1 -->
+    <g transform="translate(0, 0)">
+      <text x="0" y="14" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">1. Referential Integrity (Foreign Keys)</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">When generating Users and Orders tables, every</tspan>
+        <tspan x="0" dy="13">order.user_id references an existing user.id.</tspan>
+        <tspan x="0" dy="13">Prevents broken foreign key constraints on import.</tspan>
+      </text>
+    </g>
+
+    <!-- Item 2 -->
+    <g transform="translate(0, 80)">
+      <text x="0" y="14" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">2. Statistical Probability Curves</text>
+      <rect x="0" y="28" width="314" height="66" rx="4" fill="#131a2c" />
+      <text x="10" y="44" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="9.5">Uniform: Every value has equal probability</text>
+      <text x="10" y="60" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">Gaussian (Normal): Bell curve for ages &amp; test scores</text>
+      <text x="10" y="76" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9.5">Exponential / Pareto: 80/20 power-law distributions</text>
+    </g>
+
+    <!-- Item 3 -->
+    <g transform="translate(0, 180)">
+      <text x="0" y="14" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">3. Nullability &amp; Boundary Testing</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">Configure custom null percentage (e.g. 15% nulls).</tspan>
+        <tspan x="0" dy="13">Injects boundary extremes (0, -1, empty string,</tspan>
+        <tspan x="0" dy="13">MAX_INT) to test backend database schema limits.</tspan>
+      </text>
+    </g>
+
+    <!-- Card Pro Tip -->
+    <g transform="translate(0, 260)">
+      <rect width="314" height="110" rx="8" fill="#131a2c" stroke="#0284c7" stroke-opacity="0.4" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700">&#9881; Geo &amp; Bounding Box Coordinates</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="12" dy="0">Generates latitude (-90 to 90) and longitude</tspan>
+        <tspan x="12" dy="13">(-180 to 180) constrained within specific city</tspan>
+        <tspan x="12" dy="13">bounding boxes for mapping and spatial testing.</tspan>
+      </text>
+    </g>
+    
+    </g>
+  </g>
+
+  <!-- COLUMN 3 -->
+  <g transform="translate(800, 308)">
+    <rect width="350" height="437" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#34d399" />
+    <text x="32" y="23" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">STREAMING &amp; SERIALIZATION</text>
+    <g transform="translate(18, 50)">
+      
+    <!-- Item 1 -->
+    <g transform="translate(0, 0)">
+      <text x="0" y="14" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">1. RFC 4180 CSV Escaping Standard</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">Fields containing commas, line breaks (CRLF), or</tspan>
+        <tspan x="0" dy="13">quotes must be wrapped in double quotes: "Doe, John".</tspan>
+        <tspan x="0" dy="13">Quotes inside fields are escaped as double-double: ""</tspan>
+      </text>
+    </g>
+
+    <!-- Item 2 -->
+    <g transform="translate(0, 80)">
+      <text x="0" y="14" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">2. Chunked Web Worker Streaming</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">Generating 100,000 records in one JS array causes</tspan>
+        <tspan x="0" dy="13">Out-Of-Memory (OOM) browser crashes.</tspan>
+        <tspan x="0" dy="13">OmniTool streams records in 5,000-row Blob chunks.</tspan>
+      </text>
+    </g>
+
+    <!-- Item 3 -->
+    <g transform="translate(0, 160)">
+      <text x="0" y="14" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">3. SQL Insert Statement Output</text>
+      <rect x="0" y="28" width="314" height="66" rx="4" fill="#131a2c" />
+      <text x="10" y="44" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="9.5">INSERT INTO users (id, name, email)</text>
+      <text x="10" y="60" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="9.5">VALUES (1, 'Alice', 'alice@test.io'),</text>
+      <text x="10" y="76" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="9.5">       (2, 'Bob', 'bob@test.io');</text>
+    </g>
+
+    <!-- Card Pro Tip -->
+    <g transform="translate(0, 260)">
+      <rect width="314" height="110" rx="8" fill="#131a2c" stroke="#059669" stroke-opacity="0.4" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700">&#9733; JSON Schema Validation</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="12" dy="0">Output can be configured as a flat array of objects,</tspan>
+        <tspan x="12" dy="13">nested relational hierarchies, or JSONLines (NDJSON)</tspan>
+        <tspan x="12" dy="13">for direct import into Elasticsearch and MongoDB.</tspan>
+      </text>
+    </g>
+    
+    </g>
+  </g>
+
+  <!-- FOOTER BRANDING (Y: 760) -->
+  <text x="600" y="764" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="middle">OMNITOOL HUB CLIENT-SIDE SUITE &#8226; 100% PRIVATE &#8226; ZERO DATA TRANSMISSION &#8226; WEB STANDARDS COMPLIANT</text>
+</svg>

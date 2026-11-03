@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { newToolMeta, newToolsData } from './new-tools-data.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1167,6 +1168,9 @@ const toolMeta = {
   'ip-subnet-calculator': { category: 'math', categoryName: 'Math & Time', icon: '🌐', color: '#00f2fe' },
   'payment-guide': { category: 'dev', categoryName: 'PRO & Billing', icon: '💎', color: '#00f2fe' }
 };
+
+toolsData.push(...newToolsData);
+Object.assign(toolMeta, newToolMeta);
 
 function getRelatedTools(currentTool, allTools) {
   const meta = toolMeta[currentTool.id] || { category: 'dev' };

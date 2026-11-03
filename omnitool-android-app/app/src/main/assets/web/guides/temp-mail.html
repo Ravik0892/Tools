@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disposable Temp Mail Client Guide | OmniTool Hub</title>
+  <meta name="description" content="Generate instant disposable email inboxes, bypass spam, receive OTP confirmation codes, and inspect sanitized HTML messages client-side.">
+  <meta name="keywords" content="Privacy & Anti-Spam, Disposable Temp Mail Client Guide, OmniTool Hub, developer tools, client-side, offline, privacy">
+  <link rel="canonical" href="https://omnitool.worldsneed.com/guides/temp-mail.html">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Disposable Temp Mail Client Guide | OmniTool Hub">
+  <meta property="og:description" content="Generate instant disposable email inboxes, bypass spam, receive OTP confirmation codes, and inspect sanitized HTML messages client-side.">
+  <meta property="og:url" content="https://omnitool.worldsneed.com/guides/temp-mail.html">
+  <meta property="og:site_name" content="OmniTool Hub">
+  <meta property="og:image" content="https://omnitool.worldsneed.com/social_media_assets/temp_mail_privacy_poster_1200x800.svg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Disposable Temp Mail Client Guide | OmniTool Hub">
+  <meta name="twitter:description" content="Generate instant disposable email inboxes, bypass spam, receive OTP confirmation codes, and inspect sanitized HTML messages client-side.">
+  <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/temp_mail_privacy_poster_1200x800.svg">
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=1.3.4">
+
+  <!-- JSON-LD Structured Data for Rich Search Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "OmniTool Hub",
+            "item": "https://omnitool.worldsneed.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides Hub",
+            "item": "https://omnitool.worldsneed.com/guides/index.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Disposable Temp Mail Client Guide",
+            "item": "https://omnitool.worldsneed.com/guides/temp-mail.html"
+          }
+        ]
+      },
+      {
+        "@type": "TechArticle",
+        "headline": "Disposable Temp Mail Client Guide",
+        "description": "Generate instant disposable email inboxes, bypass spam, receive OTP confirmation codes, and inspect sanitized HTML messages client-side.",
+        "author": {
+          "@type": "Organization",
+          "name": "OmniTool Hub"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "OmniTool Hub",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://omnitool.worldsneed.com/social_media_assets/profile_avatar_icon_1080x1080.svg"
+          }
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://omnitool.worldsneed.com/social_media_assets/temp_mail_privacy_poster_1200x800.svg",
+          "width": 1200,
+          "height": 630,
+          "caption": "Ephemeral Email Architecture: Zero-persistence mailboxes, tracking pixel neutralization, and automated OTP extraction."
+        },
+        "datePublished": "2026-06-27",
+        "dateModified": "2026-10-13",
+        "mainEntityOfPage": "https://omnitool.worldsneed.com/guides/temp-mail.html"
+      },
+      {
+        "@type": "HowTo",
+        "name": "How to Use Disposable Temp Mail Client",
+        "description": "Generate instant disposable email inboxes, bypass spam, receive OTP confirmation codes, and inspect sanitized HTML messages client-side.",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Step 1",
+            "text": "Open the Temp Mail tool to automatically generate a fresh, active disposable address."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "Step 2",
+            "text": "Click Copy Address to paste the temporary email into your signup form."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Step 3",
+            "text": "Wait for the incoming verification message to appear in the inbox list."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "Step 4",
+            "text": "Click the message to read sanitized contents and copy your verification link or OTP code."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 5,
+            "name": "Step 5",
+            "text": "Click Delete / Trash when finished to purge the inbox immediately."
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-app: #07090e;
+      --bg-card: rgba(18, 24, 38, 0.65);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9d4edd;
+      --accent-emerald: #10b981;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-app);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(157, 78, 221, 0.06) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      padding: 0 0 60px 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    /* Top Navigation Bar */
+    .top-nav {
+      width: 100%;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .top-nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-brand svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-cyan);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-link-btn:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(0, 242, 254, 0.3);
+      background: rgba(0, 242, 254, 0.04);
+    }
+
+    .nav-launch-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px 16px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-launch-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs-wrap {
+      width: 100%;
+      max-width: 1240px;
+      margin: 20px auto 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumbs a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .breadcrumbs span.current {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1240px;
+      margin: 20px auto 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--accent-cyan);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    article h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      border-left: 3px solid var(--accent-cyan);
+      padding-left: 12px;
+    }
+
+    article p {
+      margin-bottom: 18px;
+      color: var(--text-muted);
+      font-size: 15.5px;
+      line-height: 1.7;
+    }
+
+    article ul, article ol {
+      margin-bottom: 18px;
+      padding-left: 24px;
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    article li {
+      margin-bottom: 8px;
+    }
+
+    .info-box {
+      background: rgba(0, 242, 254, 0.04);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      border-radius: 10px;
+      padding: 18px;
+      margin: 28px 0;
+    }
+
+    .info-box strong {
+      color: var(--accent-cyan);
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14.5px;
+    }
+
+    .tab-section {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .tab-title {
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-badge {
+      font-size: 11px;
+      background: var(--accent-purple);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .cta-container {
+      text-align: center;
+      margin-top: 40px;
+      padding: 32px 24px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      font-weight: 800;
+      font-size: 16px;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      box-shadow: 0 4px 18px rgba(0, 242, 254, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0, 242, 254, 0.55);
+      color: #000;
+    }
+
+    .all-guides-cta {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .all-guides-cta:hover {
+      text-decoration: underline;
+    }
+
+    /* Related Guides Section */
+    .related-section {
+      margin-top: 50px;
+      padding-top: 36px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .related-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .related-heading a {
+      font-size: 13px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 242, 254, 0.4);
+      background: rgba(0, 242, 254, 0.03);
+    }
+
+    .related-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .related-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .related-read {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: auto;
+      font-weight: 600;
+    }
+
+    .related-card:hover .related-read {
+      color: var(--accent-cyan);
+    }
+
+    footer.guide-footer {
+      max-width: 860px;
+      margin: 40px auto 0 auto;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 0 20px;
+    }
+
+    footer.guide-footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin: 0 8px;
+      transition: color 0.2s;
+    }
+
+    footer.guide-footer a:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* Live Interactive Tool Card */
+    .live-tool-embed-card {
+      background: rgba(10, 14, 23, 0.75);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 254, 0.08);
+    }
+
+    .live-tool-embed-header {
+      background: rgba(18, 24, 38, 0.85);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .live-status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      background: var(--accent-emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-emerald);
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    .live-fullscreen-link {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      background: rgba(0, 242, 254, 0.06);
+      transition: all 0.2s ease;
+    }
+
+    .live-fullscreen-link:hover {
+      background: rgba(0, 242, 254, 0.15);
+      border-color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+
+    .live-guide-tool-viewport {
+      padding: 24px 20px;
+      min-height: 260px;
+    }
+
+    /* Embedded Live Playground Full-Fidelity Responsive Overrides */
+    .live-guide-tool-viewport .tool-content-layout.split-view {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px !important;
+      position: static !important;
+      width: 100% !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      min-height: unset !important;
+      box-shadow: none !important;
+      border-radius: 12px !important;
+      overflow: visible !important;
+      padding: 20px !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type::after {
+      display: none !important;
+    }
+
+    .live-guide-tool-viewport .adjust-settings-fab,
+    .live-guide-tool-viewport .split-view-backdrop,
+    .live-guide-tool-viewport .drawer-close-btn {
+      display: none !important;
+    }
+
+    @media (min-width: 960px) {
+      .live-guide-tool-viewport .tool-content-layout.split-view {
+        display: grid !important;
+        grid-template-columns: 1fr 1.05fr !important;
+        gap: 20px !important;
+        align-items: start !important;
+      }
+    }
+
+    .guide-tool-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      color: var(--text-muted);
+      gap: 12px;
+      font-size: 13.5px;
+    }
+
+    .guide-tool-spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(0, 242, 254, 0.15);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Guide Toast Notification */
+    .guide-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(18, 24, 38, 0.95);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      z-index: 9999;
+    }
+
+    .guide-toast.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .guide-toast.success { border-color: var(--accent-emerald); color: #34d399; }
+    .guide-toast.error { border-color: var(--accent-rose); color: #f87171; }
+    .guide-toast.info { border-color: var(--accent-cyan); color: #38bdf8; }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 24px 18px;
+        border-radius: 12px;
+      }
+      h1 {
+        font-size: 26px;
+      }
+      .nav-actions {
+        display: none;
+      }
+    }
+
+    /* Interactive Poster & Pan-Zoom Lightbox */
+    .poster-interactive-container {
+      position: relative;
+      cursor: zoom-in;
+      overflow: hidden;
+      background: #080c14;
+    }
+    .poster-interactive-container:hover .poster-zoom-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .poster-zoom-hint {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(14, 19, 31, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      color: var(--accent-cyan);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.9;
+      transform: translateY(0);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .poster-btn {
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      color: var(--accent-cyan);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .poster-btn:hover {
+      background: rgba(0, 242, 254, 0.2);
+      border-color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+    .poster-zoom-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999999;
+      background: rgba(5, 7, 12, 0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .poster-zoom-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    .zoom-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(14, 19, 31, 0.95);
+      z-index: 10;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .zoom-ctrl-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f3f4f6;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .zoom-ctrl-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+    .zoom-stage-viewport {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .zoom-stage-viewport:active {
+      cursor: grabbing;
+    }
+    .zoom-stage-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1200px;
+      height: 800px;
+      transform-origin: 0 0;
+      will-change: transform;
+      pointer-events: none;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+        </svg>
+        <span>OmniTool Hub</span>
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-link-btn">📚 All 48 Guides</a>
+        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="../index.html#tool/temp-mail" class="nav-launch-btn">🚀 Launch Temp Mail Client</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs-wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="../index.html">🏠 Home</a>
+      <span>/</span>
+      <a href="index.html">Guides Hub</a>
+      <span>/</span>
+      <span class="current">Disposable Temp Mail Client</span>
+    </nav>
+  </div>
+
+  <main class="container">
+    <header>
+      <div class="category-pill">📬 Crypto & Privacy</div>
+      <h1>Disposable Temp Mail Client Guide</h1>
+      <div class="meta">
+        <span class="meta-tag">📅 Updated Oct 2026</span>
+        <span class="meta-tag">🔒 100% Offline-Safe</span>
+        <span class="meta-tag">🛠️ Privacy & Anti-Spam</span>
+      </div>
+    </header>
+
+    <!-- LIVE INTERACTIVE EMBEDDED TOOL WORKSPACE -->
+    <section class="live-tool-embed-card">
+      <div class="live-tool-embed-header">
+        <div class="live-status-indicator">
+          <span class="pulse-dot"></span>
+          <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
+        </div>
+        <div class="live-tool-quick-links">
+          <a href="../index.html#tool/temp-mail" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+        </div>
+      </div>
+      <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
+        <div class="guide-tool-loading">
+          <div class="guide-tool-spinner"></div>
+          <span>Loading Disposable Temp Mail Client...</span>
+        </div>
+      </div>
+    </section>
+
+    <article>
+      <p>
+        Signing up for web services, downloading whitepapers, or testing onboarding flows often requires an email address, inviting marketing spam and data broker tracking. OmniTool Hub's Disposable Temp Mail client generates ephemeral, zero-persistence email addresses in real time with automated 10-second inbox polling and client-side HTML sanitization.
+      </p>
+
+      
+      <!-- Dedicated Technical Reference Poster & Cheat Sheet (With Pan & Zoom) -->
+      <figure class="guide-diagram-figure" style="margin: 32px 0 36px 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); background: rgba(10, 14, 23, 0.85); box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);">
+        <div class="poster-interactive-container" title="Click to Open Interactive Pan & Zoom Viewer">
+          <img src="../social_media_assets/temp_mail_privacy_poster_1200x800.svg" 
+               alt="Temp mail privacy poster detailing ephemeral mailboxes, 10s auto sync polling, and client-side DOMPurify sanitization" 
+               width="1200" 
+               height="800" 
+               loading="lazy" 
+               decoding="async" 
+               style="width: 100%; height: auto; display: block; max-width: 100%;">
+          <div class="poster-zoom-hint">
+            <span>🔍</span> Click to Pan &amp; Zoom
+          </div>
+        </div>
+        <figcaption style="padding: 12px 20px; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); background: rgba(14, 19, 31, 0.95); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <span>⚡ <strong>Quick Reference:</strong> Ephemeral Email Architecture: Zero-persistence mailboxes, tracking pixel neutralization, and automated OTP extraction.</span>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="poster-btn poster-open-zoom-btn">🔍 Interactive Zoom &amp; Pan</button>
+            <a href="../social_media_assets/temp_mail_privacy_poster_1200x800.svg" download target="_blank" rel="noopener noreferrer" class="poster-btn" style="color: var(--accent-cyan); text-decoration: none;">⬇️ Download Poster</a>
+          </div>
+        </figcaption>
+      </figure>
+
+
+      <h2>Inbox & Security Capabilities</h2>
+      <p>
+        Here is a detailed breakdown of the capabilities, algorithms, and configurations available within this tool suite:
+      </p>
+
+      
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>1. Instant Ephemeral Mailbox</span>
+          <span class="tab-badge">Instant Inbox</span>
+        </div>
+        <p>
+          Generate randomized email addresses on high-reputation domains with 1 click. Zero passwords or personal credentials required.
+        </p>
+      </div>
+      
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>2. Real-Time Auto-Sync Polling</span>
+          <span class="tab-badge">Live Sync</span>
+        </div>
+        <p>
+          Background sync checks for incoming mail every 10 seconds. Alerts you with audio chimes and badge counts on new email delivery.
+        </p>
+      </div>
+      
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>3. Automated OTP Code Callout</span>
+          <span class="tab-badge">OTP Detection</span>
+        </div>
+        <p>
+          Identifies 4-to-8 digit verification codes in incoming emails and displays them in a prominent 1-click copy badge.
+        </p>
+      </div>
+      
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>4. HTML Sanitizer & Spy Pixel Shield</span>
+          <span class="tab-badge">Privacy Shield</span>
+        </div>
+        <p>
+          DOMPurify strips malicious scripts, iframes, and 1x1 marketing tracking pixels to protect your IP address and device privacy.
+        </p>
+      </div>
+      
+
+      <div class="info-box">
+        <strong>💡 Pro-Tip on Security & Utility:</strong>
+        Never use temporary email services for critical banking, cryptocurrency, or primary social accounts. Because disposable inboxes expire when your browser session closes, password resets cannot be performed later.
+      </div>
+
+      <h2>Step-by-Step Usage Guide</h2>
+      <ol>
+        <li>Open the Temp Mail tool to automatically generate a fresh, active disposable address.</li><li>Click **Copy Address** to paste the temporary email into your signup form.</li><li>Wait for the incoming verification message to appear in the inbox list.</li><li>Click the message to read sanitized contents and copy your verification link or OTP code.</li><li>Click **Delete / Trash** when finished to purge the inbox immediately.</li>
+      </ol>
+    </article>
+
+    <!-- Call to Action Banner -->
+    <div class="cta-container">
+      <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
+      <a href="../index.html#tool/temp-mail" class="cta-btn">🚀 Launch Temp Mail Client</a>
+      <br>
+      <a href="index.html" class="all-guides-cta">📚 Browse All 48 Tool Guides &rarr;</a>
+    </div>
+
+    <!-- Related Guides & Internal Links -->
+    <section class="related-section">
+      <div class="related-heading">
+        <span>Explore Related Guides</span>
+        <a href="index.html">View All 48 Guides &rarr;</a>
+      </div>
+      <div class="related-grid">
+        
+          <a href="crypto-suite.html" class="related-card">
+            <div>
+              <div class="related-badge">🛡️ Crypto & Privacy</div>
+              <div class="related-title">Cryptography & Key Generator Suite</div>
+            </div>
+            <div class="related-read">Read Guide &rarr;</div>
+          </a>
+          
+          <a href="security-suite.html" class="related-card">
+            <div>
+              <div class="related-badge">🔐 Crypto & Privacy</div>
+              <div class="related-title">Security & Passwords Suite</div>
+            </div>
+            <div class="related-read">Read Guide &rarr;</div>
+          </a>
+          
+          <a href="pii-anonymizer.html" class="related-card">
+            <div>
+              <div class="related-badge">🕵️ Crypto & Privacy</div>
+              <div class="related-title">Client-Side PII Masker & Anonymizer</div>
+            </div>
+            <div class="related-read">Read Guide &rarr;</div>
+          </a>
+          
+      </div>
+    </section>
+  </main>
+
+  <footer class="guide-footer">
+    <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
+    <p style="margin-top: 8px;">
+      <a href="../index.html">Home</a> &bull;
+      <a href="index.html">Guides Hub</a> &bull;
+      <a href="../index.html#privacy">Privacy Policy</a> &bull;
+      <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  </footer>
+
+  
+  <!-- Fullscreen Interactive Pan & Zoom Modal (Direct Body Child to escape container stacking contexts) -->
+  <div id="poster-zoom-modal" class="poster-zoom-modal" role="dialog" aria-modal="true" aria-label="Interactive Poster Viewer">
+    <div class="zoom-modal-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 13.5px; font-weight: 700; color: #f3f4f6;">Disposable Temp Mail Client &bull; Interactive Cheat Sheet</span>
+        <span style="font-size: 11px; color: #9ca3af; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); padding: 3px 8px; border-radius: 4px;">🖱️ Mouse Wheel to Zoom &bull; Drag to Pan &bull; Double-click to Reset</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="zoom-out-btn" class="zoom-ctrl-btn" title="Zoom Out (-)" style="width: 34px; height: 34px; font-size: 18px;">&minus;</button>
+        <span id="zoom-level-badge" style="font-size: 12px; font-weight: 700; color: #00f2fe; min-width: 48px; text-align: center; font-family: monospace;">100%</span>
+        <button id="zoom-in-btn" class="zoom-ctrl-btn" title="Zoom In (+)" style="width: 34px; height: 34px; font-size: 18px;">&#43;</button>
+        <button id="zoom-reset-btn" class="zoom-ctrl-btn" title="Reset View" style="padding: 0 10px; height: 34px; font-size: 12px;">↺ Reset</button>
+        <a href="../social_media_assets/temp_mail_privacy_poster_1200x800.svg" download class="zoom-ctrl-btn" style="padding: 0 12px; height: 34px; font-size: 12px; text-decoration: none; color: #00f2fe; background: rgba(0, 242, 254, 0.12); border-color: rgba(0, 242, 254, 0.3);">⬇️ Save</a>
+        <button id="zoom-close-btn" class="zoom-ctrl-btn" title="Close (Esc)" style="width: 34px; height: 34px; font-size: 20px; color: #f87171; background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.3); margin-left: 6px;">&times;</button>
+      </div>
+    </div>
+    <div id="zoom-stage-viewport" class="zoom-stage-viewport">
+      <img id="zoom-stage-img" class="zoom-stage-img" src="../social_media_assets/temp_mail_privacy_poster_1200x800.svg" width="1200" height="800" alt="Temp mail privacy poster detailing ephemeral mailboxes, 10s auto sync polling, and client-side DOMPurify sanitization">
+    </div>
+  </div>
+
+  <!-- Client-side adapter & dynamic tool mounter -->
+  <script type="module">
+    const guideApp = {
+      activeSubtab: null,
+      showToast(msg, type = 'info') {
+        let t = document.getElementById('guide-toast');
+        if (!t) {
+          t = document.createElement('div');
+          t.id = 'guide-toast';
+          t.className = 'guide-toast';
+          document.body.appendChild(t);
+        }
+        t.innerText = msg;
+        t.className = 'guide-toast show ' + type;
+        setTimeout(() => { if (t) t.className = 'guide-toast'; }, 3200);
+      },
+      async copyText(text) {
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(text);
+          this.showToast('Copied to clipboard!', 'success');
+        } catch {
+          this.showToast('Failed to copy', 'error');
+        }
+      },
+      playSynthSound() {},
+      getConfigValue(k, d) { return localStorage.getItem(k) || d; },
+      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; }
+    };
+
+    const targetModule = 'temp-mail.js';
+    try {
+      const module = await import('../tools/' + targetModule);
+      const toolInstance = module.default;
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (toolInstance && typeof toolInstance.renderUI === 'function' && viewport) {
+        viewport.innerHTML = toolInstance.renderUI();
+        if (typeof toolInstance.init === 'function') {
+          await toolInstance.init(viewport, guideApp);
+        }
+      }
+    } catch (err) {
+      console.warn('[OmniTool Guide] Live tool initialization notice:', err);
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (viewport) {
+        viewport.innerHTML = `
+          <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
+            <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
+            <a href="../index.html#tool/temp-mail" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+          </div>
+        `;
+      }
+    }
+  </script>
+
+  
+  <!-- Interactive Pan & Zoom Script -->
+  <script>
+    (function initPanZoomViewer() {
+      const trigger = document.querySelector('.poster-interactive-container');
+      const openBtn = document.querySelector('.poster-open-zoom-btn');
+      const modal = document.getElementById('poster-zoom-modal');
+      if (!trigger || !modal) return;
+
+      const viewport = document.getElementById('zoom-stage-viewport');
+      const img = document.getElementById('zoom-stage-img');
+      const badge = document.getElementById('zoom-level-badge');
+      const btnIn = document.getElementById('zoom-in-btn');
+      const btnOut = document.getElementById('zoom-out-btn');
+      const btnReset = document.getElementById('zoom-reset-btn');
+      const btnClose = document.getElementById('zoom-close-btn');
+
+      let scale = 1;
+      let posX = 0;
+      let posY = 0;
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+      let naturalW = 1200;
+      let naturalH = 800;
+
+      function centerAndFit() {
+        if (!viewport || !img) return;
+        const vw = viewport.clientWidth || window.innerWidth;
+        const vh = viewport.clientHeight || (window.innerHeight - 60);
+        if (vw <= 0 || vh <= 0) return;
+        const targetW = naturalW || 1200;
+        const targetH = naturalH || 800;
+        const fitScale = Math.min((vw * 0.92) / targetW, (vh * 0.92) / targetH, 1.25);
+        scale = Math.max(fitScale, 0.2);
+        posX = (vw - targetW * scale) / 2;
+        posY = (vh - targetH * scale) / 2;
+        applyTransform();
+      }
+
+      function applyTransform() {
+        if (!img) return;
+        img.style.transform = 'translate(' + posX + 'px, ' + posY + 'px) scale(' + scale + ')';
+        if (badge) badge.innerText = Math.round(scale * 100) + '%';
+      }
+
+      function openModal() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        naturalW = img.naturalWidth || 1200;
+        naturalH = img.naturalHeight || 800;
+        requestAnimationFrame(function() {
+          centerAndFit();
+          setTimeout(centerAndFit, 60);
+        });
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        isDragging = false;
+      }
+
+      window.addEventListener('resize', function() {
+        if (modal.classList.contains('active')) {
+          centerAndFit();
+        }
+      });
+
+      trigger.addEventListener('click', openModal);
+      if (openBtn) openBtn.addEventListener('click', openModal);
+      if (btnClose) btnClose.addEventListener('click', closeModal);
+
+      // Keyboard Shortcuts
+      window.addEventListener('keydown', function(e) {
+        if (!modal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeModal();
+        else if (e.key === '+' || e.key === '=') zoomBy(1.2);
+        else if (e.key === '-' || e.key === '_') zoomBy(0.8);
+        else if (e.key === '0' || e.key === 'r') centerAndFit();
+      });
+
+      // Zooming
+      function zoomBy(factor, clientX, clientY) {
+        const newScale = Math.min(Math.max(scale * factor, 0.35), 6.0); // 35% to 600%
+        const rect = viewport.getBoundingClientRect();
+        const vw = viewport.clientWidth;
+        const vh = viewport.clientHeight;
+        const focalX = clientX !== undefined ? (clientX - rect.left) : (vw / 2);
+        const focalY = clientY !== undefined ? (clientY - rect.top) : (vh / 2);
+
+        posX = focalX - (focalX - posX) * (newScale / scale);
+        posY = focalY - (focalY - posY) * (newScale / scale);
+        scale = newScale;
+        applyTransform();
+      }
+
+      if (btnIn) btnIn.addEventListener('click', function() { zoomBy(1.25); });
+      if (btnOut) btnOut.addEventListener('click', function() { zoomBy(0.8); });
+      if (btnReset) btnReset.addEventListener('click', centerAndFit);
+
+      // Wheel Zoom (smooth with mouse focal point)
+      viewport.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.15 : 0.85;
+        zoomBy(factor, e.clientX, e.clientY);
+      }, { passive: false });
+
+      // Mouse Dragging (pan)
+      viewport.addEventListener('mousedown', function(e) {
+        if (e.button !== 0) return;
+        isDragging = true;
+        startX = e.clientX - posX;
+        startY = e.clientY - posY;
+        viewport.style.cursor = 'grabbing';
+      });
+
+      window.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        posX = e.clientX - startX;
+        posY = e.clientY - startY;
+        applyTransform();
+      });
+
+      window.addEventListener('mouseup', function() {
+        if (isDragging) {
+          isDragging = false;
+          viewport.style.cursor = 'grab';
+        }
+      });
+
+      // Double Click to toggle between fit and 2.0x detail zoom
+      viewport.addEventListener('dblclick', function(e) {
+        if (scale > 1.3) {
+          centerAndFit();
+        } else {
+          zoomBy(2.2, e.clientX, e.clientY);
+        }
+      });
+
+      // Touch Support (Pinch & Pan on Mobile)
+      let touchStartDist = 0;
+      let touchStartScale = 1;
+      viewport.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          startX = e.touches[0].clientX - posX;
+          startY = e.touches[0].clientY - posY;
+        } else if (e.touches.length === 2) {
+          isDragging = false;
+          touchStartDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          touchStartScale = scale;
+        }
+      }, { passive: true });
+
+      viewport.addEventListener('touchmove', function(e) {
+        if (e.touches.length === 1 && isDragging) {
+          posX = e.touches[0].clientX - startX;
+          posY = e.touches[0].clientY - startY;
+          applyTransform();
+        } else if (e.touches.length === 2 && touchStartDist > 0) {
+          const dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+          const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+          const factor = dist / touchStartDist;
+          const newScale = Math.min(Math.max(touchStartScale * factor, 0.35), 6.0);
+          const rect = viewport.getBoundingClientRect();
+          const focalX = midX - rect.left;
+          const focalY = midY - rect.top;
+          posX = focalX - (focalX - posX) * (newScale / scale);
+          posY = focalY - (focalY - posY) * (newScale / scale);
+          scale = newScale;
+          applyTransform();
+        }
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', function() {
+        isDragging = false;
+        touchStartDist = 0;
+      }, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>

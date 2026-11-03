@@ -119,6 +119,7 @@ export default {
             </div>
           </div>
         </div>
+
         <div class="tool-panel">
           <div class="panel-header" style="flex-wrap: wrap; gap: 8px;">
             <h3>Mockup Previews</h3>

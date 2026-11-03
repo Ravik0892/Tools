@@ -40,6 +40,7 @@ class MockElement {
     if (!this.listeners[evt]) this.listeners[evt] = [];
     this.listeners[evt].push(cb);
   }
+  getBoundingClientRect() { return { top: 0, left: 0, right: 650, bottom: 230, width: 650, height: 230, x: 0, y: 0 }; }
   remove() {
     if (this.parentElement) this.parentElement.removeChild(this);
   }
@@ -97,6 +98,8 @@ class MockDocument {
   addEventListener(evt, cb) {}
 }
 
+global.requestAnimationFrame = (cb) => 1;
+global.cancelAnimationFrame = (id) => {};
 global.document = new MockDocument();
 global.window = {
   document: global.document,
@@ -192,5 +195,5 @@ if (errors.length > 0) {
   errors.forEach(e => console.error(" - " + e));
   process.exit(1);
 } else {
-  console.log("All tools passed runtime import, renderUI, and init checks!");
+  console.log("All tools passed runtime import, renderUI, and init checks!"); process.exit(0);
 }

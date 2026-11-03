@@ -16,6 +16,9 @@ export default {
         <div class="tool-panel">
           <div class="panel-header">
             <h3>Statistics & Readability</h3>
+            <button class="tool-btn accent-emerald" id="analyze-copy-btn">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy Summary
+            </button>
           </div>
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -193,6 +196,19 @@ export default {
     container.querySelector("#analyze-clear")?.addEventListener("click", () => {
       input.value = "";
       input.dispatchEvent(new Event("input"));
+    });
+
+    const copyBtn = container.querySelector("#analyze-copy-btn");
+    copyBtn?.addEventListener("click", () => {
+      const summaryText = `Text Analysis Summary:\nWords: ${statWords.innerText}\nCharacters: ${statChars.innerText}\nSentences: ${statSentences.innerText}\nReading Time: ${statReadtime.innerText}\nFlesch Reading Ease: ${fleschScore.innerText} (${fleschGrade.innerText})`;
+      navigator.clipboard.writeText(summaryText).then(() => {
+        const originalHtml = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+        setTimeout(() => { copyBtn.innerHTML = originalHtml; }, 2000);
+        appInstance.showToast("Analysis summary copied to clipboard!", "success");
+      }).catch(() => {
+        appInstance.showToast("Failed to copy summary", "error");
+      });
     });
 
     // Examples Tab Switching

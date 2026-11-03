@@ -16,6 +16,16 @@ export default {
   activeStream: null, // Screen or Camera MediaStream
   countdownTimer: null,
   countdownSecsLeft: 0,
+  pendingTextPos: null,
+  tesseractLoadingPromise: null,
+  pdfLibLoadingPromise: null,
+  boundPasteHandler: null,
+  boundKeyHandler: null,
+  boundPointerMove: null,
+  boundPointerUp: null,
+  selectedAnnotationIndex: -1,
+  isDraggingAnnotation: false,
+  dragAnnotationStart: null,
 
   // Mockup & Canvas Configuration
   config: {
@@ -27,14 +37,14 @@ export default {
     cornerRadius: 14,
     backdropPadding: 44,
     aspectRatio: "auto", // 'auto' | '16-9' | '1-1' | '4-3' | 'twitter' | 'og' | '9-16'
-    backdropType: "gradient", // 'gradient' | 'solid' | 'transparent'
-    backdropGradient: "hyper-cyan", // 'hyper-cyan' | 'cosmic' | 'sunset' | 'cyberpunk' | 'emerald' | 'aurora' | 'midnight'
+    backdropType: "gradient", // 'gradient' | 'solid' | 'transparent' | 'frosted'
+    backdropGradient: "hyper-cyan", // 'hyper-cyan' | 'cosmic' | 'sunset' | 'cyberpunk' | 'emerald' | 'aurora' | 'midnight' | 'mesh'
     backdropColor: "#0f172a",
     exportScale: 2 // 1x or 2x Retina
   },
 
   // Annotation & Drawing State
-  activeTool: "select", // 'select' | 'crop' | 'blur' | 'highlight' | 'step' | 'arrow' | 'rect' | 'circle' | 'text' | 'loupe' | 'eyedropper'
+  activeTool: "select", // 'select' | 'crop' | 'pen' | 'blur' | 'blackout' | 'text' | 'step' | 'arrow' | 'rect' | 'circle' | 'highlight' | 'loupe' | 'spotlight' | 'eyedropper'
   currentColor: "#00f2fe",
   strokeWidth: 4,
   nextStepNum: 1,
@@ -44,7 +54,8 @@ export default {
   isDrawing: false,
   dragStart: null,
   currentDragRect: null,
-  cropRect: null, // { x, y, w, h } normalized or pixel coords
+  currentPath: null,
+  cropRect: null,
 
   // Audio synthesis helper (ticks & shutter clicks)
   playAudioBeep(freq = 880, duration = 0.08, type = "sine") {
@@ -86,9 +97,9 @@ export default {
                   <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                   <circle cx="12" cy="13" r="4"></circle>
                 </svg>
-                Screenshot Studio
+                Screenshot Studio Pro
               </h3>
-              <p style="font-size: 11px; color: var(--text-muted); margin: 3px 0 0 0;">Capture, frame, annotate, and redact 100% locally.</p>
+              <p style="font-size: 11px; color: var(--text-muted); margin: 3px 0 0 0;">Capture, frame, annotate, redact, and OCR 100% locally.</p>
             </div>
             <div id="sc-status-pill" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: rgba(0, 242, 254, 0.08); color: var(--accent-cyan); border: 1px solid rgba(0, 242, 254, 0.2);">
               <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--accent-cyan);"></span>
@@ -262,10 +273,11 @@ export default {
           <div id="sc-tab-content-backdrop" class="sc-tab-pane" style="display: none; flex-direction: column; gap: 14px;">
             <div class="form-group">
               <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">Backdrop Style</label>
-              <div style="display: flex; gap: 6px;">
-                <button class="tool-btn secondary active sc-bg-type-btn" data-type="gradient" style="flex: 1; font-size: 11px; padding: 6px;">Gradient</button>
-                <button class="tool-btn secondary sc-bg-type-btn" data-type="solid" style="flex: 1; font-size: 11px; padding: 6px;">Solid Color</button>
-                <button class="tool-btn secondary sc-bg-type-btn" data-type="transparent" style="flex: 1; font-size: 11px; padding: 6px;">Transparent</button>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                <button class="tool-btn secondary active sc-bg-type-btn" data-type="gradient" style="font-size: 11px; padding: 6px; justify-content: center;">🌈 Gradient</button>
+                <button class="tool-btn secondary sc-bg-type-btn" data-type="frosted" style="font-size: 11px; padding: 6px; justify-content: center;" title="Luxury blurred ambient wallpaper of your screenshot">🪟 Wallpaper Blur</button>
+                <button class="tool-btn secondary sc-bg-type-btn" data-type="solid" style="font-size: 11px; padding: 6px; justify-content: center;">⬛ Solid Color</button>
+                <button class="tool-btn secondary sc-bg-type-btn" data-type="transparent" style="font-size: 11px; padding: 6px; justify-content: center;">🏁 Transparent</button>
               </div>
             </div>
 
@@ -314,32 +326,44 @@ export default {
               <span style="font-size: 11px; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px;">ACTIVE MARKUP TOOL</span>
               
               <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
-                <button class="tool-btn secondary sc-tool-btn active" data-tool="select" title="Selection / Pan" style="font-size: 11px; padding: 6px; justify-content: center;">
+                <button class="tool-btn secondary sc-tool-btn active" data-tool="select" title="Selection & Move (V)" style="font-size: 11px; padding: 6px; justify-content: center;">
                   👆 Select
                 </button>
-                <button class="tool-btn secondary sc-tool-btn" data-tool="crop" title="Interactive Crop & Trim" style="font-size: 11px; padding: 6px; justify-content: center;">
+                <button class="tool-btn secondary sc-tool-btn" data-tool="crop" title="Interactive Crop & Trim (C)" style="font-size: 11px; padding: 6px; justify-content: center;">
                   ✂️ Crop
                 </button>
-                <button class="tool-btn secondary sc-tool-btn" data-tool="blur" title="Pixelate & Redact Sensitive Passwords/PII" style="font-size: 11px; padding: 6px; justify-content: center;">
-                  ⬛ Redact
+                <button class="tool-btn secondary sc-tool-btn" data-tool="pen" title="Freehand Pen / Scribble (P)" style="font-size: 11px; padding: 6px; justify-content: center;">
+                  ✏️ Freehand
                 </button>
-                <button class="tool-btn secondary sc-tool-btn" data-tool="step" title="Numbered Step Callouts (1, 2, 3...)" style="font-size: 11px; padding: 6px; justify-content: center;">
+                <button class="tool-btn secondary sc-tool-btn" data-tool="blur" title="Pixelate & Blur Sensitive Data (R)" style="font-size: 11px; padding: 6px; justify-content: center;">
+                  ⬛ Pixelate
+                </button>
+                <button class="tool-btn secondary sc-tool-btn" data-tool="blackout" title="Solid Opaque Blackout Privacy Bar (K)" style="font-size: 11px; padding: 6px; justify-content: center;">
+                  🛡️ Blackout
+                </button>
+                <button class="tool-btn secondary sc-tool-btn" data-tool="text" title="Text Callout Label (T)" style="font-size: 11px; padding: 6px; justify-content: center;">
+                  💬 Text
+                </button>
+                <button class="tool-btn secondary sc-tool-btn" data-tool="step" title="Numbered Step Callouts 1, 2, 3... (S)" style="font-size: 11px; padding: 6px; justify-content: center;">
                   🎯 Step Badge
                 </button>
-                <button class="tool-btn secondary sc-tool-btn" data-tool="arrow" title="Directional Target Arrow" style="font-size: 11px; padding: 6px; justify-content: center;">
+                <button class="tool-btn secondary sc-tool-btn" data-tool="arrow" title="Directional Target Arrow (A)" style="font-size: 11px; padding: 6px; justify-content: center;">
                   ➡️ Arrow
                 </button>
-                <button class="tool-btn secondary sc-tool-btn" data-tool="rect" title="Bounding Box" style="font-size: 11px; padding: 6px; justify-content: center;">
+                <button class="tool-btn secondary sc-tool-btn" data-tool="rect" title="Bounding Box (B)" style="font-size: 11px; padding: 6px; justify-content: center;">
                   🔲 Box
                 </button>
-                <button class="tool-btn secondary sc-tool-btn" data-tool="highlight" title="Semi-Transparent Highlighter" style="font-size: 11px; padding: 6px; justify-content: center;">
+                <button class="tool-btn secondary sc-tool-btn" data-tool="highlight" title="Semi-Transparent Highlighter (H)" style="font-size: 11px; padding: 6px; justify-content: center;">
                   🖍️ Highlight
                 </button>
-                <button class="tool-btn secondary sc-tool-btn" data-tool="circle" title="Focus Circle" style="font-size: 11px; padding: 6px; justify-content: center;">
+                <button class="tool-btn secondary sc-tool-btn" data-tool="circle" title="Focus Circle (O)" style="font-size: 11px; padding: 6px; justify-content: center;">
                   ⭕ Circle
                 </button>
-                <button class="tool-btn secondary sc-tool-btn" data-tool="loupe" title="2x Zoom Magnifier Loupe" style="font-size: 11px; padding: 6px; justify-content: center;">
+                <button class="tool-btn secondary sc-tool-btn" data-tool="loupe" title="2x Zoom Magnifier Loupe (L)" style="font-size: 11px; padding: 6px; justify-content: center;">
                   🔎 2x Loupe
+                </button>
+                <button class="tool-btn secondary sc-tool-btn" data-tool="spotlight" title="Focus Spotlight Dimmer" style="font-size: 11px; padding: 6px; justify-content: center;">
+                  💡 Spotlight
                 </button>
               </div>
             </div>
@@ -362,7 +386,7 @@ export default {
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <div class="form-group">
                 <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">Stroke: <span id="sc-val-stroke">4</span>px</label>
-                <input type="range" id="sc-stroke-slider" min="1" max="12" value="4" style="width: 100%; accent-color: var(--accent-cyan);">
+                <input type="range" id="sc-stroke-slider" min="1" max="16" value="4" style="width: 100%; accent-color: var(--accent-cyan);">
               </div>
               <div class="form-group">
                 <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">Next Step Badge</label>
@@ -401,7 +425,7 @@ export default {
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                Copy to Clipboard
+                Copy to Clipboard (Ctrl+C)
               </button>
 
               <button id="sc-btn-download" class="tool-btn accent-emerald" style="flex: 1.5; justify-content: center; padding: 11px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
@@ -410,7 +434,7 @@ export default {
                   <polyline points="7 10 12 15 17 10"></polyline>
                   <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
-                Save Image
+                Save Image (Ctrl+S)
               </button>
             </div>
 
@@ -422,14 +446,14 @@ export default {
                   <option value="png" selected>PNG (Lossless)</option>
                   <option value="webp">WebP (Compact)</option>
                   <option value="jpeg">JPEG (Photo)</option>
-                  <option value="pdf">PDF Document</option>
+                  <option value="pdf">PDF Document (Genuine)</option>
                 </select>
               </div>
 
               <div style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted);">
                 Resolution:
-                <button id="sc-scale-1x" class="tool-btn secondary active" style="padding: 2px 8px; font-size: 10px;">1x</button>
-                <button id="sc-scale-2x" class="tool-btn secondary" style="padding: 2px 8px; font-size: 10px;" title="Retina 4K Ultra Sharp">2x Ultra</button>
+                <button id="sc-scale-1x" class="tool-btn secondary" style="padding: 2px 8px; font-size: 10px;">1x</button>
+                <button id="sc-scale-2x" class="tool-btn secondary active" style="padding: 2px 8px; font-size: 10px;" title="Retina 4K Ultra Sharp">2x Ultra</button>
               </div>
             </div>
           </div>
@@ -439,17 +463,21 @@ export default {
         <div class="tool-panel sc-viewport-panel" style="display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 520px;">
           
           <!-- Viewport Header Toolbar -->
-          <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px;">
+          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <span style="font-size: 13px; font-weight: 700; color: var(--text-main);">Live Studio Canvas</span>
               <span id="sc-canvas-res-label" style="font-size: 11px; font-family: monospace; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">1920 × 1080</span>
             </div>
 
             <!-- Quick Tool Toggles on Top of Canvas -->
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <button id="sc-quick-crop-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Crop screenshot">✂️ Crop</button>
-              <button id="sc-quick-redact-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Redact passwords / sensitive data">⬛ Redact</button>
-              <button id="sc-quick-eyedropper-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Sample color from screenshot">💉 Color Picker</button>
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              <button id="sc-quick-ocr-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px; font-weight: 700; color: var(--accent-cyan); border-color: rgba(0,242,254,0.3);" title="Extract text via client-side OCR">📋 Extract Text (OCR)</button>
+              <button id="sc-quick-crop-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Crop screenshot (C)">✂️ Crop</button>
+              <button id="sc-quick-redact-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Redact passwords / sensitive data (R)">⬛ Redact</button>
+              <button id="sc-quick-rotate-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Rotate 90° Clockwise">↻ Rotate</button>
+              <button id="sc-quick-flip-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Flip Horizontal">⇄ Flip</button>
+              <button id="sc-quick-watermark-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Add Timestamp & Watermark Stamp">🏷️ Stamp</button>
+              <button id="sc-quick-eyedropper-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Sample color from screenshot">💉 Eyedropper</button>
               <button id="sc-reset-canvas-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Reset view">🔄 Reset</button>
             </div>
           </div>
@@ -459,13 +487,13 @@ export default {
             
             <!-- Master Canvas Container -->
             <div id="sc-canvas-wrapper" style="display: inline-block; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); border-radius: 8px; transition: transform 0.2s ease;">
-              <canvas id="sc-master-canvas" style="display: block; max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 8px;"></canvas>
+              <canvas id="sc-master-canvas" style="display: block; max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 8px; touch-action: none;"></canvas>
             </div>
 
             <!-- Floating Countdown Overlay -->
             <div id="sc-countdown-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 50; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
               <div style="font-size: 72px; font-weight: 900; font-family: monospace; color: var(--accent-cyan); text-shadow: 0 0 30px rgba(0, 242, 254, 0.6); animation: pulse 1s infinite;" id="sc-countdown-number">3</div>
-              <p style="font-size: 14px; font-weight: 600; color: #fff; margin: 0; text-align: center;">Switch to your target tab or window now!<br><span style="font-size: 12px; color: var(--text-muted);">Capturing in seconds...</span></p>
+              <p style="font-size: 14px; font-weight: 600; color: #fff; margin: 0; text-align: center;">Switch to your target tab or window now!<br><span style="font-size: 12px; color: var(--text-muted);">Capturing screen in seconds...</span></p>
               <button id="sc-btn-cancel-countdown" class="tool-btn secondary" style="font-size: 12px; padding: 6px 16px;">Cancel Snip</button>
             </div>
 
@@ -480,6 +508,77 @@ export default {
                   <button id="sc-btn-close-webcam" class="tool-btn secondary" style="padding: 10px 16px; font-size: 13px;">
                     Close
                   </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Text Callout Dialog Overlay -->
+            <div id="sc-text-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(6px); z-index: 55; align-items: center; justify-content: center; padding: 20px;">
+              <div style="max-width: 440px; width: 100%; background: #0f172a; border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 18px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <h4 style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;">
+                    <span>💬</span> Add Text Callout
+                  </h4>
+                  <button id="sc-text-btn-close" class="tool-btn secondary" style="padding: 2px 8px; font-size: 11px;">✕</button>
+                </div>
+                
+                <input type="text" id="sc-text-input" class="tool-input" placeholder="Type annotation label (e.g., Click here, Bug #104)..." style="width: 100%; padding: 8px 12px; font-size: 13px;">
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                  <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted);">
+                    Font Size
+                    <select id="sc-text-size-select" class="tool-input" style="padding: 6px 8px; font-size: 12px;">
+                      <option value="14">Small (14px)</option>
+                      <option value="18" selected>Medium (18px)</option>
+                      <option value="24">Large (24px)</option>
+                      <option value="32">Huge (32px)</option>
+                    </select>
+                  </label>
+
+                  <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted);">
+                    Callout Style
+                    <select id="sc-text-style-select" class="tool-input" style="padding: 6px 8px; font-size: 12px;">
+                      <option value="badge" selected>Translucent Badge Pill</option>
+                      <option value="plain">Direct Text with Halo</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px;">
+                  <button id="sc-text-btn-cancel" class="tool-btn secondary" style="font-size: 12px; padding: 6px 14px;">Cancel</button>
+                  <button id="sc-text-btn-submit" class="tool-btn primary" style="font-size: 12px; padding: 6px 18px; font-weight: 700;">Place Callout</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- OCR Text Extraction Results Overlay -->
+            <div id="sc-ocr-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 55; align-items: center; justify-content: center; padding: 20px;">
+              <div style="max-width: 620px; width: 100%; max-height: 80vh; background: #0b0f19; border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 18px;">📋</span>
+                    <div>
+                      <h4 style="margin: 0; font-size: 14px; font-weight: 700; color: #fff;">Extracted Screenshot Text (Client-Side OCR)</h4>
+                      <span id="sc-ocr-meta" style="font-size: 11px; color: var(--text-muted);">100% offline text recognition with redaction privacy shield</span>
+                    </div>
+                  </div>
+                  <button id="sc-ocr-btn-close" class="tool-btn secondary" style="padding: 2px 8px; font-size: 11px;">✕</button>
+                </div>
+
+                <textarea id="sc-ocr-result-text" class="tool-input" rows="10" style="width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.5; padding: 12px; resize: vertical;" placeholder="Recognized text will appear here..."></textarea>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 11px; color: #10b981; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Processed locally in browser
+                  </span>
+                  <div style="display: flex; gap: 8px;">
+                    <button id="sc-ocr-btn-copy" class="tool-btn primary" style="font-size: 12px; padding: 7px 18px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                      Copy Extracted Text
+                    </button>
+                    <button id="sc-ocr-btn-done" class="tool-btn secondary" style="font-size: 12px; padding: 7px 14px;">Done</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -502,7 +601,7 @@ export default {
           <div class="tool-guide-header">
             <div class="tool-guide-title">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              <span>Screenshot Studio Guide & Pro Capabilities</span>
+              <span>Screenshot Studio Pro Guide & Keyboard Shortcuts</span>
             </div>
             <button class="tool-btn secondary" id="sc-guide-load-demo" style="font-size: 11px;">Load Sample Mockup</button>
           </div>
@@ -513,15 +612,15 @@ export default {
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Wrap with SaaS Mockup</strong>: Choose macOS Glass, Windows 11 Acrylic, or Cyberpunk Terminal. Customize the address bar URL, page title, and gradient backdrop.</div>
+              <div class="tool-guide-step-text"><strong>Wrap with SaaS Mockup</strong>: Choose macOS Glass, Windows 11 Mica, Cyberpunk Terminal, or Mobile Phone. Select luxury "Wallpaper Blur" for ambient frosted backdrops.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Redact & Annotate</strong>: Drag the Redact tool over confidential passwords or tokens to pixelate them locally. Place numbered step badges (1, 2, 3...) or arrows for bug reports.</div>
+              <div class="tool-guide-step-text"><strong>Redact, Annotate & OCR</strong>: Use Pixelate or Blackout to mask tokens. Place text callouts, numbered step badges, freehand scribbles, or extract text with privacy-shielded OCR.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">4</div>
-              <div class="tool-guide-step-text"><strong>Instant 1-Click Share</strong>: Click "Copy to Clipboard" to paste your screenshot directly into Slack, Discord, Jira, Notion, or GitHub issues without saving files.</div>
+              <div class="tool-guide-step-text"><strong>Shortcuts & 2x Export</strong>: Press <kbd>Ctrl+C</kbd> to copy, <kbd>Ctrl+S</kbd> to save, <kbd>Ctrl+Z</kbd> to undo. Toggle 2x Ultra Retina for ultra-sharp 4K exports or genuine PDF documents.</div>
             </div>
           </div>
         </div>
@@ -530,6 +629,8 @@ export default {
   },
 
   init(container, appInstance) {
+    this.cleanup();
+
     this.container = container;
     this.app = appInstance;
     this.masterCanvas = container.querySelector("#sc-master-canvas");
@@ -541,6 +642,9 @@ export default {
     this.redoStack = [];
     this.nextStepNum = 1;
     this.activeTool = "select";
+    this.selectedAnnotationIndex = -1;
+    this.isDraggingAnnotation = false;
+    this.dragAnnotationStart = null;
 
     // Setup Event Listeners
     this.setupTabNavigation();
@@ -550,10 +654,16 @@ export default {
     this.setupAnnotationEvents();
     this.setupCanvasInteractions();
     this.setupExportActions();
+    this.setupTextOverlayEvents();
+    this.setupOcrEvents();
 
     // Global Clipboard Paste Listener
     this.boundPasteHandler = this.handleGlobalPaste.bind(this);
     window.addEventListener("paste", this.boundPasteHandler);
+
+    // Global Keyboard Shortcuts
+    this.boundKeyHandler = this.handleKeyboardShortcuts.bind(this);
+    window.addEventListener("keydown", this.boundKeyHandler);
 
     // Drag and Drop files onto container
     this.setupDragAndDrop();
@@ -584,11 +694,7 @@ export default {
     const captureBtn = this.container.querySelector("#sc-btn-capture-display");
     captureBtn?.addEventListener("click", () => {
       const delay = parseInt(this.container.querySelector("#sc-delay-select")?.value || "0", 10);
-      if (delay > 0) {
-        this.startCountdownCapture(delay);
-      } else {
-        this.performScreenCapture();
-      }
+      this.performScreenCapture(delay);
     });
 
     // Countdown Cancel Button
@@ -599,13 +705,15 @@ export default {
     // 2. Clipboard Paste Button
     this.container.querySelector("#sc-btn-clipboard-paste")?.addEventListener("click", async () => {
       try {
-        const clipboardItems = await navigator.clipboard.read();
-        for (const item of clipboardItems) {
-          for (const type of item.types) {
-            if (type.startsWith("image/")) {
-              const blob = await item.getType(type);
-              this.loadImageFromBlob(blob, "Clipboard Image");
-              return;
+        if (navigator.clipboard?.read) {
+          const clipboardItems = await navigator.clipboard.read();
+          for (const item of clipboardItems) {
+            for (const type of item.types) {
+              if (type.startsWith("image/")) {
+                const blob = await item.getType(type);
+                this.loadImageFromBlob(blob, "Clipboard Image");
+                return;
+              }
             }
           }
         }
@@ -651,11 +759,14 @@ export default {
     });
   },
 
-  startCountdownCapture(seconds) {
+  startCountdownStreamCapture(video, mediaStream, seconds) {
     this.countdownSecsLeft = seconds;
     const overlay = this.container.querySelector("#sc-countdown-overlay");
     const numDisplay = this.container.querySelector("#sc-countdown-number");
-    if (!overlay || !numDisplay) return;
+    if (!overlay || !numDisplay) {
+      this.captureFrameFromVideo(video, mediaStream);
+      return;
+    }
 
     overlay.style.display = "flex";
     numDisplay.textContent = seconds;
@@ -669,23 +780,35 @@ export default {
         this.playAudioBeep(660, 0.08);
       } else {
         clearInterval(this.countdownTimer);
+        this.countdownTimer = null;
         overlay.style.display = "none";
         this.playAudioBeep(1100, 0.15);
-        this.performScreenCapture();
+        this.captureFrameFromVideo(video, mediaStream);
       }
     }, 1000);
   },
 
   cancelCountdown() {
     clearInterval(this.countdownTimer);
+    this.countdownTimer = null;
     const overlay = this.container.querySelector("#sc-countdown-overlay");
     if (overlay) overlay.style.display = "none";
+    if (this.activeStream) {
+      this.activeStream.getTracks().forEach(t => t.stop());
+      this.activeStream = null;
+    }
+    this.updateStatusPill("Ready", "#00f2fe");
     this.app?.showToast("Capture countdown cancelled.", "info");
   },
 
-  async performScreenCapture() {
+  async performScreenCapture(delay = 0) {
+    if (!navigator.mediaDevices?.getDisplayMedia) {
+      this.app?.showToast("Screen capture is not supported on this browser/device. Please use file upload or paste (Ctrl+V).", "error");
+      return;
+    }
+
     try {
-      this.updateStatusPill("Capturing...", "#f59e0b");
+      this.updateStatusPill(delay > 0 ? "Armed (Select Screen)..." : "Capturing...", "#f59e0b");
       const resTarget = this.container.querySelector("#sc-res-select")?.value || "native";
 
       const constraints = {
@@ -704,6 +827,7 @@ export default {
         constraints.video.height = { ideal: 1080 };
       }
 
+      // Invoke directly within user activation click
       const mediaStream = await navigator.mediaDevices.getDisplayMedia(constraints);
       this.activeStream = mediaStream;
 
@@ -712,39 +836,59 @@ export default {
       video.autoplay = true;
       video.playsInline = true;
 
-      video.onloadedmetadata = () => {
-        // Small delay to ensure the OS graphics pipeline draws cleanly
-        setTimeout(() => {
-          const offCanvas = document.createElement("canvas");
-          offCanvas.width = video.videoWidth || 1920;
-          offCanvas.height = video.videoHeight || 1080;
-          const offCtx = offCanvas.getContext("2d");
-          offCtx.drawImage(video, 0, 0, offCanvas.width, offCanvas.height);
+      mediaStream.getVideoTracks()[0]?.addEventListener("ended", () => {
+        if (this.countdownTimer) this.cancelCountdown();
+      });
 
-          const img = new Image();
-          img.onload = () => {
-            this.setSourceImage(img);
-            this.playShutterSound();
-            this.app?.showToast("Screenshot captured successfully!", "success");
-            this.updateStatusPill("Captured", "#10b981");
-          };
-          img.src = offCanvas.toDataURL("image/png");
-
-          // Shut down active tracks immediately to close browser share bar
-          mediaStream.getTracks().forEach(t => t.stop());
-          this.activeStream = null;
-        }, 300);
-      };
+      if (delay > 0) {
+        this.startCountdownStreamCapture(video, mediaStream, delay);
+      } else {
+        this.captureFrameFromVideo(video, mediaStream);
+      }
     } catch (err) {
-      this.updateStatusPill("Ready", "var(--accent-cyan)");
-      if (err.name !== "NotAllowedError") {
+      this.updateStatusPill("Ready", "#00f2fe");
+      if (err.name === "NotAllowedError") {
+        this.app?.showToast("Screen capture cancelled.", "info");
+      } else {
         console.error("Screen capture error:", err);
         this.app?.showToast("Could not access screen capture: " + err.message, "error");
       }
     }
   },
 
+  captureFrameFromVideo(video, mediaStream) {
+    const doSnap = () => {
+      const offCanvas = document.createElement("canvas");
+      offCanvas.width = video.videoWidth || 1920;
+      offCanvas.height = video.videoHeight || 1080;
+      const offCtx = offCanvas.getContext("2d");
+      offCtx.drawImage(video, 0, 0, offCanvas.width, offCanvas.height);
+
+      const img = new Image();
+      img.onload = () => {
+        this.setSourceImage(img);
+        this.playShutterSound();
+        this.app?.showToast("Screenshot captured successfully!", "success");
+        this.updateStatusPill("Captured", "#10b981");
+      };
+      img.src = offCanvas.toDataURL("image/png");
+
+      mediaStream.getTracks().forEach(t => t.stop());
+      this.activeStream = null;
+    };
+
+    if (video.readyState >= 2) {
+      setTimeout(doSnap, 120);
+    } else {
+      video.onloadedmetadata = () => setTimeout(doSnap, 250);
+    }
+  },
+
   async openWebcamViewfinder() {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      this.app?.showToast("Webcam is not supported or accessible on this device.", "error");
+      return;
+    }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } });
       this.activeStream = stream;
@@ -777,7 +921,6 @@ export default {
     snapCanvas.height = videoEl.videoHeight;
     const sCtx = snapCanvas.getContext("2d");
     
-    // Mirror horizontally for natural webcam feel
     sCtx.translate(snapCanvas.width, 0);
     sCtx.scale(-1, 1);
     sCtx.drawImage(videoEl, 0, 0);
@@ -807,6 +950,91 @@ export default {
           return;
         }
       }
+    }
+  },
+
+  handleKeyboardShortcuts(e) {
+    if (!this.container || !this.container.isConnected) return;
+
+    const activeEl = document.activeElement;
+    const isInput = activeEl && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.isContentEditable);
+    if (isInput) return;
+
+    const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+    const cmdOrCtrl = isMac ? e.metaKey : e.ctrlKey;
+
+    if (cmdOrCtrl && e.key.toLowerCase() === "z") {
+      e.preventDefault();
+      if (e.shiftKey) {
+        this.redo();
+      } else {
+        this.undo();
+      }
+      return;
+    }
+
+    if (cmdOrCtrl && e.key.toLowerCase() === "y") {
+      e.preventDefault();
+      this.redo();
+      return;
+    }
+
+    if (cmdOrCtrl && e.key.toLowerCase() === "c") {
+      e.preventDefault();
+      this.copyCanvasToClipboard();
+      return;
+    }
+
+    if (cmdOrCtrl && e.key.toLowerCase() === "s") {
+      e.preventDefault();
+      this.downloadExportImage();
+      return;
+    }
+
+    if (e.key === "Escape") {
+      this.selectedAnnotationIndex = -1;
+      this.switchToMarkupTool("select");
+      this.renderMaster();
+      return;
+    }
+
+    if (e.key === "Delete" || e.key === "Backspace") {
+      if (this.selectedAnnotationIndex >= 0 && this.selectedAnnotationIndex < this.annotations.length) {
+        e.preventDefault();
+        this.pushUndoState();
+        this.annotations.splice(this.selectedAnnotationIndex, 1);
+        this.selectedAnnotationIndex = -1;
+        this.renderMaster();
+        this.app?.showToast("Deleted selected annotation", "info");
+        return;
+      }
+      if (this.annotations.length > 0) {
+        e.preventDefault();
+        this.undo();
+      }
+      return;
+    }
+
+    const toolMap = {
+      v: "select",
+      c: "crop",
+      p: "pen",
+      r: "blur",
+      k: "blackout",
+      t: "text",
+      s: "step",
+      a: "arrow",
+      b: "rect",
+      h: "highlight",
+      o: "circle",
+      l: "loupe"
+    };
+
+    const key = e.key.toLowerCase();
+    if (toolMap[key] && !cmdOrCtrl && !e.altKey) {
+      e.preventDefault();
+      this.switchToMarkupTool(toolMap[key]);
+      this.app?.showToast(`Markup Tool: ${toolMap[key].toUpperCase()}`, "info");
     }
   },
 
@@ -845,7 +1073,7 @@ export default {
       const img = new Image();
       img.onload = () => {
         this.setSourceImage(img);
-        this.updateStatusPill("Ready", "var(--accent-cyan)");
+        this.updateStatusPill("Ready", "#00f2fe");
       };
       img.src = e.target.result;
     };
@@ -858,6 +1086,7 @@ export default {
     this.undoStack = [];
     this.redoStack = [];
     this.nextStepNum = 1;
+    this.selectedAnnotationIndex = -1;
     this.cropRect = null;
     this.renderMaster();
   },
@@ -907,7 +1136,7 @@ export default {
   },
 
   setupBackdropEvents() {
-    // Backdrop Type (Gradient / Solid / Transparent)
+    // Backdrop Type (Gradient / Solid / Transparent / Frosted)
     const typeBtns = this.container.querySelectorAll(".sc-bg-type-btn");
     typeBtns.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -966,6 +1195,10 @@ export default {
         toolBtns.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         this.activeTool = btn.getAttribute("data-tool");
+        if (this.activeTool !== "select") {
+          this.selectedAnnotationIndex = -1;
+          this.renderMaster();
+        }
       });
     });
 
@@ -976,12 +1209,17 @@ export default {
         colorChips.forEach(c => c.style.borderColor = "transparent");
         chip.style.borderColor = "#fff";
         this.currentColor = chip.getAttribute("data-color");
+        const customColor = this.container.querySelector("#sc-custom-color");
+        if (customColor) customColor.value = this.currentColor;
       });
     });
 
     // Custom Color picker
     this.container.querySelector("#sc-custom-color")?.addEventListener("input", (e) => {
       this.currentColor = e.target.value;
+      colorChips.forEach(c => {
+        c.style.borderColor = (c.getAttribute("data-color").toLowerCase() === this.currentColor.toLowerCase()) ? "#fff" : "transparent";
+      });
     });
 
     // Stroke slider
@@ -1004,6 +1242,7 @@ export default {
       if (this.annotations.length > 0) {
         this.pushUndoState();
         this.annotations = [];
+        this.selectedAnnotationIndex = -1;
         this.cropRect = null;
         this.renderMaster();
         this.app?.showToast("Cleared markup annotations", "info");
@@ -1016,6 +1255,15 @@ export default {
     });
     this.container.querySelector("#sc-quick-redact-btn")?.addEventListener("click", () => {
       this.switchToMarkupTool("blur");
+    });
+    this.container.querySelector("#sc-quick-rotate-btn")?.addEventListener("click", () => {
+      this.rotateImage(90);
+    });
+    this.container.querySelector("#sc-quick-flip-btn")?.addEventListener("click", () => {
+      this.flipImageHorizontal();
+    });
+    this.container.querySelector("#sc-quick-watermark-btn")?.addEventListener("click", () => {
+      this.addWatermarkStamp();
     });
     this.container.querySelector("#sc-quick-eyedropper-btn")?.addEventListener("click", () => {
       this.activeTool = "eyedropper";
@@ -1035,16 +1283,254 @@ export default {
     btn?.click();
   },
 
-  pushUndoState() {
-    this.undoStack.push(JSON.parse(JSON.stringify(this.annotations)));
+  setupTextOverlayEvents() {
+    const overlay = this.container.querySelector("#sc-text-overlay");
+    const input = this.container.querySelector("#sc-text-input");
+    const submitBtn = this.container.querySelector("#sc-text-btn-submit");
+    const closeBtn = this.container.querySelector("#sc-text-btn-close");
+    const cancelBtn = this.container.querySelector("#sc-text-btn-cancel");
+
+    const closeDialog = () => {
+      if (overlay) overlay.style.display = "none";
+      this.pendingTextPos = null;
+    };
+
+    const submitText = () => {
+      const textVal = input?.value?.trim();
+      if (textVal && this.pendingTextPos) {
+        const sizeVal = parseInt(this.container.querySelector("#sc-text-size-select")?.value || "18", 10);
+        const styleVal = this.container.querySelector("#sc-text-style-select")?.value || "badge";
+        
+        this.pushUndoState();
+        this.annotations.push({
+          type: "text",
+          x: this.pendingTextPos.x,
+          y: this.pendingTextPos.y,
+          text: textVal,
+          fontSize: sizeVal,
+          badge: styleVal === "badge",
+          color: this.currentColor
+        });
+        this.renderMaster();
+        this.playAudioBeep(880, 0.05);
+        this.app?.showToast("Added text callout", "success");
+      }
+      closeDialog();
+    };
+
+    submitBtn?.addEventListener("click", submitText);
+    input?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        submitText();
+      } else if (e.key === "Escape") {
+        closeDialog();
+      }
+    });
+
+    closeBtn?.addEventListener("click", closeDialog);
+    cancelBtn?.addEventListener("click", closeDialog);
+  },
+
+  openTextDialog(pos) {
+    const overlay = this.container.querySelector("#sc-text-overlay");
+    const input = this.container.querySelector("#sc-text-input");
+    if (!overlay || !input) {
+      const userText = prompt("Enter callout label for screenshot:");
+      if (userText && userText.trim()) {
+        this.pushUndoState();
+        this.annotations.push({
+          type: "text",
+          x: pos.x,
+          y: pos.y,
+          text: userText.trim(),
+          fontSize: 18,
+          badge: true,
+          color: this.currentColor
+        });
+        this.renderMaster();
+      }
+      return;
+    }
+
+    this.pendingTextPos = pos;
+    overlay.style.display = "flex";
+    input.value = "";
+    setTimeout(() => input.focus(), 60);
+  },
+
+  setupOcrEvents() {
+    this.container.querySelector("#sc-quick-ocr-btn")?.addEventListener("click", () => {
+      this.runOcr();
+    });
+
+    const overlay = this.container.querySelector("#sc-ocr-overlay");
+    const closeBtn = this.container.querySelector("#sc-ocr-btn-close");
+    const doneBtn = this.container.querySelector("#sc-ocr-btn-done");
+    const copyBtn = this.container.querySelector("#sc-ocr-btn-copy");
+    const textarea = this.container.querySelector("#sc-ocr-result-text");
+
+    const closeOcr = () => {
+      if (overlay) overlay.style.display = "none";
+    };
+
+    closeBtn?.addEventListener("click", closeOcr);
+    doneBtn?.addEventListener("click", closeOcr);
+
+    copyBtn?.addEventListener("click", () => {
+      if (textarea && textarea.value) {
+        navigator.clipboard.writeText(textarea.value).then(() => {
+          this.app?.showToast("Copied extracted text to clipboard!", "success");
+        }).catch(() => {
+          textarea.select();
+          document.execCommand("copy");
+          this.app?.showToast("Copied text!", "success");
+        });
+      }
+    });
+  },
+
+  loadTesseract() {
+    if (this.tesseractLoadingPromise) return this.tesseractLoadingPromise;
+    this.tesseractLoadingPromise = new Promise((resolve, reject) => {
+      if (window.Tesseract) {
+        resolve(window.Tesseract);
+        return;
+      }
+      this.updateStatusPill("Loading OCR...", "#f59e0b");
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5.0.5/dist/tesseract.min.js";
+      script.onload = () => resolve(window.Tesseract);
+      script.onerror = () => {
+        this.tesseractLoadingPromise = null;
+        reject(new Error("Failed to load OCR engine. Please check your internet connection."));
+      };
+      document.head.appendChild(script);
+    });
+    return this.tesseractLoadingPromise;
+  },
+
+  async runOcr() {
+    if (!this.sourceImage) {
+      this.app?.showToast("Please capture or upload a screenshot first.", "info");
+      return;
+    }
+
+    try {
+      this.updateStatusPill("Loading OCR Engine...", "#f59e0b");
+      const Tesseract = await this.loadTesseract();
+      this.updateStatusPill("Extracting Text...", "#f59e0b");
+
+      const ocrCanvas = document.createElement("canvas");
+      ocrCanvas.width = this.sourceImage.naturalWidth;
+      ocrCanvas.height = this.sourceImage.naturalHeight;
+      const oCtx = ocrCanvas.getContext("2d");
+      oCtx.drawImage(this.sourceImage, 0, 0);
+
+      // Burn active redactions onto OCR canvas to protect user privacy
+      const innerBounds = this.computeInnerImageBounds();
+      if (innerBounds && this.annotations.length > 0) {
+        this.annotations.forEach(ann => {
+          if (ann.type === "blackout" || ann.type === "blur") {
+            const rx = Math.max(0, ((ann.x - innerBounds.x) / innerBounds.w) * this.sourceImage.naturalWidth);
+            const ry = Math.max(0, ((ann.y - innerBounds.y) / innerBounds.h) * this.sourceImage.naturalHeight);
+            const rw = (ann.w / innerBounds.w) * this.sourceImage.naturalWidth;
+            const rh = (ann.h / innerBounds.h) * this.sourceImage.naturalHeight;
+
+            oCtx.fillStyle = "#000000";
+            oCtx.fillRect(rx, ry, rw, rh);
+          }
+        });
+      }
+
+      const result = await Tesseract.recognize(ocrCanvas, "eng", {
+        logger: (m) => {
+          if (m.status === "recognizing text") {
+            const pct = Math.round((m.progress || 0) * 100);
+            this.updateStatusPill(`OCR: ${pct}%`, "#f59e0b");
+          }
+        }
+      });
+
+      const extractedText = (result?.data?.text || "").trim();
+      this.updateStatusPill("Ready", "#00f2fe");
+
+      if (!extractedText) {
+        this.app?.showToast("No readable text detected in this screenshot.", "info");
+        return;
+      }
+
+      const overlay = this.container.querySelector("#sc-ocr-overlay");
+      const textarea = this.container.querySelector("#sc-ocr-result-text");
+      const meta = this.container.querySelector("#sc-ocr-meta");
+      if (overlay && textarea) {
+        textarea.value = extractedText;
+        if (meta) {
+          const words = extractedText.split(/\s+/).filter(Boolean).length;
+          meta.textContent = `${extractedText.length} characters • ${words} words • Client-Side OCR`;
+        }
+        overlay.style.display = "flex";
+      }
+      this.app?.showToast("Text extracted successfully!", "success");
+    } catch (err) {
+      console.error("OCR error:", err);
+      this.updateStatusPill("Ready", "#00f2fe");
+      this.app?.showToast("OCR Error: " + err.message, "error");
+    }
+  },
+
+  pushUndoState(customEntry) {
+    if (customEntry) {
+      this.undoStack.push({
+        ...customEntry,
+        nextStepNum: customEntry.nextStepNum ?? this.nextStepNum
+      });
+    } else {
+      this.undoStack.push({
+        isCropAction: false,
+        annotations: JSON.parse(JSON.stringify(this.annotations)),
+        nextStepNum: this.nextStepNum
+      });
+    }
     this.redoStack = [];
     if (this.undoStack.length > 30) this.undoStack.shift();
   },
 
   undo() {
     if (this.undoStack.length > 0) {
-      this.redoStack.push(JSON.parse(JSON.stringify(this.annotations)));
-      this.annotations = this.undoStack.pop();
+      const state = this.undoStack.pop();
+      if (state.isCropAction) {
+        this.redoStack.push({
+          isCropAction: true,
+          previousImage: this.sourceImage,
+          previousAnnotations: JSON.parse(JSON.stringify(this.annotations)),
+          nextStepNum: this.nextStepNum
+        });
+        this.sourceImage = state.previousImage;
+        this.annotations = state.previousAnnotations || [];
+        if (state.nextStepNum !== undefined) {
+          this.nextStepNum = state.nextStepNum;
+          const counterInput = this.container?.querySelector("#sc-step-counter");
+          if (counterInput) counterInput.value = this.nextStepNum;
+        }
+        this.selectedAnnotationIndex = -1;
+        this.renderMaster();
+        this.app?.showToast("Undone screenshot transform", "info");
+        return;
+      }
+
+      this.redoStack.push({
+        isCropAction: false,
+        annotations: JSON.parse(JSON.stringify(this.annotations)),
+        nextStepNum: this.nextStepNum
+      });
+      this.annotations = state.annotations || [];
+      if (state.nextStepNum !== undefined) {
+        this.nextStepNum = state.nextStepNum;
+        const counterInput = this.container?.querySelector("#sc-step-counter");
+        if (counterInput) counterInput.value = this.nextStepNum;
+      }
+      this.selectedAnnotationIndex = -1;
       this.renderMaster();
       this.app?.showToast("Undone last annotation", "info");
     }
@@ -1052,10 +1538,94 @@ export default {
 
   redo() {
     if (this.redoStack.length > 0) {
-      this.undoStack.push(JSON.parse(JSON.stringify(this.annotations)));
-      this.annotations = this.redoStack.pop();
+      const state = this.redoStack.pop();
+      if (state.isCropAction) {
+        this.undoStack.push({
+          isCropAction: true,
+          previousImage: this.sourceImage,
+          previousAnnotations: JSON.parse(JSON.stringify(this.annotations)),
+          nextStepNum: this.nextStepNum
+        });
+        this.sourceImage = state.previousImage;
+        this.annotations = state.previousAnnotations || [];
+        if (state.nextStepNum !== undefined) {
+          this.nextStepNum = state.nextStepNum;
+          const counterInput = this.container?.querySelector("#sc-step-counter");
+          if (counterInput) counterInput.value = this.nextStepNum;
+        }
+        this.selectedAnnotationIndex = -1;
+        this.renderMaster();
+        this.app?.showToast("Redone screenshot transform", "info");
+        return;
+      }
+
+      this.undoStack.push({
+        isCropAction: false,
+        annotations: JSON.parse(JSON.stringify(this.annotations)),
+        nextStepNum: this.nextStepNum
+      });
+      this.annotations = state.annotations || [];
+      if (state.nextStepNum !== undefined) {
+        this.nextStepNum = state.nextStepNum;
+        const counterInput = this.container?.querySelector("#sc-step-counter");
+        if (counterInput) counterInput.value = this.nextStepNum;
+      }
+      this.selectedAnnotationIndex = -1;
       this.renderMaster();
       this.app?.showToast("Redone annotation", "info");
+    }
+  },
+
+  findAnnotationAt(x, y) {
+    for (let i = this.annotations.length - 1; i >= 0; i--) {
+      const ann = this.annotations[i];
+      if (ann.type === "rect" || ann.type === "blur" || ann.type === "blackout" || ann.type === "highlight" || ann.type === "spotlight") {
+        if (x >= ann.x && x <= ann.x + ann.w && y >= ann.y && y <= ann.y + ann.h) return i;
+      } else if (ann.type === "circle") {
+        const dx = (x - ann.x) / ann.rx;
+        const dy = (y - ann.y) / ann.ry;
+        if ((dx * dx + dy * dy) <= 1) return i;
+      } else if (ann.type === "step") {
+        if (Math.hypot(x - ann.x, y - ann.y) <= 18) return i;
+      } else if (ann.type === "text") {
+        const fSize = ann.fontSize || 18;
+        if (x >= ann.x - 12 && x <= ann.x + 220 && y >= ann.y - fSize - 8 && y <= ann.y + 12) return i;
+      } else if (ann.type === "loupe") {
+        if (Math.hypot(x - ann.cx, y - ann.cy) <= (ann.radius || 45)) return i;
+      } else if (ann.type === "arrow") {
+        const dist = this.distanceToLineSegment(x, y, ann.startX, ann.startY, ann.endX, ann.endY);
+        if (dist <= 14) return i;
+      } else if (ann.type === "pen" && ann.points) {
+        for (const pt of ann.points) {
+          if (Math.hypot(x - pt.x, y - pt.y) <= 14) return i;
+        }
+      } else if (ann.type === "watermark") {
+        if (Math.hypot(x - ann.x, y - ann.y) <= 60) return i;
+      }
+    }
+    return -1;
+  },
+
+  distanceToLineSegment(px, py, x1, y1, x2, y2) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const lenSq = dx * dx + dy * dy;
+    if (lenSq === 0) return Math.hypot(px - x1, py - y1);
+    let t = Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / lenSq));
+    return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
+  },
+
+  moveAnnotation(idx, dx, dy) {
+    const ann = this.annotations[idx];
+    if (!ann) return;
+    if (ann.x !== undefined) ann.x += dx;
+    if (ann.y !== undefined) ann.y += dy;
+    if (ann.cx !== undefined) ann.cx += dx;
+    if (ann.cy !== undefined) ann.cy += dy;
+    if (ann.startX !== undefined) { ann.startX += dx; ann.endX += dx; }
+    if (ann.startY !== undefined) { ann.startY += dy; ann.endY += dy; }
+    if (ann.points) {
+      ann.points.forEach(p => { p.x += dx; p.y += dy; });
     }
   },
 
@@ -1067,23 +1637,41 @@ export default {
       const rect = canvas.getBoundingClientRect();
       const scaleX = canvas.width / rect.width;
       const scaleY = canvas.height / rect.height;
+      const clientX = e.clientX !== undefined ? e.clientX : (e.touches?.[0]?.clientX || 0);
+      const clientY = e.clientY !== undefined ? e.clientY : (e.touches?.[0]?.clientY || 0);
       return {
-        x: (e.clientX - rect.left) * scaleX,
-        y: (e.clientY - rect.top) * scaleY
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
       };
     };
 
-    canvas.addEventListener("mousedown", (e) => {
-      if (this.activeTool === "select") return;
+    const handlePointerDown = (e) => {
       const pos = getCanvasCoords(e);
 
-      // Eyedropper handler
+      if (this.activeTool === "select") {
+        const hitIdx = this.findAnnotationAt(pos.x, pos.y);
+        if (hitIdx >= 0) {
+          this.selectedAnnotationIndex = hitIdx;
+          this.isDraggingAnnotation = true;
+          this.dragAnnotationStart = pos;
+          this.renderMaster();
+        } else {
+          this.selectedAnnotationIndex = -1;
+          this.renderMaster();
+        }
+        return;
+      }
+
       if (this.activeTool === "eyedropper") {
         this.samplePixelColor(pos.x, pos.y);
         return;
       }
 
-      // Step badge handler (single click)
+      if (this.activeTool === "text") {
+        this.openTextDialog(pos);
+        return;
+      }
+
       if (this.activeTool === "step") {
         this.pushUndoState();
         this.annotations.push({
@@ -1101,14 +1689,44 @@ export default {
         return;
       }
 
+      if (this.activeTool === "pen") {
+        this.isDrawing = true;
+        this.currentPath = [{ x: pos.x, y: pos.y }];
+        this.renderMaster(true);
+        return;
+      }
+
       this.isDrawing = true;
       this.dragStart = pos;
       this.currentDragRect = { x: pos.x, y: pos.y, w: 0, h: 0 };
-    });
 
-    window.addEventListener("mousemove", (e) => {
-      if (!this.isDrawing || !this.dragStart) return;
+      if (canvas.setPointerCapture && e.pointerId) {
+        try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+    };
+
+    const handlePointerMove = (e) => {
       const pos = getCanvasCoords(e);
+
+      if (this.isDraggingAnnotation && this.selectedAnnotationIndex >= 0 && this.dragAnnotationStart) {
+        const dx = pos.x - this.dragAnnotationStart.x;
+        const dy = pos.y - this.dragAnnotationStart.y;
+        this.moveAnnotation(this.selectedAnnotationIndex, dx, dy);
+        this.dragAnnotationStart = pos;
+        this.renderMaster();
+        return;
+      }
+
+      if (!this.isDrawing) return;
+
+      if (this.activeTool === "pen" && this.currentPath) {
+        this.currentPath.push({ x: pos.x, y: pos.y });
+        this.renderMaster(true);
+        return;
+      }
+
+      if (!this.dragStart) return;
+
       this.currentDragRect = {
         x: Math.min(this.dragStart.x, pos.x),
         y: Math.min(this.dragStart.y, pos.y),
@@ -1117,19 +1735,45 @@ export default {
         endX: pos.x,
         endY: pos.y
       };
-      this.renderMaster(true); // Draw with live interactive overlay
-    });
+      this.renderMaster(true);
+    };
 
-    window.addEventListener("mouseup", (e) => {
-      if (!this.isDrawing || !this.dragStart || !this.currentDragRect) {
-        this.isDrawing = false;
+    const handlePointerUp = (e) => {
+      if (this.isDraggingAnnotation) {
+        this.isDraggingAnnotation = false;
+        this.dragAnnotationStart = null;
+        this.pushUndoState();
         return;
       }
 
+      if (!this.isDrawing) return;
+
       this.isDrawing = false;
+
+      if (canvas.releasePointerCapture && e.pointerId) {
+        try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
+      }
+
+      if (this.activeTool === "pen" && this.currentPath && this.currentPath.length > 1) {
+        this.pushUndoState();
+        this.annotations.push({
+          type: "pen",
+          points: this.currentPath,
+          color: this.currentColor,
+          width: this.strokeWidth
+        });
+        this.currentPath = null;
+        this.renderMaster();
+        return;
+      }
+
+      if (!this.dragStart || !this.currentDragRect) {
+        this.renderMaster();
+        return;
+      }
+
       const rect = this.currentDragRect;
 
-      // Minimum drag threshold to prevent phantom clicks
       if (rect.w > 4 || rect.h > 4) {
         this.pushUndoState();
 
@@ -1161,14 +1805,27 @@ export default {
             type: "blur",
             x: rect.x, y: rect.y, w: rect.w, h: rect.h
           });
-          this.app?.showToast("Redacted sensitive area with pixelation", "success");
+          this.app?.showToast("Pixelated sensitive area", "success");
+        } else if (this.activeTool === "blackout") {
+          this.annotations.push({
+            type: "blackout",
+            x: rect.x, y: rect.y, w: rect.w, h: rect.h,
+            color: "#000000"
+          });
+          this.app?.showToast("Solid blackout privacy redaction applied", "success");
+        } else if (this.activeTool === "spotlight") {
+          this.annotations.push({
+            type: "spotlight",
+            x: rect.x, y: rect.y, w: rect.w, h: rect.h
+          });
+          this.app?.showToast("Focused area with spotlight dimmer", "success");
         } else if (this.activeTool === "arrow") {
           this.annotations.push({
             type: "arrow",
             startX: this.dragStart.x,
             startY: this.dragStart.y,
-            endX: rect.endX || (this.dragStart.x + rect.w),
-            endY: rect.endY || (this.dragStart.y + rect.h),
+            endX: rect.endX ?? (this.dragStart.x + rect.w),
+            endY: rect.endY ?? (this.dragStart.y + rect.h),
             color: this.currentColor,
             width: this.strokeWidth
           });
@@ -1180,15 +1837,22 @@ export default {
             radius: Math.max(rect.w, rect.h) / 2
           });
         } else if (this.activeTool === "crop") {
-          // Crop screenshot to selected bounding box
           this.applyImageCrop(rect);
         }
       }
 
       this.dragStart = null;
       this.currentDragRect = null;
+      this.currentPath = null;
       this.renderMaster();
-    });
+    };
+
+    canvas.addEventListener("pointerdown", handlePointerDown);
+
+    this.boundPointerMove = handlePointerMove;
+    this.boundPointerUp = handlePointerUp;
+    window.addEventListener("pointermove", this.boundPointerMove);
+    window.addEventListener("pointerup", this.boundPointerUp);
   },
 
   applyImageCrop(cropBox) {
@@ -1196,47 +1860,138 @@ export default {
     const imgBounds = this.computeInnerImageBounds();
     if (!imgBounds) return;
 
-    // Convert canvas cropBox to source image relative coordinates
     const sx = ((cropBox.x - imgBounds.x) / imgBounds.w) * this.sourceImage.naturalWidth;
     const sy = ((cropBox.y - imgBounds.y) / imgBounds.h) * this.sourceImage.naturalHeight;
     const sw = (cropBox.w / imgBounds.w) * this.sourceImage.naturalWidth;
     const sh = (cropBox.h / imgBounds.h) * this.sourceImage.naturalHeight;
 
-    if (sw <= 10 || sh <= 10) return;
+    const clampedSx = Math.max(0, Math.min(this.sourceImage.naturalWidth - 10, sx));
+    const clampedSy = Math.max(0, Math.min(this.sourceImage.naturalHeight - 10, sy));
+    const clampedSw = Math.max(10, Math.min(this.sourceImage.naturalWidth - clampedSx, sw));
+    const clampedSh = Math.max(10, Math.min(this.sourceImage.naturalHeight - clampedSy, sh));
+
+    if (clampedSw <= 10 || clampedSh <= 10) return;
 
     const cropCanvas = document.createElement("canvas");
-    cropCanvas.width = Math.max(1, Math.round(sw));
-    cropCanvas.height = Math.max(1, Math.round(sh));
+    cropCanvas.width = Math.max(1, Math.round(clampedSw));
+    cropCanvas.height = Math.max(1, Math.round(clampedSh));
     const cCtx = cropCanvas.getContext("2d");
 
     cCtx.drawImage(
       this.sourceImage,
-      Math.max(0, sx), Math.max(0, sy), sw, sh,
+      clampedSx, clampedSy, clampedSw, clampedSh,
       0, 0, cropCanvas.width, cropCanvas.height
     );
 
     const croppedImg = new Image();
     croppedImg.onload = () => {
+      this.pushUndoState({
+        isCropAction: true,
+        previousImage: this.sourceImage,
+        previousAnnotations: JSON.parse(JSON.stringify(this.annotations)),
+        nextStepNum: this.nextStepNum
+      });
       this.sourceImage = croppedImg;
       this.annotations = [];
+      this.selectedAnnotationIndex = -1;
       this.renderMaster();
-      this.app?.showToast("Cropped screenshot successfully!", "success");
+      this.app?.showToast("Cropped screenshot successfully! (Press Ctrl+Z to undo)", "success");
     };
     croppedImg.src = cropCanvas.toDataURL("image/png");
+  },
+
+  rotateImage(angleDegrees = 90) {
+    if (!this.sourceImage) return;
+    const off = document.createElement("canvas");
+    if (angleDegrees === 90 || angleDegrees === 270) {
+      off.width = this.sourceImage.naturalHeight;
+      off.height = this.sourceImage.naturalWidth;
+    } else {
+      off.width = this.sourceImage.naturalWidth;
+      off.height = this.sourceImage.naturalHeight;
+    }
+    const ctx = off.getContext("2d");
+    ctx.translate(off.width / 2, off.height / 2);
+    ctx.rotate((angleDegrees * Math.PI) / 180);
+    ctx.drawImage(this.sourceImage, -this.sourceImage.naturalWidth / 2, -this.sourceImage.naturalHeight / 2);
+
+    const rotatedImg = new Image();
+    rotatedImg.onload = () => {
+      this.pushUndoState({
+        isCropAction: true,
+        previousImage: this.sourceImage,
+        previousAnnotations: JSON.parse(JSON.stringify(this.annotations)),
+        nextStepNum: this.nextStepNum
+      });
+      this.sourceImage = rotatedImg;
+      this.selectedAnnotationIndex = -1;
+      this.renderMaster();
+      this.app?.showToast(`Rotated screenshot ${angleDegrees}°`, "info");
+    };
+    rotatedImg.src = off.toDataURL("image/png");
+  },
+
+  flipImageHorizontal() {
+    if (!this.sourceImage) return;
+    const off = document.createElement("canvas");
+    off.width = this.sourceImage.naturalWidth;
+    off.height = this.sourceImage.naturalHeight;
+    const ctx = off.getContext("2d");
+    ctx.translate(off.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(this.sourceImage, 0, 0);
+
+    const flippedImg = new Image();
+    flippedImg.onload = () => {
+      this.pushUndoState({
+        isCropAction: true,
+        previousImage: this.sourceImage,
+        previousAnnotations: JSON.parse(JSON.stringify(this.annotations)),
+        nextStepNum: this.nextStepNum
+      });
+      this.sourceImage = flippedImg;
+      this.selectedAnnotationIndex = -1;
+      this.renderMaster();
+      this.app?.showToast("Flipped screenshot horizontally", "info");
+    };
+    flippedImg.src = off.toDataURL("image/png");
+  },
+
+  addWatermarkStamp() {
+    if (!this.sourceImage) return;
+    const dateStr = new Date().toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    const timeStr = new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+    const stampText = `OmniTool Hub • ${dateStr} ${timeStr}`;
+
+    const innerBounds = this.computeInnerImageBounds();
+    const x = innerBounds ? (innerBounds.x + innerBounds.w - 18) : (this.masterCanvas.width - 24);
+    const y = innerBounds ? (innerBounds.y + innerBounds.h - 14) : (this.masterCanvas.height - 24);
+
+    this.pushUndoState();
+    this.annotations.push({
+      type: "watermark",
+      x,
+      y,
+      text: stampText,
+      color: "#ffffff"
+    });
+    this.renderMaster();
+    this.app?.showToast("Added timestamp & watermark stamp", "success");
   },
 
   samplePixelColor(canvasX, canvasY) {
     const ctx = this.masterCtx;
     if (!ctx) return;
-    const pixel = ctx.getImageData(Math.round(canvasX), Math.round(canvasY), 1, 1).data;
+    const clX = Math.max(0, Math.min(ctx.canvas.width - 1, Math.round(canvasX)));
+    const clY = Math.max(0, Math.min(ctx.canvas.height - 1, Math.round(canvasY)));
+    const pixel = ctx.getImageData(clX, clY, 1, 1).data;
     const hex = "#" + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1);
     
-    // Copy to clipboard
     try { navigator.clipboard.writeText(hex); } catch (_) {}
 
-    const badge = this.container.querySelector("#sc-eyedropper-badge");
-    const preview = this.container.querySelector("#sc-sample-color-preview");
-    const label = this.container.querySelector("#sc-sample-color-text");
+    const badge = this.container?.querySelector("#sc-eyedropper-badge");
+    const preview = this.container?.querySelector("#sc-sample-color-preview");
+    const label = this.container?.querySelector("#sc-sample-color-text");
 
     if (badge && preview && label) {
       badge.style.display = "flex";
@@ -1245,8 +2000,19 @@ export default {
     }
 
     this.currentColor = hex;
+
+    // Synchronize UI custom color picker input
+    const colorInput = this.container?.querySelector("#sc-custom-color");
+    if (colorInput) colorInput.value = hex;
+
+    // Highlight matching chip or deselect predefined chips
+    const chips = this.container?.querySelectorAll(".sc-color-chip");
+    chips?.forEach(c => {
+      c.style.borderColor = (c.getAttribute("data-color").toLowerCase() === hex.toLowerCase()) ? "#fff" : "transparent";
+    });
+
     this.app?.showToast(`Sampled color: ${hex.toUpperCase()} (copied)`, "success");
-    this.activeTool = "select";
+    this.switchToMarkupTool("select");
   },
 
   computeInnerImageBounds() {
@@ -1255,15 +2021,39 @@ export default {
 
     const padding = (this.config.mockupTheme === "none") ? 0 : this.config.backdropPadding;
     const headerHeight = (this.config.mockupTheme === "none" || this.config.mockupTheme === "minimal") ? 0 : 38;
+    const bottomClearance = (this.config.mockupTheme === "phone") ? 18 : 0;
 
-    const winW = canvas.width - (padding * 2);
-    const winH = canvas.height - (padding * 2);
+    const rawW = this.sourceImage.naturalWidth || 1200;
+    const rawH = this.sourceImage.naturalHeight || 700;
+
+    let targetW = canvas.width;
+    let targetH = canvas.height;
+
+    const maxWinW = Math.max(100, targetW - (padding * 2));
+    const maxWinH = Math.max(100, targetH - (padding * 2));
+
+    let winW = maxWinW;
+    let winH = maxWinH;
+
+    if (this.config.aspectRatio !== "auto") {
+      const naturalMockupRatio = rawW / (rawH + headerHeight + bottomClearance);
+      if (maxWinW / maxWinH > naturalMockupRatio) {
+        winH = maxWinH;
+        winW = Math.round(winH * naturalMockupRatio);
+      } else {
+        winW = maxWinW;
+        winH = Math.round(winW / naturalMockupRatio);
+      }
+    }
+
+    const winX = Math.round((targetW - winW) / 2);
+    const winY = Math.round((targetH - winH) / 2);
 
     return {
-      x: padding,
-      y: padding + headerHeight,
+      x: winX,
+      y: winY + headerHeight,
       w: winW,
-      h: winH - headerHeight
+      h: winH - headerHeight - bottomClearance
     };
   },
 
@@ -1284,10 +2074,10 @@ export default {
 
     const padding = (this.config.mockupTheme === "none") ? 0 : this.config.backdropPadding;
     const headerHeight = (this.config.mockupTheme === "none" || this.config.mockupTheme === "minimal") ? 0 : 38;
+    const bottomClearance = (this.config.mockupTheme === "phone") ? 18 : 0;
 
-    // Determine target canvas dimensions based on aspect ratio
     let targetW = rawW + (padding * 2);
-    let targetH = rawH + headerHeight + (padding * 2);
+    let targetH = rawH + headerHeight + bottomClearance + (padding * 2);
 
     if (this.config.aspectRatio === "16-9") {
       targetH = Math.round(targetW * (9 / 16));
@@ -1308,18 +2098,45 @@ export default {
     canvas.width = targetW;
     canvas.height = targetH;
 
-    // Update resolution label
-    const resLabel = this.container.querySelector("#sc-canvas-res-label");
+    const resLabel = this.container?.querySelector("#sc-canvas-res-label");
     if (resLabel) resLabel.textContent = `${targetW} × ${targetH} px`;
+
+    this.renderMasterToContext(ctx, targetW, targetH, isInteracting);
+  },
+
+  renderMasterToContext(ctx, targetW, targetH, isInteracting = false) {
+    if (!this.sourceImage) return;
+
+    const rawW = this.sourceImage.naturalWidth || 1200;
+    const rawH = this.sourceImage.naturalHeight || 700;
+
+    const padding = (this.config.mockupTheme === "none") ? 0 : this.config.backdropPadding;
+    const headerHeight = (this.config.mockupTheme === "none" || this.config.mockupTheme === "minimal") ? 0 : 38;
+    const bottomClearance = (this.config.mockupTheme === "phone") ? 18 : 0;
 
     // 1. Draw Canvas Backdrop
     this.drawBackdrop(ctx, targetW, targetH);
 
-    // 2. Draw Window Mockup & Header
-    const winX = padding;
-    const winY = padding;
-    const winW = targetW - (padding * 2);
-    const winH = targetH - (padding * 2);
+    // 2. Compute Proportional Window Mockup Dimensions
+    const maxWinW = Math.max(100, targetW - (padding * 2));
+    const maxWinH = Math.max(100, targetH - (padding * 2));
+
+    let winW = maxWinW;
+    let winH = maxWinH;
+
+    if (this.config.aspectRatio !== "auto") {
+      const naturalMockupRatio = rawW / (rawH + headerHeight + bottomClearance);
+      if (maxWinW / maxWinH > naturalMockupRatio) {
+        winH = maxWinH;
+        winW = Math.round(winH * naturalMockupRatio);
+      } else {
+        winW = maxWinW;
+        winH = Math.round(winW / naturalMockupRatio);
+      }
+    }
+
+    const winX = Math.round((targetW - winW) / 2);
+    const winY = Math.round((targetH - winH) / 2);
 
     this.drawWindowMockup(ctx, winX, winY, winW, winH, headerHeight);
 
@@ -1327,23 +2144,40 @@ export default {
     const innerX = winX;
     const innerY = winY + headerHeight;
     const innerW = winW;
-    const innerH = winH - headerHeight;
+    const innerH = winH - headerHeight - bottomClearance;
 
     this.drawScreenshotContent(ctx, innerX, innerY, innerW, innerH);
 
     // 4. Render All Markup & Annotations
-    this.drawAnnotations(ctx);
+    const innerBounds = { x: innerX, y: innerY, w: innerW, h: innerH };
+    this.drawAnnotations(ctx, innerBounds);
 
     // 5. Draw Active Drag Interaction Overlay (live preview)
-    if (isInteracting && this.currentDragRect) {
+    if (isInteracting && (this.currentDragRect || this.currentPath)) {
       this.drawInteractiveOverlay(ctx, this.currentDragRect);
     }
+  },
+
+  getExportCanvas(scale = this.config.exportScale) {
+    if (scale <= 1 || !this.masterCanvas) return this.masterCanvas;
+
+    const targetW = this.masterCanvas.width;
+    const targetH = this.masterCanvas.height;
+
+    const offCanvas = document.createElement("canvas");
+    offCanvas.width = targetW * scale;
+    offCanvas.height = targetH * scale;
+
+    const offCtx = offCanvas.getContext("2d");
+    offCtx.scale(scale, scale);
+
+    this.renderMasterToContext(offCtx, targetW, targetH, false);
+    return offCanvas;
   },
 
   drawBackdrop(ctx, width, height) {
     if (this.config.backdropType === "transparent") {
       ctx.clearRect(0, 0, width, height);
-      // Optional transparent checkerboard pattern
       const size = 16;
       ctx.fillStyle = "#1e293b";
       for (let x = 0; x < width; x += size * 2) {
@@ -1365,6 +2199,31 @@ export default {
     if (this.config.backdropType === "solid") {
       ctx.fillStyle = this.config.backdropColor || "#0f172a";
       ctx.fillRect(0, 0, width, height);
+      return;
+    }
+
+    if (this.config.backdropType === "frosted" && this.sourceImage) {
+      ctx.save();
+      ctx.fillStyle = "#090d16";
+      ctx.fillRect(0, 0, width, height);
+
+      // Fast, ultra-smooth frosted ambient wallpaper
+      const blurCanvas = document.createElement("canvas");
+      blurCanvas.width = 160;
+      blurCanvas.height = Math.round(160 * (this.sourceImage.naturalHeight / this.sourceImage.naturalWidth));
+      const bCtx = blurCanvas.getContext("2d");
+      bCtx.drawImage(this.sourceImage, 0, 0, blurCanvas.width, blurCanvas.height);
+
+      ctx.filter = "blur(32px) brightness(0.65) saturate(1.4)";
+      ctx.drawImage(blurCanvas, -40, -40, width + 80, height + 80);
+      ctx.filter = "none";
+
+      const vig = ctx.createRadialGradient(width / 2, height / 2, width * 0.15, width / 2, height / 2, width * 0.75);
+      vig.addColorStop(0, "rgba(0, 0, 0, 0.1)");
+      vig.addColorStop(1, "rgba(9, 13, 22, 0.65)");
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, width, height);
+      ctx.restore();
       return;
     }
 
@@ -1395,7 +2254,6 @@ export default {
       grad.addColorStop(0, "#1e293b");
       grad.addColorStop(1, "#090d16");
     } else {
-      // Mesh radial
       grad = ctx.createRadialGradient(width * 0.2, height * 0.2, 50, width * 0.5, height * 0.5, width * 0.8);
       grad.addColorStop(0, "#38bdf8");
       grad.addColorStop(1, "#090d16");
@@ -1427,15 +2285,91 @@ export default {
     }
 
     // Window Card Background
-    this.roundRect(ctx, x, y, w, h, r);
+    const outerRadius = (this.config.mockupTheme === "phone") ? Math.min(38, r * 2.2) : r;
+    this.roundRect(ctx, x, y, w, h, outerRadius);
     ctx.fillStyle = (this.config.mockupTheme === "macos-light") ? "#f1f5f9" : "#0f172a";
     ctx.fill();
     ctx.restore();
 
-    // 2. Draw Window Header & Traffic Lights
+    // 2. Draw Window Header & Traffic Lights / Phone Bezels
+    if (this.config.mockupTheme === "phone") {
+      // Modern Smartphone Viewport (Dynamic Island, Status Bar, Bottom Home Bar)
+      ctx.save();
+      this.roundRect(ctx, x, y, w, h, outerRadius);
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      // Top Status Bar Area & Dynamic Island
+      const pillW = Math.min(106, w * 0.34);
+      const pillH = 24;
+      const pillX = x + (w / 2) - (pillW / 2);
+      const pillY = y + 8;
+      this.roundRect(ctx, pillX, pillY, pillW, pillH, 12);
+      ctx.fillStyle = "#000000";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Dynamic Island Lens Dot
+      ctx.beginPath();
+      ctx.arc(pillX + pillW - 16, pillY + (pillH / 2), 4, 0, Math.PI * 2);
+      ctx.fillStyle = "#0f172a";
+      ctx.fill();
+
+      // Time
+      ctx.font = "bold 11.5px Inter, system-ui, sans-serif";
+      ctx.fillStyle = "#e2e8f0";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText("9:41", x + 24, pillY + (pillH / 2));
+
+      // Right Icons
+      const iconY = pillY + (pillH / 2);
+      const rightEdge = x + w - 24;
+
+      // Battery
+      ctx.strokeStyle = "#94a3b8";
+      ctx.lineWidth = 1;
+      this.roundRect(ctx, rightEdge - 20, iconY - 5, 18, 10, 2.5);
+      ctx.stroke();
+      ctx.fillRect(rightEdge - 1, iconY - 2.5, 1.5, 5);
+      ctx.fillStyle = "#10b981";
+      ctx.fillRect(rightEdge - 18, iconY - 3.5, 12, 7);
+
+      // WiFi
+      ctx.strokeStyle = "#e2e8f0";
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.arc(rightEdge - 30, iconY + 2, 7, -Math.PI * 0.75, -Math.PI * 0.25);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(rightEdge - 30, iconY + 2, 4, -Math.PI * 0.75, -Math.PI * 0.25);
+      ctx.stroke();
+
+      // Cellular bars
+      for (let b = 0; b < 4; b++) {
+        const bh = 3 + (b * 2.2);
+        ctx.fillStyle = "#e2e8f0";
+        ctx.fillRect(rightEdge - 48 + (b * 3.5), iconY + 3 - bh, 2.2, bh);
+      }
+
+      // Bottom Home Swipe Bar
+      const homeBarW = Math.min(130, w * 0.4);
+      const homeBarH = 4.5;
+      const homeBarX = x + (w / 2) - (homeBarW / 2);
+      const homeBarY = y + h - 11;
+      this.roundRect(ctx, homeBarX, homeBarY, homeBarW, homeBarH, 3);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+      ctx.fill();
+
+      ctx.restore();
+      return;
+    }
+
     if (headerHeight > 0) {
       ctx.save();
-      // Clip header to top rounded corners
       ctx.beginPath();
       ctx.moveTo(x + r, y);
       ctx.lineTo(x + w - r, y);
@@ -1447,14 +2381,12 @@ export default {
       ctx.closePath();
       ctx.clip();
 
-      // Header Fill
       if (this.config.mockupTheme === "macos-dark") {
         ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
         ctx.fillRect(x, y, w, headerHeight);
         ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
         ctx.strokeRect(x, y, w, headerHeight);
 
-        // macOS Traffic Lights (Red, Yellow, Green)
         const dotY = y + (headerHeight / 2);
         const dots = [
           { color: "#ef4444", dx: 18 },
@@ -1468,7 +2400,6 @@ export default {
           ctx.fill();
         });
 
-        // Address Bar Pill
         const barW = Math.min(w * 0.55, 460);
         const barX = x + (w / 2) - (barW / 2);
         const barY = y + 7;
@@ -1480,13 +2411,21 @@ export default {
         ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
         ctx.stroke();
 
-        // Lock icon & URL text
         ctx.font = "11.5px Inter, system-ui, sans-serif";
         ctx.fillStyle = "#94a3b8";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+
+        const maxTextW = barW - (this.config.showSslLock ? 36 : 20);
+        let displayUrl = this.config.urlText;
+        if (ctx.measureText(displayUrl).width > maxTextW) {
+          while (displayUrl.length > 4 && ctx.measureText(displayUrl + "...").width > maxTextW) {
+            displayUrl = displayUrl.slice(0, -1);
+          }
+          displayUrl += "...";
+        }
         const lockIcon = this.config.showSslLock ? "🔒 " : "";
-        ctx.fillText(lockIcon + this.config.urlText, barX + (barW / 2), barY + (barH / 2));
+        ctx.fillText(lockIcon + displayUrl, barX + (barW / 2), barY + (barH / 2));
 
       } else if (this.config.mockupTheme === "macos-light") {
         ctx.fillStyle = "#e2e8f0";
@@ -1519,35 +2458,48 @@ export default {
         ctx.fillStyle = "#475569";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+
+        const maxTextW = barW - (this.config.showSslLock ? 36 : 20);
+        let displayUrl = this.config.urlText;
+        if (ctx.measureText(displayUrl).width > maxTextW) {
+          while (displayUrl.length > 4 && ctx.measureText(displayUrl + "...").width > maxTextW) {
+            displayUrl = displayUrl.slice(0, -1);
+          }
+          displayUrl += "...";
+        }
         const lockIcon = this.config.showSslLock ? "🔒 " : "";
-        ctx.fillText(lockIcon + this.config.urlText, barX + (barW / 2), barY + (barH / 2));
+        ctx.fillText(lockIcon + displayUrl, barX + (barW / 2), barY + (barH / 2));
 
       } else if (this.config.mockupTheme === "windows11") {
         ctx.fillStyle = "rgba(30, 41, 59, 0.85)";
         ctx.fillRect(x, y, w, headerHeight);
 
-        // Windows 11 Title Text (Left)
         ctx.font = "11px Segoe UI, system-ui, sans-serif";
         ctx.fillStyle = "#cbd5e1";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(this.config.titleText, x + 16, y + (headerHeight / 2));
 
-        // Windows 11 Controls (Right: minimize, maximize, close)
+        const maxTitleW = Math.max(60, w - 100);
+        let displayTitle = this.config.titleText;
+        if (ctx.measureText(displayTitle).width > maxTitleW) {
+          while (displayTitle.length > 4 && ctx.measureText(displayTitle + "...").width > maxTitleW) {
+            displayTitle = displayTitle.slice(0, -1);
+          }
+          displayTitle += "...";
+        }
+        ctx.fillText(displayTitle, x + 16, y + (headerHeight / 2));
+
         const ctrlY = y + (headerHeight / 2);
         ctx.strokeStyle = "#94a3b8";
         ctx.lineWidth = 1;
 
-        // Minimize line
         ctx.beginPath();
         ctx.moveTo(x + w - 70, ctrlY);
         ctx.lineTo(x + w - 60, ctrlY);
         ctx.stroke();
 
-        // Maximize square
         ctx.strokeRect(x + w - 46, ctrlY - 4.5, 9, 9);
 
-        // Close X
         ctx.beginPath();
         ctx.moveTo(x + w - 24, ctrlY - 4.5);
         ctx.lineTo(x + w - 16, ctrlY + 4.5);
@@ -1559,7 +2511,7 @@ export default {
         ctx.fillStyle = "#090d16";
         ctx.fillRect(x, y, w, headerHeight);
 
-        ctx.strokeStyle = "var(--accent-cyan)";
+        ctx.strokeStyle = "#00f2fe";
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(x, y + headerHeight);
@@ -1581,11 +2533,11 @@ export default {
     if (!this.sourceImage) return;
 
     const r = (this.config.mockupTheme === "none") ? 0 : this.config.cornerRadius;
+    const clipRadius = (this.config.mockupTheme === "phone") ? Math.min(28, r * 1.6) : r;
 
     ctx.save();
-    // Clip inner content to bottom rounded corners
-    if (r > 0) {
-      this.roundRect(ctx, x, y, w, h, (this.config.mockupTheme === "minimal") ? r : [0, 0, r, r]);
+    if (clipRadius > 0) {
+      this.roundRect(ctx, x, y, w, h, (this.config.mockupTheme === "minimal" || this.config.mockupTheme === "phone") ? clipRadius : [0, 0, clipRadius, clipRadius]);
       ctx.clip();
     }
 
@@ -1593,8 +2545,10 @@ export default {
     ctx.restore();
   },
 
-  drawAnnotations(ctx) {
-    this.annotations.forEach(ann => {
+  drawAnnotations(ctx, innerBounds) {
+    this.annotations.forEach((ann, idx) => {
+      const isSelected = (idx === this.selectedAnnotationIndex);
+
       if (ann.type === "rect") {
         ctx.strokeStyle = ann.color || "#00f2fe";
         ctx.lineWidth = ann.width || 4;
@@ -1614,11 +2568,63 @@ export default {
         ctx.globalAlpha = 1.0;
 
       } else if (ann.type === "blur") {
-        // True Pixelation / Redaction
         this.applyPixelationToCanvas(ctx, ann.x, ann.y, ann.w, ann.h, 10);
 
+      } else if (ann.type === "blackout") {
+        ctx.save();
+        ctx.fillStyle = ann.color || "#000000";
+        ctx.fillRect(ann.x, ann.y, ann.w, ann.h);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(ann.x, ann.y, ann.w, ann.h);
+        ctx.restore();
+
+      } else if (ann.type === "spotlight") {
+        ctx.save();
+        ctx.fillStyle = "rgba(0, 0, 0, 0.58)";
+        ctx.fillRect(0, 0, ctx.canvas.width, ann.y);
+        ctx.fillRect(0, ann.y, ann.x, ann.h);
+        ctx.fillRect(ann.x + ann.w, ann.y, ctx.canvas.width - (ann.x + ann.w), ann.h);
+        ctx.fillRect(0, ann.y + ann.h, ctx.canvas.width, ctx.canvas.height - (ann.y + ann.h));
+        
+        ctx.strokeStyle = "rgba(0, 242, 254, 0.85)";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(ann.x, ann.y, ann.w, ann.h);
+        ctx.restore();
+
+      } else if (ann.type === "text") {
+        ctx.save();
+        const fSize = ann.fontSize || 18;
+        ctx.font = `bold ${fSize}px Inter, system-ui, sans-serif`;
+        const textW = ctx.measureText(ann.text).width;
+
+        if (ann.badge) {
+          ctx.shadowColor = "rgba(0, 0, 0, 0.55)";
+          ctx.shadowBlur = 12;
+          ctx.shadowOffsetY = 4;
+
+          this.roundRect(ctx, ann.x - 8, ann.y - fSize, textW + 16, fSize + 10, 6);
+          ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+          ctx.fill();
+          ctx.strokeStyle = ann.color || "#00f2fe";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          ctx.fillStyle = ann.color || "#00f2fe";
+          ctx.textAlign = "left";
+          ctx.textBaseline = "middle";
+          ctx.fillText(ann.text, ann.x, ann.y - (fSize / 2) + 5);
+        } else {
+          ctx.strokeStyle = "rgba(0, 0, 0, 0.85)";
+          ctx.lineWidth = 4;
+          ctx.lineJoin = "round";
+          ctx.strokeText(ann.text, ann.x, ann.y);
+          ctx.fillStyle = ann.color || "#00f2fe";
+          ctx.fillText(ann.text, ann.x, ann.y);
+        }
+        ctx.restore();
+
       } else if (ann.type === "step") {
-        // Numbered Circle Badge (1, 2, 3...)
         ctx.save();
         ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
         ctx.shadowBlur = 8;
@@ -1643,14 +2649,134 @@ export default {
       } else if (ann.type === "arrow") {
         this.drawArrow(ctx, ann.startX, ann.startY, ann.endX, ann.endY, ann.color || "#00f2fe", ann.width || 4);
 
+      } else if (ann.type === "pen" && ann.points && ann.points.length > 1) {
+        ctx.save();
+        ctx.strokeStyle = ann.color || "#00f2fe";
+        ctx.lineWidth = ann.width || 4;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.beginPath();
+        ctx.moveTo(ann.points[0].x, ann.points[0].y);
+        for (let i = 1; i < ann.points.length; i++) {
+          ctx.lineTo(ann.points[i].x, ann.points[i].y);
+        }
+        ctx.stroke();
+        ctx.restore();
+
       } else if (ann.type === "loupe") {
-        this.drawMagnifierLoupe(ctx, ann.cx, ann.cy, ann.radius || 45);
+        this.drawMagnifierLoupe(ctx, ann.cx, ann.cy, ann.radius || 45, innerBounds);
+
+      } else if (ann.type === "watermark") {
+        ctx.save();
+        ctx.font = "600 11px Inter, system-ui, sans-serif";
+        const wmW = ctx.measureText(ann.text).width;
+        const boxX = ann.x - wmW - 16;
+        const boxY = ann.y - 18;
+        this.roundRect(ctx, boxX, boxY, wmW + 16, 22, 5);
+        ctx.fillStyle = "rgba(15, 23, 42, 0.75)";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.fillStyle = ann.color || "#e2e8f0";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillText(ann.text, boxX + 8, boxY + 11);
+        ctx.restore();
+      }
+
+      // Render selection outline if element is selected in Select mode
+      if (isSelected && this.activeTool === "select") {
+        ctx.save();
+        ctx.strokeStyle = "#00f2fe";
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+
+        if (ann.w !== undefined && ann.h !== undefined) {
+          ctx.strokeRect(ann.x - 3, ann.y - 3, ann.w + 6, ann.h + 6);
+        } else if (ann.rx !== undefined && ann.ry !== undefined) {
+          ctx.beginPath();
+          ctx.ellipse(ann.x, ann.y, ann.rx + 4, ann.ry + 4, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (ann.type === "step") {
+          ctx.beginPath();
+          ctx.arc(ann.x, ann.y, 18, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (ann.type === "loupe") {
+          ctx.beginPath();
+          ctx.arc(ann.cx, ann.cy, (ann.radius || 45) + 4, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.restore();
       }
     });
   },
 
   drawInteractiveOverlay(ctx, rect) {
     ctx.save();
+
+    if (this.activeTool === "pen" && this.currentPath && this.currentPath.length > 1) {
+      ctx.strokeStyle = this.currentColor || "#00f2fe";
+      ctx.lineWidth = this.strokeWidth || 4;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(this.currentPath[0].x, this.currentPath[0].y);
+      for (let i = 1; i < this.currentPath.length; i++) {
+        ctx.lineTo(this.currentPath[i].x, this.currentPath[i].y);
+      }
+      ctx.stroke();
+      ctx.restore();
+      return;
+    }
+
+    if (!rect) {
+      ctx.restore();
+      return;
+    }
+
+    if (this.activeTool === "crop") {
+      // Visual Crop Mask: Dim outer area with photography thirds grid
+      ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+      ctx.fillRect(0, 0, ctx.canvas.width, rect.y);
+      ctx.fillRect(0, rect.y, rect.x, rect.h);
+      ctx.fillRect(rect.x + rect.w, rect.y, ctx.canvas.width - (rect.x + rect.w), rect.h);
+      ctx.fillRect(0, rect.y + rect.h, ctx.canvas.width, ctx.canvas.height - (rect.y + rect.h));
+
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(rect.x + rect.w / 3, rect.y);
+      ctx.lineTo(rect.x + rect.w / 3, rect.y + rect.h);
+      ctx.moveTo(rect.x + (rect.w * 2) / 3, rect.y);
+      ctx.lineTo(rect.x + (rect.w * 2) / 3, rect.y + rect.h);
+      ctx.moveTo(rect.x, rect.y + rect.h / 3);
+      ctx.lineTo(rect.x + rect.w, rect.y + rect.h / 3);
+      ctx.moveTo(rect.x, rect.y + (rect.h * 2) / 3);
+      ctx.lineTo(rect.x + rect.w, rect.y + (rect.h * 2) / 3);
+      ctx.stroke();
+
+      ctx.setLineDash([]);
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(rect.x, rect.y, rect.w, rect.h);
+
+      const handleLen = Math.min(16, Math.min(rect.w, rect.h) / 3);
+      ctx.lineWidth = 3.5;
+      ctx.strokeStyle = "#00f2fe";
+      ctx.beginPath();
+      ctx.moveTo(rect.x, rect.y + handleLen); ctx.lineTo(rect.x, rect.y); ctx.lineTo(rect.x + handleLen, rect.y);
+      ctx.moveTo(rect.x + rect.w - handleLen, rect.y); ctx.lineTo(rect.x + rect.w, rect.y); ctx.lineTo(rect.x + rect.w, rect.y + handleLen);
+      ctx.moveTo(rect.x, rect.y + rect.h - handleLen); ctx.lineTo(rect.x, rect.y + rect.h); ctx.lineTo(rect.x + handleLen, rect.y + rect.h);
+      ctx.moveTo(rect.x + rect.w - handleLen, rect.y + rect.h); ctx.lineTo(rect.x + rect.w, rect.y + rect.h); ctx.lineTo(rect.x + rect.w, rect.y + rect.h - handleLen);
+      ctx.stroke();
+
+      ctx.restore();
+      return;
+    }
+
     ctx.strokeStyle = "rgba(0, 242, 254, 0.85)";
     ctx.lineWidth = 2;
     ctx.setLineDash([6, 6]);
@@ -1660,10 +2786,10 @@ export default {
       ctx.ellipse(rect.x + rect.w / 2, rect.y + rect.h / 2, rect.w / 2, rect.h / 2, 0, 0, Math.PI * 2);
       ctx.stroke();
     } else if (this.activeTool === "arrow") {
-      this.drawArrow(ctx, this.dragStart.x, this.dragStart.y, rect.endX, rect.endY, "#00f2fe", 3);
+      this.drawArrow(ctx, this.dragStart.x, this.dragStart.y, rect.endX ?? (this.dragStart.x + rect.w), rect.endY ?? (this.dragStart.y + rect.h), "#00f2fe", 3);
     } else {
       ctx.strokeRect(rect.x, rect.y, rect.w, rect.h);
-      ctx.fillStyle = (this.activeTool === "blur") ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 242, 254, 0.1)";
+      ctx.fillStyle = (this.activeTool === "blur" || this.activeTool === "blackout") ? "rgba(0, 0, 0, 0.45)" : "rgba(0, 242, 254, 0.1)";
       ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
     }
     ctx.restore();
@@ -1693,36 +2819,66 @@ export default {
     ctx.restore();
   },
 
-  drawMagnifierLoupe(ctx, cx, cy, radius) {
+  drawMagnifierLoupe(ctx, cx, cy, radius, innerBounds) {
     const r = Math.max(25, radius);
+    if (!this.sourceImage || !innerBounds) return;
+
+    // Draw shadow circle FIRST before clipping
     ctx.save();
-
-    // Shadow on ring
-    ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-    ctx.shadowBlur = 14;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.55)";
+    ctx.shadowBlur = 18;
     ctx.shadowOffsetY = 6;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = "#0f172a";
+    ctx.fill();
+    ctx.restore();
 
-    // Draw magnified circle
+    // Zoomed region clipping
+    ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.clip();
 
-    // 2x Zoom scale around center
+    const sx = ((cx - innerBounds.x) / innerBounds.w) * this.sourceImage.naturalWidth;
+    const sy = ((cy - innerBounds.y) / innerBounds.h) * this.sourceImage.naturalHeight;
+    const sRadiusX = (r / innerBounds.w) * this.sourceImage.naturalWidth * 0.5;
+    const sRadiusY = (r / innerBounds.h) * this.sourceImage.naturalHeight * 0.5;
+
     ctx.drawImage(
-      ctx.canvas,
-      cx - r / 2, cy - r / 2, r, r,
+      this.sourceImage,
+      sx - sRadiusX, sy - sRadiusY, sRadiusX * 2, sRadiusY * 2,
       cx - r, cy - r, r * 2, r * 2
     );
-
     ctx.restore();
 
-    // Ring stroke & crosshairs
+    // Glowing cyan Loupe border & reticle
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.strokeStyle = "var(--accent-cyan)";
+    ctx.strokeStyle = "#00f2fe";
     ctx.lineWidth = 3;
     ctx.stroke();
+
+    ctx.strokeStyle = "rgba(0, 242, 254, 0.5)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - 8, cy);
+    ctx.lineTo(cx + 8, cy);
+    ctx.moveTo(cx, cy - 8);
+    ctx.lineTo(cx, cy + 8);
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+    ctx.beginPath();
+    this.roundRect(ctx, cx + r - 24, cy + r - 14, 22, 12, 3);
+    ctx.fill();
+    ctx.font = "bold 9px monospace";
+    ctx.fillStyle = "#00f2fe";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("2x", cx + r - 13, cy + r - 8);
+
     ctx.restore();
   },
 
@@ -1736,27 +2892,21 @@ export default {
     if (rw <= 0 || rh <= 0) return;
 
     try {
-      const imgData = ctx.getImageData(rx, ry, rw, rh);
-      const data = imgData.data;
+      // Offscreen downsampling & nearest-neighbor upscaling (CTM-safe and ultra-fast at 1x, 2x, 4x)
+      const sampleW = Math.max(1, Math.round(rw / blockSize));
+      const sampleH = Math.max(1, Math.round(rh / blockSize));
 
-      for (let py = 0; py < rh; py += blockSize) {
-        for (let px = 0; px < rw; px += blockSize) {
-          const sampleIdx = (py * rw + px) * 4;
-          const r = data[sampleIdx];
-          const g = data[sampleIdx + 1];
-          const b = data[sampleIdx + 2];
+      const offCanvas = document.createElement("canvas");
+      offCanvas.width = sampleW;
+      offCanvas.height = sampleH;
+      const offCtx = offCanvas.getContext("2d");
 
-          for (let by = 0; by < blockSize && (py + by) < rh; by++) {
-            for (let bx = 0; bx < blockSize && (px + bx) < rw; bx++) {
-              const pixelIdx = ((py + by) * rw + (px + bx)) * 4;
-              data[pixelIdx] = r;
-              data[pixelIdx + 1] = g;
-              data[pixelIdx + 2] = b;
-            }
-          }
-        }
-      }
-      ctx.putImageData(imgData, rx, ry);
+      offCtx.drawImage(ctx.canvas, rx, ry, rw, rh, 0, 0, sampleW, sampleH);
+
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(offCanvas, 0, 0, sampleW, sampleH, rx, ry, rw, rh);
+      ctx.restore();
     } catch (_) {}
   },
 
@@ -1801,11 +2951,9 @@ export default {
     const sCtx = sCanvas.getContext("2d");
 
     if (type === "analytics") {
-      // High-Fidelity Modern Dark Dashboard
       sCtx.fillStyle = "#090d16";
       sCtx.fillRect(0, 0, 1280, 760);
 
-      // Top Nav Bar
       sCtx.fillStyle = "rgba(255, 255, 255, 0.04)";
       sCtx.fillRect(0, 0, 1280, 56);
       sCtx.strokeStyle = "rgba(255, 255, 255, 0.08)";
@@ -1815,7 +2963,6 @@ export default {
       sCtx.fillStyle = "#00f2fe";
       sCtx.fillText("⚡ OmniTool Analytics", 30, 34);
 
-      // KPI Metric Cards
       const kpis = [
         { label: "Active Operations", val: "148,290", change: "+24.8%", color: "#10b981" },
         { label: "Client-Side Processing", val: "100.0%", change: "Zero Cloud", color: "#00f2fe" },
@@ -1843,7 +2990,6 @@ export default {
         sCtx.fillText(kpi.change, cx + 16, 172);
       });
 
-      // Chart Area
       sCtx.fillStyle = "rgba(255, 255, 255, 0.02)";
       sCtx.fillRect(30, 210, 1220, 510);
       sCtx.strokeStyle = "rgba(255, 255, 255, 0.08)";
@@ -1853,7 +2999,6 @@ export default {
       sCtx.fillStyle = "#e2e8f0";
       sCtx.fillText("Throughput Execution Velocity (Requests / Sec)", 50, 245);
 
-      // Neon Wave Graph
       sCtx.beginPath();
       const points = [
         [50, 620], [180, 540], [320, 580], [460, 420],
@@ -1872,7 +3017,6 @@ export default {
       sCtx.fillStyle = waveGrad;
       sCtx.fill();
 
-      // Stroke Line
       sCtx.beginPath();
       sCtx.moveTo(points[0][0], points[0][1]);
       points.forEach(p => sCtx.lineTo(p[0], p[1]));
@@ -1881,11 +3025,9 @@ export default {
       sCtx.stroke();
 
     } else if (type === "code") {
-      // Code Editor Studio Sample
       sCtx.fillStyle = "#0d1117";
       sCtx.fillRect(0, 0, 1280, 760);
 
-      // Line numbers and code
       const codeLines = [
         "// OmniTool Hub - High-Velocity Client-Side Screenshot Engine",
         "import { captureDisplay, annotateFrame } from './screenshot-studio.js';",
@@ -1919,7 +3061,6 @@ export default {
       });
 
     } else if (type === "terminal") {
-      // Terminal Matrix Screen
       sCtx.fillStyle = "#020408";
       sCtx.fillRect(0, 0, 1280, 760);
 
@@ -1938,7 +3079,6 @@ export default {
       });
 
     } else {
-      // Landing Hero Page
       sCtx.fillStyle = "#0b0f19";
       sCtx.fillRect(0, 0, 1280, 760);
 
@@ -1985,6 +3125,7 @@ export default {
       scale1x.classList.add("active");
       scale2x?.classList.remove("active");
       this.config.exportScale = 1;
+      this.app?.showToast("Set resolution to 1x Standard", "info");
     });
 
     scale2x?.addEventListener("click", () => {
@@ -1996,33 +3137,39 @@ export default {
   },
 
   async copyCanvasToClipboard() {
-    const canvas = this.masterCanvas;
+    const canvas = this.getExportCanvas(this.config.exportScale);
     if (!canvas) return;
 
     try {
       this.playShutterSound();
+      if (typeof ClipboardItem !== "undefined") {
+        const itemPromise = new Promise((resolve, reject) => {
+          canvas.toBlob((blob) => {
+            if (blob) resolve(blob);
+            else reject(new Error("Canvas toBlob failed"));
+          }, "image/png");
+        });
+
+        await navigator.clipboard.write([
+          new ClipboardItem({ "image/png": itemPromise })
+        ]);
+        this.app?.showToast(`Copied ${this.config.exportScale}x screenshot to clipboard! Ready to paste into Slack, Jira, Discord, or Docs.`, "success");
+        return;
+      }
+
       canvas.toBlob(async (blob) => {
         if (!blob) return;
-        try {
-          await navigator.clipboard.write([
-            new ClipboardItem({ "image/png": blob })
-          ]);
-          this.app?.showToast("Copied screenshot to clipboard! Ready to paste into Slack, Jira, Discord, or Docs.", "success");
-        } catch (err) {
-          console.warn("Clipboard API blocked, offering fallback download", err);
-          this.downloadExportImage("png");
-        }
+        await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+        this.app?.showToast(`Copied ${this.config.exportScale}x screenshot to clipboard!`, "success");
       }, "image/png");
     } catch (err) {
+      console.warn("Clipboard API blocked, offering fallback download", err);
       this.app?.showToast("Could not copy directly. Downloading PNG instead.", "info");
       this.downloadExportImage("png");
     }
   },
 
   downloadExportImage(overrideFmt) {
-    const canvas = this.masterCanvas;
-    if (!canvas) return;
-
     const format = overrideFmt || this.container.querySelector("#sc-export-format")?.value || "png";
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
     const filename = `omnitool-screenshot-${timestamp}`;
@@ -2031,6 +3178,9 @@ export default {
       this.exportPdf(filename);
       return;
     }
+
+    const canvas = this.getExportCanvas(this.config.exportScale);
+    if (!canvas) return;
 
     const mimeType = (format === "webp") ? "image/webp" : (format === "jpeg") ? "image/jpeg" : "image/png";
     const extension = (format === "jpeg") ? "jpg" : format;
@@ -2041,47 +3191,169 @@ export default {
     link.download = `${filename}.${extension}`;
     link.href = canvas.toDataURL(mimeType, 0.95);
     link.click();
-    this.app?.showToast(`Downloaded ${filename}.${extension}`, "success");
+    this.app?.showToast(`Downloaded ${filename}.${extension} (${this.config.exportScale}x resolution)`, "success");
   },
 
-  exportPdf(filename) {
-    const canvas = this.masterCanvas;
+  loadPdfLib() {
+    if (this.pdfLibLoadingPromise) return this.pdfLibLoadingPromise;
+    this.pdfLibLoadingPromise = new Promise((resolve, reject) => {
+      if (window.PDFLib) {
+        resolve(window.PDFLib);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js";
+      script.onload = () => resolve(window.PDFLib);
+      script.onerror = () => {
+        this.pdfLibLoadingPromise = null;
+        reject(new Error("Failed to load PDF library"));
+      };
+      document.head.appendChild(script);
+    });
+    return this.pdfLibLoadingPromise;
+  },
+
+  generateNativePdfBytes(canvas) {
+    const jpegDataUrl = canvas.toDataURL("image/jpeg", 0.95);
+    const base64Data = jpegDataUrl.split(",")[1];
+    const binaryStr = atob(base64Data);
+    const jpegBytes = new Uint8Array(binaryStr.length);
+    for (let i = 0; i < binaryStr.length; i++) {
+      jpegBytes[i] = binaryStr.charCodeAt(i);
+    }
+
+    const isLandscape = canvas.width >= canvas.height;
+    const pageW = isLandscape ? 841.89 : 595.28;
+    const pageH = isLandscape ? 595.28 : 841.89;
+
+    const margin = 28;
+    const maxW = pageW - margin * 2;
+    const maxH = pageH - margin * 2;
+    const imgAspect = canvas.width / canvas.height;
+    let drawW = maxW;
+    let drawH = drawW / imgAspect;
+    if (drawH > maxH) {
+      drawH = maxH;
+      drawW = drawH * imgAspect;
+    }
+    const drawX = margin + (maxW - drawW) / 2;
+    const drawY = margin + (maxH - drawH) / 2;
+
+    const enc = new TextEncoder();
+    // Standard PDF-1.4 header with 4 binary bytes (> 127) to indicate binary content
+    const headerStr = "%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";
+    const headerBytes = enc.encode(headerStr);
+    const offsets = [];
+    let body = "";
+
+    const addObj = (content) => {
+      offsets.push(headerBytes.length + enc.encode(body).length);
+      body += content + "\n";
+    };
+
+    addObj("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj");
+    addObj("2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj");
+    addObj(`3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW.toFixed(2)} ${pageH.toFixed(2)}] /Resources << /XObject << /Im1 5 0 R >> /ProcSet [/PDF /ImageC] >> /Contents 4 0 R >>\nendobj`);
+
+    const streamContent = `q ${drawW.toFixed(2)} 0 0 ${drawH.toFixed(2)} ${drawX.toFixed(2)} ${drawY.toFixed(2)} cm /Im1 Do Q`;
+    addObj(`4 0 obj\n<< /Length ${streamContent.length} >>\nstream\n${streamContent}\nendstream\nendobj`);
+
+    const obj5Header = `5 0 obj\n<< /Type /XObject /Subtype /Image /Width ${canvas.width} /Height ${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpegBytes.length} >>\nstream\n`;
+    const obj5Footer = "\nendstream\nendobj\n";
+
+    offsets.push(headerBytes.length + enc.encode(body).length);
+
+    const bodyBytes = enc.encode(body + obj5Header);
+    const part1 = new Uint8Array(headerBytes.length + bodyBytes.length);
+    part1.set(headerBytes, 0);
+    part1.set(bodyBytes, headerBytes.length);
+
+    const part2 = jpegBytes;
+
+    const footerBytes = enc.encode(obj5Footer);
+    const xrefOffset = part1.length + part2.length + footerBytes.length;
+
+    let xref = `${obj5Footer}xref\n0 6\n0000000000 65535 f \n`;
+    for (let i = 0; i < 5; i++) {
+      xref += String(offsets[i]).padStart(10, "0") + " 00000 n \n";
+    }
+    xref += `trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`;
+    const part3 = enc.encode(xref);
+
+    const fullLength = part1.length + part2.length + part3.length;
+    const finalBuffer = new Uint8Array(fullLength);
+    finalBuffer.set(part1, 0);
+    finalBuffer.set(part2, part1.length);
+    finalBuffer.set(part3, part1.length + part2.length);
+
+    return finalBuffer;
+  },
+
+  async exportPdf(filename) {
+    const canvas = this.getExportCanvas(this.config.exportScale);
     if (!canvas) return;
 
-    // Use PDF document generation
+    this.updateStatusPill("Generating PDF...", "#f59e0b");
+    this.playAudioBeep(880, 0.08);
+
     try {
-      const imgData = canvas.toDataURL("image/jpeg", 0.92);
-      const isLandscape = canvas.width >= canvas.height;
-      const pdfW = isLandscape ? 842 : 595; // A4 pt
-      const pdfH = isLandscape ? 595 : 842;
+      let pdfBytes = null;
+      try {
+        const PDFLib = await this.loadPdfLib();
+        if (PDFLib?.PDFDocument) {
+          const pdfDoc = await PDFLib.PDFDocument.create();
+          const isLandscape = canvas.width >= canvas.height;
+          const pageW = isLandscape ? 841.89 : 595.28;
+          const pageH = isLandscape ? 595.28 : 841.89;
+          const page = pdfDoc.addPage([pageW, pageH]);
 
-      // Fit image into A4 page preserving aspect ratio
-      const imgAspect = canvas.width / canvas.height;
-      let drawW = pdfW - 40;
-      let drawH = drawW / imgAspect;
+          const jpegDataUrl = canvas.toDataURL("image/jpeg", 0.95);
+          const embeddedImg = await pdfDoc.embedJpg(jpegDataUrl);
 
-      if (drawH > (pdfH - 40)) {
-        drawH = pdfH - 40;
-        drawW = drawH * imgAspect;
+          const margin = 28;
+          const maxW = pageW - margin * 2;
+          const maxH = pageH - margin * 2;
+          const imgAspect = canvas.width / canvas.height;
+          let drawW = maxW;
+          let drawH = drawW / imgAspect;
+          if (drawH > maxH) {
+            drawH = maxH;
+            drawW = drawH * imgAspect;
+          }
+          const drawX = margin + (maxW - drawW) / 2;
+          const drawY = margin + (maxH - drawH) / 2;
+
+          page.drawImage(embeddedImg, { x: drawX, y: drawY, width: drawW, height: drawH });
+          pdfBytes = await pdfDoc.save();
+        }
+      } catch (libErr) {
+        console.warn("PDFLib load failed, using pure native PDF fallback:", libErr);
       }
 
-      const drawX = (pdfW - drawW) / 2;
-      const drawY = (pdfH - drawH) / 2;
+      if (!pdfBytes) {
+        pdfBytes = this.generateNativePdfBytes(canvas);
+      }
 
-      // Construct clean single-page PDF with embedded image
+      const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.download = `${filename}.png`;
-      link.href = canvas.toDataURL("image/png");
+      link.download = `${filename}.pdf`;
+      link.href = url;
       link.click();
-      this.app?.showToast("Exported high-res capture!", "success");
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+
+      this.updateStatusPill("Ready", "#00f2fe");
+      this.app?.showToast(`Downloaded genuine ${filename}.pdf document!`, "success");
     } catch (err) {
+      console.error("PDF export error:", err);
+      this.app?.showToast("PDF generation failed, downloading PNG instead.", "error");
       this.downloadExportImage("png");
     }
   },
 
   updateStatusPill(text, color) {
-    const pill = this.container.querySelector("#sc-status-pill");
-    const label = this.container.querySelector("#sc-status-text");
+    const pill = this.container?.querySelector("#sc-status-pill");
+    const label = this.container?.querySelector("#sc-status-text");
     if (!pill || !label) return;
 
     label.textContent = text;
@@ -2092,8 +3364,22 @@ export default {
 
   cleanup() {
     clearInterval(this.countdownTimer);
+    this.countdownTimer = null;
     if (this.boundPasteHandler) {
       window.removeEventListener("paste", this.boundPasteHandler);
+      this.boundPasteHandler = null;
+    }
+    if (this.boundKeyHandler) {
+      window.removeEventListener("keydown", this.boundKeyHandler);
+      this.boundKeyHandler = null;
+    }
+    if (this.boundPointerMove) {
+      window.removeEventListener("pointermove", this.boundPointerMove);
+      this.boundPointerMove = null;
+    }
+    if (this.boundPointerUp) {
+      window.removeEventListener("pointerup", this.boundPointerUp);
+      this.boundPointerUp = null;
     }
     if (this.activeStream) {
       this.activeStream.getTracks().forEach(t => t.stop());

@@ -442,7 +442,7 @@ const app = {
     {
       id: "voice-recorder",
       name: "Voice Recorder & Audio Waveform Studio",
-      desc: "Capture studio-grade voice memos with live frequency bars, smooth oscilloscope waves, noise suppression, and lossless 16-bit WAV export.",
+      desc: "Record mic memos or inspect audio files with live spectrum & radial visualizers, range trimming, peak normalization, EQ filters, speech-to-text, and lossless WAV export.",
       category: "design",
       subcategory: "design-graphics",
       subLabel: "Audio & Video Media",
@@ -590,7 +590,27 @@ const app = {
     { id: "seo-previewer", title: "SEO Previewer Guide", url: "guides/seo-previewer.html" },
     { id: "mock-data-generator", title: "Mock Data Generator Guide", url: "guides/mock-data-generator.html" },
     { id: "ip-subnet-calculator", title: "IP Subnet & MAC Suite Guide", url: "guides/ip-subnet-calculator.html" },
-    { id: "payment-guide", title: "Payment & Activation Guide", url: "guides/payment-guide.html" }
+    { id: "payment-guide", title: "Payment & Activation Guide", url: "guides/payment-guide.html" },
+    { id: "pdf-converter-hub", title: "Document & PDF Converter Hub Guide", url: "guides/pdf-converter-hub.html" },
+    { id: "pdf-editor-suite", title: "PDF Editor, Sign & Markup Studio Guide", url: "guides/pdf-editor-suite.html" },
+    { id: "pdf-security-suite", title: "PDF Security, Repair & Archival Suite Guide", url: "guides/pdf-security-suite.html" },
+    { id: "pdf-ai", title: "AI PDF Summarizer & Translator Guide", url: "guides/pdf-ai.html" },
+    { id: "compare-pdf", title: "PDF Document Comparison & Diff Guide", url: "guides/compare-pdf.html" },
+    { id: "lorem-generator", title: "Smart Lorem Ipsum & Typography Guide", url: "guides/lorem-generator.html" },
+    { id: "formatter-suite", title: "Data Formatter & Converter Suite Guide", url: "guides/formatter-suite.html" },
+    { id: "qr-studio", title: "Dynamic QR & Barcode Studio Guide", url: "guides/qr-studio.html" },
+    { id: "curl-converter", title: "cURL to Multi-Language Code Converter Guide", url: "guides/curl-converter.html" },
+    { id: "cron-builder", title: "Visual Cron Expression Builder Guide", url: "guides/cron-builder.html" },
+    { id: "json-to-types", title: "JSON-to-Code Type Interface Converter Guide", url: "guides/json-to-types.html" },
+    { id: "robots-generator", title: "Robots.txt Visual Builder & AI Shield Guide", url: "guides/robots-generator.html" },
+    { id: "temp-mail", title: "Disposable Temp Mail Client Guide", url: "guides/temp-mail.html" },
+    { id: "screenshot-capture", title: "Screen Capture & Window Mockup Studio Guide", url: "guides/screenshot-capture.html" },
+    { id: "screen-recorder", title: "Browser Screen & Tab Recorder Guide", url: "guides/screen-recorder.html" },
+    { id: "voice-recorder", title: "Voice Recorder & Waveform Studio Guide", url: "guides/voice-recorder.html" },
+    { id: "audio-suite", title: "Audio Studio & Transcoding Suite Guide", url: "guides/audio-suite.html" },
+    { id: "video-speed", title: "Video Speed Controller & Analyzer Guide", url: "guides/video-speed.html" },
+    { id: "video-to-gif", title: "Video to Animated GIF Converter Guide", url: "guides/video-to-gif.html" },
+    { id: "favicon-generator", title: "Favicon & PWA App Icon Suite Guide", url: "guides/favicon-generator.html" }
   ],
 
   // Centralized Tool Keywords mapping for enhanced search functionality
@@ -634,7 +654,7 @@ const app = {
     "images-to-pdf": ["image to pdf", "jpg to pdf", "png to pdf", "photos to pdf", "convert images", "pdf maker", "combine pictures", "pdf compiler"],
     "screenshot-capture": ["screenshot", "screen capture", "browser capture", "tab capture", "window capture", "webpage capture", "mockup", "annotation", "screen grab", "snip", "snipping tool", "redact", "pixelate", "callout", "screenshot tool", "screen snip", "take screenshot"],
     "screen-recorder": ["screen recorder", "record screen", "capture screen", "screen capture", "record tab", "record video", "screen video", "screencast", "webcam record", "video recorder"],
-    "voice-recorder": ["voice recorder", "audio recorder", "record voice", "mic recorder", "microphone", "sound recorder", "waveform", "wav recorder", "voice memo", "audio visualizer"],
+    "voice-recorder": ["voice recorder", "audio recorder", "record voice", "mic recorder", "microphone", "sound recorder", "waveform", "wav recorder", "voice memo", "audio visualizer", "trim audio", "audio trimmer", "audio editor", "transcribe audio", "speech to text", "audio normalize", "audio eq", "waveform png", "stt"],
     "video-speed": ["video speed", "playback speed", "speed controller", "slow motion", "speed up video", "slow video", "frame step", "loop video", "ab loop", "video player", "pitch"],
     "mp4-to-mp3": ["mp4 to mp3", "video to audio", "extract audio", "convert mp4", "video to wav", "audio extractor", "sound from video", "demux audio", "trim audio"],
     "video-to-gif": ["video to gif", "convert to gif", "make gif", "animated gif", "gif creator", "mp4 to gif", "webm to gif", "clip to gif", "gif converter", "gif maker"],
@@ -1663,7 +1683,27 @@ const app = {
     { id: "pii-anonymizer", fileName: "pii-anonymizer.html", title: "Client-Side PII Masker & Anonymizer", description: "Learn how to detect, redact, hash, and mask sensitive Personal Identifiable Information (PII) from server logs locally." },
     { id: "json-formatter", fileName: "json-formatter.html", title: "JSON, SQL & CSV Data Formatter Suite", description: "Learn how to format, validate, and convert JSON, SQL, and CSV datasets entirely client-side using OmniTool Hub's privacy-focused utility suites." },
     { id: "ip-subnet-calculator", fileName: "ip-subnet-calculator.html", title: "IP Subnet & MAC Address Calculator", description: "Learn how to calculate IPv4 CIDR subnets, discover usable host ranges, inspect wildcard masks, and look up MAC OUI vendors client-side." },
-    { id: "payment-guide", fileName: "payment-guide.html", title: "OmniTool Hub Payment & PRO Activation Guide", description: "Learn how to activate lifetime PRO access, configure Razorpay, PayPal, or Stripe, and verify zero-fee licensing." }
+    { id: "payment-guide", fileName: "payment-guide.html", title: "OmniTool Hub Payment & PRO Activation Guide", description: "Learn how to activate lifetime PRO access, configure Razorpay, PayPal, or Stripe, and verify zero-fee licensing." },
+    { id: "pdf-converter-hub", fileName: "pdf-converter-hub.html", title: "Universal Document & PDF Converter Hub Guide", description: "Convert Word DOCX, Excel XLSX, PowerPoint PPTX, Images, HTML, and Markdown to high-fidelity PDF client-side with zero data transmission." },
+    { id: "pdf-editor-suite", fileName: "pdf-editor-suite.html", title: "PDF Editor, Sign & Vector Markup Studio Guide", description: "Draw cursive e-signatures, fill interactive AcroForms, annotate with vector shapes, stamp watermarks, and permanently redact sensitive PII client-side." },
+    { id: "pdf-security-suite", fileName: "pdf-security-suite.html", title: "PDF Security, Repair & ISO Archival Suite Guide", description: "Apply military-grade AES-256 encryption, set granular permissions, repair corrupted xref tables, and convert documents to ISO 19005 PDF/A format." },
+    { id: "pdf-ai", fileName: "pdf-ai.html", title: "Client-Side AI PDF Summarizer & Translator Guide", description: "Extract executive briefs, generate key takeaways, identify action items, and translate dense PDF documents into 15+ languages client-side." },
+    { id: "compare-pdf", fileName: "compare-pdf.html", title: "Visual & Textual PDF Document Diff Tool Guide", description: "Compare two PDF versions side-by-side with interactive pixel diff heatmaps, swipe-wipe inspection sliders, and inline text additions/deletions." },
+    { id: "lorem-generator", fileName: "lorem-generator.html", title: "Smart Lorem Ipsum & Typographic Dummy Text Generator", description: "Generate classic Latin Cicero text, Cyberpunk lore, and B2B corporate placeholder copy formatted as HTML, Markdown, or JSON arrays." },
+    { id: "formatter-suite", fileName: "formatter-suite.html", title: "Universal Code & Data Formatter Suite Guide", description: "Format, validate, beautify, and cross-convert JSON, SQL queries, CSV spreadsheets, and YAML documents client-side with syntax tree validation." },
+    { id: "qr-studio", fileName: "qr-studio.html", title: "Dynamic QR & Barcode Studio Guide", description: "Generate artistic gradient QR codes, create Code-128 and UPC barcodes, and scan codes live using your device camera or uploaded image files." },
+    { id: "curl-converter", fileName: "curl-converter.html", title: "cURL to Multi-Language Code Converter Guide", description: "Convert raw cURL shell commands into idiomatic JavaScript Fetch, Python Requests, Node.js Axios, Go net/http, and Rust reqwest code client-side." },
+    { id: "cron-builder", fileName: "cron-builder.html", title: "Visual Cron Expression Builder & Explainer Guide", description: "Design 5-field cron schedules visually, decode complex cron syntax into plain English, and view exact upcoming execution dates." },
+    { id: "json-to-types", fileName: "json-to-types.html", title: "JSON to TypeScript, Python & Go Interface Converter Guide", description: "Automatically infer JSON types and compile schemas into TypeScript interfaces, Python Pydantic models, Go structs, and Rust Serde types." },
+    { id: "robots-generator", fileName: "robots-generator.html", title: "Robots.txt Visual Builder & AI Bot Shield Guide", description: "Design valid robots.txt files, block aggressive AI scrapers (GPTBot, ClaudeBot, CCBot), configure crawl delays, and validate crawler paths." },
+    { id: "temp-mail", fileName: "temp-mail.html", title: "Disposable Temp Mail Client Guide", description: "Generate instant disposable email inboxes, bypass spam, receive OTP confirmation codes, and inspect sanitized HTML messages client-side." },
+    { id: "screenshot-capture", fileName: "screenshot-capture.html", title: "Browser Screenshot & Window Mockup Studio Guide", description: "Capture application screens or browser tabs, apply macOS and Windows 11 window frames, add vector annotations, and redact private data." },
+    { id: "screen-recorder", fileName: "screen-recorder.html", title: "Browser Screen & Tab Recorder Guide", description: "Record entire desktop screens, specific windows, or browser tabs with microphone audio mixing, webcam PiP overlays, and WebM/MP4 export." },
+    { id: "voice-recorder", fileName: "voice-recorder.html", title: "Voice Recorder & Audio Waveform Studio Guide", description: "Record studio-grade voice audio, analyze live FFT spectrum waveforms, and export uncompressed 16-bit PCM WAV audio files client-side." },
+    { id: "audio-suite", fileName: "audio-suite.html", title: "Audio Studio, Transcoder & Waveform Trimmer Guide", description: "Transcode audio between MP3, WAV, and OGG formats, visually trim audio waveforms, and extract audio soundtracks from video files client-side." },
+    { id: "video-speed", fileName: "video-speed.html", title: "Video Playback Speed & Pitch Controller Guide", description: "Control video playback rates from 0.1x to 4.0x with pitch correction, single-frame stepping, and seamless A-B repeating loops." },
+    { id: "video-to-gif", fileName: "video-to-gif.html", title: "Video to Animated GIF Converter Guide", description: "Convert MP4, WebM, and MOV video clips into animated GIFs with NeuQuant 256-color palette quantization and LZW compression client-side." },
+    { id: "favicon-generator", fileName: "favicon-generator.html", title: "Multi-Resolution Favicon & PWA App Icon Suite Guide", description: "Generate multi-size .ICO bundles (16x16, 32x32, 48x48), Apple Touch icons, Android PWA manifest icons, and ready-to-paste HTML code." }
   ],
 
   // Utility classification helper: sorts items into Suites, Features, Standalone Tools, Pro, and Free
@@ -5448,12 +5488,16 @@ const app = {
         // Swipe gesture detector to close drawer
         let touchStartX = 0;
         let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
         drawer.addEventListener("touchstart", (e) => {
           touchStartX = e.changedTouches[0].screenX;
+          touchStartY = e.changedTouches[0].screenY;
         }, { passive: true });
         drawer.addEventListener("touchend", (e) => {
           touchEndX = e.changedTouches[0].screenX;
-          if (touchStartX - touchEndX > 60) {
+          touchEndY = e.changedTouches[0].screenY;
+          if ((touchStartX - touchEndX > 60) || (touchEndY - touchStartY > 70)) {
             this.playSynthSound('click');
             splitView.classList.remove("drawer-open");
           }
@@ -5590,7 +5634,13 @@ const app = {
         resizer.addEventListener("pointercancel", stopDragging);
 
         // 5. Inject Reset Layout & Full Screen buttons in preview panel header
-        const previewHeader = previewPanel.querySelector(".panel-header");
+        let previewHeader = previewPanel.querySelector(".panel-header");
+        if (!previewHeader) {
+          previewHeader = previewPanel.querySelector(".viewport-header, .studio-toolbar, .viewer-toolbar, div[style*=\"justify-content: space-between\"]");
+          if (previewHeader) {
+            previewHeader.classList.add("panel-header");
+          }
+        }
         if (previewHeader) {
           if (!previewHeader.querySelector(".reset-split-btn")) {
             const resetHeaderBtn = document.createElement("button");
