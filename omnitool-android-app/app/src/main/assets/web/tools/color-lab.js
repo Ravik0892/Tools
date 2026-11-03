@@ -11,9 +11,10 @@ export default {
           <div class="panel-header">
             <h3>Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="color-lab-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 440px; margin-left: 15px;" id="color-lab-tabs">
               <button class="keyboard-tab active" data-tab="palette" style="font-size: 11px; padding: 4px 8px;">Palette Generator</button>
               <button class="keyboard-tab" data-tab="shades" style="font-size: 11px; padding: 4px 8px;">Shades & Tints</button>
+              <button class="keyboard-tab" data-tab="extract" style="font-size: 11px; padding: 4px 8px;">Extract from Image</button>
             </div>
           </div>
 
@@ -101,6 +102,59 @@ export default {
               </div>
             </div>
           </div>
+          <!-- Tab 3: Extract from Image Source & Controls -->
+          <div id="panel-extract-controls" class="tab-control-panel hidden">
+            <div class="panel-header" style="padding: 0 0 8px 0; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h3 style="margin: 0; font-size: 15px;">Source Image &amp; Eyedropper</h3>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">
+                  Drop photo or sample exact pixel colors.
+                </p>
+              </div>
+              <button class="tool-btn secondary" id="ce-clear-btn" style="font-size: 11px; padding: 4px 10px; display: none;">Clear</button>
+            </div>
+
+            <!-- Dropzone -->
+            <div id="ce-dropzone" style="border: 2px dashed rgba(0, 242, 254, 0.35); background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 28px 16px; text-align: center; cursor: pointer; transition: all 0.25s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 180px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 40px; height: 40px; color: var(--accent-cyan); margin-bottom: 10px;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+                <path d="M2 12h20"></path>
+              </svg>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">
+                Drop photo here, browse, or press <kbd style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-color); border-radius: 4px; padding: 1px 6px; font-size: 11px; font-family: var(--font-mono);">Ctrl + V</kbd>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">
+                PNG, JPG, WebP, SVG, and GIF supported.
+              </div>
+              <input type="file" id="ce-file-input" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Image Canvas & Live Eyedropper Magnifier -->
+            <div id="ce-canvas-wrapper" style="display: none; position: relative; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; background: #000; text-align: center;">
+              <canvas id="ce-image-canvas" style="max-width: 100%; max-height: 260px; display: block; margin: 0 auto; cursor: crosshair;"></canvas>
+              
+              <!-- Floating Eyedropper Tooltip -->
+              <div id="ce-eyedropper-badge" style="display: none; position: absolute; pointer-events: none; background: rgba(10, 15, 30, 0.9); border: 2px solid #00f2fe; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-family: var(--font-mono); font-weight: bold; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transform: translate(-50%, -140%); z-index: 20; white-space: nowrap;">
+                <span id="ce-eyedropper-color-dot" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: middle;"></span>
+                <span id="ce-eyedropper-hex">#000000</span>
+              </div>
+            </div>
+
+            <!-- Controls under Canvas -->
+            <div id="ce-controls-bar" style="display: none; margin-top: 12px; gap: 10px; flex-direction: column;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Palette Swatches Count</label>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <input type="range" id="ce-color-count" min="3" max="10" value="6" style="width: 120px; accent-color: var(--accent-cyan);">
+                  <span id="ce-color-count-label" style="font-size: 12px; font-weight: bold; color: var(--accent-cyan); width: 24px;">6</span>
+                </div>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">
+                💡 <em>Click anywhere on the image with the crosshair cursor to sample exact colors.</em>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Previews & Results (Right Panel) -->
@@ -180,6 +234,49 @@ export default {
               <!-- Opacities Grid -->
               <div id="shades-tab-opacities" class="shades-content-pane hidden">
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 8px;" id="opacities-grid"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Extracted Swatches Matrix (Visible under Extract) -->
+          <div id="output-extract-panel" class="hidden" style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
+            <div class="panel-header" style="padding: 0 0 8px 0; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+              <h3>Extracted Color Palette</h3>
+              <div style="display: flex; gap: 6px;">
+                <button class="tool-btn secondary" id="ce-export-image-btn" style="font-size: 11px; padding: 4px 10px;" disabled>
+                  <span>Export PNG</span>
+                </button>
+                <button class="tool-btn primary" id="ce-open-colorlab-btn" style="font-size: 11px; padding: 4px 12px;" disabled>
+                  <span>Open in Color Lab ↗</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="ce-empty-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 240px; text-align: center; border: 1px dashed var(--border-color); border-radius: 8px; background: rgba(0,0,0,0.15); padding: 20px;">
+              <div style="font-size: 28px; margin-bottom: 8px;">🎨</div>
+              <div style="font-size: 13px; font-weight: 600; color: var(--text-muted);">No palette extracted yet</div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Upload an image on the left to generate harmonious swatches.</div>
+            </div>
+
+            <!-- Dynamic Swatch Cards Grid -->
+            <div id="ce-swatches-grid" style="display: none; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; padding-right: 4px; margin-bottom: 14px;">
+              <!-- Swatch rows dynamically injected -->
+            </div>
+
+            <!-- Export Formats Panel -->
+            <div id="ce-export-panel" style="display: none; border-top: 1px solid var(--border-color); padding-top: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Export Code Snippet</label>
+                <div style="display: flex; gap: 4px;">
+                  <button class="tool-btn secondary ce-snippet-tab active" data-type="css" style="font-size: 10px; padding: 2px 8px;">CSS</button>
+                  <button class="tool-btn secondary ce-snippet-tab" data-type="tailwind" style="font-size: 10px; padding: 2px 8px;">Tailwind</button>
+                  <button class="tool-btn secondary ce-snippet-tab" data-type="json" style="font-size: 10px; padding: 2px 8px;">JSON</button>
+                </div>
+              </div>
+              <div style="position: relative;">
+                <textarea id="ce-snippet-output" class="input-textarea" style="width: 100%; height: 90px; font-family: var(--font-mono); font-size: 11.5px; padding: 8px; background: rgba(0,0,0,0.25); border-color: var(--border-color); color: var(--accent-cyan); resize: none;" readonly></textarea>
+                <button class="tool-btn secondary" id="ce-copy-snippet-btn" style="position: absolute; top: 6px; right: 6px; font-size: 10px; padding: 2px 8px;">Copy</button>
               </div>
             </div>
           </div>
@@ -284,8 +381,10 @@ export default {
     const tabs = container.querySelectorAll("#color-lab-tabs .keyboard-tab");
     const panelPalette = container.querySelector("#panel-palette-controls");
     const panelShades = container.querySelector("#panel-shades-controls");
+    const panelExtract = container.querySelector("#panel-extract-controls");
     const outputPalette = container.querySelector("#output-palette-panel");
     const outputShades = container.querySelector("#output-shades-panel");
+    const outputExtract = container.querySelector("#output-extract-panel");
 
     const guideTitle = container.querySelector("#color-guide-title");
     const guideSteps = container.querySelector("#color-guide-steps");
@@ -328,30 +427,63 @@ export default {
             <div class="tool-guide-step-text"><strong>Copy Swatches</strong>: Click tints, shades, or opacity blocks to copy values instantly.</div>
           </div>
         `
+      },
+      extract: {
+        title: "Quick Guide: Image Color Palette Extractor & Eyedropper",
+        steps: `
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">1</div>
+            <div class="tool-guide-step-text"><strong>Upload Image</strong>: Drop photo/graphic, browse, or paste with Ctrl+V.</div>
+          </div>
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">2</div>
+            <div class="tool-guide-step-text"><strong>Eyedropper</strong>: Hover crosshairs over any pixel to inspect color and zoom loupe.</div>
+          </div>
+          <div class="tool-guide-step">
+            <div class="tool-guide-step-num">3</div>
+            <div class="tool-guide-step-text"><strong>Export Scheme</strong>: Copy HEX codes, CSS variables, or Tailwind color blocks.</div>
+          </div>
+        `
       }
     };
 
+    let extractInitialized = false;
     let verifyAccessibility = null;
     let renderAllSwatches = null;
 
-    const switchTab = (tabId) => {
+    const switchTab = async (tabId) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
       panelPalette.classList.toggle("hidden", tabId !== "palette");
       panelShades.classList.toggle("hidden", tabId !== "shades");
+      if (panelExtract) panelExtract.classList.toggle("hidden", tabId !== "extract");
+
       outputPalette.classList.toggle("hidden", tabId !== "palette");
       outputShades.classList.toggle("hidden", tabId !== "shades");
+      if (outputExtract) outputExtract.classList.toggle("hidden", tabId !== "extract");
 
-      if (guideTitle && guideSteps) {
+      if (tabId === "extract" && !extractInitialized) {
+        extractInitialized = true;
+        try {
+          const mod = await import('./color-extractor.js');
+          if (mod && mod.default && typeof mod.default.init === "function") {
+            mod.default.init(container, appInstance);
+          }
+        } catch (e) {
+          console.error("Failed to mount color-extractor:", e);
+        }
+      }
+
+      if (guideTitle && guideSteps && guides[tabId]) {
         guideTitle.innerText = guides[tabId].title;
         guideSteps.innerHTML = guides[tabId].steps;
       }
 
       if (tabId === "palette") {
-        verifyAccessibility(false);
+        if (typeof verifyAccessibility === "function") verifyAccessibility(false);
       } else if (tabId === "shades") {
-        renderAllSwatches();
+        if (typeof renderAllSwatches === "function") renderAllSwatches();
       }
     };
 

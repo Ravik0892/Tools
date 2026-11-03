@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniTool Hub - Social Media Brand Assets & Logo Exporter</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --card-bg: rgba(14, 19, 31, 0.8);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --accent-pink: #ff007a;
+      --accent-purple: #c084fc;
+      --accent-cyan: #06b6d4;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      background: rgba(255, 0, 122, 0.1);
+      border: 1px solid rgba(255, 0, 122, 0.3);
+      color: var(--accent-pink);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple), var(--accent-cyan));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Toolbar Controls */
+    .toolbar-container {
+      background: rgba(14, 19, 31, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 20px 30px;
+      margin-bottom: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .toolbar-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .toggle-group {
+      display: flex;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .toggle-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toggle-btn.active {
+      background: linear-gradient(135deg, var(--accent-pink), #d946ef);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(255, 0, 122, 0.35);
+    }
+
+    .select-input {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .select-input option {
+      background: #0d111a;
+      color: #fff;
+    }
+
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .asset-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .asset-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 0, 122, 0.4);
+    }
+
+    .card-preview {
+      background: #05070c;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 240px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .card-preview.transparent-preview {
+      background-color: #0a0e17;
+      background-image:
+        linear-gradient(45deg, #131826 25%, transparent 25%),
+        linear-gradient(-45deg, #131826 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #131826 75%),
+        linear-gradient(-45deg, transparent 75%, #131826 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    .card-preview.light-preview {
+      background-color: #f1f5f9;
+    }
+
+    .card-preview img,
+    .card-preview svg {
+      max-width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .platform-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .platform-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .dim-tag {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+    }
+
+    .desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-pink), #e0006c);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(255, 0, 122, 0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(255, 0, 122, 0.5);
+      filter: brightness(1.1);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .specs-table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 30px;
+      margin-top: 40px;
+    }
+
+    .specs-table-container h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      color: var(--accent-pink);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    td {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    td strong {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">✨ OmniTool Hub Social Branding Kit</div>
+      <h1>Social Media Assets & Logo Exporter</h1>
+      <p class="subtitle">Pixel-perfect, high-resolution logo and header graphics for YouTube, LinkedIn, Instagram,
+        Facebook, Twitter, and Web App icons.</p>
+    </header>
+
+    <!-- Interactive Options Toolbar -->
+    <div class="toolbar-container">
+      <div class="toolbar-group">
+        <span class="toolbar-label">Background Style:</span>
+        <div class="toggle-group" id="bgToggleGroup">
+          <button class="toggle-btn active" data-bg="dark" onclick="setBgStyle('dark')">
+            <span>🌙 Dark Glow</span>
+          </button>
+          <button class="toggle-btn" data-bg="transparent" onclick="setBgStyle('transparent')">
+            <span>✨ Transparent Cutout</span>
+          </button>
+          <button class="toggle-btn" data-bg="light" onclick="setBgStyle('light')">
+            <span>☀️ White Theme</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar-group">
+        <span class="toolbar-label">Export Scale:</span>
+        <select id="scaleSelect" class="select-input" onchange="setScaleMultiplier(this.value)">
+          <option value="1">1x Standard</option>
+          <option value="2" selected>2x HD Retina (Recommended)</option>
+          <option value="4">4x Ultra HD 4K</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="platforms-grid" id="assetGrid">
+      <!-- Cards rendered dynamically -->
+    </div>
+
+    <div class="specs-table-container">
+      <h2>📐 Social Media Platform Dimension Reference Guide</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Asset Type</th>
+            <th>Recommended Dimensions</th>
+            <th>Aspect Ratio</th>
+            <th>Format</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>YouTube</strong></td>
+            <td>Channel Banner / Header</td>
+            <td>2560 x 1440 px (Safe zone: 1546 x 423)</td>
+            <td>16:9</td>
+            <td>PNG / SVG</td>
+          </tr>
+          <tr>
+            <td><strong>YouTube</strong></td>
+            <td>Profile Picture / Avatar</td>
+            <td>800 x 800 px (Circular display)</td>
+            <td>1:1</td>
+            <td>PNG / SVG</td>
+          </tr>
+          <tr>
+            <td><strong>LinkedIn</strong></td>
+            <td>Personal Profile Cover</td>
+            <td>1584 x 396 px</td>
+            <td>4:1</td>
+            <td>PNG / SVG</td>
+          </tr>
+          <tr>
+            <td><strong>LinkedIn</strong></td>
+            <td>Profile / Company Avatar</td>
+            <td>800 x 800 px / 1080 x 1080 px</td>
+            <td>1:1</td>
+            <td>PNG / SVG</td>
+          </tr>
+          <tr>
+            <td><strong>Instagram</strong></td>
+            <td>Profile Picture</td>
+            <td>1080 x 1080 px</td>
+            <td>1:1</td>
+            <td>PNG / SVG</td>
+          </tr>
+          <tr>
+            <td><strong>Instagram</strong></td>
+            <td>Story / Reel Vertical Cover</td>
+            <td>1080 x 1920 px</td>
+            <td>9:16</td>
+            <td>PNG / SVG</td>
+          </tr>
+          <tr>
+            <td><strong>Twitter / X</strong></td>
+            <td>Header Banner</td>
+            <td>1500 x 500 px</td>
+            <td>3:1</td>
+            <td>PNG / SVG</td>
+          </tr>
+          <tr>
+            <td><strong>Facebook</strong></td>
+            <td>Page Cover Photo</td>
+            <td>820 x 312 px</td>
+            <td>2.63:1</td>
+            <td>PNG / SVG</td>
+          </tr>
+          <tr>
+            <td><strong>OpenGraph / Web</strong></td>
+            <td>Social Share Card</td>
+            <td>1200 x 630 px</td>
+            <td>1.91:1</td>
+            <td>PNG / SVG</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let currentBgStyle = 'dark'; // 'dark' | 'transparent' | 'light'
+    let currentScale = 2; // 1 | 2 | 4
+
+    const svgTemplates = {
+      profile_avatar_icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080"><defs><radialGradient id="bgGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#210F38" stop-opacity="0.8" /><stop offset="60%" stop-color="#0B0F17" stop-opacity="1" /><stop offset="100%" stop-color="#07090E" stop-opacity="1" /></radialGradient><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF33A8" /></linearGradient><linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" stop-opacity="0.3" /><stop offset="100%" stop-color="#00F2FE" stop-opacity="0.3" /></linearGradient><filter id="neonBlur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="24" result="blur1" /><feGaussianBlur stdDeviation="10" result="blur2" /><feMerge><feMergeNode in="blur1" /><feMergeNode in="blur2" /><feMergeNode in="SourceGraphic" /></feMerge></filter></defs><rect width="1080" height="1080" fill="url(#bgGlow)" /><rect x="40" y="40" width="1000" height="1000" rx="200" fill="none" stroke="url(#borderGradient)" stroke-width="4" /><circle cx="540" cy="540" r="280" fill="#FF007A" opacity="0.15" filter="blur(60px)" /><g transform="translate(260, 260) scale(23.33)"><path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonBlur)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g></svg>`,
+
+      profile_avatar_fullbrand: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080"><defs><radialGradient id="bgGlow" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#1A102D" /><stop offset="70%" stop-color="#0B0F17" /><stop offset="100%" stop-color="#06080D" /></radialGradient><linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#EC4899" /><stop offset="50%" stop-color="#C084FC" /><stop offset="100%" stop-color="#06B6D4" /></linearGradient><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF33A8" /></linearGradient><filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14" result="blur1" /><feMerge><feMergeNode in="blur1" /><feMergeNode in="SourceGraphic" /></feMerge></filter></defs><rect width="1080" height="1080" fill="url(#bgGlow)" /><rect x="80" y="80" width="920" height="920" rx="140" fill="#0E131F" fill-opacity="0.7" stroke="#1E2638" stroke-width="3" /><circle cx="540" cy="420" r="220" fill="#FF007A" opacity="0.18" filter="blur(50px)" /><circle cx="540" cy="680" r="200" fill="#00F2FE" opacity="0.12" filter="blur(50px)" /><g transform="translate(390, 230) scale(12.5)"><path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g><text x="540" y="660" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="92" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text><text x="540" y="740" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="32" letter-spacing="4px" fill="#94A3B8">DEVELOPER &amp; DESIGN UTILITIES</text></svg>`,
+
+      youtube_banner: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" width="2560" height="1440"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#080B12" /><stop offset="50%" stop-color="#0E1320" /><stop offset="100%" stop-color="#060910" /></linearGradient><linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#EC4899" /><stop offset="50%" stop-color="#C084FC" /><stop offset="100%" stop-color="#06B6D4" /></linearGradient><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF33A8" /></linearGradient><filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="16" result="blur1" /><feMerge><feMergeNode in="blur1" /><feMergeNode in="SourceGraphic" /></feMerge></filter><pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M 80 0 L 0 0 0 80" fill="none" stroke="#1E293B" stroke-width="1" stroke-opacity="0.3"/></pattern></defs><rect width="2560" height="1440" fill="url(#bgGrad)" /><rect width="2560" height="1440" fill="url(#grid)" /><circle cx="600" cy="720" r="450" fill="#FF007A" opacity="0.12" filter="blur(100px)" /><circle cx="1960" cy="720" r="450" fill="#00F2FE" opacity="0.10" filter="blur(100px)" /><g transform="translate(507, 508.5)"><rect width="1546" height="423" rx="32" fill="#0E131F" fill-opacity="0.85" stroke="#1E2638" stroke-width="2" /><g transform="translate(240, 115)"><g transform="translate(0, 10) scale(8)"><path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g><text x="240" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="96" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text><text x="245" y="180" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="28" letter-spacing="3px" fill="#94A3B8">ULTIMATE ALL-IN-ONE DEVELOPER &amp; DESIGN UTILITIES</text><g transform="translate(245, 215)"><rect width="180" height="34" rx="17" fill="#1E293B" opacity="0.8" /><text x="90" y="23" text-anchor="middle" font-family="sans-serif" font-weight="600" font-size="14" fill="#38BDF8">50+ Web Tools</text><rect x="195" width="180" height="34" rx="17" fill="#1E293B" opacity="0.8" /><text x="285" y="23" text-anchor="middle" font-family="sans-serif" font-weight="600" font-size="14" fill="#F43F5E">100% Free &amp; Fast</text><rect x="390" width="180" height="34" rx="17" fill="#1E293B" opacity="0.8" /><text x="480" y="23" text-anchor="middle" font-family="sans-serif" font-weight="600" font-size="14" fill="#A855F7">No Sign-up Needed</text></g></g></g></svg>`,
+
+      linkedin_cover: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" width="1584" height="396"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0B0F17" /><stop offset="50%" stop-color="#111827" /><stop offset="100%" stop-color="#0B0F17" /></linearGradient><linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#EC4899" /><stop offset="50%" stop-color="#C084FC" /><stop offset="100%" stop-color="#06B6D4" /></linearGradient><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF33A8" /></linearGradient><filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="10" result="blur1" /><feMerge><feMergeNode in="blur1" /><feMergeNode in="SourceGraphic" /></feMerge></filter><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1E293B" stroke-width="1" stroke-opacity="0.25"/></pattern></defs><rect width="1584" height="396" fill="url(#bgGrad)" /><rect width="1584" height="396" fill="url(#grid)" /><circle cx="350" cy="198" r="220" fill="#FF007A" opacity="0.12" filter="blur(60px)" /><circle cx="1200" cy="198" r="220" fill="#00F2FE" opacity="0.10" filter="blur(60px)" /><g transform="translate(180, 110)"><g transform="translate(0, 0) scale(7.2)"><path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g><text x="210" y="115" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="82" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text><text x="215" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="24" letter-spacing="2px" fill="#94A3B8">DEVELOPER &amp; DESIGNER TOOLKIT SUITE</text></g></svg>`,
+
+      twitter_header: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#090D16" /><stop offset="50%" stop-color="#111827" /><stop offset="100%" stop-color="#060911" /></linearGradient><linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#EC4899" /><stop offset="50%" stop-color="#C084FC" /><stop offset="100%" stop-color="#06B6D4" /></linearGradient><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF33A8" /></linearGradient><filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="12" result="blur1" /><feMerge><feMergeNode in="blur1" /><feMergeNode in="SourceGraphic" /></feMerge></filter><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="#1E293B" stroke-width="1" stroke-opacity="0.3"/></pattern></defs><rect width="1500" height="500" fill="url(#bgGrad)" /><rect width="1500" height="500" fill="url(#grid)" /><circle cx="450" cy="250" r="280" fill="#FF007A" opacity="0.14" filter="blur(70px)" /><circle cx="1100" cy="250" r="280" fill="#00F2FE" opacity="0.10" filter="blur(70px)" /><g transform="translate(160, 140)"><g transform="translate(0, 10) scale(8.5)"><path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g><text x="250" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="95" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text><text x="255" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="26" letter-spacing="3px" fill="#94A3B8">ALL-IN-ONE WEB UTILITIES FOR CREATORS &amp; DEVS</text></g></svg>`,
+
+      facebook_cover: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 312" width="820" height="312"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0B0F17" /><stop offset="50%" stop-color="#111827" /><stop offset="100%" stop-color="#060910" /></linearGradient><linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#EC4899" /><stop offset="50%" stop-color="#C084FC" /><stop offset="100%" stop-color="#06B6D4" /></linearGradient><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF33A8" /></linearGradient><filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8" result="blur1" /><feMerge><feMergeNode in="blur1" /><feMergeNode in="SourceGraphic" /></feMerge></filter></defs><rect width="820" height="312" fill="url(#bgGrad)" /><circle cx="200" cy="156" r="160" fill="#FF007A" opacity="0.14" filter="blur(40px)" /><circle cx="650" cy="156" r="160" fill="#00F2FE" opacity="0.10" filter="blur(40px)" /><g transform="translate(90, 80)"><g transform="translate(0, 5) scale(5.5)"><path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g><text x="160" y="88" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="62" letter-spacing="-1.5px" fill="url(#textGradient)">OmniTool Hub</text><text x="164" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="18" letter-spacing="2px" fill="#94A3B8">FAST, SECURE &amp; FREE DEVELOPER UTILITIES</text></g></svg>`,
+
+      instagram_story: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920"><defs><radialGradient id="bgGlow" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#1E1035" /><stop offset="60%" stop-color="#0B0F17" /><stop offset="100%" stop-color="#05070C" /></radialGradient><linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#EC4899" /><stop offset="50%" stop-color="#C084FC" /><stop offset="100%" stop-color="#06B6D4" /></linearGradient><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF33A8" /></linearGradient><filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="20" result="blur1" /><feMerge><feMergeNode in="blur1" /><feMergeNode in="SourceGraphic" /></feMerge></filter><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1E293B" stroke-width="1" stroke-opacity="0.2"/></pattern></defs><rect width="1080" height="1920" fill="url(#bgGlow)" /><rect width="1080" height="1920" fill="url(#grid)" /><circle cx="540" cy="700" r="350" fill="#FF007A" opacity="0.16" filter="blur(90px)" /><circle cx="540" cy="1200" r="300" fill="#00F2FE" opacity="0.12" filter="blur(90px)" /><g transform="translate(100, 420)"><rect width="880" height="1080" rx="60" fill="#0E131F" fill-opacity="0.8" stroke="#1E2638" stroke-width="3" /><g transform="translate(290, 160) scale(12.5)"><path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g><text x="440" y="580" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="88" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text><text x="440" y="660" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="28" letter-spacing="4px" fill="#94A3B8">DEVELOPER &amp; DESIGN UTILITIES</text><g transform="translate(140, 750)"><rect width="600" height="70" rx="20" fill="#1A2234" stroke="#2D3748" stroke-width="1.5" /><text x="300" y="44" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="24" fill="#38BDF8">🚀 50+ Free Web Tools</text><rect y="95" width="600" height="70" rx="20" fill="#1A2234" stroke="#2D3748" stroke-width="1.5" /><text x="300" y="139" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="24" fill="#EC4899">⚡ Fast &amp; Browser-Based</text><rect y="190" width="600" height="70" rx="20" fill="#1A2234" stroke="#2D3748" stroke-width="1.5" /><text x="300" y="234" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="24" fill="#A855F7">🔒 100% Secure &amp; Private</text></g></g></svg>`,
+
+      opengraph_landscape: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0B0F17" /><stop offset="50%" stop-color="#111827" /><stop offset="100%" stop-color="#060910" /></linearGradient><linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#EC4899" /><stop offset="50%" stop-color="#C084FC" /><stop offset="100%" stop-color="#06B6D4" /></linearGradient><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF33A8" /></linearGradient><filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14" result="blur1" /><feMerge><feMergeNode in="blur1" /><feMergeNode in="SourceGraphic" /></feMerge></filter><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1E293B" stroke-width="1" stroke-opacity="0.25"/></pattern></defs><rect width="1200" height="630" fill="url(#bgGrad)" /><rect width="1200" height="630" fill="url(#grid)" /><circle cx="300" cy="315" r="260" fill="#FF007A" opacity="0.15" filter="blur(70px)" /><circle cx="900" cy="315" r="260" fill="#00F2FE" opacity="0.12" filter="blur(70px)" /><g transform="translate(100, 90)"><rect width="1000" height="450" rx="36" fill="#0E131F" fill-opacity="0.85" stroke="#1E2638" stroke-width="2" /><g transform="translate(120, 110)"><g transform="translate(0, 10) scale(9.5)"><path fill="none" stroke="url(#iconGradient)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g><text x="280" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="105" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text><text x="285" y="190" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="28" letter-spacing="3px" fill="#94A3B8">ALL-IN-ONE DEVELOPER &amp; DESIGN UTILITIES</text></g></g></svg>`,
+
+      logo_transparent_horizontal: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400"><defs><linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#EC4899" /><stop offset="45%" stop-color="#C084FC" /><stop offset="100%" stop-color="#06B6D4" /></linearGradient><linearGradient id="iconStroke" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF3399" /></linearGradient><filter id="iconGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs><g transform="translate(140, 100)"><g transform="translate(0, 0) scale(8.333)"><path fill="none" stroke="url(#iconStroke)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#iconGlow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g><text x="260" y="145" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="105" letter-spacing="-2px" fill="url(#textGradient)">OmniTool Hub</text></g></svg>`,
+
+      logo_icon_only_transparent: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><defs><linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF007A" /><stop offset="100%" stop-color="#FF2E93" /></linearGradient><filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="12" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs><g transform="translate(106, 106) scale(12.5)"><path fill="none" stroke="#FF007A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" /></g></svg>`
+    };
+
+    const assets = [
+      {
+        id: "profile_avatar_icon",
+        platform: "Instagram & Profile Pictures",
+        type: "Icon Avatar (Square / Circle Ready)",
+        dimensions: "1080 x 1080 px",
+        width: 1080,
+        height: 1080,
+        file: "profile_avatar_icon_1080x1080.svg",
+        desc: "Optimized for Instagram, YouTube, LinkedIn, Twitter & Facebook profile pictures with neon glow background."
+      },
+      {
+        id: "profile_avatar_fullbrand",
+        platform: "LinkedIn / YouTube / Square",
+        type: "Full Brand Avatar (Stacked Logo)",
+        dimensions: "1080 x 1080 px",
+        width: 1080,
+        height: 1080,
+        file: "profile_avatar_fullbrand_1080x1080.svg",
+        desc: "Includes icon, 'OmniTool Hub' gradient title and subtitle for company pages and channel logos."
+      },
+      {
+        id: "youtube_banner",
+        platform: "YouTube",
+        type: "Channel Header Banner",
+        dimensions: "2560 x 1440 px",
+        width: 2560,
+        height: 1440,
+        file: "youtube_banner_2560x1440.svg",
+        desc: "Full 4K YouTube channel header featuring centered safe-zone area (1546x423) and feature highlights."
+      },
+      {
+        id: "linkedin_cover",
+        platform: "LinkedIn",
+        type: "Personal Cover Banner",
+        dimensions: "1584 x 396 px",
+        width: 1584,
+        height: 396,
+        file: "linkedin_cover_1584x396.svg",
+        desc: "Crisp, professional cover header tailored for personal LinkedIn profiles & company pages."
+      },
+      {
+        id: "twitter_header",
+        platform: "Twitter / X",
+        type: "Header Banner",
+        dimensions: "1500 x 500 px",
+        width: 1500,
+        height: 500,
+        file: "twitter_header_1500x500.svg",
+        desc: "Ultra-wide header banner tailored for Twitter/X branding."
+      },
+      {
+        id: "facebook_cover",
+        platform: "Facebook",
+        type: "Page Cover Photo",
+        dimensions: "820 x 312 px",
+        width: 820,
+        height: 312,
+        file: "facebook_cover_820x312.svg",
+        desc: "Facebook banner optimized for mobile & desktop profile headers."
+      },
+      {
+        id: "instagram_story",
+        platform: "Instagram / TikTok",
+        type: "Story & Reel Cover (9:16)",
+        dimensions: "1080 x 1920 px",
+        width: 1080,
+        height: 1920,
+        file: "instagram_story_1080x1920.svg",
+        desc: "Vertical card graphic suited for Instagram Stories, Reels, TikTok, and YouTube Shorts."
+      },
+      {
+        id: "opengraph_landscape",
+        platform: "OpenGraph / Discord / FB",
+        type: "Social Sharing Link Preview",
+        dimensions: "1200 x 630 px",
+        width: 1200,
+        height: 630,
+        file: "opengraph_landscape_1200x630.svg",
+        desc: "Standard web social card for link previews on Twitter, Facebook, LinkedIn & Slack."
+      },
+      {
+        id: "logo_transparent_horizontal",
+        platform: "Transparent Logo",
+        type: "Horizontal Logo (Icon + Text)",
+        dimensions: "1200 x 400 px",
+        width: 1200,
+        height: 400,
+        file: "logo_transparent_horizontal.svg",
+        desc: "Transparent background logo for website headers, pitch decks, and video overlays."
+      },
+      {
+        id: "logo_icon_only_transparent",
+        platform: "Transparent Icon",
+        type: "Vector App Icon",
+        dimensions: "512 x 512 px",
+        width: 512,
+        height: 512,
+        file: "logo_icon_only_transparent.svg",
+        desc: "Standalone icon mark on transparent background for app favicons and mobile app icons."
+      }
+    ];
+
+    const grid = document.getElementById("assetGrid");
+
+    function renderCards() {
+      grid.innerHTML = "";
+      assets.forEach(asset => {
+        const card = document.createElement("div");
+        card.className = "asset-card";
+
+        const modifiedSvg = getModifiedSvg(svgTemplates[asset.id], currentBgStyle);
+        const pngName = asset.file.replace('.svg', `_${currentBgStyle}_${currentScale}x.png`);
+
+        card.innerHTML = `
+          <div class="card-preview ${currentBgStyle}-preview" id="preview_${asset.id}">
+            ${modifiedSvg}
+          </div>
+          <div class="card-body">
+            <div class="platform-header">
+              <span class="platform-name">${asset.platform}</span>
+              <span class="dim-tag">${asset.dimensions}</span>
+            </div>
+            <p class="desc"><strong>${asset.type}</strong> — ${asset.desc}</p>
+            <div class="btn-group">
+              <button onclick="downloadSvg('${asset.id}', '${asset.file}')" class="btn btn-secondary" title="Download Scalable Vector Graphic">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                SVG
+              </button>
+              <button onclick="downloadAsPng('${asset.id}', '${pngName}', ${asset.width}, ${asset.height}, this)" class="btn btn-primary" title="Export as high-definition PNG image">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export PNG
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Transform SVG based on selected Background Style (Dark / Transparent / Light)
+    function getModifiedSvg(svgText, bgStyle) {
+      if (!svgText) return "";
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svgText, "image/svg+xml");
+
+      if (bgStyle === 'transparent') {
+        // Remove background canvas rects & glow elements for PNG cutouts
+        const rects = doc.querySelectorAll("rect");
+        rects.forEach(rect => {
+          const w = rect.getAttribute("width");
+          const h = rect.getAttribute("height");
+          const rx = rect.getAttribute("rx");
+          // Remove full canvas background rects & grid patterns
+          if ((w === "100%" || parseInt(w) >= 500) && !rx) {
+            rect.remove();
+          } else if (rect.getAttribute("fill") && rect.getAttribute("fill").includes("grid")) {
+            rect.remove();
+          }
+        });
+
+        // Remove background glow circles
+        const circles = doc.querySelectorAll("circle");
+        circles.forEach(circle => {
+          if (circle.getAttribute("opacity") || circle.getAttribute("filter")) {
+            circle.remove();
+          }
+        });
+      } else if (bgStyle === 'light') {
+        // Light theme mode adjustments
+        const rects = doc.querySelectorAll("rect");
+        let firstRect = true;
+        rects.forEach(rect => {
+          const w = rect.getAttribute("width");
+          const h = rect.getAttribute("height");
+          const rx = rect.getAttribute("rx");
+          if ((w === "100%" || parseInt(w) >= 500) && !rx && firstRect) {
+            rect.setAttribute("fill", "#FFFFFF");
+            firstRect = false;
+          } else if (rx && parseInt(w) >= 400) {
+            rect.setAttribute("fill", "#F8FAFC");
+            rect.setAttribute("stroke", "#E2E8F0");
+            rect.setAttribute("fill-opacity", "1");
+          }
+        });
+        const texts = doc.querySelectorAll("text");
+        texts.forEach(txt => {
+          if (txt.getAttribute("fill") === "#94A3B8") {
+            txt.setAttribute("fill", "#475569");
+          }
+        });
+      }
+
+      return new XMLSerializer().serializeToString(doc);
+    }
+
+    function setBgStyle(style) {
+      currentBgStyle = style;
+      document.querySelectorAll("#bgToggleGroup .toggle-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-bg") === style);
+      });
+      renderCards();
+    }
+
+    function setScaleMultiplier(scale) {
+      currentScale = parseInt(scale) || 2;
+    }
+
+    function downloadSvg(assetId, svgFileName) {
+      const svgText = getModifiedSvg(svgTemplates[assetId], currentBgStyle);
+      const blob = new Blob([svgText], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.download = svgFileName.replace('.svg', `_${currentBgStyle}.svg`);
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // High-DPI Canvas PNG Exporter with Multi-resolution Scaling
+    function downloadAsPng(assetId, pngName, baseWidth, baseHeight, btnElement) {
+      const originalHtml = btnElement ? btnElement.innerHTML : 'Export PNG';
+      if (btnElement) {
+        btnElement.innerHTML = '⏳ Processing...';
+        btnElement.disabled = true;
+      }
+
+      try {
+        const svgText = getModifiedSvg(svgTemplates[assetId], currentBgStyle);
+        if (!svgText) throw new Error("SVG template not found for " + assetId);
+
+        // Scale factors for 1x, 2x Retina, or 4x Ultra HD 4K
+        const scale = currentScale || 2;
+        const targetWidth = baseWidth * scale;
+        const targetHeight = baseHeight * scale;
+
+        const encodedSvg = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgText);
+        const img = new Image();
+
+        img.onload = function () {
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            const ctx = canvas.getContext("2d");
+
+            // For light mode, ensure canvas background is white if requested
+            if (currentBgStyle === 'light') {
+              ctx.fillStyle = "#FFFFFF";
+              ctx.fillRect(0, 0, targetWidth, targetHeight);
+            }
+
+            // Render scaled SVG onto canvas
+            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+            // Export PNG
+            const pngDataUrl = canvas.toDataURL("image/png");
+
+            const a = document.createElement("a");
+            a.download = pngName;
+            a.href = pngDataUrl;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            if (btnElement) {
+              btnElement.innerHTML = '✅ Saved PNG!';
+              setTimeout(() => {
+                btnElement.innerHTML = originalHtml;
+                btnElement.disabled = false;
+              }, 2000);
+            }
+          } catch (err) {
+            console.error("Canvas export error:", err);
+            fallbackDirectDownload(encodedSvg, pngName, btnElement, originalHtml);
+          }
+        };
+
+        img.onerror = function (err) {
+          console.error("Image load error:", err);
+          fallbackDirectDownload(encodedSvg, pngName, btnElement, originalHtml);
+        };
+
+        img.src = encodedSvg;
+
+      } catch (err) {
+        console.error("Download error:", err);
+        if (btnElement) {
+          btnElement.innerHTML = '❌ Error';
+          setTimeout(() => {
+            btnElement.innerHTML = originalHtml;
+            btnElement.disabled = false;
+          }, 2000);
+        }
+      }
+    }
+
+    function fallbackDirectDownload(dataUrl, fileName, btnElement, originalHtml) {
+      const a = document.createElement("a");
+      a.download = fileName;
+      a.href = dataUrl;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      if (btnElement) {
+        btnElement.innerHTML = '✅ Saved!';
+        setTimeout(() => {
+          btnElement.innerHTML = originalHtml;
+          btnElement.disabled = false;
+        }, 2000);
+      }
+    }
+
+    // Initial Render
+    renderCards();
+  </script>
+</body>
+
+</html>

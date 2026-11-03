@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="50%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="accentTitle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#00f2fe" />
+    </linearGradient>
+
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+  <rect width="1200" height="800" fill="url(#gridPattern)" />
+
+  <!-- Ambient Light Orbs -->
+  <circle cx="160" cy="140" r="180" fill="#34d399" opacity="0.05" />
+  <circle cx="1060" cy="180" r="200" fill="#00f2fe" opacity="0.05" />
+
+  <!-- Outer Cyber Border -->
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- HEADER -->
+  <g transform="translate(50, 48)">
+    <rect width="280" height="26" rx="13" fill="#34d399" fill-opacity="0.1" stroke="#34d399" stroke-opacity="0.3" stroke-width="1" />
+    <text x="140" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB • TASK SCHEDULING</text>
+    <text x="0" y="66" fill="url(#accentTitle)" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">5-Field Cron Scheduling Expression Matrix</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">Minute, Hour, Day-of-Month, Month, Day-of-Week field standards, wildcards, step values, and next-run calculations.</text>
+  </g>
+
+  <!-- 3-COLUMN ARCHITECTURE GRID (Y: 155 to 680) -->
+  <g transform="translate(50, 155)">
+    <!-- Column 1 -->
+    <g transform="translate(0, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#34d399" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">5-Field Position Syntax</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Field 1: Minute</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">0 – 59 (or * / , -)</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Field 2: Hour</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">0 – 23 (24-hour military time)</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Field 3: Day of Month</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">1 – 31 (calendar day of the month)</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Field 4: Month</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">1 – 12 (or JAN – DEC)</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Field 5: Day of Week</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">0 – 6 (0 = Sunday; or SUN – SAT)</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+    </g>
+
+    <!-- Column 2 -->
+    <g transform="translate(375, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#00f2fe" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Special Characters &amp; Operators</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">* (Wildcard)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Matches every valid value for that field (e.g. e</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">very minute)</text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">, (Value List)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Specifies multiple values (e.g. `1,15,30` for mi</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">nutes)</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">- (Value Range)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Specifies inclusive boundary range (e.g. `9-17` </text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">for business hours)</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">/ (Step Values)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Specifies rate increment (e.g. `*/15` for every </text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">15 minutes)</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">@reboot, @daily</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Common standard macro aliases for standard task </text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">frequencies</text>
+      </g>
+    </g>
+
+    <!-- Column 3 -->
+    <g transform="translate(750, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#f59e0b" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Human-Readable Translations</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">*/15 * * * *</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">“Every 15 minutes, every day, all year”</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">0 0 * * *</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">“At midnight (00:00) every day”</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">0 9 * * 1-5</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">“At 09:00 AM, Monday through Friday”</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">0 0 1 1 *</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">“At 00:00 on January 1st (New Year annual run)”</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Next Run Preview</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Calculates the next 5 upcoming wall-clock execut</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ion timestamps</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- FOOTER -->
+  <g transform="translate(50, 712)">
+    <rect width="1100" height="42" rx="8" fill="#0d121f" stroke="#1e293b" stroke-width="1" />
+    <text x="20" y="26" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600">OmniTool Hub Master Technical Reference</text>
+    <text x="1080" y="26" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11" text-anchor="end">✓ POSIX Cron Standard • Natural Language Explainer • Deterministic Next Execution Calculator</text>
+  </g>
+</svg>

@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="50%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="accentTitle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+  <rect width="1200" height="800" fill="url(#gridPattern)" />
+
+  <!-- Ambient Light Orbs -->
+  <circle cx="160" cy="140" r="180" fill="#f59e0b" opacity="0.05" />
+  <circle cx="1060" cy="180" r="200" fill="#ef4444" opacity="0.05" />
+
+  <!-- Outer Cyber Border -->
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- HEADER -->
+  <g transform="translate(50, 48)">
+    <rect width="280" height="26" rx="13" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="1" />
+    <text x="140" y="17" fill="#f59e0b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB • SECURITY &amp; ARCHIVAL</text>
+    <text x="0" y="66" fill="url(#accentTitle)" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">PDF Cryptography, Xref Stream Repair &amp; Archival</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">Standard Security Handler AES-256 encryption, corrupt xref stream recovery, and PDF/A ISO compliance.</text>
+  </g>
+
+  <!-- 3-COLUMN ARCHITECTURE GRID (Y: 155 to 680) -->
+  <g transform="translate(50, 155)">
+    <!-- Column 1 -->
+    <g transform="translate(0, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#f59e0b" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Standard Encryption Engine</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">AES-256 (Rev 6)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">SASLprep password hashing, SHA-384, AES-256-CBC</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">AES-128 (Rev 4)</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Legacy enterprise compatibility with MD5 / SHA-2</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">56</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">User Password</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Required to open and view encrypted document con</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">tent</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Owner Password</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Controls printing, copying, editing, and form fi</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">lling</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Password Removal</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Instant decryption when authorized owner key pro</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">vided</text>
+      </g>
+    </g>
+
+    <!-- Column 2 -->
+    <g transform="translate(375, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#ef4444" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Corrupt PDF Repair Pipeline</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Header Recovery</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Locates `%PDF-1.x` byte offset in damaged files</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Xref Rebuild</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Scans raw bytes to reconstruct broken cross-refe</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">rence tables</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Trailer Recovery</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Re-indexes document root catalog and encryption </text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">dictionaries</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Object Scavenger</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Extracts salvageable page trees, streams, and te</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">xt nodes</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Stream Decompress</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Recovers truncated zlib FlateDecode object strea</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ms</text>
+      </g>
+    </g>
+
+    <!-- Column 3 -->
+    <g transform="translate(750, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#f59e0b" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">PDF/A ISO Archival Standards</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">PDF/A-1b</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ISO 19005-1 Level B (visual reproducibility)</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">PDF/A-2b</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ISO 19005-2 (JPEG2000, transparent layers, embed</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ded PDF/A)</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Color Profiles</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Mandatory DeviceRGB / DeviceCMYK ICC profile emb</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ed</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Font Embedding</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">All glyphs and CIDToGIDMap structures 100% embed</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ded</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Restricted Tags</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Strips prohibited JavaScript, audio, and externa</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">l links</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- FOOTER -->
+  <g transform="translate(50, 712)">
+    <rect width="1100" height="42" rx="8" fill="#0d121f" stroke="#1e293b" stroke-width="1" />
+    <text x="20" y="26" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600">OmniTool Hub Master Technical Reference</text>
+    <text x="1080" y="26" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11" text-anchor="end">✓ Military-Grade AES-256 Client-Side • Heuristic Byte-Level Repair • ISO 19005 Long-Term Archival</text>
+  </g>
+</svg>

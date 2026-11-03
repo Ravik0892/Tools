@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="50%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="accentTitle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+  <rect width="1200" height="800" fill="url(#gridPattern)" />
+
+  <!-- Ambient Light Orbs -->
+  <circle cx="160" cy="140" r="180" fill="#00f2fe" opacity="0.05" />
+  <circle cx="1060" cy="180" r="200" fill="#8b5cf6" opacity="0.05" />
+
+  <!-- Outer Cyber Border -->
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- HEADER -->
+  <g transform="translate(50, 48)">
+    <rect width="280" height="26" rx="13" fill="#00f2fe" fill-opacity="0.1" stroke="#00f2fe" stroke-opacity="0.3" stroke-width="1" />
+    <text x="140" y="17" fill="#00f2fe" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB • NEURAL PARSING</text>
+    <text x="0" y="66" fill="url(#accentTitle)" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">Client-Side AI Document Summarizer &amp; Translation</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">Local text tokenization, extractive summarization, multilingual neural translation, and Q&amp;A inference.</text>
+  </g>
+
+  <!-- 3-COLUMN ARCHITECTURE GRID (Y: 155 to 680) -->
+  <g transform="translate(50, 155)">
+    <!-- Column 1 -->
+    <g transform="translate(0, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#00f2fe" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Text Extraction &amp; Ingestion</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">PDF.js Text Layer</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Decodes font encoding, ligatures, and reading or</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">der</text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Multi-Page Chunking</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Smart sentence &amp; paragraph boundary tokenization</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"></text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Section Detection</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Identifies headers, abstracts, tables, and refer</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ences</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Boilerplate Stripper</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Removes running headers, footers, and page numbe</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">rs</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Memory Limits</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Streams up to 500+ pages without browser memory </text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">crash</text>
+      </g>
+    </g>
+
+    <!-- Column 2 -->
+    <g transform="translate(375, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#8b5cf6" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">NLP Summarization Engine</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Extractive Summary</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">TF-IDF &amp; TextRank graph algorithms rank key sent</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ences</text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Executive Brief</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Concise 3-5 bullet point takeaways for rapid rev</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">iew</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Action Items</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Extracts deadlines, deliverables, tasks, and sta</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">keholders</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Key Terminology</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Auto-extracts glossaries, acronyms, and technica</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">l definitions</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Sentiment &amp; Tone</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Evaluates document urgency, neutrality, and sent</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">iment</text>
+      </g>
+    </g>
+
+    <!-- Column 3 -->
+    <g transform="translate(750, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#f59e0b" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Neural Translation &amp; Querying</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">15+ Languages</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Spanish, French, German, Japanese, Chinese, Hind</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">i, etc.</text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Layout Retention</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Side-by-side original vs translated paragraph vi</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ew</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Semantic Search</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">In-document search powered by localized keyword </text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">relevance</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Export Options</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Export summaries to Markdown, PDF, JSON, or clip</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">board</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Zero Cloud Leak</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Runs purely in browser runtime without external </text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">AI APIs</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- FOOTER -->
+  <g transform="translate(50, 712)">
+    <rect width="1100" height="42" rx="8" fill="#0d121f" stroke="#1e293b" stroke-width="1" />
+    <text x="20" y="26" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600">OmniTool Hub Master Technical Reference</text>
+    <text x="1080" y="26" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11" text-anchor="end">✓ Private Document Intelligence • 100% In-Browser NLP • No Data Shared With External AI Vendors</text>
+  </g>
+</svg>

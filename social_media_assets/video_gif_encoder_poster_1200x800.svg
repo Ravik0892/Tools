@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="50%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="accentTitle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+  <rect width="1200" height="800" fill="url(#gridPattern)" />
+
+  <!-- Ambient Light Orbs -->
+  <circle cx="160" cy="140" r="180" fill="#ec4899" opacity="0.05" />
+  <circle cx="1060" cy="180" r="200" fill="#8b5cf6" opacity="0.05" />
+
+  <!-- Outer Cyber Border -->
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- HEADER -->
+  <g transform="translate(50, 48)">
+    <rect width="280" height="26" rx="13" fill="#ec4899" fill-opacity="0.1" stroke="#ec4899" stroke-opacity="0.3" stroke-width="1" />
+    <text x="140" y="17" fill="#ec4899" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB • GIF COMPRESSION</text>
+    <text x="0" y="66" fill="url(#accentTitle)" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">Video Frame Extraction &amp; LZW GIF Encoding Pipeline</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">Canvas frame decimation, palette color quantization, Floyd-Steinberg dithering, and LZW byte compression.</text>
+  </g>
+
+  <!-- 3-COLUMN ARCHITECTURE GRID (Y: 155 to 680) -->
+  <g transform="translate(50, 155)">
+    <!-- Column 1 -->
+    <g transform="translate(0, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#ec4899" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Frame Extraction &amp; Timing</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ec4899" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">FPS Decimation</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Sample video at 10, 15, 24, or 30 FPS to balance</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"> quality and file size</text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ec4899" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Time Trimming</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Select exact start and end timestamps to avoid b</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">loated GIF files</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ec4899" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Canvas Rendering</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Pulls raw video frames into hidden OffscreenCanv</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">as buffers</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ec4899" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Resolution Scaling</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Downscale 1080p video to 480p or 320p for optimi</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">zed web avatars</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#ec4899" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Aspect Ratio Crop</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Square 1:1, Landscape 16:9, or custom crop bound</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">s</text>
+      </g>
+    </g>
+
+    <!-- Column 2 -->
+    <g transform="translate(375, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#8b5cf6" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Color Quantization &amp; Dithering</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">256-Color Palette</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Reduces 24-bit TrueColor (16.7M colors) to index</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ed 8-bit palette</text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">NeuQuant Algorithm</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Neural-network based adaptive color palette quan</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">tization</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Floyd-Steinberg Dither</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Diffuses color quantization error across neighbo</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ring pixels</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Banding Prevention</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Smooths gradients in sky, skin tones, and subtle</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"> shadows</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#8b5cf6" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Transparent Color</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Designates transparent background index for badg</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">e animations</text>
+      </g>
+    </g>
+
+    <!-- Column 3 -->
+    <g transform="translate(750, 0)">
+      <rect width="350" height="525" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+      <rect width="350" height="42" rx="12" fill="#131b2e" />
+      <rect y="40" width="350" height="2" fill="#1e293b" />
+      <circle cx="22" cy="21" r="5" fill="#f59e0b" />
+      <text x="36" y="25" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">LZW Compression &amp; Export</text>
+
+      
+      <g transform="translate(18, 60)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">LZW Encoding</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Lempel-Ziv-Welch lossless dictionary compression</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"> on index streams</text>
+      </g>
+      <g transform="translate(18, 150)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Looping Controls</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Infinite loop standard or finite play counter sp</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">ecification</text>
+      </g>
+      <g transform="translate(18, 240)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Frame Delay Headers</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Sets millisecond display duration per individual</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5"> frame</text>
+      </g>
+      <g transform="translate(18, 330)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">Instant Preview</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">Interactive playback of generated animated GIF b</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">efore downloading</text>
+      </g>
+      <g transform="translate(18, 420)">
+        <rect width="314" height="76" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1" />
+        <text x="14" y="24" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">100% In-Browser</text>
+        <text x="14" y="44" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">No external APIs, no watermarks, no file size li</text>
+        <text x="14" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">mitations</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- FOOTER -->
+  <g transform="translate(50, 712)">
+    <rect width="1100" height="42" rx="8" fill="#0d121f" stroke="#1e293b" stroke-width="1" />
+    <text x="20" y="26" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600">OmniTool Hub Master Technical Reference</text>
+    <text x="1080" y="26" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11" text-anchor="end">✓ NeuQuant 256-Color Quantization • Floyd-Steinberg Error Diffusion • Pure Client-Side LZW Encoder</text>
+  </g>
+</svg>

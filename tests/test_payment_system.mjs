@@ -113,7 +113,7 @@ console.log('\n2. Testing Razorpay Automated Gateway Handlers...');
   const res = createMockRes();
   await createRazorpayOrderHandler(req, res);
   assert(res.statusCode === 200 && res.body.success === true, 'POST /api/create-razorpay-order creates order successfully');
-  assert(res.body.amount === 249900 && res.body.currency === 'INR', 'Lifetime order amount is ₹2,499 (249900 paise)');
+  assert(res.body.amount === 79900 && res.body.currency === 'INR', 'Lifetime order amount is ₹799 (79900 paise)');
   assert(Boolean(res.body.orderId), `Order ID returned: ${res.body.orderId}`);
 }
 

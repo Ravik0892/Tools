@@ -645,9 +645,9 @@ export default {
         ${keyframes}`;
       } else if (preset === "pulse") {
         keyframes = `@keyframes pulse-anim {
-          0% { transform: scale(1) opacity: 1; }
-          50% { transform: scale(1.08) opacity: 0.85; }
-          100% { transform: scale(1) opacity: 1; }
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.08); opacity: 0.85; }
+          100% { transform: scale(1); opacity: 1; }
         }`;
         inlineStyle = `.${previewClass} {
           max-width: 100%;

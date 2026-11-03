@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bgGradI" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06080e" />
+      <stop offset="50%" stop-color="#0b101c" />
+      <stop offset="100%" stop-color="#05070d" />
+    </linearGradient>
+
+    <linearGradient id="titleGradI" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="50%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+
+    <pattern id="gridPatternI" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.35" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgGradI)" />
+  <rect width="1200" height="800" fill="url(#gridPatternI)" />
+  <rect x="24" y="24" width="1152" height="752" rx="18" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Header -->
+  <g transform="translate(50, 48)">
+    <rect width="250" height="26" rx="13" fill="#ec4899" fill-opacity="0.1" stroke="#ec4899" stroke-opacity="0.3" stroke-width="1" />
+    <text x="125" y="17" fill="#ec4899" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">OMNITOOL HUB &#8226; WEB ASSET OPTIMIZATION</text>
+
+    <text x="0" y="66" fill="url(#titleGradI)" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="800" letter-spacing="-0.5">Modern Web Image Formats &amp; Compression Matrix</text>
+    <text x="0" y="90" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="500">Comparison of AVIF, WebP, PNG, JPEG, and SVG: compression efficiency, alpha support, HDR, and picture element delivery.</text>
+  </g>
+
+  <!-- Top Hero: Comparative Format Breakdown Table (Y: 155 to 330) -->
+  <g transform="translate(50, 155)">
+    <rect width="1100" height="175" rx="12" fill="#0d121f" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.2" />
+
+    <!-- Table Header -->
+    <g transform="translate(20, 20)">
+      <text x="0" y="0" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">FORMAT</text>
+      <text x="120" y="0" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">COMPRESSION TYPE</text>
+      <text x="310" y="0" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">SAVINGS VS JPEG</text>
+      <text x="490" y="0" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">TRANSPARENCY</text>
+      <text x="640" y="0" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">ANIMATION</text>
+      <text x="770" y="0" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">BEST USE CASE</text>
+    </g>
+
+    <!-- Row 1: AVIF -->
+    <g transform="translate(20, 48)">
+      <rect width="1060" height="26" rx="4" fill="#022c22" stroke="#10b981" stroke-opacity="0.3" stroke-width="0.8" />
+      <text x="10" y="17" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">AVIF</text>
+      <text x="120" y="17" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="11">Lossy / Lossless (AV1)</text>
+      <text x="310" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">~50% Smaller</text>
+      <text x="490" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#10003; Yes (8/10/12-bit)</text>
+      <text x="640" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#10003; Yes (AVIS)</text>
+      <text x="770" y="17" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="11">Highest fidelity photos &amp; banners</text>
+    </g>
+
+    <!-- Row 2: WebP -->
+    <g transform="translate(20, 78)">
+      <rect width="1060" height="26" rx="4" fill="#082f49" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="0.8" />
+      <text x="10" y="17" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">WebP</text>
+      <text x="120" y="17" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="11">Lossy / Lossless (VP8)</text>
+      <text x="310" y="17" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">~30% Smaller</text>
+      <text x="490" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#10003; Yes (8-bit alpha)</text>
+      <text x="640" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#10003; Yes (Animated)</text>
+      <text x="770" y="17" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="11">Universal web standard (97%+ support)</text>
+    </g>
+
+    <!-- Row 3: PNG -->
+    <g transform="translate(20, 108)">
+      <rect width="1060" height="26" rx="4" fill="#131a2c" />
+      <text x="10" y="17" fill="#c084fc" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">PNG</text>
+      <text x="120" y="17" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="11">Strictly Lossless (DEFLATE)</text>
+      <text x="310" y="17" fill="#f43f5e" font-family="system-ui, -apple-system, sans-serif" font-size="11">Larger (+200% on photos)</text>
+      <text x="490" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#10003; Yes (Full RGBA)</text>
+      <text x="640" y="17" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#10007; APNG rare</text>
+      <text x="770" y="17" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="11">Screenshots, UI cutouts, sharp line-art</text>
+    </g>
+
+    <!-- Row 4: SVG -->
+    <g transform="translate(20, 138)">
+      <rect width="1060" height="26" rx="4" fill="#131a2c" />
+      <text x="10" y="17" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700">SVG</text>
+      <text x="120" y="17" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="11">Vector XML Path Math</text>
+      <text x="310" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">Tiny (Infinite resolution)</text>
+      <text x="490" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#10003; Native alpha</text>
+      <text x="640" y="17" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11">&#10003; CSS / SMIL</text>
+      <text x="770" y="17" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="11">Icons, logos, UI diagrams, charts</text>
+    </g>
+  </g>
+
+  <!-- 3 Reference Columns (Y: 345 to 730) -->
+  <!-- Col 1: Responsive <picture> Tag Ladder -->
+  <g transform="translate(50, 345)">
+    <rect width="350" height="385" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#a855f7" />
+    <text x="32" y="23" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">RESPONSIVE &lt;picture&gt; LADDER</text>
+
+    <g transform="translate(18, 52)">
+      <rect width="314" height="175" rx="8" fill="#131a2c" stroke="#334155" stroke-width="1" />
+      <text x="12" y="22" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="10">&lt;picture&gt;</text>
+      
+      <!-- Source AVIF -->
+      <text x="24" y="44" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="9.5">&lt;source type="image/avif"</text>
+      <text x="36" y="58" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="9.5">srcset="hero.avif"&gt;</text>
+
+      <!-- Source WebP -->
+      <text x="24" y="80" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">&lt;source type="image/webp"</text>
+      <text x="36" y="94" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="9.5">srcset="hero.webp"&gt;</text>
+
+      <!-- Fallback IMG -->
+      <text x="24" y="116" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9.5">&lt;img src="hero.jpg" alt="Poster"</text>
+      <text x="36" y="130" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9.5">width="1200" height="800"</text>
+      <text x="36" y="144" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9.5">loading="lazy" decoding="async"&gt;</text>
+
+      <text x="12" y="164" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="10">&lt;/picture&gt;</text>
+
+      <!-- Best practice points -->
+      <g transform="translate(0, 190)">
+        <text x="0" y="14" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">&#8226; <tspan fill="#34d399">First matched MIME type wins</tspan> in browser parser.</text>
+        <text x="0" y="32" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">&#8226; Always include <tspan fill="#e2e8f0">width &amp; height</tspan> on &lt;img&gt; to avoid layout shifts (0 CLS).</text>
+        <text x="0" y="56" fill="#cbd5e1" font-family="system-ui, -apple-system, sans-serif" font-size="10">
+          <tspan x="0" dy="0">&#8226; <tspan fill="#38bdf8">decoding="async"</tspan> moves decoding off</tspan>
+          <tspan x="10" dy="14">the main UI thread for smoother paint.</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Col 2: Compression & Chroma Subsampling -->
+  <g transform="translate(425, 345)">
+    <rect width="350" height="385" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#ec4899" />
+    <text x="32" y="23" fill="#f472b6" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">COMPRESSION &amp; QUALITY TUNING</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Quality Sweet Spots -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" fill="#f472b6" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Quality Factor (Q) Sweet Spots</text>
+        <rect x="0" y="22" width="314" height="66" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="10">WebP: Q=75 - 82% (Human threshold)</text>
+        <text x="10" y="54" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="10">AVIF: Q=60 - 68% (Higher compression)</text>
+        <text x="10" y="70" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Diminishing returns: Q=95 increases file size 300%!</text>
+      </g>
+
+      <!-- Chroma Subsampling -->
+      <g transform="translate(0, 102)">
+        <text x="0" y="14" fill="#f472b6" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Chroma Subsampling (Y'CbCr)</text>
+        <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="10">Human eyes are more sensitive to luminance (Y) than color (Cb/Cr):</text>
+
+        <rect x="0" y="44" width="314" height="48" rx="4" fill="#131a2c" />
+        <text x="10" y="62" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10.5">&#8226; 4:2:0: Standard for web photos (-50% color)</text>
+        <text x="10" y="78" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="10.5">&#8226; 4:4:4: Preserves red text / sharp line art</text>
+      </g>
+
+      <!-- EXIF stripping -->
+      <g transform="translate(0, 208)">
+        <rect width="314" height="64" rx="6" fill="#1e293b" stroke="#f43f5e" stroke-opacity="0.3" stroke-width="1" />
+        <text x="10" y="20" fill="#f43f5e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">&#128274; Strip EXIF Metadata for Web</text>
+        <text x="10" y="36" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="10" dy="0">Removes camera GPS coordinates, serials,</tspan>
+          <tspan x="10" dy="14">&amp; thumbnails, saving 5KB–150KB per asset.</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Col 3: Raster vs Vector Decision Tree -->
+  <g transform="translate(800, 345)">
+    <rect width="350" height="385" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#f59e0b" />
+    <text x="32" y="23" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">RASTER VS VECTOR DECISION TREE</text>
+
+    <g transform="translate(18, 52)">
+      <!-- Question 1 -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="14" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Does it contain photos or textured gradients?</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">&#10003; YES &#8594; Use <tspan fill="#34d399" font-weight="700">AVIF</tspan> or <tspan fill="#38bdf8" font-weight="700">WebP</tspan> (Lossy raster)</text>
+        <text x="10" y="52" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Compresses organic pixels efficiently.</text>
+      </g>
+
+      <!-- Question 2 -->
+      <g transform="translate(0, 78)">
+        <text x="0" y="14" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Is it an icon, logo, badge, or technical diagram?</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">&#10003; YES &#8594; Use <tspan fill="#fbbf24" font-weight="700">SVG</tspan> (Pure vector paths)</text>
+        <text x="10" y="52" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Crisp at 4K/8K, animatable via CSS, 0 blur.</text>
+      </g>
+
+      <!-- Question 3 -->
+      <g transform="translate(0, 156)">
+        <text x="0" y="14" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700">Is it a UI screenshot with fine typography?</text>
+        <rect x="0" y="22" width="314" height="42" rx="4" fill="#131a2c" />
+        <text x="10" y="38" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="10.5">&#10003; YES &#8594; Use <tspan fill="#c084fc" font-weight="700">Lossless WebP</tspan> or <tspan fill="#c084fc" font-weight="700">PNG</tspan></text>
+        <text x="10" y="52" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">Lossy transforms create ringing artifacts on text.</text>
+      </g>
+
+      <g transform="translate(0, 240)">
+        <text x="0" y="14" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="10">&#8226; OmniTool Hub converts images 100% in client Web Workers.</text>
+      </g>
+    </g>
+  </g>
+</svg>

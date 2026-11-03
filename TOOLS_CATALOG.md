@@ -792,19 +792,48 @@
 ### 4.2 `voice-recorder` — Voice Recorder & Audio Waveform Studio *(Phase 2)*
 *   **Hash Route**: `#tool/voice-recorder`
 *   **Category**: Media & Audio (`design-graphics`)
-*   **Core Purpose**: Record studio-grade voice memos, lectures, and podcasts with real-time frequency analysis and lossless uncompressed WAV export.
+*   **Core Purpose**: Multi-source voice recording & audio workstation supporting live mic recording, real-time voice tester & soundcheck, audio file inspection (MP3, WAV, OGG, M4A, FLAC, AAC), interactive range trimming, peak normalization, EQ filters, live speech-to-text transcription, and studio export.
+*   **Live Voice Tester & Soundcheck Suite**:
+    *   `1-Click Connect & Auto-Listen`: Prominent top banner with automatic permission check and instant live microphone soundcheck on tool open.
+    *   `🔍 Auto-Find Active Mic`: Scans all available system input devices in real time, measures peak signal levels while speaking, and automatically locks onto the active device.
+    *   `Quick Device Switch Pills`: Instant 1-click toggles between detected Bluetooth headsets (e.g. realme Buds, AirPods) and laptop/internal mics without restarting sessions.
+    *   `Live Voice Test`: Instant microphone streaming without recording to verify sound pickup, volume level, and frequency response before committing to a recording session.
+    *   `3s Loopback Soundcheck`: Quick 3-second capture followed by immediate automatic speaker playback so users can listen to their own voice with their own ears.
+    *   `Audacity Decibel Peak Meter`: Live peak & RMS dB meter (-60 dB to 0 dB) with real-time vocal feedback ("Voice Detected", "Clipping", "Quiet").
+    *   `Audacity Raw Mode vs. Filtered`: Direct hardware audio capture matching Audacity with zero software noise-gating or signal cut-offs.
+    *   `Device Match & WASAPI Troubleshooting`: Guidance for synchronizing Windows audio device selection between Audacity and the browser, including exclusive WASAPI lock resolution.
 *   **Audio Enhancement Filters**:
     *   `Noise Suppression`: Attenuates background air/fan hum.
     *   `Echo Cancellation`: Eliminates speaker feedback.
     *   `Channel Selector`: Mono (speech/vocals) or Stereo (2-channel).
-*   **Real-Time Visualizer Engines**:
-    *   `Frequency Spectrum Bars`: Multi-color gradient frequency analyzer.
-    *   `Smooth Oscilloscope`: Real-time sine wave time-domain visualizer.
-    *   `Input Mic Level`: Live peak volume meter with percentage readout.
+*   **1-Click Studio Presets**:
+    *   `🎙️ Podcast Studio`: Mono 44.1kHz, 115% gain boost, Noise Suppression & Echo Cancel ON, Podcast Warmth EQ, 3D Wireframe, Live Speech-to-Text ON.
+    *   `🎵 Acoustic & Music`: Stereo HQ 48kHz, 100% gain, all filters OFF to preserve harmonics, Neon Rainbow Spectrum.
+    *   `👥 Interview / Talk`: Mono, Auto-Gain leveling ON, Rumble Cut (80Hz highpass), CRT Oscilloscope, Live Speech-to-Text ON.
+    *   `📻 Vintage Radio`: Lo-Fi Walkie-Talkie bandpass filter (1400Hz), 125% gain boost, Phosphor CRT Wireframe.
+    *   `⚡ Quick Voice Memo`: Clean mono voice capture with background noise suppression, 3D Wireframe, lightweight WebM.
+*   **Real-Time Visualizer Engines (6 Modes)**:
+    *   `3D Cyber Wireframe Grid`: Perspective 3D terrain mesh undulating to audio in neon cyan and electric violet.
+    *   `Phosphor CRT Wireframe Wave`: Retro green cathode-ray tube oscilloscope with glowing beam and scanlines.
+    *   `Neon Rainbow Spectrum`: High-contrast vibrant multi-band visualizer.
+    *   `Radial Circular Radar`: Circular radar pulse around glowing center core.
+    *   `Fluid Sine Wave Ribbon`: Multi-layered silky undulating ribbon.
+    *   `Continuous Ambient Engine`: 60 FPS live animation even during idle standby, plus audio-reactive animation during both recording and playback.
+    *   `Input Mic Level with Clip Alert`: Live peak meter with `[CLIP]` warning at 96%+.
+*   **Studio Editing, DSP & Transcription Suite**:
+    *   `Audio File Import`: Drag-and-drop MP3, WAV, OGG, M4A, FLAC, or AAC files for instant in-browser analysis.
+    *   `Interactive Waveform Timeline`: Click-to-seek playhead with live playback scrubber.
+    *   `Audio Range Trimmer`: Precision Start [A] and End [B] markers, selection loop preview, and non-destructive buffer trimming.
+    *   `1-Click Peak Normalizer`: Automatically scales audio to optimal -0.2 dB broadcast loudness without clipping.
+    *   `Smooth Fade In & Fade Out`: 1.5-second acoustic transitions.
+    *   `Vocal EQ Presets`: Podcast Warmth, 80Hz Rumble Cut, Telephone/Lo-Fi, Deep Bass Boost via `OfflineAudioContext`.
+    *   `Live Speech-to-Text`: Real-time continuous transcription with language selection and `.srt` / `.txt` export.
 *   **Export Capabilities**:
     *   **WAV (Lossless 16-bit PCM)**: Pure client-side RIFF WAV encoder preserving full acoustic fidelity (44.1kHz / 48kHz).
     *   **WebM / Opus**: High-efficiency compressed voice format.
-    *   Interactive playback player with waveform timeline.
+    *   **Waveform PNG Card**: 1200x400 high-definition visual waveform image card with audio metadata.
+    *   **Subtitles & Transcript**: `.srt` (with accurate timecodes) and `.txt`.
+    *   Interactive playback player with waveform timeline, seekable playhead, and variable speed (0.75x–2.0x).
 
 ---
 

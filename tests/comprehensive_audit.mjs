@@ -99,8 +99,8 @@ if (renderUiMissing.length > 0) {
 // Check index.html for critical elements
 const indexHtml = fs.readFileSync('index.html', 'utf8');
 const checks = [
-  { id: 'app.js script tag', test: /src=["']app\.js(?:\?[^"']*)?["']/.test(indexHtml) },
-  { id: 'style.css link', test: /href=["']style\.css(?:\?[^"']*)?["']/.test(indexHtml) },
+  { id: 'app.js script tag', test: /src=["'](?:\.\/|\/)?app\.js(?:\?[^"']*)?["']/.test(indexHtml) },
+  { id: 'style.css link', test: /href=["'](?:\.\/|\/)?style\.css(?:\?[^"']*)?["']/.test(indexHtml) },
   { id: 'active tool viewport container', test: indexHtml.includes('id="active-tool-viewport"') },
   { id: 'tool-container class', test: indexHtml.includes('class="tool-container"') },
   { id: 'sidebar / nav', test: indexHtml.includes('id="tools-list"') || indexHtml.includes('sidebar') || indexHtml.includes('app-sidebar') },

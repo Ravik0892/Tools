@@ -1,0 +1,272 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="50%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="accentCyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+
+    <linearGradient id="accentPurple" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <linearGradient id="accentAmber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+
+    <linearGradient id="accentEmerald" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+
+    <linearGradient id="accentRose" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+
+  <!-- Outer Protective Frame -->
+  <rect x="24" y="24" width="1152" height="752" rx="16" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- HEADER REGION (Y: 44 to 125) -->
+  <g transform="translate(50, 44)">
+    <!-- Badge -->
+    <rect width="320" height="22" rx="11" fill="#00f2fe" fill-opacity="0.12" stroke="#00f2fe" stroke-opacity="0.3" stroke-width="1" />
+    <circle cx="11" cy="11" r="4" fill="#00f2fe" />
+    <text x="22" y="15" fill="#00f2fe" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" letter-spacing="1.5">OMNITOOL HUB &#8226; PATTERN ANALYSIS</text>
+
+    <!-- Main Title -->
+    <text x="0" y="52" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="900" letter-spacing="0.5">TEXT READABILITY &amp; LINGUISTIC ANALYSIS CHEAT SHEET</text>
+
+    <!-- Subtitle -->
+    <text x="0" y="74" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12">Flesch Reading Ease, Syllable Counting Heuristics, Lexical Density, and Reading Speeds</text>
+  </g>
+
+  <!-- TOP OVERVIEW REGION (Y: 135 to 295) -->
+  <g transform="translate(50, 135)">
+    <rect width="1100" height="155" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    
+    <path d="M 0 12 Q 0 0 12 0 L 1088 0 Q 1100 0 1100 12 L 1100 32 L 0 32 Z" fill="#131a2c" />
+    <text x="20" y="21" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="800" letter-spacing="1">THE FLESCH READING EASE &amp; GRADE LEVEL COMPREHENSION SPECTRUM</text>
+
+    <!-- Spectrum Bar -->
+    <g transform="translate(30, 46)">
+      <!-- 4 Score Buckets -->
+      <!-- Bucket 1: 90-100 -->
+      <g transform="translate(0, 0)">
+        <rect width="250" height="88" rx="6" fill="#022c22" stroke="#10b981" stroke-width="1.2" />
+        <text x="14" y="22" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">Score 90 &#8211; 100</text>
+        <text x="14" y="40" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">5th Grade (Very Easy)</text>
+        <text x="14" y="58" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="14" dy="0">&#8226; Comic books, simple marketing</tspan>
+          <tspan x="14" dy="14">&#8226; Short words (&lt;1.3 syllables/word)</tspan>
+        </text>
+      </g>
+
+      <!-- Bucket 2: 60-70 -->
+      <g transform="translate(265, 0)">
+        <rect width="250" height="88" rx="6" fill="#082f49" stroke="#38bdf8" stroke-width="1.2" />
+        <text x="14" y="22" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">Score 60 &#8211; 70</text>
+        <text x="14" y="40" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">8th&#8211;9th Grade (Plain English)</text>
+        <text x="14" y="58" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="14" dy="0">&#8226; Reader's Digest, consumer blogs</tspan>
+          <tspan x="14" dy="14">&#8226; Target sweet spot for web copy</tspan>
+        </text>
+      </g>
+
+      <!-- Bucket 3: 30-50 -->
+      <g transform="translate(530, 0)">
+        <rect width="250" height="88" rx="6" fill="#451a03" stroke="#f59e0b" stroke-width="1.2" />
+        <text x="14" y="22" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">Score 30 &#8211; 50</text>
+        <text x="14" y="40" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">College Level (Difficult)</text>
+        <text x="14" y="58" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="14" dy="0">&#8226; Academic journals, technical docs</tspan>
+          <tspan x="14" dy="14">&#8226; Multi-clause compound syntax</tspan>
+        </text>
+      </g>
+
+      <!-- Bucket 4: 0-30 -->
+      <g transform="translate(795, 0)">
+        <rect width="245" height="88" rx="6" fill="#4c0519" stroke="#f43f5e" stroke-width="1.2" />
+        <text x="14" y="22" fill="#f43f5e" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">Score 0 &#8211; 30</text>
+        <text x="14" y="40" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">Post-Graduate (Very Difficult)</text>
+        <text x="14" y="58" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+          <tspan x="14" dy="0">&#8226; Legal contracts, patents, papers</tspan>
+          <tspan x="14" dy="14">&#8226; High syllable density &amp; passive voice</tspan>
+        </text>
+      </g>
+    </g>
+    
+  </g>
+
+  <!-- 3 CORE COLUMNS REGION (Y: 308 to 745) -->
+  <!-- COLUMN 1 -->
+  <g transform="translate(50, 308)">
+    <rect width="350" height="437" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#38bdf8" />
+    <text x="32" y="23" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">READABILITY FORMULAS</text>
+    <g transform="translate(18, 50)">
+      
+    <!-- Item 1 -->
+    <g transform="translate(0, 0)">
+      <text x="0" y="14" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">1. Flesch Reading Ease Formula</text>
+      <rect x="0" y="28" width="314" height="66" rx="4" fill="#131a2c" />
+      <text x="10" y="44" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">RE = 206.835 - 1.015*(total words / sentences)</text>
+      <text x="10" y="60" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">     - 84.6*(total syllables / total words)</text>
+      <text x="10" y="76" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9">Higher score = easier to read (0 to 100+ scale)</text>
+    </g>
+
+    <!-- Item 2 -->
+    <g transform="translate(0, 110)">
+      <text x="0" y="14" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">2. Flesch-Kincaid Grade Level (FKGL)</text>
+      <rect x="0" y="28" width="314" height="66" rx="4" fill="#131a2c" />
+      <text x="10" y="44" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">FKGL = 0.39*(words / sentences)</text>
+      <text x="10" y="60" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">       + 11.8*(syllables / words) - 15.59</text>
+      <text x="10" y="76" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9">Result corresponds directly to US school grade (e.g. 8.2)</text>
+    </g>
+
+    <!-- Item 3 -->
+    <g transform="translate(0, 220)">
+      <text x="0" y="14" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">3. Gunning Fog Index</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">Fog = 0.4 * [ (words/sentences) + 100*(complex words / words) ]</tspan>
+        <tspan x="0" dy="13">"Complex words" = words containing 3 or more syllables,</tspan>
+        <tspan x="0" dy="13">excluding proper nouns, jargon, and suffixes (-ed, -es).</tspan>
+      </text>
+    </g>
+
+    <!-- Card Pro Tip -->
+    <g transform="translate(0, 290)">
+      <rect width="314" height="80" rx="8" fill="#131a2c" stroke="#0284c7" stroke-opacity="0.4" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700">&#9733; The Target Grade for Web Traffic</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="12" dy="0">Targeting 7th&#8211;8th grade reading level maximizes</tspan>
+        <tspan x="12" dy="13">conversion rates, reader retention, and search rank.</tspan>
+      </text>
+    </g>
+    
+    </g>
+  </g>
+
+  <!-- COLUMN 2 -->
+  <g transform="translate(425, 308)">
+    <rect width="350" height="437" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#c084fc" />
+    <text x="32" y="23" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">CLIENT-SIDE NLP &amp; SYLLABLES</text>
+    <g transform="translate(18, 50)">
+      
+    <!-- Item 1 -->
+    <g transform="translate(0, 0)">
+      <text x="0" y="14" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">1. Client-Side Syllable Counting Rules</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">English syllable heuristics in JavaScript:</tspan>
+        <tspan x="0" dy="13">&#8226; Count vowel groups [aeiouy]{1,2}</tspan>
+        <tspan x="0" dy="13">&#8226; Deduct silent trailing 'e' (unless followed by 'l')</tspan>
+        <tspan x="0" dy="13">&#8226; Minimum syllable floor = 1 per word token</tspan>
+      </text>
+    </g>
+
+    <!-- Item 2 -->
+    <g transform="translate(0, 95)">
+      <text x="0" y="14" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">2. Sentence Boundary Detection</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">Splitting blindly on dots (.) breaks abbreviations</tspan>
+        <tspan x="0" dy="13">(e.g., "Dr.", "U.S.A.", "e.g.", "3.14").</tspan>
+        <tspan x="0" dy="13">OmniTool uses regex token lookaheads for sentences.</tspan>
+      </text>
+    </g>
+
+    <!-- Item 3 -->
+    <g transform="translate(0, 185)">
+      <text x="0" y="14" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">3. Lexical Diversity (Type-Token Ratio)</text>
+      <rect x="0" y="28" width="314" height="66" rx="4" fill="#131a2c" />
+      <text x="10" y="44" fill="#c084fc" font-family="'JetBrains Mono', monospace" font-size="9.5">TTR = Unique Words (Types) / Total Words (Tokens)</text>
+      <text x="10" y="60" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">&#8226; TTR &gt; 0.60: Rich vocabulary, diverse prose</text>
+      <text x="10" y="76" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">&#8226; TTR &lt; 0.35: Repetitive copy or SEO keyword stuffing</text>
+    </g>
+
+    <!-- Card Pro Tip -->
+    <g transform="translate(0, 285)">
+      <rect width="314" height="85" rx="8" fill="#131a2c" stroke="#7e22ce" stroke-opacity="0.4" stroke-width="1" />
+      <text x="12" y="20" fill="#c084fc" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700">&#9881; Stop Words Filtering</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="12" dy="0">Calculates keyword density only after filtering</tspan>
+        <tspan x="12" dy="13">the 175 standard English stop words (the, is, at).</tspan>
+      </text>
+    </g>
+    
+    </g>
+  </g>
+
+  <!-- COLUMN 3 -->
+  <g transform="translate(800, 308)">
+    <rect width="350" height="437" rx="12" fill="#0d121f" fill-opacity="0.85" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 12 Q 0 0 12 0 L 338 0 Q 350 0 350 12 L 350 38 L 0 38 Z" fill="#131a2c" />
+    <circle cx="20" cy="19" r="4" fill="#34d399" />
+    <text x="32" y="23" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="1">ERGONOMICS &amp; COGNITIVE LOAD</text>
+    <g transform="translate(18, 50)">
+      
+    <!-- Item 1 -->
+    <g transform="translate(0, 0)">
+      <text x="0" y="14" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">1. Reading Speed Baselines (WPM)</text>
+      <rect x="0" y="28" width="314" height="66" rx="4" fill="#131a2c" />
+      <text x="10" y="44" fill="#34d399" font-family="'JetBrains Mono', monospace" font-size="9.5">Adult Silent Reading: 200 &#8211; 250 WPM</text>
+      <text x="10" y="60" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="9.5">Audiobook / Speech Reading: 130 &#8211; 160 WPM</text>
+      <text x="10" y="76" fill="#fbbf24" font-family="'JetBrains Mono', monospace" font-size="9.5">Technical / Academic Reading: 120 &#8211; 150 WPM</text>
+    </g>
+
+    <!-- Item 2 -->
+    <g transform="translate(0, 110)">
+      <text x="0" y="14" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">2. Passive Voice Detection Pattern</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">Detects auxiliary verb + past participle:</tspan>
+        <tspan x="0" dy="13"><tspan fill="#f8fafc">(am|is|are|was|were|been) + verb(ed)</tspan></tspan>
+        <tspan x="0" dy="13">Passive voice slows reader comprehension by 25%.</tspan>
+      </text>
+    </g>
+
+    <!-- Item 3 -->
+    <g transform="translate(0, 190)">
+      <text x="0" y="14" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">3. Optimal Sentence Length Dynamics</text>
+      <text x="0" y="30" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="0" dy="0">&#8226; &lt; 14 words: Very easy (90%+ comprehension)</tspan>
+        <tspan x="0" dy="13">&#8226; 15&#8211;20 words: Standard reader capacity</tspan>
+        <tspan x="0" dy="13">&#8226; &gt; 25 words: High cognitive load; split with periods</tspan>
+      </text>
+    </g>
+
+    <!-- Card Pro Tip -->
+    <g transform="translate(0, 270)">
+      <rect width="314" height="100" rx="8" fill="#131a2c" stroke="#059669" stroke-opacity="0.4" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700">&#128196; Real-Time Character &amp; Token Count</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="9.5">
+        <tspan x="12" dy="0">Computes UTF-16 code units, Unicode code points</tspan>
+        <tspan x="12" dy="13">(grapheme clusters for emoji), and estimated</tspan>
+        <tspan x="12" dy="13">LLM token cost (~4 characters per token).</tspan>
+      </text>
+    </g>
+    
+    </g>
+  </g>
+
+  <!-- FOOTER BRANDING (Y: 760) -->
+  <text x="600" y="764" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="middle">OMNITOOL HUB CLIENT-SIDE SUITE &#8226; 100% PRIVATE &#8226; ZERO DATA TRANSMISSION &#8226; WEB STANDARDS COMPLIANT</text>
+</svg>

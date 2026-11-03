@@ -87,7 +87,7 @@ export default {
             <div class="util-tab-headers">
               <button class="util-tab active" data-tab="split">Split &amp; Save</button>
               <button class="util-tab" data-tab="merge">Merge PDFs</button>
-              <button class="util-tab" data-tab="rotate">Rotate &amp; Edit</button>
+              <button class="util-tab" data-tab="rotate">Organize &amp; Rotate</button>
               <button class="util-tab" data-tab="compress">Compress</button>
             </div>
 
@@ -2341,6 +2341,14 @@ export default {
         appInstance.showToast("Failed to generate sample: " + err.message, "error");
       }
     });
+
+    if (appInstance.activeSubtab) {
+      const targetTabBtn = container.querySelector(`.util-tab[data-tab="${appInstance.activeSubtab}"]`);
+      if (targetTabBtn) {
+        targetTabBtn.click();
+      }
+      appInstance.activeSubtab = null;
+    }
   },
 
   destroy() {
