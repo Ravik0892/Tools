@@ -1,9 +1,10 @@
 # OmniTool Hub
 
-> OmniTool Hub is a high-performance, privacy-first, client-side utility suite featuring 50+ developer, cryptography, data processing, and document utilities running 100% in-browser with zero server uploads.
+> OmniTool Hub is a high-performance, privacy-first developer & creator workbench featuring 50+ client-side utilities, Smart Chain Pipelines, and offline PWA capability with zero user payload logging.
 
-## Core Information & Sitemap
+## Core Documentation & AI Context
 
+- [Master Project Knowledge Base](https://omnitool.worldsneed.com/PROJECT_KNOWLEDGE_BASE.md): Comprehensive system architecture, privacy reality, monetization, and AI specification guide.
 - [Home & Tool Hub](https://omnitool.worldsneed.com/): Instant access to all client-side tools and utilities.
 - [Sitemap](https://omnitool.worldsneed.com/sitemap.xml): Machine-readable XML sitemap of all active routes and tool suites.
 - [AI Catalog (ARD)](https://omnitool.worldsneed.com/.well-known/ai-catalog.json): Machine-readable Agent Resource Discovery catalog for AI agents and WebMCP.
