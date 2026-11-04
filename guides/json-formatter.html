@@ -22,6 +22,17 @@
   <meta name="twitter:description" content="Learn how to format, validate, and convert JSON, SQL, and CSV datasets entirely client-side using OmniTool Hub's privacy-focused utility suites.">
   <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/data_formats_comparison_poster_1200x800.svg">
 
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FG02T8BFR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      gtag('config', 'G-7FG02T8BFR', { anonymize_ip: true });
+    }
+  </script>
+
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1043,6 +1054,8 @@
       <a href="index.html">Guides Hub</a> &bull;
       <a href="../index.html#privacy">Privacy Policy</a> &bull;
       <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="../index.html#refund">Refund Policy</a> &bull;
+      <a href="../index.html#cookies">Cookie Policy</a> &bull;
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
     </p>
   </footer>
@@ -1313,5 +1326,16 @@
     })();
   </script>
 
+  <!-- Cloudflare Web Analytics -->
+  <script>
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      const cfScript = document.createElement('script');
+      cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cfScript.setAttribute('data-cf-beacon', '{"token": "04e4415908c74ea3b38523f900e7a225"}');
+      cfScript.defer = true;
+      document.body.appendChild(cfScript);
+    }
+  </script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

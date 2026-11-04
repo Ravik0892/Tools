@@ -37,12 +37,12 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 ## 🛠️ Complete Tools Reference Catalog & Routing Index
 
 ### 💻 Developer Tools
-*   **Main Category Link**: [All Developer Tools](https://omnitool-hub.vercel.app/#category/dev-all)
+*   **Main Category Link**: [All Developer Tools](https://omnitool.worldsneed.com/#category/dev-all)
 *   **Subcategory Filters**:
-    *   [Data Pipelines](https://omnitool-hub.vercel.app/#category/dev-pipelines)
-    *   [Formatters & Parsers](https://omnitool-hub.vercel.app/#category/dev-formatters)
-    *   [Crypto & Security](https://omnitool-hub.vercel.app/#category/dev-crypto)
-    *   [Generators](https://omnitool-hub.vercel.app/#category/dev-generators)
+    *   [Data Pipelines](https://omnitool.worldsneed.com/#category/dev-pipelines)
+    *   [Formatters & Parsers](https://omnitool.worldsneed.com/#category/dev-formatters)
+    *   [Crypto & Security](https://omnitool.worldsneed.com/#category/dev-crypto)
+    *   [Generators](https://omnitool.worldsneed.com/#category/dev-generators)
 
 #### 1. Smart Chain Pipeline Builder (`pipeline-builder`)
 *   **Description**: Connect multiple data operations in series to process text sequentially.
@@ -93,11 +93,11 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 ---
 
 ### 📝 Text & Writing Utilities
-*   **Main Category Link**: [All Text Utilities](https://omnitool-hub.vercel.app/#category/text-all)
+*   **Main Category Link**: [All Text Utilities](https://omnitool.worldsneed.com/#category/text-all)
 *   **Subcategory Filters**:
-    *   [Transformations](https://omnitool-hub.vercel.app/#category/text-case)
-    *   [Writers & Parsers](https://omnitool-hub.vercel.app/#category/text-markdown)
-    *   [Pattern Analysis](https://omnitool-hub.vercel.app/#category/text-regex)
+    *   [Transformations](https://omnitool.worldsneed.com/#category/text-case)
+    *   [Writers & Parsers](https://omnitool.worldsneed.com/#category/text-markdown)
+    *   [Pattern Analysis](https://omnitool.worldsneed.com/#category/text-regex)
 
 #### 10. Text Cases & Encoder Suite (`text-encoder-suite`)
 *   **Description**: Bulk-convert capitalization cases and run URL or Base64 encoding/decoding operations.
@@ -219,11 +219,11 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 ---
 
 ### 🎨 Design & Styling Tools
-*   **Main Category Link**: [All Design Tools](https://omnitool-hub.vercel.app/#category/design-all)
+*   **Main Category Link**: [All Design Tools](https://omnitool.worldsneed.com/#category/design-all)
 *   **Subcategory Filters**:
-    *   [CSS Builders](https://omnitool-hub.vercel.app/#category/design-css)
-    *   [Color Management](https://omnitool-hub.vercel.app/#category/design-color)
-    *   [Graphics & Screens](https://omnitool-hub.vercel.app/#category/design-graphics)
+    *   [CSS Builders](https://omnitool.worldsneed.com/#category/design-css)
+    *   [Color Management](https://omnitool.worldsneed.com/#category/design-color)
+    *   [Graphics & Screens](https://omnitool.worldsneed.com/#category/design-graphics)
 
 #### 18. CSS Studio Suite (`css-studio`)
 *   **Description**: Build multi-stop CSS gradients, complex shadow spreads, and modern frosted glassmorphism elements with responsive CSS output.
@@ -263,11 +263,11 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 ---
 
 ### 🔢 Math & Conversions Suite
-*   **Main Category Link**: [All Math Tools](https://omnitool-hub.vercel.app/#category/math-all)
+*   **Main Category Link**: [All Math Tools](https://omnitool.worldsneed.com/#category/math-all)
 *   **Subcategory Filters**:
-    *   [Calculator](https://omnitool-hub.vercel.app/#category/math-calc)
-    *   [Conversion](https://omnitool-hub.vercel.app/#category/math-conversion)
-    *   [Security & Pass](https://omnitool-hub.vercel.app/#category/math-security)
+    *   [Calculator](https://omnitool.worldsneed.com/#category/math-calc)
+    *   [Conversion](https://omnitool.worldsneed.com/#category/math-conversion)
+    *   [Security & Pass](https://omnitool.worldsneed.com/#category/math-security)
 
 #### 23. Security & Passwords Suite (`security-suite`)
 *   **Description**: Generate cryptographically secure passwords with entropy complexity metrics, and generate bulk RFC 4122 v4 UUIDs.

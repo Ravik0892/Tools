@@ -61,7 +61,23 @@
   <!-- Terms of Service and Licensing Conditions -->
   <url>
     <loc>https://omnitool.worldsneed.com/terms</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Refund and Cancellation Policy -->
+  <url>
+    <loc>https://omnitool.worldsneed.com/refund</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Cookie and Tracking Technology Policy -->
+  <url>
+    <loc>https://omnitool.worldsneed.com/cookies</loc>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>

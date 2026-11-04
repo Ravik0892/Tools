@@ -262,7 +262,7 @@ export default {
               </div>
               <div class="form-row" id="adm-row-razorpay" style="margin-top: 6px;">
                 <div class="form-group">
-                  <label for="razorpay-lifetime-url">Razorpay Lifetime Pass URL (₹2,499)</label>
+                  <label for="razorpay-lifetime-url">Razorpay Lifetime Pass URL (₹799)</label>
                   <input type="text" class="form-input" id="razorpay-lifetime-url" placeholder="e.g. https://rzp.io/rzp/omnitool-pro">
                   <span style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px; display: block;">Payment Page / Link for Lifetime Developer Pass.</span>
                 </div>
@@ -375,11 +375,11 @@ export default {
               <div class="form-row">
                 <div class="form-group">
                   <label for="price-lifetime-usd">Lifetime Pass Price (USD)</label>
-                  <input type="text" class="form-input" id="price-lifetime-usd" placeholder="e.g. $29.99">
+                  <input type="text" class="form-input" id="price-lifetime-usd" placeholder="e.g. $24.99">
                 </div>
                 <div class="form-group">
                   <label for="price-lifetime-inr">Lifetime Pass Price (INR)</label>
-                  <input type="text" class="form-input" id="price-lifetime-inr" placeholder="e.g. ₹2,499">
+                  <input type="text" class="form-input" id="price-lifetime-inr" placeholder="e.g. ₹799">
                 </div>
               </div>
               <div class="form-row" style="margin-top: 6px;">
@@ -1758,8 +1758,8 @@ export default {
       if (customGwFeatures) customGwFeatures.value = appInstance.getConfigValue("omnitool_custom_gw_features", "✔ 256-Bit SSL Encrypted checkout\n✔ Instant automated verification\n✔ Supports Visa, Mastercard, Apple Pay");
 
       // Load Dynamic Pricing
-      if (priceLifetimeUsd) priceLifetimeUsd.value = appInstance.getConfigValue("omnitool_price_lifetime_usd", "$29.99");
-      if (priceLifetimeInr) priceLifetimeInr.value = appInstance.getConfigValue("omnitool_price_lifetime_inr", "₹2,499");
+      if (priceLifetimeUsd) priceLifetimeUsd.value = appInstance.getConfigValue("omnitool_price_lifetime_usd", "$24.99");
+      if (priceLifetimeInr) priceLifetimeInr.value = appInstance.getConfigValue("omnitool_price_lifetime_inr", "₹799");
       if (priceMonthlyUsd) priceMonthlyUsd.value = appInstance.getConfigValue("omnitool_price_monthly_usd", "$4.99");
       if (priceMonthlyInr) priceMonthlyInr.value = appInstance.getConfigValue("omnitool_price_monthly_inr", "₹399");
 
@@ -2197,8 +2197,8 @@ export default {
         "omnitool_custom_gw_btn_text": customGwBtnText ? customGwBtnText.value.trim() : "Continue to Payment",
         "omnitool_custom_gw_desc": customGwDesc ? customGwDesc.value.trim() : "Direct secure payment method.",
         "omnitool_custom_gw_features": customGwFeatures ? customGwFeatures.value.trim() : "",
-        "omnitool_price_lifetime_usd": priceLifetimeUsd ? priceLifetimeUsd.value.trim() : "$29.99",
-        "omnitool_price_lifetime_inr": priceLifetimeInr ? priceLifetimeInr.value.trim() : "₹2,499",
+        "omnitool_price_lifetime_usd": priceLifetimeUsd ? priceLifetimeUsd.value.trim() : "$24.99",
+        "omnitool_price_lifetime_inr": priceLifetimeInr ? priceLifetimeInr.value.trim() : "₹799",
         "omnitool_price_monthly_usd": priceMonthlyUsd ? priceMonthlyUsd.value.trim() : "$4.99",
         "omnitool_price_monthly_inr": priceMonthlyInr ? priceMonthlyInr.value.trim() : "₹399",
         "omnitool_adsterra_smart_link": adsterraSmartLink ? adsterraSmartLink.value.trim() : "",

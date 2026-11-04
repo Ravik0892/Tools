@@ -14,20 +14,20 @@
 
 - [JSON Formatter & Validator](https://omnitool.worldsneed.com/tool/json-formatter): Format, validate, lint, minify, and inspect JSON documents offline.
 - [Base64 Encoder & Decoder](https://omnitool.worldsneed.com/tool/base64): Encode and decode UTF-8 text, binary files, and data URIs client-side.
-- [JWT Token Debugger](https://omnitool.worldsneed.com/tool/jwt-debugger): Decode, inspect header/claims, and verify HMAC SHA-256 signatures securely without network calls.
+- [JWT Token Debugger](https://omnitool.worldsneed.com/tool/jwt-decoder): Decode, inspect header/claims, and verify HMAC SHA-256 signatures securely without network calls.
 - [Regex Tester & Explainer](https://omnitool.worldsneed.com/tool/regex-tester): Interactive Regular Expression testing engine with real-time match highlighting and flag toggles.
 - [Hash Generator](https://omnitool.worldsneed.com/tool/hash-generator): Compute cryptographic MD5, SHA-1, SHA-256, and SHA-512 hashes using native Web Crypto API.
 - [UUID & GUID Generator](https://omnitool.worldsneed.com/tool/uuid-generator): Cryptographically secure RFC4122 v4 and timestamp-based v7 UUID generation in bulk.
 - [Markdown Live Editor](https://omnitool.worldsneed.com/tool/markdown-preview): Real-time GitHub-flavored markdown editor, HTML exporter, and word counter.
 - [URL Encoder / Decoder](https://omnitool.worldsneed.com/tool/url-encoder): Encode and decode query strings, full URI components, and special characters.
-- [CSS Minifier](https://omnitool.worldsneed.com/tool/css-minifier): Clean, minify, and remove duplicate whitespace from CSS stylesheets.
-- [HTML Entity Encoder](https://omnitool.worldsneed.com/tool/html-encoder): Convert characters to HTML entities and decode special characters.
+- [CSS Minifier](https://omnitool.worldsneed.com/tool/css-studio): Clean, minify, and remove duplicate whitespace from CSS stylesheets.
+- [HTML Entity Encoder](https://omnitool.worldsneed.com/tool/text-encoder-suite): Convert characters to HTML entities and decode special characters.
 
 ## Productivity & Utility Tools
 
-- [Color Studio & Converter](https://omnitool.worldsneed.com/tool/color-converter): Convert between HEX, RGB, HSL, HSV, CMYK with harmonic palette generation.
+- [Color Studio & Converter](https://omnitool.worldsneed.com/tool/color-lab): Convert between HEX, RGB, HSL, HSV, CMYK with harmonic palette generation.
 - [Unit Converter](https://omnitool.worldsneed.com/tool/unit-converter): Multi-dimensional unit conversions across length, weight, temperature, data size, and time.
 - [Smart Calculator](https://omnitool.worldsneed.com/tool/calculator): Scientific calculation suite with history and keyboard-first workflow.
-- [Text Difference Checker](https://omnitool.worldsneed.com/tool/diff-checker): Visual side-by-side line and character diff comparison.
+- [Text Difference Checker](https://omnitool.worldsneed.com/tool/text-diff): Visual side-by-side line and character diff comparison.
 - [QR Code Studio](https://omnitool.worldsneed.com/tool/qr-generator): Generate customizable SVG/PNG QR codes with instant local download.
 - [Smart Password Generator](https://omnitool.worldsneed.com/tool/password-generator): Entropy-driven client-side password and passphrase generator.

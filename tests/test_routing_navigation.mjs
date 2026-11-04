@@ -12,7 +12,8 @@ class MockElement {
       _classes: new Set(),
       add: (c) => this.classList._classes.add(c),
       remove: (c) => this.classList._classes.delete(c),
-      contains: (c) => this.classList._classes.has(c)
+      contains: (c) => this.classList._classes.has(c),
+      toggle: (c, force) => { const has = this.classList._classes.has(c); const shouldAdd = force !== undefined ? Boolean(force) : !has; if (shouldAdd) this.classList._classes.add(c); else this.classList._classes.delete(c); return shouldAdd; }
     };
     this.style = {};
     this.value = '';

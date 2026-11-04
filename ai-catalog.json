@@ -31,10 +31,10 @@
       ]
     },
     {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:jwt-debugger",
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:jwt-decoder",
       "displayName": "JWT Debugger & Inspector",
       "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/jwt-debugger",
+      "url": "https://omnitool.worldsneed.com/tool/jwt-decoder",
       "description": "Decodes JSON Web Tokens (JWT), parses header and payload claims, and verifies HMAC-SHA signatures securely without transmission.",
       "representativeQueries": [
         "decode jwt token",
@@ -91,10 +91,10 @@
       ]
     },
     {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:color-converter",
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:color-lab",
       "displayName": "Color Palette Studio & Converter",
       "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/color-converter",
+      "url": "https://omnitool.worldsneed.com/tool/color-lab",
       "description": "Converts color codes between HEX, RGB, HSL, and CMYK formats with harmonic color palette generation.",
       "representativeQueries": [
         "convert hex to rgb",
@@ -103,10 +103,10 @@
       ]
     },
     {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:diff-checker",
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:text-diff",
       "displayName": "Text Difference Checker",
       "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/diff-checker",
+      "url": "https://omnitool.worldsneed.com/tool/text-diff",
       "description": "Side-by-side and unified text diff viewer highlighting additions, deletions, and inline modifications.",
       "representativeQueries": [
         "compare two text files",
@@ -115,10 +115,10 @@
       ]
     },
     {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:css-minifier",
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:css-studio",
       "displayName": "CSS Minifier & Optimizer",
       "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/css-minifier",
+      "url": "https://omnitool.worldsneed.com/tool/css-studio",
       "description": "Minifies CSS stylesheets, strips comments and redundant whitespace client-side.",
       "representativeQueries": [
         "minify css file",

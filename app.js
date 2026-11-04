@@ -2132,7 +2132,7 @@ const app = {
           <div class="hero-mode-banner">
             <span>💻 Need code formatters, JWT, or developer utilities?</span>
             <button type="button" class="hero-mode-banner-btn" onclick="app.setUiMode('developer')">
-              <span>Switch to Developer Mode (46+ tools) &rarr;</span>
+              <span>Switch to Developer Mode (50+ tools) &rarr;</span>
             </button>
           </div>
         `;
@@ -2260,7 +2260,14 @@ const app = {
     // PDF Security, Repair & Archival Suite
     "pdf-security": { suiteId: "pdf-security-suite", subtab: "pdf-security" },
     "repair-pdf": { suiteId: "pdf-security-suite", subtab: "repair-pdf" },
-    "pdf-to-pdfa": { suiteId: "pdf-security-suite", subtab: "pdf-to-pdfa" }
+    "pdf-to-pdfa": { suiteId: "pdf-security-suite", subtab: "pdf-to-pdfa" },
+
+    // Additional Aliases & Common Alternate / AI Catalog Slugs
+    "jwt-debugger": { suiteId: "jwt-decoder" },
+    "color-converter": { suiteId: "color-lab", subtab: "palette" },
+    "diff-checker": { suiteId: "text-diff" },
+    "css-minifier": { suiteId: "css-studio", subtab: "minify" },
+    "html-encoder": { suiteId: "text-encoder-suite", subtab: "base64" }
   },
 
   async loadGlobalConfig() {
@@ -2482,31 +2489,45 @@ const app = {
 
     if (!searchInputs.length) return;
 
-    const prompts = [
-      "Search " + this.tools.length + "+ offline tools... (e.g. 'JSON', 'PDF', 'Base64')",
+    const beginnerPrompts = [
+      "Search 18 everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')",
+      "Try 'Combine, Cut & Compress PDF'",
+      "Try 'Create & Scan QR Codes'",
+      "Try 'Fast Online Calculator'",
+      "Try 'Voice Memo & Audio Recorder'",
+      "Try 'Photo & Image Converter'",
+      "Try 'Color Picker & Palette Matcher'",
+      "Try 'Date, Age & Time Calculator'"
+    ];
+
+    const devPrompts = [
+      "Search 50+ developer tools... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')",
       "Try 'Smart Chain Pipeline Builder'",
-      "Try 'Audio Synth & Visualizer'",
-      "Try 'QR Code Generator Studio'",
-      "Try 'Markdown Live Editor'",
-      "Try 'Matrix Rain Simulation'",
-      "Try 'JWT Token Decoder'",
-      "Try 'Color Palette Generator'",
-      "Try 'Speed Test & Ping Monitor'"
+      "Try 'JWT Token Decoder & Inspector'",
+      "Try 'Cryptography & AES-256 Suite'",
+      "Try 'Visual Regex Tester & Extractor'",
+      "Try 'cURL to Fetch / Axios Converter'",
+      "Try 'JSON-to-Code Interface Converter'",
+      "Try 'Mock Data Generator'",
+      "Try 'HTML/CSS/JS Live Playground'"
     ];
 
     let promptIdx = 0;
     setInterval(() => {
-      promptIdx = (promptIdx + 1) % prompts.length;
+      promptIdx = promptIdx + 1;
+      const isBeginner = this.uiMode === "beginner";
+      const prompts = isBeginner ? beginnerPrompts : devPrompts;
+      const chosen = prompts[promptIdx % prompts.length];
       searchInputs.forEach(input => {
         if (document.activeElement !== input && !input.value) {
-          input.setAttribute("placeholder", prompts[promptIdx]);
+          input.setAttribute("placeholder", chosen);
         }
       });
     }, 3800);
   },
 
   syncGuidesUI() {
-    const count = this.guidesList ? this.guidesList.length : 28;
+    const count = this.guidesList ? this.guidesList.length : 48;
 
     // 1. Guides count in metrics / badges
     const sfcGuides = document.getElementById("sfc-count-guides");
@@ -2564,7 +2585,7 @@ const app = {
     ].filter(Boolean);
     searchInputs.forEach(input => {
       if (!input.value) {
-        input.setAttribute("placeholder", `Search ${countDisplay} offline tools... (e.g. 'JSON', 'PDF', 'Base64')`);
+        input.setAttribute("placeholder", isBeginner ? "Search 18 everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')" : "Search 50+ developer tools... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')");
       }
     });
 
@@ -2737,6 +2758,52 @@ const app = {
     }
   },
 
+  getActiveCurrency() {
+    try {
+      const saved = localStorage.getItem("omnitool_currency_pref");
+      if (saved === "INR" || saved === "USD") {
+        return saved;
+      }
+      return this.detectUserRegion() === "IN" ? "INR" : "USD";
+    } catch (_) {
+      return "USD";
+    }
+  },
+
+  setActiveCurrency(currency) {
+    if (currency !== "INR" && currency !== "USD") return;
+    try {
+      localStorage.setItem("omnitool_currency_pref", currency);
+    } catch (_) {}
+
+    // Synchronize Plans page if open
+    this.renderPlansPage();
+
+    // Synchronize Checkout modal if open
+    const modal = document.getElementById("checkout-modal");
+    if (modal && modal.style.display !== "none") {
+      this.switchCheckoutPlan(this.checkoutPlan || "lifetime");
+      this.updateCheckoutCurrencyUI();
+    }
+
+    this.playSynthSound("click");
+    const isIndia = currency === "INR";
+    const inrLife = this.getConfigValue("omnitool_price_lifetime_inr", "₹799");
+    const inrMo = this.getConfigValue("omnitool_price_monthly_inr", "₹399");
+    const usdLife = this.getConfigValue("omnitool_price_lifetime_usd", "$24.99");
+    const usdMo = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
+    this.showToast(isIndia ? `Pricing set to 🇮🇳 Indian Rupees (${inrLife} Lifetime / ${inrMo} Monthly)` : `Pricing set to 🌐 US Dollars (${usdLife} Lifetime / ${usdMo} Monthly)`, "info");
+  },
+
+  updateCheckoutCurrencyUI() {
+    const curr = this.getActiveCurrency();
+    const btnInr = document.getElementById("chk-curr-btn-inr");
+    const btnUsd = document.getElementById("chk-curr-btn-usd");
+    if (btnInr && btnUsd) {
+      if (curr === "INR") { btnInr.classList.add("active"); btnUsd.classList.remove("active"); } else { btnInr.classList.remove("active"); btnUsd.classList.add("active"); }
+    }
+  },
+
   handleRouting() {
     let hash = window.location.hash || "";
     let pathname = window.location.pathname || "";
@@ -2752,6 +2819,13 @@ const app = {
       hashQuery = hash.substring(hash.indexOf("?") + 1);
     }
     const hashParams = new URLSearchParams(hashQuery);
+
+    const qCurrency = hashParams.get("currency") || urlParams.get("currency");
+    if (qCurrency && (qCurrency.toUpperCase() === "INR" || qCurrency.toUpperCase() === "USD")) {
+      try {
+        localStorage.setItem("omnitool_currency_pref", qCurrency.toUpperCase());
+      } catch (_) {}
+    }
 
     const rzpPaymentId = urlParams.get("razorpay_payment_id") || urlParams.get("payment_id") || hashParams.get("razorpay_payment_id") || hashParams.get("payment_id");
     const activatedParam = (urlParams.get("activated") || hashParams.get("activated") || urlParams.get("plan") || hashParams.get("plan") || "").toLowerCase();
@@ -2876,21 +2950,29 @@ const app = {
       }
     }
 
-    // Legal pages required for AdSense approval
-    if (hash === "#privacy" || pathname === "/privacy") {
+    // Legal & compliance routes (AdSense, GDPR, Payment Gateways & Consumer Trust)
+    if (hash === "#privacy" || pathname === "/privacy" || hash === "#privacy-policy" || pathname === "/privacy-policy") {
       this.renderLegalPage("privacy");
       return;
     }
-    if (hash === "#about" || pathname === "/about") {
+    if (hash === "#about" || pathname === "/about" || hash === "#about-us" || pathname === "/about-us") {
       this.renderLegalPage("about");
       return;
     }
-    if (hash === "#contact" || pathname === "/contact") {
+    if (hash === "#contact" || pathname === "/contact" || hash === "#contact-us" || pathname === "/contact-us") {
       this.renderLegalPage("contact");
       return;
     }
-    if (hash === "#terms" || pathname === "/terms") {
+    if (hash === "#terms" || pathname === "/terms" || hash === "#terms-of-service" || pathname === "/terms-of-service") {
       this.renderLegalPage("terms");
+      return;
+    }
+    if (hash === "#refund" || pathname === "/refund" || hash === "#refund-policy" || pathname === "/refund-policy") {
+      this.renderLegalPage("refund");
+      return;
+    }
+    if (hash === "#cookies" || pathname === "/cookies" || hash === "#cookie-policy" || pathname === "/cookie-policy") {
+      this.renderLegalPage("cookies");
       return;
     }
 
@@ -3518,6 +3600,10 @@ const app = {
   // ===================================================
   // Legal Pages — Required for Google AdSense Approval
   // ===================================================
+  // COMPREHENSIVE LEGAL & COMPLIANCE PAGES
+  // Enterprise-grade disclosures for AdSense, GDPR, CCPA,
+  // Payment Processors (PayPal/Razorpay), Analytics & Cloud Roadmap
+  // ===================================================
   renderLegalPage(page) {
     const viewport = document.getElementById("active-tool-viewport");
     const dashView = document.getElementById("dashboard-view");
@@ -3526,46 +3612,323 @@ const app = {
     if (dashView) dashView.style.display = "none";
     viewport.style.display = "block";
 
+    const navTabs = [
+      { id: "privacy", label: "Privacy Policy", icon: "🛡️" },
+      { id: "terms", label: "Terms of Service", icon: "📜" },
+      { id: "refund", label: "Refund Policy", icon: "💳" },
+      { id: "cookies", label: "Cookie Policy", icon: "🍪" },
+      { id: "about", label: "About Us", icon: "🌐" },
+      { id: "contact", label: "Contact Us", icon: "📬" }
+    ];
+
     const pages = {
       privacy: {
-        title: "Privacy Policy",
+        title: "Privacy Policy & Data Protection",
+        metaDesc: "OmniTool Hub's official Privacy Policy: Zero-knowledge client-side processing, optional upcoming encrypted cloud storage, GDPR, CCPA, AdSense, and analytics disclosures.",
         icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
         content: `
-          <p class="legal-date"><strong>Effective Date:</strong> June 2026 &nbsp;|&nbsp; <strong>Last Updated:</strong> June 2026</p>
-          <p>OmniTool Hub ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we handle your information when you use our website.</p>
+          <p class="legal-date"><strong>Effective Date:</strong> November 2026 &nbsp;|&nbsp; <strong>Last Updated:</strong> November 2026 &nbsp;|&nbsp; <strong>Version:</strong> 2.4.0 (Enterprise Privacy Tier)</p>
+          
+          <div class="legal-callout-box">
+            <h4><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Privacy Philosophy: Local-First Autonomy with Transparent Architecture</h4>
+            <p>OmniTool Hub ("we", "us", or "our"), operated under the <strong>WorldsNeed</strong> digital ecosystem (<a href="https://worldsneed.com" target="_blank" rel="noopener">worldsneed.com</a>), is engineered around a core principle: <strong>your private data, code, and documents belong exclusively to you</strong>. This document explains our dual architectural framework (local-first free execution vs. optional cloud synchronization), analytics, advertising disclosures, and your statutory rights under GDPR, UK GDPR, and CCPA/CPRA.</p>
+          </div>
 
-          <h3>1. Information We Collect</h3>
-          <p><strong>We do NOT collect any personal data.</strong> OmniTool Hub runs entirely in your browser (client-side). No data you enter into any tool is ever sent to a server. All processing happens locally on your device.</p>
+          <h3>1. Architectural Framework: Free Tier vs. Upcoming Cloud Storage</h3>
+          <p>OmniTool Hub is engineered with a strict technological distinction between our <strong>Free Local-First Tier</strong> and our <strong>Upcoming Optional Paid Cloud Tier</strong>:</p>
+          
+          <div class="legal-table-responsive">
+            <table class="legal-table">
+              <thead>
+                <tr>
+                  <th>Tier &amp; Service Mode</th>
+                  <th>Processing Location</th>
+                  <th>Data Transmission</th>
+                  <th>Storage &amp; Encryption</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Free Plan</strong> <span class="legal-badge-pill local">Default</span></td>
+                  <td>100% In-Browser Memory (Client-Side)</td>
+                  <td>Zero Server Uploads (0 Bytes)</td>
+                  <td>Local device only (<code>localStorage</code>)</td>
+                </tr>
+                <tr>
+                  <td><strong>Paid Plan (Upcoming)</strong> <span class="legal-badge-pill cloud">Optional</span></td>
+                  <td>Hybrid: Client Execution + Cloud Sync</td>
+                  <td>Encrypted TLS 1.3 Sync</td>
+                  <td>End-to-End Encrypted Cloud Storage</td>
+                </tr>
+                <tr>
+                  <td><strong>Opt-In Tool APIs</strong> <span class="legal-badge-pill api">Exceptions</span></td>
+                  <td>Third-Party Dedicated Endpoints</td>
+                  <td>HTTPS External API Call</td>
+                  <td>Transient / Stateless Execution</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <ul>
-            <li><strong>Local Storage:</strong> We use your browser's localStorage to save your preferences (theme, favorites, settings). This data stays on your device only.</li>
-            <li><strong>No Cookies:</strong> We do not use tracking cookies or session cookies.</li>
-            <li><strong>No Analytics:</strong> We do not use Google Analytics or any third-party analytics.</li>
+            <li><strong>Free Tier (Local-First Sandbox):</strong> By default, all 50+ developer utilities run entirely within your web browser using WebAssembly, Web Crypto API, and local Web Workers. Code syntax validation, JSON formatting, cryptography hashing, image optimization, and PDF page manipulation happen directly on your machine. Your input payloads, passwords, and documents are never transmitted to our servers.</li>
+            <li><strong>Upcoming Paid / Subscription Tier (Optional Cloud Server Storage):</strong> In forthcoming updates, users who subscribe to our monthly or lifetime PRO plans will have the optional ability to connect to our secure Cloud Server backend. This will enable cross-device synchronization of saved pipeline presets, custom regex libraries, favorite tool settings, and cloud-saved documents. <strong>Cloud synchronization is strictly opt-in</strong>: Free tier users will continue to enjoy 100% client-side privacy without ever being forced to store data on cloud servers. Cloud-stored records will utilize industry-standard AES-256 encryption at rest and TLS 1.3 in transit.</li>
           </ul>
 
-          <h3>2. Google AdSense</h3>
-          <p>We use Google AdSense to display advertisements. Google AdSense may use cookies and web beacons to serve ads based on a user's prior visits to our website and other websites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to our site.</p>
-          <p>You may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>.</p>
+          <h3>2. Explicit Third-Party Utility API Exceptions</h3>
+          <p>To deliver specific real-world web utilities, a minimal number of specialized tools require external network communication. These are clearly marked and only transmit data when you explicitly interact with them:</p>
+          <ul>
+            <li><strong>Temporary Mail Suite (<code>temp-mail</code>):</strong> Communicates with public disposal mailbox API endpoints (such as <code>1secmail.com</code>) solely to generate ephemeral inbox addresses and fetch incoming test messages. No personal identity is associated with temporary mailboxes.</li>
+            <li><strong>PDF AI Assistant (<code>pdf-ai</code>):</strong> When you ask questions about an uploaded PDF using your user-provided Google Gemini API Key, extracted text prompts are transmitted over HTTPS directly to Google Generative Language endpoints (<code>generativelanguage.googleapis.com</code>). You retain complete control over your API credentials.</li>
+            <li><strong>CDN Static Libraries:</strong> High-performance static script dependencies (such as PDF.js workers, FontAwesome, and Google Fonts) are loaded from enterprise Content Delivery Networks (Cloudflare CDN and Google Fonts) to optimize caching and delivery speeds.</li>
+          </ul>
 
-          <h3>3. Third-Party Links</h3>
-          <p>Our website may contain links to external websites. We have no control over the privacy practices of those sites and are not responsible for their content.</p>
+          <h3>3. Web Analytics &amp; Performance Telemetry</h3>
+          <p>To maintain high platform reliability, monitor uptime, and optimize user experience, we may utilize privacy-respecting website analytics tools (including <strong>Google Analytics 4</strong> with IP Anonymization enabled, and <strong>Cloudflare Web Analytics</strong>):</p>
+          <ul>
+            <li><strong>What is measured:</strong> Aggregated, non-personally identifiable telemetry such as browser version, operating system, screen resolution, language, referring URLs, session duration, and approximate city/country level geography.</li>
+            <li><strong>Strict Security Isolation:</strong> Analytics scripts <strong>NEVER</strong> record, intercept, or inspect your tool input fields, uploaded files, processed code, decrypted text, or API keys. Our utilities operate in isolated script scopes.</li>
+            <li><strong>Opt-Out Rights:</strong> You may prevent Google Analytics from tracking your visits by installing the official <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a> or enabling the "Do Not Track" / "Global Privacy Control" (GPC) header in your web browser.</li>
+          </ul>
 
-          <h3>4. Children's Privacy</h3>
-          <p>OmniTool Hub does not knowingly collect information from children under the age of 13.</p>
+          <h3>4. Google AdSense &amp; Advertising Partners</h3>
+          <p>We partner with <strong>Google AdSense</strong> and certified third-party ad networks to display advertisements that sustain our free development efforts:</p>
+          <ul>
+            <li>Third-party vendors, including Google, use cookies and web beacons to serve advertisements based on a user's previous visits to our website or other websites on the internet.</li>
+            <li>Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visits to our site and/or other sites on the Internet.</li>
+            <li><strong>Opt-Out Options:</strong> Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>. Alternatively, you can opt out of a third-party vendor's use of cookies for personalized advertising by visiting <a href="https://optout.aboutads.info/" target="_blank" rel="noopener">AboutAds.info</a> or <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener">Your Online Choices (EU)</a>.</li>
+            <li><strong>EU/EEA &amp; UK Consent:</strong> In compliance with the IAB Europe Transparency and Consent Framework (TCF v2.2) and Google's EU User Consent Policy, visitors from the European Economic Area and UK are presented with consent controls to manage non-essential advertising and measurement cookies.</li>
+          </ul>
 
-          <h3>5. Changes to This Policy</h3>
-          <p>We may update this Privacy Policy periodically. Updates will be reflected on this page with a new effective date.</p>
+          <h3>5. Payment Processors &amp; Transaction Security</h3>
+          <p>When you purchase a Lifetime Pass, monthly PRO subscription, or voluntary sponsorship on OmniTool Hub, transactions are processed directly by certified third-party payment gateways: <strong>Razorpay, PayPal, Gumroad, and UPI</strong>.</p>
+          <ul>
+            <li>OmniTool Hub does <strong>NOT</strong> collect, view, or store your credit/debit card numbers, CVVs, bank passwords, or biometric credentials.</li>
+            <li>Payment processors transmit transaction confirmation tokens and your licensed email address to grant license activation. All financial transactions are governed by the respective privacy policies of the payment processors.</li>
+          </ul>
 
-          <h3>6. Contact Us</h3>
-          <p>If you have questions about this Privacy Policy, please use our <a href="#contact" onclick="app.renderLegalPage('contact')">Contact page</a>.</p>
+          <h3>6. Local Browser Storage &amp; Cookies</h3>
+          <p>OmniTool Hub uses <code>localStorage</code> on your client device to preserve your selected UI theme (Dark/Light), active layout modes, favorited tool shortcuts, and recent non-sensitive calculator histories. This data remains on your physical device at all times and can be purged instantly by clearing your browser's site data. Please refer to our dedicated <a href="#cookies" onclick="app.renderLegalPage('cookies')">Cookie Policy</a> for detailed disclosures.</p>
+
+          <h3>7. Data Subject Rights (GDPR &amp; UK GDPR)</h3>
+          <p>If you reside within the European Union, European Economic Area, or United Kingdom, you hold comprehensive rights under the General Data Protection Regulation:</p>
+          <ul>
+            <li><strong>Right of Access &amp; Portability:</strong> The right to request copies of any personal information we hold about you.</li>
+            <li><strong>Right to Rectification &amp; Erasure ("Right to be Forgotten"):</strong> The right to demand correction of inaccurate records or complete deletion of transaction logs.</li>
+            <li><strong>Right to Object &amp; Restrict Processing:</strong> The right to restrict or halt specific forms of data processing.</li>
+            <li>Because free tool processing occurs client-side in your browser, you exercise immediate data erasure by clearing your browser cache or closing the browser tab. For billing records, requests may be submitted to <a href="mailto:privacy@worldsneed.com">privacy@worldsneed.com</a>.</li>
+          </ul>
+
+          <h3>8. California Consumer Privacy Act (CCPA / CPRA Notice)</h3>
+          <p>Under the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA), California residents are entitled to know what categories of personal information are collected and shared. <strong>OmniTool Hub does NOT sell or share your personal information</strong> with data brokers for financial compensation. We do not sell user data. You have the right to request disclosure, deletion, and freedom from discriminatory treatment.</p>
+
+          <h3>9. Children's Online Privacy (COPPA Compliance)</h3>
+          <p>OmniTool Hub is designed for general audiences and developers. We do not knowingly solicit, harvest, or collect personal information from children under the age of 13 (or under 16 in the European Union). If we become aware that a child has provided us with personal information, we take immediate steps to delete such records.</p>
+
+          <h3>10. Data Protection Contact &amp; Grievance Officer</h3>
+          <p>If you have any questions, regulatory requests, or feedback regarding this Privacy Policy, our engineering architecture, or data protection practices, please contact our Data Protection desk:</p>
+          <ul>
+            <li><strong>Privacy &amp; Legal Desk:</strong> <a href="mailto:privacy@worldsneed.com">privacy@worldsneed.com</a></li>
+            <li><strong>General Support:</strong> <a href="mailto:support@worldsneed.com">support@worldsneed.com</a></li>
+            <li><strong>Parent Organization:</strong> WorldsNeed Ecosystem (<a href="https://worldsneed.com" target="_blank" rel="noopener">worldsneed.com</a>)</li>
+          </ul>
+        `
+      },
+      terms: {
+        title: "Terms of Service & License Agreement",
+        metaDesc: "OmniTool Hub Terms of Service: Commercial ownership of output, dual service tiers, refund guarantee, acceptable use, and platform disclaimers.",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`,
+        content: `
+          <p class="legal-date"><strong>Effective Date:</strong> November 2026 &nbsp;|&nbsp; <strong>Last Updated:</strong> November 2026 &nbsp;|&nbsp; <strong>Governing Brand:</strong> WorldsNeed</p>
+
+          <div class="legal-callout-box">
+            <h4><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Transparent Service Agreement</h4>
+            <p>Welcome to OmniTool Hub. By accessing or using our website, utilities, APIs, or subscribing to paid services, you agree to be bound by these Terms of Service. If you do not agree, please discontinue using the platform.</p>
+          </div>
+
+          <h3>1. Service Tiers &amp; Delivery Model</h3>
+          <p>OmniTool Hub operates under a dual-tier model engineered to maximize accessibility and utility:</p>
+          <ul>
+            <li><strong>Free Tier:</strong> Provides unlimited, unrestricted access to client-side developer, text, math, design, and PDF utilities running in-browser. No account registration or credit card is required.</li>
+            <li><strong>Paid PRO &amp; Lifetime Tiers:</strong> Unlocks premium powerhouse capabilities (such as elevated file processing thresholds, batch export utilities, and early access to forthcoming encrypted Cloud Server backup and sync modules).</li>
+          </ul>
+
+          <h3>2. 100% User Ownership of Generated Output</h3>
+          <p>We respect intellectual property. <strong>You retain 100% full legal ownership, copyright, and commercial rights over all content, code, documents, and media processed through OmniTool Hub:</strong></p>
+          <ul>
+            <li>Formatted code, sanitized JSON datasets, converted images, generated QR codes, and decrypted text files belong entirely to you.</li>
+            <li>OmniTool Hub claims no royalty, license, or copyright interest in your input payloads or generated artifacts. You are free to use outputs for commercial, proprietary, or open-source projects without attribution.</li>
+          </ul>
+
+          <h3>3. Refund &amp; Cancellation Policy (14-Day Buyer Protection)</h3>
+          <p>We stand behind the quality of our software. Every paid digital purchase (including Lifetime licenses and monthly subscriptions) is protected by our transparent satisfaction policy:</p>
+          <ul>
+            <li><strong>14-Day Money-Back Guarantee:</strong> If you purchase a PRO license and experience technical defects, compatibility problems, or are dissatisfied with the service, you are entitled to a full refund within 14 calendar days of your initial purchase date.</li>
+            <li><strong>Subscription Management:</strong> Monthly subscriptions can be canceled at any time with no cancellation penalties. Your PRO access will remain active until the end of your prepaid billing period.</li>
+            <li>For full step-by-step instructions and conditions, please consult our dedicated <a href="#refund" onclick="app.renderLegalPage('refund')">Refund &amp; Cancellation Policy</a>.</li>
+          </ul>
+
+          <h3>4. Acceptable Use &amp; Prohibited Conduct</h3>
+          <p>When using OmniTool Hub, you agree not to engage in any of the following prohibited actions:</p>
+          <ul>
+            <li>Attempting to bypass security barriers, launch denial-of-service (DDoS) attacks, or disrupt our hosting infrastructure.</li>
+            <li>Using automated crawlers, scrapers, or bot networks to artificially harvest pages or manipulate advertising impressions.</li>
+            <li>Utilizing temporary mail or cryptographic utilities for unlawful activities, distribution of malware, or fraudulent schemes.</li>
+            <li>Reselling, sublicensing, or distributing the proprietary source code of OmniTool Hub as a competing standalone commercial service without written consent from WorldsNeed.</li>
+          </ul>
+
+          <h3>5. Upcoming Cloud Server Terms</h3>
+          <p>For users who subscribe to upcoming cloud synchronization plans:</p>
+          <ul>
+            <li>Cloud storage is provided for tool presets, custom pipeline configurations, and workspace documents up to your allocated plan quota.</li>
+            <li>You agree not to upload illegal, defamatory, or malicious content to our cloud storage nodes.</li>
+            <li>We maintain regular encrypted server backups but recommend that you maintain local copies of critical production assets.</li>
+          </ul>
+
+          <h3>6. Disclaimer of Warranties ("As-Is" Provision)</h3>
+          <p>OmniTool Hub is provided on an "AS IS" and "AS AVAILABLE" basis. While we strive for rigorous mathematical, cryptographic, and algorithmic precision across all utilities, we do not guarantee that functions will be uninterrupted, error-free, or suitable for every mission-critical requirement. You are advised to independently verify critical cryptographic signatures and compiled outputs before production deployment.</p>
+
+          <h3>7. Limitation of Liability</h3>
+          <p>To the maximum extent permitted by applicable law, WorldsNeed, OmniTool Hub, its creators, and affiliates shall not be liable for any direct, indirect, incidental, consequential, or punitive damages resulting from the use or inability to use our tools, including data loss, hardware interruption, or financial disputes.</p>
+
+          <h3>8. Governing Law &amp; Dispute Resolution</h3>
+          <p>These Terms shall be interpreted and governed in accordance with applicable laws, without regard to conflict of law principles. Any legal disputes arising out of or related to these Terms shall be resolved through good-faith mutual negotiation prior to initiating formal dispute proceedings.</p>
+
+          <h3>9. Contact &amp; Notices</h3>
+          <p>For questions or notices regarding these Terms of Service, please reach out via <a href="mailto:support@worldsneed.com">support@worldsneed.com</a> or consult our <a href="#contact" onclick="app.renderLegalPage('contact')">Contact Page</a>.</p>
+        `
+      },
+      refund: {
+        title: "Refund & Cancellation Policy",
+        metaDesc: "OmniTool Hub's official Refund and Cancellation Policy: 14-day buyer protection guarantee, subscription cancellation terms, and dispute resolution.",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>`,
+        content: `
+          <p class="legal-date"><strong>Effective Date:</strong> November 2026 &nbsp;|&nbsp; <strong>Last Updated:</strong> November 2026 &nbsp;|&nbsp; <strong>Guaranteed By:</strong> WorldsNeed</p>
+
+          <div class="legal-callout-box">
+            <h4><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> 14-Day Full Satisfaction Guarantee</h4>
+            <p>At OmniTool Hub, customer trust and transparent billing are top priorities. We want you to feel completely confident when upgrading to our PRO or Lifetime licenses. If you are not satisfied with your purchase, our buyer protection policy has you covered.</p>
+          </div>
+
+          <h3>1. 14-Day Money-Back Guarantee</h3>
+          <p>We provide a <strong>14-Day Money-Back Guarantee</strong> for all first-time purchases of OmniTool Hub Lifetime passes and recurring monthly PRO subscriptions:</p>
+          <ul>
+            <li>If you encounter technical issues, tool incompatibilities, or find that the software does not suit your development workflow, you may request a 100% full refund within 14 calendar days of your original payment.</li>
+            <li>No complicated hurdles: Simply provide your purchase email and transaction ID, and our billing desk will process your refund promptly.</li>
+          </ul>
+
+          <h3>2. How to Request a Refund</h3>
+          <p>To initiate a refund, please follow these simple steps:</p>
+          <ul>
+            <li>Send an email to <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a> with the subject line: <code>[Refund Request] - Transaction ID / Email</code>.</li>
+            <li>Include your order reference or license key (from Razorpay, PayPal, or Gumroad).</li>
+            <li>Optional: Briefly mention the reason for your request so our engineering team can improve the tool.</li>
+            <li>Our billing department will confirm your request within <strong>24 business hours</strong>.</li>
+          </ul>
+
+          <h3>3. Processing Time &amp; Payout Method</h3>
+          <p>Once approved, your refund is issued immediately back to your original payment method:</p>
+          <ul>
+            <li><strong>Credit/Debit Cards &amp; Net Banking (via Razorpay):</strong> Funds typically reflect in your account within 5 to 7 business days, depending on your issuing bank.</li>
+            <li><strong>PayPal:</strong> Refunds generally post to your PayPal balance or linked card within 24 to 48 hours.</li>
+            <li><strong>Gumroad:</strong> Processed automatically back to your payment card within 3 to 5 business days.</li>
+            <li><strong>UPI &amp; Direct Gateways:</strong> Credited back to the originating VPA/account within 24 to 48 hours.</li>
+          </ul>
+
+          <h3>4. Subscription Cancellation Policy</h3>
+          <p>For recurring monthly subscription plans:</p>
+          <ul>
+            <li>You can cancel your subscription at any time without fees or penalties.</li>
+            <li>Upon cancellation, automatic renewals cease immediately. You will retain unrestricted PRO access until the conclusion of your active billing period.</li>
+            <li>Cancellations can be performed directly through your payment receipt portal (Gumroad / PayPal / Razorpay) or by emailing <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a>.</li>
+          </ul>
+
+          <h3>5. Non-Refundable Scenarios</h3>
+          <p>Refunds cannot be issued under the following exceptional circumstances:</p>
+          <ul>
+            <li>Refund requests submitted after the expiration of the 14-day window.</li>
+            <li>Accounts terminated due to severe violations of our Acceptable Use policy (such as automated bot attacks, fraud, or reverse engineering).</li>
+            <li>Voluntary one-time community tips or donation amounts submitted via Buy Me a Coffee or Ko-fi.</li>
+          </ul>
+
+          <h3>6. Billing Support Contact</h3>
+          <p>If you have any billing inquiries, invoice requests, or payment assistance needs, our support desk is here to help:</p>
+          <ul>
+            <li><strong>Billing Desk:</strong> <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a></li>
+            <li><strong>General Support:</strong> <a href="mailto:support@worldsneed.com">support@worldsneed.com</a></li>
+          </ul>
+        `
+      },
+      cookies: {
+        title: "Cookie & Tracking Policy",
+        metaDesc: "OmniTool Hub Cookie Policy: Explanation of browser localStorage, advertising cookies, analytics telemetry, and how to manage cookie preferences.",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12a10 10 0 0 1 10-10z"></path><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="12" cy="15.5" r="1.5"></circle></svg>`,
+        content: `
+          <p class="legal-date"><strong>Effective Date:</strong> November 2026 &nbsp;|&nbsp; <strong>Last Updated:</strong> November 2026 &nbsp;|&nbsp; <strong>Compliance:</strong> GDPR / ePrivacy Directive</p>
+
+          <div class="legal-callout-box">
+            <h4><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Transparent Storage Disclosures</h4>
+            <p>This Cookie Policy explains what cookies and local storage technologies are used on OmniTool Hub, why they are used, and how you can exercise full control over them.</p>
+          </div>
+
+          <h3>1. What Are Cookies and Local Storage?</h3>
+          <p>Cookies are small text files placed on your device by websites you visit. <strong>Web Local Storage (<code>localStorage</code>)</strong> is a modern web standard that allows web applications to store non-sensitive configuration keys directly inside your local web browser without transmitting them back and forth over HTTP headers.</p>
+
+          <h3>2. Technologies We Use</h3>
+          <div class="legal-table-responsive">
+            <table class="legal-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Mechanism</th>
+                  <th>Purpose</th>
+                  <th>Persistence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Essential / Functional</strong></td>
+                  <td>Browser <code>localStorage</code></td>
+                  <td>Stores UI theme (Dark/Light), active layout, and favorited tools</td>
+                  <td>Persistent until cleared by user</td>
+                </tr>
+                <tr>
+                  <td><strong>Performance &amp; Analytics</strong></td>
+                  <td>Cookies / Local Cache</td>
+                  <td>Aggregated telemetry (Google Analytics 4 / Cloudflare) to optimize site speed</td>
+                  <td>Up to 14 months (configurable)</td>
+                </tr>
+                <tr>
+                  <td><strong>Advertising Partners</strong></td>
+                  <td>Third-Party Cookies</td>
+                  <td>Google AdSense advertising cookies to deliver relevant ads</td>
+                  <td>Determined by Google AdSense</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>3. Zero-Inspection Policy on Tool Data</h3>
+          <p>We want to be 100% transparent: <strong>Cookies and analytics scripts NEVER record, store, or transmit your code, passwords, files, or sensitive inputs</strong>. All core utilities execute in client memory, completely decoupled from tracking or cookie mechanisms.</p>
+
+          <h3>4. How to Manage &amp; Disable Cookies</h3>
+          <p>You have full authority to block, restrict, or clear cookies through your browser settings. Follow the official guides for your browser:</p>
+          <ul>
+            <li><strong>Google Chrome:</strong> Settings &gt; Privacy and security &gt; Third-party cookies</li>
+            <li><strong>Mozilla Firefox:</strong> Settings &gt; Privacy &amp; Security &gt; Enhanced Tracking Protection</li>
+            <li><strong>Apple Safari:</strong> Preferences &gt; Privacy &gt; Block all cookies</li>
+            <li><strong>Microsoft Edge:</strong> Settings &gt; Cookies and site permissions &gt; Manage and delete cookies</li>
+          </ul>
+          <p>Please note that disabling strictly functional <code>localStorage</code> may reset your saved theme and favorites between visits, but all core conversion tools will continue to function normally.</p>
         `
       },
       about: {
-        title: "About OmniTool Hub",
+        title: "About OmniTool Hub & WorldsNeed",
+        metaDesc: "About OmniTool Hub: The flagship privacy-first developer utility suite created under the WorldsNeed digital ecosystem.",
         icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
         content: `
           <p class="about-lead">OmniTool Hub is an all-in-one, privacy-first developer and utility suite developed under the <strong><a href="https://worldsneed.com" target="_blank" rel="noopener">WorldsNeed</a></strong> ecosystem, empowering developers, designers, students, and digital creators worldwide.</p>
 
-          <!-- Ecosystem Feature Banner -->
           <div class="about-ecosystem-card">
             <div class="about-ecosystem-header">
               <div class="about-ecosystem-badge">🌐 THE WORLDSNEED ECOSYSTEM</div>
@@ -3587,8 +3950,15 @@ const app = {
             </div>
           </div>
 
-          <h3>Our Mission &amp; Philosophy</h3>
-          <p>We believe essential digital tools should be free, lightning-fast, and completely private. Every tool on OmniTool Hub runs 100% locally in your browser memory — your sensitive code, API keys, JSON payloads, and confidential documents never leave your device. No forced accounts, zero server uploads, and no invasive tracking.</p>
+          <h3>Our Mission &amp; Engineering Philosophy</h3>
+          <p>We believe essential digital tools should be free, lightning-fast, and completely private. Every core tool on OmniTool Hub runs 100% locally in your browser memory — your sensitive code, API keys, JSON payloads, and confidential documents never leave your device. No forced accounts, zero server uploads, and no invasive tracking.</p>
+
+          <h3>Upcoming Hybrid Architecture Roadmap</h3>
+          <p>To serve both independent developers and high-volume engineering teams, we are actively expanding our architecture into a balanced hybrid model:</p>
+          <ul>
+            <li><strong>The Free Local-First Pillar:</strong> Our complete 50+ tool suite remains free forever with 100% client-side execution, zero server uploads, and complete offline PWA capability.</li>
+            <li><strong>The Optional Cloud Server Pillar (Upcoming Paid Plan):</strong> For developers seeking multi-device workspace continuity, we are introducing optional encrypted Cloud Server synchronization. This allows power users to save pipelines, custom code templates, and sync configurations securely without compromising our core privacy standards.</li>
+          </ul>
 
           <h3>Comprehensive Powerhouse Suites</h3>
           <div class="about-features-grid">
@@ -3614,92 +3984,88 @@ const app = {
             </div>
           </div>
 
-          <h3>Privacy By Architecture</h3>
-          <p>Unlike cloud converters that transmit and log your sensitive files on remote servers, OmniTool Hub is built with a strict client-side first architecture using WebAssembly, Web Crypto API, and JavaScript web workers. What you process stays solely between you and your machine.</p>
-
-          <h3>Open &amp; Community Supported</h3>
-          <p>OmniTool Hub is free for all users worldwide. We sustain continuous development and high-speed delivery through non-intrusive sponsorships and Google AdSense partner advertisements.</p>
+          <h3>Sustainability &amp; Community Support</h3>
+          <p>OmniTool Hub is free for all users worldwide. We sustain continuous development and high-speed delivery through non-intrusive sponsorships, Google AdSense partner advertisements, and optional PRO upgrades.</p>
         `
       },
       contact: {
-        title: "Contact Us",
+        title: "Contact Us & Departmental Support",
+        metaDesc: "Contact OmniTool Hub: Dedicated email support for technical issues, billing, privacy questions, and business partnerships.",
         icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
         content: `
-          <p class="contact-intro">Have a question, feedback, or need support? Reach out to the appropriate department, and we will get back to you as soon as possible.</p>
+          <p class="contact-intro">Have a question, feedback, or need billing assistance? Reach out directly to our dedicated desks, and our team will get back to you promptly.</p>
           
           <div class="contact-grid">
             <div class="contact-card-premium">
               <div class="contact-card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
               </div>
-              <h4>General Support</h4>
-              <p>For questions regarding tools, features, or general feedback.</p>
-              <a href="mailto:contact@omnitoolhub.com" class="contact-card-email">contact@omnitoolhub.com</a>
+              <h4>General Inquiries</h4>
+              <p>For questions regarding tools, features, ecosystem feedback, or suggestions.</p>
+              <a href="mailto:contact@worldsneed.com" class="contact-card-email">contact@worldsneed.com</a>
             </div>
 
             <div class="contact-card-premium">
               <div class="contact-card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
               </div>
-              <h4>Bug Reports</h4>
-              <p>To report technical issues, glitches, or tool functional errors.</p>
-              <a href="mailto:support@omnitoolhub.com" class="contact-card-email">support@omnitoolhub.com</a>
+              <h4>Technical &amp; Bugs</h4>
+              <p>To report technical issues, algorithm discrepancies, or tool errors.</p>
+              <a href="mailto:support@worldsneed.com" class="contact-card-email">support@worldsneed.com</a>
             </div>
 
             <div class="contact-card-premium">
               <div class="contact-card-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
               </div>
-              <h4>Advertising &amp; Ads</h4>
-              <p>For sponsorship and partner advertisements or integrations.</p>
-              <a href="mailto:ads@omnitoolhub.com" class="contact-card-email">ads@omnitoolhub.com</a>
+              <h4>Billing &amp; Refunds</h4>
+              <p>For PRO license activations, invoices, and 14-day refund requests.</p>
+              <a href="mailto:billing@worldsneed.com" class="contact-card-email">billing@worldsneed.com</a>
+            </div>
+
+            <div class="contact-card-premium">
+              <div class="contact-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <h4>Privacy &amp; Security</h4>
+              <p>For GDPR data rights, security vulnerability reports, and legal notices.</p>
+              <a href="mailto:privacy@worldsneed.com" class="contact-card-email">privacy@worldsneed.com</a>
             </div>
           </div>
 
           <div class="contact-meta-badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <span>Typical response time: 2–3 business days</span>
+            <span>Typical response turnaround: 24–48 business hours &bull; Mon–Fri</span>
           </div>
-        `
-      },
-      terms: {
-        title: "Terms of Service",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`,
-        content: `
-          <p class="legal-date"><strong>Effective Date:</strong> June 2026</p>
-          <p>By using OmniTool Hub, you agree to the following terms.</p>
-
-          <h3>1. Use of Service</h3>
-          <p>OmniTool Hub provides free browser-based utility tools for personal and professional use. You may use these tools for any lawful purpose.</p>
-
-          <h3>2. Prohibited Uses</h3>
-          <ul>
-            <li>You may not use OmniTool Hub for any illegal, harmful, or fraudulent activity</li>
-            <li>You may not attempt to reverse engineer, copy, or redistribute the site's code without permission</li>
-            <li>You may not use automated bots to excessively access the site</li>
-            <li>You may not click on or artificially inflate ad impressions</li>
-          </ul>
-
-          <h3>3. Disclaimer of Warranties</h3>
-          <p>OmniTool Hub is provided "as is" without any warranties. We do not guarantee that tools will be error-free or suitable for every use case. Use results at your own discretion.</p>
-
-          <h3>4. Limitation of Liability</h3>
-          <p>We are not liable for any loss of data, damage to systems, or any other harm resulting from using OmniTool Hub. Always back up important data before processing.</p>
-
-          <h3>5. Intellectual Property</h3>
-          <p>All content, design, and code of OmniTool Hub is owned by OmniTool Hub. Unauthorized reproduction is prohibited.</p>
-
-          <h3>6. Changes to Terms</h3>
-          <p>We reserve the right to update these Terms at any time. Continued use of the site means you accept the updated terms.</p>
-
-          <h3>7. Contact</h3>
-          <p>Questions about these Terms? <a href="#contact" onclick="app.renderLegalPage('contact')">Contact us</a>.</p>
         `
       }
     };
 
-    const pg = pages[page];
-    if (!pg) return;
+    const pg = pages[page] || pages.privacy;
+
+    // Dynamically update document title for SEO & browser history
+    document.title = `${pg.title} | OmniTool Hub`;
+
+    // Dynamically update meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && pg.metaDesc) {
+      metaDesc.setAttribute("content", pg.metaDesc);
+    }
+
+    // Update browser address bar history seamlessly
+    if (window.history && window.history.pushState) {
+      try {
+        if (window.location.pathname !== "/" + page) {
+          window.history.pushState({ page }, "", "/" + page);
+        }
+      } catch (_) {}
+    }
+
+    // Dynamically update canonical link
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute("href", `https://omnitool.worldsneed.com/${page}`);
+    }
 
     const titleEl = document.getElementById("header-view-title");
     if (titleEl) {
@@ -3707,18 +4073,33 @@ const app = {
       titleEl.style.display = "block";
     }
 
+    // Build the navigation tabs HTML
+    const navTabsHtml = navTabs.map(tab => {
+      const isActive = tab.id === page ? "active" : "";
+      return `<button class="legal-nav-item ${isActive}" onclick="app.renderLegalPage('${tab.id}')">
+        <span>${tab.icon}</span>
+        <span>${tab.label}</span>
+      </button>`;
+    }).join("");
+
     viewport.innerHTML = `
       <div class="legal-page-wrapper">
+        <nav class="legal-nav-bar" aria-label="Legal & Information Navigation">
+          ${navTabsHtml}
+        </nav>
+
         <div class="legal-page-header">
           <div class="legal-icon">${pg.icon}</div>
           <div>
             <h1 class="legal-title">${pg.title}</h1>
-            <p class="legal-subtitle">OmniTool Hub — Official Documentation</p>
+            <p class="legal-subtitle">OmniTool Hub &mdash; WorldsNeed Official Documentation</p>
           </div>
         </div>
+        
         <div class="legal-content">
           ${pg.content}
         </div>
+
         <div class="legal-back">
           <button class="legal-back-btn" onclick="app.backToDashboard()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -3727,6 +4108,8 @@ const app = {
         </div>
       </div>
     `;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   // Smart Paste value auto-detection
@@ -4993,7 +5376,7 @@ const app = {
       features: 0,
       pro: 0,
       free: 0,
-      guides: this.guidesList ? this.guidesList.length : 28
+      guides: this.guidesList ? this.guidesList.length : 48
     };
 
     visibleTools.forEach(tool => {
@@ -5264,6 +5647,20 @@ const app = {
     // Close mobile drawer
     const sidebarEl = document.getElementById("app-sidebar");
     if (sidebarEl) sidebarEl.classList.remove("show");
+
+    // Send GA4 SPA virtual pageview & tool event
+    if (typeof window.gtag === 'function') {
+      try {
+        window.gtag('event', 'page_view', {
+          page_path: '/tool/' + toolId,
+          page_title: 'Tool: ' + toolId
+        });
+        window.gtag('event', 'select_content', {
+          content_type: 'tool',
+          item_id: toolId
+        });
+      } catch (err) {}
+    }
 
     this.playSynthSound('click');
 
@@ -6995,7 +7392,7 @@ const app = {
           <div class="lock-header">
             <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: 0.5px;">Premium Tool Required</h2>
             <span style="font-size: 11px; font-weight: 700; color: var(--accent-purple); background: rgba(157, 78, 221, 0.12); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(157, 78, 221, 0.2); display: inline-block; margin-bottom: 12px; text-transform: uppercase;">💎 Pro / Premium Tier</span>
-            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Access to <strong>${toolInstance.name}</strong> is reserved for our Premium members. Subscribe or purchase a lifetime pass to unlock all 28 developer utilities.</p>
+            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Access to <strong>${toolInstance.name}</strong> is reserved for our Premium members. Subscribe or purchase a lifetime pass to unlock all 50+ developer utilities and advanced tools.</p>
           </div>
 
           <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin: 6px 0;">
@@ -7046,25 +7443,37 @@ const app = {
       const btnLifetime = plansView.querySelector("#plan-btn-lifetime");
       const btnMonthly = plansView.querySelector("#plan-btn-monthly");
 
-      const isIndia = this.detectUserRegion() === "IN";
+      const currency = this.getActiveCurrency();
+      const isIndiaCurr = currency === "INR";
       const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$24.99");
       const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
       const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹799");
       const priceMonthlyInr = this.getConfigValue("omnitool_price_monthly_inr", "₹399");
 
-      const displayLifetime = isIndia ? priceLifetimeInr : priceLifetimeUsd;
-      const displayMonthly = isIndia ? priceMonthlyInr : priceMonthlyUsd;
-      const altLifetime = isIndia ? priceLifetimeUsd : priceLifetimeInr;
-      const altMonthly = isIndia ? priceMonthlyUsd + "/mo" : priceMonthlyInr + "/mo";
+      const displayLifetime = isIndiaCurr ? priceLifetimeInr : priceLifetimeUsd;
+      const displayMonthly = isIndiaCurr ? priceMonthlyInr : priceMonthlyUsd;
 
-      // Update card price displays
+      // Update pricing region toggle buttons
+      const btnInr = document.getElementById("plan-region-btn-inr");
+      const btnUsd = document.getElementById("plan-region-btn-usd");
+      const hintEl = document.getElementById("plan-region-hint");
+      if (btnInr && btnUsd) {
+        if (isIndiaCurr) { btnInr.classList.add("active"); btnUsd.classList.remove("active"); } else { btnInr.classList.remove("active"); btnUsd.classList.add("active"); }
+      }
+      if (hintEl) {
+        hintEl.innerHTML = isIndiaCurr ?
+          `Showing Indian regional pricing: <strong>${priceLifetimeInr} Lifetime</strong> • Pay via UPI (GPay/PhonePe/Paytm), Razorpay, or NetBanking` :
+          `Showing international pricing: <strong>${priceLifetimeUsd} Lifetime</strong> • Pay via Credit/Debit Cards, PayPal, Apple Pay, or Crypto`;
+      }
+
+      // Update card price displays - clean, single currency without duplicate / one-time
       const elLifetimePrice = document.getElementById("plan-price-lifetime-display");
       if (elLifetimePrice) {
-        elLifetimePrice.innerHTML = `${displayLifetime} <span style="font-size: 13px; font-weight: 500; opacity: 0.7;">(${altLifetime})</span>`;
+        elLifetimePrice.innerText = displayLifetime;
       }
       const elMonthlyPrice = document.getElementById("plan-price-monthly-display");
       if (elMonthlyPrice) {
-        elMonthlyPrice.innerHTML = `${displayMonthly} <span style="font-size: 13px; font-weight: 500; opacity: 0.7;">(${altMonthly})</span>`;
+        elMonthlyPrice.innerText = displayMonthly;
       }
 
       // Gateway enable toggles
@@ -7126,11 +7535,12 @@ const app = {
     const customTabLabel = this.getConfigValue("omnitool_custom_gw_tab_label", "Custom Payment");
     const customIcon = this.getConfigValue("omnitool_custom_gw_icon", "✨");
 
+    const isIndiaCurrBadges = this.getActiveCurrency() === "INR";
     document.querySelectorAll(".plan-gateways-strip").forEach(strip => {
       strip.querySelectorAll(".pg-badge").forEach(badge => {
         const onclickAttr = badge.getAttribute("onclick") || "";
         if (onclickAttr.includes("'upi'")) {
-          badge.style.display = (upiEnabled || bankEnabled) ? "inline-flex" : "none";
+          badge.style.display = ((upiEnabled || bankEnabled) && isIndiaCurrBadges) ? "inline-flex" : "none";
           if (!upiEnabled && bankEnabled) {
             badge.innerText = "🏦 Bank";
             badge.title = "Pay via Bank IMPS / NEFT";
@@ -7138,12 +7548,12 @@ const app = {
             badge.innerText = "⚡ UPI / QR";
             badge.title = "Pay with UPI QR / GPay / PhonePe / Paytm";
           }
-        } else if (onclickAttr.includes("'gumroad'")) {
-          badge.style.display = gumroadEnabled ? "inline-flex" : "none";
-        } else if (onclickAttr.includes("'paypal'")) {
-          badge.style.display = paypalEnabled ? "inline-flex" : "none";
         } else if (onclickAttr.includes("'razorpay'")) {
-          badge.style.display = razorpayEnabled ? "inline-flex" : "none";
+          badge.style.display = (razorpayEnabled && isIndiaCurrBadges) ? "inline-flex" : "none";
+        } else if (onclickAttr.includes("'gumroad'")) {
+          badge.style.display = (gumroadEnabled && !isIndiaCurrBadges) ? "inline-flex" : "none";
+        } else if (onclickAttr.includes("'paypal'")) {
+          badge.style.display = (paypalEnabled && !isIndiaCurrBadges) ? "inline-flex" : "none";
         } else if (onclickAttr.includes("'crypto'")) {
           badge.style.display = cryptoEnabled ? "inline-flex" : "none";
         } else if (onclickAttr.includes("'custom'")) {
@@ -7738,7 +8148,7 @@ const app = {
 
     const plan = this.checkoutPlan || "lifetime";
     const priceUSD = plan === "lifetime" ? 
-      (this.getConfigValue("omnitool_price_lifetime_usd", "$24.99").replace(/[^0-9.]/g, "") || "29.99") : 
+      (this.getConfigValue("omnitool_price_lifetime_usd", "$24.99").replace(/[^0-9.]/g, "") || "24.99") : 
       (this.getConfigValue("omnitool_price_monthly_usd", "$4.99").replace(/[^0-9.]/g, "") || "4.99");
 
     const elTitle = document.getElementById("chk-paypal-plan-title");
@@ -8140,8 +8550,11 @@ const app = {
       nonePanel.classList.remove("active");
     }
 
+    this.updateCheckoutCurrencyUI();
+    const currency = this.getActiveCurrency();
+    const isIndiaCurr = currency === "INR";
+
     let effectiveInitialGw = initialGateway;
-    const isIndia = this.detectUserRegion() === "IN";
     if (effectiveInitialGw === "bank") {
       effectiveInitialGw = bankEnabled ? "upi" : null;
       if (bankEnabled) {
@@ -8153,10 +8566,10 @@ const app = {
     }
     const requestedGwEnabled = gwConfigs.find(g => g.key === effectiveInitialGw)?.enabled;
     if (!effectiveInitialGw || !requestedGwEnabled) {
-      if (isIndia) {
+      if (isIndiaCurr) {
         effectiveInitialGw = upiEnabled ? "upi" : (razorpayEnabled ? "razorpay" : firstAvailableGw);
       } else {
-        effectiveInitialGw = paypalEnabled ? "paypal" : (gumroadEnabled ? "gumroad" : firstAvailableGw);
+        effectiveInitialGw = gumroadEnabled ? "gumroad" : (paypalEnabled ? "paypal" : firstAvailableGw);
       }
     }
 
@@ -8508,7 +8921,7 @@ const app = {
     // 6. Update CTA button text & state & QR with effective UPI ID
     const plan = this.checkoutPlan || "lifetime";
     const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹799") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
-    const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
+    const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "799" : "399");
     const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
     const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
 
@@ -8535,7 +8948,7 @@ const app = {
     const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
     const plan = this.checkoutPlan || "lifetime";
     const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹799") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
-    const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
+    const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "799" : "399");
     const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;
 
     if (isMobile) {
@@ -8604,6 +9017,9 @@ const app = {
   switchCheckoutPlan(plan = "lifetime") {
     this.checkoutPlan = plan;
 
+    const currency = this.getActiveCurrency();
+    const isIndiaCurr = currency === "INR";
+
     const priceLifetimeUsd = this.getConfigValue("omnitool_price_lifetime_usd", "$24.99");
     const priceLifetimeInr = this.getConfigValue("omnitool_price_lifetime_inr", "₹799");
     const priceMonthlyUsd = this.getConfigValue("omnitool_price_monthly_usd", "$4.99");
@@ -8611,7 +9027,8 @@ const app = {
 
     const priceUsd = plan === "lifetime" ? priceLifetimeUsd : priceMonthlyUsd;
     const priceInr = plan === "lifetime" ? priceLifetimeInr : priceMonthlyInr;
-    const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
+    const activePrice = isIndiaCurr ? priceInr : priceUsd;
+    const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "799" : "399");
 
     const pillLifetime = document.getElementById("chk-pill-lifetime");
     const pillMonthly = document.getElementById("chk-pill-monthly");
@@ -8625,20 +9042,20 @@ const app = {
       }
     }
 
-    // Dynamically update plan pills with configured prices
+    // Dynamically update plan pills with configured prices for the active currency
     const elPillPriceLifetime = document.getElementById("chk-pill-price-lifetime");
-    if (elPillPriceLifetime) elPillPriceLifetime.innerText = priceLifetimeUsd;
+    if (elPillPriceLifetime) elPillPriceLifetime.innerText = isIndiaCurr ? priceLifetimeInr : priceLifetimeUsd;
     const elPillInrLifetime = document.getElementById("chk-pill-inr-lifetime");
-    if (elPillInrLifetime) elPillInrLifetime.innerText = `${priceLifetimeInr} INR`;
+    if (elPillInrLifetime) elPillInrLifetime.innerText = isIndiaCurr ? "INR Regional Price" : "USD Global Price";
 
     const elPillPriceMonthly = document.getElementById("chk-pill-price-monthly");
-    if (elPillPriceMonthly) elPillPriceMonthly.innerHTML = `${priceMonthlyUsd} <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/mo</span>`;
+    if (elPillPriceMonthly) elPillPriceMonthly.innerHTML = `${isIndiaCurr ? priceMonthlyInr : priceMonthlyUsd} <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/mo</span>`;
     const elPillInrMonthly = document.getElementById("chk-pill-inr-monthly");
-    if (elPillInrMonthly) elPillInrMonthly.innerText = `${priceMonthlyInr} INR`;
+    if (elPillInrMonthly) elPillInrMonthly.innerText = isIndiaCurr ? "INR Regional Price" : "USD Global Price";
 
     const modalTitle = document.getElementById("checkout-title");
     if (modalTitle) {
-      modalTitle.innerText = plan === "lifetime" ? `Get Lifetime Developer Pass (${priceUsd})` : `Subscribe to Pro Monthly (${priceUsd}/mo)`;
+      modalTitle.innerText = plan === "lifetime" ? `Get Lifetime Developer Pass (${activePrice})` : `Subscribe to Pro Monthly (${activePrice}/mo)`;
     }
 
     // Update Gumroad URL and CTA
@@ -8772,7 +9189,7 @@ const app = {
       } else {
         const plan = this.checkoutPlan || "lifetime";
         const priceInr = plan === "lifetime" ? this.getConfigValue("omnitool_price_lifetime_inr", "₹799") : this.getConfigValue("omnitool_price_monthly_inr", "₹399");
-        const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "2499" : "399");
+        const rawAmt = priceInr.replace(/[^\d]/g, "") || (plan === "lifetime" ? "799" : "399");
         const effectiveUpi = this.getEffectiveUpiId(this.selectedUpiApp || "any");
         const upiName = this.getConfigValue("omnitool_upi_name", "OmniTool Hub");
         const upiUri = `upi://pay?pa=${encodeURIComponent(effectiveUpi)}&pn=${encodeURIComponent(upiName)}&am=${rawAmt}&cu=INR&tn=${encodeURIComponent(plan === 'lifetime' ? 'OmniTool Lifetime Pass' : 'OmniTool Pro Monthly')}`;

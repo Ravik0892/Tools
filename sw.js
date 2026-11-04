@@ -1,5 +1,5 @@
 // Service Worker for OmniTool Hub PWA (Network-First Core for Instant Updates)
-const CACHE_NAME = "omnitool-v85";
+const CACHE_NAME = "omnitool-v86";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
