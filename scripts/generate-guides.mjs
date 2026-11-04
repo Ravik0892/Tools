@@ -1210,6 +1210,17 @@ const template = (tool, allTools) => {
   <meta name="twitter:description" content="${tool.description}">
   <meta name="twitter:image" content="${tool.diagram ? 'https://omnitool.worldsneed.com/' + tool.diagram.src.replace(/^\.\.\//, '') : 'https://omnitool.worldsneed.com/social_media_assets/twitter_header_1500x500.svg'}">
 
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FG02T8BFR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      gtag('config', 'G-7FG02T8BFR', { anonymize_ip: true });
+    }
+  </script>
+
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2180,6 +2191,8 @@ const template = (tool, allTools) => {
       <a href="index.html">Guides Hub</a> &bull;
       <a href="../index.html#privacy">Privacy Policy</a> &bull;
       <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="../index.html#refund">Refund Policy</a> &bull;
+      <a href="../index.html#cookies">Cookie Policy</a> &bull;
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
     </p>
   </footer>
@@ -2450,6 +2463,17 @@ const template = (tool, allTools) => {
     })();
   </script>` : ''}
 
+  <!-- Cloudflare Web Analytics -->
+  <script>
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      const cfScript = document.createElement('script');
+      cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cfScript.setAttribute('data-cf-beacon', '{"token": "04e4415908c74ea3b38523f900e7a225"}');
+      cfScript.defer = true;
+      document.body.appendChild(cfScript);
+    }
+  </script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
 `;
@@ -2481,6 +2505,17 @@ const generateGuidesHub = (allTools) => {
   <meta name="twitter:title" content="OmniTool Hub Guides & Documentation Hub">
   <meta name="twitter:description" content="Comprehensive guides and tutorials for ${allTools.length}+ in-browser utility tools. Zero server uploads.">
   <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/twitter_header_1500x500.svg">
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FG02T8BFR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      gtag('config', 'G-7FG02T8BFR', { anonymize_ip: true });
+    }
+  </script>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3318,6 +3353,17 @@ const generateGuidesHub = (allTools) => {
       });
     })();
   </script>
+  <!-- Cloudflare Web Analytics -->
+  <script>
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      const cfScript = document.createElement('script');
+      cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cfScript.setAttribute('data-cf-beacon', '{"token": "04e4415908c74ea3b38523f900e7a225"}');
+      cfScript.defer = true;
+      document.body.appendChild(cfScript);
+    }
+  </script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
 `;

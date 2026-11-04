@@ -21,15 +21,35 @@
   <link rel="canonical" href="https://omnitool.worldsneed.com/">
   <meta name="google-site-verification" content="BVvuzzw4uiKQl1IbZ3c6dcBsHZo__C0VxV-8mxgne_0" />
 
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FG02T8BFR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // Only collect analytics in live HTTP/HTTPS environments (avoids local file:/// and dev server noise)
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      gtag('config', 'G-7FG02T8BFR', {
+        anonymize_ip: true
+      });
+    }
+  </script>
+
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="OmniTool Hub | All-in-One Utility Suite">
   <meta property="og:description"
     content="50+ free developer and utility tools. 100% offline-first, client-side, no tracking.">
   <meta property="og:url" content="https://omnitool.worldsneed.com/">
+  <meta property="og:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/svg+xml">
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg">
   <meta name="twitter:title" content="OmniTool Hub">
   <meta name="twitter:description"
     content="50+ free developer tools. JSON, Base64, Crypto, Color, Math & more. 100% client-side.">
@@ -42,7 +62,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
   </noscript>
 
-  <link rel="stylesheet" href="/style.css?v=2.1.4">
+  <link rel="stylesheet" href="/style.css?v=2.1.5">
   <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/json">
   <link rel="modulepreload" href="/tools/utils.js">
   <link rel="manifest" href="/manifest.json">
@@ -261,6 +281,22 @@
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
+      </div>
+
+      <!-- Regional Currency Switcher Bar -->
+      <div class="checkout-currency-bar">
+        <span class="chk-curr-label">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          Billing Currency:
+        </span>
+        <div class="chk-curr-toggle" role="group" aria-label="Select Billing Currency">
+          <button type="button" class="chk-curr-btn active" id="chk-curr-btn-inr" onclick="app.setActiveCurrency('INR')" title="Pay in Indian Rupees (₹799 Lifetime / ₹399 Monthly)">
+            <span>🇮🇳 INR (₹)</span>
+          </button>
+          <button type="button" class="chk-curr-btn" id="chk-curr-btn-usd" onclick="app.setActiveCurrency('USD')" title="Pay in US Dollars ($24.99 Lifetime / $4.99 Monthly)">
+            <span>🌐 USD ($)</span>
+          </button>
+        </div>
       </div>
 
       <!-- Plan Switcher Pills -->
@@ -520,7 +556,7 @@
             <div class="pos-left">
               <span class="pos-badge">Selected Plan</span>
               <strong id="chk-paypal-plan-title">Lifetime Developer Pass</strong>
-              <small id="chk-paypal-plan-desc">One-time payment • Lifetime access to all <span class="dynamic-tool-count">46+</span> tools</small>
+              <small id="chk-paypal-plan-desc">One-time payment • Lifetime access to all <span class="dynamic-paid-tool-count">50+</span> tools</small>
             </div>
             <div class="pos-right">
               <span class="pos-amount" id="chk-paypal-amount-display">$24.99</span>
@@ -823,7 +859,7 @@
               </a>
             </li>
             <li>
-              <a class="nav-link" href="#aesthetics" id="sidebar-aesthetics-btn" style="cursor: pointer;">
+              <a class="nav-link" href="#aesthetics" id="sidebar-aesthetics-btn" style="cursor: pointer;" onclick="event.preventDefault(); app.openAestheticsModal();">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round" width="18" height="18">
                   <circle cx="12" cy="12" r="3"></circle>
@@ -1618,6 +1654,23 @@
             </div>
           </div>
 
+          <!-- REGIONAL PRICING / CURRENCY TOGGLE -->
+          <div class="pricing-region-toggle-wrap">
+            <div class="pricing-region-toggle" role="group" aria-label="Select Pricing Currency">
+              <button type="button" class="region-toggle-btn active" id="plan-region-btn-inr" onclick="app.setActiveCurrency('INR')" title="Display prices in Indian Rupees">
+                <span class="region-flag" style="display: inline-flex; align-items: center;"><svg viewBox="0 0 640 480" width="16" height="12" style="border-radius: 2px; vertical-align: middle; box-shadow: 0 0 2px rgba(0,0,0,0.4);"><path fill="#f93" d="M0 0h640v160H0z"/><path fill="#fff" d="M0 160h640v160H0z"/><path fill="#128807" d="M0 320h640v160H0z"/><circle cx="320" cy="240" r="56" fill="none" stroke="#008" stroke-width="8"/><circle cx="320" cy="240" r="16" fill="#008"/></svg></span>
+                <span class="region-title">India (INR ₹)</span>
+              </button>
+              <button type="button" class="region-toggle-btn" id="plan-region-btn-usd" onclick="app.setActiveCurrency('USD')" title="Display prices in US Dollars">
+                <span class="region-flag">🌐</span>
+                <span class="region-title">International (USD $)</span>
+              </button>
+            </div>
+            <div class="pricing-region-hint" id="plan-region-hint">
+              🇮🇳 Showing Indian regional pricing: <strong>₹799 Lifetime</strong> • Pay via UPI (GPay/PhonePe/Paytm), Razorpay, or NetBanking
+            </div>
+          </div>
+
           <div class="plans-grid">
 
             <!-- FREE PLAN -->
@@ -1708,7 +1761,7 @@
                 <ul
                   style="list-style: none; padding: 0; margin: 0 20px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
-                      style="color: var(--accent-cyan);">✔</span> Full access to all <span class="dynamic-tool-count">46+</span> tools</li>
+                      style="color: var(--accent-cyan);">✔</span> Full access to all <span class="dynamic-paid-tool-count">50+</span> tools</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-cyan);">✔</span> Bypass all video ads/lock screens</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
@@ -1787,6 +1840,10 @@
                 <a href="#privacy" class="footer-link">Privacy Policy</a>
                 <span class="footer-divider">•</span>
                 <a href="#terms" class="footer-link">Terms</a>
+                <span class="footer-divider">•</span>
+                <a href="#refund" class="footer-link">Refund Policy</a>
+                <span class="footer-divider">•</span>
+                <a href="#cookies" class="footer-link">Cookie Policy</a>
               </div>
               <div class="footer-copyright">&copy; 2026 OmniTool Hub &bull; A <a href="https://worldsneed.com" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">WorldsNeed</a> Initiative. All operations run 100% locally in your browser.
               </div>
@@ -1810,7 +1867,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Core JavaScript controllers (Razorpay SDK loads on-demand upon checkout) -->
-  <script src="/app.js?v=2.1.4" defer></script>
+  <script src="/app.js?v=2.1.5" defer></script>
 
   <!-- Vercel Web Analytics -->
   <script>
@@ -1822,6 +1879,17 @@
       document.head.appendChild(script);
     }
   </script>
+  <!-- Cloudflare Web Analytics -->
+  <script>
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      const cfScript = document.createElement('script');
+      cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cfScript.setAttribute('data-cf-beacon', '{"token": "04e4415908c74ea3b38523f900e7a225"}');
+      cfScript.defer = true;
+      document.body.appendChild(cfScript);
+    }
+  </script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 
 </html>

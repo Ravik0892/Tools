@@ -29,6 +29,20 @@
     content="Format code, inspect JWTs, generate crypto keys, and edit PDFs 100% in-browser. Zero server uploads, free forever.">
   <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg">
 
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FG02T8BFR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      gtag('config', 'G-7FG02T8BFR', {
+        anonymize_ip: true
+      });
+    }
+  </script>
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1428,6 +1442,71 @@
     }
 
     /* Pricing / Support Section */
+    .pricing-region-toggle-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 36px;
+      gap: 10px;
+    }
+    .pricing-region-toggle {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      gap: 4px;
+    }
+    .region-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+    .region-toggle-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .region-toggle-btn.active {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.18), rgba(79, 172, 254, 0.22));
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.2);
+    }
+    .pricing-region-hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 620px;
+      line-height: 1.45;
+    }
+    .pricing-region-hint strong {
+      color: var(--text-main);
+    }
+    [data-theme="light"] .pricing-region-toggle {
+      background: rgba(0, 0, 0, 0.04);
+      border-color: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+    [data-theme="light"] .region-toggle-btn.active {
+      background: rgba(0, 168, 181, 0.12);
+      color: #0891b2;
+      border-color: rgba(8, 145, 178, 0.35);
+      box-shadow: 0 0 12px rgba(8, 145, 178, 0.15);
+    }
     .pricing-section {
       padding: 80px 0;
     }
@@ -2297,6 +2376,9 @@
         <span class="section-tag">Instant Access Directory</span>
         <h2 class="section-title">Explore All 45+ Powerhouse Hubs</h2>
         <p class="section-desc">Search and launch any tool instantly. Every tool is 100% free, runs client-side, and works offline.</p>
+        <div class="dual-mode-spotlight" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 6px 14px; background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 9999px; font-size: 13px; color: var(--text-dim);">
+          <span style="color: var(--accent-cyan); font-weight: 700;">✨ Dual-UI Architecture:</span> Streamlined <strong>Everyday Mode</strong> (18 essential utilities) + Advanced <strong>Developer Mode</strong> (50+ modular tools &amp; pipelines).
+        </div>
       </div>
 
       <div class="search-filter-container">
@@ -2317,8 +2399,8 @@
       </div>
 
       <div class="tools-directory-grid" id="tools-grid">
-        <!-- Developer Tools -->
-        <a href="/#tool/pipeline-builder" class="tool-dir-card" data-cat="dev" data-name="smart chain pipeline builder data text stream">
+        <!-- 1. Pipeline Builder (dev) -->
+        <a href="/#tool/pipeline-builder" class="tool-dir-card" data-cat="dev" data-name="smart chain pipeline builder data text stream sequence transform">
           <div class="tool-top-row">
             <span class="tool-dir-icon">⚡</span>
             <span class="tool-badge-pro">PRO FEATURE</span>
@@ -2327,6 +2409,7 @@
           <div class="tool-dir-desc">Stack multiple data operations in series (Base64 &rarr; JSON &rarr; Uppercase &rarr; Hash).</div>
         </a>
 
+        <!-- 2. Data Formatter Suite (dev) -->
         <a href="/#tool/json-formatter" class="tool-dir-card" data-cat="dev" data-name="json formatter validator beautifier minify sql yaml csv">
           <div class="tool-top-row">
             <span class="tool-dir-icon">📜</span>
@@ -2336,7 +2419,8 @@
           <div class="tool-dir-desc">Validate, format, prettify JSON, beautify SQL, and convert bi-directionally to YAML/CSV.</div>
         </a>
 
-        <a href="/#tool/jwt-decoder" class="tool-dir-card" data-cat="crypto" data-name="jwt decoder debugger claims header signature exp">
+        <!-- 3. JWT Decoder (crypto) -->
+        <a href="/#tool/jwt-decoder" class="tool-dir-card" data-cat="crypto" data-name="jwt decoder debugger claims header signature exp token">
           <div class="tool-top-row">
             <span class="tool-dir-icon">🔍</span>
             <span class="tool-badge-free">100% FREE</span>
@@ -2345,7 +2429,8 @@
           <div class="tool-dir-desc">Inspect claims, verify HMAC signatures, and check token expiration offline.</div>
         </a>
 
-        <a href="/#tool/crypto-suite" class="tool-dir-card" data-cat="crypto" data-name="cryptography suite hash sha256 md5 aes rsa keygen">
+        <!-- 4. Cryptography Suite (crypto) -->
+        <a href="/#tool/crypto-suite" class="tool-dir-card" data-cat="crypto" data-name="cryptography suite hash sha256 md5 aes rsa keygen encrypt decrypt">
           <div class="tool-top-row">
             <span class="tool-dir-icon">🔐</span>
             <span class="tool-badge-pro">PRO SUITE</span>
@@ -2354,6 +2439,7 @@
           <div class="tool-dir-desc">Hardware-accelerated SHA-512, symmetric AES-256 GCM, and asymmetric RSA keypairs.</div>
         </a>
 
+        <!-- 5. Dynamic QR Studio (dev) -->
         <a href="/#tool/qr-studio" class="tool-dir-card" data-cat="dev" data-name="qr code generator scanner barcode camera webcam gradient logo">
           <div class="tool-top-row">
             <span class="tool-dir-icon">🎨</span>
@@ -2363,123 +2449,406 @@
           <div class="tool-dir-desc">Generate art gradient QR codes with center logos and scan barcodes via live camera.</div>
         </a>
 
-        <a href="/#tool/pdf-utilities" class="tool-dir-card" data-cat="text" data-name="pdf utilities merge split extract organize compress">
-          <div class="tool-top-row">
-            <span class="tool-dir-icon">✂️</span>
-            <span class="tool-badge-pro">PRO STUDIO</span>
-          </div>
-          <div class="tool-dir-name">PDF Page Studio &amp; Organizer</div>
-          <div class="tool-dir-desc">Split, merge, extract, rotate, and re-order PDF pages 100% in-browser.</div>
-        </a>
-
-        <a href="/#tool/pdf-editor-suite" class="tool-dir-card" data-cat="text" data-name="pdf editor sign annotate draw forms watermark redact">
-          <div class="tool-top-row">
-            <span class="tool-dir-icon">✍️</span>
-            <span class="tool-badge-pro">PRO STUDIO</span>
-          </div>
-          <div class="tool-dir-name">PDF Editor, Sign &amp; Markup Studio</div>
-          <div class="tool-dir-desc">Fill AcroForms, e-sign with cursive signatures, draw annotations, and redact text.</div>
-        </a>
-
-        <a href="/#tool/mock-data-generator" class="tool-dir-card" data-cat="dev" data-name="mock data generator csv json schema fake 50k rows">
+        <!-- 6. Mock Data Generator (dev) -->
+        <a href="/#tool/mock-data-generator" class="tool-dir-card" data-cat="dev" data-name="mock data generator schema csv json bulk faker database">
           <div class="tool-top-row">
             <span class="tool-dir-icon">🎲</span>
-            <span class="tool-badge-pro">PRO GENERATOR</span>
+            <span class="tool-badge-pro">PRO FEATURE</span>
           </div>
-          <div class="tool-dir-name">CSV/JSON Mock Data Generator</div>
-          <div class="tool-dir-desc">Define schemas and generate up to 50,000 rows of relational dummy data client-side.</div>
+          <div class="tool-dir-name">Private Schema Mock Data Generator</div>
+          <div class="tool-dir-desc">Bulk-generate up to 50,000 rows of mock database data entirely client-side.</div>
         </a>
 
-        <a href="/#tool/regex-tester" class="tool-dir-card" data-cat="text" data-name="regex tester matcher extractor pattern flags javascript">
-          <div class="tool-top-row">
-            <span class="tool-dir-icon">🎯</span>
-            <span class="tool-badge-free">100% FREE</span>
-          </div>
-          <div class="tool-dir-name">Visual Regex &amp; Extractor Suite</div>
-          <div class="tool-dir-desc">Real-time match highlighting, group extraction, flags support, and substitution testing.</div>
-        </a>
-
-        <a href="/#tool/pii-anonymizer" class="tool-dir-card" data-cat="crypto" data-name="pii masker anonymizer redact privacy gdpr hipaa hash">
-          <div class="tool-top-row">
-            <span class="tool-dir-icon">🛡️</span>
-            <span class="tool-badge-pro">PRO PRIVACY</span>
-          </div>
-          <div class="tool-dir-name">Client-Side PII Masker &amp; Anonymizer</div>
-          <div class="tool-dir-desc">Redact names, emails, credit cards, SSNs, and phone numbers from raw datasets.</div>
-        </a>
-
-        <a href="/#tool/code-playground" class="tool-dir-card" data-cat="dev" data-name="code playground html css js live preview sandbox console">
+        <!-- 7. Code Playground (dev) -->
+        <a href="/#tool/code-playground" class="tool-dir-card" data-cat="dev" data-name="html css js code playground live sandbox debugger console">
           <div class="tool-top-row">
             <span class="tool-dir-icon">💻</span>
             <span class="tool-badge-free">100% FREE</span>
           </div>
           <div class="tool-dir-name">HTML/CSS/JS Live Playground</div>
-          <div class="tool-dir-desc">Real-time frontend sandbox preview with interactive console debugger.</div>
+          <div class="tool-dir-desc">Write frontend code with live preview, virtual console, and syntax highlighting.</div>
         </a>
 
-        <a href="/#tool/cron-builder" class="tool-dir-card" data-cat="dev" data-name="cron expression builder visual scheduler next runs linux">
+        <!-- 8. cURL Converter (dev) -->
+        <a href="/#tool/curl-converter" class="tool-dir-card" data-cat="dev" data-name="curl converter fetch axios python requests go http code">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🌐</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">cURL to Multi-Language Converter</div>
+          <div class="tool-dir-desc">Convert command-line cURL into modern Fetch, Axios, Python Requests, and Go HTTP.</div>
+        </a>
+
+        <!-- 9. Cron Builder (dev) -->
+        <a href="/#tool/cron-builder" class="tool-dir-card" data-cat="dev" data-name="cron builder visual schedule expression crontab next run times">
           <div class="tool-top-row">
             <span class="tool-dir-icon">⏰</span>
             <span class="tool-badge-free">100% FREE</span>
           </div>
           <div class="tool-dir-name">Visual Cron Expression Builder</div>
-          <div class="tool-dir-desc">Build 5-field crontab schedules visually with human-readable explanations.</div>
+          <div class="tool-dir-desc">Construct 5-field cron expressions visually with live human translation and schedules.</div>
         </a>
 
-        <a href="/#tool/robots-generator" class="tool-dir-card" data-cat="dev" data-name="robots txt generator visual ai bot shield gptbot ccbot sitemap">
+        <!-- 10. JSON to Types (dev) -->
+        <a href="/#tool/json-to-types" class="tool-dir-card" data-cat="dev" data-name="json to types typescript python pydantic go struct rust serde interfaces">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🧩</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">JSON-to-Code Interface Converter</div>
+          <div class="tool-dir-desc">Convert raw JSON payloads into TypeScript interfaces, Pydantic, Go structs &amp; Rust.</div>
+        </a>
+
+        <!-- 11. Robots.txt Visual Builder (dev) -->
+        <a href="/#tool/robots-generator" class="tool-dir-card" data-cat="dev" data-name="robots generator visual crawl rules seo ai bot shield sitemap">
           <div class="tool-top-row">
             <span class="tool-dir-icon">🤖</span>
-            <span class="tool-badge-pro">PRO SHIELD</span>
-          </div>
-          <div class="tool-dir-name">Robots.txt Builder &amp; AI Bot Shield</div>
-          <div class="tool-dir-desc">Build crawl rules and block AI scrapers like GPTBot, CCBot, and ClaudeBot.</div>
-        </a>
-
-        <a href="/#tool/color-lab" class="tool-dir-card" data-cat="design" data-name="color lab wcag contrast palette generator harmony eyedropper">
-          <div class="tool-top-row">
-            <span class="tool-dir-icon">🎨</span>
             <span class="tool-badge-free">100% FREE</span>
           </div>
-          <div class="tool-dir-name">Color Lab &amp; WCAG Contrast Suite</div>
-          <div class="tool-dir-desc">Harmonic palettes, tints, shades, image color extraction, and WCAG accessibility.</div>
+          <div class="tool-dir-name">Robots.txt Visual Builder &amp; AI Shield</div>
+          <div class="tool-dir-desc">Visual crawl directives with AI web scraper shield (GPTBot, CCBot) and live validation.</div>
         </a>
 
-        <a href="/#tool/css-studio" class="tool-dir-card" data-cat="design" data-name="css studio gradients box shadows glassmorphism clip path">
+        <!-- 12. Temp Mail (dev) -->
+        <a href="/#tool/temp-mail" class="tool-dir-card" data-cat="dev" data-name="temp mail disposable email inbox auto refresh privacy testing">
           <div class="tool-top-row">
-            <span class="tool-dir-icon">🌈</span>
+            <span class="tool-dir-icon">📬</span>
             <span class="tool-badge-free">100% FREE</span>
           </div>
-          <div class="tool-dir-name">CSS Studio Visual Generators</div>
-          <div class="tool-dir-desc">Multi-color mesh gradients, realistic layered box shadows, and glassmorphism.</div>
+          <div class="tool-dir-name">Disposable Temp Mail Client</div>
+          <div class="tool-dir-desc">Temporary anonymous email inbox with live 10s auto-refresh for rapid QA testing.</div>
         </a>
 
-        <a href="/#tool/text-encoder-suite" class="tool-dir-card" data-cat="text" data-name="text encoder base64 url cases titlecase snake kebab camel">
+        <!-- 13. SEO SERP Previewer (dev) -->
+        <a href="/#tool/seo-previewer" class="tool-dir-card" data-cat="dev" data-name="seo serp previewer meta tags google facebook twitter discord mockup">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🎯</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Meta Tag &amp; SEO SERP Previewer</div>
+          <div class="tool-dir-desc">Design meta tags with real-time Google, Facebook, Twitter, and Discord mockup cards.</div>
+        </a>
+
+        <!-- 14. PII Anonymizer (dev/crypto) -->
+        <a href="/#tool/pii-anonymizer" class="tool-dir-card" data-cat="crypto" data-name="pii anonymizer redact privacy mask credit card email phone gdpr">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🛡️</span>
+            <span class="tool-badge-pro">PRO SUITE</span>
+          </div>
+          <div class="tool-dir-name">Client-Side PII Masker &amp; Anonymizer</div>
+          <div class="tool-dir-desc">Sanitize private customer logs, credit cards, emails, and phone numbers locally.</div>
+        </a>
+
+        <!-- 15. PDF Utilities (text) -->
+        <a href="/#tool/pdf-utilities" class="tool-dir-card" data-cat="text" data-name="pdf utilities merge split extract organize compress rotate reorder">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">✂️</span>
+            <span class="tool-badge-pro">PRO STUDIO</span>
+          </div>
+          <div class="tool-dir-name">PDF Page Studio &amp; Organizer</div>
+          <div class="tool-dir-desc">Merge multi-doc, extract page ranges, split, delete, rotate, and compress PDFs offline.</div>
+        </a>
+
+        <!-- 16. PDF Converter Hub (text) -->
+        <a href="/#tool/pdf-converter-hub" class="tool-dir-card" data-cat="text" data-name="pdf converter hub word docx excel xlsx pptx images scan html markdown to pdf">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">📄</span>
+            <span class="tool-badge-pro">PRO HUB</span>
+          </div>
+          <div class="tool-dir-name">Document &amp; PDF Converter Hub</div>
+          <div class="tool-dir-desc">Convert Word (.docx), Excel (.xlsx), PowerPoint (.pptx), images, and HTML to PDF.</div>
+        </a>
+
+        <!-- 17. PDF Editor Suite (text) -->
+        <a href="/#tool/pdf-editor-suite" class="tool-dir-card" data-cat="text" data-name="pdf editor sign annotate draw forms acroforms watermark redact text">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">✍️</span>
+            <span class="tool-badge-pro">PRO SUITE</span>
+          </div>
+          <div class="tool-dir-name">PDF Editor, Sign &amp; Markup Studio</div>
+          <div class="tool-dir-desc">Draw digital signatures, fill interactive AcroForms, highlight, draw, and stamp watermarks.</div>
+        </a>
+
+        <!-- 18. PDF Security Suite (text) -->
+        <a href="/#tool/pdf-security-suite" class="tool-dir-card" data-cat="text" data-name="pdf security protect password unlock repair xref stream pdfa archival">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🔒</span>
+            <span class="tool-badge-pro">PRO SUITE</span>
+          </div>
+          <div class="tool-dir-name">PDF Security, Repair &amp; Archival</div>
+          <div class="tool-dir-desc">AES-256 password protect &amp; unlock, repair corrupted xref streams, and export ISO PDF/A.</div>
+        </a>
+
+        <!-- 19. PDF Searcher & OCR (text) -->
+        <a href="/#tool/pdf-searcher" class="tool-dir-card" data-cat="text" data-name="pdf searcher ocr client side text search tesseract multi document">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🔎</span>
+            <span class="tool-badge-pro">PRO SUITE</span>
+          </div>
+          <div class="tool-dir-name">Multi-PDF Searcher &amp; Client-Side OCR</div>
+          <div class="tool-dir-desc">Deep search text across multiple PDF documents simultaneously with Tesseract OCR.</div>
+        </a>
+
+        <!-- 20. AI PDF Summarizer (text) -->
+        <a href="/#tool/pdf-ai" class="tool-dir-card" data-cat="text" data-name="pdf ai summarizer translator bullet brief action items document chat">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🤖</span>
+            <span class="tool-badge-pro">PRO FEATURE</span>
+          </div>
+          <div class="tool-dir-name">AI PDF Summarizer &amp; Translator</div>
+          <div class="tool-dir-desc">Bullet briefs, action items extraction, conversational document chat, and 15+ languages.</div>
+        </a>
+
+        <!-- 21. Compare PDF (text) -->
+        <a href="/#tool/compare-pdf" class="tool-dir-card" data-cat="text" data-name="compare pdf visual diff pixel diff heatmap wipe slider side by side">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">📑</span>
+            <span class="tool-badge-pro">PRO FEATURE</span>
+          </div>
+          <div class="tool-dir-name">Compare PDF Documents</div>
+          <div class="tool-dir-desc">Side-by-side visual diff, pixel diff heatmap, wipe slider, and text change detection.</div>
+        </a>
+
+        <!-- 22. URL Parser (text) -->
+        <a href="/#tool/url-parser" class="tool-dir-card" data-cat="text" data-name="url parser query params utm builder json payload parameters">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🔗</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">URL Query Parser &amp; UTM Builder</div>
+          <div class="tool-dir-desc">Parse query parameters, hash fragments, and generate trackable UTM campaigns.</div>
+        </a>
+
+        <!-- 23. Markdown Preview (text) -->
+        <a href="/#tool/markdown-preview" class="tool-dir-card" data-cat="text" data-name="markdown preview editor gfm live preview html export syntax">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">📝</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Live Split-Pane Markdown Previewer</div>
+          <div class="tool-dir-desc">GitHub-Flavored Markdown editor with live preview, math equations, tables &amp; export.</div>
+        </a>
+
+        <!-- 24. Text Diff Checker (text) -->
+        <a href="/#tool/text-diff" class="tool-dir-card" data-cat="text" data-name="text diff checker comparison compare changes inline side by side">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🔍</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Text Diff &amp; Comparison Tool</div>
+          <div class="tool-dir-desc">Side-by-side and unified inline diff comparison with highlighted additions and deletions.</div>
+        </a>
+
+        <!-- 25. Regex Tester (text) -->
+        <a href="/#tool/regex-tester" class="tool-dir-card" data-cat="text" data-name="regex tester regular expression visual extractor replacer cheat sheet">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">💡</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Visual Regex &amp; Extractor Suite</div>
+          <div class="tool-dir-desc">Real-time regex match highlighting, capture groups extraction, and cheat sheet.</div>
+        </a>
+
+        <!-- 26. Text Analyzer (text) -->
+        <a href="/#tool/text-analyzer" class="tool-dir-card" data-cat="text" data-name="text analyzer word counter character count readability flesch kincaid syllables">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">📊</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Text Readability &amp; Syllable Analyzer</div>
+          <div class="tool-dir-desc">Word, character, reading time, syllable count, and Flesch-Kincaid readability scores.</div>
+        </a>
+
+        <!-- 27. Text Encoder Suite (text) -->
+        <a href="/#tool/text-encoder-suite" class="tool-dir-card" data-cat="text" data-name="text encoder suite case converter base64 url hex upper lower camel snake">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🔠</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Text Cases &amp; Universal Encoder</div>
+          <div class="tool-dir-desc">Convert between 14 text cases, Base64 encode/decode, and URL escape/unescape.</div>
+        </a>
+
+        <!-- 28. Lorem Generator (text) -->
+        <a href="/#tool/lorem-generator" class="tool-dir-card" data-cat="text" data-name="lorem ipsum generator placeholder text classic cyberpunk pirate corporate">
           <div class="tool-top-row">
             <span class="tool-dir-icon">🔤</span>
             <span class="tool-badge-free">100% FREE</span>
           </div>
-          <div class="tool-dir-name">Text Cases &amp; Encoder Suite</div>
-          <div class="tool-dir-desc">Base64 UTF-8, URL encode/decode, and camelCase / snake_case transformations.</div>
+          <div class="tool-dir-name">Smart Lorem Ipsum Generator</div>
+          <div class="tool-dir-desc">Generate placeholder text in Classic, Cyberpunk, B2B, or Pirate in HTML/MD/JSON.</div>
         </a>
 
-        <a href="/#tool/datetime-suite" class="tool-dir-card" data-cat="math" data-name="datetime epoch unix timestamp calculator duration countdown">
+        <!-- 29. Color Lab (design) -->
+        <a href="/#tool/color-lab" class="tool-dir-card" data-cat="design" data-name="color lab palette contrast checker shades tints eyedropper wcag hex rgb hsl">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🎨</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Color Lab &amp; Contrast Suite</div>
+          <div class="tool-dir-desc">WCAG contrast ratio analyzer, harmonious palette generator, and eyedropper picker.</div>
+        </a>
+
+        <!-- 30. CSS Studio (design) -->
+        <a href="/#tool/css-studio" class="tool-dir-card" data-cat="design" data-name="css studio gradients box shadow glassmorphism clip path fx visual generator">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🪄</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">CSS Studio &amp; FX Suite</div>
+          <div class="tool-dir-desc">Design CSS gradients, multi-layer box shadows, glassmorphism, and clip-paths.</div>
+        </a>
+
+        <!-- 31. Screenshot Capture (design) -->
+        <a href="/#tool/screenshot-capture" class="tool-dir-card" data-cat="design" data-name="screenshot capture screen window snip annotate arrows blur crop markup">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">📸</span>
+            <span class="tool-badge-pro">PRO STUDIO</span>
+          </div>
+          <div class="tool-dir-name">Browser Screen &amp; Window Capture Studio</div>
+          <div class="tool-dir-desc">Capture screen, browser tabs, crop, add annotations, arrows, and blur private data.</div>
+        </a>
+
+        <!-- 32. Screen Recorder (design) -->
+        <a href="/#tool/screen-recorder" class="tool-dir-card" data-cat="design" data-name="screen recorder video audio mic webcam capture tab window webm mp4">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">📹</span>
+            <span class="tool-badge-pro">PRO STUDIO</span>
+          </div>
+          <div class="tool-dir-name">Browser Screen &amp; Tab Video Recorder</div>
+          <div class="tool-dir-desc">Record full screen, application windows, or webcam with crystal-clear mic audio.</div>
+        </a>
+
+        <!-- 33. Voice Recorder (design) -->
+        <a href="/#tool/voice-recorder" class="tool-dir-card" data-cat="design" data-name="voice memo recorder audio waveform microphone mp3 wav sound">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🎙️</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Voice Memo Recorder &amp; Waveform</div>
+          <div class="tool-dir-desc">Record high-quality microphone audio with live audio spectrum and export to WAV/MP3.</div>
+        </a>
+
+        <!-- 34. Video Speed (design) -->
+        <a href="/#tool/video-speed" class="tool-dir-card" data-cat="design" data-name="video speed controller playback slow motion fast forward loop frame step">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">⏩</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Video Playback Speed Controller</div>
+          <div class="tool-dir-desc">Speed up or slow down videos (0.1x to 4.0x), frame-by-frame step, and A-B loop.</div>
+        </a>
+
+        <!-- 35. Audio Suite (design) -->
+        <a href="/#tool/audio-suite" class="tool-dir-card" data-cat="design" data-name="audio suite transcoder converter mp3 wav ogg mp4 audio extract demuxer">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🎧</span>
+            <span class="tool-badge-pro">PRO SUITE</span>
+          </div>
+          <div class="tool-dir-name">Universal Audio Transcoder &amp; Trimmer</div>
+          <div class="tool-dir-desc">Convert between MP3, WAV, OGG, and extract audio tracks directly from MP4 videos.</div>
+        </a>
+
+        <!-- 36. Video to GIF (design) -->
+        <a href="/#tool/video-to-gif" class="tool-dir-card" data-cat="design" data-name="video to gif animated converter lightweight custom fps loop clip">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🎞️</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Video to Animated GIF Converter</div>
+          <div class="tool-dir-desc">Convert short video clips into lightweight, animated GIFs with custom FPS and size.</div>
+        </a>
+
+        <!-- 37. Favicon Generator (design) -->
+        <a href="/#tool/favicon-generator" class="tool-dir-card" data-cat="design" data-name="favicon generator app icon suite ico apple touch android pwa preview">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">⭐</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Favicon &amp; App Icon Suite</div>
+          <div class="tool-dir-desc">Generate multi-size .ico, Apple Touch icons, and Android PWA icons with live preview.</div>
+        </a>
+
+        <!-- 38. Graphics Studio (design) -->
+        <a href="/#tool/graphics-studio" class="tool-dir-card" data-cat="design" data-name="graphics studio photo banner designer filters watermark crop resize">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🖼️</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Photo &amp; Graphic Banner Designer</div>
+          <div class="tool-dir-desc">Resize, crop, apply photo filters, add text captions, and watermark graphics.</div>
+        </a>
+
+        <!-- 39. Image Converter (design) -->
+        <a href="/#tool/image-converter" class="tool-dir-card" data-cat="design" data-name="image converter optimizer batch png jpeg webp compress resize quality">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🔄</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Image Optimizer &amp; Batch Converter</div>
+          <div class="tool-dir-desc">Convert images between PNG, JPEG, WebP, and batch-compress for web speed.</div>
+        </a>
+
+        <!-- 40. SVG Animator (design) -->
+        <a href="/#tool/svg-animator" class="tool-dir-card" data-cat="design" data-name="svg animator interactive css keyframes animation self draw path playback">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">💫</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Interactive SVG Animation Studio</div>
+          <div class="tool-dir-desc">Create CSS keyframe animations, self-drawing paths, and interactive SVG effects.</div>
+        </a>
+
+        <!-- 41. Calculator (math) -->
+        <a href="/#tool/calculator" class="tool-dir-card" data-cat="math" data-name="calculator scientific math numbers trigonometric graph history keyboard">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🧮</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Scientific Calculator &amp; Grapher</div>
+          <div class="tool-dir-desc">Advanced scientific calculator with trigonometric functions, history, and keyboard input.</div>
+        </a>
+
+        <!-- 42. Unit Converter (math) -->
+        <a href="/#tool/unit-converter" class="tool-dir-card" data-cat="math" data-name="unit converter measurement length weight mass temperature data storage time">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">⚖️</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">Universal Unit Converter</div>
+          <div class="tool-dir-desc">Convert measurements across length, mass, temperature, data storage, and time.</div>
+        </a>
+
+        <!-- 43. Datetime Suite (math) -->
+        <a href="/#tool/datetime-suite" class="tool-dir-card" data-cat="math" data-name="datetime suite date time epoch timestamp calculator age world clock">
           <div class="tool-top-row">
             <span class="tool-dir-icon">⏱️</span>
             <span class="tool-badge-free">100% FREE</span>
           </div>
           <div class="tool-dir-name">Date, Time &amp; Epoch Suite</div>
-          <div class="tool-dir-desc">Epoch seconds/milliseconds converter, timezone offsets, and duration calculator.</div>
+          <div class="tool-dir-desc">Convert Unix epoch timestamps, calculate days between dates, and inspect world time.</div>
         </a>
 
-        <a href="/#tool/security-suite" class="tool-dir-card" data-cat="math" data-name="security passwords generator uuid v4 v7 bulk entropy">
+        <!-- 44. IP Subnet Calculator (math) -->
+        <a href="/#tool/ip-subnet-calculator" class="tool-dir-card" data-cat="math" data-name="ip subnet calculator cidr mask mac address oui network broadcast">
+          <div class="tool-top-row">
+            <span class="tool-dir-icon">🌐</span>
+            <span class="tool-badge-free">100% FREE</span>
+          </div>
+          <div class="tool-dir-name">IP Subnet CIDR &amp; MAC Address Suite</div>
+          <div class="tool-dir-desc">Subnet mask calculator, CIDR ranges, network/broadcast IPs, and MAC OUI lookups.</div>
+        </a>
+
+        <!-- 45. Security Suite (crypto) -->
+        <a href="/#tool/security-suite" class="tool-dir-card" data-cat="crypto" data-name="security suite password generator uuid v4 v7 entropy diceware passphrase bulk">
           <div class="tool-top-row">
             <span class="tool-dir-icon">🔑</span>
             <span class="tool-badge-free">100% FREE</span>
           </div>
-          <div class="tool-dir-name">Security &amp; Passwords Suite</div>
-          <div class="tool-dir-desc">Cryptographically secure password generator &amp; RFC 4122 UUID v4/v7 bulk engine.</div>
+          <div class="tool-dir-name">Passwords &amp; UUID Generator Suite</div>
+          <div class="tool-dir-desc">Cryptographically secure password generator with entropy stats and bulk UUID v4/v7.</div>
         </a>
-      </div>
+</div>
     </div>
   </section>
 
@@ -2774,7 +3143,7 @@
         <div>
           <h4 class="footer-col-title">Documentation</h4>
           <ul class="footer-links">
-            <li><a href="/guides/index.html">All 28 Guides</a></li>
+            <li><a href="/guides/index.html">All 48 Guides</a></li>
             <li><a href="/guides/pipeline-builder.html">Pipeline Manual</a></li>
             <li><a href="/guides/json-formatter.html">JSON Guide</a></li>
             <li><a href="/guides/jwt-decoder.html">JWT Security Guide</a></li>
@@ -2790,12 +3159,16 @@
             <li><a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub Repository</a></li>
             <li><a href="/#privacy">Privacy Policy</a></li>
             <li><a href="/#terms">Terms of Service</a></li>
+            <li><a href="/#about">About Us</a></li>
+            <li><a href="/#contact">Contact Support</a></li>
+            <li><a href="/#refund">Refund Policy</a></li>
+            <li><a href="/#cookies">Cookie Policy</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <div>&copy; 2026 WorldsNeed &amp; OmniTool Hub. 100% Client-Side. No cookies. No server tracking.</div>
+        <div>&copy; 2026 WorldsNeed &amp; OmniTool Hub. Built with a local-first, privacy-respecting architecture.</div>
         <div style="display: flex; gap: 20px;">
           <a href="landing.html" style="color: var(--text-dim); text-decoration: none;">Landing Page</a>
           <a href="/" style="color: var(--text-dim); text-decoration: none;">App Workspace</a>
@@ -3035,6 +3408,17 @@ ${parts[2] ? 'Signature payload present (' + parts[2].length + ' bytes)' : 'Unsi
       }
     });
   </script>
+  <!-- Cloudflare Web Analytics -->
+  <script>
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      const cfScript = document.createElement('script');
+      cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cfScript.setAttribute('data-cf-beacon', '{"token": "04e4415908c74ea3b38523f900e7a225"}');
+      cfScript.defer = true;
+      document.body.appendChild(cfScript);
+    }
+  </script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
 

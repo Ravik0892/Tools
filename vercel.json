@@ -102,7 +102,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(plans|payment-guide|favorites|dashboard|privacy|about|contact|terms)",
+      "source": "/(plans|payment-guide|favorites|dashboard|privacy|privacy-policy|about|about-us|contact|contact-us|terms|terms-of-service|refund|refund-policy|cookies|cookie-policy)",
       "destination": "/index.html"
     }
   ]
