@@ -4033,6 +4033,33 @@ const app = {
             </div>
           </div>
 
+          <div class="contact-social-section">
+            <div class="contact-social-title">
+              <span>🌐 Official Channels &amp; Developer Community</span>
+            </div>
+            <p class="contact-social-desc">Connect directly with our core engineering team, follow feature releases, join discussions, or star our open-source repo:</p>
+            <div class="contact-social-grid">
+              <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener" class="contact-social-card">
+                <span>💻 GitHub Repository</span>
+              </a>
+              <a href="https://x.com/OmniToolHub" target="_blank" rel="noopener" class="contact-social-card">
+                <span>🐦 X / Twitter (@OmniToolHub)</span>
+              </a>
+              <a href="https://www.linkedin.com/company/omnitool-hub" target="_blank" rel="noopener" class="contact-social-card">
+                <span>💼 LinkedIn Company</span>
+              </a>
+              <a href="https://www.producthunt.com/products/omnitool-hub" target="_blank" rel="noopener" class="contact-social-card">
+                <span>🚀 Product Hunt Launch</span>
+              </a>
+              <a href="https://dev.to/omnitool-hub" target="_blank" rel="noopener" class="contact-social-card">
+                <span>📝 Dev.to Articles</span>
+              </a>
+              <a href="https://www.reddit.com/user/Omnitool-Hub/" target="_blank" rel="noopener" class="contact-social-card">
+                <span>👾 Reddit Profile</span>
+              </a>
+            </div>
+          </div>
+
           <div class="contact-meta-badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <span>Typical response turnaround: 24–48 business hours &bull; Mon–Fri</span>
