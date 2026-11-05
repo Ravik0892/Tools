@@ -201,7 +201,7 @@ export default {
       }
     };
 
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
@@ -232,12 +232,16 @@ export default {
       }
       
       output.value = "";
+
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("formatter-suite", tabId, { pushHistory: true });
+      }
     };
 
     // Tab switcher events
     tabs.forEach(tab => {
       tab.addEventListener("click", () => {
-        switchTab(tab.dataset.tab);
+        switchTab(tab.dataset.tab, true);
       });
     });
 
@@ -459,9 +463,18 @@ export default {
       }
     });
 
+    // Register tab switcher with appInstance for browser back/forward (popstate)
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("formatter-suite", (tabId) => switchTab(tabId, false));
+    }
+
     // Set initial active tab
     const initialTab = appInstance.activeSubtab || 'json';
     appInstance.activeSubtab = null;
-    switchTab(initialTab);
+    switchTab(initialTab, false);
+    const requestedSubtool = appInstance.activeSubtool;
+    if (requestedSubtool && appInstance && typeof appInstance.syncSubtab === "function") {
+      appInstance.syncSubtab("formatter-suite", requestedSubtool, { pushHistory: false, replaceHistory: true });
+    }
   }
 };

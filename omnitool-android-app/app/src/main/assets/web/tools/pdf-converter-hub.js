@@ -117,8 +117,14 @@ export default {
   async init(container, appInstance) {
     const host = container.querySelector("#hub-subtool-host");
 
-    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false) => {
+    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false, updateRoute = true) => {
+      if (this.currentModule && typeof this.currentModule.cleanup === "function") {
+        try { this.currentModule.cleanup(); } catch (_) {}
+      }
       this.activeSubtool = subtoolId;
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("pdf-converter-hub", subtoolId, { pushHistory: true });
+      }
       const config = this.subtools.find(st => st.id === subtoolId) || this.subtools[0];
 
       if (host) {
@@ -190,8 +196,24 @@ export default {
       }
     };
 
-    const initial = appInstance.activeSubtab || this.activeSubtool || "word-pdf";
-    appInstance.activeSubtab = null;
-    loadSubtool(initial);
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("pdf-converter-hub", (tabId) => loadSubtool(tabId, false, false, false));
+    }
+    if (appInstance.activeSubtab) {
+      loadSubtool(appInstance.activeSubtab, false, false, false);
+      if (appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("pdf-converter-hub", appInstance.activeSubtab, { pushHistory: false, replaceHistory: true });
+      }
+      appInstance.activeSubtab = null;
+    } else {
+      loadSubtool(this.activeSubtool || "word-pdf", false, false, false);
+    }
+  },
+
+  cleanup() {
+    if (this.currentModule && typeof this.currentModule.cleanup === "function") {
+      try { this.currentModule.cleanup(); } catch (_) {}
+    }
+    this.currentModule = null;
   }
 };

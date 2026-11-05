@@ -382,9 +382,9 @@ export default {
     return new Promise((resolve, reject) => {
       if (window.pdfjsLib) return resolve(window.pdfjsLib);
       const script = document.createElement('script');
-      script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js";
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
       script.onload = () => {
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
         resolve(window.pdfjsLib);
       };
       script.onerror = () => reject(new Error("Failed to load PDF viewer engine"));

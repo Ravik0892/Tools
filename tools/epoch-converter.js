@@ -1,14 +1,21 @@
-// Legacy standalone module - consolidated into a unified suite.
+// Standalone proxy for Unix Epoch Timestamp Converter -> datetime-suite
 export default {
   id: "epoch-converter-legacy",
-  name: "Legacy Epoch Timestamp Converter",
+  name: "Unix Epoch Timestamp Converter",
   renderUI() {
-    return `<div style="padding: 40px; text-align: center; color: var(--text-muted); font-weight: bold;">
-      This standalone tool has been consolidated into the Date, Time & Epoch Suite.
+    return `<div style="display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--text-muted); font-weight: 600;">
+      <span class="clock-widget" style="border: none; background: none;">
+        Loading Unix Epoch Timestamp Converter...
+      </span>
     </div>`;
   },
   init(container, appInstance) {
-    console.warn("Legacy standalone module accessed. Redirecting to dashboard...");
-    appInstance.backToDashboard();
+    if (appInstance && typeof appInstance.navigateToTool === "function") {
+      appInstance.activeSubtab = "epoch";
+      appInstance.activeSubtool = "epoch-converter";
+      appInstance.navigateToTool("datetime-suite", false);
+    } else {
+      window.location.href = "/tool/epoch-converter";
+    }
   }
 };

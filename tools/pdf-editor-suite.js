@@ -115,8 +115,14 @@ export default {
   async init(container, appInstance) {
     const host = container.querySelector("#editor-subtool-host");
 
-    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false) => {
+    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false, updateRoute = true) => {
+      if (this.currentModule && typeof this.currentModule.cleanup === "function") {
+        try { this.currentModule.cleanup(); } catch (_) {}
+      }
       this.activeSubtool = subtoolId;
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("pdf-editor-suite", subtoolId, { pushHistory: true });
+      }
       const config = this.subtools.find(st => st.id === subtoolId) || this.subtools[0];
 
       if (host) {
@@ -147,12 +153,18 @@ export default {
             const editorPanel = panels && panels.length > 0 ? panels[0] : null;
             const previewPanel = panels && panels.length > 1 ? panels[1] : null;
 
-            if (editorPanel) {
-              const editorHeader = editorPanel.querySelector(".panel-header");
-              if (editorHeader) {
-                this.injectTabs(editorHeader, appInstance, loadSubtool);
+            appInstance._reinjectEditorTabs = () => {
+              const splitView = host.querySelector(".tool-content-layout.split-view");
+              const panels = splitView ? splitView.querySelectorAll(".tool-panel:not(.tool-guide-card)") : host.querySelectorAll(".tool-panel:not(.tool-guide-card)");
+              const editorPanel = panels && panels.length > 0 ? panels[0] : null;
+              if (editorPanel) {
+                const editorHeader = editorPanel.querySelector(".panel-header");
+                if (editorHeader) {
+                  this.injectTabs(editorHeader, appInstance, loadSubtool);
+                }
               }
-            }
+            };
+            appInstance._reinjectEditorTabs();
 
             // Ensure preview panel stays clean (no suite tabs on preview screen)
             if (previewPanel) {
@@ -186,8 +198,24 @@ export default {
       }
     };
 
-    const initial = appInstance.activeSubtab || this.activeSubtool || "sign-pdf";
-    appInstance.activeSubtab = null;
-    loadSubtool(initial);
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("pdf-editor-suite", (tabId) => loadSubtool(tabId, false, false, false));
+    }
+    if (appInstance.activeSubtab) {
+      loadSubtool(appInstance.activeSubtab, false, false, false);
+      if (appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("pdf-editor-suite", appInstance.activeSubtab, { pushHistory: false, replaceHistory: true });
+      }
+      appInstance.activeSubtab = null;
+    } else {
+      loadSubtool(this.activeSubtool || "sign-pdf", false, false, false);
+    }
+  },
+
+  cleanup() {
+    if (this.currentModule && typeof this.currentModule.cleanup === "function") {
+      try { this.currentModule.cleanup(); } catch (_) {}
+    }
+    this.currentModule = null;
   }
 };

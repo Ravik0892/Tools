@@ -26,14 +26,6 @@
     <priority>0.90</priority>
   </url>
 
-  <!-- Interactive Feature Showcase -->
-  <url>
-    <loc>https://omnitool.worldsneed.com/showcase</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
   <!-- Privacy Policy and Zero-Data-Transmission Guarantee -->
   <url>
     <loc>https://omnitool.worldsneed.com/privacy</loc>
@@ -105,12 +97,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
-  <url>
-    <loc>https://omnitool.worldsneed.com/guides/index.html</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
 
   <!-- Step-by-Step Payment and Activation Guide -->
   <url>
@@ -122,6 +108,18 @@
 
   <!-- Individual Tool Guides with Dedicated Technical Posters -->
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/aes-crypto.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/audio-converter.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/audio-suite.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -131,6 +129,18 @@
       <image:title>Audio Suite Technical Reference Poster</image:title>
       <image:caption>Audio Processing &amp; Demuxing Architecture: Multi-codec transcoding, non-destructive waveform slicing, and video soundtrack extraction.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/base64.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/box-shadow.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/calculator.html</loc>
@@ -144,6 +154,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/clip-path-generator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/code-playground.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -153,6 +169,12 @@
       <image:title>Code Playground Technical Reference Poster</image:title>
       <image:caption>Web Sandbox &amp; Browser Code Playground Runtime: IFrame origin isolation, sandbox attribute flags, postMessage RPC, and AST loop guards.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/color-extractor.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/color-lab.html</loc>
@@ -166,6 +188,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/color-palette.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/color-shades.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/compare-pdf.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -175,6 +209,12 @@
       <image:title>Compare Pdf Technical Reference Poster</image:title>
       <image:caption>PDF Diffing Architecture: Synchronized canvas viewports, sub-pixel RGB discrepancy heatmaps, and interactive swipe-wipe sliders.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/compress-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/cron-builder.html</loc>
@@ -221,6 +261,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/date-calculator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/datetime-suite.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -230,6 +276,18 @@
       <image:title>Datetime Suite Technical Reference Poster</image:title>
       <image:caption>ISO 8601 &amp; Unix Timestamp Master Reference: Extended string anatomy, epoch seconds vs milliseconds, Y2038 overflow, and universal UTC storage rules.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/epoch-converter.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/excel-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/favicon-generator.html</loc>
@@ -254,6 +312,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/glassmorphism-generator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/gradient-generator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/graphics-studio.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -265,6 +335,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/hash-generator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/html-to-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/image-converter.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -274,6 +356,12 @@
       <image:title>Image Converter Technical Reference Poster</image:title>
       <image:caption>Modern Web Image Formats &amp; Compression Matrix: AVIF vs WebP vs PNG vs SVG comparison, responsive picture ladder, and quality factor tuning.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/images-to-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/ip-subnet-calculator.html</loc>
@@ -309,6 +397,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/json-yaml-csv.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/jwt-decoder.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -331,6 +425,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/mac-lookup.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/markdown-preview.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -340,6 +440,12 @@
       <image:title>Markdown Preview Technical Reference Poster</image:title>
       <image:caption>GitHub Flavored Markdown (GFM) Master Cheat Sheet: Complete syntax reference for typography, tables, checklists, callout alerts, and LaTeX math formulas.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/merge-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/mock-data-generator.html</loc>
@@ -353,6 +459,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/mp4-to-mp3.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/password-generator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/pdf-ai.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -362,6 +480,12 @@
       <image:title>Pdf Ai Technical Reference Poster</image:title>
       <image:caption>AI PDF Intelligence Architecture: In-browser text chunking, extractive summarization, and side-by-side multilingual translation.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/pdf-annotate.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/pdf-converter-hub.html</loc>
@@ -386,6 +510,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/pdf-forms.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/pdf-organizer.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/pdf-searcher.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -408,6 +544,24 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/pdf-security.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/pdf-to-markdown.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/pdf-to-pdfa.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/pdf-utilities.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -417,6 +571,12 @@
       <image:title>Pdf Utilities Technical Reference Poster</image:title>
       <image:caption>PDF Manipulation &amp; Document Transformation Matrix: Object trees, page slicing, merging, rasterization DPI scaling, and lossless compression.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/pdf-watermark.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/pii-anonymizer.html</loc>
@@ -441,6 +601,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/pptx-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/qr-generator.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -450,6 +616,12 @@
       <image:title>Qr Generator Technical Reference Poster</image:title>
       <image:caption>QR Code Anatomy &amp; Error Correction Reference: ISO/IEC 18004 components, Reed-Solomon recovery levels L/M/Q/H, and logo overlay best practices.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/qr-scanner.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/qr-studio.html</loc>
@@ -463,6 +635,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/redact-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/regex-extractor.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/regex-tester.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -474,6 +658,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/repair-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/robots-generator.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -483,6 +673,18 @@
       <image:title>Robots Generator Technical Reference Poster</image:title>
       <image:caption>Search Engine &amp; AI Shield Architecture: RFC 9309 crawler directives, sitemap indexing, and AI training crawler defense.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/rsa-generator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/scan-to-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/screen-recorder.html</loc>
@@ -529,6 +731,30 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/sign-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/split-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/sql-beautifier.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/subnet-calculator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/svg-animator.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -560,6 +786,12 @@
       <image:title>Text Analyzer Technical Reference Poster</image:title>
       <image:caption>Text Readability &amp; Linguistic Analysis Cheat Sheet: Flesch Reading Ease, syllable heuristics, lexical density, and reading ergonomics.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/text-converter.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/text-diff.html</loc>
@@ -595,6 +827,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/url-encoder.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/url-parser.html</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -604,6 +842,12 @@
       <image:title>Url Parser Technical Reference Poster</image:title>
       <image:caption>Uniform Resource Identifier (URI/URL) Anatomy &amp; Encoding Reference: RFC 3986 component breakdown, percent-encoding matrix, and encodeURI vs encodeURIComponent.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/uuid-generator.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/video-speed.html</loc>
@@ -637,6 +881,12 @@
       <image:title>Voice Recorder Technical Reference Poster</image:title>
       <image:caption>Voice Recording &amp; Audio Analysis: Real-time FFT frequency spectrum analysis and lossless 16-bit linear PCM WAV export.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/word-pdf.html</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
 
   <!-- Direct Clean Primary Tool URLs for Maximum Google Search Indexing -->
@@ -1196,6 +1446,108 @@
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/tool/html-encoder</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/clip-path-generator</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/clip-path</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/clippath</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/split-pdf</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/merge-pdf</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/rotate-pdf</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/compress-pdf</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/unlock-pdf</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/protect-pdf</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/subnet-calculator</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/cidr-calculator</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/mac-lookup</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/mac-address-lookup</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/regex-extractor</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/svg-morph</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/path-morph</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/offers</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>

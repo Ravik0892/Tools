@@ -3141,5 +3141,17 @@ export default {
       triggerFileDownload(`search_results_${Date.now()}.json`, JSON.stringify(exportObj, null, 2), "application/json");
       appInstance.showToast("Exported results as JSON file", "success");
     });
+  },
+
+  cleanup() {
+    if (this.ocrWorker) {
+      try {
+        this.ocrWorker.terminate();
+      } catch (_) {}
+      this.ocrWorker = null;
+      this.ocrWorkerLang = null;
+    }
+    this.files = [];
+    this.currentOcrPage = null;
   }
 };

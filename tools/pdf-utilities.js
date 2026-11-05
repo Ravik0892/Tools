@@ -1017,17 +1017,26 @@ export default {
       qualityValSpan.innerText = `${Math.round(parseFloat(jpgQualitySlider.value) * 100)}%`;
     });
 
-    // Tab Switching
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        tabs.forEach(t => t.classList.remove("active"));
-        tabContents.forEach(c => c.classList.add("hidden"));
+    // Tab Switching with History and Router Sync
+    const switchTab = (tabId, updateRoute = true) => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tabContents.forEach(c => c.classList.add("hidden"));
+      const targetTab = container.querySelector(`.util-tab[data-tab="${tabId}"]`);
+      if (targetTab) targetTab.classList.add("active");
+      const targetContent = container.querySelector(`#tab-${tabId}-content`);
+      if (targetContent) targetContent.classList.remove("hidden");
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("pdf-utilities", tabId, { pushHistory: true });
+      }
+    };
 
-        tab.classList.add("active");
-        const targetContent = container.querySelector(`#tab-${tab.dataset.tab}-content`);
-        if (targetContent) targetContent.classList.remove("hidden");
-      });
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => switchTab(tab.dataset.tab, true));
     });
+
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("pdf-utilities", (tabId) => switchTab(tabId, false));
+    }
 
     // File Selection & Drag-and-drop
     dropzone.addEventListener("click", () => fileInput.click());
@@ -2343,12 +2352,16 @@ export default {
     });
 
     if (appInstance.activeSubtab) {
-      const targetTabBtn = container.querySelector(`.util-tab[data-tab="${appInstance.activeSubtab}"]`);
-      if (targetTabBtn) {
-        targetTabBtn.click();
+      switchTab(appInstance.activeSubtab, false);
+      if (appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("pdf-utilities", appInstance.activeSubtab, { pushHistory: false, replaceHistory: true });
       }
       appInstance.activeSubtab = null;
     }
+  },
+
+  cleanup() {
+    this.destroy();
   },
 
   destroy() {

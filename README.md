@@ -1,8 +1,8 @@
 # OmniTool Hub v2 (Masterpiece Edition) - Complete Project Manual
 
-OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **45 consolidated powerhouse hubs (merging 62+ specialized developer, designer, media, text, and math tools)** organized in smart tabbed suites and standalone engines. By executing all logic directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
+OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **45 consolidated powerhouse master suites (housing 75+ specialized developer, designer, media, text, and math tools — 78 total engines)** organized in smart tabbed suites and standalone engines. By executing all logic directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
 
-> 📖 **Master Directory**: For an exhaustive, in-depth technical manual of all 45 core powerhouse hubs, 35+ sub-tool tabs, operational inputs/outputs, and backward-compatible route aliases, see [TOOLS_CATALOG.md](file:///f:/Tools%20website/TOOLS_CATALOG.md).
+> 📖 **Master Directory**: For an exhaustive, in-depth technical manual of all 45 core powerhouse hubs, 47 sub-tool tabs, operational inputs/outputs, and backward-compatible route aliases, see [TOOLS_CATALOG.md](file:///f:/Tools%20website/TOOLS_CATALOG.md).
 > 🚀 **Roadmap**: For competitor audit comparison and planned feature rollouts, see [EXPANSION_PLAN.md](file:///f:/Tools%20website/EXPANSION_PLAN.md).
 
 ---

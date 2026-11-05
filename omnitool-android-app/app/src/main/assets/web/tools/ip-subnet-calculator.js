@@ -369,7 +369,7 @@ export default {
       }
     };
 
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
@@ -392,11 +392,19 @@ export default {
         tryExampleBtn.style.display = "none";
         calculateMac();
       }
-    };
+    
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("ip-subnet-calculator", tabId, { pushHistory: true })
+    };;
+      }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+      tab.addEventListener("click", () => switchTab(tab.dataset.tab, true));
     });
+
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("ip-subnet-calculator", (tabId) => switchTab(tabId, false));
+    }
 
     // --- Subnet Calculator Code ---
     // Examples Tab Switching
@@ -723,8 +731,14 @@ export default {
     updateDisplayLabel();
     
     // Set initial active tab
-    const initialTab = appInstance.activeSubtab || 'subnet';
-    appInstance.activeSubtab = null;
-    switchTab(initialTab);
+    if (appInstance.activeSubtab) {
+      switchTab(appInstance.activeSubtab, false);
+      if (appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("ip-subnet-calculator", appInstance.activeSubtab, { pushHistory: false, replaceHistory: true });
+      }
+      appInstance.activeSubtab = null;
+    } else {
+      switchTab("subnet", false);
+    }
   }
 };

@@ -363,7 +363,7 @@ export default {
       }
     };
 
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
@@ -388,11 +388,19 @@ export default {
           renderMorphUI();
         }
       }
-    };
+    
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("svg-animator", tabId, { pushHistory: true })
+    };;
+      }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+      tab.addEventListener("click", () => switchTab(tab.dataset.tab, true));
     });
+
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("svg-animator", (tabId) => switchTab(tabId, false));
+    }
 
     // ==========================================
     // PRESET ANIMATOR CODE
@@ -1210,9 +1218,15 @@ export default {
     rawInput.value = sampleCyberLogo;
     
     // Set initial active tab
-    const initialTab = appInstance.activeSubtab || 'animator';
-    appInstance.activeSubtab = null;
-    switchTab(initialTab);
+    if (appInstance.activeSubtab) {
+      switchTab(appInstance.activeSubtab, false);
+      if (appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("svg-animator", appInstance.activeSubtab, { pushHistory: false, replaceHistory: true });
+      }
+      appInstance.activeSubtab = null;
+    } else {
+      switchTab("animator", false);
+    }
   },
 
   destroy() {

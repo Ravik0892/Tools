@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Images to PDF & Photo to PDF Compiler Guide (JPG, PNG, WebP) | OmniTool Hub</title>
+  <meta name="description" content="Combine multiple JPG, PNG, WebP, GIF, and SVG images into a single clean PDF document with custom margins, orientations, and page sizes.">
+  <meta name="keywords" content="Images to PDF, JPG to PDF, PNG to PDF, photos to pdf, combine images into pdf, multi image pdf maker">
+  <link rel="canonical" href="https://omnitool.worldsneed.com/guides/images-to-pdf.html">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Images to PDF & Photo to PDF Compiler Guide (JPG, PNG, WebP) | OmniTool Hub">
+  <meta property="og:description" content="Combine multiple JPG, PNG, WebP, GIF, and SVG images into a single clean PDF document with custom margins, orientations, and page sizes.">
+  <meta property="og:url" content="https://omnitool.worldsneed.com/guides/images-to-pdf.html">
+  <meta property="og:site_name" content="OmniTool Hub">
+  <meta property="og:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Images to PDF & Photo to PDF Compiler Guide (JPG, PNG, WebP) | OmniTool Hub">
+  <meta name="twitter:description" content="Combine multiple JPG, PNG, WebP, GIF, and SVG images into a single clean PDF document with custom margins, orientations, and page sizes.">
+  <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.png">
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FG02T8BFR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      gtag('config', 'G-7FG02T8BFR', { anonymize_ip: true });
+    }
+  </script>
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=2.1.5">
+
+  <!-- JSON-LD Structured Data for Rich Search Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "OmniTool Hub",
+            "item": "https://omnitool.worldsneed.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides Hub",
+            "item": "https://omnitool.worldsneed.com/guides/index.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Images to PDF & Photo Compiler Guide",
+            "item": "https://omnitool.worldsneed.com/guides/images-to-pdf.html"
+          }
+        ]
+      },
+      {
+        "@type": "TechArticle",
+        "headline": "Images to PDF & Photo to PDF Compiler Guide (JPG, PNG, WebP)",
+        "description": "Combine multiple JPG, PNG, WebP, GIF, and SVG images into a single clean PDF document with custom margins, orientations, and page sizes.",
+        "author": {
+          "@type": "Organization",
+          "name": "OmniTool Hub"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "OmniTool Hub",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://omnitool.worldsneed.com/social_media_assets/profile_avatar_icon_1080x1080.svg"
+          }
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.png",
+          "width": 1200,
+          "height": 630
+        },
+        "datePublished": "2026-06-27",
+        "dateModified": "2026-11-05",
+        "mainEntityOfPage": "https://omnitool.worldsneed.com/guides/images-to-pdf.html"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+  {
+    "@type": "Question",
+    "name": "Can I mix different image formats (e.g. JPG and PNG) in one PDF?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. You can combine JPG, PNG, WebP, BMP, and SVG files seamlessly into a single unified PDF."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Will my image resolution be compressed or degraded?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "By default, images are embedded at their native resolution without lossy recompression. You can also select compression presets if you need a smaller file size."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Can I reorder images before generating the PDF?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. The interactive preview grid allows drag-and-drop reordering of all thumbnails prior to export."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Is there a limit on how many photos I can combine?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "There are no artificial limits. You can combine 50+ images smoothly in modern browsers."
+    }
+  }
+]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-app: #07090e;
+      --bg-card: rgba(18, 24, 38, 0.65);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9d4edd;
+      --accent-emerald: #10b981;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-app);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(157, 78, 221, 0.06) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      padding: 0 0 60px 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .top-nav {
+      width: 100%;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .top-nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-link-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .nav-link-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-launch-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px 18px;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(0, 242, 254, 0.25);
+      transition: all 0.2s;
+    }
+
+    .nav-launch-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.35);
+    }
+
+    .breadcrumbs-wrap {
+      max-width: 1240px;
+      width: 100%;
+      margin: 20px auto 0 auto;
+      padding: 0 24px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumbs a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .breadcrumbs .current {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1240px;
+      width: 100%;
+      margin: 24px auto 0 auto;
+      padding: 0 24px;
+      flex: 1;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--accent-cyan);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .live-tool-embed-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 48px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .live-tool-embed-header {
+      padding: 14px 20px;
+      background: rgba(10, 14, 23, 0.95);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .live-status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+      display: inline-block;
+    }
+
+    .live-fullscreen-link {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .live-guide-tool-viewport {
+      min-height: 480px;
+      background: #0b0f19;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .guide-tool-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+      font-weight: 600;
+      gap: 14px;
+    }
+
+    .guide-tool-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(0, 242, 254, 0.15);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    article h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      border-left: 3px solid var(--accent-cyan);
+      padding-left: 12px;
+    }
+
+    article p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .suite-notice-box {
+      margin: 20px 0 28px 0;
+      padding: 16px 20px;
+      border-radius: 12px;
+      background: rgba(0, 242, 254, 0.05);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .suite-notice-box strong {
+      color: var(--accent-cyan);
+    }
+
+    .specs-table-wrap {
+      overflow-x: auto;
+      margin: 20px 0 32px 0;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: rgba(10, 14, 23, 0.65);
+    }
+
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .specs-table th {
+      padding: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-cyan);
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(0, 242, 254, 0.04);
+    }
+
+    .bottom-cta-banner {
+      margin-top: 50px;
+      padding: 36px 30px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.08), rgba(157, 78, 221, 0.08));
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bottom-cta-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(0, 242, 254, 0.3);
+      transition: all 0.2s;
+    }
+
+    .bottom-cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 242, 254, 0.4);
+    }
+
+    footer.hub-footer {
+      max-width: 1240px;
+      margin: 60px auto 0 auto;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      width: 100%;
+    }
+
+    footer.hub-footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.2s;
+    }
+
+    footer.hub-footer a:hover {
+      color: var(--accent-cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+        </svg>
+        <span>OmniTool Hub</span>
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-link-btn">📚 All Guides</a>
+        <a href="pdf-converter-hub.html" class="nav-link-btn">📦 Document & PDF Converter Hub Guide</a>
+        <a href="../index.html#tool/images-to-pdf" class="nav-launch-btn">🚀 Open Tool</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs-wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="../index.html">🏠 Home</a>
+      <span>/</span>
+      <a href="index.html">Guides Hub</a>
+      <span>/</span>
+      <a href="pdf-converter-hub.html">Document & PDF Converter Hub</a>
+      <span>/</span>
+      <span class="current">Images to PDF & Photo Compiler Guide</span>
+    </nav>
+  </div>
+
+  <main class="container">
+    <header>
+      <div class="category-pill">Document Converters</div>
+      <h1>Images to PDF & Photo Compiler Guide</h1>
+      <div class="meta">
+        <span class="meta-tag">📅 Updated Nov 2026</span>
+        <span class="meta-tag">🔒 100% Offline Client-Side</span>
+        <span class="meta-tag">⚡ Zero Server Uploads</span>
+      </div>
+    </header>
+
+    <div class="suite-notice-box">
+      <strong>📦 Master Suite Integration:</strong>
+      This utility runs as a high-performance engine inside the unified 
+      <a href="pdf-converter-hub.html" style="color: var(--accent-cyan); font-weight: 700; text-decoration: none;">Document & PDF Converter Hub</a>. 
+      You can launch it directly as a standalone tool or switch between sibling utilities without losing state.
+    </div>
+
+    <!-- LIVE INTERACTIVE EMBEDDED TOOL WORKSPACE -->
+    <section class="live-tool-embed-card">
+      <div class="live-tool-embed-header">
+        <div class="live-status-indicator">
+          <span class="pulse-dot"></span>
+          <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
+        </div>
+        <div class="live-tool-quick-links">
+          <a href="../index.html#tool/images-to-pdf" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+        </div>
+      </div>
+      <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
+        <div class="guide-tool-loading">
+          <div class="guide-tool-spinner"></div>
+          <span>Loading Images to PDF & Photo Compiler Guide Engine...</span>
+        </div>
+      </div>
+    </section>
+
+    <article>
+      <p>Compiling receipts, receipts, design mockups, and smartphone photographs into a unified PDF file is effortless with OmniTool Hub. Drag and drop dozens of images, reorder them visually, configure page margins, and generate a standardized PDF in seconds without quality loss.</p>
+
+      <h2>Key Property Parameters &amp; Specifications</h2>
+      <div class="specs-table-wrap">
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Fitting Mode</th>
+              <th>Aspect Ratio Behavior</th>
+              <th>Recommended For</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-main); font-family: var(--font-mono); font-size: 13px;">Fit to Page (Auto)</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-purple);">Proportionally scales image to page bounds</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; color: var(--text-muted);">Documents, book pages, and scanned records</td>
+          </tr>
+  
+          <tr>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-main); font-family: var(--font-mono); font-size: 13px;">Fill Page (Crop)</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-purple);">Expands image to cover entire canvas</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; color: var(--text-muted);">Full-bleed photography and visual portfolio books</td>
+          </tr>
+  
+          <tr>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-main); font-family: var(--font-mono); font-size: 13px;">Original Dimensions</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-purple);">Canvas dimensions match exact pixel dimensions</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; color: var(--text-muted);">High-res technical blueprints and pixel art</td>
+          </tr>
+  
+          <tr>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-main); font-family: var(--font-mono); font-size: 13px;">Custom Margin (5-50mm)</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-purple);">Adds uniform padding around image border</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; color: var(--text-muted);">Printing binders, portfolios, and legal attachments</td>
+          </tr>
+  
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Implementation Guide &amp; Technical Reference</h2>
+      
+        <div style="margin-bottom: 24px;">
+          <h4 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Embedding Images via pdf-lib</h4>
+          <pre style="background: rgba(10, 14, 23, 0.95); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; color: #a5f3fc; line-height: 1.5;"><code>const pdfDoc = await PDFLib.PDFDocument.create();
+for (const imgFile of images) {
+  const bytes = await imgFile.arrayBuffer();
+  const img = imgFile.type === 'image/png' ? await pdfDoc.embedPng(bytes) : await pdfDoc.embedJpg(bytes);
+  const page = pdfDoc.addPage([img.width, img.height]);
+  page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+}</code></pre>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">Lossless in-memory image embedding.</p>
+        </div>
+  
+
+      <h2>Frequently Asked Questions (FAQ)</h2>
+      <div class="faq-accordion">
+        
+        <div class="faq-item" style="margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; background: rgba(255, 255, 255, 0.02);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">Can I mix different image formats (e.g. JPG and PNG) in one PDF?</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0;">Yes. You can combine JPG, PNG, WebP, BMP, and SVG files seamlessly into a single unified PDF.</p>
+        </div>
+  
+        <div class="faq-item" style="margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; background: rgba(255, 255, 255, 0.02);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">Will my image resolution be compressed or degraded?</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0;">By default, images are embedded at their native resolution without lossy recompression. You can also select compression presets if you need a smaller file size.</p>
+        </div>
+  
+        <div class="faq-item" style="margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; background: rgba(255, 255, 255, 0.02);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">Can I reorder images before generating the PDF?</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0;">Yes. The interactive preview grid allows drag-and-drop reordering of all thumbnails prior to export.</p>
+        </div>
+  
+        <div class="faq-item" style="margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; background: rgba(255, 255, 255, 0.02);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">Is there a limit on how many photos I can combine?</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0;">There are no artificial limits. You can combine 50+ images smoothly in modern browsers.</p>
+        </div>
+  
+      </div>
+
+      <div class="bottom-cta-banner">
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--text-main);">Process Data Securely in Your Browser</h3>
+        <p style="font-size: 14.5px; color: var(--text-muted); max-width: 600px; margin: 0;">
+          Execute client-side conversions and calculations with instant zero-latency feedback. No cloud uploads, no account registration, 100% private.
+        </p>
+        <a href="../index.html#tool/images-to-pdf" class="bottom-cta-btn">⚡ Launch Images to PDF & Photo Compiler Guide Now</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="hub-footer">
+    <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
+    <p style="margin-top: 8px;">
+      <a href="../index.html">Home</a> &bull;
+      <a href="index.html">Guides Hub</a> &bull;
+      <a href="pdf-converter-hub.html">Document & PDF Converter Hub</a> &bull;
+      <a href="../index.html#privacy">Privacy Policy</a> &bull;
+      <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  </footer>
+
+  <!-- Live Tool Loader Script -->
+  <script type="module">
+    const guideApp = {
+      activeSubtab: 'images-to-pdf',
+      activeSubtool: 'images-to-pdf',
+      tools: [{ id: 'pdf-converter-hub', name: 'Document & PDF Converter Hub', subLabel: 'Document Converters' }],
+      showToast(msg, type) { console.log('[' + type + '] ' + msg); },
+      playSynthSound() {},
+      getConfigValue(k, d) { return localStorage.getItem(k) || d; },
+      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; },
+      syncSubtab(suiteId, tabId) {},
+      registerTabSwitcher(suiteId, fn) {}
+    };
+
+    const targetModule = 'pdf-converter-hub.js';
+    try {
+      const module = await import('../tools/' + targetModule);
+      const toolInstance = module.default;
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (toolInstance && typeof toolInstance.renderUI === 'function' && viewport) {
+        viewport.innerHTML = toolInstance.renderUI();
+        if (typeof toolInstance.init === 'function') {
+          await toolInstance.init(viewport, guideApp);
+        }
+      }
+    } catch (err) {
+      console.warn('[OmniTool Guide] Live tool initialization notice:', err);
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (viewport) {
+        viewport.innerHTML = `
+          <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
+            <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
+            <a href="../index.html#tool/images-to-pdf" class="nav-launch-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

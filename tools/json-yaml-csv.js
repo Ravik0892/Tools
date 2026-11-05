@@ -1,14 +1,21 @@
-// Legacy standalone module - consolidated into a unified suite.
+// Standalone proxy for JSON to CSV & YAML Converter -> formatter-suite
 export default {
   id: "json-yaml-csv-legacy",
-  name: "Legacy Data Converter",
+  name: "JSON to CSV & YAML Converter",
   renderUI() {
-    return `<div style="padding: 40px; text-align: center; color: var(--text-muted); font-weight: bold;">
-      This standalone tool has been consolidated into the Data Formatter & Converter Suite.
+    return `<div style="display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--text-muted); font-weight: 600;">
+      <span class="clock-widget" style="border: none; background: none;">
+        Loading JSON to CSV & YAML Converter...
+      </span>
     </div>`;
   },
   init(container, appInstance) {
-    console.warn("Legacy standalone module accessed. Redirecting to dashboard...");
-    appInstance.backToDashboard();
+    if (appInstance && typeof appInstance.navigateToTool === "function") {
+      appInstance.activeSubtab = "csv";
+      appInstance.activeSubtool = "json-yaml-csv";
+      appInstance.navigateToTool("formatter-suite", false);
+    } else {
+      window.location.href = "/tool/json-yaml-csv";
+    }
   }
 };

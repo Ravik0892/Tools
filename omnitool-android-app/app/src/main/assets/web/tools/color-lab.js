@@ -451,7 +451,7 @@ export default {
     let verifyAccessibility = null;
     let renderAllSwatches = null;
 
-    const switchTab = async (tabId) => {
+    const switchTab = async (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
@@ -485,10 +485,14 @@ export default {
       } else if (tabId === "shades") {
         if (typeof renderAllSwatches === "function") renderAllSwatches();
       }
+
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("color-lab", tabId, { pushHistory: true });
+      }
     };
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+      tab.addEventListener("click", () => switchTab(tab.dataset.tab, true));
     });
 
     // ==========================================
@@ -1178,7 +1182,16 @@ export default {
     }
     renderSavedPalettes();
     verifyAccessibility(false);
+    // Register tab switcher with appInstance for browser back/forward (popstate)
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("color-lab", (tabId) => switchTab(tabId, false));
+    }
+
     renderAllSwatches();
-    switchTab(initialTab);
+    switchTab(initialTab, false);
+    const requestedSubtool = appInstance.activeSubtool;
+    if (requestedSubtool && appInstance && typeof appInstance.syncSubtab === "function") {
+      appInstance.syncSubtab("color-lab", requestedSubtool, { pushHistory: false, replaceHistory: true });
+    }
   }
 };

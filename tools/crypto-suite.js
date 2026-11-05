@@ -427,7 +427,7 @@ export default {
       }
     };
 
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
       
@@ -443,11 +443,15 @@ export default {
         guideTitle.innerText = guides[tabId === "rsa" ? "rsa" : tabId].title;
         guideSteps.innerHTML = guides[tabId === "rsa" ? "rsa" : tabId].steps;
       }
+
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("crypto-suite", tabId, { pushHistory: true });
+      }
     };
 
     tabs.forEach(tab => {
       tab.addEventListener("click", () => {
-        switchTab(tab.dataset.tab);
+        switchTab(tab.dataset.tab, true);
       });
     });
 
@@ -1238,10 +1242,19 @@ export default {
       URL.revokeObjectURL(workerUrl);
     };
 
+    // Register tab switcher with appInstance for browser back/forward (popstate)
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("crypto-suite", (tabId) => switchTab(tabId, false));
+    }
+
     // Set initial active tab
     const initialTab = appInstance.activeSubtab || 'hash';
     appInstance.activeSubtab = null;
-    switchTab(initialTab);
+    switchTab(initialTab, false);
+    const requestedSubtool = appInstance.activeSubtool;
+    if (requestedSubtool && appInstance && typeof appInstance.syncSubtab === "function") {
+      appInstance.syncSubtab("crypto-suite", requestedSubtool, { pushHistory: false, replaceHistory: true });
+    }
   },
   destroy() {
     if (this._cleanup) {

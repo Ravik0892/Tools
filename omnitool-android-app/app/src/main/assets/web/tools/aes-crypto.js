@@ -1,14 +1,21 @@
-// Legacy standalone module - consolidated into a unified suite.
+// Standalone proxy for AES-256 Encryption & Decryption -> crypto-suite
 export default {
   id: "aes-crypto-legacy",
-  name: "Legacy AES Cipher",
+  name: "AES-256 Encryption & Decryption",
   renderUI() {
-    return `<div style="padding: 40px; text-align: center; color: var(--text-muted); font-weight: bold;">
-      This standalone tool has been consolidated into the Cryptography Suite.
+    return `<div style="display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--text-muted); font-weight: 600;">
+      <span class="clock-widget" style="border: none; background: none;">
+        Loading AES-256 Encryption & Decryption...
+      </span>
     </div>`;
   },
   init(container, appInstance) {
-    console.warn("Legacy standalone module accessed. Redirecting to dashboard...");
-    appInstance.backToDashboard();
+    if (appInstance && typeof appInstance.navigateToTool === "function") {
+      appInstance.activeSubtab = "aes";
+      appInstance.activeSubtool = "aes-crypto";
+      appInstance.navigateToTool("crypto-suite", false);
+    } else {
+      window.location.href = "/tool/aes-crypto";
+    }
   }
 };

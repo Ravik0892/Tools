@@ -18,10 +18,14 @@ Whenever designing, refactoring, or expanding tools and interfaces:
 ---
 
 ## ⚙️ 2. Separation of Concerns & Clean Architecture
-1. **Design System & Styling**:
+1. **Canonical Tool Layout Standard**:
+   - Every tool interface must conform to the **CSS Studio Suite** dual-panel split-view blueprint documented in [`LAYOUT_STANDARDS.md`](file:///f:/Tools%20website/LAYOUT_STANDARDS.md).
+   - Use `.tool-content-layout.split-view` with two `.tool-panel`s (Left: Config/Inputs, Right: Preview/Output) and `.tool-guide-card` at the bottom.
+   - Do NOT use hardcoded fixed large heights (>= 350px) that cause double scrollbars.
+2. **Design System & Styling**:
    - Maintain consistency across `style.css` and existing semantic design tokens (`--bg-primary`, `--accent`, `--border-color`, etc.).
    - Avoid ad-hoc inline styles when reusable utility or semantic classes exist.
-2. **Logic & Computation**:
+3. **Logic & Computation**:
    - All tool computations in `app.js` and `tools/*.js` run 100% client-side for zero latency and absolute privacy.
    - Attach robust event listeners, validate clipboard inputs, and handle edge cases gracefully.
 

@@ -43,14 +43,7 @@ const mainPages = [
     priority: '0.90',
     comment: 'PRO Membership Plans and Instant License Checkout'
   },
-  {
-    loc: 'https://omnitool.worldsneed.com/showcase',
-    lastmod: TODAY,
-    changefreq: 'weekly',
-    priority: '0.85',
-    comment: 'Interactive Feature Showcase'
-  },
-  {
+    {
     loc: 'https://omnitool.worldsneed.com/privacy',
     lastmod: TODAY,
     changefreq: 'monthly',
@@ -121,14 +114,7 @@ const guidesHub = [
     priority: '0.90',
     comment: 'Guides and Documentation Master Hub'
   },
-  {
-    loc: 'https://omnitool.worldsneed.com/guides/index.html',
-    lastmod: TODAY,
-    changefreq: 'weekly',
-    priority: '0.90',
-    comment: null
-  },
-  {
+    {
     loc: 'https://omnitool.worldsneed.com/guides/payment-guide.html',
     lastmod: TODAY,
     changefreq: 'weekly',

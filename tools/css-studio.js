@@ -783,7 +783,7 @@ export default {
     };
 
     // --- Tab Switcher ---
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
@@ -813,10 +813,14 @@ export default {
       } else if (tabId === "clippath") {
         updateClipPath();
       }
+
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("css-studio", tabId, { pushHistory: true });
+      }
     };
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+      tab.addEventListener("click", () => switchTab(tab.dataset.tab, true));
     });
 
     // ==========================================
@@ -2299,9 +2303,18 @@ export default {
     // Load initial shape
     loadClipPreset("triangle");
 
+    // Register tab switcher with appInstance for browser back/forward (popstate)
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("css-studio", (tabId) => switchTab(tabId, false));
+    }
+
     // Set initial active tab
     const initialTab = appInstance.activeSubtab || 'gradient';
     appInstance.activeSubtab = null;
-    switchTab(initialTab);
+    switchTab(initialTab, false);
+    const requestedSubtool = appInstance.activeSubtool;
+    if (requestedSubtool && appInstance && typeof appInstance.syncSubtab === "function") {
+      appInstance.syncSubtab("css-studio", requestedSubtool, { pushHistory: false, replaceHistory: true });
+    }
   }
 };

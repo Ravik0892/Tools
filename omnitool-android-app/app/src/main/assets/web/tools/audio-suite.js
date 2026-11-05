@@ -112,8 +112,9 @@ export default {
   async init(container, appInstance) {
     const host = container.querySelector("#audio-subtool-host");
 
-    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false) => {
+    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false, updateRoute = true) => {
       this.activeSubtool = subtoolId;
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") { appInstance.syncSubtab("audio-suite", subtoolId, { pushHistory: true }); }
       const config = this.subtools.find(st => st.id === subtoolId) || this.subtools[0];
 
       if (host) {
@@ -183,8 +184,10 @@ export default {
       }
     };
 
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") { appInstance.registerTabSwitcher("audio-suite", (tabId) => loadSubtool(tabId, false, false, false)); }
     const initial = appInstance.activeSubtab || this.activeSubtool || "audio-converter";
     appInstance.activeSubtab = null;
-    loadSubtool(initial);
+    loadSubtool(initial, false, false, false);
+    if (appInstance && typeof appInstance.syncSubtab === "function") { appInstance.syncSubtab("audio-suite", initial, { pushHistory: false, replaceHistory: true }); }
   }
 };
