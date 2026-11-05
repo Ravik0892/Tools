@@ -869,16 +869,16 @@
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All 48 Guides</a>
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#tool/css-studio" class="nav-launch-btn">🚀 Launch CSS Studio</a>
+        <a href="/guides/" class="nav-link-btn">📚 All Guides</a>
+        <a href="/" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="/tool/css-studio" class="nav-launch-btn">🚀 Launch CSS Studio</a>
       </div>
     </div>
   </nav>
@@ -886,9 +886,9 @@
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">🏠 Home</a>
+      <a href="/">🏠 Home</a>
       <span>/</span>
-      <a href="index.html">Guides Hub</a>
+      <a href="/guides/">Guides Hub</a>
       <span>/</span>
       <span class="current">CSS Studio Suite</span>
     </nav>
@@ -913,7 +913,7 @@
           <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
         </div>
         <div class="live-tool-quick-links">
-          <a href="../index.html#tool/css-studio" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+          <a href="/tool/css-studio" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
       <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
@@ -960,34 +960,48 @@
       </p>
 
       
-      <div class="tab-section">
+      <div class="tab-section" id="gradient">
         <div class="tab-title">
-          <span>1. Gradient Builder</span>
+          <span>1. Linear, Radial & Conic Gradient Builder</span>
           <span class="tab-badge">Gradients</span>
         </div>
         <p>
-          Build linear and radial gradients with infinite stop points, transparency configurations, and angle adjustments. Preview designs instantly on custom shapes.
+          Build linear, radial, and conic gradients with infinite color stop points, transparency configurations, repeat patterns, and angle adjustments. Preview designs instantly on custom shapes.
         </p>
+        <p style="margin-bottom: 0;"><a href="/tool/gradient-generator" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch Gradient Generator &rarr;</a> &bull; <a href="gradient-generator.html" style="color: var(--text-muted); font-size: 13px; text-decoration: none;">Read Dedicated Guide &rarr;</a></p>
       </div>
       
-      <div class="tab-section">
+      <div class="tab-section" id="shadow">
         <div class="tab-title">
-          <span>2. Box Shadow Layering</span>
+          <span>2. Multi-Layer Box Shadow Studio</span>
           <span class="tab-badge">Box Shadows</span>
         </div>
         <p>
-          Stack multiple shadow layers with blur, spread, offset, and color properties to design realistic depth and styling.
+          Stack multiple soft shadow layers with blur, spread, offset, inset toggles, and color opacity properties to design realistic depth and tactile elevation.
         </p>
+        <p style="margin-bottom: 0;"><a href="/tool/box-shadow" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch Box Shadow Studio &rarr;</a> &bull; <a href="box-shadow.html" style="color: var(--text-muted); font-size: 13px; text-decoration: none;">Read Dedicated Guide &rarr;</a></p>
       </div>
       
-      <div class="tab-section">
+      <div class="tab-section" id="glass">
         <div class="tab-title">
           <span>3. Glassmorphism Card Designer</span>
           <span class="tab-badge">Glassmorphism</span>
         </div>
         <p>
-          Adjust background blur intensity, border widths, opacity, and base colors to build frosted glass card layouts.
+          Adjust background backdrop-filter blur intensity, top-lit border highlights, surface opacity, and base colors to build modern frosted glass card layouts.
         </p>
+        <p style="margin-bottom: 0;"><a href="/tool/glassmorphism-generator" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch Glassmorphism Generator &rarr;</a> &bull; <a href="glassmorphism-generator.html" style="color: var(--text-muted); font-size: 13px; text-decoration: none;">Read Dedicated Guide &rarr;</a></p>
+      </div>
+
+      <div class="tab-section" id="clippath">
+        <div class="tab-title">
+          <span>4. CSS Clip-Path Polygon Shape Maker</span>
+          <span class="tab-badge">Clip Path</span>
+        </div>
+        <p>
+          Visually drag coordinates to create complex CSS clip-path polygons, geometric stars, speech bubbles, and custom responsive SVG masks with real-time CSS output.
+        </p>
+        <p style="margin-bottom: 0;"><a href="/tool/clip-path-generator" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch Clip-Path Generator &rarr;</a></p>
       </div>
       
 
@@ -1006,16 +1020,16 @@
     <div class="cta-container">
       <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
-      <a href="../index.html#tool/css-studio" class="cta-btn">🚀 Launch CSS Studio</a>
+      <a href="/tool/css-studio" class="cta-btn">🚀 Launch CSS Studio</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All 48 Tool Guides &rarr;</a>
+      <a href="/guides/" class="all-guides-cta">📚 Browse All Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All 48 Guides &rarr;</a>
+        <a href="/guides/">View All Guides &rarr;</a>
       </div>
       <div class="related-grid">
         
@@ -1050,8 +1064,8 @@
   <footer class="guide-footer">
     <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
     <p style="margin-top: 8px;">
-      <a href="../index.html">Home</a> &bull;
-      <a href="index.html">Guides Hub</a> &bull;
+      <a href="/">Home</a> &bull;
+      <a href="/guides/">Guides Hub</a> &bull;
       <a href="../index.html#privacy">Privacy Policy</a> &bull;
       <a href="../index.html#terms">Terms of Service</a> &bull;
       <a href="../index.html#refund">Refund Policy</a> &bull;
@@ -1109,7 +1123,7 @@
       },
       playSynthSound() {},
       getConfigValue(k, d) { return localStorage.getItem(k) || d; },
-      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; }
+      navigateToTool(id) { window.location.href = '/tool/' + id; }
     };
 
     const targetModule = 'css-studio.js';
@@ -1130,7 +1144,7 @@
         viewport.innerHTML = `
           <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
             <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
-            <a href="../index.html#tool/css-studio" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+            <a href="/tool/css-studio" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
           </div>
         `;
       }

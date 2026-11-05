@@ -10,7 +10,7 @@ export default {
           <div class="panel-header">
             <h3>Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="crypto-tabs">
+            <div class="crypto-header-tabs" id="crypto-tabs">
               <button class="keyboard-tab active" data-tab="hash" style="font-size: 11px; padding: 4px 8px;">Hashes</button>
               <button class="keyboard-tab" data-tab="aes" style="font-size: 11px; padding: 4px 8px;">AES Cipher</button>
               <button class="keyboard-tab" data-tab="rsa" style="font-size: 11px; padding: 4px 8px;">Asymmetric Keys</button>
@@ -427,7 +427,7 @@ export default {
       }
     };
 
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
       
@@ -443,11 +443,15 @@ export default {
         guideTitle.innerText = guides[tabId === "rsa" ? "rsa" : tabId].title;
         guideSteps.innerHTML = guides[tabId === "rsa" ? "rsa" : tabId].steps;
       }
+
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("crypto-suite", tabId, { pushHistory: true });
+      }
     };
 
     tabs.forEach(tab => {
       tab.addEventListener("click", () => {
-        switchTab(tab.dataset.tab);
+        switchTab(tab.dataset.tab, true);
       });
     });
 
@@ -1238,10 +1242,19 @@ export default {
       URL.revokeObjectURL(workerUrl);
     };
 
+    // Register tab switcher with appInstance for browser back/forward (popstate)
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("crypto-suite", (tabId) => switchTab(tabId, false));
+    }
+
     // Set initial active tab
     const initialTab = appInstance.activeSubtab || 'hash';
     appInstance.activeSubtab = null;
-    switchTab(initialTab);
+    switchTab(initialTab, false);
+    const requestedSubtool = appInstance.activeSubtool;
+    if (requestedSubtool && appInstance && typeof appInstance.syncSubtab === "function") {
+      appInstance.syncSubtab("crypto-suite", requestedSubtool, { pushHistory: false, replaceHistory: true });
+    }
   },
   destroy() {
     if (this._cleanup) {

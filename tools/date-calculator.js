@@ -1,14 +1,21 @@
-// Legacy standalone module - consolidated into a unified suite.
+// Standalone proxy for Date Difference & Duration Calculator -> datetime-suite
 export default {
   id: "date-calculator-legacy",
-  name: "Legacy Date & Duration Calculator",
+  name: "Date Difference & Duration Calculator",
   renderUI() {
-    return `<div style="padding: 40px; text-align: center; color: var(--text-muted); font-weight: bold;">
-      This standalone tool has been consolidated into the Date, Time & Epoch Suite.
+    return `<div style="display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--text-muted); font-weight: 600;">
+      <span class="clock-widget" style="border: none; background: none;">
+        Loading Date Difference & Duration Calculator...
+      </span>
     </div>`;
   },
   init(container, appInstance) {
-    console.warn("Legacy standalone module accessed. Redirecting to dashboard...");
-    appInstance.backToDashboard();
+    if (appInstance && typeof appInstance.navigateToTool === "function") {
+      appInstance.activeSubtab = "date";
+      appInstance.activeSubtool = "date-calculator";
+      appInstance.navigateToTool("datetime-suite", false);
+    } else {
+      window.location.href = "/tool/date-calculator";
+    }
   }
 };

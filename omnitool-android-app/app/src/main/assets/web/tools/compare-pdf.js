@@ -255,7 +255,9 @@ export default {
     `;
   },
 
-  async init() {
+  async init(container, appInstance) {
+    this.container = container;
+    this.app = appInstance;
     this.bindEvents();
   },
 
@@ -333,7 +335,12 @@ export default {
   },
 
   async loadPDFJSLibrary() {
-    if (window.pdfjsLib) return;
+    if (window.pdfjsLib) {
+      if (!window.pdfjsLib.GlobalWorkerOptions?.workerSrc) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      }
+      return;
+    }
     await new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
@@ -355,7 +362,8 @@ export default {
       this.refreshUI();
       this.renderCurrentComparison();
     } catch (err) {
-      alert("Error loading Document A: " + err.message);
+      if (this.app?.showToast) this.app.showToast("Error loading Document A: " + err.message, "error");
+      else if (window.app?.showToast) window.app.showToast("Error loading Document A: " + err.message, "error");
     }
   },
 
@@ -368,7 +376,8 @@ export default {
       this.refreshUI();
       this.renderCurrentComparison();
     } catch (err) {
-      alert("Error loading Document B: " + err.message);
+      if (this.app?.showToast) this.app.showToast("Error loading Document B: " + err.message, "error");
+      else if (window.app?.showToast) window.app.showToast("Error loading Document B: " + err.message, "error");
     }
   },
 
@@ -591,7 +600,8 @@ export default {
 
   exportTextReport() {
     if (!this.textDiffData || this.textDiffData.length === 0) {
-      alert("No difference data available to export for this page.");
+      if (this.app?.showToast) this.app.showToast("No difference data available to export for this page.", "warning");
+      else if (window.app?.showToast) window.app.showToast("No difference data available to export for this page.", "warning");
       return;
     }
 
@@ -627,7 +637,8 @@ export default {
       .map(d => `${d.type === 'added' ? '+' : '-'} ${d.text}`)
       .join("\n");
     navigator.clipboard.writeText(text);
-    alert("Copied differences to clipboard!");
+    if (this.app?.showToast) this.app.showToast("Copied differences to clipboard!", "success");
+    else if (window.app?.showToast) window.app.showToast("Copied differences to clipboard!", "success");
   },
 
   refreshWorkspace() {
@@ -644,11 +655,30 @@ export default {
   },
 
   refreshUI() {
-    const appEl = document.getElementById("tool-render-area") || document.querySelector(".tool-main");
-    if (appEl) {
-      appEl.innerHTML = this.renderUI();
+    const host = this.container || document.getElementById("active-tool-viewport");
+    if (host) {
+      const split = host.querySelector(".tool-content-layout.split-view");
+      if (split) {
+        split.outerHTML = this.renderUI();
+      } else {
+        host.innerHTML = this.renderUI();
+      }
       this.bindEvents();
       this.renderCurrentComparison();
     }
+  },
+
+  cleanup() {
+    if (this.docA) {
+      try { this.docA.destroy(); } catch (_) {}
+      this.docA = null;
+    }
+    if (this.docB) {
+      try { this.docB.destroy(); } catch (_) {}
+      this.docB = null;
+    }
+    this.fileA = null;
+    this.fileB = null;
+    this.textDiffData = null;
   }
 };

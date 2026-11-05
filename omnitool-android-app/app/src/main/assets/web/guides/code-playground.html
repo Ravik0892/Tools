@@ -875,16 +875,16 @@
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All 48 Guides</a>
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#tool/code-playground" class="nav-launch-btn">🚀 Launch Live Playground</a>
+        <a href="/guides/" class="nav-link-btn">📚 All Guides</a>
+        <a href="/" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="/tool/code-playground" class="nav-launch-btn">🚀 Launch Live Playground</a>
       </div>
     </div>
   </nav>
@@ -892,9 +892,9 @@
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">🏠 Home</a>
+      <a href="/">🏠 Home</a>
       <span>/</span>
-      <a href="index.html">Guides Hub</a>
+      <a href="/guides/">Guides Hub</a>
       <span>/</span>
       <span class="current">HTML/CSS/JS Live Playground</span>
     </nav>
@@ -919,7 +919,7 @@
           <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
         </div>
         <div class="live-tool-quick-links">
-          <a href="../index.html#tool/code-playground" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+          <a href="/tool/code-playground" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
       <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
@@ -962,50 +962,68 @@
 
       <h2>Interactive Playground Features</h2>
       <p>
-        Here is a detailed breakdown of the capabilities, algorithms, and configurations available within this tool suite:
+        Here is a detailed breakdown of the capabilities, learning features, and configurations available within this tool suite:
       </p>
 
-      
       <div class="tab-section">
         <div class="tab-title">
-          <span>1. Code Editor Panels</span>
-          <span class="tab-badge">Editors</span>
+          <span>1. Split &amp; Tabbed Code Editors (All, HTML, CSS, JS)</span>
+          <span class="tab-badge">Beginner &amp; Pro</span>
         </div>
         <p>
-          Construct HTML markup structure, CSS styles, and JavaScript interactive scripts side-by-side. Supports convenient Tab indentation overrides and Ctrl + Enter hotkey compiling.
+          Work in <strong>"All (Split)"</strong> stacked view to see markup, styling, and logic simultaneously, or switch to dedicated <strong>"HTML"</strong>, <strong>"CSS"</strong>, or <strong>"JS"</strong> tabs to focus on learning one language at a time without visual distraction. Each editor features live line and character metrics, one-click copy, individual clear, and instant auto-formatting.
         </p>
       </div>
-      
+
       <div class="tab-section">
         <div class="tab-title">
-          <span>2. Live Visual Sandbox & Resizing</span>
+          <span>2. Beginner Starter Lessons &amp; Project Presets</span>
+          <span class="tab-badge">Templates</span>
+        </div>
+        <p>
+          Learn web development from scratch with curated beginner projects like <em>Hello World &amp; Welcome Card</em>, <em>Interactive Click Counter</em>, <em>Mini To-Do List</em>, and <em>Theme Switcher</em>. Advanced developers can jump straight into the <em>Cyber Glow Button</em> or <em>Digital Clock Widget</em>. Reset code to template defaults with one click whenever you need a fresh start.
+        </p>
+      </div>
+
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>3. Quick Tags &amp; Code Beautifier</span>
+          <span class="tab-badge">Snippets &amp; Formatting</span>
+        </div>
+        <p>
+          Click <strong>"💡 Quick Tags"</strong> to insert starter HTML tags (like <code>&lt;h1&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;card&gt;</code>), modern CSS layout snippets (Flexbox center, card shadows, neon glows), and essential JavaScript functions. Use the <strong>"✨ Format"</strong> button to automatically indent and beautify your code.
+        </p>
+      </div>
+
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>4. Live Visual Sandbox &amp; Responsive Viewports</span>
           <span class="tab-badge">Live View</span>
         </div>
         <p>
-          See your changes render instantly. Toggle between Desktop, Tablet (768px), and Mobile (375px) widths to test responsive layout behavior in real-time.
+          See your changes render instantly in an isolated iframe. Switch between Desktop (100%), Tablet (768px), and Mobile (375px) viewports, expand to full screen, or click <strong>"New Tab"</strong> to view your creation in an isolated browser window.
         </p>
       </div>
-      
+
       <div class="tab-section">
         <div class="tab-title">
-          <span>3. CDN Resources Selector</span>
+          <span>5. CDN Resources &amp; External Libraries</span>
           <span class="tab-badge">Libraries</span>
         </div>
         <p>
           Inject popular CSS and JS frameworks (such as Tailwind CSS, Font Awesome, Bootstrap, jQuery, Lodash, or Chart.js) directly into the compiled iframe header by selecting them from presets or entering custom URLs.
         </p>
       </div>
-      
+
       <div class="tab-section">
         <div class="tab-title">
-          <span>4. Debug Console & Standalone Export</span>
-          <span class="tab-badge">Console & Export</span>
+          <span>6. Simulated Debug Console &amp; HTML Export</span>
+          <span class="tab-badge">Console &amp; Export</span>
         </div>
         <p>
-          Inspect standard outputs, variable dumps, warnings, and errors in the simulated console logs, with filters for easy diagnostic parsing. Export your complete project as a single self-contained HTML file in a single click.
+          Inspect standard outputs, variable dumps, warnings, and syntax error alerts in the simulated console logs, with filters for easy diagnostic parsing. Export your complete project as a single self-contained HTML file in a single click.
         </p>
       </div>
-      
 
       <div class="info-box">
         <strong>💡 Pro-Tip on Security & Utility:</strong>
@@ -1014,7 +1032,11 @@
 
       <h2>Step-by-Step Usage Guide</h2>
       <ol>
-        <li>Compose your structure in the **HTML**, layout design in **CSS**, and functions in the **JavaScript** editors.</li><li>Check the **Auto Run** box to enable debounced real-time compilations, or click **Run** to manually update the frame.</li><li>Optionally expand the **External Libraries** drawer to choose presets like Tailwind CSS or Font Awesome.</li><li>Filter simulated console outputs by level (Logs, Warns, Errs) to catch variables or syntax warnings.</li><li>Click **Download** to save your compiled work as a single, portable HTML file.</li>
+        <li>Choose a starter project from the <strong>Template</strong> dropdown (such as <em>Hello World</em>, <em>Click Counter</em>, or <em>Cyber Glow Button</em>).</li>
+        <li>Select your preferred workspace view: <strong>"All (Split)"</strong> to view HTML, CSS, and JS simultaneously, or focus tabs (<strong>"HTML"</strong>, <strong>"CSS"</strong>, <strong>"JS"</strong>) to learn step-by-step.</li>
+        <li>Insert elements with <strong>"💡 Quick Tags"</strong>, auto-indent with <strong>"✨ Format"</strong>, or write custom markup with live <strong>Auto Run</strong> enabled.</li>
+        <li>Test responsiveness across Desktop, Tablet, and Mobile devices, or pop out into a full window via <strong>"New Tab"</strong>.</li>
+        <li>Monitor runtime outputs and errors in the <strong>Simulated Debug Console</strong>, and click <strong>"Download"</strong> to save your work as a standalone <code>.html</code> file.</li>
       </ol>
     </article>
 
@@ -1022,16 +1044,16 @@
     <div class="cta-container">
       <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
-      <a href="../index.html#tool/code-playground" class="cta-btn">🚀 Launch Live Playground</a>
+      <a href="/tool/code-playground" class="cta-btn">🚀 Launch Live Playground</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All 48 Tool Guides &rarr;</a>
+      <a href="/guides/" class="all-guides-cta">📚 Browse All Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All 48 Guides &rarr;</a>
+        <a href="/guides/">View All Guides &rarr;</a>
       </div>
       <div class="related-grid">
         
@@ -1066,8 +1088,8 @@
   <footer class="guide-footer">
     <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
     <p style="margin-top: 8px;">
-      <a href="../index.html">Home</a> &bull;
-      <a href="index.html">Guides Hub</a> &bull;
+      <a href="/">Home</a> &bull;
+      <a href="/guides/">Guides Hub</a> &bull;
       <a href="../index.html#privacy">Privacy Policy</a> &bull;
       <a href="../index.html#terms">Terms of Service</a> &bull;
       <a href="../index.html#refund">Refund Policy</a> &bull;
@@ -1125,7 +1147,7 @@
       },
       playSynthSound() {},
       getConfigValue(k, d) { return localStorage.getItem(k) || d; },
-      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; }
+      navigateToTool(id) { window.location.href = '/tool/' + id; }
     };
 
     const targetModule = 'code-playground.js';
@@ -1146,7 +1168,7 @@
         viewport.innerHTML = `
           <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
             <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
-            <a href="../index.html#tool/code-playground" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+            <a href="/tool/code-playground" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
           </div>
         `;
       }

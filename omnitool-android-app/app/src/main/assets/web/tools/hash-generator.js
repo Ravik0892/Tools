@@ -1,14 +1,21 @@
-// Legacy standalone module - consolidated into a unified suite.
+// Standalone proxy for Cryptographic Hash Generator -> crypto-suite
 export default {
   id: "hash-generator-legacy",
-  name: "Legacy Hash Generator",
+  name: "Cryptographic Hash Generator",
   renderUI() {
-    return `<div style="padding: 40px; text-align: center; color: var(--text-muted); font-weight: bold;">
-      This standalone tool has been consolidated into the Cryptography Suite.
+    return `<div style="display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--text-muted); font-weight: 600;">
+      <span class="clock-widget" style="border: none; background: none;">
+        Loading Cryptographic Hash Generator...
+      </span>
     </div>`;
   },
   init(container, appInstance) {
-    console.warn("Legacy standalone module accessed. Redirecting to dashboard...");
-    appInstance.navigateToTool("dashboard");
+    if (appInstance && typeof appInstance.navigateToTool === "function") {
+      appInstance.activeSubtab = "hash";
+      appInstance.activeSubtool = "hash-generator";
+      appInstance.navigateToTool("crypto-suite", false);
+    } else {
+      window.location.href = "/tool/hash-generator";
+    }
   }
 };

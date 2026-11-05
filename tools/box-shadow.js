@@ -1,14 +1,21 @@
-// Legacy standalone module - consolidated into a unified suite.
+// Standalone module proxy for CSS Box Shadow Generator -> CSS Studio Suite
 export default {
   id: "box-shadow-legacy",
-  name: "Legacy CSS Box Shadow Builder",
+  name: "CSS Box Shadow Generator",
   renderUI() {
-    return `<div style="padding: 40px; text-align: center; color: var(--text-muted); font-weight: bold;">
-      This standalone tool has been consolidated into the CSS Studio.
+    return `<div style="display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--text-muted); font-weight: 600;">
+      <span class="clock-widget" style="border: none; background: none;">
+        Loading CSS Box Shadow Generator...
+      </span>
     </div>`;
   },
   init(container, appInstance) {
-    console.warn("Legacy standalone module accessed. Redirecting to dashboard...");
-    appInstance.backToDashboard();
+    if (appInstance && typeof appInstance.navigateToTool === "function") {
+      appInstance.activeSubtab = "shadow";
+      appInstance.activeSubtool = "box-shadow";
+      appInstance.navigateToTool("css-studio", false);
+    } else {
+      window.location.href = "/tool/box-shadow";
+    }
   }
 };

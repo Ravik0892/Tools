@@ -81,7 +81,7 @@ Submit a simple pull request to add OmniTool Hub under the Web / Developer Tools
   > Hey HN,  
   > I built OmniTool Hub because I got tired of having to upload proprietary database logs, client CSVs, and sensitive JWT auth tokens to third-party ad-bloated tool sites.  
   > 
-  > OmniTool Hub is a zero-server-upload utility suite featuring 50+ tools that run entirely in browser memory:  
+  > OmniTool Hub is a zero-server-upload utility suite featuring 75+ tools (45 master suites) that run entirely in browser memory:  
   > • **PDF Toolbox**: Split, merge, compress, and rotate PDFs locally via client-side WebAssembly.  
   > • **Smart Chain Pipeline Builder**: Chain transformations in series (e.g. Base64 decode -> Format JSON -> Convert Case).  
   > • **Formatters & Parsers**: JSON, SQL beautifier, YAML/CSV converter.  
@@ -100,7 +100,7 @@ Submit a simple pull request to add OmniTool Hub under the Web / Developer Tools
   > Hey everyone,  
   > As developers, we constantly need to format JSON, decode JWTs, test regex, or split PDFs, but pasting company credentials or customer documents into random online converters is a huge security risk.  
   > 
-  > I created **OmniTool Hub** to solve this. All 50+ tools execute completely inside the client thread using the native Web Crypto API, WebAssembly, and Canvas. Nothing ever hits an external server.  
+  > I created **OmniTool Hub** to solve this. All 75+ tools (45 master suites) execute completely inside the client thread using the native Web Crypto API, WebAssembly, and Canvas. Nothing ever hits an external server.  
   > 
   > Key features:  
   > - 100% in-browser offline execution (PWA ready).  

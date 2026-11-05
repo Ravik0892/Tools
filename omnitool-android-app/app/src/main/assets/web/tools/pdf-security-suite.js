@@ -72,18 +72,23 @@ export default {
   injectTabs(editorHeader, appInstance, loadSubtoolFn) {
     if (!editorHeader) return;
 
+    const slot = editorHeader.querySelector("#security-suite-tabs-slot");
     let tabsNav = editorHeader.querySelector(".suite-tabs-nav");
     if (!tabsNav) {
       tabsNav = document.createElement("div");
       tabsNav.className = "suite-tabs-nav";
       tabsNav.id = "security-tabs-bar";
-      tabsNav.style.cssText = "display: flex; gap: 5px; align-items: center; overflow-x: auto; max-width: calc(100% - 150px); scrollbar-width: none; margin-left: auto; padding: 2px 0;";
+      tabsNav.style.cssText = "display: flex; gap: 5px; align-items: center; overflow-x: auto; scrollbar-width: none; padding: 2px 0;";
 
-      const actionBtn = editorHeader.querySelector(".tool-btn, .keyboard-tab");
-      if (actionBtn && actionBtn.parentElement === editorHeader) {
-        editorHeader.insertBefore(tabsNav, actionBtn);
+      if (slot) {
+        slot.appendChild(tabsNav);
       } else {
-        editorHeader.appendChild(tabsNav);
+        const actionBtn = editorHeader.querySelector(".tool-btn, .keyboard-tab");
+        if (actionBtn && actionBtn.parentElement === editorHeader) {
+          editorHeader.insertBefore(tabsNav, actionBtn);
+        } else {
+          editorHeader.appendChild(tabsNav);
+        }
       }
     }
 
@@ -113,8 +118,14 @@ export default {
   async init(container, appInstance) {
     const host = container.querySelector("#security-subtool-host");
 
-    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false) => {
+    const loadSubtool = async (subtoolId, retainFullscreen = false, retainDrawerOpen = false, updateRoute = true) => {
+      if (this.currentModule && typeof this.currentModule.cleanup === "function") {
+        try { this.currentModule.cleanup(); } catch (_) {}
+      }
       this.activeSubtool = subtoolId;
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("pdf-security-suite", subtoolId, { pushHistory: true });
+      }
       const config = this.subtools.find(st => st.id === subtoolId) || this.subtools[0];
 
       if (host) {
@@ -136,7 +147,7 @@ export default {
               module.default.init(host, appInstance);
             }
             if (typeof appInstance.initLayoutSizer === "function") {
-              appInstance.initLayoutSizer();
+              appInstance.initLayoutSizer(host);
             }
 
             // Find editor panel (Panel 0, Configuration/Editor) and inject tabs
@@ -145,12 +156,18 @@ export default {
             const editorPanel = panels && panels.length > 0 ? panels[0] : null;
             const previewPanel = panels && panels.length > 1 ? panels[1] : null;
 
-            if (editorPanel) {
-              const editorHeader = editorPanel.querySelector(".panel-header");
-              if (editorHeader) {
-                this.injectTabs(editorHeader, appInstance, loadSubtool);
+            appInstance._reinjectSecurityTabs = () => {
+              const currentSplitView = host.querySelector(".tool-content-layout.split-view");
+              const currentPanels = currentSplitView ? currentSplitView.querySelectorAll(".tool-panel:not(.tool-guide-card)") : host.querySelectorAll(".tool-panel:not(.tool-guide-card)");
+              const currentEditorPanel = currentPanels && currentPanels.length > 0 ? currentPanels[0] : null;
+              if (currentEditorPanel) {
+                const editorHeader = currentEditorPanel.querySelector(".panel-header");
+                if (editorHeader) {
+                  this.injectTabs(editorHeader, appInstance, loadSubtool);
+                }
               }
-            }
+            };
+            appInstance._reinjectSecurityTabs();
 
             // Ensure preview panel stays clean (no suite tabs on preview screen)
             if (previewPanel) {
@@ -159,7 +176,7 @@ export default {
 
               // Preserve full-screen mode across tab switches
               if (retainFullscreen) {
-                const fsBtn = previewPanel.querySelector(".preview-fullscreen-btn");
+                const fsBtn = previewPanel.querySelector("#preview-fullscreen-btn") || previewPanel.querySelector(".preview-fullscreen-btn");
                 if (fsBtn) {
                   fsBtn.click();
                   if (retainDrawerOpen && splitView) {
@@ -184,8 +201,24 @@ export default {
       }
     };
 
-    const initial = appInstance.activeSubtab || this.activeSubtool || "pdf-security";
-    appInstance.activeSubtab = null;
-    loadSubtool(initial);
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("pdf-security-suite", (tabId) => loadSubtool(tabId, false, false, false));
+    }
+    if (appInstance.activeSubtab) {
+      loadSubtool(appInstance.activeSubtab, false, false, false);
+      if (appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("pdf-security-suite", appInstance.activeSubtab, { pushHistory: false, replaceHistory: true });
+      }
+      appInstance.activeSubtab = null;
+    } else {
+      loadSubtool(this.activeSubtool || "pdf-security", false, false, false);
+    }
+  },
+
+  cleanup() {
+    if (this.currentModule && typeof this.currentModule.cleanup === "function") {
+      try { this.currentModule.cleanup(); } catch (_) {}
+    }
+    this.currentModule = null;
   }
 };

@@ -1,0 +1,324 @@
+[
+  {
+    "id": "pipeline-builder",
+    "name": "Smart Chain Pipeline Builder",
+    "desc": "Connect multiple operations in series (e.g. Decode Base64 ➔ Format JSON ➔ Convert to Uppercase) to process text sequentially.",
+    "category": "dev-pipelines",
+    "type": "Data Pipelines"
+  },
+  {
+    "id": "formatter-suite",
+    "name": "Data Formatter & Converter Suite",
+    "desc": "Beautify and validate JSON, format messy SQL database queries, and convert data bi-directionally between JSON, YAML, and CSV.",
+    "category": "dev-formatters",
+    "type": "Formatters & Parsers"
+  },
+  {
+    "id": "text-encoder-suite",
+    "name": "Text Cases & Encoder Suite",
+    "desc": "Convert text case representations (UPPER, lower, camel, snake, kebab) and run Base64 or URL encoding and decoding operations.",
+    "category": "text-case",
+    "type": "Transformations"
+  },
+  {
+    "id": "jwt-decoder",
+    "name": "JWT Decoder",
+    "desc": "Decode JSON Web Tokens instantly to view their header parameters, claim payload and validity.",
+    "category": "dev-crypto",
+    "type": "Crypto & Security"
+  },
+  {
+    "id": "crypto-suite",
+    "name": "Cryptography Suite",
+    "desc": "Generate MD5, SHA-1, SHA-256, SHA-512 hashes, encrypt/decrypt using AES-256 GCM symmetric cipher, and generate asymmetric RSA private/public keys.",
+    "category": "dev-crypto",
+    "type": "Crypto & Security"
+  },
+  {
+    "id": "pii-anonymizer",
+    "name": "Client-Side PII Masker & Anonymizer",
+    "desc": "Scan and mask sensitive personal identifiable information (PII) like emails, phone numbers, IP addresses, and credit cards from logs or text files client-side.",
+    "category": "dev-crypto",
+    "type": "Crypto & Security"
+  },
+  {
+    "id": "markdown-preview",
+    "name": "Live Markdown Previewer",
+    "desc": "Write standard markdown syntax and preview output immediately as formatted HTML.",
+    "category": "text-markdown",
+    "type": "Writers & Parsers"
+  },
+  {
+    "id": "text-diff",
+    "name": "Text Diff Comparison",
+    "desc": "Compare two strings side-by-side or line-by-line and visually highlight differences.",
+    "category": "text-markdown",
+    "type": "Writers & Parsers"
+  },
+  {
+    "id": "pdf-searcher",
+    "name": "Multi-PDF Searcher & OCR",
+    "desc": "Import multiple PDF files, search for words, sentences or data, and run client-side OCR on scanned pages.",
+    "category": "text-markdown",
+    "type": "Writers & Parsers"
+  },
+  {
+    "id": "pdf-utilities",
+    "name": "PDF Page Studio & Organizer",
+    "desc": "Split into PDF/Images/Text, merge multiple PDFs, rearrange pages visually, crop margins, and compress documents 100% client-side.",
+    "category": "text-markdown",
+    "type": "PDF Page Studio"
+  },
+  {
+    "id": "regex-tester",
+    "name": "Visual Regex & Extractor Suite",
+    "desc": "Test regular expressions visually, capture match groups, and batch-extract or replace phone numbers, emails, IPs, and URLs.",
+    "category": "text-regex",
+    "type": "Pattern Analysis"
+  },
+  {
+    "id": "css-studio",
+    "name": "CSS Studio Suite",
+    "desc": "Visually build linear & radial CSS gradients, complex box shadows with offset layers, and modern frosted glassmorphism cards.",
+    "category": "design-css",
+    "type": "CSS Builders"
+  },
+  {
+    "id": "color-lab",
+    "name": "Color Lab & Contrast Suite",
+    "desc": "Create WCAG-compliant color palettes, check contrast accessibility ratios, and generate shades, tints, and opacities.",
+    "category": "design-color",
+    "type": "Color Management"
+  },
+  {
+    "id": "security-suite",
+    "name": "Security & Passwords Suite",
+    "desc": "Generate highly secure random passwords with entropy strength analysis and create bulk RFC 4122 v4 UUID keys client-side.",
+    "category": "math-security",
+    "type": "Security & Pass"
+  },
+  {
+    "id": "datetime-suite",
+    "name": "Date & Time Suite",
+    "desc": "Convert Unix epoch timestamps to human dates, compute durations between two times, and add/subtract time fields dynamically.",
+    "category": "math-calc",
+    "type": "Calculator"
+  },
+  {
+    "id": "unit-converter",
+    "name": "Unit Converter",
+    "desc": "Instantly convert storage sizes, lengths, weights, and temperatures across global units.",
+    "category": "math-conversion",
+    "type": "Conversion"
+  },
+  {
+    "id": "graphics-studio",
+    "name": "Graphics Designer & Screenshot Studio",
+    "desc": "Capture webcam snapshots, crop screen captures, design banners, overlay text, apply vintage cyberpunk filters, and download or copy images to clipboard without AI.",
+    "category": "design-graphics",
+    "type": "Graphics & Screen Studio"
+  },
+  {
+    "id": "calculator",
+    "name": "Scientific Calculator",
+    "desc": "Perform advanced arithmetic, trigonometric, logarithmic, and factorial calculations with a live history log, constants library, and keyboard shortcuts.",
+    "category": "math-calc",
+    "type": "Calculator"
+  },
+  {
+    "id": "qr-studio",
+    "name": "Dynamic QR & Barcode Studio",
+    "desc": "Generate highly customized art QR codes with linear gradients, custom dot patterns, and logos, or scan QR codes and barcodes live via camera or upload.",
+    "category": "dev-generators",
+    "type": "Generators"
+  },
+  {
+    "id": "seo-previewer",
+    "name": "Meta Tag & SEO Previewer",
+    "desc": "Design and preview page meta tags with live Google, Facebook, Twitter, and Discord mockup cards.",
+    "category": "dev-generators",
+    "type": "Generators"
+  },
+  {
+    "id": "image-converter",
+    "name": "Image Optimizer & Converter",
+    "desc": "Optimize dimensions, adjust quality, and convert image formats (PNG, JPG, WebP) client-side in seconds.",
+    "category": "design-graphics",
+    "type": "Graphics & Screen Studio"
+  },
+  {
+    "id": "svg-animator",
+    "name": "SVG Animation Studio",
+    "desc": "Import SVG vectors, visualize paths, apply keyframe presets (self-drawing, spin, float, neon pulse), and export animated SVGs client-side.",
+    "category": "design-graphics",
+    "type": "Graphics & Screen Studio"
+  },
+  {
+    "id": "url-parser",
+    "name": "URL Query Parser & Builder",
+    "desc": "Parse web addresses, extract parameters into a key-value grid, edit variables, and build clean query strings.",
+    "category": "text-case",
+    "type": "Transformations"
+  },
+  {
+    "id": "text-analyzer",
+    "name": "Text Readability & Analyzer",
+    "desc": "Calculate Flesch Reading Ease score, evaluate sentence counts, estimate reading time, and check keyword density.",
+    "category": "text-regex",
+    "type": "Pattern Analysis"
+  },
+  {
+    "id": "mock-data-generator",
+    "name": "Private CSV/JSON Mock Data Generator",
+    "desc": "Design custom schemas, configure column types (names, emails, dates, numbers), and bulk-generate up to 50,000 rows of mock data entirely client-side.",
+    "category": "dev-generators",
+    "type": "Generators"
+  },
+  {
+    "id": "admin-settings",
+    "name": "Settings & Ad Control Panel",
+    "desc": "Manage ad network codes, toggle locations, edit AdSense/AdMob IDs, and clear local caches.",
+    "category": "dev-generators",
+    "type": "Admin Center"
+  },
+  {
+    "id": "code-playground",
+    "name": "HTML/CSS/JS Live Playground",
+    "desc": "Write front-end HTML, CSS, and JavaScript in real-time, see live rendering in a sandbox iframe, and catch output logs in a simulated console.",
+    "category": "dev-generators",
+    "type": "Generators"
+  },
+  {
+    "id": "ip-subnet-calculator",
+    "name": "IP Subnet & MAC Address Suite",
+    "desc": "Calculate subnet CIDR parameters, inspect host ranges, format MAC addresses, and perform local manufacturer OUI lookups.",
+    "category": "math-calc",
+    "type": "Calculator"
+  },
+  {
+    "id": "curl-converter",
+    "name": "cURL to Code Converter",
+    "desc": "Convert cURL commands directly into modern Fetch (ES6 async/await), Axios, Python Requests, and Go HTTP client code.",
+    "category": "dev-generators",
+    "type": "Generators"
+  },
+  {
+    "id": "cron-builder",
+    "name": "Visual Cron Expression Builder & Explainer",
+    "desc": "Build 5-field cron schedules visually, translate complex expressions into plain English sentences, and preview upcoming execution times.",
+    "category": "dev-generators",
+    "type": "Generators"
+  },
+  {
+    "id": "json-to-types",
+    "name": "JSON-to-Code Interface Converter",
+    "desc": "Convert JSON payloads into strongly-typed interfaces and models for TypeScript, Python Pydantic, Go structs, and Rust Serde.",
+    "category": "dev-formatters",
+    "type": "Formatters & Parsers"
+  },
+  {
+    "id": "robots-generator",
+    "name": "Robots.txt Visual Builder",
+    "desc": "Create crawl directive rules, block AI web scrapers (GPTBot, CCBot), declare XML sitemaps, configure crawl delays, and validate syntax.",
+    "category": "dev-generators",
+    "type": "Generators"
+  },
+  {
+    "id": "lorem-generator",
+    "name": "Smart Lorem Ipsum Generator",
+    "desc": "Generate customizable placeholder copy with classical Latin, Cyberpunk Tech, or Corporate jargon in paragraphs, lists, HTML, Markdown, or JSON.",
+    "category": "text-markdown",
+    "type": "Writers & Parsers"
+  },
+  {
+    "id": "favicon-generator",
+    "name": "Favicon & App Icon Suite",
+    "desc": "Generate complete icon packages (multi-res 16/32 .ico, Apple Touch 180px, Android 192/512px) with shape customizer, tab preview, and ZIP export.",
+    "category": "design-graphics",
+    "type": "Graphics & Screen Studio"
+  },
+  {
+    "id": "screenshot-capture",
+    "name": "Browser Screen & Window Screenshot Studio",
+    "desc": "Capture full screen, tabs, or app windows with countdown timer, wrap with macOS/Windows/Cyberpunk browser frames, redact PII passwords, and add step-by-step annotation callouts.",
+    "category": "design-graphics",
+    "type": "Graphics & Screen Studio"
+  },
+  {
+    "id": "screen-recorder",
+    "name": "Browser Screen & Tab Recorder",
+    "desc": "Capture your full screen, window, or browser tab with microphone audio commentary, real-time timer, and instant WebM/MP4 download.",
+    "category": "design-graphics",
+    "type": "Audio & Video Media"
+  },
+  {
+    "id": "voice-recorder",
+    "name": "Voice Recorder & Audio Waveform Studio",
+    "desc": "Record mic memos or inspect audio files with live spectrum & radial visualizers, range trimming, peak normalization, EQ filters, speech-to-text, and lossless WAV export.",
+    "category": "design-graphics",
+    "type": "Audio & Video Media"
+  },
+  {
+    "id": "video-speed",
+    "name": "Video Playback Speed Controller",
+    "desc": "Adjust playback rate from 0.1x to 4.0x, step frame-by-frame, preserve audio pitch, and create continuous A-B section repeat loops.",
+    "category": "design-graphics",
+    "type": "Audio & Video Media"
+  },
+  {
+    "id": "audio-suite",
+    "name": "Audio Studio & Extractor",
+    "desc": "Cross-convert sound files between MP3, WAV, and OGG formats with bitrates up to 320k, or extract audio tracks from video files with visual waveform trimming.",
+    "category": "design-graphics",
+    "type": "Audio & Video Media"
+  },
+  {
+    "id": "video-to-gif",
+    "name": "Video to Animated GIF Converter",
+    "desc": "Convert video clips into animated GIFs client-side with custom resolution, frame rate, duration clipping, and live progress monitor.",
+    "category": "design-graphics",
+    "type": "Audio & Video Media"
+  },
+  {
+    "id": "temp-mail",
+    "name": "Disposable Temp Mail Client",
+    "desc": "Generate instant throwaway email addresses to verify accounts and avoid spam with 10s auto-refresh, notifications, and reader.",
+    "category": "dev-generators",
+    "type": "Privacy & Mail"
+  },
+  {
+    "id": "pdf-converter-hub",
+    "name": "Document & PDF Converter Hub",
+    "desc": "Convert bi-directionally between Word (.docx), Excel (.xlsx/.csv), PowerPoint (.pptx), Images, Camera Scans, HTML/CSS, and Markdown.",
+    "category": "text-markdown",
+    "type": "Document Converters"
+  },
+  {
+    "id": "pdf-editor-suite",
+    "name": "PDF Editor, Sign & Markup Studio",
+    "desc": "E-sign documents with cursive signatures, fill AcroForms, draw vector annotations, stamp watermarks, and permanently redact PII.",
+    "category": "text-markdown",
+    "type": "PDF Power Tools"
+  },
+  {
+    "id": "pdf-security-suite",
+    "name": "PDF Security, Repair & Archival Suite",
+    "desc": "Protect PDFs with AES encryption, remove passwords, repair corrupted xref tables & headers, and export ISO 19005 PDF/A archives.",
+    "category": "text-markdown",
+    "type": "PDF Security & Repair"
+  },
+  {
+    "id": "pdf-ai",
+    "name": "AI PDF Summarizer & Translator",
+    "desc": "Generate executive summaries, extract actionable commitments, chat with documents in Q&A mode, or translate PDFs into 15+ languages via Gemini & offline NLP.",
+    "category": "text-markdown",
+    "type": "AI & Intelligence"
+  },
+  {
+    "id": "compare-pdf",
+    "name": "Compare PDF Documents",
+    "desc": "Compare two revisions of a PDF side-by-side, highlight layout differences with a pixel difference heatmap, wipe slider, or text clause diff.",
+    "category": "text-markdown",
+    "type": "PDF Power Tools"
+  }
+]

@@ -3,6 +3,9 @@
 const app = {
   APP_VERSION: "2.1.4",
   getToolsBasePath() {
+    if (window.location.hostname === "appassets.androidplatform.net") {
+      return "https://appassets.androidplatform.net/assets/web/tools/";
+    }
     return (window.location.protocol === "file:" || !window.location.origin) ? "./tools/" : "/tools/";
   },
   // Registry of all tools with subcategory designations
@@ -563,55 +566,467 @@ const app = {
 
   // Registry of all documentation & help guides
   guidesList: [
-    { id: "pipeline-builder", title: "Smart Chain Pipeline Builder Guide", url: "guides/pipeline-builder.html" },
-    { id: "json-formatter", title: "Data Formatter & Converter Guide", url: "guides/json-formatter.html" },
-    { id: "text-encoder-suite", title: "Text Cases & Encoder Guide", url: "guides/text-encoder-suite.html" },
-    { id: "jwt-decoder", title: "JWT Decoder Guide", url: "guides/jwt-decoder.html" },
-    { id: "crypto-suite", title: "Cryptography Suite Guide", url: "guides/crypto-suite.html" },
-    { id: "pii-anonymizer", title: "Client-Side PII Masker Guide", url: "guides/pii-anonymizer.html" },
-    { id: "markdown-preview", title: "Live Markdown Previewer Guide", url: "guides/markdown-preview.html" },
-    { id: "text-diff", title: "Text Diff Comparison Guide", url: "guides/text-diff.html" },
-    { id: "pdf-searcher", title: "PDF Index & Search Guide", url: "guides/pdf-searcher.html" },
-    { id: "pdf-utilities", title: "PDF Utilities Suite Guide", url: "guides/pdf-utilities.html" },
-    { id: "regex-tester", title: "Regular Expression Tester Guide", url: "guides/regex-tester.html" },
-    { id: "text-analyzer", title: "Text Analyzer Guide", url: "guides/text-analyzer.html" },
-    { id: "css-studio", title: "CSS Studio Guide", url: "guides/css-studio.html" },
-    { id: "color-lab", title: "Color Lab Suite Guide", url: "guides/color-lab.html" },
-    { id: "graphics-studio", title: "Graphics Studio Guide", url: "guides/graphics-studio.html" },
-    { id: "image-converter", title: "Image Converter Guide", url: "guides/image-converter.html" },
-    { id: "svg-animator", title: "SVG Animator Guide", url: "guides/svg-animator.html" },
-    { id: "security-suite", title: "Security Suite Guide", url: "guides/security-suite.html" },
-    { id: "datetime-suite", title: "Datetime Suite Guide", url: "guides/datetime-suite.html" },
-    { id: "calculator", title: "Scientific Calculator Guide", url: "guides/calculator.html" },
-    { id: "unit-converter", title: "Unit Converter Guide", url: "guides/unit-converter.html" },
-    { id: "url-parser", title: "URL Parser Guide", url: "guides/url-parser.html" },
-    { id: "code-playground", title: "Code Playground Guide", url: "guides/code-playground.html" },
-    { id: "qr-generator", title: "QR Generator Guide", url: "guides/qr-generator.html" },
-    { id: "seo-previewer", title: "SEO Previewer Guide", url: "guides/seo-previewer.html" },
-    { id: "mock-data-generator", title: "Mock Data Generator Guide", url: "guides/mock-data-generator.html" },
-    { id: "ip-subnet-calculator", title: "IP Subnet & MAC Suite Guide", url: "guides/ip-subnet-calculator.html" },
-    { id: "payment-guide", title: "Payment & Activation Guide", url: "guides/payment-guide.html" },
-    { id: "pdf-converter-hub", title: "Document & PDF Converter Hub Guide", url: "guides/pdf-converter-hub.html" },
-    { id: "pdf-editor-suite", title: "PDF Editor, Sign & Markup Studio Guide", url: "guides/pdf-editor-suite.html" },
-    { id: "pdf-security-suite", title: "PDF Security, Repair & Archival Suite Guide", url: "guides/pdf-security-suite.html" },
-    { id: "pdf-ai", title: "AI PDF Summarizer & Translator Guide", url: "guides/pdf-ai.html" },
-    { id: "compare-pdf", title: "PDF Document Comparison & Diff Guide", url: "guides/compare-pdf.html" },
-    { id: "lorem-generator", title: "Smart Lorem Ipsum & Typography Guide", url: "guides/lorem-generator.html" },
-    { id: "formatter-suite", title: "Data Formatter & Converter Suite Guide", url: "guides/formatter-suite.html" },
-    { id: "qr-studio", title: "Dynamic QR & Barcode Studio Guide", url: "guides/qr-studio.html" },
-    { id: "curl-converter", title: "cURL to Multi-Language Code Converter Guide", url: "guides/curl-converter.html" },
-    { id: "cron-builder", title: "Visual Cron Expression Builder Guide", url: "guides/cron-builder.html" },
-    { id: "json-to-types", title: "JSON-to-Code Type Interface Converter Guide", url: "guides/json-to-types.html" },
-    { id: "robots-generator", title: "Robots.txt Visual Builder & AI Shield Guide", url: "guides/robots-generator.html" },
-    { id: "temp-mail", title: "Disposable Temp Mail Client Guide", url: "guides/temp-mail.html" },
-    { id: "screenshot-capture", title: "Screen Capture & Window Mockup Studio Guide", url: "guides/screenshot-capture.html" },
-    { id: "screen-recorder", title: "Browser Screen & Tab Recorder Guide", url: "guides/screen-recorder.html" },
-    { id: "voice-recorder", title: "Voice Recorder & Waveform Studio Guide", url: "guides/voice-recorder.html" },
-    { id: "audio-suite", title: "Audio Studio & Transcoding Suite Guide", url: "guides/audio-suite.html" },
-    { id: "video-speed", title: "Video Speed Controller & Analyzer Guide", url: "guides/video-speed.html" },
-    { id: "video-to-gif", title: "Video to Animated GIF Converter Guide", url: "guides/video-to-gif.html" },
-    { id: "favicon-generator", title: "Favicon & PWA App Icon Suite Guide", url: "guides/favicon-generator.html" }
-  ],
+  {
+    "id": "aes-crypto",
+    "title": "AES-256-GCM Symmetric Encryption Studio Guide",
+    "url": "guides/aes-crypto.html"
+  },
+  {
+    "id": "audio-suite",
+    "title": "Audio Studio, Transcoder & Waveform Trimmer Guide",
+    "url": "guides/audio-suite.html"
+  },
+  {
+    "id": "base64",
+    "title": "Base64 Encoder & Decoder Studio Guide (Text & Files)",
+    "url": "guides/base64.html"
+  },
+  {
+    "id": "screen-recorder",
+    "title": "Browser Screen & Tab Recorder Guide",
+    "url": "guides/screen-recorder.html"
+  },
+  {
+    "id": "screenshot-capture",
+    "title": "Browser Screenshot & Window Mockup Studio Guide",
+    "url": "guides/screenshot-capture.html"
+  },
+  {
+    "id": "scan-to-pdf",
+    "title": "Camera Scan to PDF Document Creator Guide",
+    "url": "guides/scan-to-pdf.html"
+  },
+  {
+    "id": "pdf-ai",
+    "title": "Client-Side AI PDF Summarizer & Translator Guide",
+    "url": "guides/pdf-ai.html"
+  },
+  {
+    "id": "pii-anonymizer",
+    "title": "Client-Side PII Masker & Anonymizer Guide",
+    "url": "guides/pii-anonymizer.html"
+  },
+  {
+    "id": "color-lab",
+    "title": "Color Lab & Contrast Suite Guide",
+    "url": "guides/color-lab.html"
+  },
+  {
+    "id": "color-shades",
+    "title": "Color Shades & Tints Generator Guide (Tailwind 50-950)",
+    "url": "guides/color-shades.html"
+  },
+  {
+    "id": "repair-pdf",
+    "title": "Corrupted PDF Repair & Stream Recovery Guide",
+    "url": "guides/repair-pdf.html"
+  },
+  {
+    "id": "hash-generator",
+    "title": "Cryptographic Hash Generator Guide (MD5, SHA-256, SHA-512)",
+    "url": "guides/hash-generator.html"
+  },
+  {
+    "id": "crypto-suite",
+    "title": "Cryptography Suite Guide",
+    "url": "guides/crypto-suite.html"
+  },
+  {
+    "id": "box-shadow",
+    "title": "CSS Box Shadow Generator Guide & Layer Builder",
+    "url": "guides/box-shadow.html"
+  },
+  {
+    "id": "clip-path-generator",
+    "title": "CSS Clip-Path Generator & Polygon Shape Maker Guide",
+    "url": "guides/clip-path-generator.html"
+  },
+  {
+    "id": "gradient-generator",
+    "title": "CSS Gradient Generator Guide (Linear, Radial & Conic)",
+    "url": "guides/gradient-generator.html"
+  },
+  {
+    "id": "css-studio",
+    "title": "CSS Studio Suite Guide",
+    "url": "guides/css-studio.html"
+  },
+  {
+    "id": "curl-converter",
+    "title": "cURL to Multi-Language Code Converter Guide",
+    "url": "guides/curl-converter.html"
+  },
+  {
+    "id": "datetime-suite",
+    "title": "Date & Time Suite Guide",
+    "url": "guides/datetime-suite.html"
+  },
+  {
+    "id": "date-calculator",
+    "title": "Date Duration & Business Days Calculator Guide",
+    "url": "guides/date-calculator.html"
+  },
+  {
+    "id": "temp-mail",
+    "title": "Disposable Temp Mail Client Guide",
+    "url": "guides/temp-mail.html"
+  },
+  {
+    "id": "qr-studio",
+    "title": "Dynamic QR & Barcode Studio Guide",
+    "url": "guides/qr-studio.html"
+  },
+  {
+    "id": "qr-generator",
+    "title": "Dynamic QR Code Studio Guide",
+    "url": "guides/qr-generator.html"
+  },
+  {
+    "id": "sign-pdf",
+    "title": "E-Sign PDF & Digital Signature Studio Guide",
+    "url": "guides/sign-pdf.html"
+  },
+  {
+    "id": "excel-pdf",
+    "title": "Excel to PDF & PDF to Excel Spreadsheet Converter Guide",
+    "url": "guides/excel-pdf.html"
+  },
+  {
+    "id": "glassmorphism-generator",
+    "title": "Glassmorphism CSS Generator Guide & Frosted Glass UI",
+    "url": "guides/glassmorphism-generator.html"
+  },
+  {
+    "id": "graphics-studio",
+    "title": "Graphics Designer & Screenshot Studio Guide",
+    "url": "guides/graphics-studio.html"
+  },
+  {
+    "id": "color-palette",
+    "title": "Harmonic Color Palette Generator & WCAG Contrast Guide",
+    "url": "guides/color-palette.html"
+  },
+  {
+    "id": "html-to-pdf",
+    "title": "HTML & Webpage to PDF Studio Converter Guide",
+    "url": "guides/html-to-pdf.html"
+  },
+  {
+    "id": "code-playground",
+    "title": "HTML/CSS/JS Live Playground Guide",
+    "url": "guides/code-playground.html"
+  },
+  {
+    "id": "color-extractor",
+    "title": "Image Color Palette Extractor & Eyedropper Guide",
+    "url": "guides/color-extractor.html"
+  },
+  {
+    "id": "image-converter",
+    "title": "Image Optimizer & Converter Guide",
+    "url": "guides/image-converter.html"
+  },
+  {
+    "id": "images-to-pdf",
+    "title": "Images to PDF & Photo to PDF Compiler Guide (JPG, PNG, WebP)",
+    "url": "guides/images-to-pdf.html"
+  },
+  {
+    "id": "audio-converter",
+    "title": "In-Browser Universal Audio Converter Guide (MP3, WAV, OGG, AAC)",
+    "url": "guides/audio-converter.html"
+  },
+  {
+    "id": "ip-subnet-calculator",
+    "title": "IP Subnet & MAC Address Calculator Guide",
+    "url": "guides/ip-subnet-calculator.html"
+  },
+  {
+    "id": "subnet-calculator",
+    "title": "IPv4 Subnet CIDR Calculator & Network Planner Guide",
+    "url": "guides/subnet-calculator.html"
+  },
+  {
+    "id": "json-to-types",
+    "title": "JSON to TypeScript, Python & Go Interface Converter Guide",
+    "url": "guides/json-to-types.html"
+  },
+  {
+    "id": "json-formatter",
+    "title": "JSON, SQL & CSV Data Formatter Suite Guide",
+    "url": "guides/json-formatter.html"
+  },
+  {
+    "id": "json-yaml-csv",
+    "title": "JSON, YAML & CSV Data Converter Studio Guide",
+    "url": "guides/json-yaml-csv.html"
+  },
+  {
+    "id": "jwt-decoder",
+    "title": "JWT Decoder & Token Parser Guide",
+    "url": "guides/jwt-decoder.html"
+  },
+  {
+    "id": "qr-scanner",
+    "title": "Live Camera & Image QR Code Scanner Guide",
+    "url": "guides/qr-scanner.html"
+  },
+  {
+    "id": "markdown-preview",
+    "title": "Live Markdown Editor & Previewer Guide",
+    "url": "guides/markdown-preview.html"
+  },
+  {
+    "id": "mac-lookup",
+    "title": "MAC Address OUI Vendor Lookup Guide",
+    "url": "guides/mac-lookup.html"
+  },
+  {
+    "id": "merge-pdf",
+    "title": "Merge PDF & Combine Documents Studio Guide",
+    "url": "guides/merge-pdf.html"
+  },
+  {
+    "id": "seo-previewer",
+    "title": "Meta Tag & SEO Previewer Guide",
+    "url": "guides/seo-previewer.html"
+  },
+  {
+    "id": "mp4-to-mp3",
+    "title": "MP4 to MP3 Audio Track Extractor Guide",
+    "url": "guides/mp4-to-mp3.html"
+  },
+  {
+    "id": "pdf-searcher",
+    "title": "Multi-PDF Searcher & OCR Guide",
+    "url": "guides/pdf-searcher.html"
+  },
+  {
+    "id": "favicon-generator",
+    "title": "Multi-Resolution Favicon & PWA App Icon Suite Guide",
+    "url": "guides/favicon-generator.html"
+  },
+  {
+    "id": "pdf-forms",
+    "title": "PDF AcroForm Form Filler & Flattening Guide",
+    "url": "guides/pdf-forms.html"
+  },
+  {
+    "id": "pdf-security",
+    "title": "PDF AES-256 Encryption & Password Unlock Guide",
+    "url": "guides/pdf-security.html"
+  },
+  {
+    "id": "compress-pdf",
+    "title": "PDF Compression & File Size Reducer Guide",
+    "url": "guides/compress-pdf.html"
+  },
+  {
+    "id": "pdf-editor-suite",
+    "title": "PDF Editor, Sign & Vector Markup Studio Guide",
+    "url": "guides/pdf-editor-suite.html"
+  },
+  {
+    "id": "pdf-annotate",
+    "title": "PDF Markup & Vector Annotation Studio Guide",
+    "url": "guides/pdf-annotate.html"
+  },
+  {
+    "id": "pdf-organizer",
+    "title": "PDF Page Organizer, Rotate & Reorder Studio Guide",
+    "url": "guides/pdf-organizer.html"
+  },
+  {
+    "id": "redact-pdf",
+    "title": "PDF Redaction & PII Privacy Sanitizer Guide",
+    "url": "guides/redact-pdf.html"
+  },
+  {
+    "id": "pdf-security-suite",
+    "title": "PDF Security, Repair & ISO Archival Suite Guide",
+    "url": "guides/pdf-security-suite.html"
+  },
+  {
+    "id": "pdf-to-markdown",
+    "title": "PDF to Markdown & Plain Text Extractor Guide",
+    "url": "guides/pdf-to-markdown.html"
+  },
+  {
+    "id": "pdf-utilities",
+    "title": "PDF Toolbox (Split, Merge, Convert & Compress) Guide",
+    "url": "guides/pdf-utilities.html"
+  },
+  {
+    "id": "pdf-watermark",
+    "title": "PDF Watermark & Page Numbering Studio Guide",
+    "url": "guides/pdf-watermark.html"
+  },
+  {
+    "id": "pdf-to-pdfa",
+    "title": "PDF/A Archival Converter Guide (ISO 19005 Compliance)",
+    "url": "guides/pdf-to-pdfa.html"
+  },
+  {
+    "id": "pptx-pdf",
+    "title": "PowerPoint to PDF & PDF to PPTX Presentation Converter Guide",
+    "url": "guides/pptx-pdf.html"
+  },
+  {
+    "id": "mock-data-generator",
+    "title": "Private CSV/JSON Mock Data Generator Guide",
+    "url": "guides/mock-data-generator.html"
+  },
+  {
+    "id": "regex-extractor",
+    "title": "Regex Match Extractor & Dynamic Replacer Guide",
+    "url": "guides/regex-extractor.html"
+  },
+  {
+    "id": "uuid-generator",
+    "title": "RFC 4122 UUID v4 Bulk GUID Generator Guide",
+    "url": "guides/uuid-generator.html"
+  },
+  {
+    "id": "robots-generator",
+    "title": "Robots.txt Visual Builder & AI Bot Shield Guide",
+    "url": "guides/robots-generator.html"
+  },
+  {
+    "id": "rsa-generator",
+    "title": "RSA Key Pair Generator & PKCS#8 Studio Guide (2048/4096-bit)",
+    "url": "guides/rsa-generator.html"
+  },
+  {
+    "id": "calculator",
+    "title": "Scientific Calculator Guide",
+    "url": "guides/calculator.html"
+  },
+  {
+    "id": "security-suite",
+    "title": "Security & Passwords Suite Guide",
+    "url": "guides/security-suite.html"
+  },
+  {
+    "id": "pipeline-builder",
+    "title": "Smart Chain Pipeline Builder Guide",
+    "url": "guides/pipeline-builder.html"
+  },
+  {
+    "id": "lorem-generator",
+    "title": "Smart Lorem Ipsum & Typographic Dummy Text Generator",
+    "url": "guides/lorem-generator.html"
+  },
+  {
+    "id": "split-pdf",
+    "title": "Split PDF & Extract Pages Online Guide",
+    "url": "guides/split-pdf.html"
+  },
+  {
+    "id": "sql-beautifier",
+    "title": "SQL Query Formatter & Beautifier Studio Guide",
+    "url": "guides/sql-beautifier.html"
+  },
+  {
+    "id": "payment-guide",
+    "title": "Step-by-Step Payment & License Activation Guide",
+    "url": "guides/payment-guide.html"
+  },
+  {
+    "id": "password-generator",
+    "title": "Strong Password Generator & Entropy Checker Guide",
+    "url": "guides/password-generator.html"
+  },
+  {
+    "id": "svg-animator",
+    "title": "SVG Animation Studio Guide",
+    "url": "guides/svg-animator.html"
+  },
+  {
+    "id": "text-converter",
+    "title": "Text Case Converter & Capitalization Studio Guide",
+    "url": "guides/text-converter.html"
+  },
+  {
+    "id": "text-encoder-suite",
+    "title": "Text Cases & Encoder Suite Guide",
+    "url": "guides/text-encoder-suite.html"
+  },
+  {
+    "id": "text-diff",
+    "title": "Text Diff Comparison Tool Guide",
+    "url": "guides/text-diff.html"
+  },
+  {
+    "id": "text-analyzer",
+    "title": "Text Readability & Analyzer Guide",
+    "url": "guides/text-analyzer.html"
+  },
+  {
+    "id": "unit-converter",
+    "title": "Unit Converter Guide",
+    "url": "guides/unit-converter.html"
+  },
+  {
+    "id": "formatter-suite",
+    "title": "Universal Code & Data Formatter Suite Guide",
+    "url": "guides/formatter-suite.html"
+  },
+  {
+    "id": "pdf-converter-hub",
+    "title": "Universal Document & PDF Converter Hub Guide",
+    "url": "guides/pdf-converter-hub.html"
+  },
+  {
+    "id": "epoch-converter",
+    "title": "Unix Epoch Timestamp Converter & Timezone Guide",
+    "url": "guides/epoch-converter.html"
+  },
+  {
+    "id": "url-encoder",
+    "title": "URL Percent-Encoder & Decoder Guide (RFC 3986)",
+    "url": "guides/url-encoder.html"
+  },
+  {
+    "id": "url-parser",
+    "title": "URL Query Parser & Builder Guide",
+    "url": "guides/url-parser.html"
+  },
+  {
+    "id": "video-speed",
+    "title": "Video Playback Speed & Pitch Controller Guide",
+    "url": "guides/video-speed.html"
+  },
+  {
+    "id": "video-to-gif",
+    "title": "Video to Animated GIF Converter Guide",
+    "url": "guides/video-to-gif.html"
+  },
+  {
+    "id": "compare-pdf",
+    "title": "Visual & Textual PDF Document Diff Tool Guide",
+    "url": "guides/compare-pdf.html"
+  },
+  {
+    "id": "cron-builder",
+    "title": "Visual Cron Expression Builder & Explainer Guide",
+    "url": "guides/cron-builder.html"
+  },
+  {
+    "id": "regex-tester",
+    "title": "Visual Regex & Extractor Suite Guide",
+    "url": "guides/regex-tester.html"
+  },
+  {
+    "id": "voice-recorder",
+    "title": "Voice Recorder & Audio Waveform Studio Guide",
+    "url": "guides/voice-recorder.html"
+  },
+  {
+    "id": "word-pdf",
+    "title": "Word to PDF & PDF to Word Converter Guide (DOCX)",
+    "url": "guides/word-pdf.html"
+  }
+],
 
   // Centralized Tool Keywords mapping for enhanced search functionality
   toolKeywords: {
@@ -1703,7 +2118,10 @@ const app = {
     { id: "audio-suite", fileName: "audio-suite.html", title: "Audio Studio, Transcoder & Waveform Trimmer Guide", description: "Transcode audio between MP3, WAV, and OGG formats, visually trim audio waveforms, and extract audio soundtracks from video files client-side." },
     { id: "video-speed", fileName: "video-speed.html", title: "Video Playback Speed & Pitch Controller Guide", description: "Control video playback rates from 0.1x to 4.0x with pitch correction, single-frame stepping, and seamless A-B repeating loops." },
     { id: "video-to-gif", fileName: "video-to-gif.html", title: "Video to Animated GIF Converter Guide", description: "Convert MP4, WebM, and MOV video clips into animated GIFs with NeuQuant 256-color palette quantization and LZW compression client-side." },
-    { id: "favicon-generator", fileName: "favicon-generator.html", title: "Multi-Resolution Favicon & PWA App Icon Suite Guide", description: "Generate multi-size .ICO bundles (16x16, 32x32, 48x48), Apple Touch icons, Android PWA manifest icons, and ready-to-paste HTML code." }
+    { id: "favicon-generator", fileName: "favicon-generator.html", title: "Multi-Resolution Favicon & PWA App Icon Suite Guide", description: "Generate multi-size .ICO bundles (16x16, 32x32, 48x48), Apple Touch icons, Android PWA manifest icons, and ready-to-paste HTML code." },
+    { id: "box-shadow", fileName: "box-shadow.html", title: "CSS Box Shadow Generator Guide", description: "Design multi-layer CSS box shadows with live interactive blur, spread, inset, and color adjustments." },
+    { id: "glassmorphism-generator", fileName: "glassmorphism-generator.html", title: "Glassmorphism CSS Generator Guide", description: "Generate frosted glass effects with custom blur, border sheen, and transparency for modern web cards." },
+    { id: "gradient-generator", fileName: "gradient-generator.html", title: "CSS Gradient Generator Guide", description: "Build linear, radial, and conic CSS gradients with multi-stop color controls and one-click CSS copy." }
   ],
 
   // Utility classification helper: sorts items into Suites, Features, Standalone Tools, Pro, and Free
@@ -2017,6 +2435,7 @@ const app = {
     }
 
     this.activeCategory = "all";
+    this.activeSubtool = null;
     this.activeSubcategory = "all";
 
     // Close mobile drawer if open
@@ -2132,7 +2551,7 @@ const app = {
           <div class="hero-mode-banner">
             <span>💻 Need code formatters, JWT, or developer utilities?</span>
             <button type="button" class="hero-mode-banner-btn" onclick="app.setUiMode('developer')">
-              <span>Switch to Developer Mode (50+ tools) &rarr;</span>
+              <span>Switch to Developer Mode (75+ tools) &rarr;</span>
             </button>
           </div>
         `;
@@ -2267,7 +2686,808 @@ const app = {
     "color-converter": { suiteId: "color-lab", subtab: "palette" },
     "diff-checker": { suiteId: "text-diff" },
     "css-minifier": { suiteId: "css-studio", subtab: "minify" },
-    "html-encoder": { suiteId: "text-encoder-suite", subtab: "base64" }
+    "html-encoder": { suiteId: "text-encoder-suite", subtab: "base64" },
+    "clip-path-generator": { suiteId: "css-studio", subtab: "clippath" },
+    "clip-path": { suiteId: "css-studio", subtab: "clippath" },
+    "clippath": { suiteId: "css-studio", subtab: "clippath" },
+
+    // PDF Utilities Operations
+    "split-pdf": { suiteId: "pdf-utilities", subtab: "split" },
+    "merge-pdf": { suiteId: "pdf-utilities", subtab: "merge" },
+    "rotate-pdf": { suiteId: "pdf-utilities", subtab: "rotate" },
+    "compress-pdf": { suiteId: "pdf-utilities", subtab: "compress" },
+
+    // PDF Security Suite Aliases
+    "unlock-pdf": { suiteId: "pdf-security-suite", subtab: "pdf-security" },
+    "protect-pdf": { suiteId: "pdf-security-suite", subtab: "pdf-security" },
+
+    // Network & IP Subnet Suite
+    "subnet-calculator": { suiteId: "ip-subnet-calculator", subtab: "subnet" },
+    "cidr-calculator": { suiteId: "ip-subnet-calculator", subtab: "subnet" },
+    "mac-lookup": { suiteId: "ip-subnet-calculator", subtab: "mac" },
+    "mac-address-lookup": { suiteId: "ip-subnet-calculator", subtab: "mac" },
+
+    // Regex Suite
+    "regex-extractor": { suiteId: "regex-tester", subtab: "extractor" },
+
+    // SVG Studio
+    "svg-morph": { suiteId: "svg-animator", subtab: "morph" },
+    "path-morph": { suiteId: "svg-animator", subtab: "morph" }
+  },
+
+  
+  _activeTabSwitchers: {},
+
+  // High-intent Search Engine Optimization (SEO) Registry for Individual Suite Sub-Tools
+  subtoolsRegistry: {
+    // CSS Studio
+    "box-shadow": {
+      suiteId: "css-studio",
+      subtab: "shadow",
+      name: "CSS Box Shadow Generator",
+      title: "CSS Box Shadow Generator & Layer Builder | OmniTool Hub",
+      desc: "Free real-time CSS box shadow generator. Design soft multi-layer drop shadows, inset shadows, blur radius, spread, opacity, and export clean CSS code locally.",
+      keywords: "css box shadow generator, box shadow builder, multi layer shadow css, drop shadow generator, inset shadow css, css box shadow maker",
+      category: "design",
+      subLabel: "CSS Builders",
+      guideUrl: "guides/split-pdf.html"
+    },
+    "gradient-generator": {
+      suiteId: "css-studio",
+      subtab: "gradient",
+      name: "CSS Gradient Generator",
+      title: "CSS Gradient Generator (Linear, Radial & Conic) | OmniTool Hub",
+      desc: "Create beautiful linear, radial, and conic CSS gradients with multi-color stops, angle controls, repeating patterns, and color harmony palettes.",
+      keywords: "css gradient generator, linear gradient css, radial gradient generator, conic gradient, css color stops, gradient maker",
+      category: "design",
+      subLabel: "CSS Builders",
+      guideUrl: "guides/gradient-generator.html"
+    },
+    "glassmorphism-generator": {
+      suiteId: "css-studio",
+      subtab: "glass",
+      name: "Glassmorphism CSS Generator",
+      title: "Glassmorphism CSS Generator & Frosted Glass Effect | OmniTool Hub",
+      desc: "Generate modern frosted glass CSS cards with customizable backdrop-filter blur, surface opacity, subtle borders, and reflection overlays.",
+      keywords: "glassmorphism generator, frosted glass css, backdrop-filter generator, glass card css, modern glassmorphism ui",
+      category: "design",
+      subLabel: "CSS Builders",
+      guideUrl: "guides/glassmorphism-generator.html"
+    },
+    "clip-path-generator": {
+      suiteId: "css-studio",
+      subtab: "clippath",
+      name: "CSS Clip-Path Generator",
+      title: "CSS Clip-Path Generator & Shape Polygon Maker | OmniTool Hub",
+      desc: "Visually create complex CSS clip-path shapes, polygons, circles, and custom SVG clip paths with real-time interactive coordinate control.",
+      keywords: "css clip path generator, clip path polygon maker, css shape generator, clip-path builder, svg clip path",
+      category: "design",
+      subLabel: "CSS Builders",
+      guideUrl: "guides/clip-path-generator.html"
+    },
+    "clip-path": {
+      suiteId: "css-studio",
+      subtab: "clippath",
+      name: "CSS Clip-Path Generator",
+      title: "CSS Clip-Path Generator & Shape Polygon Maker | OmniTool Hub",
+      desc: "Visually create complex CSS clip-path shapes, polygons, circles, and custom SVG clip paths with real-time interactive coordinate control.",
+      keywords: "css clip path generator, clip path polygon maker, css shape generator, clip-path builder, svg clip path",
+      category: "design",
+      subLabel: "CSS Builders",
+      guideUrl: "guides/css-studio.html#clippath"
+    },
+
+    // Security Suite
+    "password-generator": {
+      suiteId: "security-suite",
+      subtab: "pass",
+      name: "Password Generator",
+      title: "Strong Password Generator & Entropy Checker | OmniTool Hub",
+      desc: "Generate ultra-secure, cryptographically strong random passwords with symbols, custom rules, and instant NIST entropy verification. 100% in-browser.",
+      keywords: "password generator, strong password generator, random password, password entropy checker, secure password maker",
+      category: "dev",
+      subLabel: "Security & Keys",
+      guideUrl: "guides/password-generator.html"
+    },
+    "uuid-generator": {
+      suiteId: "security-suite",
+      subtab: "uuid",
+      name: "UUID / GUID Generator",
+      title: "UUID v4 Generator & Bulk GUID Creator | OmniTool Hub",
+      desc: "Generate RFC 4122 compliant UUID v4 identifiers in bulk. Copy formatted GUIDs with uppercase, hyphens, or braces instantly client-side.",
+      keywords: "uuid generator, guid generator, uuid v4, bulk uuid generator, rfc 4122 uuid, unique id maker",
+      category: "dev",
+      subLabel: "Security & Keys",
+      guideUrl: "guides/uuid-generator.html"
+    },
+
+    // Crypto Suite
+    "hash-generator": {
+      suiteId: "crypto-suite",
+      subtab: "hash",
+      name: "Cryptographic Hash Generator",
+      title: "SHA-256, SHA-512 & MD5 Hash Generator | OmniTool Hub",
+      desc: "Calculate SHA-256, SHA-512, SHA-1, and MD5 cryptographic hashes directly in browser memory using Web Crypto APIs. Fast, secure checksum verification.",
+      keywords: "sha256 generator, sha512 hash, md5 hash online, web crypto hash, file checksum generator",
+      category: "dev",
+      subLabel: "Cryptography",
+      guideUrl: "guides/hash-generator.html"
+    },
+    "aes-crypto": {
+      suiteId: "crypto-suite",
+      subtab: "aes",
+      name: "AES-256 Encryption & Decryption",
+      title: "AES-256-GCM Encryption & Decryption Tool | OmniTool Hub",
+      desc: "Encrypt and decrypt confidential text and files locally using military-grade AES-256-GCM and PBKDF2 key derivation. Zero data transmitted.",
+      keywords: "aes encryption, aes 256 gcm decrypt, encrypt text online, pbkdf2 aes, private client side encryption",
+      category: "dev",
+      subLabel: "Cryptography",
+      guideUrl: "guides/aes-crypto.html"
+    },
+    "rsa-generator": {
+      suiteId: "crypto-suite",
+      subtab: "rsa",
+      name: "RSA Key Pair Generator",
+      title: "RSA Key Pair Generator & PKCS#8 Cryptography | OmniTool Hub",
+      desc: "Generate 2048-bit and 4096-bit RSA public and private key pairs in PEM and PKCS#8 format using native browser Web Crypto. Sign and verify payloads.",
+      keywords: "rsa key generator, generate rsa key pair, pkcs8 pem rsa, rsa 2048 4096, web crypto rsa",
+      category: "dev",
+      subLabel: "Cryptography",
+      guideUrl: "guides/rsa-generator.html"
+    },
+
+    // Text Encoder Suite
+    "base64": {
+      suiteId: "text-encoder-suite",
+      subtab: "base64",
+      name: "Base64 Encoder & Decoder",
+      title: "Base64 Encoder & Decoder - Instant Text & Image Base64 | OmniTool Hub",
+      desc: "Fast, accurate UTF-8 Base64 encoding and decoding for strings and data URIs. 100% private, client-side processing with live character count.",
+      keywords: "base64 encoder, base64 decode, base64 to text, utf8 base64, data uri encoder",
+      category: "text",
+      subLabel: "Data Encoders",
+      guideUrl: "guides/base64.html"
+    },
+    "url-encoder": {
+      suiteId: "text-encoder-suite",
+      subtab: "url",
+      name: "URL Encoder & Decoder",
+      title: "URL Percent-Encoder & Decoder - Query String Safe | OmniTool Hub",
+      desc: "Encode and decode URLs, query parameters, and special characters using standard RFC 3986 percent-encoding. Clean, instant URL formatting.",
+      keywords: "url encoder, url decoder, percent encoding, encode uri component, query string encoder",
+      category: "text",
+      subLabel: "Data Encoders",
+      guideUrl: "guides/url-encoder.html"
+    },
+    "text-converter": {
+      suiteId: "text-encoder-suite",
+      subtab: "case",
+      name: "Text Case Converter",
+      title: "Text Case Converter (Uppercase, Lowercase, Title, Camel, Snake) | OmniTool Hub",
+      desc: "Transform text strings between uppercase, lowercase, title case, camelCase, snake_case, kebab-case, and PascalCase instantly with copy-to-clipboard.",
+      keywords: "case converter, camelcase converter, snake case online, uppercase lowercase, title case tool",
+      category: "text",
+      subLabel: "Data Encoders",
+      guideUrl: "guides/text-converter.html"
+    },
+
+    // Formatter Suite
+    "json-formatter": {
+      suiteId: "formatter-suite",
+      subtab: "json",
+      name: "JSON Formatter & Validator",
+      title: "JSON Formatter & Validator - Clean, Beautify & Minify JSON | OmniTool Hub",
+      desc: "Format, validate, beautify, and minify JSON payloads client-side with syntax error detection, tree collapsible views, and instant clipboard export.",
+      keywords: "json formatter, json validator, beautify json, minify json, json syntax checker, online json parser",
+      category: "dev",
+      subLabel: "Formatters & Parsers",
+      guideUrl: "guides/json-formatter.html"
+    },
+    "sql-beautifier": {
+      suiteId: "formatter-suite",
+      subtab: "sql",
+      name: "SQL Beautifier & Formatter",
+      title: "SQL Query Formatter & Syntax Beautifier | OmniTool Hub",
+      desc: "Clean up messy SQL queries with standardized indentation, uppercase keywords, and readable clauses. Supports MySQL, PostgreSQL, SQLite, and Oracle.",
+      keywords: "sql beautifier, sql formatter, format sql query, sql syntax beautifier, clean sql indentation",
+      category: "dev",
+      subLabel: "Formatters & Parsers",
+      guideUrl: "guides/sql-beautifier.html"
+    },
+    "json-yaml-csv": {
+      suiteId: "formatter-suite",
+      subtab: "csv",
+      name: "JSON to CSV & YAML Converter",
+      title: "JSON to CSV & YAML Converter - Client-Side Tabular Parser | OmniTool Hub",
+      desc: "Convert JSON arrays to CSV spreadsheets and YAML documents client-side. Zero server uploads, robust nested key flattening, and instant export.",
+      keywords: "json to csv, json to yaml, csv to json converter, json table exporter, tabular json parser",
+      category: "dev",
+      subLabel: "Formatters & Parsers",
+      guideUrl: "guides/json-yaml-csv.html"
+    },
+
+    // Color Lab
+    "color-palette": {
+      suiteId: "color-lab",
+      subtab: "palette",
+      name: "Color Palette & Contrast Checker",
+      title: "Color Palette Generator & WCAG Contrast Checker | OmniTool Hub",
+      desc: "Create harmonious color schemes and verify WCAG 2.1 AA/AAA accessibility contrast ratios in real-time. Export CSS hex, RGB, and HSL tokens.",
+      keywords: "color palette generator, contrast checker, wcag accessibility contrast, hex color scheme, color lab",
+      category: "design",
+      subLabel: "Color Utilities",
+      guideUrl: "guides/color-palette.html"
+    },
+    "color-shades": {
+      suiteId: "color-lab",
+      subtab: "shades",
+      name: "Color Shades & Tints Generator",
+      title: "Color Shades, Tints & Hex Tonal Palette Generator | OmniTool Hub",
+      desc: "Generate 10-step monochromatic shades, tints, and opacity levels from any base hex color. Perfect for Tailwind and design system tokens.",
+      keywords: "color shades generator, tints and shades, tailwind color palette, hex tonal scale, color generator",
+      category: "design",
+      subLabel: "Color Utilities",
+      guideUrl: "guides/color-shades.html"
+    },
+    "color-extractor": {
+      suiteId: "color-lab",
+      subtab: "extract",
+      name: "Image Color Extractor",
+      title: "Image Color Extractor & Dominant Palette Finder | OmniTool Hub",
+      desc: "Extract dominant color palettes and hex codes from any uploaded photo or screenshot locally in browser canvas memory. Zero server uploads.",
+      keywords: "extract color from image, image palette generator, color picker from picture, hex extractor, dominant colors",
+      category: "design",
+      subLabel: "Color Utilities",
+      guideUrl: "guides/color-extractor.html"
+    },
+
+    // Datetime Suite
+    "epoch-converter": {
+      suiteId: "datetime-suite",
+      subtab: "epoch",
+      name: "Unix Epoch Timestamp Converter",
+      title: "Unix Epoch Timestamp Converter & Human Date Formatter | OmniTool Hub",
+      desc: "Convert Unix timestamps in seconds, milliseconds, and microseconds to readable UTC and local dates, and vice versa. Live clock updates.",
+      keywords: "epoch converter, unix timestamp, timestamp to date, human readable epoch, unix time calculator",
+      category: "math",
+      subLabel: "Time & Date",
+      guideUrl: "guides/epoch-converter.html"
+    },
+    "date-calculator": {
+      suiteId: "datetime-suite",
+      subtab: "date",
+      name: "Date Difference & Duration Calculator",
+      title: "Date Duration Calculator & Business Day Counter | OmniTool Hub",
+      desc: "Calculate precise days, weeks, months, and working business days between two dates, or add/subtract time durations with live calendar pickers.",
+      keywords: "date calculator, days between dates, duration calculator, business day counter, date difference tool",
+      category: "math",
+      subLabel: "Time & Date",
+      guideUrl: "guides/date-calculator.html"
+    },
+
+    // QR & Barcode Studio
+    "qr-generator": {
+      suiteId: "qr-studio",
+      subtab: "qr-generator",
+      name: "Custom QR Code Generator",
+      title: "Custom QR Code Generator with Logo & Colors | OmniTool Hub",
+      desc: "Generate high-resolution vector SVG and PNG QR codes with custom brand colors, dot styles, corner eyes, and centered logo images client-side.",
+      keywords: "qr code generator, custom qr code, qr code with logo, vector qr svg, free high res qr code maker",
+      category: "design",
+      subLabel: "QR Utilities",
+      guideUrl: "guides/qr-generator.html"
+    },
+    "qr-scanner": {
+      suiteId: "qr-studio",
+      subtab: "qr-scanner",
+      name: "Online QR Code Scanner",
+      title: "Online QR Code Scanner & WebCam Barcode Reader | OmniTool Hub",
+      desc: "Scan QR codes and barcodes live using your device camera or upload image files directly into browser memory. Instant URL and text parsing.",
+      keywords: "qr code scanner, online qr reader, webcam qr scanner, scan qr from image, barcode reader online",
+      category: "design",
+      subLabel: "QR Utilities",
+      guideUrl: "guides/qr-scanner.html"
+    },
+
+    // Audio Studio
+    "audio-converter": {
+      suiteId: "audio-suite",
+      subtab: "audio-converter",
+      name: "In-Browser Audio Converter",
+      title: "In-Browser Audio Converter & MP3/WAV Transcoder | OmniTool Hub",
+      desc: "Convert audio files between MP3, WAV, AAC, and OGG client-side via WebAssembly. High quality, zero compression loss, and 100% private.",
+      keywords: "audio converter, mp3 to wav, convert audio online, in-browser audio transcode, client side audio editor",
+      category: "design",
+      subLabel: "Audio Studio",
+      guideUrl: "guides/audio-converter.html"
+    },
+    "mp4-to-mp3": {
+      suiteId: "audio-suite",
+      subtab: "mp4-to-mp3",
+      name: "MP4 to MP3 Audio Extractor",
+      title: "MP4 to MP3 Audio Extractor - 100% Client-Side | OmniTool Hub",
+      desc: "Extract high-bitrate audio tracks from MP4, WebM, and MKV videos directly inside browser memory. Fast, private, and unlimited file sizes.",
+      keywords: "mp4 to mp3, extract audio from video, video to audio converter, client side mp4 audio extractor",
+      category: "design",
+      subLabel: "Audio Studio",
+      guideUrl: "guides/mp4-to-mp3.html"
+    },
+
+    // Universal Document & PDF Converter Hub
+    "word-pdf": {
+      suiteId: "pdf-converter-hub",
+      subtab: "word-pdf",
+      name: "Word to PDF & PDF to Word Converter",
+      title: "Word to PDF & PDF to Word Converter (DOCX) | OmniTool Hub",
+      desc: "Convert Word DOCX documents to high-fidelity PDF, or extract PDF layout and typography into native Microsoft Word files 100% client-side.",
+      keywords: "word to pdf, docx to pdf, pdf to word, pdf to docx converter, convert docx to pdf free",
+      category: "text",
+      subLabel: "Document Converters",
+      guideUrl: "guides/word-pdf.html"
+    },
+    "excel-pdf": {
+      suiteId: "pdf-converter-hub",
+      subtab: "excel-pdf",
+      name: "Excel to PDF & PDF to Excel Converter",
+      title: "Excel to PDF & PDF to Excel Spreadsheet Converter | OmniTool Hub",
+      desc: "Convert Excel spreadsheets (.xlsx, .csv) into clean PDF tables, or extract structured PDF data grids into editable Excel workbooks.",
+      keywords: "excel to pdf, pdf to excel, xlsx to pdf, spreadsheet to pdf, pdf table to excel",
+      category: "text",
+      subLabel: "Document Converters",
+      guideUrl: "guides/excel-pdf.html"
+    },
+    "pptx-pdf": {
+      suiteId: "pdf-converter-hub",
+      subtab: "pptx-pdf",
+      name: "PowerPoint to PDF & PDF to PPTX",
+      title: "PowerPoint to PDF & PDF to PPTX Slide Converter | OmniTool Hub",
+      desc: "Convert PowerPoint presentations (.pptx) into crisp PDF slides, or convert PDF pages into native Microsoft PowerPoint presentations.",
+      keywords: "pptx to pdf, powerpoint to pdf, pdf to pptx, presentation to pdf, pdf to powerpoint",
+      category: "text",
+      subLabel: "Document Converters",
+      guideUrl: "guides/pptx-pdf.html"
+    },
+    "images-to-pdf": {
+      suiteId: "pdf-converter-hub",
+      subtab: "images-to-pdf",
+      name: "Images to PDF Compiler",
+      title: "Images to PDF Converter (JPG, PNG, WebP) | OmniTool Hub",
+      desc: "Compile multiple JPG, PNG, and WebP images into a single polished PDF document with custom margins, orientations, and page reordering.",
+      keywords: "images to pdf, jpg to pdf, png to pdf, merge images into pdf, photo to pdf compiler",
+      category: "text",
+      subLabel: "Document Converters",
+      guideUrl: "guides/images-to-pdf.html"
+    },
+    "scan-to-pdf": {
+      suiteId: "pdf-converter-hub",
+      subtab: "scan-to-pdf",
+      name: "Camera Scan to PDF",
+      title: "Camera Scan to PDF & Paper Document Scanner | OmniTool Hub",
+      desc: "Capture multi-page paper documents using your webcam or phone camera with high-contrast black/white enhancement and instant PDF compilation.",
+      keywords: "scan to pdf, webcam document scanner, camera scan pdf, paper to pdf, online document scanner",
+      category: "text",
+      subLabel: "Document Converters",
+      guideUrl: "guides/scan-to-pdf.html"
+    },
+    "html-to-pdf": {
+      suiteId: "pdf-converter-hub",
+      subtab: "html-to-pdf",
+      name: "HTML/CSS Webpage to PDF Studio",
+      title: "HTML/CSS to PDF Converter & Webpage Print Studio | OmniTool Hub",
+      desc: "Render raw HTML and CSS into high-resolution vector PDFs with live split-pane sandbox preview and custom paper sizing.",
+      keywords: "html to pdf, css to pdf, webpage to pdf, html code to pdf, html print to pdf",
+      category: "text",
+      subLabel: "Document Converters",
+      guideUrl: "guides/html-to-pdf.html"
+    },
+    "pdf-to-markdown": {
+      suiteId: "pdf-converter-hub",
+      subtab: "pdf-to-markdown",
+      name: "PDF to Markdown Converter",
+      title: "PDF to Markdown Converter & Table Extractor | OmniTool Hub",
+      desc: "Convert PDF documents into clean GitHub Flavored Markdown (GFM) with automated detection of headings, code blocks, lists, and tables.",
+      keywords: "pdf to markdown, pdf to md, extract markdown from pdf, pdf text to markdown, gfm pdf converter",
+      category: "text",
+      subLabel: "Document Converters",
+      guideUrl: "guides/pdf-to-markdown.html"
+    },
+
+    // PDF Editor, Sign & Markup Studio
+    "sign-pdf": {
+      suiteId: "pdf-editor-suite",
+      subtab: "sign-pdf",
+      name: "E-Sign PDF Digital Studio",
+      title: "E-Sign PDF Online & Digital Signature Studio | OmniTool Hub",
+      desc: "Draw touch signatures, type cursive names, or upload official stamps to place and burn signatures permanently onto PDF pages.",
+      keywords: "sign pdf online, esign pdf, digital signature pdf, sign contract online, cursive signature pdf",
+      category: "text",
+      subLabel: "PDF Power Tools",
+      guideUrl: "guides/sign-pdf.html"
+    },
+    "pdf-annotate": {
+      suiteId: "pdf-editor-suite",
+      subtab: "pdf-annotate",
+      name: "PDF Vector Markup & Annotate",
+      title: "Annotate PDF Online & Vector Markup Drawing Tool | OmniTool Hub",
+      desc: "Draw freehand notes, highlight text, stamp custom text badges, draw bounding rectangles, and arrows on PDF documents in-browser.",
+      keywords: "annotate pdf, draw on pdf, highlight pdf, markup pdf online, pdf pen tool",
+      category: "text",
+      subLabel: "PDF Power Tools",
+      guideUrl: "guides/pdf-annotate.html"
+    },
+    "pdf-forms": {
+      suiteId: "pdf-editor-suite",
+      subtab: "pdf-forms",
+      name: "PDF AcroForm Filler",
+      title: "PDF Form Filler & AcroForm Editor | OmniTool Hub",
+      desc: "Detect, inspect, and fill interactive text fields, checkboxes, and dropdowns in PDF forms with optional flattening to prevent editing.",
+      keywords: "pdf form filler, fill acroforms, fillable pdf editor, pdf form submit, flatten pdf form",
+      category: "text",
+      subLabel: "PDF Power Tools",
+      guideUrl: "guides/pdf-forms.html"
+    },
+    "pdf-watermark": {
+      suiteId: "pdf-editor-suite",
+      subtab: "pdf-watermark",
+      name: "PDF Watermark & Page Numbers",
+      title: "Add Watermark & Page Numbers to PDF | OmniTool Hub",
+      desc: "Stamp customizable diagonal or horizontal text watermarks, confidential badges, and header/footer page numbers across PDF documents.",
+      keywords: "pdf watermark, add watermark to pdf, stamp page numbers pdf, diagonal watermark pdf, page numbering",
+      category: "text",
+      subLabel: "PDF Power Tools",
+      guideUrl: "guides/pdf-watermark.html"
+    },
+    "redact-pdf": {
+      suiteId: "pdf-editor-suite",
+      subtab: "redact-pdf",
+      name: "PDF Redact & Privacy Sanitizer",
+      title: "Redact PDF & Blackout Sensitive Text Online | OmniTool Hub",
+      desc: "Permanently blackout confidential data, SSNs, credit cards, and PII from PDF pages by baking opaque redactions into document streams.",
+      keywords: "redact pdf, blackout pdf text, sanitize pdf, remove pii from pdf, confidential pdf redaction",
+      category: "text",
+      subLabel: "PDF Power Tools",
+      guideUrl: "guides/redact-pdf.html"
+    },
+
+    // PDF Security, Repair & Archival Suite
+    "pdf-security": {
+      suiteId: "pdf-security-suite",
+      subtab: "pdf-security",
+      name: "PDF AES-256 Protect & Unlock",
+      title: "Protect PDF with Password & Unlock PDF | OmniTool Hub",
+      desc: "Encrypt PDF files with robust passwords and granular permission restrictions, or unlock and decrypt password-protected PDF files.",
+      keywords: "password protect pdf, encrypt pdf online, unlock pdf, remove pdf password, aes pdf encryption",
+      category: "text",
+      subLabel: "PDF Security & Repair",
+      guideUrl: "guides/pdf-security.html"
+    },
+    "repair-pdf": {
+      suiteId: "pdf-security-suite",
+      subtab: "repair-pdf",
+      name: "PDF Repair & Stream Recovery",
+      title: "Repair Corrupted PDF & Rebuild Broken Xref Tables | OmniTool Hub",
+      desc: "Analyze and repair damaged PDF files by realigning shifted binary headers, reconstructing broken xref tables, and recovering readable pages.",
+      keywords: "repair pdf, fix corrupt pdf, recover damaged pdf, rebuild xref table, uncorrupt pdf",
+      category: "text",
+      subLabel: "PDF Security & Repair",
+      guideUrl: "guides/repair-pdf.html"
+    },
+    "pdf-to-pdfa": {
+      suiteId: "pdf-security-suite",
+      subtab: "pdf-to-pdfa",
+      name: "ISO 19005 PDF/A Archival Converter",
+      title: "Convert PDF to ISO 19005 PDF/A Archival Format | OmniTool Hub",
+      desc: "Convert standard PDF documents to ISO 19005 compliant PDF/A-1b, PDF/A-2b, or PDF/A-3b format with embedded sRGB output intents and XMP schemas.",
+      keywords: "pdf to pdfa, iso 19005 pdf, archival pdf converter, pdfa 1b 2b converter, legal archiving pdf",
+      category: "text",
+      subLabel: "PDF Security & Repair",
+      guideUrl: "guides/pdf-to-pdfa.html"
+    },
+
+    // PDF Page Studio & Organizer
+    "pdf-organizer": {
+      suiteId: "pdf-utilities",
+      subtab: "rotate",
+      name: "PDF Page Organizer & Rotator",
+      title: "Organize, Reorder & Rotate PDF Pages Online | OmniTool Hub",
+      desc: "Reorder pages visually via drag-and-drop, rotate pages by 90-degree increments, and delete unwanted pages before compiling a clean PDF.",
+      keywords: "organize pdf pages, reorder pdf, rotate pdf pages, delete pages from pdf, visual pdf page board",
+      category: "text",
+      subLabel: "PDF Page Studio",
+      guideUrl: "guides/pdf-organizer.html"
+    },
+    "split-pdf": {
+      suiteId: "pdf-utilities",
+      subtab: "split",
+      name: "Split & Extract PDF Pages",
+      title: "Split PDF & Extract Pages to PDF, ZIP or Images | OmniTool Hub",
+      desc: "Extract specific page ranges, split PDF documents into individual files or ZIP archives, and convert pages into high-resolution PNG or JPG images 100% client-side.",
+      keywords: "split pdf, extract pages from pdf, separate pdf pages, pdf to zip, split pdf online",
+      category: "text",
+      subLabel: "PDF Page Studio",
+      guideUrl: "guides/split-pdf.html"
+    },
+    "merge-pdf": {
+      suiteId: "pdf-utilities",
+      subtab: "merge",
+      name: "Merge PDF Documents",
+      title: "Merge PDF Documents Online - Combine PDF Files | OmniTool Hub",
+      desc: "Combine multiple PDF files into a single organized document. Drag and drop to reorder files with real-time in-browser compilation.",
+      keywords: "merge pdf, combine pdf files, join pdf, merge pdf online, combine multiple pdfs",
+      category: "text",
+      subLabel: "PDF Page Studio",
+      guideUrl: "guides/merge-pdf.html"
+    },
+    "rotate-pdf": {
+      suiteId: "pdf-utilities",
+      subtab: "rotate",
+      name: "Rotate & Organize PDF Pages",
+      title: "Organize, Reorder & Rotate PDF Pages Online | OmniTool Hub",
+      desc: "Reorder pages visually via drag-and-drop, rotate pages by 90-degree increments, and delete unwanted pages before compiling a clean PDF.",
+      keywords: "rotate pdf, organize pdf pages, reorder pdf, rotate pdf pages, delete pages from pdf",
+      category: "text",
+      subLabel: "PDF Page Studio",
+      guideUrl: "guides/pdf-utilities.html#rotate"
+    },
+    "compress-pdf": {
+      suiteId: "pdf-utilities",
+      subtab: "compress",
+      name: "Compress PDF Document",
+      title: "Compress PDF Online - Reduce PDF File Size | OmniTool Hub",
+      desc: "Reduce PDF file sizes client-side while preserving text and image clarity. Select compression profiles for web, email, or print.",
+      keywords: "compress pdf, reduce pdf file size, shrink pdf, compress pdf online, optimize pdf",
+      category: "text",
+      subLabel: "PDF Page Studio",
+      guideUrl: "guides/compress-pdf.html"
+    },
+
+    // PDF Security Suite Additional Subtools
+    "unlock-pdf": {
+      suiteId: "pdf-security-suite",
+      subtab: "pdf-security",
+      name: "Unlock & Decrypt PDF",
+      title: "Unlock PDF Online - Remove PDF Password & Restrictions | OmniTool Hub",
+      desc: "Permanently remove passwords and permission restrictions from protected PDF files client-side. Zero server uploads, instant decryption.",
+      keywords: "unlock pdf, remove pdf password, decrypt pdf, unlock protected pdf, strip pdf password",
+      category: "text",
+      subLabel: "PDF Security & Repair",
+      guideUrl: "guides/pdf-security-suite.html#pdf-security"
+    },
+    "protect-pdf": {
+      suiteId: "pdf-security-suite",
+      subtab: "pdf-security",
+      name: "Password Protect & Encrypt PDF",
+      title: "Password Protect PDF Online - AES-256 PDF Encryption | OmniTool Hub",
+      desc: "Encrypt sensitive PDF documents with military-grade AES-256 encryption and prevent unauthorized copying, printing, or editing.",
+      keywords: "password protect pdf, encrypt pdf, secure pdf, aes 256 pdf encryption, pdf permissions",
+      category: "text",
+      subLabel: "PDF Security & Repair",
+      guideUrl: "guides/pdf-security-suite.html#pdf-security"
+    },
+
+    // IP Subnet & MAC Address Suite
+    "subnet-calculator": {
+      suiteId: "ip-subnet-calculator",
+      subtab: "subnet",
+      name: "CIDR IPv4 Subnet Calculator",
+      title: "CIDR IPv4 Subnet Calculator & Network Mask Planner | OmniTool Hub",
+      desc: "Calculate network address, broadcast IP, usable host IP ranges, wildcard masks, and binary bitmasks for any IPv4 CIDR prefix locally.",
+      keywords: "subnet calculator, cidr calculator, ipv4 subnet, network mask planner, broadcast ip calculator",
+      category: "dev",
+      subLabel: "Networking",
+      guideUrl: "guides/subnet-calculator.html"
+    },
+    "cidr-calculator": {
+      suiteId: "ip-subnet-calculator",
+      subtab: "subnet",
+      name: "CIDR IPv4 Subnet Calculator",
+      title: "CIDR IPv4 Subnet Calculator & Network Mask Planner | OmniTool Hub",
+      desc: "Calculate network address, broadcast IP, usable host IP ranges, wildcard masks, and binary bitmasks for any IPv4 CIDR prefix locally.",
+      keywords: "cidr calculator, subnet mask calculator, ipv4 cidr, subnet planner, ip range calculator",
+      category: "dev",
+      subLabel: "Networking",
+      guideUrl: "guides/ip-subnet-calculator.html#subnet"
+    },
+    "mac-lookup": {
+      suiteId: "ip-subnet-calculator",
+      subtab: "mac",
+      name: "MAC Address & OUI Vendor Lookup",
+      title: "MAC Address OUI Vendor Lookup & MAC Generator | OmniTool Hub",
+      desc: "Identify hardware manufacturers and network interface vendors from IEEE OUI prefixes. Format MAC addresses into standard Cisco, colon, or hyphen notations.",
+      keywords: "mac lookup, oui lookup, mac address vendor, mac address format, ieee oui vendor search",
+      category: "dev",
+      subLabel: "Networking",
+      guideUrl: "guides/mac-lookup.html"
+    },
+    "mac-address-lookup": {
+      suiteId: "ip-subnet-calculator",
+      subtab: "mac",
+      name: "MAC Address & OUI Vendor Lookup",
+      title: "MAC Address OUI Vendor Lookup & MAC Generator | OmniTool Hub",
+      desc: "Identify hardware manufacturers and network interface vendors from IEEE OUI prefixes. Format MAC addresses into standard Cisco, colon, or hyphen notations.",
+      keywords: "mac address lookup, mac vendor lookup, ieee mac oui, hardware vendor mac, cisco mac formatter",
+      category: "dev",
+      subLabel: "Networking",
+      guideUrl: "guides/ip-subnet-calculator.html#mac"
+    },
+
+    // Visual Regex & Extractor Suite
+    "regex-extractor": {
+      suiteId: "regex-tester",
+      subtab: "extractor",
+      name: "Regex Match Extractor & Batch Replacer",
+      title: "Regex Match Extractor & Batch Text Replacer | OmniTool Hub",
+      desc: "Extract emails, URLs, IP addresses, dates, and phone numbers in bulk with regex patterns, or run instant batch find-and-replace on logs and text.",
+      keywords: "regex extractor, extract emails regex, regex batch replace, extract urls regex, regex text parser",
+      category: "text",
+      subLabel: "Pattern Analysis",
+      guideUrl: "guides/regex-extractor.html"
+    },
+
+    // SVG Animation Studio
+    "svg-morph": {
+      suiteId: "svg-animator",
+      subtab: "morph",
+      name: "SVG Path Morphing Studio",
+      title: "SVG Path Morphing Studio & SMIL Vector Animator | OmniTool Hub",
+      desc: "Visually interpolate and morph between SVG path shapes using SMIL and cubic bezier curves. Export standalone animated SVG graphics.",
+      keywords: "svg path morphing, svg morph animation, smil animation, path morph generator, animated svg vector",
+      category: "design",
+      subLabel: "Vector Studio",
+      guideUrl: "guides/svg-animator.html"
+    },
+    "path-morph": {
+      suiteId: "svg-animator",
+      subtab: "morph",
+      name: "SVG Path Morphing Studio",
+      title: "SVG Path Morphing Studio & SMIL Vector Animator | OmniTool Hub",
+      desc: "Visually interpolate and morph between SVG path shapes using SMIL and cubic bezier curves. Export standalone animated SVG graphics.",
+      keywords: "path morph, svg morphing, smil vector animation, animate svg path, shape morph css svg",
+      category: "design",
+      subLabel: "Vector Studio",
+      guideUrl: "guides/svg-animator.html"
+    },
+    "crop-pdf": {
+      suiteId: "pdf-utilities",
+      subtab: "split",
+      name: "Split & Crop PDF Extractor",
+      title: "Split PDF & Extract Pages to PDF, ZIP or Images | OmniTool Hub",
+      desc: "Extract specific page ranges, split PDF documents into individual files or ZIP archives, and convert pages into high-resolution PNG or JPG images.",
+      keywords: "split pdf, extract pages from pdf, crop pdf, pdf to images zip, separate pdf pages",
+      category: "text",
+      subLabel: "PDF Page Studio",
+      guideUrl: "guides/pdf-utilities.html#split"
+    }
+  },
+
+  registerTabSwitcher(suiteId, switcherFn) {
+    if (!this._activeTabSwitchers) this._activeTabSwitchers = {};
+    this._activeTabSwitchers[suiteId] = switcherFn;
+  },
+
+  getTabSubtool(suiteId, tabId) {
+    if (!this.subtoolsRegistry) return null;
+    const match = Object.entries(this.subtoolsRegistry).find(
+      ([slug, entry]) => entry.suiteId === suiteId && (entry.subtab === tabId || slug === tabId)
+    );
+    return match ? { slug: match[0], ...match[1] } : null;
+  },
+
+  syncSubtab(suiteId, tabId, options = { pushHistory: true }) {
+    const subtool = this.getTabSubtool(suiteId, tabId);
+    const effectiveSlug = subtool ? subtool.slug : suiteId;
+    const targetPath = '/tool/' + effectiveSlug;
+
+    if (options && options.pushHistory) {
+      if (window.history && window.history.pushState) {
+        try {
+          if (window.location.pathname !== targetPath) {
+            window.history.pushState({ toolId: suiteId, subtab: tabId, subtool: effectiveSlug }, "", targetPath);
+          }
+        } catch (_) {
+          window.location.hash = "tool/" + effectiveSlug;
+        }
+      }
+    } else if (options && options.replaceHistory) {
+      if (window.history && window.history.replaceState) {
+        try {
+          window.history.replaceState({ toolId: suiteId, subtab: tabId, subtool: effectiveSlug }, "", targetPath);
+        } catch (_) {}
+      }
+    }
+
+    this.activeSubtool = subtool ? subtool.slug : null;
+    this.updateToolSEO(suiteId, subtool ? subtool.slug : null);
+
+    // Update Header View Title smoothly
+    const titleEl = document.getElementById("header-view-title");
+    if (titleEl) {
+      if (subtool) {
+        titleEl.innerText = `${subtool.subLabel} / ${subtool.name}`;
+      } else {
+        const parentMeta = this.tools.find(t => t.id === suiteId);
+        if (parentMeta) {
+          titleEl.innerText = `${parentMeta.subLabel} / ${parentMeta.name}`;
+        }
+      }
+      titleEl.style.display = "block";
+    }
+  },
+
+  updateToolSEO(toolId, subtoolId = null) {
+    const subMeta = subtoolId && this.subtoolsRegistry ? this.subtoolsRegistry[subtoolId] : null;
+    const parentMeta = this.tools.find(t => t.id === toolId);
+    const meta = subMeta || parentMeta;
+    if (!meta) return;
+
+    const effectiveId = subMeta ? subtoolId : toolId;
+    const fullTitle = meta.title || `${meta.name} | OmniTool Hub`;
+    document.title = fullTitle;
+
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && meta.desc) metaDesc.setAttribute("content", meta.desc);
+
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute("href", `https://omnitool.worldsneed.com/tool/${effectiveId}`);
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", fullTitle);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc && meta.desc) ogDesc.setAttribute("content", meta.desc);
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute("content", `https://omnitool.worldsneed.com/tool/${effectiveId}`);
+
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute("content", fullTitle);
+
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc && meta.desc) twDesc.setAttribute("content", meta.desc);
+
+    // Dynamic JSON-LD Structured Data for Google Rich Snippets
+    let scriptTag = document.getElementById("dynamic-tool-jsonld");
+    if (!scriptTag) {
+      scriptTag = document.createElement("script");
+      scriptTag.id = "dynamic-tool-jsonld";
+      scriptTag.type = "application/ld+json";
+      document.head.appendChild(scriptTag);
+    }
+    const categoryMapping = {
+      design: "DesignApplication",
+      dev: "DeveloperApplication",
+      text: "UtilityApplication",
+      math: "CalculatorApplication"
+    };
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": meta.name,
+      "operatingSystem": "All (Web Browser, PWA)",
+      "applicationCategory": categoryMapping[meta.category] || "DeveloperApplication",
+      "url": `https://omnitool.worldsneed.com/tool/${effectiveId}`,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": meta.desc
+    };
+    scriptTag.textContent = JSON.stringify(schemaData);
+
+    // Send Google Analytics (GA4) Virtual Pageview for distinct tool tracking
+    if (typeof window.gtag === 'function') {
+      try {
+        window.gtag('event', 'page_view', {
+          page_path: '/tool/' + effectiveId,
+          page_title: fullTitle
+        });
+        window.gtag('event', 'select_content', {
+          content_type: 'tool',
+          item_id: effectiveId
+        });
+      } catch (_) {}
+    }
   },
 
   async loadGlobalConfig() {
@@ -2315,6 +3535,18 @@ const app = {
 
   // Initializer
   async init() {
+    // Check if running in Android Native App or Embedded WebView
+    const isEmbeddedApp = Boolean(
+        (typeof window !== "undefined" && window.location?.search && window.location.search.includes("embed=1")) ||
+        (typeof window !== "undefined" && window.location?.hash && window.location.hash.includes("embed=1")) ||
+        (typeof navigator !== "undefined" && navigator?.userAgent && navigator.userAgent.includes("OmniToolAndroid")) ||
+        (typeof window !== "undefined" && window.location?.hostname === "appassets.androidplatform.net") ||
+        (typeof window !== "undefined" && window.location?.href && window.location.href.includes("android_asset"))
+      );
+    if (isEmbeddedApp) {
+      document.body.classList.add("app-embedded");
+    }
+
     // Inject keywords into tool definitions
     this.tools.forEach(tool => {
       tool.keywords = this.toolKeywords[tool.id] || [];
@@ -2526,8 +3758,21 @@ const app = {
     }, 3800);
   },
 
+  toggleHomeGuides() {
+    const exp = document.getElementById("home-guides-expandable");
+    const btn = document.getElementById("toggle-home-guides-btn");
+    if (!exp) return;
+    const isHidden = exp.style.display === "none" || !exp.style.display;
+    exp.style.display = isHidden ? "block" : "none";
+    if (btn) {
+      btn.innerHTML = isHidden
+        ? `<span>▴ Collapse to Featured Guides</span>`
+        : `<span>✨ Show All <span class="dynamic-guides-count">${this.guidesList ? this.guidesList.length : 92}</span> Guides &amp; Full Catalog</span> <span style="font-size: 11px;">▾</span>`;
+    }
+  },
+
   syncGuidesUI() {
-    const count = this.guidesList ? this.guidesList.length : 48;
+    const count = this.guidesList ? this.guidesList.length : 92;
 
     // 1. Guides count in metrics / badges
     const sfcGuides = document.getElementById("sfc-count-guides");
@@ -2541,16 +3786,6 @@ const app = {
     const hubLink = document.getElementById("home-guides-hub-link");
     if (hubLink) {
       hubLink.innerHTML = `📚 All <span class="dynamic-guides-count">${count}</span> Guides &amp; Tutorials Hub &rarr;`;
-    }
-
-    // 3. Grid container dynamic synchronization
-    const grid = document.getElementById("home-guides-grid");
-    if (grid && this.guidesList && this.guidesList.length) {
-      let html = `<a href="guides/index.html" id="home-guides-hub-link" style="color: var(--accent-cyan); text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color var(--transition-fast);">📚 All <span class="dynamic-guides-count">${count}</span> Guides &amp; Tutorials Hub &rarr;</a>`;
-      this.guidesList.forEach(g => {
-        html += `\n              <a href="${g.url}" style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">${g.title}</a>`;
-      });
-      grid.innerHTML = html;
     }
   },
 
@@ -2861,7 +4096,13 @@ const app = {
 
       const redirect = this.toolRedirects[toolId];
       if (redirect) {
+        if (this.activeTool === redirect.suiteId && this._activeTabSwitchers && this._activeTabSwitchers[redirect.suiteId]) {
+          this._activeTabSwitchers[redirect.suiteId](redirect.subtab);
+          this.syncSubtab(redirect.suiteId, redirect.subtab, { pushHistory: false, replaceHistory: true });
+          return;
+        }
         this.activeSubtab = redirect.subtab;
+        this.activeSubtool = toolId;
         this.navigateToTool(redirect.suiteId, false);
         return;
       }
@@ -2880,7 +4121,13 @@ const app = {
       if (cleanToolId) {
         const redirect = this.toolRedirects[cleanToolId];
         if (redirect) {
+          if (this.activeTool === redirect.suiteId && this._activeTabSwitchers && this._activeTabSwitchers[redirect.suiteId]) {
+            this._activeTabSwitchers[redirect.suiteId](redirect.subtab);
+            this.syncSubtab(redirect.suiteId, redirect.subtab, { pushHistory: false, replaceHistory: true });
+            return;
+          }
           this.activeSubtab = redirect.subtab;
+          this.activeSubtool = cleanToolId;
           this.navigateToTool(redirect.suiteId, false);
           return;
         }
@@ -5926,7 +7173,13 @@ const app = {
     }
 
     try {
-      if (window.location.protocol === "file:") {
+      const isAndroidApp = Boolean(
+        (typeof window !== "undefined" && window.location?.href && window.location.href.includes("android_asset")) ||
+        (typeof window !== "undefined" && window.location?.hostname === "appassets.androidplatform.net") ||
+        (typeof navigator !== "undefined" && navigator?.userAgent && navigator.userAgent.includes("OmniToolAndroid")) ||
+        (typeof window !== "undefined" && window.isAndroidApp === true)
+      );
+      if (window.location.protocol === "file:" && !isAndroidApp) {
         this.renderFileProtocolError(toolId);
         return;
       }
@@ -5957,19 +7210,7 @@ const app = {
       const defaultMonetization = toolRegistryEntry ? toolRegistryEntry.monetization : "free";
 
       // Dynamic SEO Meta Tags Update for Google Search and social crawlers
-      if (toolRegistryEntry) {
-        document.title = `${toolRegistryEntry.name} | OmniTool Hub`;
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute("content", toolRegistryEntry.desc);
-        const canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) canonical.setAttribute("href", `https://omnitool.worldsneed.com/tool/${toolRegistryEntry.id}`);
-        const ogTitle = document.querySelector('meta[property="og:title"]');
-        if (ogTitle) ogTitle.setAttribute("content", `${toolRegistryEntry.name} | OmniTool Hub`);
-        const ogDesc = document.querySelector('meta[property="og:description"]');
-        if (ogDesc) ogDesc.setAttribute("content", toolRegistryEntry.desc);
-        const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) ogUrl.setAttribute("content", `https://omnitool.worldsneed.com/tool/${toolRegistryEntry.id}`);
-      }
+      this.updateToolSEO(toolId, this.activeSubtool);
 
       let overrides = {};
       try {
@@ -6040,6 +7281,11 @@ const app = {
             "text-diff": "text-diff.html",
             "pdf-searcher": "pdf-searcher.html",
             "pdf-utilities": "pdf-utilities.html",
+            "pdf-converter-hub": "pdf-converter-hub.html",
+            "pdf-editor-suite": "pdf-editor-suite.html",
+            "pdf-security-suite": "pdf-security-suite.html",
+            "pdf-ai": "pdf-ai.html",
+            "compare-pdf": "compare-pdf.html",
             "regex-tester": "regex-tester.html",
             "css-studio": "css-studio.html",
             "color-lab": "color-lab.html",
@@ -6827,7 +8073,7 @@ const app = {
     // Restore default SEO Meta Tags for main application
     document.title = "OmniTool Hub | The Ultimate All-in-One Utility Suite";
     const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", "A premium, free, privacy-first developer and utility tools web application. 50+ tools running 100% client-side — no data ever leaves your device.");
+    if (metaDesc) metaDesc.setAttribute("content", "A premium, free, privacy-first developer and utility tools web application. 75+ free online tools consolidated across 45 master suites, running 100% client-side with zero data transmission.");
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute("href", "https://omnitool.worldsneed.com/");
     const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -7971,7 +9217,7 @@ const app = {
           </div>
           <div style="display: flex; justify-content: space-between;">
             <span style="color: var(--text-muted);">Unlocked:</span>
-            <span style="color: var(--text-primary);">All 50+ Tools • 100% Ad-Free • Offline PWA</span>
+            <span style="color: var(--text-primary);">All 75+ Tools • 100% Ad-Free • Offline PWA</span>
           </div>
         </div>
 

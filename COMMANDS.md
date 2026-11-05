@@ -111,6 +111,8 @@ LICENSE_SECRET_KEY=your_private_cryptographic_secret_minimum_32_chars
 RAZORPAY_KEY_ID=rzp_live_your_key_id
 RAZORPAY_KEY_SECRET=your_razorpay_secret_key
 GUMROAD_PRODUCT_PERMALINK=omnitool-pro
-ADMIN_PASSWORD_HASH=3dfd014c226f9ba7144e5fae62933e8ca7ebbf94f0e4b85da57774c43b9df7ea
+ADMIN_PASSWORD_HASH=efb6854ff3cb28f0f3cc0604b481df3eb4ffe5b765361e6d597f7ac5be6ae3a8
 ```
 
+> [!NOTE]
+> ADMIN_PASSWORD_HASH above is the SHA-256 hash of the default master passcode OmniAdmin@2026#. If you choose a custom passcode in production, compute its SHA-256 hash and place it here.

@@ -15,13 +15,33 @@ MASTER_SECRET = os.environ.get("LICENSE_SECRET_KEY", "omnitool_master_crypto_sec
 ADMIN_HASH = os.environ.get("ADMIN_PASSWORD_HASH", "efb6854ff3cb28f0f3cc0604b481df3eb4ffe5b765361e6d597f7ac5be6ae3a8")
 
 def _make_token(tier, extra=None):
-    payload = {"tier": tier, "iat": int(time.time()), "nonce": os.urandom(8).hex()}
+    payload = {"tier": tier, "iat": int(time.time() * 1000), "nonce": os.urandom(8).hex()}
     if extra:
         payload.update(extra)
     payload_str = json.dumps(payload, separators=(',', ':'))
     enc = base64.urlsafe_b64encode(payload_str.encode()).decode().rstrip('=')
     sig = hmac.new(MASTER_SECRET, enc.encode(), hashlib.sha256).hexdigest()
     return f"{enc}.{sig}"
+
+def _verify_token(token):
+    if not token or "." not in token:
+        return {"valid": False, "error": "Invalid token format."}
+    parts = token.split(".")
+    if len(parts) != 2:
+        return {"valid": False, "error": "Malformed token."}
+    enc, sig = parts
+    expected_sig = hmac.new(MASTER_SECRET, enc.encode(), hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(sig, expected_sig):
+        return {"valid": False, "error": "Cryptographic signature mismatch."}
+    try:
+        padded = enc + "=" * ((4 - len(enc) % 4) % 4)
+        payload = json.loads(base64.urlsafe_b64decode(padded).decode())
+        exp = payload.get("expiresAt")
+        if exp and (time.time() * 1000) > exp:
+            return {"valid": False, "error": "License token has expired."}
+        return {"valid": True, "payload": payload}
+    except Exception as e:
+        return {"valid": False, "error": f"Failed to decode payload: {str(e)}"}
 
 
 class OmniToolServerHandler(SimpleHTTPRequestHandler):
@@ -72,10 +92,28 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
             pw_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
             # Check password against configured ADMIN_HASH (default: OmniAdmin@2026#) or local dev fallback
             if hmac.compare_digest(pw_hash, ADMIN_HASH) or hmac.compare_digest(pw_hash, "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"):
-                token = f"admin_{int(time.time())}"
+                token = _make_token("admin", {
+                    "role": "admin",
+                    "expiresAt": int(time.time() * 1000) + (4 * 3600 * 1000)
+                })
                 self._send_json(200, {"success": True, "token": token, "message": "Admin authorization successful."})
             else:
                 self._send_json(401, {"success": False, "error": "Invalid administrative passcode."})
+            return
+
+        if path == "/api/verify-token":
+            token = body.get("token", "")
+            res = _verify_token(token)
+            if not res["valid"]:
+                self._send_json(401, {"valid": False, "error": res["error"]})
+                return
+            payload = res["payload"]
+            self._send_json(200, {
+                "valid": True,
+                "tier": payload.get("tier"),
+                "expiresAt": payload.get("expiresAt"),
+                "iat": payload.get("iat")
+            })
             return
 
         if path == "/api/verify-license":
@@ -97,7 +135,7 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
 
         if path == "/api/create-razorpay-order":
             plan = body.get("plan", "lifetime")
-            amt = 39900 if plan == "monthly" else 249900
+            amt = 39900 if plan == "monthly" else 79900
             order_id = f"order_demo_{os.urandom(6).hex()}"
             self._send_json(200, {"success": True, "orderId": order_id, "amount": amt, "currency": "INR", "keyId": "rzp_test_OmniToolDemoKey", "plan": plan})
             return
@@ -122,6 +160,16 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
             return
 
         if path == "/api/admin-generate-key":
+            auth_header = self.headers.get("Authorization", "")
+            token = auth_header.replace("Bearer ", "").replace("bearer ", "").strip()
+            if not token:
+                self._send_json(401, {"success": False, "error": "Missing admin authorization token."})
+                return
+            auth_res = _verify_token(token)
+            if not auth_res["valid"] or auth_res.get("payload", {}).get("role") != "admin":
+                self._send_json(403, {"success": False, "error": "Unauthorized. Valid administrator session required."})
+                return
+
             tier = body.get("tier", "lifetime")
             tier_code = "MON" if tier == "premium" else "PRO"
             cust_id = (body.get("customerId") or "").strip().upper().replace(" ", "")[:8]

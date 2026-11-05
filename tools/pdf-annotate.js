@@ -186,7 +186,9 @@ export default {
     `;
   },
 
-  async init() {
+  async init(container, appInstance) {
+    this.container = container;
+    this.app = appInstance;
     this.bindEvents();
   },
 
@@ -304,7 +306,8 @@ export default {
       this.refreshUI();
       await this.renderPage();
     } catch (err) {
-      alert("Error loading PDF: " + err.message);
+      if (this.app?.showToast) this.app.showToast("Error loading PDF: " + err.message, "error");
+      else if (window.app?.showToast) window.app.showToast("Error loading PDF: " + err.message, "error");
     }
   },
 
@@ -467,7 +470,8 @@ export default {
 
     const annotatedPages = Object.keys(this.annotationsByPage);
     if (annotatedPages.length === 0) {
-      alert("No annotations have been added yet.");
+      if (this.app?.showToast) this.app.showToast("No annotations have been added yet.", "warning");
+      else if (window.app?.showToast) window.app.showToast("No annotations have been added yet.", "warning");
       return;
     }
 
@@ -505,7 +509,8 @@ export default {
       a.click();
       URL.revokeObjectURL(url);
     } catch (err) {
-      alert("Error saving annotated PDF: " + err.message);
+      if (this.app?.showToast) this.app.showToast("Error saving annotated PDF: " + err.message, "error");
+      else if (window.app?.showToast) window.app.showToast("Error saving annotated PDF: " + err.message, "error");
     }
   },
 
@@ -517,10 +522,24 @@ export default {
   },
 
   refreshUI() {
-    const appEl = document.getElementById("tool-render-area") || document.querySelector(".tool-main");
-    if (appEl) {
-      appEl.innerHTML = this.renderUI();
+    const host = this.container || document.getElementById("editor-subtool-host") || document.getElementById("active-tool-viewport");
+    if (host) {
+      const split = host.querySelector(".tool-content-layout.split-view");
+      if (split) {
+        split.outerHTML = this.renderUI();
+      } else {
+        host.innerHTML = this.renderUI();
+      }
       this.bindEvents();
+      if (this.app?._reinjectEditorTabs) {
+        this.app._reinjectEditorTabs();
+      }
     }
+  },
+
+  cleanup() {
+    this.pdfFile = null;
+    this.pdfDoc = null;
+    this.annotationsByPage = {};
   }
 };

@@ -875,16 +875,16 @@
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All 48 Guides</a>
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#tool/pdf-converter-hub" class="nav-launch-btn">🚀 Launch PDF Converter Hub</a>
+        <a href="/guides/" class="nav-link-btn">📚 All Guides</a>
+        <a href="/" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="/tool/pdf-converter-hub" class="nav-launch-btn">🚀 Launch PDF Converter Hub</a>
       </div>
     </div>
   </nav>
@@ -892,9 +892,9 @@
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">🏠 Home</a>
+      <a href="/">🏠 Home</a>
       <span>/</span>
-      <a href="index.html">Guides Hub</a>
+      <a href="/guides/">Guides Hub</a>
       <span>/</span>
       <span class="current">Document & PDF Converter Hub</span>
     </nav>
@@ -919,7 +919,7 @@
           <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
         </div>
         <div class="live-tool-quick-links">
-          <a href="../index.html#tool/pdf-converter-hub" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+          <a href="/tool/pdf-converter-hub" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
       <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
@@ -966,54 +966,81 @@
       </p>
 
       
-      <div class="tab-section">
+      <div class="tab-section" id="word-pdf">
         <div class="tab-title">
-          <span>1. Word (.docx) to PDF</span>
+          <span>1. Word (.docx) to PDF & PDF to Word</span>
           <span class="tab-badge">Word Engine</span>
         </div>
         <p>
-          Parses OpenXML Word document hierarchies, tables, inline images, and typography directly into formatted PDF streams without needing Microsoft Office.
+          Parses OpenXML Word document hierarchies, tables, inline images, and typography directly into formatted PDF streams without needing Microsoft Office. Also supports extracting text and tables from PDFs into editable Word documents.
         </p>
+        <p style="margin-bottom: 0;"><a href="/tool/word-pdf" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch Word &lt;&gt; PDF Converter &rarr;</a></p>
       </div>
       
-      <div class="tab-section">
+      <div class="tab-section" id="excel-pdf">
         <div class="tab-title">
-          <span>2. Excel (.xlsx / .csv) to PDF</span>
+          <span>2. Excel (.xlsx / .csv) to PDF & PDF to Excel</span>
           <span class="tab-badge">Spreadsheets</span>
         </div>
         <p>
-          Transforms workbook sheets, formula cell values, numerical data grids, and CSV matrices into clean paginated PDF landscape or portrait reports.
+          Transforms workbook sheets, formula cell values, numerical data grids, and CSV matrices into clean paginated PDF landscape or portrait reports, or extracts structured tabular data from PDF into editable spreadsheets.
         </p>
+        <p style="margin-bottom: 0;"><a href="/tool/excel-pdf" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch Excel &lt;&gt; PDF Converter &rarr;</a></p>
       </div>
       
-      <div class="tab-section">
+      <div class="tab-section" id="pptx-pdf">
         <div class="tab-title">
-          <span>3. PowerPoint (.pptx) to PDF</span>
+          <span>3. PowerPoint (.pptx) to PDF & PDF to PPTX</span>
           <span class="tab-badge">Slide Decks</span>
         </div>
         <p>
-          Renders slide text boxes, vector shapes, layout geometries, and visual presentations into slide-by-slide PDF documentation.
+          Renders slide text boxes, vector shapes, layout geometries, and visual presentations into slide-by-slide PDF documentation, or converts PDF decks into editable PowerPoint slides.
         </p>
+        <p style="margin-bottom: 0;"><a href="/tool/pptx-pdf" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch PowerPoint &lt;&gt; PDF &rarr;</a></p>
       </div>
       
-      <div class="tab-section">
+      <div class="tab-section" id="images-to-pdf">
         <div class="tab-title">
-          <span>4. Images & Camera Scan to PDF</span>
+          <span>4. Images to PDF Compiler</span>
           <span class="tab-badge">Image Gallery</span>
         </div>
         <p>
-          Batch compiles JPG, PNG, and WebP captures into multi-page PDFs with auto-orientation, margin adjustments, and DPI preservation.
+          Batch compiles JPG, PNG, and WebP captures into multi-page PDFs with visual drag-and-drop reordering, auto-orientation, margin adjustments, and DPI preservation.
         </p>
+        <p style="margin-bottom: 0;"><a href="/tool/images-to-pdf" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch Images to PDF &rarr;</a></p>
       </div>
-      
-      <div class="tab-section">
+
+      <div class="tab-section" id="scan-to-pdf">
         <div class="tab-title">
-          <span>5. HTML / Markdown to PDF</span>
-          <span class="tab-badge">Markup Engine</span>
+          <span>5. Camera Scan to PDF (Document Scanner)</span>
+          <span class="tab-badge">Camera Scanner</span>
         </div>
         <p>
-          Converts structured Markdown or custom styled HTML/CSS code directly into clean printable PDF documents with syntax highlighting.
+          Directly captures physical paperwork, receipts, and whiteboard diagrams using your device webcam or mobile camera with high-contrast document thresholding and auto-crop.
         </p>
+        <p style="margin-bottom: 0;"><a href="/tool/scan-to-pdf" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch Camera Document Scanner &rarr;</a></p>
+      </div>
+      
+      <div class="tab-section" id="html-to-pdf">
+        <div class="tab-title">
+          <span>6. HTML/CSS Webpage to PDF Studio</span>
+          <span class="tab-badge">HTML Engine</span>
+        </div>
+        <p>
+          Renders raw HTML and CSS markup directly into high-resolution vector PDF pages with real-time split-pane sandbox preview and custom CSS print stylesheets.
+        </p>
+        <p style="margin-bottom: 0;"><a href="/tool/html-to-pdf" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch HTML to PDF &rarr;</a></p>
+      </div>
+
+      <div class="tab-section" id="pdf-to-markdown">
+        <div class="tab-title">
+          <span>7. PDF to Markdown Converter</span>
+          <span class="tab-badge">Markdown Engine</span>
+        </div>
+        <p>
+          Extracts and structures textual content from complex multi-page PDFs into GitHub-Flavored Markdown (GFM), reconstructing heading tiers, bullet lists, code blocks, and data tables.
+        </p>
+        <p style="margin-bottom: 0;"><a href="/tool/pdf-to-markdown" style="color: var(--accent-cyan); font-size: 13px; font-weight: 700; text-decoration: none;">🚀 Launch PDF to Markdown &rarr;</a></p>
       </div>
       
 
@@ -1032,16 +1059,16 @@
     <div class="cta-container">
       <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
-      <a href="../index.html#tool/pdf-converter-hub" class="cta-btn">🚀 Launch PDF Converter Hub</a>
+      <a href="/tool/pdf-converter-hub" class="cta-btn">🚀 Launch PDF Converter Hub</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All 48 Tool Guides &rarr;</a>
+      <a href="/guides/" class="all-guides-cta">📚 Browse All Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All 48 Guides &rarr;</a>
+        <a href="/guides/">View All Guides &rarr;</a>
       </div>
       <div class="related-grid">
         
@@ -1076,8 +1103,8 @@
   <footer class="guide-footer">
     <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
     <p style="margin-top: 8px;">
-      <a href="../index.html">Home</a> &bull;
-      <a href="index.html">Guides Hub</a> &bull;
+      <a href="/">Home</a> &bull;
+      <a href="/guides/">Guides Hub</a> &bull;
       <a href="../index.html#privacy">Privacy Policy</a> &bull;
       <a href="../index.html#terms">Terms of Service</a> &bull;
       <a href="../index.html#refund">Refund Policy</a> &bull;
@@ -1135,7 +1162,7 @@
       },
       playSynthSound() {},
       getConfigValue(k, d) { return localStorage.getItem(k) || d; },
-      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; }
+      navigateToTool(id) { window.location.href = '/tool/' + id; }
     };
 
     const targetModule = 'pdf-converter-hub.js';
@@ -1156,7 +1183,7 @@
         viewport.innerHTML = `
           <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
             <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
-            <a href="../index.html#tool/pdf-converter-hub" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+            <a href="/tool/pdf-converter-hub" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
           </div>
         `;
       }

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <script>
     // Ensure base href is set for clean URL routing when running over HTTP/HTTPS
     // While keeping file:/// protocol untouched for Android assets and local offline file opening
@@ -1462,6 +1462,7 @@
           </div>
 
           <!-- Static SEO & Navigation Links for Googlebot / Users -->
+          <!-- Static SEO & Curated Guides Navigation (Dual-Tier Collapsible UX) -->
           <div class="static-seo-section"
             style="margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border-color); text-align: left;">
             
@@ -1469,136 +1470,607 @@
             <div style="background: linear-gradient(135deg, rgba(0, 242, 254, 0.08), rgba(157, 78, 221, 0.08)); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 14px; padding: 24px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
               <div>
                 <span style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--accent-cyan); letter-spacing: 0.5px;">📚 Knowledge Base &amp; Tutorials</span>
-                <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-top: 4px;">Explore All <span class="dynamic-guides-count">28</span> Tool Documentation Guides</h2>
-                <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px; max-width: 620px;">Learn how to format data, merge PDFs, decode JWTs, and run cryptographic suites offline with zero server data retention.</p>
+                <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-top: 4px;">Comprehensive In-Browser Tool Guides &amp; Tutorials</h2>
+                <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px; max-width: 620px;">Learn how to convert Word/Excel to PDF, encrypt with AES-256, format code, and generate RSA keys locally with zero server uploads.</p>
               </div>
-              <a href="guides/index.html" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #000; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 242, 254, 0.35); white-space: nowrap;">Browse Guides Hub &rarr;</a>
+              <a href="guides/index.html" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #000; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 242, 254, 0.35); white-space: nowrap;">Browse All <span class="dynamic-guides-count">92</span> Guides &rarr;</a>
             </div>
 
-            <h2
-              style="font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"
-                style="color: var(--accent-cyan);">
-                <path
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-              Detailed Tool Documentation &amp; Help Guides
-            </h2>
-            <div id="home-guides-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
-              <a href="guides/index.html" id="home-guides-hub-link"
-                style="color: var(--accent-cyan); text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color var(--transition-fast);">📚 All <span class="dynamic-guides-count">28</span> Guides &amp; Tutorials Hub &rarr;</a>
-              <a href="guides/pipeline-builder.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Smart Chain Pipeline Builder Guide</a>
-              <a href="guides/json-formatter.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Data Formatter & Converter Guide</a>
-              <a href="guides/text-encoder-suite.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Text Cases & Encoder Guide</a>
-              <a href="guides/jwt-decoder.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">JWT Decoder Guide</a>
-              <a href="guides/crypto-suite.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Cryptography Suite Guide</a>
-              <a href="guides/pii-anonymizer.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Client-Side PII Masker Guide</a>
-              <a href="guides/markdown-preview.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Live Markdown Previewer Guide</a>
-              <a href="guides/text-diff.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Text Diff Comparison Guide</a>
-              <a href="guides/pdf-searcher.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">PDF Index & Search Guide</a>
-              <a href="guides/pdf-utilities.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">PDF Utilities Suite Guide</a>
-              <a href="guides/regex-tester.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Regular Expression Tester Guide</a>
-              <a href="guides/text-analyzer.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Text Analyzer Guide</a>
-              <a href="guides/css-studio.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">CSS Studio Guide</a>
-              <a href="guides/color-lab.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Color Lab Suite Guide</a>
-              <a href="guides/graphics-studio.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Graphics Studio Guide</a>
-              <a href="guides/image-converter.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Image Converter Guide</a>
-              <a href="guides/svg-animator.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">SVG Animator Guide</a>
-              <a href="guides/security-suite.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Security Suite Guide</a>
-              <a href="guides/datetime-suite.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Datetime Suite Guide</a>
-              <a href="guides/calculator.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Scientific Calculator Guide</a>
-              <a href="guides/unit-converter.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Unit Converter Guide</a>
-              <a href="guides/url-parser.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">URL Parser Guide</a>
-              <a href="guides/code-playground.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Code Playground Guide</a>
-              <a href="guides/qr-generator.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">QR
-                Generator Guide</a>
-              <a href="guides/seo-previewer.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">SEO Previewer Guide</a>
-              <a href="guides/mock-data-generator.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Mock Data Generator Guide</a>
-              <a href="guides/ip-subnet-calculator.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">IP Subnet &amp; MAC Suite Guide</a>
-              <a href="guides/payment-guide.html"
-                style="color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color var(--transition-fast);"
-                onmouseover="this.style.color='var(--accent-cyan)'"
-                onmouseout="this.style.color='var(--text-muted)'">Payment &amp; Activation Guide</a>
+            <!-- Header with Title & Live Badge -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+              <h2
+                style="font-size: 18px; font-weight: 700; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"
+                  style="color: var(--accent-cyan);">
+                  <path
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Detailed Tool Documentation &amp; Help Guides
+              </h2>
+              <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); border: 1px solid rgba(0, 242, 254, 0.25);">⭐ 16 Featured &bull; <span class="dynamic-guides-count">92</span> Total</span>
+            </div>
+
+            <!-- Featured Guides (16 Curated Cards in 4 Sleek Categorized Columns) -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 18px;">
+
+              <div style="background: rgba(14, 19, 32, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px 20px; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='#00f2fe'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.transform='none';">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                  <span>📄</span>
+                  <span>PDFs & Documents</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  
+                    <a href="guides/word-pdf.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Word to PDF & PDF to Word</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Popular</span>
+                    </a>
+                  
+                    <a href="guides/sign-pdf.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">E-Sign PDF & Signatures</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Essential</span>
+                    </a>
+                  
+                    <a href="guides/split-pdf.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Split PDF & Extract Pages</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Utility</span>
+                    </a>
+                  
+                    <a href="guides/compress-pdf.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Compress PDF & Shrink Size</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">High-Demand</span>
+                    </a>
+                  
+                </div>
+              </div>
+
+
+              <div style="background: rgba(14, 19, 32, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px 20px; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.transform='none';">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                  <span>🔒</span>
+                  <span>Security & Crypto</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  
+                    <a href="guides/aes-crypto.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">AES-256-GCM Military Cipher</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Military</span>
+                    </a>
+                  
+                    <a href="guides/rsa-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">RSA Key Pair Generator</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Keys</span>
+                    </a>
+                  
+                    <a href="guides/hash-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">SHA-256 / MD5 Checksums</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Integrity</span>
+                    </a>
+                  
+                    <a href="guides/password-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Strong Password & Entropy</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Security</span>
+                    </a>
+                  
+                </div>
+              </div>
+
+
+              <div style="background: rgba(14, 19, 32, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px 20px; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='#c084fc'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.transform='none';">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                  <span>🎨</span>
+                  <span>Design & CSS Studio</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  
+                    <a href="guides/box-shadow.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">CSS Box Shadow Multi-Layer</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Design DNA</span>
+                    </a>
+                  
+                    <a href="guides/gradient-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">CSS Linear & Radial Gradients</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Creative</span>
+                    </a>
+                  
+                    <a href="guides/glassmorphism-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Glassmorphism Frosted Glass</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Modern UI</span>
+                    </a>
+                  
+                    <a href="guides/clip-path-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">CSS Clip-Path Polygon Maker</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Shapes</span>
+                    </a>
+                  
+                </div>
+              </div>
+
+
+              <div style="background: rgba(14, 19, 32, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px 20px; transition: transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='#38bdf8'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.08)'; this.style.transform='none';">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                  <span>⚡</span>
+                  <span>Developer & Data</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  
+                    <a href="guides/jwt-decoder.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">JWT Token Decoder & Expiry</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Auth</span>
+                    </a>
+                  
+                    <a href="guides/json-formatter.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">JSON Formatter, Lint & Minify</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Developer</span>
+                    </a>
+                  
+                    <a href="guides/sql-beautifier.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">SQL Query Formatter & Beautifier</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Database</span>
+                    </a>
+                  
+                    <a href="guides/regex-tester.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                      <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Visual Regex Tester & Extractor</span>
+                      <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Regex</span>
+                    </a>
+                  
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Collapsible Section with ALL 92 Guides Categorized (Directly in DOM for 100% SEO Crawlability) -->
+            <div id="home-guides-expandable" style="display: none; margin-top: 18px; padding-top: 20px; border-top: 1px dashed rgba(255, 255, 255, 0.12);">
+              <div style="font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px;">
+                📚 Complete Indexed Catalog of All <span class="dynamic-guides-count">92</span> Technical Guides
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+
+                <div style="margin-bottom: 18px;">
+                  <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                    <span>📄</span>
+                    <span>PDFs & Document Workflows (26)</span>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
+                    
+                      <a href="guides/scan-to-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Camera Scan to PDF Document Creator
+                      </a>
+                    
+                      <a href="guides/pdf-ai.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Client-Side AI PDF Summarizer & Translator
+                      </a>
+                    
+                      <a href="guides/repair-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Corrupted PDF Repair & Stream Recovery
+                      </a>
+                    
+                      <a href="guides/sign-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; E-Sign PDF & Digital Signature Studio
+                      </a>
+                    
+                      <a href="guides/excel-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Excel to PDF & PDF to Excel Spreadsheet Converter
+                      </a>
+                    
+                      <a href="guides/html-to-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; HTML & Webpage to PDF Studio Converter
+                      </a>
+                    
+                      <a href="guides/images-to-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Images to PDF & Photo to PDF Compiler
+                      </a>
+                    
+                      <a href="guides/merge-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Merge PDF & Combine Documents Studio
+                      </a>
+                    
+                      <a href="guides/pdf-searcher.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Multi-PDF Searcher & OCR
+                      </a>
+                    
+                      <a href="guides/pdf-forms.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF AcroForm Form Filler & Flattening
+                      </a>
+                    
+                      <a href="guides/pdf-security.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF AES-256 Encryption & Password Unlock
+                      </a>
+                    
+                      <a href="guides/compress-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF Compression & File Size Reducer
+                      </a>
+                    
+                      <a href="guides/pdf-editor-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF Editor, Sign & Vector Markup Studio
+                      </a>
+                    
+                      <a href="guides/pdf-annotate.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF Markup & Vector Annotation Studio
+                      </a>
+                    
+                      <a href="guides/pdf-organizer.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF Page Organizer, Rotate & Reorder Studio
+                      </a>
+                    
+                      <a href="guides/redact-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF Redaction & PII Privacy Sanitizer
+                      </a>
+                    
+                      <a href="guides/pdf-security-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF Security, Repair & ISO Archival Suite
+                      </a>
+                    
+                      <a href="guides/pdf-to-markdown.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF to Markdown & Plain Text Extractor
+                      </a>
+                    
+                      <a href="guides/pdf-utilities.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF Toolbox (Split, Merge, Convert & Compress)
+                      </a>
+                    
+                      <a href="guides/pdf-watermark.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF Watermark & Page Numbering Studio
+                      </a>
+                    
+                      <a href="guides/pdf-to-pdfa.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PDF/A Archival Converter
+                      </a>
+                    
+                      <a href="guides/pptx-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; PowerPoint to PDF & PDF to PPTX Presentation Converter
+                      </a>
+                    
+                      <a href="guides/split-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Split PDF & Extract Pages Online
+                      </a>
+                    
+                      <a href="guides/pdf-converter-hub.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Universal Document & PDF Converter Hub
+                      </a>
+                    
+                      <a href="guides/compare-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Visual & Textual PDF Document Diff Tool
+                      </a>
+                    
+                      <a href="guides/word-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Word to PDF & PDF to Word Converter
+                      </a>
+                    
+                  </div>
+                </div>
+  
+
+                <div style="margin-bottom: 18px;">
+                  <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                    <span>🔒</span>
+                    <span>Security, Cryptography & Passwords (8)</span>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
+                    
+                      <a href="guides/aes-crypto.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; AES-256-GCM Symmetric Encryption Studio
+                      </a>
+                    
+                      <a href="guides/pii-anonymizer.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Client-Side PII Masker & Anonymizer
+                      </a>
+                    
+                      <a href="guides/hash-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Cryptographic Hash Generator
+                      </a>
+                    
+                      <a href="guides/crypto-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Cryptography Suite
+                      </a>
+                    
+                      <a href="guides/uuid-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; RFC 4122 UUID v4 Bulk GUID Generator
+                      </a>
+                    
+                      <a href="guides/rsa-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; RSA Key Pair Generator & PKCS#8 Studio
+                      </a>
+                    
+                      <a href="guides/security-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Security & Passwords Suite
+                      </a>
+                    
+                      <a href="guides/password-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Strong Password Generator & Entropy Checker
+                      </a>
+                    
+                  </div>
+                </div>
+  
+
+                <div style="margin-bottom: 18px;">
+                  <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                    <span>🎨</span>
+                    <span>Design, Color & CSS Studio (12)</span>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
+                    
+                      <a href="guides/color-lab.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Color Lab & Contrast Suite
+                      </a>
+                    
+                      <a href="guides/color-shades.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Color Shades & Tints Generator
+                      </a>
+                    
+                      <a href="guides/box-shadow.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; CSS Box Shadow Generator Guide & Layer Builder
+                      </a>
+                    
+                      <a href="guides/clip-path-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; CSS Clip-Path Generator & Polygon Shape Maker
+                      </a>
+                    
+                      <a href="guides/gradient-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; CSS Gradient Generator
+                      </a>
+                    
+                      <a href="guides/css-studio.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; CSS Studio Suite
+                      </a>
+                    
+                      <a href="guides/glassmorphism-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Glassmorphism CSS Generator Guide & Frosted Glass UI
+                      </a>
+                    
+                      <a href="guides/graphics-studio.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Graphics Designer & Screenshot Studio
+                      </a>
+                    
+                      <a href="guides/color-palette.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Harmonic Color Palette Generator & WCAG Contrast
+                      </a>
+                    
+                      <a href="guides/color-extractor.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Image Color Palette Extractor & Eyedropper
+                      </a>
+                    
+                      <a href="guides/favicon-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Multi-Resolution Favicon & PWA App Icon Suite
+                      </a>
+                    
+                      <a href="guides/svg-animator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; SVG Animation Studio
+                      </a>
+                    
+                  </div>
+                </div>
+  
+
+                <div style="margin-bottom: 18px;">
+                  <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                    <span>⚡</span>
+                    <span>Developer Tools & Code Utilities (30)</span>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
+                    
+                      <a href="guides/base64.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Base64 Encoder & Decoder Studio
+                      </a>
+                    
+                      <a href="guides/curl-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; cURL to Multi-Language Code Converter
+                      </a>
+                    
+                      <a href="guides/temp-mail.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Disposable Temp Mail Client
+                      </a>
+                    
+                      <a href="guides/qr-studio.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Dynamic QR & Barcode Studio
+                      </a>
+                    
+                      <a href="guides/qr-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Dynamic QR Code Studio
+                      </a>
+                    
+                      <a href="guides/code-playground.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; HTML/CSS/JS Live Playground
+                      </a>
+                    
+                      <a href="guides/image-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Image Optimizer & Converter
+                      </a>
+                    
+                      <a href="guides/json-to-types.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; JSON to TypeScript, Python & Go Interface Converter
+                      </a>
+                    
+                      <a href="guides/json-formatter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; JSON, SQL & CSV Data Formatter Suite
+                      </a>
+                    
+                      <a href="guides/json-yaml-csv.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; JSON, YAML & CSV Data Converter Studio
+                      </a>
+                    
+                      <a href="guides/jwt-decoder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; JWT Decoder & Token Parser
+                      </a>
+                    
+                      <a href="guides/qr-scanner.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Live Camera & Image QR Code Scanner
+                      </a>
+                    
+                      <a href="guides/markdown-preview.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Live Markdown Editor & Previewer
+                      </a>
+                    
+                      <a href="guides/seo-previewer.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Meta Tag & SEO Previewer
+                      </a>
+                    
+                      <a href="guides/mock-data-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Private CSV/JSON Mock Data Generator
+                      </a>
+                    
+                      <a href="guides/regex-extractor.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Regex Match Extractor & Dynamic Replacer
+                      </a>
+                    
+                      <a href="guides/robots-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Robots.txt Visual Builder & AI Bot Shield
+                      </a>
+                    
+                      <a href="guides/pipeline-builder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Smart Chain Pipeline Builder
+                      </a>
+                    
+                      <a href="guides/lorem-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Smart Lorem Ipsum & Typographic Dummy Text Generator
+                      </a>
+                    
+                      <a href="guides/sql-beautifier.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; SQL Query Formatter & Beautifier Studio
+                      </a>
+                    
+                      <a href="guides/payment-guide.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Step-by-Step Payment & License Activation
+                      </a>
+                    
+                      <a href="guides/text-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Text Case Converter & Capitalization Studio
+                      </a>
+                    
+                      <a href="guides/text-encoder-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Text Cases & Encoder Suite
+                      </a>
+                    
+                      <a href="guides/text-diff.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Text Diff Comparison Tool
+                      </a>
+                    
+                      <a href="guides/text-analyzer.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Text Readability & Analyzer
+                      </a>
+                    
+                      <a href="guides/formatter-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Universal Code & Data Formatter Suite
+                      </a>
+                    
+                      <a href="guides/url-encoder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; URL Percent-Encoder & Decoder
+                      </a>
+                    
+                      <a href="guides/url-parser.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; URL Query Parser & Builder
+                      </a>
+                    
+                      <a href="guides/cron-builder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Visual Cron Expression Builder & Explainer
+                      </a>
+                    
+                      <a href="guides/regex-tester.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Visual Regex & Extractor Suite
+                      </a>
+                    
+                  </div>
+                </div>
+  
+
+                <div style="margin-bottom: 18px;">
+                  <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                    <span>🧮</span>
+                    <span>Math, Time, Networks & Converters (8)</span>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
+                    
+                      <a href="guides/datetime-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Date & Time Suite
+                      </a>
+                    
+                      <a href="guides/date-calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Date Duration & Business Days Calculator
+                      </a>
+                    
+                      <a href="guides/ip-subnet-calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; IP Subnet & MAC Address Calculator
+                      </a>
+                    
+                      <a href="guides/subnet-calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; IPv4 Subnet CIDR Calculator & Network Planner
+                      </a>
+                    
+                      <a href="guides/mac-lookup.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; MAC Address OUI Vendor Lookup
+                      </a>
+                    
+                      <a href="guides/calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Scientific Calculator
+                      </a>
+                    
+                      <a href="guides/unit-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Unit Converter
+                      </a>
+                    
+                      <a href="guides/epoch-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Unix Epoch Timestamp Converter & Timezone
+                      </a>
+                    
+                  </div>
+                </div>
+  
+
+                <div style="margin-bottom: 18px;">
+                  <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                    <span>🎵</span>
+                    <span>Audio & Video Media Studio (8)</span>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
+                    
+                      <a href="guides/audio-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Audio Studio, Transcoder & Waveform Trimmer
+                      </a>
+                    
+                      <a href="guides/screen-recorder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Browser Screen & Tab Recorder
+                      </a>
+                    
+                      <a href="guides/screenshot-capture.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Browser Screenshot & Window Mockup Studio
+                      </a>
+                    
+                      <a href="guides/audio-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; In-Browser Universal Audio Converter
+                      </a>
+                    
+                      <a href="guides/mp4-to-mp3.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; MP4 to MP3 Audio Track Extractor
+                      </a>
+                    
+                      <a href="guides/video-speed.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Video Playback Speed & Pitch Controller
+                      </a>
+                    
+                      <a href="guides/video-to-gif.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Video to Animated GIF Converter
+                      </a>
+                    
+                      <a href="guides/voice-recorder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                        &bull; Voice Recorder & Audio Waveform Studio
+                      </a>
+                    
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+
+            <!-- Action Bar: Toggle Button + Direct Hub Link -->
+            <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+              <button id="toggle-home-guides-btn" onclick="app.toggleHomeGuides()" style="background: rgba(255, 255, 255, 0.05); color: var(--accent-cyan); border: 1px solid rgba(0, 242, 254, 0.3); font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='rgba(0, 242, 254, 0.1)'; this.style.borderColor='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(0, 242, 254, 0.3)';">
+                <span>✨ Show All <span class="dynamic-guides-count">92</span> Guides &amp; Full Catalog</span>
+                <span style="font-size: 11px;">▾</span>
+              </button>
+              <a href="guides/index.html" style="color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">
+                <span>Open Searchable Guides Hub</span>
+                <span>&rarr;</span>
+              </a>
             </div>
           </div>
         </div>

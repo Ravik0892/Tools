@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Centered Glow & Icon: Scale 24x24 box by 2.2 to fit safe zone (27..81) -->
+    <group
+        android:scaleX="2.2"
+        android:scaleY="2.2"
+        android:translateX="27.6"
+        android:translateY="27.6">
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FF007A"
+            android:strokeWidth="2.5"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M9.813,15.904 L9,21 L14.907,18 M21,3 L13.882,10.118 M3,21 L10.118,13.882 M10.118,10.118 L13.882,13.882 M10.118,10.118 L3,3 M13.882,10.118 L21,21" />
+    </group>
+</vector>

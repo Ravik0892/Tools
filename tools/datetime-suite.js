@@ -279,7 +279,7 @@ export default {
       }
     };
 
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
@@ -292,13 +292,25 @@ export default {
         guideTitle.innerText = guides[tabId].title;
         guideSteps.innerHTML = guides[tabId].steps;
       }
+
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("datetime-suite", tabId, { pushHistory: true });
+      }
     };
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+      tab.addEventListener("click", () => switchTab(tab.dataset.tab, true));
     });
 
-    switchTab(initialTab);
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("datetime-suite", (tabId) => switchTab(tabId, false));
+    }
+
+    switchTab(initialTab, false);
+    const requestedSubtool = appInstance.activeSubtool;
+    if (requestedSubtool && appInstance && typeof appInstance.syncSubtab === "function") {
+      appInstance.syncSubtab("datetime-suite", requestedSubtool, { pushHistory: false, replaceHistory: true });
+    }
 
     // ==========================================
     // EPOCH CONVERTER CODE

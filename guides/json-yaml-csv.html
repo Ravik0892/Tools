@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON, YAML & CSV Data Converter Studio Guide | OmniTool Hub</title>
+  <meta name="description" content="Convert structured data seamlessly between JSON, YAML, and CSV formats client-side with automatic delimiter detection and syntax validation.">
+  <meta name="keywords" content="json to csv, csv to json, json to yaml, yaml to json, csv to yaml, structured data converter, client side data converter">
+  <link rel="canonical" href="https://omnitool.worldsneed.com/guides/json-yaml-csv.html">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="JSON, YAML & CSV Data Converter Studio Guide | OmniTool Hub">
+  <meta property="og:description" content="Convert structured data seamlessly between JSON, YAML, and CSV formats client-side with automatic delimiter detection and syntax validation.">
+  <meta property="og:url" content="https://omnitool.worldsneed.com/guides/json-yaml-csv.html">
+  <meta property="og:site_name" content="OmniTool Hub">
+  <meta property="og:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JSON, YAML & CSV Data Converter Studio Guide | OmniTool Hub">
+  <meta name="twitter:description" content="Convert structured data seamlessly between JSON, YAML, and CSV formats client-side with automatic delimiter detection and syntax validation.">
+  <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.png">
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FG02T8BFR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      gtag('config', 'G-7FG02T8BFR', { anonymize_ip: true });
+    }
+  </script>
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=2.1.5">
+
+  <!-- JSON-LD Structured Data for Rich Search Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "OmniTool Hub",
+            "item": "https://omnitool.worldsneed.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides Hub",
+            "item": "https://omnitool.worldsneed.com/guides/index.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "JSON, YAML & CSV Data Converter Guide",
+            "item": "https://omnitool.worldsneed.com/guides/json-yaml-csv.html"
+          }
+        ]
+      },
+      {
+        "@type": "TechArticle",
+        "headline": "JSON, YAML & CSV Data Converter Studio Guide",
+        "description": "Convert structured data seamlessly between JSON, YAML, and CSV formats client-side with automatic delimiter detection and syntax validation.",
+        "author": {
+          "@type": "Organization",
+          "name": "OmniTool Hub"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "OmniTool Hub",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://omnitool.worldsneed.com/social_media_assets/profile_avatar_icon_1080x1080.svg"
+          }
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.png",
+          "width": 1200,
+          "height": 630
+        },
+        "datePublished": "2026-06-27",
+        "dateModified": "2026-11-05",
+        "mainEntityOfPage": "https://omnitool.worldsneed.com/guides/json-yaml-csv.html"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+  {
+    "@type": "Question",
+    "name": "How does it handle nested JSON objects when converting to CSV?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "It automatically flattens nested objects into dot-notation columns (e.g. `user.address.city`) so no relational hierarchy is lost."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Can I choose custom delimiters for CSV output?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. You can select Commas (`,`), Semicolons (`;`), Tabs (`\\t`), or Pipes (`|`) for TSV and international CSV compatibility."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Does it validate YAML indentation and syntax?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Built-in linter diagnostics pinpoint syntax errors and improper indentation levels with line number highlights."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Is there a file size limit?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Because execution runs in local browser memory, datasets containing tens of thousands of rows parse smoothly."
+    }
+  }
+]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-app: #07090e;
+      --bg-card: rgba(18, 24, 38, 0.65);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9d4edd;
+      --accent-emerald: #10b981;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-app);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(157, 78, 221, 0.06) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      padding: 0 0 60px 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .top-nav {
+      width: 100%;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .top-nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-link-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .nav-link-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-launch-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px 18px;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(0, 242, 254, 0.25);
+      transition: all 0.2s;
+    }
+
+    .nav-launch-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.35);
+    }
+
+    .breadcrumbs-wrap {
+      max-width: 1240px;
+      width: 100%;
+      margin: 20px auto 0 auto;
+      padding: 0 24px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumbs a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .breadcrumbs .current {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1240px;
+      width: 100%;
+      margin: 24px auto 0 auto;
+      padding: 0 24px;
+      flex: 1;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--accent-cyan);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .live-tool-embed-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 48px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .live-tool-embed-header {
+      padding: 14px 20px;
+      background: rgba(10, 14, 23, 0.95);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .live-status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+      display: inline-block;
+    }
+
+    .live-fullscreen-link {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .live-guide-tool-viewport {
+      min-height: 480px;
+      background: #0b0f19;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .guide-tool-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+      font-weight: 600;
+      gap: 14px;
+    }
+
+    .guide-tool-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(0, 242, 254, 0.15);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    article h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      border-left: 3px solid var(--accent-cyan);
+      padding-left: 12px;
+    }
+
+    article p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .suite-notice-box {
+      margin: 20px 0 28px 0;
+      padding: 16px 20px;
+      border-radius: 12px;
+      background: rgba(0, 242, 254, 0.05);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .suite-notice-box strong {
+      color: var(--accent-cyan);
+    }
+
+    .specs-table-wrap {
+      overflow-x: auto;
+      margin: 20px 0 32px 0;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: rgba(10, 14, 23, 0.65);
+    }
+
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .specs-table th {
+      padding: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-cyan);
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(0, 242, 254, 0.04);
+    }
+
+    .bottom-cta-banner {
+      margin-top: 50px;
+      padding: 36px 30px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.08), rgba(157, 78, 221, 0.08));
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bottom-cta-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(0, 242, 254, 0.3);
+      transition: all 0.2s;
+    }
+
+    .bottom-cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 242, 254, 0.4);
+    }
+
+    footer.hub-footer {
+      max-width: 1240px;
+      margin: 60px auto 0 auto;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      width: 100%;
+    }
+
+    footer.hub-footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.2s;
+    }
+
+    footer.hub-footer a:hover {
+      color: var(--accent-cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
+        </svg>
+        <span>OmniTool Hub</span>
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-link-btn">📚 All Guides</a>
+        <a href="formatter-suite.html" class="nav-link-btn">📦 Data Formatter & Validator Suite Guide</a>
+        <a href="../index.html#tool/json-yaml-csv" class="nav-launch-btn">🚀 Open Tool</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs-wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="../index.html">🏠 Home</a>
+      <span>/</span>
+      <a href="index.html">Guides Hub</a>
+      <span>/</span>
+      <a href="formatter-suite.html">Data Formatter & Validator Suite</a>
+      <span>/</span>
+      <span class="current">JSON, YAML & CSV Data Converter Guide</span>
+    </nav>
+  </div>
+
+  <main class="container">
+    <header>
+      <div class="category-pill">Data Formatters</div>
+      <h1>JSON, YAML & CSV Data Converter Guide</h1>
+      <div class="meta">
+        <span class="meta-tag">📅 Updated Nov 2026</span>
+        <span class="meta-tag">🔒 100% Offline Client-Side</span>
+        <span class="meta-tag">⚡ Zero Server Uploads</span>
+      </div>
+    </header>
+
+    <div class="suite-notice-box">
+      <strong>📦 Master Suite Integration:</strong>
+      This utility runs as a high-performance engine inside the unified 
+      <a href="formatter-suite.html" style="color: var(--accent-cyan); font-weight: 700; text-decoration: none;">Data Formatter & Validator Suite</a>. 
+      You can launch it directly as a standalone tool or switch between sibling utilities without losing state.
+    </div>
+
+    <!-- LIVE INTERACTIVE EMBEDDED TOOL WORKSPACE -->
+    <section class="live-tool-embed-card">
+      <div class="live-tool-embed-header">
+        <div class="live-status-indicator">
+          <span class="pulse-dot"></span>
+          <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
+        </div>
+        <div class="live-tool-quick-links">
+          <a href="../index.html#tool/json-yaml-csv" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+        </div>
+      </div>
+      <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
+        <div class="guide-tool-loading">
+          <div class="guide-tool-spinner"></div>
+          <span>Loading JSON, YAML & CSV Data Converter Guide Engine...</span>
+        </div>
+      </div>
+    </section>
+
+    <article>
+      <p>Modern development pipelines continuously interchange configuration files, database exports, and spreadsheet data across JSON, YAML, and CSV. OmniTool Hub provides instant 3-way bidirectional conversion with smart schema detection, nested object flattening, and syntax highlighting.</p>
+
+      <h2>Key Property Parameters &amp; Specifications</h2>
+      <div class="specs-table-wrap">
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Data Structure</th>
+              <th>JSON Representation</th>
+              <th>YAML Syntax</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-main); font-family: var(--font-mono); font-size: 13px;">Key-Value Object</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-purple);">`{"name": "Dev"}`</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; color: var(--text-muted);">`name: Dev`</td>
+          </tr>
+  
+          <tr>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-main); font-family: var(--font-mono); font-size: 13px;">Array / List</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-purple);">`["apple", "banana"]`</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; color: var(--text-muted);">`- apple\n- banana`</td>
+          </tr>
+  
+          <tr>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-main); font-family: var(--font-mono); font-size: 13px;">Nested Objects</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-purple);">`{"geo": {"lat": 40}}`</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; color: var(--text-muted);">`geo:\n  lat: 40`</td>
+          </tr>
+  
+          <tr>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-main); font-family: var(--font-mono); font-size: 13px;">Comments Support</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-purple);">Not supported natively</td>
+            <td style="padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; color: var(--text-muted);">Supported with `#`</td>
+          </tr>
+  
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Implementation Guide &amp; Technical Reference</h2>
+      
+        <div style="margin-bottom: 24px;">
+          <h4 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Flattening Nested Keys for CSV Export</h4>
+          <pre style="background: rgba(10, 14, 23, 0.95); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; color: #a5f3fc; line-height: 1.5;"><code>function flattenObject(obj, prefix = '') {
+  return Object.keys(obj).reduce((acc, k) => {
+    const pre = prefix.length ? prefix + '.' : '';
+    if (typeof obj[k] === 'object' && obj[k] !== null && !Array.isArray(obj[k])) {
+      Object.assign(acc, flattenObject(obj[k], pre + k));
+    } else {
+      acc[pre + k] = obj[k];
+    }
+    return acc;
+  }, {});
+}</code></pre>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">Dot-notation column flattening.</p>
+        </div>
+  
+
+      <h2>Frequently Asked Questions (FAQ)</h2>
+      <div class="faq-accordion">
+        
+        <div class="faq-item" style="margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; background: rgba(255, 255, 255, 0.02);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">How does it handle nested JSON objects when converting to CSV?</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0;">It automatically flattens nested objects into dot-notation columns (e.g. `user.address.city`) so no relational hierarchy is lost.</p>
+        </div>
+  
+        <div class="faq-item" style="margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; background: rgba(255, 255, 255, 0.02);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">Can I choose custom delimiters for CSV output?</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0;">Yes. You can select Commas (`,`), Semicolons (`;`), Tabs (`\t`), or Pipes (`|`) for TSV and international CSV compatibility.</p>
+        </div>
+  
+        <div class="faq-item" style="margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; background: rgba(255, 255, 255, 0.02);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">Does it validate YAML indentation and syntax?</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0;">Yes. Built-in linter diagnostics pinpoint syntax errors and improper indentation levels with line number highlights.</p>
+        </div>
+  
+        <div class="faq-item" style="margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; background: rgba(255, 255, 255, 0.02);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">Is there a file size limit?</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0;">Because execution runs in local browser memory, datasets containing tens of thousands of rows parse smoothly.</p>
+        </div>
+  
+      </div>
+
+      <div class="bottom-cta-banner">
+        <h3 style="font-size: 22px; font-weight: 800; color: var(--text-main);">Process Data Securely in Your Browser</h3>
+        <p style="font-size: 14.5px; color: var(--text-muted); max-width: 600px; margin: 0;">
+          Execute client-side conversions and calculations with instant zero-latency feedback. No cloud uploads, no account registration, 100% private.
+        </p>
+        <a href="../index.html#tool/json-yaml-csv" class="bottom-cta-btn">⚡ Launch JSON, YAML & CSV Data Converter Guide Now</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="hub-footer">
+    <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
+    <p style="margin-top: 8px;">
+      <a href="../index.html">Home</a> &bull;
+      <a href="index.html">Guides Hub</a> &bull;
+      <a href="formatter-suite.html">Data Formatter & Validator Suite</a> &bull;
+      <a href="../index.html#privacy">Privacy Policy</a> &bull;
+      <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  </footer>
+
+  <!-- Live Tool Loader Script -->
+  <script type="module">
+    const guideApp = {
+      activeSubtab: 'csv',
+      activeSubtool: 'json-yaml-csv',
+      tools: [{ id: 'formatter-suite', name: 'Data Formatter & Validator Suite', subLabel: 'Data Formatters' }],
+      showToast(msg, type) { console.log('[' + type + '] ' + msg); },
+      playSynthSound() {},
+      getConfigValue(k, d) { return localStorage.getItem(k) || d; },
+      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; },
+      syncSubtab(suiteId, tabId) {},
+      registerTabSwitcher(suiteId, fn) {}
+    };
+
+    const targetModule = 'formatter-suite.js';
+    try {
+      const module = await import('../tools/' + targetModule);
+      const toolInstance = module.default;
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (toolInstance && typeof toolInstance.renderUI === 'function' && viewport) {
+        viewport.innerHTML = toolInstance.renderUI();
+        if (typeof toolInstance.init === 'function') {
+          await toolInstance.init(viewport, guideApp);
+        }
+      }
+    } catch (err) {
+      console.warn('[OmniTool Guide] Live tool initialization notice:', err);
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (viewport) {
+        viewport.innerHTML = `
+          <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
+            <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
+            <a href="../index.html#tool/json-yaml-csv" class="nav-launch-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -875,16 +875,16 @@
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All 48 Guides</a>
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#tool/screen-recorder" class="nav-launch-btn">🚀 Launch Screen Recorder</a>
+        <a href="/guides/" class="nav-link-btn">📚 All Guides</a>
+        <a href="/" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="/tool/screen-recorder" class="nav-launch-btn">🚀 Launch Screen Recorder</a>
       </div>
     </div>
   </nav>
@@ -892,9 +892,9 @@
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">🏠 Home</a>
+      <a href="/">🏠 Home</a>
       <span>/</span>
-      <a href="index.html">Guides Hub</a>
+      <a href="/guides/">Guides Hub</a>
       <span>/</span>
       <span class="current">Browser Screen & Tab Recorder</span>
     </nav>
@@ -919,7 +919,7 @@
           <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
         </div>
         <div class="live-tool-quick-links">
-          <a href="../index.html#tool/screen-recorder" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+          <a href="/tool/screen-recorder" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
       <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
@@ -1022,16 +1022,16 @@
     <div class="cta-container">
       <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
-      <a href="../index.html#tool/screen-recorder" class="cta-btn">🚀 Launch Screen Recorder</a>
+      <a href="/tool/screen-recorder" class="cta-btn">🚀 Launch Screen Recorder</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All 48 Tool Guides &rarr;</a>
+      <a href="/guides/" class="all-guides-cta">📚 Browse All Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All 48 Guides &rarr;</a>
+        <a href="/guides/">View All Guides &rarr;</a>
       </div>
       <div class="related-grid">
         
@@ -1066,8 +1066,8 @@
   <footer class="guide-footer">
     <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
     <p style="margin-top: 8px;">
-      <a href="../index.html">Home</a> &bull;
-      <a href="index.html">Guides Hub</a> &bull;
+      <a href="/">Home</a> &bull;
+      <a href="/guides/">Guides Hub</a> &bull;
       <a href="../index.html#privacy">Privacy Policy</a> &bull;
       <a href="../index.html#terms">Terms of Service</a> &bull;
       <a href="../index.html#refund">Refund Policy</a> &bull;
@@ -1125,7 +1125,7 @@
       },
       playSynthSound() {},
       getConfigValue(k, d) { return localStorage.getItem(k) || d; },
-      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; }
+      navigateToTool(id) { window.location.href = '/tool/' + id; }
     };
 
     const targetModule = 'screen-recorder.js';
@@ -1146,7 +1146,7 @@
         viewport.innerHTML = `
           <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
             <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
-            <a href="../index.html#tool/screen-recorder" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+            <a href="/tool/screen-recorder" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
           </div>
         `;
       }

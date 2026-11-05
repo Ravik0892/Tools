@@ -1,14 +1,21 @@
-// Legacy standalone module - consolidated into a unified suite.
+// Standalone proxy for Base64 Encoder & Decoder -> text-encoder-suite
 export default {
   id: "base64-legacy",
-  name: "Legacy Base64 Encoder/Decoder",
+  name: "Base64 Encoder & Decoder",
   renderUI() {
-    return `<div style="padding: 40px; text-align: center; color: var(--text-muted); font-weight: bold;">
-      This standalone tool has been consolidated into the Text Cases & Encoder Suite.
+    return `<div style="display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--text-muted); font-weight: 600;">
+      <span class="clock-widget" style="border: none; background: none;">
+        Loading Base64 Encoder & Decoder...
+      </span>
     </div>`;
   },
   init(container, appInstance) {
-    console.warn("Legacy standalone module accessed. Redirecting to dashboard...");
-    appInstance.navigateToTool("dashboard");
+    if (appInstance && typeof appInstance.navigateToTool === "function") {
+      appInstance.activeSubtab = "base64";
+      appInstance.activeSubtool = "base64";
+      appInstance.navigateToTool("text-encoder-suite", false);
+    } else {
+      window.location.href = "/tool/base64";
+    }
   }
 };

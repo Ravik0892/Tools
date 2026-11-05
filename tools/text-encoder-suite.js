@@ -227,7 +227,7 @@ export default {
       }
     };
 
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
@@ -250,12 +250,16 @@ export default {
         guideTitle.innerText = guides[tabId].title;
         guideSteps.innerHTML = guides[tabId].steps;
       }
+
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("text-encoder-suite", tabId, { pushHistory: true });
+      }
     };
 
     // Tab switcher events
     tabs.forEach(tab => {
       tab.addEventListener("click", () => {
-        switchTab(tab.dataset.tab);
+        switchTab(tab.dataset.tab, true);
       });
     });
 
@@ -367,9 +371,18 @@ export default {
       }
     });
 
+    // Register tab switcher with appInstance for browser back/forward (popstate)
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("text-encoder-suite", (tabId) => switchTab(tabId, false));
+    }
+
     // Set initial active tab
     const initialTab = appInstance.activeSubtab || 'case';
     appInstance.activeSubtab = null;
-    switchTab(initialTab);
+    switchTab(initialTab, false);
+    const requestedSubtool = appInstance.activeSubtool;
+    if (requestedSubtool && appInstance && typeof appInstance.syncSubtab === "function") {
+      appInstance.syncSubtab("text-encoder-suite", requestedSubtool, { pushHistory: false, replaceHistory: true });
+    }
   }
 };

@@ -243,7 +243,7 @@ export default {
       date: /\d{4}-\d{2}-\d{2}/g
     };
 
-    const switchTab = (tabId) => {
+    const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
 
@@ -265,11 +265,19 @@ export default {
         matchCountBadge.innerText = "0 items";
         extOutput.value = "";
       }
-    };
+    
+      if (updateRoute && appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("regex-tester", tabId, { pushHistory: true })
+    };;
+      }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+      tab.addEventListener("click", () => switchTab(tab.dataset.tab, true));
     });
+
+    if (appInstance && typeof appInstance.registerTabSwitcher === "function") {
+      appInstance.registerTabSwitcher("regex-tester", (tabId) => switchTab(tabId, false));
+    }
 
     // --- Tester Logic ---
     const testRegex = () => {
@@ -516,6 +524,14 @@ export default {
     });
 
     // Initialize state
-    switchTab("tester");
+    if (appInstance.activeSubtab) {
+      switchTab(appInstance.activeSubtab, false);
+      if (appInstance && typeof appInstance.syncSubtab === "function") {
+        appInstance.syncSubtab("regex-tester", appInstance.activeSubtab, { pushHistory: false, replaceHistory: true });
+      }
+      appInstance.activeSubtab = null;
+    } else {
+      switchTab("tester", false);
+    }
   }
 };
