@@ -485,10 +485,10 @@ export default {
         </div>
 
         <!-- Studio Canvas & Live Viewport (Right Panel) -->
-        <div class="tool-panel sc-viewport-panel" style="display: flex; flex-direction: column; position: relative; min-height: 520px;">
+        <div class="tool-panel sc-viewport-panel" style="display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 520px;">
           
           <!-- Viewport Header Toolbar -->
-          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px; position: sticky; top: -24px; z-index: 15; background: var(--bg-card); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); padding-top: 2px;">
+          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <span style="font-size: 13px; font-weight: 700; color: var(--text-main);">Live Studio Canvas</span>
               <span id="sc-canvas-res-label" style="font-size: 11px; font-family: monospace; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">1920 × 1080</span>
@@ -510,22 +510,22 @@ export default {
           </div>
 
           <!-- Canvas Interactive Workspace Area -->
-          <div id="sc-canvas-viewport" style="width: 100%; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, rgba(30, 41, 59, 0.5) 0%, rgba(9, 13, 22, 0.95) 100%); border-radius: 12px; padding: 24px 20px; border: 1px solid var(--border-color); position: relative; cursor: crosshair; box-sizing: border-box; min-height: 380px;">
+          <div id="sc-canvas-viewport" style="flex: 1; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, rgba(30, 41, 59, 0.5) 0%, rgba(9, 13, 22, 0.95) 100%); border-radius: 10px; padding: 20px; border: 1px solid var(--border-color); overflow: auto; position: relative; cursor: crosshair;">
             
             <!-- Master Canvas Container -->
-            <div id="sc-canvas-wrapper" style="display: flex; justify-content: center; align-items: center; position: relative; max-width: 100%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); border-radius: 8px; transition: transform 0.2s ease;">
-              <canvas id="sc-master-canvas" style="display: block; max-width: 100%; height: auto; border-radius: 8px; touch-action: none; object-fit: contain;"></canvas>
+            <div id="sc-canvas-wrapper" style="display: inline-block; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); border-radius: 8px; transition: transform 0.2s ease;">
+              <canvas id="sc-master-canvas" style="display: block; max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 8px; touch-action: none;"></canvas>
             </div>
 
             <!-- Floating Countdown Overlay -->
-            <div id="sc-countdown-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(8px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
+            <div id="sc-countdown-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 50; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
               <div style="font-size: 72px; font-weight: 900; font-family: monospace; color: var(--accent-cyan); text-shadow: 0 0 30px rgba(0, 242, 254, 0.6); animation: pulse 1s infinite;" id="sc-countdown-number">3</div>
               <p style="font-size: 14px; font-weight: 600; color: #fff; margin: 0; text-align: center;">Switch to your target tab or window now!<br><span style="font-size: 12px; color: var(--text-muted);">Capturing screen in seconds...</span></p>
               <button id="sc-btn-cancel-countdown" class="tool-btn secondary" style="font-size: 12px; padding: 6px 16px;">Cancel Snip</button>
             </div>
 
             <!-- Webcam Viewfinder Modal Overlay -->
-            <div id="sc-webcam-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;">
+            <div id="sc-webcam-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 45; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;">
               <div style="max-width: 520px; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--accent-cyan); position: relative; box-shadow: 0 10px 40px rgba(0, 242, 254, 0.2);">
                 <video id="sc-webcam-video" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
                 <div style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px;">
@@ -540,7 +540,7 @@ export default {
             </div>
 
             <!-- Floating Text Callout Dialog Overlay -->
-            <div id="sc-text-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+            <div id="sc-text-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(6px); z-index: 55; align-items: center; justify-content: center; padding: 20px;">
               <div style="max-width: 440px; width: 100%; background: #0f172a; border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 18px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); display: flex; flex-direction: column; gap: 12px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <h4 style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;">
@@ -579,7 +579,7 @@ export default {
             </div>
 
             <!-- OCR Text Extraction Results Overlay -->
-            <div id="sc-ocr-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+            <div id="sc-ocr-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 55; align-items: center; justify-content: center; padding: 20px;">
               <div style="max-width: 620px; width: 100%; max-height: 80vh; background: #0b0f19; border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; gap: 14px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div style="display: flex; align-items: center; gap: 8px;">

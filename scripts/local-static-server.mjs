@@ -3,11 +3,12 @@ import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 
 const root = process.cwd();
-const port = Number(process.argv[2] || 8083);
+const port = Number(process.argv[2] || 8000);
 const types = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
+  ".mjs": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".svg": "image/svg+xml",
   ".png": "image/png",
@@ -19,6 +20,15 @@ const types = {
 };
 
 createServer(async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(200).end();
+    return;
+  }
+
   const url = new URL(req.url || "/", `http://${req.headers.host}`);
   let pathname = decodeURIComponent(url.pathname);
 

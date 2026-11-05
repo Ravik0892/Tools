@@ -1,6 +1,6 @@
 # auto_sync.ps1
 # Simple loop daemon that checks for local changes every 15 seconds and pushes them to GitHub.
-$currentDirectory = "f:\Tools website"
+$currentDirectory = if ($PSScriptRoot) { Split-Path -Parent $PSScriptRoot } else { (Get-Location).Path }
 Set-Location $currentDirectory
 
 # Set console output encoding to UTF-8

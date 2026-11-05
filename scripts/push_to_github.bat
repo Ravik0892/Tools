@@ -1,22 +1,28 @@
 @echo off
-cd /d "f:\Tools website"
-echo === Initializing git (if needed) ===
-git init
+title OmniTool Hub - Push Active Branch to GitHub
+cd /d "%~dp0.."
+
+echo ==========================================================
+echo        OmniTool Hub - Direct Remote Push
+echo ==========================================================
 echo.
-echo === Staging all files ===
-git add .
+
+:: Detect active git branch
+for /f "tokens=*" %%i in ('git branch --show-current 2^>nul') do set CURRENT_BRANCH=%%i
+if "%CURRENT_BRANCH%"=="" set CURRENT_BRANCH=main
+
+echo Active branch detected: %CURRENT_BRANCH%
+echo Pushing local commits to origin/%CURRENT_BRANCH%...
 echo.
-echo === Creating initial commit ===
-git commit -m "Initial commit: OmniTool Hub v2 - Modular ES Module Architecture"
+
+git push origin %CURRENT_BRANCH%
+if %ERRORLEVEL% equ 0 (
+    echo.
+    echo [SUCCESS] Successfully pushed commits to GitHub (%CURRENT_BRANCH%)!
+) else (
+    echo.
+    echo [ERROR] Push failed. Check your internet connection or GitHub credentials.
+)
+
 echo.
-echo === Adding remote origin ===
-git remote add origin https://github.com/Ravik0892/Tools.git
-echo.
-echo === Renaming branch to main ===
-git branch -M main
-echo.
-echo === Pushing to GitHub ===
-git push -u origin main
-echo.
-echo === Done! ===
 pause
