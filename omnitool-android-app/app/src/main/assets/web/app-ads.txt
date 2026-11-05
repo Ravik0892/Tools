@@ -1,0 +1,7 @@
+# OmniTool Hub - Authorized Digital Sellers (app-ads.txt)
+# Replace 'pub-0000000000000000' with your actual Google AdMob Publisher ID (found in AdMob Settings -> Account Information)
+# Once deployed to your root domain (e.g. https://omnitool.worldsneed.com/app-ads.txt or https://worldsneed.com/app-ads.txt),
+# Google AdMob will automatically verify and approve your ad inventory.
+
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+

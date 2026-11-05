@@ -79,6 +79,8 @@ body {
   flex-direction: column;
   overflow-x: hidden;
   transition: background-color var(--transition-normal);
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Custom Scrollbars */
@@ -2394,14 +2396,21 @@ body {
 /* Responsive sidebars collapse */
 @media (max-width: 768px) {
   .sidebar {
-    position: absolute;
-    left: -280px;
-    top: 0;
-    bottom: 0;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 290px !important;
+    max-width: 85vw !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    transform: translateX(-100%);
+    z-index: 2000 !important;
   }
 
   .sidebar.show {
-    left: 0;
+    transform: translateX(0) !important;
+    box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.75), var(--shadow-lg) !important;
   }
 
   #sidebar-open-btn {
@@ -7301,7 +7310,46 @@ body {
 
 /* Mobile Split View Drawer Enhancements */
 @media (max-width: 1024px) {
-  .tool-content-layout.split-view {
+  /* Default Mobile & Tablet Behavior: Stack Panels Vertically so All Tools (Calculator, Formatters, Decoders) are 100% Usable */
+  .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) {
+    position: relative;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: auto !important;
+    width: 100% !important;
+    gap: 20px !important;
+  }
+
+  .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) > .tool-panel:first-of-type {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    background: var(--bg-card) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+    padding: 20px !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    z-index: auto !important;
+  }
+
+  .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) > .tool-panel:nth-of-type(2) {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: unset !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    position: static !important;
+  }
+
+  .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) .adjust-settings-fab,
+  .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) .split-view-backdrop {
+    display: none !important;
+  }
+
+  /* Slide-over Drawer for tools explicitly in drawer-mode */
+  .tool-content-layout.split-view.drawer-mode {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -7310,7 +7358,7 @@ body {
   }
 
   /* Left panel becomes a slide-over drawer */
-  .tool-content-layout.split-view>.tool-panel:first-of-type {
+  .tool-content-layout.split-view.drawer-mode > .tool-panel:first-of-type {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
@@ -7338,27 +7386,27 @@ body {
   }
 
   /* Custom dark scrollbars specifically for the drawer */
-  .tool-content-layout.split-view>.tool-panel:first-of-type::-webkit-scrollbar {
+  .tool-content-layout.split-view.drawer-mode > .tool-panel:first-of-type::-webkit-scrollbar {
     width: 6px !important;
   }
-  .tool-content-layout.split-view>.tool-panel:first-of-type::-webkit-scrollbar-track {
+  .tool-content-layout.split-view.drawer-mode > .tool-panel:first-of-type::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.2) !important;
   }
-  .tool-content-layout.split-view>.tool-panel:first-of-type::-webkit-scrollbar-thumb {
+  .tool-content-layout.split-view.drawer-mode > .tool-panel:first-of-type::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.15) !important;
     border-radius: 3px !important;
   }
-  .tool-content-layout.split-view>.tool-panel:first-of-type::-webkit-scrollbar-thumb:hover {
+  .tool-content-layout.split-view.drawer-mode > .tool-panel:first-of-type::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3) !important;
   }
 
   /* Slide drawer in when open */
-  .tool-content-layout.split-view.drawer-open>.tool-panel:first-of-type {
+  .tool-content-layout.split-view.drawer-mode.drawer-open > .tool-panel:first-of-type {
     transform: translateX(0) !important;
   }
 
   /* Right panel becomes full screen background */
-  .tool-content-layout.split-view>.tool-panel:nth-of-type(2) {
+  .tool-content-layout.split-view.drawer-mode > .tool-panel:nth-of-type(2) {
     width: 100% !important;
     flex: 1 !important;
     margin: 0 !important;
@@ -8583,7 +8631,7 @@ body {
 /* Gateway Tabs Bar - Responsive Grid Layout (NO HORIZONTAL SCROLLBAR) */
 .checkout-tabs-bar {
   display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 8px !important;
   width: 100% !important;
   flex-shrink: 0 !important;
@@ -8595,7 +8643,8 @@ body {
 
 @media (max-width: 620px) {
   .checkout-tabs-bar {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
   }
 }
 
@@ -8614,12 +8663,36 @@ body {
   font-size: 12.5px !important;
   font-weight: 600 !important;
   cursor: pointer !important;
-  white-space: nowrap !important;
+  min-width: 0 !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   outline: none !important;
   user-select: none !important;
   box-sizing: border-box !important;
   flex-shrink: 0 !important;
+}
+
+.chk-tab-btn span {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 480px) {
+  .checkout-modal-content {
+    width: 96% !important;
+    padding: 16px 10px !important;
+    border-radius: 14px !important;
+  }
+  .chk-tab-btn {
+    padding: 0 6px !important;
+    font-size: 11px !important;
+    height: 38px !important;
+    gap: 5px !important;
+  }
+  .chk-tab-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
 }
 
 .chk-tab-btn svg {
@@ -9987,6 +10060,14 @@ footer.guide-footer {
 /*   TOOL CAPABILITIES CHIPS & WORKFLOW BRIDGES             */
 /* ======================================================== */
 
+.crypto-header-tabs {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+  margin-left: 15px;
+}
+
 .tool-capabilities-bar {
   display: flex;
   align-items: center;
@@ -9996,6 +10077,9 @@ footer.guide-footer {
   margin-bottom: 4px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 .tool-capabilities-bar::-webkit-scrollbar {
   display: none;
@@ -10271,22 +10355,45 @@ footer.guide-footer {
   box-shadow: 0 0 0 2px #fff, 0 0 12px rgba(0, 242, 254, 0.5);
 }
 
-#sc-canvas-viewport::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Screenshot Studio Pro - Unified Single Scrollable Preview Container */
+.tool-content-layout.split-view > .tool-panel.sc-viewport-panel {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  min-height: 520px !important;
+  position: relative !important;
+  scrollbar-width: thin !important;
 }
 
-#sc-canvas-viewport::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+#sc-canvas-viewport {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  min-height: 380px !important;
 }
 
-#sc-canvas-viewport::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 4px;
+#sc-canvas-wrapper {
+  max-width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-#sc-canvas-viewport::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-cyan);
+#sc-master-canvas {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  object-fit: contain !important;
+}
+
+.sc-viewport-panel .tool-panel-ad {
+  margin-top: 16px !important;
+  width: 100% !important;
+  flex-shrink: 0 !important;
 }
 
 
@@ -11184,4 +11291,94 @@ body[data-ui-mode="beginner"] .hero-badge-pill .hero-badge-dot {
   background: rgba(var(--accent-cyan-rgb), 0.08);
   color: var(--accent-cyan);
   transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   MOBILE & CROSS-DEVICE PERFECTION ENHANCEMENTS
+   ========================================================================== */
+
+/* Prevent iOS Safari Automatic Zoom on Form Inputs & Search Fields */
+@media (max-width: 768px) {
+  input,
+  select,
+  textarea,
+  .form-input,
+  .form-select,
+  .input-text,
+  .input-textarea,
+  .search-bar,
+  #cp-search-input,
+  #tool-search,
+  #tool-search-mobile,
+  #checkout-activation-input,
+  #plans-activation-code {
+    font-size: 16px !important;
+  }
+}
+
+/* Accessible Touch Targets on Mobile Controls */
+@media (max-width: 550px) {
+  .main-header .control-btn,
+  .main-header .sidebar-toggle-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+  }
+}
+
+/* Responsive Panel Header & Sub-Tabs */
+@media (max-width: 768px) {
+  .panel-header {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+  .panel-header h3 {
+    min-width: 0 !important;
+  }
+  .crypto-header-tabs {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .crypto-header-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+  .tool-container {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+}
+
+/* ==========================================================================
+   Android Native App & Embedded Mode Styles
+   ========================================================================== */
+/* Android Native App & Embedded Mode Styles */
+body.app-embedded .main-header,
+body.app-embedded #app-sidebar,
+body.app-embedded .sidebar,
+body.app-embedded .app-footer,
+body.app-embedded #sidebar-open-btn,
+body.app-embedded .desktop-nav-menu,
+body.app-embedded .sidebar-toggle-btn {
+  display: none !important;
+}
+
+body.app-embedded .main-wrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+body.app-embedded .tool-viewport {
+  padding-top: 4px !important;
+  padding-bottom: 24px !important;
+}
+
+body.app-embedded .tool-bar {
+  display: none !important;
 }

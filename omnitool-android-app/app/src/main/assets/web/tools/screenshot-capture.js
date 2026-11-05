@@ -26,6 +26,10 @@ export default {
   selectedAnnotationIndex: -1,
   isDraggingAnnotation: false,
   dragAnnotationStart: null,
+  html2canvasPromise: null,
+  stitchImages: [],
+  sandboxVisualEdit: false,
+  sandboxIsScrollable: true,
 
   // Mockup & Canvas Configuration
   config: {
@@ -189,6 +193,27 @@ export default {
               </svg>
               Webcam Snapshot
             </button>
+
+            <!-- Advanced Web & Scrolling Capture Utilities -->
+            <div style="background: rgba(0, 242, 254, 0.03); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.5px;">WEBPAGE &amp; SCROLL SNIPPERS</span>
+                <span style="font-size: 10px; color: var(--text-muted);">100% Client-Side</span>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                <button id="sc-btn-open-bookmarklet" class="tool-btn secondary" style="font-size: 11px; padding: 7px 6px; justify-content: center; gap: 5px;" title="Snip &amp; edit any live external website">
+                  ⚡ Web Snapper
+                </button>
+                <button id="sc-btn-open-html-sandbox" class="tool-btn secondary" style="font-size: 11px; padding: 7px 6px; justify-content: center; gap: 5px;" title="Render and snip full scrollable HTML sections">
+                  🌐 HTML Snip
+                </button>
+              </div>
+
+              <button id="sc-btn-open-stitcher" class="tool-btn secondary" style="width: 100%; justify-content: center; padding: 8px; font-size: 11.5px; display: inline-flex; align-items: center; gap: 6px;" title="Combine multiple scrolling screenshots into one long image">
+                📑 Vertical Scroll Stitcher
+              </button>
+            </div>
 
             <!-- Instant Demo Sample Templates (Try Without Permissions) -->
             <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
@@ -460,10 +485,10 @@ export default {
         </div>
 
         <!-- Studio Canvas & Live Viewport (Right Panel) -->
-        <div class="tool-panel sc-viewport-panel" style="display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 520px;">
+        <div class="tool-panel sc-viewport-panel" style="display: flex; flex-direction: column; position: relative; min-height: 520px;">
           
           <!-- Viewport Header Toolbar -->
-          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px;">
+          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 8px; position: sticky; top: -24px; z-index: 15; background: var(--bg-card); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); padding-top: 2px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <span style="font-size: 13px; font-weight: 700; color: var(--text-main);">Live Studio Canvas</span>
               <span id="sc-canvas-res-label" style="font-size: 11px; font-family: monospace; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">1920 × 1080</span>
@@ -477,28 +502,30 @@ export default {
               <button id="sc-quick-rotate-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Rotate 90° Clockwise">↻ Rotate</button>
               <button id="sc-quick-flip-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Flip Horizontal">⇄ Flip</button>
               <button id="sc-quick-watermark-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Add Timestamp & Watermark Stamp">🏷️ Stamp</button>
+              <button id="sc-quick-sandbox-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Snip full scrollable HTML sections">🌐 HTML Snip</button>
+              <button id="sc-quick-stitch-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Stitch multiple screenshots vertically">📑 Stitch</button>
               <button id="sc-quick-eyedropper-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Sample color from screenshot">💉 Eyedropper</button>
               <button id="sc-reset-canvas-btn" class="tool-btn secondary" style="font-size: 11px; padding: 4px 8px;" title="Reset view">🔄 Reset</button>
             </div>
           </div>
 
           <!-- Canvas Interactive Workspace Area -->
-          <div id="sc-canvas-viewport" style="flex: 1; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, rgba(30, 41, 59, 0.5) 0%, rgba(9, 13, 22, 0.95) 100%); border-radius: 10px; padding: 20px; border: 1px solid var(--border-color); overflow: auto; position: relative; cursor: crosshair;">
+          <div id="sc-canvas-viewport" style="width: 100%; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, rgba(30, 41, 59, 0.5) 0%, rgba(9, 13, 22, 0.95) 100%); border-radius: 12px; padding: 24px 20px; border: 1px solid var(--border-color); position: relative; cursor: crosshair; box-sizing: border-box; min-height: 380px;">
             
             <!-- Master Canvas Container -->
-            <div id="sc-canvas-wrapper" style="display: inline-block; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); border-radius: 8px; transition: transform 0.2s ease;">
-              <canvas id="sc-master-canvas" style="display: block; max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 8px; touch-action: none;"></canvas>
+            <div id="sc-canvas-wrapper" style="display: flex; justify-content: center; align-items: center; position: relative; max-width: 100%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); border-radius: 8px; transition: transform 0.2s ease;">
+              <canvas id="sc-master-canvas" style="display: block; max-width: 100%; height: auto; border-radius: 8px; touch-action: none; object-fit: contain;"></canvas>
             </div>
 
             <!-- Floating Countdown Overlay -->
-            <div id="sc-countdown-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 50; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
+            <div id="sc-countdown-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(8px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
               <div style="font-size: 72px; font-weight: 900; font-family: monospace; color: var(--accent-cyan); text-shadow: 0 0 30px rgba(0, 242, 254, 0.6); animation: pulse 1s infinite;" id="sc-countdown-number">3</div>
               <p style="font-size: 14px; font-weight: 600; color: #fff; margin: 0; text-align: center;">Switch to your target tab or window now!<br><span style="font-size: 12px; color: var(--text-muted);">Capturing screen in seconds...</span></p>
               <button id="sc-btn-cancel-countdown" class="tool-btn secondary" style="font-size: 12px; padding: 6px 16px;">Cancel Snip</button>
             </div>
 
             <!-- Webcam Viewfinder Modal Overlay -->
-            <div id="sc-webcam-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 45; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;">
+            <div id="sc-webcam-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;">
               <div style="max-width: 520px; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--accent-cyan); position: relative; box-shadow: 0 10px 40px rgba(0, 242, 254, 0.2);">
                 <video id="sc-webcam-video" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
                 <div style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px;">
@@ -513,7 +540,7 @@ export default {
             </div>
 
             <!-- Floating Text Callout Dialog Overlay -->
-            <div id="sc-text-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(6px); z-index: 55; align-items: center; justify-content: center; padding: 20px;">
+            <div id="sc-text-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
               <div style="max-width: 440px; width: 100%; background: #0f172a; border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 18px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); display: flex; flex-direction: column; gap: 12px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <h4 style="margin: 0; font-size: 14px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;">
@@ -552,7 +579,7 @@ export default {
             </div>
 
             <!-- OCR Text Extraction Results Overlay -->
-            <div id="sc-ocr-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 55; align-items: center; justify-content: center; padding: 20px;">
+            <div id="sc-ocr-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
               <div style="max-width: 620px; width: 100%; max-height: 80vh; background: #0b0f19; border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; gap: 14px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div style="display: flex; align-items: center; gap: 8px;">
@@ -579,6 +606,191 @@ export default {
                     </button>
                     <button id="sc-ocr-btn-done" class="tool-btn secondary" style="font-size: 12px; padding: 7px 14px;">Done</button>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Webpage Snapper / Bookmarklet Modal Overlay -->
+            <div id="sc-bookmarklet-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+              <div style="max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; background: #0b0f19; border: 1px solid var(--accent-cyan); border-radius: 14px; padding: 22px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">⚡</span>
+                    <div>
+                      <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: #fff;">OmniTool Live Web Snapper Bookmarklet</h4>
+                      <span style="font-size: 11px; color: var(--text-muted);">Snip any live website, edit text, delete popups, and capture scrollable frames</span>
+                    </div>
+                  </div>
+                  <button id="sc-bm-btn-close" class="tool-btn secondary" style="padding: 2px 8px; font-size: 11px;">✕</button>
+                </div>
+
+                <div style="background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 10px; padding: 14px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <span style="font-size: 11.5px; color: #94a3b8;">Drag this button directly to your browser's Bookmarks Bar:</span>
+                  <a id="sc-bookmarklet-drag-link" href="#" class="tool-btn primary" style="padding: 10px 22px; font-size: 13.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; cursor: grab; box-shadow: 0 4px 18px rgba(0, 242, 254, 0.35);">
+                    ⚡ OmniTool Web Snapper
+                  </a>
+                  <span style="font-size: 10.5px; color: var(--text-muted);">(Press Ctrl+Shift+B in Chrome/Edge to show your Bookmarks Bar)</span>
+                </div>
+
+                <div style="display: flex; gap: 8px; justify-content: center;">
+                  <button id="sc-bm-btn-copy" class="tool-btn secondary" style="font-size: 12px; padding: 7px 16px; font-weight: 600;">
+                    📋 Copy Bookmarklet Script
+                  </button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                  <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 4px;">
+                    <strong style="font-size: 11.5px; color: #fff;">🎯 Snip Scrollable Sections</strong>
+                    <p style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.4;">Hover any container, card, or scrollable table. Automatically expands and captures the full scrolling height without cutting off!</p>
+                  </div>
+                  <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 4px;">
+                    <strong style="font-size: 11.5px; color: #fff;">✏️ In-Page Live Edit Mode</strong>
+                    <p style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.4;">Click any headline, paragraph, or number on any webpage to edit typos, change mock pricing, or test copy directly.</p>
+                  </div>
+                  <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 4px;">
+                    <strong style="font-size: 11.5px; color: #fff;">🗑️ Click-to-Delete Elements</strong>
+                    <p style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.4;">Click cookie banners, newsletters, sticky headers, or intrusive ads to remove them cleanly before snapping.</p>
+                  </div>
+                  <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 4px;">
+                    <strong style="font-size: 11.5px; color: #fff;">🔒 100% Client-Side & Legal</strong>
+                    <p style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.4;">Runs strictly inside your local browser tab on standard web APIs. Zero server uploads, zero rules broken.</p>
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+                  <button id="sc-bm-btn-done" class="tool-btn secondary" style="font-size: 12px; padding: 6px 18px;">Done</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live HTML Component & Section Sandbox Overlay -->
+            <div id="sc-html-sandbox-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+              <div style="max-width: 900px; width: 100%; max-height: 90vh; background: #0b0f19; border: 1px solid var(--accent-cyan); border-radius: 14px; padding: 20px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">🌐</span>
+                    <div>
+                      <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: #fff;">HTML Component & Scrollable Section Snapper</h4>
+                      <span style="font-size: 11px; color: var(--text-muted);">Edit mockups visually and capture full scrollable section height without cut-offs</span>
+                    </div>
+                  </div>
+                  <button id="sc-sandbox-btn-close" class="tool-btn secondary" style="padding: 2px 8px; font-size: 11px;">✕</button>
+                </div>
+
+                <!-- Sandbox Toolbar -->
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 11px; color: var(--text-muted);">Preset:</span>
+                    <select id="sc-sandbox-preset-select" class="tool-input" style="padding: 4px 8px; font-size: 11.5px;">
+                      <option value="pricing" selected>📊 SaaS Pricing Cards</option>
+                      <option value="code">💻 Long Code Window (Scrollable)</option>
+                      <option value="article">📜 Long Doc Section with Scrollbar</option>
+                      <option value="hero">🚀 Modern Dark Hero Banner</option>
+                      <option value="custom">✏️ Custom HTML/CSS Code</option>
+                    </select>
+                  </div>
+
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <button id="sc-sandbox-toggle-edit" class="tool-btn secondary" style="font-size: 11px; padding: 5px 10px; font-weight: 600;">
+                      ✏️ Visual Edit Mode: OFF
+                    </button>
+                    <button id="sc-sandbox-toggle-scroll" class="tool-btn secondary" style="font-size: 11px; padding: 5px 10px;">
+                      📐 Height: Scrollable (320px)
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Split Editor & Preview View -->
+                <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 12px; flex: 1; min-height: 380px; overflow: hidden;">
+                  <!-- HTML/CSS Source Code -->
+                  <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <span style="font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between;">
+                      <span>HTML / CSS Source</span>
+                      <span style="font-size: 10px; color: #10b981;">Live Synced</span>
+                    </span>
+                    <textarea id="sc-sandbox-code-input" class="tool-input" style="flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; line-height: 1.4; padding: 10px; resize: none;"></textarea>
+                  </div>
+
+                  <!-- Live Interactive Render Viewport -->
+                  <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <span style="font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between;">
+                      <span>Rendered Section Preview</span>
+                      <span id="sc-sandbox-scroll-hint" style="font-size: 10px; color: var(--accent-cyan);">Captures 100% of scrollable overflow</span>
+                    </span>
+                    <div id="sc-sandbox-viewport-container" style="flex: 1; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; background: #ffffff; position: relative;">
+                      <iframe id="sc-sandbox-iframe" style="width: 100%; height: 100%; border: none; background: #ffffff;" sandbox="allow-same-origin allow-scripts"></iframe>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Footer Action Bar -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border-color);">
+                  <span style="font-size: 11px; color: #10b981; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Full scrollable height captured seamlessly
+                  </span>
+                  <div style="display: flex; gap: 8px;">
+                    <button id="sc-sandbox-btn-cancel" class="tool-btn secondary" style="font-size: 12px; padding: 7px 16px;">Cancel</button>
+                    <button id="sc-sandbox-btn-capture" class="tool-btn primary" style="font-size: 12.5px; padding: 7px 22px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                      📸 Capture Full Section &amp; Open in Studio
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vertical Multi-Shot & Scrolling Screenshot Stitcher Overlay -->
+            <div id="sc-stitcher-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+              <div style="max-width: 680px; width: 100%; max-height: 85vh; background: #0b0f19; border: 1px solid var(--accent-cyan); border-radius: 14px; padding: 22px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; gap: 14px; overflow: hidden;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">📑</span>
+                    <div>
+                      <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: #fff;">Vertical Scrolling Screenshot Stitcher</h4>
+                      <span style="font-size: 11px; color: var(--text-muted);">Combine consecutive scroll captures into one continuous tall screenshot</span>
+                    </div>
+                  </div>
+                  <button id="sc-stitch-btn-close" class="tool-btn secondary" style="padding: 2px 8px; font-size: 11px;">✕</button>
+                </div>
+
+                <!-- File Picker / Dropzone for multiple parts -->
+                <div id="sc-stitch-dropzone" style="border: 2px dashed rgba(0, 242, 254, 0.3); border-radius: 10px; padding: 18px; text-align: center; cursor: pointer; background: rgba(0, 242, 254, 0.02); display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px; color: var(--accent-cyan);">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <span style="font-size: 12.5px; font-weight: 600; color: #fff;">Click to select 2 or more scrolling screenshot slices</span>
+                  <span style="font-size: 11px; color: var(--text-muted);">(Select Part 1, Part 2, Part 3 from top to bottom)</span>
+                  <input type="file" id="sc-stitch-file-input" accept="image/*" multiple style="display: none;">
+                </div>
+
+                <!-- Slices Preview Strip -->
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 11.5px; font-weight: 600; color: #e2e8f0;">Image Slices Sequence (<span id="sc-stitch-count">0</span> images)</span>
+                    <button id="sc-stitch-btn-clear" class="tool-btn secondary" style="font-size: 10.5px; padding: 2px 8px;">Clear All</button>
+                  </div>
+                  <div id="sc-stitch-slices-list" style="max-height: 190px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding: 6px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--border-color);">
+                    <div id="sc-stitch-empty-msg" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 11.5px;">No images added yet. Add at least 2 screenshots to stitch.</div>
+                  </div>
+                </div>
+
+                <!-- Overlap Trimming Slider -->
+                <div class="form-group" style="background: rgba(255, 255, 255, 0.02); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 4px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label style="font-size: 11.5px; color: #e2e8f0; font-weight: 600;">Overlap Header Trim: <span id="sc-stitch-val-overlap">0</span>px</label>
+                    <span style="font-size: 10.5px; color: var(--text-muted);">Trims duplicate headers between scroll steps</span>
+                  </div>
+                  <input type="range" id="sc-stitch-overlap-slider" min="0" max="250" value="0" style="width: 100%; accent-color: var(--accent-cyan);">
+                </div>
+
+                <!-- Footer Buttons -->
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
+                  <button id="sc-stitch-btn-cancel" class="tool-btn secondary" style="font-size: 12px; padding: 7px 16px;">Cancel</button>
+                  <button id="sc-stitch-btn-merge" class="tool-btn primary" style="font-size: 12.5px; padding: 7px 22px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                    📑 Merge &amp; Load into Studio
+                  </button>
                 </div>
               </div>
             </div>
@@ -646,6 +858,10 @@ export default {
     this.isDraggingAnnotation = false;
     this.dragAnnotationStart = null;
 
+    this.stitchImages = [];
+    this.sandboxVisualEdit = false;
+    this.sandboxIsScrollable = true;
+
     // Setup Event Listeners
     this.setupTabNavigation();
     this.setupCaptureEvents();
@@ -656,6 +872,9 @@ export default {
     this.setupExportActions();
     this.setupTextOverlayEvents();
     this.setupOcrEvents();
+    this.setupBookmarkletEvents();
+    this.setupHtmlSandboxEvents();
+    this.setupStitcherEvents();
 
     // Global Clipboard Paste Listener
     this.boundPasteHandler = this.handleGlobalPaste.bind(this);
@@ -3360,6 +3579,501 @@ export default {
     pill.style.color = color;
     const dot = pill.querySelector("span:first-child");
     if (dot) dot.style.background = color;
+  },
+
+  loadHtml2Canvas() {
+    if (this.html2canvasPromise) return this.html2canvasPromise;
+    this.html2canvasPromise = new Promise((resolve, reject) => {
+      if (window.html2canvas) {
+        resolve(window.html2canvas);
+        return;
+      }
+      this.updateStatusPill("Loading Canvas Engine...", "#f59e0b");
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+      script.onload = () => resolve(window.html2canvas);
+      script.onerror = () => {
+        this.html2canvasPromise = null;
+        reject(new Error("Failed to load html2canvas library"));
+      };
+      document.head.appendChild(script);
+    });
+    return this.html2canvasPromise;
+  },
+
+  getBookmarkletScript() {
+    return `javascript:(function(){
+if(window.__omnitool_hud){window.__omnitool_hud.style.display='flex';return;}
+function getH2C(cb){if(window.html2canvas)return cb(window.html2canvas);var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';s.onload=function(){cb(window.html2canvas);};s.onerror=function(){alert('Could not load html2canvas');};document.head.appendChild(s);}
+var hud=document.createElement('div');hud.id='omnitool-hud';window.__omnitool_hud=hud;
+hud.style.cssText='position:fixed;top:20px;right:20px;z-index:2147483647;background:#0f172a;color:#f8fafc;border:2px solid #00f2fe;border-radius:12px;padding:14px 16px;font-family:system-ui,-apple-system,sans-serif;box-shadow:0 20px 50px rgba(0,0,0,0.7);display:flex;flex-direction:column;gap:10px;font-size:12px;max-width:320px;backdrop-filter:blur(8px);';
+hud.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:8px;"><span style="font-weight:700;color:#00f2fe;">⚡ OmniTool Web Snapper</span><button id="ot-close" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:15px;">✕</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"><button id="ot-edit" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;padding:7px;cursor:pointer;font-weight:600;font-size:11px;">✏️ Edit Text</button><button id="ot-del" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;padding:7px;cursor:pointer;font-weight:600;font-size:11px;">🗑️ Delete Mode</button></div><button id="ot-snip-elem" style="background:linear-gradient(135deg,#00f2fe,#4facfe);color:#090d16;border:none;border-radius:6px;padding:9px;cursor:pointer;font-weight:700;font-size:12px;">🎯 Snip Section / Scroll Frame</button><button id="ot-snip-full" style="background:#10b981;color:#fff;border:none;border-radius:6px;padding:9px;cursor:pointer;font-weight:700;font-size:12px;">📜 Snip Full Scrolling Page</button><div id="ot-msg" style="font-size:11px;color:#94a3b8;text-align:center;">Click any tool to begin</div>';
+document.body.appendChild(hud);
+var msg=hud.querySelector('#ot-msg');
+hud.querySelector('#ot-close').onclick=function(){hud.remove();window.__omnitool_hud=null;};
+var isEditing=false;
+hud.querySelector('#ot-edit').onclick=function(){isEditing=!isEditing;document.designMode=isEditing?'on':'off';this.style.background=isEditing?'#00f2fe':'#1e293b';this.style.color=isEditing?'#090d16':'#fff';msg.textContent=isEditing?'Click anywhere on page to edit text directly!':'Edit mode disabled';};
+var isDeleting=false;
+var dOver=function(e){if(!isDeleting||hud.contains(e.target))return;e.target.style.outline='2px solid #ef4444';};
+var dOut=function(e){if(!isDeleting||hud.contains(e.target))return;e.target.style.outline='';};
+var dClick=function(e){if(!isDeleting||hud.contains(e.target))return;e.preventDefault();e.stopPropagation();e.target.remove();msg.textContent='Removed element! Click Delete Mode to exit.';};
+hud.querySelector('#ot-del').onclick=function(){isDeleting=!isDeleting;this.style.background=isDeleting?'#ef4444':'#1e293b';msg.textContent=isDeleting?'Click any banner or element to delete it':'Delete mode disabled';if(isDeleting){document.addEventListener('mouseover',dOver,true);document.addEventListener('mouseout',dOut,true);document.addEventListener('click',dClick,true);}else{document.removeEventListener('mouseover',dOver,true);document.removeEventListener('mouseout',dOut,true);document.removeEventListener('click',dClick,true);}};
+function captureAndDeliver(target,label){msg.textContent='Rendering '+label+'...';hud.style.display='none';getH2C(function(h2c){var opt={useCORS:true,allowTaint:true,scale:window.devicePixelRatio||2,logging:false};if(target.scrollHeight>target.clientHeight){opt.height=target.scrollHeight;opt.windowHeight=target.scrollHeight;}h2c(target,opt).then(function(canvas){hud.style.display='flex';canvas.toBlob(function(blob){if(!blob){msg.textContent='Capture failed';return;}var a=document.createElement('a');a.download='omnitool-section-'+Date.now()+'.png';a.href=URL.createObjectURL(blob);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);if(navigator.clipboard&&window.ClipboardItem){navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(function(){msg.textContent='✅ Saved PNG & copied! Paste (Ctrl+V) in OmniTool.';}).catch(function(){msg.textContent='✅ Saved PNG! Drop into OmniTool.';});}else{msg.textContent='✅ Saved PNG! Drop into OmniTool.';}},'image/png');}).catch(function(err){hud.style.display='flex';msg.textContent='Error: '+err.message;});});}
+var isSnipping=false;
+var sOver=function(e){if(!isSnipping||hud.contains(e.target))return;e.target.style.outline='3px solid #00f2fe';e.target.style.outlineOffset='2px';};
+var sOut=function(e){if(!isSnipping||hud.contains(e.target))return;e.target.style.outline='';};
+var sClick=function(e){if(!isSnipping||hud.contains(e.target))return;e.preventDefault();e.stopPropagation();var target=e.target;target.style.outline='';isSnipping=false;document.removeEventListener('mouseover',sOver,true);document.removeEventListener('mouseout',sOut,true);document.removeEventListener('click',sClick,true);captureAndDeliver(target,'section');};
+hud.querySelector('#ot-snip-elem').onclick=function(){isSnipping=true;msg.textContent='Hover & click any section or scrollable box to capture it!';document.addEventListener('mouseover',sOver,true);document.addEventListener('mouseout',sOut,true);document.addEventListener('click',sClick,true);};
+hud.querySelector('#ot-snip-full').onclick=function(){captureAndDeliver(document.documentElement,'full page');};
+})();`;
+  },
+
+  setupBookmarkletEvents() {
+    const openBtn = this.container?.querySelector("#sc-btn-open-bookmarklet");
+    const overlay = this.container?.querySelector("#sc-bookmarklet-overlay");
+    const closeBtn = this.container?.querySelector("#sc-bm-btn-close");
+    const doneBtn = this.container?.querySelector("#sc-bm-btn-done");
+    const copyBtn = this.container?.querySelector("#sc-bm-btn-copy");
+    const dragLink = this.container?.querySelector("#sc-bookmarklet-drag-link");
+
+    const scriptCode = this.getBookmarkletScript();
+    if (dragLink) dragLink.setAttribute("href", scriptCode);
+
+    const closeBm = () => { if (overlay) overlay.style.display = "none"; };
+
+    openBtn?.addEventListener("click", () => {
+      if (overlay) overlay.style.display = "flex";
+    });
+
+    closeBtn?.addEventListener("click", closeBm);
+    doneBtn?.addEventListener("click", closeBm);
+    overlay?.addEventListener("click", (e) => { if (e.target === overlay) closeBm(); });
+
+    copyBtn?.addEventListener("click", () => {
+      navigator.clipboard.writeText(scriptCode).then(() => {
+        this.app?.showToast("Copied bookmarklet script to clipboard! Create a new bookmark and paste it as the URL.", "success");
+      }).catch(() => {
+        this.app?.showToast("Drag the button to your Bookmarks Bar directly.", "info");
+      });
+    });
+  },
+
+  setupHtmlSandboxEvents() {
+    const openBtn = this.container?.querySelector("#sc-btn-open-html-sandbox");
+    const quickBtn = this.container?.querySelector("#sc-quick-sandbox-btn");
+    const overlay = this.container?.querySelector("#sc-html-sandbox-overlay");
+    const closeBtn = this.container?.querySelector("#sc-sandbox-btn-close");
+    const cancelBtn = this.container?.querySelector("#sc-sandbox-btn-cancel");
+    const captureBtn = this.container?.querySelector("#sc-sandbox-btn-capture");
+    const presetSelect = this.container?.querySelector("#sc-sandbox-preset-select");
+    const toggleEditBtn = this.container?.querySelector("#sc-sandbox-toggle-edit");
+    const toggleScrollBtn = this.container?.querySelector("#sc-sandbox-toggle-scroll");
+    const codeInput = this.container?.querySelector("#sc-sandbox-code-input");
+
+    const closeSandbox = () => { if (overlay) overlay.style.display = "none"; };
+
+    const openSandbox = () => {
+      if (overlay) overlay.style.display = "flex";
+      if (!codeInput?.value) {
+        this.loadHtmlSandboxPreset("pricing");
+      } else {
+        this.updateHtmlSandboxPreview();
+      }
+    };
+
+    openBtn?.addEventListener("click", openSandbox);
+    quickBtn?.addEventListener("click", openSandbox);
+    closeBtn?.addEventListener("click", closeSandbox);
+    cancelBtn?.addEventListener("click", closeSandbox);
+    overlay?.addEventListener("click", (e) => { if (e.target === overlay) closeSandbox(); });
+
+    presetSelect?.addEventListener("change", (e) => {
+      this.loadHtmlSandboxPreset(e.target.value);
+    });
+
+    codeInput?.addEventListener("input", () => {
+      this.updateHtmlSandboxPreview();
+    });
+
+    toggleEditBtn?.addEventListener("click", () => {
+      this.sandboxVisualEdit = !this.sandboxVisualEdit;
+      toggleEditBtn.textContent = this.sandboxVisualEdit ? "✏️ Visual Edit Mode: ON" : "✏️ Visual Edit Mode: OFF";
+      toggleEditBtn.style.color = this.sandboxVisualEdit ? "var(--accent-cyan)" : "inherit";
+      toggleEditBtn.style.borderColor = this.sandboxVisualEdit ? "var(--accent-cyan)" : "var(--border-color)";
+      
+      const iframe = this.container?.querySelector("#sc-sandbox-iframe");
+      if (iframe?.contentDocument) {
+        iframe.contentDocument.designMode = this.sandboxVisualEdit ? "on" : "off";
+        if (this.sandboxVisualEdit) {
+          this.app?.showToast("Click any text in the preview to edit it directly!", "info");
+        }
+      }
+    });
+
+    toggleScrollBtn?.addEventListener("click", () => {
+      this.sandboxIsScrollable = !this.sandboxIsScrollable;
+      toggleScrollBtn.textContent = this.sandboxIsScrollable ? "📐 Height: Scrollable (320px)" : "📐 Height: Expanded Full";
+      const hint = this.container?.querySelector("#sc-sandbox-scroll-hint");
+      if (hint) {
+        hint.textContent = this.sandboxIsScrollable ? "Captures 100% of scrollable overflow" : "Viewing full unconstrained height";
+      }
+      this.updateHtmlSandboxPreview();
+    });
+
+    captureBtn?.addEventListener("click", () => {
+      this.captureHtmlSandboxSection();
+    });
+  },
+
+  loadHtmlSandboxPreset(preset) {
+    const codeInput = this.container?.querySelector("#sc-sandbox-code-input");
+    if (!codeInput) return;
+
+    if (preset === "pricing") {
+      codeInput.value = `<div style="font-family: system-ui, sans-serif; background: #0f172a; color: #f8fafc; padding: 28px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); max-width: 500px; margin: 0 auto; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+  <div style="display: inline-block; background: rgba(0,242,254,0.1); border: 1px solid #00f2fe; color: #00f2fe; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 12px;">MOST POPULAR</div>
+  <h2 style="margin: 0; font-size: 24px; font-weight: 800;">Enterprise PRO Workspace</h2>
+  <p style="color: #94a3b8; font-size: 13px; margin: 6px 0 18px 0;">All 50+ client-side tools with offline WebAssembly runtime.</p>
+  <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 18px;">
+    <span style="font-size: 38px; font-weight: 900; color: #fff;">\$29</span>
+    <span style="color: #64748b; font-size: 13px;">/ lifetime license</span>
+  </div>
+  <ul style="list-style: none; padding: 0; margin: 0 0 22px 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #cbd5e1;">
+    <li style="display: flex; gap: 8px; align-items: center;">✅ 100% Offline &amp; Private (Zero Cloud)</li>
+    <li style="display: flex; gap: 8px; align-items: center;">✅ Unlimited 4K Retina Mockup Exports</li>
+    <li style="display: flex; gap: 8px; align-items: center;">✅ Client-Side OCR &amp; PDF Compilers</li>
+    <li style="display: flex; gap: 8px; align-items: center;">✅ Full Commercial License Rights</li>
+  </ul>
+  <button style="width: 100%; padding: 12px; border: none; border-radius: 8px; background: linear-gradient(135deg, #00f2fe, #4facfe); color: #090d16; font-weight: 700; font-size: 14px; cursor: pointer;">Activate PRO Lifetime</button>
+</div>`;
+    } else if (preset === "code") {
+      codeInput.value = `<div style="font-family: 'JetBrains Mono', monospace; background: #0d1117; color: #c9d1d9; padding: 20px; border-radius: 10px; border: 1px solid #30363d; font-size: 13px; line-height: 1.6; max-width: 520px; margin: 0 auto; box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+  <div style="display: flex; gap: 6px; margin-bottom: 14px;">
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
+    <span style="width: 11px; height: 11px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+  </div>
+  <pre style="margin: 0; white-space: pre-wrap;"><span style="color: #ff7b72;">import</span> { OmniTool } <span style="color: #ff7b72;">from</span> <span style="color: #a5d6ff;">'@omnitool/core'</span>;
+
+<span style="color: #8b949e;">// Initialize client-side capture pipeline</span>
+<span style="color: #ff7b72;">const</span> studio = <span style="color: #d2a8ff;">new</span> OmniTool({
+  theme: <span style="color: #a5d6ff;">'macos-dark'</span>,
+  aspectRatio: <span style="color: #a5d6ff;">'16-9'</span>,
+  retinaMultiplier: <span style="color: #79c0ff;">2</span>,
+  privacyRedaction: <span style="color: #79c0ff;">true</span>
+});
+
+<span style="color: #ff7b72;">const</span> frame = <span style="color: #ff7b72;">await</span> studio.<span style="color: #d2a8ff;">captureSection</span>({
+  target: <span style="color: #a5d6ff;">'#dashboard-card'</span>,
+  scrollable: <span style="color: #79c0ff;">true</span>
+});
+
+console.<span style="color: #d2a8ff;">log</span>(<span style="color: #a5d6ff;">'Frame captured perfectly!'</span>, frame);</pre>
+</div>`;
+    } else if (preset === "article") {
+      codeInput.value = `<div style="font-family: system-ui, sans-serif; background: #ffffff; color: #1e293b; padding: 24px; border-radius: 10px; border: 1px solid #e2e8f0; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+  <span style="color: #0284c7; font-size: 11px; font-weight: 700; text-transform: uppercase;">Engineering Architecture</span>
+  <h3 style="margin: 6px 0 12px 0; font-size: 20px; font-weight: 800; color: #0f172a;">Client-Side WebAssembly Rendering in 2026</h3>
+  <p style="font-size: 13.5px; line-height: 1.6; color: #475569; margin-bottom: 12px;">Zero server round-trips deliver sub-millisecond execution while guaranteeing absolute confidentiality for proprietary source code, credentials, and business intelligence.</p>
+  <h4 style="margin: 16px 0 8px 0; font-size: 15px; font-weight: 700;">Key Architectural Pillars</h4>
+  <p style="font-size: 13px; line-height: 1.5; color: #475569; margin-bottom: 8px;">1. <strong>Local Sandboxes:</strong> Every operation executes inside browser isolated workers without egress requests.</p>
+  <p style="font-size: 13px; line-height: 1.5; color: #475569; margin-bottom: 8px;">2. <strong>Hardware Acceleration:</strong> Direct GPU canvas drawing at native device pixel ratio.</p>
+  <p style="font-size: 13px; line-height: 1.5; color: #475569;">3. <strong>Instant Redaction:</strong> Blur and blackout filters baked directly into memory buffers.</p>
+</div>`;
+    } else if (preset === "hero") {
+      codeInput.value = `<div style="font-family: system-ui, sans-serif; background: radial-gradient(circle at center, #1e1b4b 0%, #090d16 100%); color: #fff; padding: 36px 28px; border-radius: 12px; border: 1px solid rgba(0,242,254,0.3); text-align: center; max-width: 520px; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.7);">
+  <span style="background: rgba(0,242,254,0.1); border: 1px solid #00f2fe; color: #00f2fe; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700;">OMNITOOL HUB V2</span>
+  <h1 style="font-size: 28px; font-weight: 900; margin: 14px 0 8px 0; background: linear-gradient(135deg, #fff 0%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">The All-In-One Developer Suite</h1>
+  <p style="font-size: 13.5px; color: #94a3b8; margin: 0 0 20px 0;">50+ high-precision offline tools running 100% in your browser.</p>
+  <div style="display: flex; gap: 10px; justify-content: center;">
+    <button style="padding: 10px 20px; border-radius: 8px; border: none; background: #00f2fe; color: #090d16; font-weight: 700; font-size: 13px; cursor: pointer;">Explore Tools ➔</button>
+    <button style="padding: 10px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; font-weight: 600; font-size: 13px; cursor: pointer;">Documentation</button>
+  </div>
+</div>`;
+    }
+    this.updateHtmlSandboxPreview();
+  },
+
+  updateHtmlSandboxPreview() {
+    const codeInput = this.container?.querySelector("#sc-sandbox-code-input");
+    const iframe = this.container?.querySelector("#sc-sandbox-iframe");
+    if (!codeInput || !iframe) return;
+
+    const heightStyle = this.sandboxIsScrollable ? "max-height: 320px; overflow-y: auto; overflow-x: hidden;" : "height: auto; overflow: visible;";
+
+    const docContent = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 20px;
+    background: #090d16;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100%;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  #sandbox-root {
+    width: 100%;
+    ${heightStyle}
+    border-radius: 10px;
+  }
+</style>
+</head>
+<body>
+  <div id="sandbox-root">${codeInput.value}</div>
+</body>
+</html>`;
+
+    iframe.srcdoc = docContent;
+    iframe.onload = () => {
+      if (this.sandboxVisualEdit && iframe.contentDocument) {
+        iframe.contentDocument.designMode = "on";
+      }
+    };
+  },
+
+  async captureHtmlSandboxSection() {
+    const iframe = this.container?.querySelector("#sc-sandbox-iframe");
+    if (!iframe || !iframe.contentDocument) return;
+
+    const rootEl = iframe.contentDocument.getElementById("sandbox-root") || iframe.contentDocument.body;
+    if (!rootEl) return;
+
+    this.updateStatusPill("Capturing Section...", "#f59e0b");
+    this.playAudioBeep(880, 0.08);
+
+    try {
+      const h2c = await this.loadHtml2Canvas();
+      
+      // Temporarily expand to full scrollable height for complete capture
+      const origHeight = rootEl.style.maxHeight;
+      const origOverflow = rootEl.style.overflowY;
+      rootEl.style.maxHeight = "none";
+      rootEl.style.overflowY = "visible";
+
+      const canvas = await h2c(rootEl, {
+        useCORS: true,
+        allowTaint: true,
+        scale: 2, // 2x Retina capture
+        backgroundColor: null,
+        logging: false
+      });
+
+      rootEl.style.maxHeight = origHeight;
+      rootEl.style.overflowY = origOverflow;
+
+      const img = new Image();
+      img.onload = () => {
+        this.setSourceImage(img);
+        this.playShutterSound();
+        this.updateStatusPill("Ready", "#00f2fe");
+        const overlay = this.container?.querySelector("#sc-html-sandbox-overlay");
+        if (overlay) overlay.style.display = "none";
+        this.app?.showToast("Captured full scrollable section into Studio!", "success");
+      };
+      img.src = canvas.toDataURL("image/png");
+    } catch (err) {
+      console.error("HTML sandbox capture failed:", err);
+      this.updateStatusPill("Ready", "#00f2fe");
+      this.app?.showToast("Capture failed: " + err.message, "error");
+    }
+  },
+
+  setupStitcherEvents() {
+    const openBtn = this.container?.querySelector("#sc-btn-open-stitcher");
+    const quickBtn = this.container?.querySelector("#sc-quick-stitch-btn");
+    const overlay = this.container?.querySelector("#sc-stitcher-overlay");
+    const closeBtn = this.container?.querySelector("#sc-stitch-btn-close");
+    const cancelBtn = this.container?.querySelector("#sc-stitch-btn-cancel");
+    const mergeBtn = this.container?.querySelector("#sc-stitch-btn-merge");
+    const clearBtn = this.container?.querySelector("#sc-stitch-btn-clear");
+    const fileInput = this.container?.querySelector("#sc-stitch-file-input");
+    const dropzone = this.container?.querySelector("#sc-stitch-dropzone");
+    const slider = this.container?.querySelector("#sc-stitch-overlap-slider");
+
+    const closeStitch = () => { if (overlay) overlay.style.display = "none"; };
+
+    openBtn?.addEventListener("click", () => {
+      if (overlay) overlay.style.display = "flex";
+    });
+    quickBtn?.addEventListener("click", () => {
+      if (overlay) overlay.style.display = "flex";
+    });
+
+    closeBtn?.addEventListener("click", closeStitch);
+    cancelBtn?.addEventListener("click", closeStitch);
+    overlay?.addEventListener("click", (e) => { if (e.target === overlay) closeStitch(); });
+
+    dropzone?.addEventListener("click", () => fileInput?.click());
+    dropzone?.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = "var(--accent-cyan)";
+      dropzone.style.background = "rgba(0, 242, 254, 0.08)";
+    });
+    dropzone?.addEventListener("dragleave", (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = "rgba(0, 242, 254, 0.3)";
+      dropzone.style.background = "rgba(0, 242, 254, 0.02)";
+    });
+    dropzone?.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = "rgba(0, 242, 254, 0.3)";
+      dropzone.style.background = "rgba(0, 242, 254, 0.02)";
+      const files = Array.from(e.dataTransfer?.files || []);
+      this.loadStitchFiles(files);
+    });
+    fileInput?.addEventListener("change", (e) => {
+      const files = Array.from(e.target.files || []);
+      this.loadStitchFiles(files);
+      fileInput.value = "";
+    });
+
+    clearBtn?.addEventListener("click", () => {
+      this.stitchImages = [];
+      this.renderStitcherList();
+    });
+
+    slider?.addEventListener("input", (e) => {
+      const val = parseInt(e.target.value, 10);
+      const display = this.container?.querySelector("#sc-stitch-val-overlap");
+      if (display) display.textContent = val;
+    });
+
+    mergeBtn?.addEventListener("click", () => {
+      this.mergeStitcherImages();
+    });
+  },
+
+  loadStitchFiles(files) {
+    if (!files || files.length === 0) return;
+    const imageFiles = files.filter(f => f.type.startsWith("image/"));
+    if (imageFiles.length === 0) {
+      this.app?.showToast("Please select valid image files.", "info");
+      return;
+    }
+    let loaded = 0;
+    imageFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          this.stitchImages.push({ name: file.name, img, w: img.naturalWidth, h: img.naturalHeight });
+          loaded++;
+          if (loaded === files.length) {
+            this.renderStitcherList();
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  },
+
+  renderStitcherList() {
+    const list = this.container?.querySelector("#sc-stitch-slices-list");
+    const countDisplay = this.container?.querySelector("#sc-stitch-count");
+    if (countDisplay) countDisplay.textContent = this.stitchImages.length;
+    if (!list) return;
+
+    if (this.stitchImages.length === 0) {
+      list.innerHTML = `<div id="sc-stitch-empty-msg" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 11.5px;">No images added yet. Add at least 2 screenshots to stitch.</div>`;
+      return;
+    }
+
+    list.innerHTML = "";
+    this.stitchImages.forEach((item, idx) => {
+      const row = document.createElement("div");
+      row.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 6px; font-size: 11.5px;";
+      row.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-weight: 700; color: var(--accent-cyan); width: 16px;">#${idx + 1}</span>
+          <img src="${item.img.src}" style="width: 36px; height: 26px; object-fit: cover; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2);">
+          <span style="color: #f8fafc; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${item.name}</span>
+          <span style="color: var(--text-muted); font-size: 10px;">(${item.w}×${item.h})</span>
+        </div>
+        <div style="display: flex; gap: 4px;">
+          <button class="tool-btn secondary sc-stitch-up" data-idx="${idx}" style="padding: 2px 6px; font-size: 10px;" ${idx === 0 ? "disabled" : ""}>▲</button>
+          <button class="tool-btn secondary sc-stitch-down" data-idx="${idx}" style="padding: 2px 6px; font-size: 10px;" ${idx === this.stitchImages.length - 1 ? "disabled" : ""}>▼</button>
+          <button class="tool-btn secondary sc-stitch-del" data-idx="${idx}" style="padding: 2px 6px; font-size: 10px; color: #ef4444;">✕</button>
+        </div>
+      `;
+      list.appendChild(row);
+    });
+
+    list.querySelectorAll(".sc-stitch-up").forEach(b => {
+      b.addEventListener("click", () => {
+        const i = parseInt(b.getAttribute("data-idx"), 10);
+        if (i > 0) {
+          const tmp = this.stitchImages[i];
+          this.stitchImages[i] = this.stitchImages[i - 1];
+          this.stitchImages[i - 1] = tmp;
+          this.renderStitcherList();
+        }
+      });
+    });
+
+    list.querySelectorAll(".sc-stitch-down").forEach(b => {
+      b.addEventListener("click", () => {
+        const i = parseInt(b.getAttribute("data-idx"), 10);
+        if (i < this.stitchImages.length - 1) {
+          const tmp = this.stitchImages[i];
+          this.stitchImages[i] = this.stitchImages[i + 1];
+          this.stitchImages[i + 1] = tmp;
+          this.renderStitcherList();
+        }
+      });
+    });
+
+    list.querySelectorAll(".sc-stitch-del").forEach(b => {
+      b.addEventListener("click", () => {
+        const i = parseInt(b.getAttribute("data-idx"), 10);
+        this.stitchImages.splice(i, 1);
+        this.renderStitcherList();
+      });
+    });
+  },
+
+  mergeStitcherImages() {
+    if (this.stitchImages.length < 2) {
+      this.app?.showToast("Please add at least 2 screenshot slices to stitch.", "info");
+      return;
+    }
+
+    const overlap = parseInt(this.container?.querySelector("#sc-stitch-overlap-slider")?.value || "0", 10);
+
+    const targetW = Math.max(...this.stitchImages.map(item => item.w));
+    let totalH = 0;
+    this.stitchImages.forEach((item, idx) => {
+      totalH += item.h;
+      if (idx > 0) totalH -= overlap;
+    });
+
+    const mergeCanvas = document.createElement("canvas");
+    mergeCanvas.width = targetW;
+    mergeCanvas.height = Math.max(10, totalH);
+    const mCtx = mergeCanvas.getContext("2d");
+
+    let currentY = 0;
+    this.stitchImages.forEach((item, idx) => {
+      const drawX = Math.round((targetW - item.w) / 2);
+      mCtx.drawImage(item.img, drawX, currentY);
+      currentY += (item.h - overlap);
+    });
+
+    const mergedImg = new Image();
+    mergedImg.onload = () => {
+      this.setSourceImage(mergedImg);
+      this.playShutterSound();
+      const overlay = this.container?.querySelector("#sc-stitcher-overlay");
+      if (overlay) overlay.style.display = "none";
+      this.app?.showToast(`Stitched ${this.stitchImages.length} screenshots into one seamless full image!`, "success");
+    };
+    mergedImg.src = mergeCanvas.toDataURL("image/png");
   },
 
   cleanup() {

@@ -99,7 +99,7 @@ fun DashboardScreen(
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            placeholder = { Text("Search 16+ utilities...", color = TextMuted) },
+            placeholder = { Text("Search 45+ utilities...", color = TextMuted) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
@@ -125,9 +125,9 @@ fun DashboardScreen(
             "all" to "All",
             "fav" to "⭐ Favorites",
             "dev" to "Developer",
-            "text" to "Text",
-            "design" to "Design",
-            "math" to "Math"
+            "text" to "Text & PDF",
+            "design" to "Design & Media",
+            "math" to "Math & Calc"
         )
         
         Row(
@@ -164,9 +164,9 @@ fun DashboardScreen(
                 "all" -> "All Utilities"
                 "fav" -> "⭐ Favorite Utilities"
                 "dev" -> "🛠️ Developer Utilities"
-                "text" -> "📝 Text Utilities"
-                "design" -> "🎨 Design Utilities"
-                else -> "📐 Math & Conversion"
+                "text" -> "📝 Text & PDF Utilities"
+                "design" -> "🎨 Design & Media Utilities"
+                else -> "📐 Math & Calculation Utilities"
             },
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,

@@ -3,6 +3,9 @@
 const app = {
   APP_VERSION: "2.1.4",
   getToolsBasePath() {
+    if (window.location.hostname === "appassets.androidplatform.net") {
+      return "https://appassets.androidplatform.net/assets/web/tools/";
+    }
     return (window.location.protocol === "file:" || !window.location.origin) ? "./tools/" : "/tools/";
   },
   // Registry of all tools with subcategory designations
@@ -2315,6 +2318,18 @@ const app = {
 
   // Initializer
   async init() {
+    // Check if running in Android Native App or Embedded WebView
+    const isEmbeddedApp = Boolean(
+        (typeof window !== "undefined" && window.location?.search && window.location.search.includes("embed=1")) ||
+        (typeof window !== "undefined" && window.location?.hash && window.location.hash.includes("embed=1")) ||
+        (typeof navigator !== "undefined" && navigator?.userAgent && navigator.userAgent.includes("OmniToolAndroid")) ||
+        (typeof window !== "undefined" && window.location?.hostname === "appassets.androidplatform.net") ||
+        (typeof window !== "undefined" && window.location?.href && window.location.href.includes("android_asset"))
+      );
+    if (isEmbeddedApp) {
+      document.body.classList.add("app-embedded");
+    }
+
     // Inject keywords into tool definitions
     this.tools.forEach(tool => {
       tool.keywords = this.toolKeywords[tool.id] || [];
@@ -5926,7 +5941,13 @@ const app = {
     }
 
     try {
-      if (window.location.protocol === "file:") {
+      const isAndroidApp = Boolean(
+        (typeof window !== "undefined" && window.location?.href && window.location.href.includes("android_asset")) ||
+        (typeof window !== "undefined" && window.location?.hostname === "appassets.androidplatform.net") ||
+        (typeof navigator !== "undefined" && navigator?.userAgent && navigator.userAgent.includes("OmniToolAndroid")) ||
+        (typeof window !== "undefined" && window.isAndroidApp === true)
+      );
+      if (window.location.protocol === "file:" && !isAndroidApp) {
         this.renderFileProtocolError(toolId);
         return;
       }

@@ -10,7 +10,7 @@ export default {
           <div class="panel-header">
             <h3>Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="crypto-tabs">
+            <div class="crypto-header-tabs" id="crypto-tabs">
               <button class="keyboard-tab active" data-tab="hash" style="font-size: 11px; padding: 4px 8px;">Hashes</button>
               <button class="keyboard-tab" data-tab="aes" style="font-size: 11px; padding: 4px 8px;">AES Cipher</button>
               <button class="keyboard-tab" data-tab="rsa" style="font-size: 11px; padding: 4px 8px;">Asymmetric Keys</button>

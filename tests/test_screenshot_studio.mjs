@@ -17,6 +17,12 @@ const checks = [
   'id="sc-quick-rotate-btn"',
   'id="sc-quick-flip-btn"',
   'id="sc-quick-watermark-btn"',
+  'id="sc-btn-open-bookmarklet"',
+  'id="sc-btn-open-html-sandbox"',
+  'id="sc-btn-open-stitcher"',
+  'id="sc-bookmarklet-overlay"',
+  'id="sc-html-sandbox-overlay"',
+  'id="sc-stitcher-overlay"',
   'id="sc-text-overlay"',
   'id="sc-ocr-overlay"'
 ];
@@ -58,6 +64,11 @@ xrefLines.forEach((line, i) => {
   }
 });
 console.log('Native PDF generator passed! All 5 object byte offsets point strictly to obj headers!');
+
+// Test Bookmarklet generation
+const bm = tool.getBookmarkletScript();
+if (!bm || !bm.startsWith('javascript:')) throw new Error('Invalid bookmarklet script');
+console.log('Bookmarklet generation verified!');
 
 // Test Crop Undo logic
 tool.sourceImage = { naturalWidth: 1000, naturalHeight: 500 };
