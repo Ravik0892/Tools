@@ -47,6 +47,18 @@ const app = {
       icon: `<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16M10 5l4 14" stroke-linecap="round" stroke-linejoin="round"/></svg>`
     },
     {
+      id: "fancy-font-generator",
+      name: "Fancy Font & Bio Text Generator",
+      desc: "Transform standard text into 60+ aesthetic Unicode fonts, Gothic Fraktur, cursive calligraphy, small caps, bio templates, and glitch text for Instagram, Discord, and TikTok.",
+      category: "text",
+      subcategory: "text-case",
+      subLabel: "Transformations",
+      accent: "#9d4edd",
+      accentRgb: "157, 78, 221",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>`
+    },
+    {
       id: "jwt-decoder",
       name: "JWT Decoder",
       desc: "Decode JSON Web Tokens instantly to view their header parameters, claim payload and validity.",
@@ -225,6 +237,18 @@ const app = {
       accentRgb: "244, 63, 94",
       monetization: "premium",
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="16" y1="10" x2="16" y2="10.01"></line></svg>`
+    },
+    {
+      id: "finance-calculator",
+      name: "Financial Growth & Loan Calculator Suite",
+      desc: "Calculate SIP mutual fund returns, future compound interest growth, and complete loan EMI / mortgage amortization schedules with interactive SVG charts.",
+      category: "math",
+      subcategory: "math-calc",
+      subLabel: "Calculator",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>`
     },
     {
       id: "qr-studio",
@@ -1153,6 +1177,11 @@ const app = {
       "<strong>WCAG Contrast Auditing</strong>: Ensure color pairings meet AA/AAA web accessibility standards dynamically.",
       "<strong>Palette Harmony</strong>: Automatically generate monochromatic, triadic, and analogous palettes with shades and tints."
     ],
+    "fancy-font-generator": [
+      "<strong>60+ Aesthetic Unicode Styles</strong>: Transform plain text into Gothic Fraktur, cursive calligraphy, small caps, inverted bubbles, and aesthetic bio typography.",
+      "<strong>Universal Compatibility</strong>: Copy-paste directly into Instagram bios, TikTok captions, Discord handles, Twitter/X posts, and gaming usernames.",
+      "<strong>Bio Studio & Character Limits</strong>: Pre-made aesthetic bio templates, 200+ aesthetic symbols, and live platform bio length indicators."
+    ],
     "security-suite": [
       "<strong>Entropy Strength</strong>: Evaluate password complexity, length, and randomness scores to audit security strength.",
       "<strong>Bulk UUID Keys</strong>: Generate up to 1,000 standard RFC 4122 v4 keys in a single batch for DB seeds."
@@ -1828,9 +1857,15 @@ const app = {
       { targetId: "formatter-suite", hint: "Format and sanitize anonymized JSON/CSV logs" }
     ],
     "text-encoder-suite": [
+      { targetId: "fancy-font-generator", hint: "Transform text into 60+ aesthetic Unicode fonts and bio styles" },
       { targetId: "url-parser", hint: "Inspect and edit encoded query parameters" },
       { targetId: "pipeline-builder", hint: "Chain encoder transformations into continuous workflows" },
       { targetId: "formatter-suite", hint: "Validate and format decoded JSON strings" }
+    ],
+    "fancy-font-generator": [
+      { targetId: "text-encoder-suite", hint: "Convert case representations into camelCase or UPPERCASE" },
+      { targetId: "text-analyzer", hint: "Check word count, readability, and character length" },
+      { targetId: "lorem-generator", hint: "Generate placeholder text to test aesthetic typography" }
     ],
     "markdown-preview": [
       { targetId: "text-diff", hint: "Compare markdown drafts against earlier revisions" },
@@ -1878,8 +1913,14 @@ const app = {
       { targetId: "css-studio", hint: "Design glassmorphism cards and borders around graphics" }
     ],
     "calculator": [
+      { targetId: "finance-calculator", hint: "Calculate SIP returns, compound growth, and loan amortizations" },
       { targetId: "datetime-suite", hint: "Calculate time differences and business day durations" },
       { targetId: "unit-converter", hint: "Convert mathematical units to standard measurements" }
+    ],
+    "finance-calculator": [
+      { targetId: "calculator", hint: "Run scientific calculations or formula evaluations" },
+      { targetId: "datetime-suite", hint: "Calculate exact loan duration dates and calendar schedules" },
+      { targetId: "unit-converter", hint: "Convert financial and international units" }
     ],
     "qr-generator": [
       { targetId: "url-parser", hint: "Construct and test clean URL query params for your QR link" },
@@ -2121,7 +2162,9 @@ const app = {
     { id: "favicon-generator", fileName: "favicon-generator.html", title: "Multi-Resolution Favicon & PWA App Icon Suite Guide", description: "Generate multi-size .ICO bundles (16x16, 32x32, 48x48), Apple Touch icons, Android PWA manifest icons, and ready-to-paste HTML code." },
     { id: "box-shadow", fileName: "box-shadow.html", title: "CSS Box Shadow Generator Guide", description: "Design multi-layer CSS box shadows with live interactive blur, spread, inset, and color adjustments." },
     { id: "glassmorphism-generator", fileName: "glassmorphism-generator.html", title: "Glassmorphism CSS Generator Guide", description: "Generate frosted glass effects with custom blur, border sheen, and transparency for modern web cards." },
-    { id: "gradient-generator", fileName: "gradient-generator.html", title: "CSS Gradient Generator Guide", description: "Build linear, radial, and conic CSS gradients with multi-stop color controls and one-click CSS copy." }
+    { id: "gradient-generator", fileName: "gradient-generator.html", title: "CSS Gradient Generator Guide", description: "Build linear, radial, and conic CSS gradients with multi-stop color controls and one-click CSS copy." },
+    { id: "finance-calculator", fileName: "finance-calculator.html", title: "Financial Growth & Loan Calculator Suite Guide", description: "Learn how to calculate SIP mutual fund returns, compound interest, and loan EMI mortgage amortization schedules with interactive visual charts." },
+    { id: "fancy-font-generator", fileName: "fancy-font-generator.html", title: "Fancy Font & Bio Text Generator Guide", description: "Learn how to generate 60+ aesthetic Unicode fonts, Gothic Fraktur, cursive calligraphy, and social media bio styles with 100% client-side speed." }
   ],
 
   // Utility classification helper: sorts items into Suites, Features, Standalone Tools, Pro, and Free
@@ -2364,6 +2407,14 @@ const app = {
       badge: "🧮 Math & Numbers",
       order: 16
     },
+    "finance-calculator": {
+      name: "Loan EMI & SIP Wealth Calculator",
+      desc: "Calculate monthly loan payments, mortgage schedules, and future investment growth with visual charts.",
+      category: "math",
+      categoryLabel: "Math & Numbers",
+      badge: "💰 Finance & Savings",
+      order: 17
+    },
     "security-suite": {
       name: "Strong Password Generator",
       desc: "Create unhackable, secure passwords with letters, numbers, and symbols to protect accounts.",
@@ -2379,6 +2430,14 @@ const app = {
       categoryLabel: "Passwords & Text",
       badge: "🔒 Passwords & Text",
       order: 18
+    },
+    "fancy-font-generator": {
+      name: "Fancy Font & Bio Text Generator",
+      desc: "Create stylish fonts, cursive calligraphy, and aesthetic symbols for Instagram, TikTok, and gaming.",
+      category: "security",
+      categoryLabel: "Passwords & Text",
+      badge: "✨ Creative Text",
+      order: 19
     }
   },
 
@@ -2599,6 +2658,8 @@ const app = {
       parts.push("json beautifier", "sql formatter", "yaml to json", "json to csv", "csv to json", "format query", "database syntax");
     } else if (tool.id === "text-encoder-suite") {
       parts.push("base-64", "base64", "url encode", "url decode", "camelcase", "snake_case", "kebab-case", "pascalcase");
+    } else if (tool.id === "fancy-font-generator") {
+      parts.push("fancy font", "bio text generator", "instagram fonts", "aesthetic text", "gothic font", "cursive", "small caps", "zalgo", "glitch text", "discord font", "tiktok bio", "kaomoji", "symbols", "fraktur", "calligraphy", "cool letters");
     }
 
     return parts.join(" ");
@@ -2963,6 +3024,73 @@ const app = {
       category: "math",
       subLabel: "Time & Date",
       guideUrl: "guides/date-calculator.html"
+    },
+
+    // Finance Calculator Suite
+    "sip-calculator": {
+      suiteId: "finance-calculator",
+      subtab: "sip",
+      name: "SIP & Wealth Growth Calculator",
+      title: "SIP Calculator & Wealth Growth Planner | OmniTool Hub",
+      desc: "Calculate future returns on your Systematic Investment Plan (SIP) with monthly contributions, annual step-up, inflation adjustments, and interactive growth charts.",
+      keywords: "sip calculator, systematic investment plan, wealth calculator, mutual fund return calculator, sip return, investment growth",
+      category: "math",
+      subLabel: "Calculator",
+      guideUrl: "guides/finance-calculator.html"
+    },
+    "compound-interest-calculator": {
+      suiteId: "finance-calculator",
+      subtab: "compound",
+      name: "Compound Interest Calculator",
+      title: "Compound Interest Calculator & Growth Visualizer | OmniTool Hub",
+      desc: "Calculate future compound interest earnings with flexible monthly or annual additions, daily to annual compounding frequencies, and growth curves.",
+      keywords: "compound interest calculator, interest calculator, compound interest formula, investment growth calculator, apy calculator",
+      category: "math",
+      subLabel: "Calculator",
+      guideUrl: "guides/finance-calculator.html"
+    },
+    "emi-calculator": {
+      suiteId: "finance-calculator",
+      subtab: "emi",
+      name: "Loan EMI & Mortgage Calculator",
+      title: "Loan EMI & Mortgage Calculator with Amortization Schedule | OmniTool Hub",
+      desc: "Calculate home loan, car loan, and mortgage EMIs with complete month-by-month and year-by-year amortization schedules, prepayment savings, and CSV export.",
+      keywords: "emi calculator, home loan emi, loan amortization schedule, mortgage calculator, car loan calculator, loan payment calculator",
+      category: "math",
+      subLabel: "Calculator",
+      guideUrl: "guides/finance-calculator.html"
+    },
+
+    // Fancy Font & Aesthetic Text Studio
+    "font-generator": {
+      suiteId: "fancy-font-generator",
+      name: "Fancy Font Generator",
+      title: "Fancy Font Generator & Aesthetic Unicode Text Maker | OmniTool Hub",
+      desc: "Generate 60+ stylish fonts, Gothic Fraktur, cursive calligraphy, small caps, and aesthetic symbols with 1-click copy for Instagram, TikTok, and Discord.",
+      keywords: "fancy font generator, aesthetic text generator, instagram fonts, cool text generator, discord font maker, bio font generator",
+      category: "text",
+      subLabel: "Transformations",
+      guideUrl: "guides/fancy-font-generator.html"
+    },
+    "instagram-fonts": {
+      suiteId: "fancy-font-generator",
+      name: "Instagram Fonts Generator",
+      title: "Instagram Fonts & Aesthetic Bio Text Generator | OmniTool Hub",
+      desc: "Create stylish Instagram bio fonts, story captions, and comment typography with 1-click copy.",
+      keywords: "instagram fonts, bio fonts, instagram bio generator, cute fonts for instagram, ig font style",
+      category: "text",
+      subLabel: "Transformations",
+      guideUrl: "guides/fancy-font-generator.html"
+    },
+    "zalgo-text-generator": {
+      suiteId: "fancy-font-generator",
+      name: "Glitch & Zalgo Text Generator",
+      title: "Glitch & Zalgo Text Generator Online | OmniTool Hub",
+      desc: "Generate creepy corrupted glitch and zalgo text with adjustable intensity sliders client-side.",
+      keywords: "zalgo text, glitch text generator, cursed text maker, corrupted text generator",
+      category: "text",
+      subLabel: "Transformations",
+      guideUrl: "guides/fancy-font-generator.html"
     },
 
     // QR & Barcode Studio
@@ -7302,7 +7430,8 @@ const app = {
             "url-parser": "url-parser.html",
             "text-analyzer": "text-analyzer.html",
             "mock-data-generator": "mock-data-generator.html",
-            "code-playground": "code-playground.html"
+            "code-playground": "code-playground.html",
+            "fancy-font-generator": "fancy-font-generator.html"
           };
           const guideFile = guideMap[toolId];
           const blogLinkHtml = guideFile ? `

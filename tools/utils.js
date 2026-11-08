@@ -296,20 +296,22 @@ export function escapeHtml(str) {
 }
 
 // Populate window.engines for retro-compatibility (Pipeline Builder)
-window.engines = {
-  jsonFormat,
-  jsonMinify,
-  base64Encode,
-  base64Decode,
-  urlEncode,
-  urlDecode,
-  hashMd5: md5,
-  textUpper,
-  textLower,
-  textTitle,
-  textCamel,
-  textSnake,
-  textKebab,
-  decodeJwt,
-  diffLines
-};
+if (typeof window !== "undefined") {
+  window.engines = {
+    jsonFormat,
+    jsonMinify,
+    base64Encode,
+    base64Decode,
+    urlEncode,
+    urlDecode,
+    hashMd5: md5,
+    textUpper,
+    textLower,
+    textTitle,
+    textCamel,
+    textSnake,
+    textKebab,
+    decodeJwt,
+    diffLines
+  };
+}
