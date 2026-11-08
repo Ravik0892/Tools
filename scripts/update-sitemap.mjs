@@ -114,8 +114,8 @@ const guidesHub = [
     priority: '0.90',
     comment: 'Guides and Documentation Master Hub'
   },
-    {
-    loc: 'https://omnitool.worldsneed.com/guides/payment-guide.html',
+  {
+    loc: 'https://omnitool.worldsneed.com/guides/payment-guide',
     lastmod: TODAY,
     changefreq: 'weekly',
     priority: '0.85',
@@ -166,7 +166,7 @@ const guideEntries = guideHtmlFiles.map((file, idx) => {
   const poster = posterMap[toolId];
 
   return {
-    loc: `https://omnitool.worldsneed.com/guides/${file}`,
+    loc: `https://omnitool.worldsneed.com/guides/${toolId}`,
     lastmod: TODAY,
     changefreq: 'monthly',
     priority: '0.80',
