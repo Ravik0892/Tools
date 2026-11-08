@@ -1185,6 +1185,7 @@ function getRelatedTools(currentTool, allTools) {
 const template = (tool, allTools) => {
   const meta = toolMeta[tool.id] || { category: 'dev', categoryName: 'Developer Tools', icon: '🛠️', color: '#00f2fe' };
   const related = getRelatedTools(tool, allTools);
+  const cleanGuideUrl = `https://omnitool.worldsneed.com/guides/${tool.id}`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -1194,13 +1195,13 @@ const template = (tool, allTools) => {
   <title>${tool.title}</title>
   <meta name="description" content="${tool.description}">
   <meta name="keywords" content="${tool.tag}, ${tool.h1}, OmniTool Hub, developer tools, client-side, offline, privacy">
-  <link rel="canonical" href="https://omnitool.worldsneed.com/guides/${tool.fileName}">
+  <link rel="canonical" href="${cleanGuideUrl}">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="${tool.title}">
   <meta property="og:description" content="${tool.description}">
-  <meta property="og:url" content="https://omnitool.worldsneed.com/guides/${tool.fileName}">
+  <meta property="og:url" content="${cleanGuideUrl}">
   <meta property="og:site_name" content="OmniTool Hub">
   <meta property="og:image" content="${tool.diagram ? 'https://omnitool.worldsneed.com/' + tool.diagram.src.replace(/^\.\.\//, '') : 'https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg'}">
 
@@ -1245,13 +1246,13 @@ const template = (tool, allTools) => {
             "@type": "ListItem",
             "position": 2,
             "name": "Guides Hub",
-            "item": "https://omnitool.worldsneed.com/guides/index.html"
+            "item": "https://omnitool.worldsneed.com/guides/"
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": "${tool.h1}",
-            "item": "https://omnitool.worldsneed.com/guides/${tool.fileName}"
+            "item": "${cleanGuideUrl}"
           }
         ]
       },
@@ -1280,7 +1281,7 @@ const template = (tool, allTools) => {
         },` : ''}
         "datePublished": "2026-06-27",
         "dateModified": "2026-10-13",
-        "mainEntityOfPage": "https://omnitool.worldsneed.com/guides/${tool.fileName}"
+        "mainEntityOfPage": "${cleanGuideUrl}"
       },
       {
         "@type": "HowTo",
@@ -2547,7 +2548,7 @@ const generateGuidesHub = (allTools) => {
             "@type": "ListItem",
             "position": ${idx + 1},
             "name": "${t.h1}",
-            "url": "https://omnitool.worldsneed.com/guides/${t.fileName}"
+            "url": "https://omnitool.worldsneed.com/guides/${t.id}"
           }`).join(',\n          ')}
         ]
       },
