@@ -3135,6 +3135,111 @@ body {
   color: var(--text-muted);
 }
 
+/* Calculator Digital Result Monitor & Visual Output */
+.calc-screen-display {
+  background: radial-gradient(circle at 80% 20%, rgba(0, 242, 254, 0.06), transparent 70%), var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+  position: relative;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.calc-formula-display-text {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  min-height: 20px;
+  line-height: 1.4;
+  text-align: right;
+  word-break: break-all;
+  user-select: text;
+}
+
+.calc-result-display-text {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  text-align: right;
+  word-break: break-all;
+  line-height: 1.2;
+  margin-top: 8px;
+  user-select: text;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+}
+
+.calc-radix-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.calc-radix-box {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.calc-radix-box:hover {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 242, 254, 0.06);
+  transform: translateY(-1px);
+}
+
+.calc-radix-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.calc-radix-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calc-graph-viewport {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 340px;
+  background: #070a13;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tool-panel.preview-fullscreen .calc-graph-viewport {
+  height: calc(100vh - 140px) !important;
+  min-height: 500px !important;
+}
+
+@media (hover: none), (max-width: 768px) {
+  .calc-history-actions {
+    opacity: 1 !important;
+  }
+}
+
 /* Quick Guide & Example Try-out styling */
 .tool-guide-card {
   grid-column: 1 / -1;
@@ -6934,13 +7039,41 @@ body {
   }
 }
 
+/* Suite Panel Header & Navigation Tabs (CSS Studio & Suite Parity) */
+.panel-header.suite-header,
+.panel-header:has(.suite-tabs-nav) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+}
+
+.panel-header.suite-header .panel-header-top,
+.panel-header:has(.suite-tabs-nav) .panel-header-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.suite-tabs-nav {
+  display: flex !important;
+  gap: 6px !important;
+  align-items: center !important;
+  width: 100% !important;
+  flex-wrap: wrap !important;
+  margin-top: 4px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
 /* In-Panel Ads (For Split-View Pinned Layout) */
 .tool-panel-ad {
-  margin-top: 16px;
-  /* Flows naturally below split view panels to prevent text overlaps */
+  margin-top: auto;
   padding-top: 16px;
   border-top: 1px dashed var(--border-color);
   width: 100%;
+  flex-shrink: 0;
 }
 
 .tool-panel-ad .sponsor-ad-block {
@@ -7818,13 +7951,39 @@ body {
   }
 }
 
-/* Embedded Guide Tools Layout (Prevents drawer collapse on guide pages like code-playground.html) */
+/* Embedded Guide Tools Layout (Contained Viewport Standard with Internal Panel Scrolling) */
+.live-guide-tool-viewport {
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  max-height: 580px;
+  overflow: hidden;
+  background: rgba(8, 12, 20, 0.4);
+  transition: all 0.25s ease;
+}
+
+.live-guide-tool-viewport .tool-guide-card,
+.live-guide-tool-viewport .split-view-resizer,
+.live-guide-tool-viewport .guide-scroll-arrow,
+.live-guide-tool-viewport .tool-panel-ad,
+.live-guide-tool-viewport .adjust-settings-fab,
+.live-guide-tool-viewport .split-view-backdrop,
+.live-guide-tool-viewport .drawer-close-btn,
+.live-guide-tool-viewport .tool-panel:first-of-type::after {
+  display: none !important;
+}
+
 .live-guide-tool-viewport .tool-content-layout.split-view {
-  display: flex !important;
-  flex-direction: column !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1.08fr !important;
   gap: 20px !important;
   position: static !important;
   width: 100% !important;
+  height: 520px !important;
+  max-height: 520px !important;
+  overflow: hidden !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
 }
 
 .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
@@ -7834,30 +7993,56 @@ body {
   transform: none !important;
   width: 100% !important;
   max-width: 100% !important;
-  height: auto !important;
-  min-height: unset !important;
+  height: 100% !important;
+  max-height: 520px !important;
+  min-height: 0 !important;
   box-shadow: none !important;
   border-radius: 12px !important;
-  overflow: visible !important;
-  padding: 20px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin;
+  padding: 18px !important;
+  background: rgba(13, 17, 27, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-sizing: border-box !important;
 }
 
-.live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type::after {
-  display: none !important;
+/* Custom Scrollbars inside Embedded Live Guide Tool Panels */
+.live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+.live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 242, 254, 0.4);
 }
 
-.live-guide-tool-viewport .adjust-settings-fab,
-.live-guide-tool-viewport .split-view-backdrop,
-.live-guide-tool-viewport .drawer-close-btn {
-  display: none !important;
-}
-
-@media (min-width: 960px) {
+/* Responsive Handling for Mobile & Tablets (<= 960px) */
+@media (max-width: 960px) {
+  .live-guide-tool-viewport {
+    max-height: 820px;
+    overflow-y: auto;
+  }
   .live-guide-tool-viewport .tool-content-layout.split-view {
-    display: grid !important;
-    grid-template-columns: 1fr 1.05fr !important;
-    gap: 20px !important;
-    align-items: start !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    max-height: none !important;
+    gap: 16px !important;
+  }
+
+  .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+  .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+  .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+    height: auto !important;
+    max-height: 380px !important;
+    overflow-y: auto !important;
   }
 }
 
@@ -7917,6 +8102,22 @@ body {
   height: auto !important;
   min-height: 70vh !important;
   flex: none !important;
+}
+
+/* Full Screen Mode - Keep In-Panel Ads visible at the bottom */
+.tool-panel.preview-fullscreen .tool-panel-ad {
+  display: block !important;
+  margin-top: auto !important;
+  padding-top: 16px !important;
+  flex-shrink: 0 !important;
+}
+
+.preview-header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 /* Premium Header Coffee Cup Icon Button */
@@ -10016,44 +10217,61 @@ footer.guide-footer {
   box-sizing: border-box;
 }
 
-/* Embedded Live Tool Viewport inside Guides */
-.live-guide-tool-viewport {
-  padding: 24px;
-  box-sizing: border-box;
+/* Embedded Live Tool Viewport Quick Jump & Collapse Controls */
+.skip-to-guide-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.live-guide-tool-viewport .tool-guide-card {
-  display: none !important;
+.skip-to-guide-link:hover {
+  color: var(--accent-cyan);
+  border-color: rgba(0, 242, 254, 0.35);
+  background: rgba(0, 242, 254, 0.08);
+  transform: translateY(-1px);
 }
 
-.live-guide-tool-viewport .tool-content-layout.split-view {
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 24px !important;
-  min-height: 480px;
-  width: 100% !important;
+.toggle-tool-collapse-btn {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-@media (max-width: 992px) {
-  .live-guide-tool-viewport .tool-content-layout.split-view {
-    flex-direction: column !important;
-  }
+.toggle-tool-collapse-btn:hover {
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.live-guide-tool-viewport .tool-panel {
-  position: static !important;
-  transform: none !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  box-shadow: none !important;
-  width: 100% !important;
-  max-width: none !important;
-  flex: 1 1 0 !important;
-  min-width: 0 !important;
+.toggle-tool-collapse-btn .toggle-icon {
+  display: inline-block;
+  transition: transform 0.2s ease;
 }
 
-.live-guide-tool-viewport .split-view-resizer {
-  display: none !important;
+.toggle-tool-collapse-btn.is-collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+#guide-article {
+  scroll-margin-top: 85px;
 }
 
 /* ======================================================== */
@@ -10123,6 +10341,47 @@ footer.guide-footer {
   background: rgba(0, 242, 254, 0.08);
   border-color: rgba(0, 242, 254, 0.25);
   font-weight: 700;
+}
+
+.tool-cap-chip.interactive {
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.03);
+  font-family: inherit;
+  outline: none;
+}
+.tool-cap-chip.interactive:hover {
+  color: #fff;
+  border-color: rgba(0, 242, 254, 0.5);
+  background: rgba(0, 242, 254, 0.12);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(0, 242, 254, 0.18);
+}
+.tool-cap-chip.interactive:active {
+  transform: translateY(0.5px) scale(0.98);
+}
+.tool-cap-chip.interactive.active,
+.tool-cap-chip.interactive.primary.active {
+  color: #fff;
+  background: rgba(0, 242, 254, 0.22);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 14px rgba(0, 242, 254, 0.35);
+}
+
+/* Subtool Smooth Transitions (Like CSS Studio Suite) */
+.subtool-transitioning {
+  opacity: 0.55 !important;
+  pointer-events: none !important;
+  transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes subtoolFadeIn {
+  from { opacity: 0.6; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.subtool-fade-in {
+  animation: subtoolFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Related Workflow Bridge Section */
@@ -10310,6 +10569,34 @@ footer.guide-footer {
   border-color: #0891b2 !important;
   color: #0e7490 !important;
   box-shadow: 0 0 10px rgba(6, 182, 212, 0.25) !important;
+}
+
+/* Subtool In-Panel Mode & Direction Segmented Buttons */
+.mode-segment-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mode-segment-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+}
+.mode-segment-btn.active {
+  background: rgba(0, 242, 254, 0.12) !important;
+  color: var(--accent-cyan) !important;
+  border-color: rgba(0, 242, 254, 0.35) !important;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.15) !important;
+}
+[data-theme="light"] .mode-segment-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #111827;
+}
+[data-theme="light"] .mode-segment-btn.active {
+  background: rgba(6, 182, 212, 0.14) !important;
+  color: #0e7490 !important;
+  border-color: rgba(6, 182, 212, 0.4) !important;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.2) !important;
 }
 
 /* ==========================================================================
@@ -10840,24 +11127,69 @@ footer.guide-footer {
   box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 
-/* Print styling */
+/* Collapsible details / summary in markdown */
+.markdown-preview details {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 12px 0;
+  background: rgba(255, 255, 255, 0.02);
+  transition: background 0.2s;
+}
+.markdown-preview details[open] {
+  background: rgba(255, 255, 255, 0.04);
+}
+.markdown-preview summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-main);
+  user-select: none;
+  outline: none;
+}
+.markdown-preview summary:hover {
+  color: var(--accent-cyan);
+}
+
+/* Print styling: clean multi-page document pagination without absolute truncation */
 @media print {
+  html, body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
   body * {
     visibility: hidden;
   }
-  .markdown-preview, .markdown-preview * {
+  #active-tool-viewport,
+  #active-tool-viewport *,
+  #md-preview-output,
+  #md-preview-output * {
     visibility: visible;
   }
-  .markdown-preview {
-    position: absolute;
-    left: 0;
-    top: 0;
+  #md-preview-output {
+    position: static !important;
     width: 100% !important;
     max-height: none !important;
+    height: auto !important;
     overflow: visible !important;
     border: none !important;
-    background: #fff !important;
-    color: #000 !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+  .panel-header, 
+  .md-stats-bar, 
+  .tool-panel:first-of-type, 
+  .tool-guide-card, 
+  .sidebar, 
+  header, 
+  nav, 
+  .adjust-settings-fab, 
+  .split-view-resizer,
+  .guide-scroll-arrow {
+    display: none !important;
   }
 }
 

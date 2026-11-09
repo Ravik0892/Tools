@@ -139,7 +139,54 @@ export default {
             <textarea id="fav-html-output" class="input-textarea" style="width: 100%; height: 110px; font-family: var(--font-mono); font-size: 11px; padding: 10px; background: rgba(0,0,0,0.3); border-color: var(--border-color); color: var(--text-main); resize: none; white-space: pre;" readonly></textarea>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Generate Favicons & App Icons</span>
+            </div>
+            <div class="tool-guide-badge">Multi-Platform Package</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Upload Master Artwork</h4>
+                <p>Drop a high-resolution PNG, SVG, or JPG logo into the canvas stage.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Customize Shape & Background</h4>
+                <p>Choose square, rounded, circular, or transparent padding with custom hex colors.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Preview Multi-Platform Mockups</h4>
+                <p>View real-time browser tab, iOS home screen, Android app, and Windows tile mockups.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Download ZIP & Embed HTML</h4>
+                <p>Download the complete multi-resolution asset bundle and copy production <head> link tags.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
     `;
   },
 

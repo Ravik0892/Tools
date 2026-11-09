@@ -27,12 +27,17 @@ export default {
           <div class="panel-header">
             <h3>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-              Configuration
+              Audio Settings
             </h3>
-            <div style="display: flex; gap: 6px;">
-              <button class="keyboard-tab ${this.outputFormat === 'mp3' ? 'active' : ''}" id="fmt-mp3" style="font-size: 11px; padding: 4px 8px;">MP3</button>
-              <button class="keyboard-tab ${this.outputFormat === 'wav' ? 'active' : ''}" id="fmt-wav" style="font-size: 11px; padding: 4px 8px;">WAV</button>
-              <button class="keyboard-tab ${this.outputFormat === 'ogg' ? 'active' : ''}" id="fmt-ogg" style="font-size: 11px; padding: 4px 8px;">OGG</button>
+          </div>
+
+          <!-- Target Format Segmented Control -->
+          <div class="target-format-selector" style="margin: 14px 0 16px 0;">
+            <label style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: block; margin-bottom: 6px;">Output Format</label>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: rgba(255, 255, 255, 0.03); padding: 4px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <button type="button" class="mode-segment-btn ${this.outputFormat === 'mp3' ? 'active' : ''}" id="fmt-mp3" style="padding: 7px; font-size: 11.5px; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-align: center; transition: all 0.2s;">MP3</button>
+              <button type="button" class="mode-segment-btn ${this.outputFormat === 'wav' ? 'active' : ''}" id="fmt-wav" style="padding: 7px; font-size: 11.5px; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-align: center; transition: all 0.2s;">WAV</button>
+              <button type="button" class="mode-segment-btn ${this.outputFormat === 'ogg' ? 'active' : ''}" id="fmt-ogg" style="padding: 7px; font-size: 11.5px; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-align: center; transition: all 0.2s;">OGG</button>
             </div>
           </div>
 

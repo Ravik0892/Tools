@@ -45,6 +45,37 @@
     "@context": "https://schema.org",
     "@graph": [
       {
+  "@type": "HowTo",
+  "name": "How to Use PDF AcroForm Form Filler",
+  "description": "Step-by-step usage instructions for PDF AcroForm Form Filler client-side in OmniTool Hub.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Step 1",
+      "text": "Open the live tool viewport above or launch fullscreen in the main workspace."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Step 2",
+      "text": "Paste your input data or drag and drop your source file into the active workspace."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Step 3",
+      "text": "Adjust execution settings, formatting parameters, or encoding options to your specifications."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Step 4",
+      "text": "Copy the generated output to your clipboard or click download to save the result locally."
+    }
+  ]
+},
+      {
         "@type": "BreadcrumbList",
         "itemListElement": [
           {
@@ -370,11 +401,152 @@
       font-weight: 700;
     }
 
-    .live-guide-tool-viewport {
-      min-height: 480px;
-      background: #0b0f19;
-      display: flex;
-      flex-direction: column;
+        .live-guide-tool-viewport {
+      padding: 20px;
+      position: relative;
+      max-height: 580px;
+      overflow: hidden;
+      background: rgba(8, 12, 20, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .live-guide-tool-viewport .tool-guide-card,
+    .live-guide-tool-viewport .split-view-resizer,
+    .live-guide-tool-viewport .guide-scroll-arrow,
+    .live-guide-tool-viewport .tool-panel-ad,
+    .live-guide-tool-viewport .adjust-settings-fab,
+    .live-guide-tool-viewport .split-view-backdrop,
+    .live-guide-tool-viewport .drawer-close-btn,
+    .live-guide-tool-viewport .tool-panel:first-of-type::after {
+      display: none !important;
+    }
+
+    /* Embedded Live Playground Contained Viewport Standard with Internal Panel Scrolling */
+    .live-guide-tool-viewport .tool-content-layout.split-view {
+      display: grid !important;
+      grid-template-columns: 1fr 1.08fr !important;
+      gap: 20px !important;
+      position: static !important;
+      width: 100% !important;
+      height: 520px !important;
+      max-height: 520px !important;
+      overflow: hidden !important;
+      align-items: stretch !important;
+      box-sizing: border-box !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 100% !important;
+      max-height: 520px !important;
+      min-height: 0 !important;
+      box-shadow: none !important;
+      border-radius: 12px !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      scrollbar-width: thin;
+      padding: 18px !important;
+      background: rgba(13, 17, 27, 0.75) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-sizing: border-box !important;
+    }
+
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 242, 254, 0.4);
+    }
+
+    @media (max-width: 960px) {
+      .live-guide-tool-viewport {
+        max-height: 820px;
+        overflow-y: auto;
+      }
+      .live-guide-tool-viewport .tool-content-layout.split-view {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+        max-height: none !important;
+        gap: 16px !important;
+      }
+
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+        height: auto !important;
+        max-height: 380px !important;
+        overflow-y: auto !important;
+      }
+    }
+
+    .skip-to-guide-link {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.04);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .skip-to-guide-link:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(0, 242, 254, 0.35);
+      background: rgba(0, 242, 254, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .toggle-tool-collapse-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toggle-tool-collapse-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .toggle-tool-collapse-btn .toggle-icon {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-tool-collapse-btn.is-collapsed .toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    #guide-article {
+      scroll-margin-top: 85px;
     }
 
     .guide-tool-loading {
@@ -568,7 +740,11 @@
           <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
         </div>
         <div class="live-tool-quick-links">
-          <a href="../index.html#tool/pdf-forms" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+          <a href="#guide-article" class="skip-to-guide-link" title="Jump straight to comprehensive written guide">📖 Skip to Guide &darr;</a>
+            <button type="button" class="toggle-tool-collapse-btn" id="toggle-tool-collapse-btn" title="Toggle Live Tool Viewport" aria-expanded="true">
+              <span class="toggle-icon">▾</span> <span class="toggle-text">Collapse Tool</span>
+            </button>
+            <a href="../index.html#tool/pdf-forms" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
       <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
@@ -579,9 +755,69 @@
       </div>
     </section>
 
-    <article>
+    <article id="guide-article">
       <p>Complete tax documents, medical intake questionnaires, and government application forms securely. OmniTool Hub automatically parses interactive PDF AcroForm fields, presents an intuitive form dashboard, and lets you save filled documents or flatten fields to prevent further editing.</p>
 
+      <!-- Dedicated Technical Reference Poster & Cheat Sheet (With Pan & Zoom) -->
+      <figure class="guide-diagram-figure" style="margin: 32px 0 36px 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); background: rgba(10, 14, 23, 0.85); box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);">
+        <div class="poster-interactive-container" title="Click to Open Interactive Pan & Zoom Viewer">
+          <img src="../social_media_assets/pdf_editor_markup_poster_1200x800.svg" 
+               alt="PDF AcroForm Form Filler Architecture Poster & Technical Reference Cheat Sheet" 
+               width="1200" 
+               height="800" 
+               loading="lazy" 
+               decoding="async" 
+               style="width: 100%; height: auto; display: block; max-width: 100%;">
+          <div class="poster-zoom-hint">
+            <span>🔍</span> Click to Pan &amp; Zoom
+          </div>
+        </div>
+        <figcaption style="padding: 12px 20px; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); background: rgba(14, 19, 31, 0.95); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <span>⚡ <strong>Quick Reference:</strong> Interactive AcroForm PDF Studio Technical Architecture &amp; System Flow</span>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="poster-btn poster-open-zoom-btn">🔍 Interactive Zoom &amp; Pan</button>
+            <a href="../social_media_assets/pdf_editor_markup_poster_1200x800.svg" download target="_blank" rel="noopener noreferrer" class="poster-btn" style="color: var(--accent-cyan); text-decoration: none;">⬇️ Download Poster</a>
+          </div>
+        </figcaption>
+      </figure>
+      
+
+      
+      <h2>Tool Configurations &amp; Operational Modes</h2>
+      <p>
+        The PDF AcroForm Form Filler engine provides specialized operating modes designed for maximum precision, low-latency execution, and granular data control:
+      </p>
+
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>1. Direct Input &amp; Parsing Mode</span>
+          <span class="tab-badge">Interactive</span>
+        </div>
+        <p>
+          Process raw strings, streams, or files directly in local memory. Real-time validation syntax highlighting prevents execution mistakes before processing.
+        </p>
+      </div>
+
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>2. Format Standardization &amp; Export</span>
+          <span class="tab-badge">Output Engine</span>
+        </div>
+        <p>
+          Export processed results to formatted text, binary blobs, downloadable files, or clean one-click clipboard copies with zero metadata leaks.
+        </p>
+      </div>
+
+      <div class="tab-section">
+        <div class="tab-title">
+          <span>3. Automated Batch &amp; Air-Gapped Sandbox</span>
+          <span class="tab-badge">Security Sandbox</span>
+        </div>
+        <p>
+          Execute bulk conversions with hardware acceleration. All operations remain strictly inside browser memory with zero network dependencies.
+        </p>
+      </div>
+      
       <h2>Key Property Parameters &amp; Specifications</h2>
       <div class="specs-table-wrap">
         <table class="specs-table">
@@ -642,6 +878,21 @@ agreeCheckbox.check();
         </div>
   
 
+      
+      <div class="info-box">
+        <strong>💡 Pro-Tip on Security &amp; Utility:</strong>
+        Because this tool runs 100% inside your client browser, you can safely process sensitive tokens, private keys, corporate documents, and confidential records with zero risk of exposure or third-party logging.
+      </div>
+      
+      
+      <h2>Step-by-Step Usage Guide</h2>
+      <ol>
+        <li>Open the live tool viewport above or launch fullscreen in the main workspace.</li>
+        <li>Paste your input data or drag and drop your source file into the active workspace.</li>
+        <li>Adjust execution settings, formatting parameters, or encoding options to your specifications.</li>
+        <li>Copy the generated output to your clipboard or click download to save the result locally.</li>
+      </ol>
+      
       <h2>Frequently Asked Questions (FAQ)</h2>
       <div class="faq-accordion">
         
@@ -674,6 +925,45 @@ agreeCheckbox.check();
         </p>
         <a href="../index.html#tool/pdf-forms" class="bottom-cta-btn">⚡ Launch PDF AcroForm Form Filler Guide Now</a>
       </div>
+    
+      <!-- Related Guides & Internal Links -->
+      <section class="related-section">
+        <div class="related-heading">
+          <span>Explore Related Guides</span>
+          <a href="index.html">View All Guides &rarr;</a>
+        </div>
+        <div class="related-grid">
+          <a href="pdf-editor-suite.html" class="related-card">
+            <div>
+              <div class="related-badge">📦 Master Suite</div>
+              <div class="related-title">Interactive AcroForm PDF Studio</div>
+            </div>
+            <div class="related-read">Explore Suite &rarr;</div>
+          </a>
+          <a href="pipeline-builder.html" class="related-card">
+            <div>
+              <div class="related-badge">⚡ Data Pipelines</div>
+              <div class="related-title">Smart Chain Pipeline Builder</div>
+            </div>
+            <div class="related-read">Read Guide &rarr;</div>
+          </a>
+          <a href="text-encoder-suite.html" class="related-card">
+            <div>
+              <div class="related-badge">🔤 Data Encoders</div>
+              <div class="related-title">Text Cases &amp; Encoder Suite</div>
+            </div>
+            <div class="related-read">Read Guide &rarr;</div>
+          </a>
+          <a href="crypto-suite.html" class="related-card">
+            <div>
+              <div class="related-badge">🔐 Security</div>
+              <div class="related-title">Cryptography &amp; Security Suite</div>
+            </div>
+            <div class="related-read">Read Guide &rarr;</div>
+          </a>
+        </div>
+      </section>
+      
     </article>
   </main>
 
@@ -727,5 +1017,155 @@ agreeCheckbox.check();
       }
     }
   </script>
+
+  <!-- Live Tool Viewport Collapse / Expand Handler -->
+  <script>
+    (function initLiveToolCollapse() {
+      const toggleBtn = document.getElementById('toggle-tool-collapse-btn');
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (!toggleBtn || !viewport) return;
+      toggleBtn.addEventListener('click', () => {
+        const isCollapsed = viewport.style.display === 'none';
+        viewport.style.display = isCollapsed ? 'block' : 'none';
+        toggleBtn.classList.toggle('is-collapsed', !isCollapsed);
+        toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
+        const label = toggleBtn.querySelector('.toggle-text');
+        if (label) label.textContent = isCollapsed ? 'Collapse Tool' : 'Expand Tool';
+      });
+    })();
+  </script>
+
+  <!-- Fullscreen Interactive Pan & Zoom Modal -->
+  <div id="poster-zoom-modal" class="poster-zoom-modal" role="dialog" aria-modal="true" aria-label="Interactive Poster Viewer">
+    <div class="zoom-modal-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 13.5px; font-weight: 700; color: #f3f4f6;">PDF AcroForm Form Filler &bull; Interactive Architecture Reference</span>
+        <span style="font-size: 11px; color: #9ca3af; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); padding: 3px 8px; border-radius: 4px;">🖱️ Mouse Wheel to Zoom &bull; Drag to Pan &bull; Double-click to Reset</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="zoom-out-btn" class="zoom-ctrl-btn" title="Zoom Out (-)" style="width: 34px; height: 34px; font-size: 18px;">&minus;</button>
+        <span id="zoom-level-badge" style="font-size: 12px; font-weight: 700; color: #00f2fe; min-width: 48px; text-align: center; font-family: monospace;">100%</span>
+        <button id="zoom-in-btn" class="zoom-ctrl-btn" title="Zoom In (+)" style="width: 34px; height: 34px; font-size: 18px;">&#43;</button>
+        <button id="zoom-reset-btn" class="zoom-ctrl-btn" title="Reset View" style="padding: 0 10px; height: 34px; font-size: 12px;">↺ Reset</button>
+        <a href="../social_media_assets/pdf_editor_markup_poster_1200x800.svg" download class="zoom-ctrl-btn" style="padding: 0 12px; height: 34px; font-size: 12px; text-decoration: none; color: #00f2fe; background: rgba(0, 242, 254, 0.12); border-color: rgba(0, 242, 254, 0.3);">⬇️ Save</a>
+        <button id="zoom-close-btn" class="zoom-ctrl-btn" title="Close (Esc)" style="width: 34px; height: 34px; font-size: 20px; color: #f87171; background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.3); margin-left: 6px;">&times;</button>
+      </div>
+    </div>
+    <div id="zoom-stage-viewport" class="zoom-stage-viewport">
+      <img id="zoom-stage-img" class="zoom-stage-img" src="../social_media_assets/pdf_editor_markup_poster_1200x800.svg" width="1200" height="800" alt="PDF AcroForm Form Filler Architecture Poster & Technical Reference Cheat Sheet">
+    </div>
+  </div>
+      
+
+  <!-- Interactive Pan & Zoom Script -->
+  <script>
+    (function initPanZoomViewer() {
+      const trigger = document.querySelector('.poster-interactive-container');
+      const openBtn = document.querySelector('.poster-open-zoom-btn');
+      const modal = document.getElementById('poster-zoom-modal');
+      if (!trigger || !modal) return;
+
+      const viewport = document.getElementById('zoom-stage-viewport');
+      const img = document.getElementById('zoom-stage-img');
+      const badge = document.getElementById('zoom-level-badge');
+      const btnIn = document.getElementById('zoom-in-btn');
+      const btnOut = document.getElementById('zoom-out-btn');
+      const btnReset = document.getElementById('zoom-reset-btn');
+      const btnClose = document.getElementById('zoom-close-btn');
+
+      let scale = 1;
+      let posX = 0;
+      let posY = 0;
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+      let naturalW = 1200;
+      let naturalH = 800;
+
+      function centerAndFit() {
+        if (!viewport || !img) return;
+        const vw = viewport.clientWidth || window.innerWidth;
+        const vh = viewport.clientHeight || (window.innerHeight - 60);
+        if (vw <= 0 || vh <= 0) return;
+        const targetW = naturalW || 1200;
+        const targetH = naturalH || 800;
+        const fitScale = Math.min((vw * 0.92) / targetW, (vh * 0.92) / targetH, 1.25);
+        scale = Math.max(fitScale, 0.2);
+        posX = (vw - targetW * scale) / 2;
+        posY = (vh - targetH * scale) / 2;
+        applyTransform();
+      }
+
+      function applyTransform() {
+        if (!img) return;
+        img.style.transform = 'translate(' + posX + 'px, ' + posY + 'px) scale(' + scale + ')';
+        if (badge) badge.innerText = Math.round(scale * 100) + '%';
+      }
+
+      function openModal() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        naturalW = img.naturalWidth || 1200;
+        naturalH = img.naturalHeight || 800;
+        requestAnimationFrame(function() {
+          centerAndFit();
+        });
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (trigger) trigger.addEventListener('click', openModal);
+      if (openBtn) openBtn.addEventListener('click', (e) => { e.stopPropagation(); openModal(); });
+      if (btnClose) btnClose.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target === viewport) closeModal();
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+      });
+
+      if (viewport) {
+        viewport.addEventListener('wheel', (e) => {
+          e.preventDefault();
+          const delta = e.deltaY < 0 ? 1.15 : 0.87;
+          const rect = viewport.getBoundingClientRect();
+          const mouseX = e.clientX - rect.left;
+          const mouseY = e.clientY - rect.top;
+          const prevScale = scale;
+          scale = Math.min(Math.max(scale * delta, 0.25), 4.0);
+          posX = mouseX - ((mouseX - posX) * (scale / prevScale));
+          posY = mouseY - ((mouseY - posY) * (scale / prevScale));
+          applyTransform();
+        }, { passive: false });
+
+        viewport.addEventListener('mousedown', (e) => {
+          if (e.button !== 0) return;
+          isDragging = true;
+          startX = e.clientX - posX;
+          startY = e.clientY - posY;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          posX = e.clientX - startX;
+          posY = e.clientY - startY;
+          applyTransform();
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+        viewport.addEventListener('dblclick', centerAndFit);
+      }
+
+      if (btnIn) btnIn.addEventListener('click', () => { scale = Math.min(scale * 1.25, 4.0); applyTransform(); });
+      if (btnOut) btnOut.addEventListener('click', () => { scale = Math.max(scale * 0.8, 0.25); applyTransform(); });
+      if (btnReset) btnReset.addEventListener('click', centerAndFit);
+    })();
+  </script>
+
 </body>
 </html>

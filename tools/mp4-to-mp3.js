@@ -152,6 +152,31 @@ export default {
             </div>
           </div>
         </div>
+      
+        <!-- Dynamic Guide Card (Unified standard footer guide) -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>QUICK GUIDE: VIDEO TO AUDIO EXTRACTOR (MP4 TO MP3)</span>
+            </div>
+          </div>
+          <div class="tool-guide-steps">
+
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Select Video File</strong>: Upload any MP4, WebM, MKV, or MOV video file directly in the browser via HTML5 File API.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Choose Audio Format & Bitrate</strong>: Select output format (MP3, WAV, AAC) and audio fidelity (128 kbps, 192 kbps, 320 kbps high-definition).</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Extract & Download Audio</strong>: Click Extract Audio to decode the soundtrack locally with WebAudio/FFmpeg and save your audio file.</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <style>

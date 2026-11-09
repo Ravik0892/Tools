@@ -142,7 +142,54 @@ export default {
             </div>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Use Disposable Temp Mail</span>
+            </div>
+            <div class="tool-guide-badge">Spam-Free Privacy</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Generate Anonymous Inbox</h4>
+                <p>Create a private random temporary email address with a single click.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Use for Verifications</h4>
+                <p>Paste the email address into signups, trials, or services to avoid spam on personal inboxes.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Receive Real-Time Emails</h4>
+                <p>Auto-refresh incoming messages and inspect verification links and OTP codes safely.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Auto-Purge & Destroy</h4>
+                <p>Discard the inbox anytime; messages and credentials are permanently purged.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
     `;
   },
 

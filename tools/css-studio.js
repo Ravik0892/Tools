@@ -804,6 +804,13 @@ export default {
         guideSteps.innerHTML = guides[tabId].steps;
       }
 
+      if (typeof appInstance?.syncActiveCapabilityChip === "function") {
+        appInstance.syncActiveCapabilityChip(container, tabId);
+      }
+      if (typeof appInstance?.injectGuideBenefits === "function") {
+        appInstance.injectGuideBenefits(container, "css-studio", tabId);
+      }
+
       if (tabId === "gradient") {
         buildGradient();
       } else if (tabId === "shadow") {

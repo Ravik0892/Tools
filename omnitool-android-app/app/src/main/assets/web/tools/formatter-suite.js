@@ -7,10 +7,10 @@ export default {
     return `
       <div class="tool-content-layout split-view">
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>Configuration</h3>
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+            <h3 style="margin: 0;">Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="formatter-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 100%; flex-wrap: wrap;" id="formatter-tabs">
               <button class="keyboard-tab active" data-tab="json" style="font-size: 11px; padding: 4px 8px;">JSON</button>
               <button class="keyboard-tab" data-tab="sql" style="font-size: 11px; padding: 4px 8px;">SQL</button>
               <button class="keyboard-tab" data-tab="csv" style="font-size: 11px; padding: 4px 8px;">CSV / JSON</button>
@@ -204,6 +204,12 @@ export default {
     const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
+      if (typeof appInstance?.syncActiveCapabilityChip === "function") {
+        appInstance.syncActiveCapabilityChip(container, tabId);
+      }
+      if (typeof appInstance?.injectGuideBenefits === "function") {
+        appInstance.injectGuideBenefits(container, "formatter-suite", tabId);
+      }
 
       panelJson.classList.toggle("hidden", tabId !== "json");
       panelSql.classList.toggle("hidden", tabId !== "sql");

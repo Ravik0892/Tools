@@ -62,5 +62,12 @@ if (fs.existsSync('guides')) {
   console.log('  ✓ guides/ synced');
 }
 
+// 5. Copy social_media_assets/
+console.log('  📂 Syncing social_media_assets/ ...');
+if (fs.existsSync('social_media_assets')) {
+  copyDirRecursive('social_media_assets', path.join(DEST_DIR, 'social_media_assets'));
+  console.log('  ✓ social_media_assets/ synced');
+}
+
 console.log('🎉 Android assets synchronization complete!');
 

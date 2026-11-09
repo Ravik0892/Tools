@@ -26,12 +26,17 @@ export default {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M8 13h8M8 17h8M8 9h2"></path></svg>
               Spreadsheet Setup
             </h3>
-            <div style="display: flex; gap: 6px;">
-              <button class="keyboard-tab ${this.activeMode === 'excel-to-pdf' ? 'active' : ''}" id="btn-mode-excel-to-pdf" style="font-size: 11px; padding: 4px 8px;">
-                📊 Excel to PDF
+          </div>
+
+          <!-- Conversion Direction Segmented Control -->
+          <div class="conversion-mode-bar" style="margin: 14px 0 16px 0;">
+            <label style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: block; margin-bottom: 6px;">Conversion Direction</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: rgba(255, 255, 255, 0.03); padding: 4px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <button type="button" class="mode-segment-btn ${this.activeMode === 'excel-to-pdf' ? 'active' : ''}" id="btn-mode-excel-to-pdf" style="padding: 7px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+                <span>📊 Excel to PDF</span>
               </button>
-              <button class="keyboard-tab ${this.activeMode === 'pdf-to-excel' ? 'active' : ''}" id="btn-mode-pdf-to-excel" style="font-size: 11px; padding: 4px 8px;">
-                📑 PDF to Excel
+              <button type="button" class="mode-segment-btn ${this.activeMode === 'pdf-to-excel' ? 'active' : ''}" id="btn-mode-pdf-to-excel" style="padding: 7px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+                <span>📑 PDF to Excel</span>
               </button>
             </div>
           </div>

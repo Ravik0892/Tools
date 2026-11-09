@@ -163,7 +163,54 @@ export default {
             </div>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Convert Video to Animated GIF</span>
+            </div>
+            <div class="tool-guide-badge">Color Quantization & Dithering</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Import Video Clip</h4>
+                <p>Select an MP4, WebM, or MOV video clip from your local drive.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Trim Start & End Time</h4>
+                <p>Set precise in/out timecodes to extract the exact highlight segment.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Configure FPS & Resolution</h4>
+                <p>Adjust framerate (10-30 FPS) and dimension scaling to optimize GIF file size.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Generate & Download GIF</h4>
+                <p>Render in local Web Workers and download the lightweight animated GIF immediately.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
 
       <style>
         @keyframes v2g-spin {

@@ -20,7 +20,9 @@ export const newToolMeta = {
   'audio-suite': { category: 'design', categoryName: 'Design & CSS', icon: '🎵', color: '#9d4edd' },
   'video-speed': { category: 'design', categoryName: 'Design & CSS', icon: '⏩', color: '#9d4edd' },
   'video-to-gif': { category: 'design', categoryName: 'Design & CSS', icon: '🎞️', color: '#9d4edd' },
-  'favicon-generator': { category: 'design', categoryName: 'Design & CSS', icon: '⭐', color: '#9d4edd' }
+  'favicon-generator': { category: 'design', categoryName: 'Design & CSS', icon: '⭐', color: '#9d4edd' },
+  'fancy-font-generator': { category: 'text', categoryName: 'Text & Writing', icon: '✨', color: '#9d4edd' },
+  'finance-calculator': { category: 'math', categoryName: 'Math & Time', icon: '💰', color: '#10b981' }
 };
 
 export const newToolsData = [
@@ -1018,6 +1020,114 @@ export const newToolsData = [
     ],
     ctaHref: "../index.html#tool/favicon-generator",
     ctaLabel: "Launch Favicon Generator"
+  },
+  {
+    id: "fancy-font-generator",
+    fileName: "fancy-font-generator.html",
+    title: "Fancy Font & Aesthetic Text Studio Guide | Instagram, Discord & TikTok | OmniTool Hub",
+    description: "Convert text into 60+ stylish Unicode fonts, Gothic Fraktur, cursive calligraphy, small caps, and glitch text for Instagram bios, TikTok captions, and Discord names with 100% client-side privacy.",
+    h1: "Fancy Font & Bio Text Generator Guide",
+    tag: "Unicode Typography",
+    leadParagraph: "The Fancy Font & Bio Text Generator transforms ordinary text into eye-catching Unicode typography, cursive calligraphy, Victorian Fraktur, aesthetic symbols, and formatted social media bios. Because all transformations happen client-side using universal Unicode character points, your generated text can be copied with one click and pasted anywhere on the web with zero font downloads required.",
+    diagram: {
+      src: "../social_media_assets/typography_unicode_font_matrix_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Unicode typography and aesthetic font reference poster detailing glyph planes, cross-platform compatibility, and bio studio symbol sets",
+      caption: "Unicode Typography & Aesthetic Font Architecture: Mathematical alphanumeric planes, gothic blackletter, enclosed badges, and social media bio matrix."
+    },
+    tabsTitle: "Popular Typography Styles & Bio Tools",
+    tabs: [
+      {
+        title: "1. Gothic & Medieval Fraktur",
+        badge: "𝕲𝖔𝖙𝖍𝖎𝖈",
+        desc: "Originating from 12th-century European manuscripts, Gothic and Fraktur fonts are famous for dramatic blackletter strokes. Perfect for gaming clan tags, Discord server channels, and edgy aesthetic profiles."
+      },
+      {
+        title: "2. Cursive & Elegant Calligraphy",
+        badge: "𝓒𝓾𝓻𝓼𝓲𝓿𝓮",
+        desc: "Flowing handwritten cursive characters that give Instagram bios, love letters, and inspirational quotes an elegant, luxurious touch that stands out from default platform fonts."
+      },
+      {
+        title: "3. Small Capital Letters (Small Caps)",
+        badge: "ꜱᴍᴀʟʟ ᴄᴀᴘꜱ",
+        desc: "Small caps reduce the height of uppercase characters while maintaining uniform readability. A favorite for modern aesthetic accounts, Twitter/X handles, and clean minimal captions."
+      },
+      {
+        title: "4. Circled Bubbles & Square Badges",
+        badge: "Ⓑⓤⓑⓑⓛⓔ",
+        desc: "Encloses each letter inside a rounded circle or square badge. Ideal for numbered lists, step-by-step instructions, and prominent comment replies that grab attention."
+      },
+      {
+        title: "5. Tiny Superscript & Subscript",
+        badge: "ᵗⁱⁿʸ ˢᶜʳⁱᵖᵗ",
+        desc: "Miniature high-index and low-index characters allow you to write compact bio captions, aesthetic footnotes, and brand subheadings that occupy minimal visual space."
+      },
+      {
+        title: "6. Bio Studio & Aesthetic Symbols Palette",
+        badge: "Symbols",
+        desc: "Includes pre-made social media bio templates, headers, dividers, stars, sparkle glyphs, arrows, and cute Japanese kaomoji emoticons ready for 1-click clipboard copying."
+      }
+    ],
+    proTip: "Because these fonts are native Unicode character points rather than downloadable font files (.ttf/.woff), they render identically across iOS, Android, Windows, macOS, and Linux without installation.",
+    steps: [
+      "Type or paste your text into the **Input Text** area on the left panel.",
+      "Filter styles by category (All, Popular, Cursive, Gothic, Symbols) or search for a specific look.",
+      "Click any font card to instantly copy the transformed text to your clipboard.",
+      "Click the **Star** icon on any card to pin your favorite styles to the top for quick access.",
+      "Switch to the **Bio Studio** tab to insert aesthetic dividers, sparkles, and curated bio templates."
+    ],
+    ctaHref: "../index.html#tool/fancy-font-generator",
+    ctaLabel: "Launch Font Studio"
+  },
+  {
+    id: "finance-calculator",
+    fileName: "finance-calculator.html",
+    title: "Financial Growth & Loan Calculator Guide | SIP, EMI & Compound Interest | OmniTool Hub",
+    description: "Master wealth compounding with OmniTool Hub's client-side Financial Calculator Suite. Calculate SIP returns, compound interest, and loan EMI mortgage amortization schedules with live visual charts.",
+    h1: "Financial Growth & Loan Calculator Suite Guide",
+    tag: "Financial Math",
+    leadParagraph: "The Financial Growth & Loan Calculator Suite brings institutional-grade wealth planning and loan amortization modeling directly into your browser. Unlike traditional financial websites that harvest your salary, loan amounts, and personal portfolio data on remote databases, every single formula, amortization table, and SVG growth curve executes 100% locally on your computer with zero data transmission.",
+    diagram: {
+      src: "../social_media_assets/financial_wealth_growth_matrix_poster_1200x800.svg",
+      width: 1200,
+      height: 800,
+      alt: "Financial wealth growth and loan amortization poster detailing SIP compounding curves, EMI formulas, and prepayment schedules",
+      caption: "Financial Growth & Loan Architecture: Exponential compounding calculus, reducing balance amortization, step-up accelerators, and inflation parity."
+    },
+    tabsTitle: "The Three Powerhouse Financial Engines",
+    tabs: [
+      {
+        title: "1. Systematic Investment Plan (SIP)",
+        badge: "Wealth Builder",
+        desc: "Calculates future wealth accumulation from recurring monthly investments into mutual funds or index funds, utilizing rupee/dollar-cost averaging to eliminate emotional market timing."
+      },
+      {
+        title: "2. Compound Interest & APY Engine",
+        badge: "Compound Growth",
+        desc: "Computes compound growth on lump-sum deposits with optional regular additions. Supports Daily, Monthly, Quarterly, and Annual compounding frequencies to evaluate true APY."
+      },
+      {
+        title: "3. Loan EMI & Mortgage Amortization",
+        badge: "Debt Elimination",
+        desc: "Calculates exact monthly installments under reducing balance loan models. Features prepayment accelerators and generates complete year-by-year and month-by-month repayment schedules."
+      },
+      {
+        title: "4. Step-Up Accelerator & Inflation Checker",
+        badge: "Real Returns",
+        desc: "Model annual investment increases (e.g. 10% annual salary raises) and calculate the real inflation-adjusted purchasing power of your final retirement corpus."
+      }
+    ],
+    proTip: "In long-term SIPs (15+ years), enabling a modest 10% annual Step-Up often more than doubles your final maturity corpus due to late-stage exponential compounding.",
+    steps: [
+      "Select your calculation engine: **SIP Planner**, **Compound Interest**, or **Loan EMI**.",
+      "Enter your financial inputs (principal or monthly deposit, expected annual return rate, and tenure).",
+      "Toggle optional accelerators like **Step-Up %** or **Prepayment amounts** to see immediate savings.",
+      "Inspect the live interactive **Donut Chart** and **Growth Curve** stage to visualize principal vs return.",
+      "Review the detailed amortization schedule and click **Copy Summary** or **Export to CSV**."
+    ],
+    ctaHref: "../index.html#tool/finance-calculator",
+    ctaLabel: "Launch Financial Engine"
   }
 ];
 

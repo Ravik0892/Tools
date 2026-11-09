@@ -1790,17 +1790,37 @@ const template = (tool, allTools) => {
     }
 
     .live-guide-tool-viewport {
-      padding: 24px 20px;
-      min-height: 260px;
+      padding: 20px;
+      position: relative;
+      max-height: 580px;
+      overflow: hidden;
+      background: rgba(8, 12, 20, 0.4);
+      transition: all 0.25s ease;
     }
 
-    /* Embedded Live Playground Full-Fidelity Responsive Overrides */
+    .live-guide-tool-viewport .tool-guide-card,
+    .live-guide-tool-viewport .split-view-resizer,
+    .live-guide-tool-viewport .guide-scroll-arrow,
+    .live-guide-tool-viewport .tool-panel-ad,
+    .live-guide-tool-viewport .adjust-settings-fab,
+    .live-guide-tool-viewport .split-view-backdrop,
+    .live-guide-tool-viewport .drawer-close-btn,
+    .live-guide-tool-viewport .tool-panel:first-of-type::after {
+      display: none !important;
+    }
+
+    /* Embedded Live Playground Contained Viewport Standard with Internal Panel Scrolling */
     .live-guide-tool-viewport .tool-content-layout.split-view {
-      display: flex !important;
-      flex-direction: column !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1.08fr !important;
       gap: 20px !important;
       position: static !important;
       width: 100% !important;
+      height: 520px !important;
+      max-height: 520px !important;
+      overflow: hidden !important;
+      align-items: stretch !important;
+      box-sizing: border-box !important;
     }
 
     .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
@@ -1810,31 +1830,111 @@ const template = (tool, allTools) => {
       transform: none !important;
       width: 100% !important;
       max-width: 100% !important;
-      height: auto !important;
-      min-height: unset !important;
+      height: 100% !important;
+      max-height: 520px !important;
+      min-height: 0 !important;
       box-shadow: none !important;
       border-radius: 12px !important;
-      overflow: visible !important;
-      padding: 20px !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      scrollbar-width: thin;
+      padding: 18px !important;
+      background: rgba(13, 17, 27, 0.75) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-sizing: border-box !important;
     }
 
-    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type::after {
-      display: none !important;
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 242, 254, 0.4);
     }
 
-    .live-guide-tool-viewport .adjust-settings-fab,
-    .live-guide-tool-viewport .split-view-backdrop,
-    .live-guide-tool-viewport .drawer-close-btn {
-      display: none !important;
-    }
-
-    @media (min-width: 960px) {
-      .live-guide-tool-viewport .tool-content-layout.split-view {
-        display: grid !important;
-        grid-template-columns: 1fr 1.05fr !important;
-        gap: 20px !important;
-        align-items: start !important;
+    @media (max-width: 960px) {
+      .live-guide-tool-viewport {
+        max-height: 820px;
+        overflow-y: auto;
       }
+      .live-guide-tool-viewport .tool-content-layout.split-view {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+        max-height: none !important;
+        gap: 16px !important;
+      }
+
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+        height: auto !important;
+        max-height: 380px !important;
+        overflow-y: auto !important;
+      }
+    }
+
+    .skip-to-guide-link {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.04);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .skip-to-guide-link:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(0, 242, 254, 0.35);
+      background: rgba(0, 242, 254, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .toggle-tool-collapse-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toggle-tool-collapse-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .toggle-tool-collapse-btn .toggle-icon {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-tool-collapse-btn.is-collapsed .toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    #guide-article {
+      scroll-margin-top: 85px;
     }
 
     .guide-tool-loading {
@@ -2084,6 +2184,10 @@ const template = (tool, allTools) => {
           <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
         </div>
         <div class="live-tool-quick-links">
+          <a href="#guide-article" class="skip-to-guide-link" title="Jump straight to comprehensive written guide">📖 Skip to Guide &darr;</a>
+          <button type="button" class="toggle-tool-collapse-btn" id="toggle-tool-collapse-btn" title="Toggle Live Tool Viewport" aria-expanded="true">
+            <span class="toggle-icon">▾</span> <span class="toggle-text">Collapse Tool</span>
+          </button>
           <a href="${tool.ctaHref}" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
@@ -2095,7 +2199,7 @@ const template = (tool, allTools) => {
       </div>
     </section>
 
-    <article>
+    <article id="guide-article">
       <p>
         ${tool.leadParagraph}
       </p>
@@ -2273,6 +2377,23 @@ const template = (tool, allTools) => {
         \`;
       }
     }
+  </script>
+
+  <!-- Live Tool Viewport Collapse / Expand Handler -->
+  <script>
+    (function initLiveToolCollapse() {
+      const toggleBtn = document.getElementById('toggle-tool-collapse-btn');
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (!toggleBtn || !viewport) return;
+      toggleBtn.addEventListener('click', () => {
+        const isCollapsed = viewport.style.display === 'none';
+        viewport.style.display = isCollapsed ? 'block' : 'none';
+        toggleBtn.classList.toggle('is-collapsed', !isCollapsed);
+        toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
+        const label = toggleBtn.querySelector('.toggle-text');
+        if (label) label.textContent = isCollapsed ? 'Collapse Tool' : 'Expand Tool';
+      });
+    })();
   </script>
 
   ${tool.diagram ? `
@@ -3414,11 +3535,15 @@ for (const tool of toolsData) {
   count++;
 }
 
-// Generate Master Guides & Documentation Hub
-const hubContent = generateGuidesHub(allHubGuides);
-fs.writeFileSync(path.join(guidesDirRoot, 'index.html'), hubContent, 'utf8');
-fs.writeFileSync(path.join(androidGuidesDir, 'index.html'), hubContent, 'utf8');
-console.log('Generated master Guides Hub: guides/index.html');
+// Generate Master Guides & Documentation Hub only if it contains the full set
+if (allHubGuides.length >= 94) {
+  const hubContent = generateGuidesHub(allHubGuides);
+  fs.writeFileSync(path.join(guidesDirRoot, 'index.html'), hubContent, 'utf8');
+  fs.writeFileSync(path.join(androidGuidesDir, 'index.html'), hubContent, 'utf8');
+  console.log('Generated master Guides Hub: guides/index.html');
+} else {
+  console.log(`Preserved guides/index.html master hub with full 94 guides (toolsData subset has ${allHubGuides.length}).`);
+}
 
 console.log(`Successfully generated ${count} static HTML blog posts / guides and master index with all ${allHubGuides.length} guides.`);
 

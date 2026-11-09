@@ -176,6 +176,31 @@ export default {
             </div>
           </div>
         </div>
+      
+        <!-- Dynamic Guide Card (Unified standard footer guide) -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>QUICK GUIDE: DIGITAL PDF SIGNATURES</span>
+            </div>
+          </div>
+          <div class="tool-guide-steps">
+
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Upload Agreement or Contract</strong>: Drop your PDF into the secure signature studio with full zero-knowledge local execution.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Draw, Type, or Upload Signature</strong>: Create your signature using smooth canvas ink, custom calligraphic fonts, or pre-saved signature PNG.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Place & Finalize Document</strong>: Position and resize your signature stamp on any page, then click Sign & Download to export.</div>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   },

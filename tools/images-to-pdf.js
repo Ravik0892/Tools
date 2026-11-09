@@ -141,6 +141,31 @@ export default {
             </div>
           </div>
         </div>
+      
+        <!-- Dynamic Guide Card (Unified standard footer guide) -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>QUICK GUIDE: IMAGES TO PDF CONVERTER</span>
+            </div>
+          </div>
+          <div class="tool-guide-steps">
+
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Upload Image Files</strong>: Drag and drop PNG, JPG, WebP, or SVG graphics into the upload dropzone to prepare individual pages.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Reorder & Configure Page Layout</strong>: Drag images to rearrange sequence, select portrait or landscape orientation, and customize margin spacing.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Generate & Save PDF</strong>: Click Compile PDF to combine all images into a single polished document and download instantly.</div>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   },

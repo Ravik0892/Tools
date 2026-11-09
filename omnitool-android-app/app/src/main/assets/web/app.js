@@ -1401,6 +1401,14 @@ const app = {
     "audio-suite": [
       "<strong>Universal Sound Transcoder</strong>: Convert between MP3, WAV, and OGG formats with bitrates up to 320k and custom gain.",
       "<strong>Video Audio Demuxer</strong>: Extract soundtracks from MP4, WebM, and MOV video clips with interactive visual waveform trimming."
+    ],
+    "finance-calculator": [
+      "<strong>Multi-Model Financial Engine</strong>: Calculate compound interest, mortgage amortization schedules, ROI, and inflation adjustments in one place.",
+      "<strong>Interactive Growth Heatmap & Charts</strong>: Visualize future wealth accumulation, principal vs. interest breakdown, and monthly payment schedules with zero latency."
+    ],
+    "box-shadow": [
+      "<strong>Layered Ambient Shadows</strong>: Stack multiple soft shadows with fine-tuned X/Y offsets, blur radius, spread, and natural opacity.",
+      "<strong>1-Click CSS Export</strong>: Instantly generate and copy clean, cross-browser CSS box-shadow declarations ready for modern UI design systems."
     ]
   },
 
@@ -1413,10 +1421,10 @@ const app = {
       { label: "Instant Execution", icon: "⚡" }
     ],
     "formatter-suite": [
-      { label: "JSON / SQL / YAML / CSV", icon: "🔄", primary: true },
-      { label: "Syntax Validation", icon: "✅" },
-      { label: "Minify & Beautify", icon: "✨" },
-      { label: "Client-Side Processing", icon: "⚡" }
+      { label: "JSON Formatter", icon: "🔄", primary: true, tab: "json" },
+      { label: "SQL Beautifier", icon: "✨", tab: "sql" },
+      { label: "YAML & CSV", icon: "📑", tab: "yaml" },
+      { label: "XML / HTML", icon: "🌐", tab: "xml" }
     ],
     "text-encoder-suite": [
       { label: "Base64 & URL Encoding", icon: "🔤", primary: true },
@@ -1431,9 +1439,9 @@ const app = {
       { label: "Formatted JSON Payload", icon: "📜" }
     ],
     "crypto-suite": [
-      { label: "MD5 / SHA-256 / SHA-512", icon: "#️⃣", primary: true },
-      { label: "AES-256-GCM Encryption", icon: "🔐" },
-      { label: "RSA 2048/4096 Keypairs", icon: "🗝️" },
+      { label: "MD5 / SHA Hash Gen", icon: "#️⃣", primary: true, tab: "hash" },
+      { label: "AES-256 Encryption", icon: "🔐", tab: "aes" },
+      { label: "RSA 2048/4096 Keys", icon: "🗝️", tab: "rsa" },
       { label: "WebCrypto Hardware Speed", icon: "⚡" }
     ],
     "pii-anonymizer": [
@@ -1473,10 +1481,10 @@ const app = {
       { label: "Regex Cheat Sheet", icon: "📚" }
     ],
     "css-studio": [
-      { label: "Gradients & Mesh Generator", icon: "🎨", primary: true },
-      { label: "Multi-Layer Box Shadows", icon: "👥" },
-      { label: "Frosted Glassmorphism", icon: "🧊" },
-      { label: "1-Click CSS Copy", icon: "📋" }
+      { label: "Gradients & Mesh", icon: "🎨", primary: true, tab: "gradient" },
+      { label: "Multi-Layer Shadows", icon: "👥", tab: "shadow" },
+      { label: "Frosted Glassmorphism", icon: "🧊", tab: "glass" },
+      { label: "Clip Path Shapes", icon: "📐", tab: "clippath" }
     ],
     "color-lab": [
       { label: "WCAG 2.1 Contrast Ratios", icon: "👁️", primary: true },
@@ -1485,15 +1493,15 @@ const app = {
       { label: "HEX / RGB / HSL Sync", icon: "📐" }
     ],
     "security-suite": [
-      { label: "Cryptographic Entropy", icon: "🎲", primary: true },
-      { label: "RFC 4122 v4 UUIDs", icon: "🔑" },
+      { label: "Password Generator", icon: "🎲", primary: true, tab: "pass" },
+      { label: "RFC 4122 v4 UUIDs", icon: "🔑", tab: "uuid" },
       { label: "Bulk Key Generation", icon: "📦" },
       { label: "Hardware RNG Seeded", icon: "⚡" }
     ],
     "datetime-suite": [
-      { label: "Unix Epoch Converter", icon: "⏱️", primary: true },
-      { label: "Millisecond & Second Mode", icon: "⚡" },
-      { label: "Duration & Date Math", icon: "📅" },
+      { label: "Unix Epoch Converter", icon: "⏱️", primary: true, tab: "epoch" },
+      { label: "Date Difference & Math", icon: "📅", tab: "calc" },
+      { label: "Millisecond Mode", icon: "⚡" },
       { label: "Local Timezone Sync", icon: "🌍" }
     ],
     "unit-converter": [
@@ -1785,32 +1793,35 @@ const app = {
       { label: "XMP Archival Metadata Packet", icon: "🏷️" }
     ],
     "pdf-converter-hub": [
-      { label: "Word, Excel & PPTX", icon: "📄", primary: true },
-      { label: "Images & Camera Scanner", icon: "📷" },
-      { label: "HTML/CSS & Markdown", icon: "💻" },
-      { label: "100% In-Browser", icon: "🔒" }
+      { label: "Word to PDF", icon: "📄", primary: true, subtool: "word-pdf" },
+      { label: "Excel to PDF", icon: "📊", subtool: "excel-pdf" },
+      { label: "Images to PDF", icon: "📷", subtool: "images-to-pdf" },
+      { label: "Scan to PDF", icon: "📸", subtool: "scan-to-pdf" },
+      { label: "HTML to PDF", icon: "💻", subtool: "html-to-pdf" },
+      { label: "PPTX to PDF", icon: "📑", subtool: "pptx-pdf" }
     ],
     "pdf-editor-suite": [
-      { label: "Draw & Cursive Sign", icon: "✍️", primary: true },
-      { label: "AcroForm Fill & Flatten", icon: "📋" },
-      { label: "Vector Markup & Watermark", icon: "✏️" },
-      { label: "Permanent Redaction", icon: "⬛" }
+      { label: "Draw & Cursive Sign", icon: "✍️", primary: true, subtool: "sign-pdf" },
+      { label: "Annotate & Draw", icon: "✏️", subtool: "pdf-annotate" },
+      { label: "AcroForm Fill & Flatten", icon: "📋", subtool: "pdf-forms" },
+      { label: "Watermark & Page Numbers", icon: "💧", subtool: "pdf-watermark" },
+      { label: "Permanent Redaction", icon: "⬛", subtool: "redact-pdf" }
     ],
     "pdf-security-suite": [
-      { label: "AES-256 Encrypt & Unlock", icon: "🔒", primary: true },
-      { label: "Corrupt Xref Stream Repair", icon: "🛠️" },
-      { label: "ISO 19005 PDF/A Archive", icon: "🏛️" },
+      { label: "AES-256 Encrypt & Unlock", icon: "🔒", primary: true, subtool: "pdf-security" },
+      { label: "Corrupt Xref Stream Repair", icon: "🛠️", subtool: "repair-pdf" },
+      { label: "ISO 19005 PDF/A Archive", icon: "🏛️", subtool: "pdf-to-pdfa" },
       { label: "Zero Server Uploads", icon: "⚡" }
     ],
     "qr-studio": [
-      { label: "Art Gradients & Logos", icon: "🎨", primary: true },
-      { label: "Webcam & File Scanner", icon: "📷" },
+      { label: "Art Gradients & Logos", icon: "🎨", primary: true, subtool: "qr-generator" },
+      { label: "Webcam & File Scanner", icon: "📷", subtool: "qr-scanner" },
       { label: "1D/2D Barcode Support", icon: "📦" },
       { label: "Client-Side Speed", icon: "⚡" }
     ],
     "audio-suite": [
-      { label: "MP3, WAV & OGG Transcode", icon: "🎧", primary: true },
-      { label: "Video Audio Demuxer", icon: "🎬" },
+      { label: "MP3, WAV & OGG Transcode", icon: "🎧", primary: true, subtool: "audio-converter" },
+      { label: "Video Audio Demuxer", icon: "🎬", subtool: "mp4-to-mp3" },
       { label: "Visual Waveform Trimmer", icon: "📊" },
       { label: "Bitrates up to 320k", icon: "⚡" }
     ]
@@ -3526,6 +3537,9 @@ const app = {
 
     this.activeSubtool = subtool ? subtool.slug : null;
     this.updateToolSEO(suiteId, subtool ? subtool.slug : null);
+    const activeViewport = document.getElementById("active-tool-viewport");
+    this.injectGuideBenefits(activeViewport, suiteId, subtool ? subtool.slug : null);
+    this.syncActiveCapabilityChip(activeViewport, subtool ? subtool.slug : null);
 
     // Update Header View Title smoothly
     const titleEl = document.getElementById("header-view-title");
@@ -5915,6 +5929,7 @@ const app = {
   triggerHaptics(type = 'light') {
     if (this.isInitialLoad) return;
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
       try {
         if (type === 'light') {
           navigator.vibrate(15);
@@ -7384,124 +7399,17 @@ const app = {
 
       viewport.innerHTML = toolbarHtml + toolInstance.renderUI();
 
+      // Initialize interactive capability bar chips
+      this.initCapabilitiesBar(viewport, toolId);
+
       // Split view layout drawer enhancements & draggable resizer
       this.initLayoutSizer(viewport);
 
+      // Inject standard unified guide card benefits and deep link
+      this.injectGuideBenefits(viewport, toolId);
 
-      // Inject "How it Benefits You" dynamic section inside any present guide card
-      const guideCard = viewport.querySelector(".tool-guide-card");
-      if (guideCard) {
-        const benefits = this.toolBenefits[toolId];
-        if (benefits && !guideCard.querySelector(".tool-guide-benefits")) {
-          const benefitsDiv = document.createElement("div");
-          benefitsDiv.className = "tool-guide-benefits";
-          benefitsDiv.style.cssText = "margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.08); font-size: 12.5px; line-height: 1.5; color: var(--text-muted); text-align: left;";
-
-          // Map tool ID to static guide page name
-          const guideMap = {
-            "pipeline-builder": "pipeline-builder.html",
-            "formatter-suite": "json-formatter.html",
-            "text-encoder-suite": "text-encoder-suite.html",
-            "jwt-decoder": "jwt-decoder.html",
-            "crypto-suite": "crypto-suite.html",
-            "pii-anonymizer": "pii-anonymizer.html",
-            "markdown-preview": "markdown-preview.html",
-            "text-diff": "text-diff.html",
-            "pdf-searcher": "pdf-searcher.html",
-            "pdf-utilities": "pdf-utilities.html",
-            "pdf-converter-hub": "pdf-converter-hub.html",
-            "pdf-editor-suite": "pdf-editor-suite.html",
-            "pdf-security-suite": "pdf-security-suite.html",
-            "pdf-ai": "pdf-ai.html",
-            "compare-pdf": "compare-pdf.html",
-            "regex-tester": "regex-tester.html",
-            "css-studio": "css-studio.html",
-            "color-lab": "color-lab.html",
-            "security-suite": "security-suite.html",
-            "datetime-suite": "datetime-suite.html",
-            "unit-converter": "unit-converter.html",
-            "graphics-studio": "graphics-studio.html",
-            "screenshot-capture": "graphics-studio.html",
-            "calculator": "calculator.html",
-            "qr-generator": "qr-generator.html",
-            "seo-previewer": "seo-previewer.html",
-            "image-converter": "image-converter.html",
-            "svg-animator": "svg-animator.html",
-            "url-parser": "url-parser.html",
-            "text-analyzer": "text-analyzer.html",
-            "mock-data-generator": "mock-data-generator.html",
-            "code-playground": "code-playground.html",
-            "fancy-font-generator": "fancy-font-generator.html"
-          };
-          const guideFile = guideMap[toolId];
-          const blogLinkHtml = guideFile ? `
-            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, 0.05);">
-              <a href="guides/${guideFile}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; color: var(--accent-cyan); text-decoration: none; font-size: 12.5px; font-weight: 600; transition: opacity var(--transition-fast);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-                <span>📖 Read Detailed SEO Blog Post</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          ` : "";
-
-          benefitsDiv.innerHTML = `
-            <strong style="color: var(--accent-cyan); display: block; margin-bottom: 6px; font-size: 13px;">💡 How it Benefits You:</strong>
-            <ul style="margin: 0; padding-left: 18px; list-style-type: disc; display: flex; flex-direction: column; gap: 6px;">
-              ${benefits.map(b => `<li>${b}</li>`).join("")}
-            </ul>
-            ${blogLinkHtml}
-          `;
-          guideCard.appendChild(benefitsDiv);
-        }
-      }
-
-      // Append sponsor bar below tool contents (only if not a split-view tool)
-      const hasSplitView = viewport.querySelector(".tool-content-layout.split-view");
-      if (!hasSplitView) {
-        const toolAdHtml = this.getAdHtml("tool");
-        if (toolAdHtml) {
-          const sponsorBar = document.createElement("div");
-          sponsorBar.className = "tool-sponsor-bar";
-          sponsorBar.innerHTML = toolAdHtml;
-          viewport.appendChild(sponsorBar);
-        }
-      } else {
-        // Distribute ads inside split-view panels so page doesn't scroll
-        const panels = Array.from(viewport.querySelectorAll(".tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)"));
-        if (panels.length >= 2) {
-          // Left Panel Ad (1 ad)
-          const adHtml1 = this.getAdHtml("tool");
-          if (adHtml1) {
-            const adContainer = document.createElement("div");
-            adContainer.className = "tool-panel-ad";
-            adContainer.innerHTML = adHtml1;
-            panels[0].appendChild(adContainer);
-          }
-          // Right Panel Ad (1 ad)
-          const adHtml2 = this.getAdHtml("tool");
-          if (adHtml2) {
-            const adContainer2 = document.createElement("div");
-            adContainer2.className = "tool-panel-ad";
-            adContainer2.innerHTML = adHtml2;
-            panels[1].appendChild(adContainer2);
-          }
-        }
-
-        // Guide Card Ad (1 ad, bringing total to 3 ads while preserving layout space)
-        const guideCard = viewport.querySelector(".tool-guide-card");
-        if (guideCard) {
-          const adHtml3 = this.getAdHtml("tool");
-          if (adHtml3) {
-            const adContainer3 = document.createElement("div");
-            adContainer3.className = "tool-panel-ad";
-            adContainer3.style.marginTop = "18px";
-            adContainer3.style.paddingTop = "14px";
-            adContainer3.style.borderTop = "1px dashed var(--border-color)";
-            adContainer3.style.width = "100%";
-            adContainer3.innerHTML = adHtml3;
-            guideCard.appendChild(adContainer3);
-          }
-        }
-      }
+      // Distribute in-panel ads for split-view tools or append sponsor bar
+      this.distributePanelAds(viewport);
 
       // Bind back button
       viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
@@ -7529,14 +7437,30 @@ const app = {
       // Initialize tool module
       await toolInstance.init(viewport, this);
 
-      // Re-run initLayoutSizer for dynamically mounted subtools
+      // Global tactile click feedback for all suite tabs (like CSS Studio Suite)
+      if (!viewport.dataset.keyboardTabSoundBound) {
+        viewport.dataset.keyboardTabSoundBound = "true";
+        viewport.addEventListener("click", (e) => {
+          const tabBtn = e.target.closest(".keyboard-tab, .date-subtab-btn, .util-tab, .mode-segment-btn");
+          if (tabBtn) {
+            this.playSynthSound("click");
+          }
+        });
+      }
+
+      // Re-run initLayoutSizer and guide benefits for dynamically mounted subtools
       this.initLayoutSizer(viewport);
+      this.initCapabilitiesBar(viewport, toolId);
+      this.injectGuideBenefits(viewport, toolId, this.activeSubtool);
+      this.syncActiveCapabilityChip(viewport, this.activeSubtool);
+      this.distributePanelAds(viewport);
 
       // Render connected workflow bridge cards
       this.renderWorkflowBridges(viewport, toolId);
 
       // Add a floating bouncing down arrow for split-view tools to scroll to the guide
       const hasGuideCard = viewport.querySelector(".tool-guide-card");
+      const hasSplitView = !!viewport.querySelector(".tool-content-layout.split-view");
 
       if (hasSplitView && hasGuideCard) {
         const arrow = document.createElement("button");
@@ -7644,16 +7568,114 @@ const app = {
       { label: "Zero Server Uploads", icon: "🔒" },
       { label: "Instant Execution", icon: "🚀" }
     ];
+    const activeSub = this.activeSubtool || "";
     return `
-      <div class="tool-capabilities-bar">
-        ${features.map(f => `
-          <span class="tool-cap-chip ${f.primary ? 'primary' : ''}">
-            <span class="cap-icon-box" style="display: inline-flex; align-items: center;">${this.getFeatureIconSvg(f.icon)}</span>
-            <span>${f.label}</span>
-          </span>
-        `).join("")}
+      <div class="tool-capabilities-bar" data-tool-id="${toolId}">
+        ${features.map(f => {
+          const isInteractive = Boolean(f.subtool || f.tab);
+          const tag = isInteractive ? 'button' : 'span';
+          const typeAttr = isInteractive ? 'type="button"' : '';
+          const subtoolAttr = f.subtool ? `data-subtool="${f.subtool}"` : '';
+          const tabAttr = f.tab ? `data-tab="${f.tab}"` : '';
+          const titleAttr = isInteractive ? `title="Switch to ${f.label}"` : '';
+          const isActive = f.subtool ? (f.subtool === activeSub) : (f.primary && !activeSub);
+          return `
+            <${tag} ${typeAttr} class="tool-cap-chip ${isActive ? 'primary active' : ''} ${isInteractive ? 'interactive' : ''}" ${subtoolAttr} ${tabAttr} ${titleAttr}>
+              <span class="cap-icon-box" style="display: inline-flex; align-items: center;">${this.getFeatureIconSvg(f.icon)}</span>
+              <span>${f.label}</span>
+            </${tag}>
+          `;
+        }).join("")}
       </div>
     `;
+  },
+
+  initCapabilitiesBar(container, toolId) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root) return;
+    const capBar = root.querySelector(".tool-capabilities-bar");
+    if (!capBar || capBar.dataset.capsInitialized === "true") return;
+    capBar.dataset.capsInitialized = "true";
+
+    capBar.querySelectorAll(".tool-cap-chip.interactive").forEach(chip => {
+      chip.addEventListener("click", () => {
+        this.playSynthSound('click');
+        const subtool = chip.dataset.subtool;
+        const tab = chip.dataset.tab;
+
+        if (subtool) {
+          const subtoolBtn = root.querySelector(`.suite-tabs-nav .keyboard-tab[data-subtool="${subtool}"]`);
+          if (subtoolBtn) {
+            subtoolBtn.click();
+          }
+        } else if (tab) {
+          const tabBtn = root.querySelector(`.keyboard-tab[data-tab="${tab}"]`);
+          if (tabBtn) {
+            tabBtn.click();
+          }
+        }
+
+        capBar.querySelectorAll(".tool-cap-chip").forEach(c => {
+          c.classList.remove("active", "primary");
+        });
+        chip.classList.add("active", "primary");
+      });
+    });
+  },
+
+  syncActiveCapabilityChip(container, activeId) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root || !activeId) return;
+    const chips = root.querySelectorAll(".tool-capabilities-bar .tool-cap-chip");
+    chips.forEach(c => {
+      const isMatch = (c.dataset.subtool === activeId) || (c.dataset.tab === activeId);
+      c.classList.toggle("active", isMatch);
+      c.classList.toggle("primary", isMatch);
+    });
+  },
+
+  injectGuideBenefits(container, toolId, subtoolId = null) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root) return;
+    const guideCard = root.querySelector(".tool-guide-card");
+    if (!guideCard) return;
+
+    const effectiveId = subtoolId || this.activeSubtool || toolId;
+    const benefits = (this.toolBenefits && this.toolBenefits[effectiveId]) || (this.toolBenefits && this.toolBenefits[toolId]);
+
+    const guideMap = {
+      "formatter-suite": "json-formatter.html",
+      "text-encoder-suite": "text-encoder-suite.html",
+      "crypto-suite": "crypto-suite.html",
+      "datetime-suite": "datetime-suite.html",
+      "security-suite": "security-suite.html",
+      "screenshot-capture": "graphics-studio.html",
+      "code-playground": "code-playground.html"
+    };
+    const guideFile = guideMap[effectiveId] || `${effectiveId}.html`;
+
+    const existing = guideCard.querySelector(".tool-guide-benefits");
+    if (existing) existing.remove();
+
+    if (benefits && benefits.length > 0) {
+      const benefitsDiv = document.createElement("div");
+      benefitsDiv.className = "tool-guide-benefits";
+      benefitsDiv.style.cssText = "margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.08); font-size: 12.5px; line-height: 1.5; color: var(--text-muted); text-align: left;";
+
+      benefitsDiv.innerHTML = `
+        <strong style="color: var(--accent-cyan); display: block; margin-bottom: 6px; font-size: 13px;">💡 How it Benefits You:</strong>
+        <ul style="margin: 0; padding-left: 18px; list-style-type: disc; display: flex; flex-direction: column; gap: 6px;">
+          ${benefits.map(b => `<li>${b}</li>`).join("")}
+        </ul>
+        <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, 0.05);">
+          <a href="guides/${guideFile}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; color: var(--accent-cyan); text-decoration: none; font-size: 12.5px; font-weight: 600; transition: opacity var(--transition-fast);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+            <span>📖 Read Complete Step-by-Step Guide &amp; Tutorial</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </div>
+      `;
+      guideCard.appendChild(benefitsDiv);
+    }
   },
 
   initLayoutSizer(container) {
@@ -7908,10 +7930,18 @@ const app = {
           }
         }
         if (previewHeader) {
-          if (!previewHeader.querySelector(".reset-split-btn")) {
+          let actionsWrapper = previewHeader.querySelector(".preview-header-actions");
+          if (!actionsWrapper) {
+            actionsWrapper = document.createElement("div");
+            actionsWrapper.className = "preview-header-actions";
+            actionsWrapper.style.cssText = "display: inline-flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0;";
+            previewHeader.appendChild(actionsWrapper);
+          }
+
+          if (!actionsWrapper.querySelector(".reset-split-btn")) {
             const resetHeaderBtn = document.createElement("button");
             resetHeaderBtn.className = "reset-split-btn tool-btn secondary";
-            resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; margin-right: 6px; gap: 4px; display: inline-flex; align-items: center;";
+            resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; gap: 4px; display: inline-flex; align-items: center;";
             resetHeaderBtn.setAttribute("title", "Reset sections to 50/50 layout");
             resetHeaderBtn.innerHTML = `
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11">
@@ -7920,13 +7950,13 @@ const app = {
               </svg>
               <span>Reset 50/50</span>
             `;
-            previewHeader.appendChild(resetHeaderBtn);
+            actionsWrapper.appendChild(resetHeaderBtn);
             resetHeaderBtn.addEventListener("click", () => {
               resetSplit();
             });
           }
 
-          if (!previewHeader.querySelector(".preview-fullscreen-btn")) {
+          if (!actionsWrapper.querySelector(".preview-fullscreen-btn")) {
             const fsBtn = document.createElement("button");
             fsBtn.id = "btn-preview-fullscreen-toggle";
             fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
@@ -7937,7 +7967,7 @@ const app = {
               </svg>
               <span>Full Screen</span>
             `;
-            previewHeader.appendChild(fsBtn);
+            actionsWrapper.appendChild(fsBtn);
 
             fsBtn.addEventListener("click", () => {
               this.playSynthSound('click');
@@ -7998,8 +8028,103 @@ const app = {
             window.addEventListener("keydown", handleFsEscape);
           }
         }
+
+        // Distribute ads cleanly into this split-view
+        this.distributePanelAds(splitView);
       }
     });
+  },
+
+  distributePanelAds(container) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root) return;
+
+    const splitView = (root.classList && root.classList.contains("split-view"))
+      ? root
+      : root.querySelector(".tool-content-layout.split-view");
+
+    if (!splitView) {
+      // Single view tool or Hub wrapper before subtool mount
+      const viewport = document.getElementById("active-tool-viewport") || root;
+      if (!viewport.querySelector(".tool-sponsor-bar")) {
+        const toolAdHtml = this.getAdHtml("tool");
+        if (toolAdHtml) {
+          const sponsorBar = document.createElement("div");
+          sponsorBar.className = "tool-sponsor-bar";
+          sponsorBar.innerHTML = toolAdHtml;
+          viewport.appendChild(sponsorBar);
+        }
+      }
+      return;
+    }
+
+    const panels = Array.from(splitView.querySelectorAll(":scope > .tool-panel:not(.tool-guide-card)"));
+    if (panels.length >= 2) {
+      // Left Panel Ad (Editor side - covers bottom space and frames controls)
+      let adContainer1 = panels[0].querySelector(".tool-panel-ad");
+      if (!adContainer1) {
+        const adHtml1 = this.getAdHtml("tool");
+        if (adHtml1) {
+          adContainer1 = document.createElement("div");
+          adContainer1.className = "tool-panel-ad";
+          adContainer1.innerHTML = adHtml1;
+          panels[0].appendChild(adContainer1);
+        }
+      } else if (!adContainer1.innerHTML.trim()) {
+        const adHtml1 = this.getAdHtml("tool");
+        if (adHtml1) adContainer1.innerHTML = adHtml1;
+      }
+
+      // Right Panel Ad (Preview side - covers bottom space and frames preview)
+      let adContainer2 = panels[1].querySelector(".tool-panel-ad");
+      if (!adContainer2) {
+        const adHtml2 = this.getAdHtml("tool");
+        if (adHtml2) {
+          adContainer2 = document.createElement("div");
+          adContainer2.className = "tool-panel-ad";
+          adContainer2.innerHTML = adHtml2;
+          panels[1].appendChild(adContainer2);
+        }
+      } else if (!adContainer2.innerHTML.trim()) {
+        const adHtml2 = this.getAdHtml("tool");
+        if (adHtml2) adContainer2.innerHTML = adHtml2;
+      }
+    }
+
+    // Guide Card Ad (1 ad)
+    const guideCard = splitView.querySelector(".tool-guide-card") || root.querySelector(".tool-guide-card");
+    if (guideCard) {
+      let adContainer3 = guideCard.querySelector(".tool-panel-ad");
+      if (!adContainer3) {
+        const adHtml3 = this.getAdHtml("tool");
+        if (adHtml3) {
+          adContainer3 = document.createElement("div");
+          adContainer3.className = "tool-panel-ad";
+          adContainer3.style.marginTop = "18px";
+          adContainer3.style.paddingTop = "14px";
+          adContainer3.style.borderTop = "1px dashed var(--border-color)";
+          adContainer3.style.width = "100%";
+          adContainer3.innerHTML = adHtml3;
+          guideCard.appendChild(adContainer3);
+        }
+      } else if (!adContainer3.innerHTML.trim()) {
+        const adHtml3 = this.getAdHtml("tool");
+        if (adHtml3) adContainer3.innerHTML = adHtml3;
+      }
+    }
+
+    // Bottom Sponsor Bar at bottom of viewport (omit if already displayed inside guide card)
+    const viewport = document.getElementById("active-tool-viewport") || document;
+    const hasGuideAd = guideCard && guideCard.querySelector(".tool-panel-ad");
+    if (!hasGuideAd && !viewport.querySelector(":scope > .tool-sponsor-bar")) {
+      const toolAdHtml = this.getAdHtml("tool");
+      if (toolAdHtml) {
+        const sponsorBar = document.createElement("div");
+        sponsorBar.className = "tool-sponsor-bar";
+        sponsorBar.innerHTML = toolAdHtml;
+        viewport.appendChild(sponsorBar);
+      }
+    }
   },
 
 

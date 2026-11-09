@@ -6,10 +6,10 @@ export default {
       <div class="tool-content-layout split-view">
         <!-- Configuration & Controls (Left Panel) -->
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>Configuration</h3>
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+            <h3 style="margin: 0;">Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="datetime-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 100%; flex-wrap: wrap;" id="datetime-tabs">
               <button class="keyboard-tab active" data-tab="epoch" style="font-size: 11px; padding: 4px 8px;">Epoch Converter</button>
               <button class="keyboard-tab" data-tab="date" style="font-size: 11px; padding: 4px 8px;">Date Calculator</button>
             </div>
@@ -282,6 +282,12 @@ export default {
     const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
+      if (typeof appInstance?.syncActiveCapabilityChip === "function") {
+        appInstance.syncActiveCapabilityChip(container, tabId);
+      }
+      if (typeof appInstance?.injectGuideBenefits === "function") {
+        appInstance.injectGuideBenefits(container, "datetime-suite", tabId);
+      }
 
       panelEpoch.classList.toggle("hidden", tabId !== "epoch");
       panelDate.classList.toggle("hidden", tabId !== "date");

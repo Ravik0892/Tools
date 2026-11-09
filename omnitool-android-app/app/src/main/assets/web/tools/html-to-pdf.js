@@ -145,15 +145,18 @@ export default {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
               HTML &amp; CSS Source
             </h3>
-            <div style="display: flex; gap: 6px;">
-              <button class="keyboard-tab active" id="btn-tpl-invoice" style="font-size: 11px; padding: 4px 8px;">🧾 Invoice</button>
-              <button class="keyboard-tab" id="btn-tpl-report" style="font-size: 11px; padding: 4px 8px;">📑 Report</button>
-              <button class="keyboard-tab" id="btn-upload-html" style="font-size: 11px; padding: 4px 8px;">📂 Import</button>
-              <input type="file" id="html-file-input" accept=".html, .htm" style="display: none;">
-            </div>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+          <div style="display: flex; flex-direction: column; gap: 12px; flex: 1; margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <label style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin: 0;">Templates &amp; Import</label>
+              <div style="display: flex; gap: 6px;">
+                <button type="button" class="tool-btn secondary" id="btn-tpl-invoice" style="font-size: 11px; padding: 4px 8px;">🧾 Invoice</button>
+                <button type="button" class="tool-btn secondary" id="btn-tpl-report" style="font-size: 11px; padding: 4px 8px;">📑 Report</button>
+                <button type="button" class="tool-btn secondary" id="btn-upload-html" style="font-size: 11px; padding: 4px 8px;">📂 Import</button>
+                <input type="file" id="html-file-input" accept=".html, .htm" style="display: none;">
+              </div>
+            </div>
             <textarea id="html-source-input" class="form-input" style="width: 100%; min-height: 280px; flex: 1; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.5; resize: vertical; border-radius: 8px; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px; white-space: pre;" placeholder="Enter or paste full HTML code with inline CSS here..."></textarea>
 
             <!-- Conversion Options Grid -->

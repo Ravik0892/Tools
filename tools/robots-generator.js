@@ -131,7 +131,54 @@ export default {
             </span>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Generate robots.txt</span>
+            </div>
+            <div class="tool-guide-badge">SEO & AI Shield</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Select Crawlers & Directives</h4>
+                <p>Choose user-agents like Googlebot, Bingbot, or wildcard (*) and configure crawl delay.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Add Path Restrictions</h4>
+                <p>Specify directories to Disallow (like /admin/ or /private/) and public paths to Allow.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Toggle AI Scraper Shield</h4>
+                <p>Block unauthorized AI crawlers including GPTBot, CCBot, and ClaudeBot with one click.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Deploy to Domain Root</h4>
+                <p>Download or copy robots.txt and place it at the exact root of your web server domain.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
     `;
   },
 

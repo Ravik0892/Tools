@@ -169,7 +169,54 @@ export default {
             </div>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Adjust Video Playback Speed</span>
+            </div>
+            <div class="tool-guide-badge">Client-Side Speed Engine</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Load Video File</h4>
+                <p>Drag and drop any MP4, WebM, MOV, or MKV file into the player.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Select Target Multiplier</h4>
+                <p>Choose 0.25x to 4.0x speed or configure fine-grained percentage increments.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Preserve Audio Pitch</h4>
+                <p>Ensure voices remain naturally modulated without chipmunk distortion via HTML5 pitch correction.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Save or Watch Live</h4>
+                <p>Preview smoothly at the chosen speed or download adjusted video clips locally.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
     `;
   },
 

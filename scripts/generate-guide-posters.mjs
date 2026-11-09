@@ -877,6 +877,92 @@ const posters = [
       ]
     },
     footerNotes: '✓ Standard Multi-Resolution ICO • iOS Apple Touch • PWA Manifest 192/512px • Safezone Masking'
+  },
+  {
+    fileName: 'typography_unicode_font_matrix_poster_1200x800.svg',
+    categoryBadge: 'TYPOGRAPHY & UNICODE ENGINE',
+    title: 'Unicode Typography, Glyph Planes & Aesthetic Font Architecture',
+    subtitle: 'Mathematical alphanumeric blocks, gothic blackletter, enclosed badges, and social media bio matrix.',
+    theme: {
+      accent1: '#9d4edd',
+      accent2: '#00f2fe',
+      badgeBg: '#7b2cbf',
+      badgeBorder: '#9d4edd'
+    },
+    col1: {
+      title: 'Unicode Character Planes',
+      items: [
+        { label: 'Gothic & Fraktur', val: 'U+1D504-1D537 Math Fraktur & bold gothic blackletter glyphs' },
+        { label: 'Cursive Script', val: 'U+1D49C-1D4CF Math Script & Calligraphy glyph mapping' },
+        { label: 'Enclosed Symbols', val: 'U+2460-24FF Circled numbers, bubbles, square box letters' },
+        { label: 'Small Capitals', val: 'Phonetic & Latin small cap letter substitutions (ᴀ-ᴢ)' },
+        { label: 'Zalgo Glitch Marks', val: 'U+0300-036F Stacking diacritics & glitch character chaos' }
+      ]
+    },
+    col2: {
+      title: 'Cross-Platform Compatibility',
+      items: [
+        { label: 'Instagram & TikTok', val: 'Natively parsed in bios, captions, reels, and direct messages' },
+        { label: 'Discord & Reddit', val: '100% supported in usernames, custom roles, and channel names' },
+        { label: 'Gaming Nicknames', val: 'Steam, Roblox, Fortnite, and Minecraft gamer tags' },
+        { label: 'Zero Font Files', val: 'No .ttf/.woff downloads; 100% native OS font rasterization' },
+        { label: 'Fallback Resilience', val: 'Graceful system fallback across iOS, Android, and Windows' }
+      ]
+    },
+    col3: {
+      title: 'Bio Studio & Aesthetic Symbols',
+      items: [
+        { label: 'Sparkles & Stars', val: '✦ ✧ ⋆ ★ ☾ ☀ ☁ Star, moon, and celestial symbols' },
+        { label: 'Curated Dividers', val: '─ ═ ⋆｡°✩ ── Curated bio section delimiters and accents' },
+        { label: 'Cute Kaomoji', val: '(｡♥‿♥｡) (⁄ ⁄•⁄ω⁄•⁄ ⁄) Japanese expressive text emoticons' },
+        { label: 'Superscript & Sub', val: 'ᵗⁱⁿʸ ˢᵘᵖᵉʳˢᶜʳⁱᵖᵗ and high/low metric indicators' },
+        { label: 'One-Click Clipboard', val: 'Instant async navigator.clipboard copying with zero latency' }
+      ]
+    },
+    footerNotes: '✓ 100% Client-Side Engine • Universal Unicode Standard • Zero Data Transmission'
+  },
+  {
+    fileName: 'financial_wealth_growth_matrix_poster_1200x800.svg',
+    categoryBadge: 'FINANCIAL MATHEMATICS & WEALTH ENGINE',
+    title: 'SIP Wealth Compounding & Loan Amortization Architecture',
+    subtitle: 'Exponential interest calculus, reducing balance amortization, step-up accelerators, and inflation parity.',
+    theme: {
+      accent1: '#10b981',
+      accent2: '#00f2fe',
+      badgeBg: '#059669',
+      badgeBorder: '#10b981'
+    },
+    col1: {
+      title: 'Wealth Growth & SIP Calculus',
+      items: [
+        { label: 'Monthly SIP Annuity', val: 'M = P × [(1 + i)ⁿ - 1] / i × (1 + i) compounding future value' },
+        { label: 'Goal Target Reverse', val: 'Calculates exact monthly deposit needed for target corpus' },
+        { label: 'Step-Up Accelerator', val: 'Annual 5-10% investment increments to double final corpus' },
+        { label: 'Compound Frequencies', val: 'Daily, Monthly, Quarterly, and Annual APY compound models' },
+        { label: 'Inflation Parity', val: 'Adjusts nominal returns to real purchasing power (CPI-indexed)' }
+      ]
+    },
+    col2: {
+      title: 'Loan Amortization & Debt Calculus',
+      items: [
+        { label: 'Reducing Balance EMI', val: 'EMI = [P × r × (1 + r)ⁿ] / [(1 + r)ⁿ - 1] reducing debt formula' },
+        { label: 'Principal vs Interest', val: 'Visualizes dynamic shifting ratio across repayment tenure' },
+        { label: 'Prepayment Engine', val: 'Lump-sum & monthly prepayments save thousands in interest' },
+        { label: 'Tenure Elimination', val: 'Early principal prepayments shave years off mortgage loans' },
+        { label: 'Amortization Matrix', val: 'Year-by-year and month-by-month full ledger export' }
+      ]
+    },
+    col3: {
+      title: 'Engine Specs & Visual Stage',
+      items: [
+        { label: 'SVG Growth Curves', val: 'Interactive visual hockey-stick inflection area charts' },
+        { label: 'Donut Allocation', val: 'Real-time split of Principal Outflow vs Accumulated Return' },
+        { label: 'Multi-Currency Support', val: 'Standardized USD ($), INR (₹), EUR (€), GBP (£), JPY (¥)' },
+        { label: 'Export Pipeline', val: 'Download CSV amortization schedules & 1-click clipboard summary' },
+        { label: 'Zero Cloud Tracking', val: '100% private in-browser computation; financial data never leaves RAM' }
+      ]
+    },
+    footerNotes: '✓ 100% Client-Side Computation • Institutional Actuarial Math • Zero Data Transmission'
   }
 ];
 

@@ -579,7 +579,54 @@ export default {
             </div>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Record & Edit Audio</span>
+            </div>
+            <div class="tool-guide-badge">High-Fidelity Waveform</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Select Microphone & Sample Rate</h4>
+                <p>Choose audio input source and configure 44.1kHz / 48kHz studio audio fidelity.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Record with Live Oscilloscope</h4>
+                <p>Monitor real-time audio waveforms, dB level meters, and peak levels in local memory.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Trim & Inspect</h4>
+                <p>Use the interactive waveform scrubber to preview recordings and inspect audio duration.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Export WAV / MP3</h4>
+                <p>Download lossless audio tracks directly without audio data leaking to third-party servers.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
     `;
   },
 

@@ -1255,7 +1255,7 @@ export default {
           <div class="tool-guide-header">
             <div class="tool-guide-title">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              <span>Unicode Typography, Bio Architecture &amp; Cross-Platform Compatibility</span>
+              <span>Quick Guide: How to Use Fancy Font &amp; Bio Studio</span>
             </div>
             <div class="tool-guide-badge">Universal Copy-Paste</div>
           </div>
@@ -1264,24 +1264,32 @@ export default {
             <div class="tool-guide-step">
               <div class="tool-step-num">1</div>
               <div class="tool-step-content">
-                <h4>How Do Unicode Mathematical Fonts Work?</h4>
-                <p>These are not font files (.ttf/.woff). Instead, they leverage the universal Unicode Standard (Mathematical Alphanumeric Symbols blocks, Enclosed Alphanumerics, and Gothic Fraktur codepoints). Because plain characters are mapped to genuine Unicode glyphs, they render identically everywhere on the web without installing any fonts.</p>
+                <h4>Input &amp; Instant 60+ Style Transformation</h4>
+                <p>Type or paste your text in the <strong>Input Text</strong> area on the left. The live visual stage instantly converts your characters across 60+ genuine Unicode typography styles (Cursive, Gothic Fraktur, Small Caps, Bubbles, and Glitch).</p>
               </div>
             </div>
 
             <div class="tool-guide-step">
               <div class="tool-step-num">2</div>
               <div class="tool-step-content">
-                <h4>100% Social Media, Discord &amp; Gaming Compatibility</h4>
-                <p>Because these symbols are built into modern device operating systems (iOS, Android, Windows, macOS, Linux), you can copy and paste them directly into <strong>Instagram Bios, TikTok captions, Twitter/X usernames, Discord server roles, YouTube titles, and gamer handles</strong> (Fortnite, Steam, Roblox, Free Fire).</p>
+                <h4>Filter Categories &amp; One-Click Clipboard Copy</h4>
+                <p>Filter styles by category or type in the search bar. Click anywhere on any font card to immediately copy the transformed text to your clipboard. Tap the <strong>Star</strong> icon to pin your top styles to your Favorites gallery.</p>
               </div>
             </div>
 
             <div class="tool-guide-step">
               <div class="tool-step-num">3</div>
               <div class="tool-step-content">
-                <h4>Zero-Upload Client-Side Privacy Guarantee</h4>
-                <p>No text is ever transmitted over a network or saved to remote databases. All transformations execute locally in browser memory in real-time, giving you unlimited transformations, sub-millisecond responsiveness, and complete privacy.</p>
+                <h4>Bio Studio &amp; Aesthetic Symbol Palette</h4>
+                <p>Switch to the <strong>Bio Studio</strong> tab to access curated social media bio layouts for Instagram, TikTok, and Discord, complete with a 200+ aesthetic symbol palette featuring stars (✦ ⋆), celestial moons, cute kaomoji, and dividers.</p>
+              </div>
+            </div>
+
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>100% Cross-Platform Unicode Standard</h4>
+                <p>Because these glyphs leverage native Unicode Mathematical Alphanumeric blocks rather than font files, they render identically on iOS, Android, Windows, macOS, Discord channels, and games (Roblox, Fortnite, Steam) with zero server transmission.</p>
               </div>
             </div>
           </div>
