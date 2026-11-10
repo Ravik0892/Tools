@@ -77,7 +77,7 @@ export const newToolsData = [
       "Click **Compile to PDF** to execute in-memory rasterization and binary assembly.",
       "Preview the generated document and click **Download PDF** to save instantly."
     ],
-    ctaHref: "../index.html#tool/pdf-converter-hub",
+    ctaHref: "/#tool/pdf-converter-hub",
     ctaLabel: "Launch PDF Converter Hub"
   },
   {
@@ -131,7 +131,7 @@ export const newToolsData = [
       "Customize properties such as line thickness, font size, stroke color, and opacity in the inspector panel.",
       "Click **Export Edited PDF** to bake changes and download your completed file."
     ],
-    ctaHref: "../index.html#tool/pdf-editor-suite",
+    ctaHref: "/#tool/pdf-editor-suite",
     ctaLabel: "Launch PDF Editor Studio"
   },
   {
@@ -180,7 +180,7 @@ export const newToolsData = [
       "Click **Process Document** to execute cryptographic hashing or xref table reconstruction.",
       "Download your hardened, recovered, or archival-ready PDF instantly."
     ],
-    ctaHref: "../index.html#tool/pdf-security-suite",
+    ctaHref: "/#tool/pdf-security-suite",
     ctaLabel: "Launch PDF Security Suite"
   },
   {
@@ -229,7 +229,7 @@ export const newToolsData = [
       "Click **Analyze Document** to process text tokens in real time.",
       "Review the synthesized breakdown, copy markdown notes, or export a formatted summary report."
     ],
-    ctaHref: "../index.html#tool/pdf-ai",
+    ctaHref: "/#tool/pdf-ai",
     ctaLabel: "Launch AI PDF Summarizer"
   },
   {
@@ -278,7 +278,7 @@ export const newToolsData = [
       "Adjust diff sensitivity threshold to filter out minor printer anti-aliasing artifacts.",
       "Export a comprehensive visual audit report summarizing all detected discrepancies."
     ],
-    ctaHref: "../index.html#tool/compare-pdf",
+    ctaHref: "/#tool/compare-pdf",
     ctaLabel: "Launch Compare PDF Tool"
   },
   {
@@ -327,7 +327,7 @@ export const newToolsData = [
       "Toggle 'Start with Lorem ipsum dolor sit amet...' if standard conformity is required.",
       "Click **Generate Text** and use 1-click copy to paste into your design or codebase."
     ],
-    ctaHref: "../index.html#tool/lorem-generator",
+    ctaHref: "/#tool/lorem-generator",
     ctaLabel: "Launch Lorem Generator"
   },
   {
@@ -376,7 +376,7 @@ export const newToolsData = [
       "Click **Format / Beautify** to execute syntax parsing in real time.",
       "Review formatted code in the syntax-highlighted editor and copy or download the file."
     ],
-    ctaHref: "../index.html#tool/formatter-suite",
+    ctaHref: "/#tool/formatter-suite",
     ctaLabel: "Launch Formatter Suite"
   },
   {
@@ -425,7 +425,7 @@ export const newToolsData = [
       "Preview the rendered code and test it with your phone's camera on screen.",
       "Export as infinite-resolution SVG for print packaging or crisp 300 DPI PNG."
     ],
-    ctaHref: "../index.html#tool/qr-studio",
+    ctaHref: "/#tool/qr-studio",
     ctaLabel: "Launch QR & Barcode Studio"
   },
   {
@@ -479,7 +479,7 @@ export const newToolsData = [
       "Inspect the generated snippet in the output code view.",
       "Click **Copy Code** to paste directly into your IDE."
     ],
-    ctaHref: "../index.html#tool/curl-converter",
+    ctaHref: "/#tool/curl-converter",
     ctaLabel: "Launch cURL Converter"
   },
   {
@@ -528,7 +528,7 @@ export const newToolsData = [
       "Check the **Upcoming Runs** list to confirm the schedule triggers at intended dates and times.",
       "Copy the validated cron string or crontab command line directly to your clipboard."
     ],
-    ctaHref: "../index.html#tool/cron-builder",
+    ctaHref: "/#tool/cron-builder",
     ctaLabel: "Launch Cron Builder"
   },
   {
@@ -577,7 +577,7 @@ export const newToolsData = [
       "Inspect the generated type definitions in the output panel.",
       "Click **Copy Code** to paste directly into your frontend or backend codebase."
     ],
-    ctaHref: "../index.html#tool/json-to-types",
+    ctaHref: "/#tool/json-to-types",
     ctaLabel: "Launch JSON-to-Types"
   },
   {
@@ -626,7 +626,7 @@ export const newToolsData = [
       "Enter your absolute sitemap URL (e.g. `https://yoursite.com/sitemap.xml`).",
       "Click **Download robots.txt** and upload the file to your website's root public directory."
     ],
-    ctaHref: "../index.html#tool/robots-generator",
+    ctaHref: "/#tool/robots-generator",
     ctaLabel: "Launch Robots.txt Builder"
   },
   {
@@ -675,7 +675,7 @@ export const newToolsData = [
       "Click the message to read sanitized contents and copy your verification link or OTP code.",
       "Click **Delete / Trash** when finished to purge the inbox immediately."
     ],
-    ctaHref: "../index.html#tool/temp-mail",
+    ctaHref: "/#tool/temp-mail",
     ctaLabel: "Launch Temp Mail Client"
   },
   {
@@ -724,7 +724,7 @@ export const newToolsData = [
       "Add callouts, arrows, or redaction boxes to highlight features or obscure confidential data.",
       "Click **Export Image** to download high-resolution 2x retina PNG images ready for publication."
     ],
-    ctaHref: "../index.html#tool/screenshot-capture",
+    ctaHref: "/#tool/screenshot-capture",
     ctaLabel: "Launch Screenshot Studio"
   },
   {
@@ -773,7 +773,7 @@ export const newToolsData = [
       "Click **Stop Recording** to conclude the session and compile the media chunks.",
       "Review the recording in the integrated playback player and click **Download Video**."
     ],
-    ctaHref: "../index.html#tool/screen-recorder",
+    ctaHref: "/#tool/screen-recorder",
     ctaLabel: "Launch Screen Recorder"
   },
   {
@@ -822,7 +822,7 @@ export const newToolsData = [
       "Click **Pause** or **Stop** when finished speaking.",
       "Scrub the timeline to review your take, then click **Download Lossless WAV**."
     ],
-    ctaHref: "../index.html#tool/voice-recorder",
+    ctaHref: "/#tool/voice-recorder",
     ctaLabel: "Launch Voice Recorder"
   },
   {
@@ -871,7 +871,7 @@ export const newToolsData = [
       "If trimming, drag start and end time markers and apply fade effects.",
       "Click **Process & Convert** to compile and download your processed audio file."
     ],
-    ctaHref: "../index.html#tool/audio-suite",
+    ctaHref: "/#tool/audio-suite",
     ctaLabel: "Launch Audio Studio"
   },
   {
@@ -920,7 +920,7 @@ export const newToolsData = [
       "To inspect a movement, pause and use the **Frame Step** buttons to advance frame-by-frame.",
       "Set Mark A and Mark B to loop a specific segment continuously."
     ],
-    ctaHref: "../index.html#tool/video-speed",
+    ctaHref: "/#tool/video-speed",
     ctaLabel: "Launch Video Speed Controller"
   },
   {
@@ -969,7 +969,7 @@ export const newToolsData = [
       "Click **Generate Animated GIF** and watch the in-browser rendering progress bar.",
       "Preview the animated loop and click **Download GIF** to save."
     ],
-    ctaHref: "../index.html#tool/video-to-gif",
+    ctaHref: "/#tool/video-to-gif",
     ctaLabel: "Launch Video-to-GIF Converter"
   },
   {
@@ -1018,7 +1018,7 @@ export const newToolsData = [
       "Click **Download Complete Favicon ZIP Package** to get all icon sizes and `favicon.ico`.",
       "Copy the generated HTML `<link>` code block into your website's `<head>` section."
     ],
-    ctaHref: "../index.html#tool/favicon-generator",
+    ctaHref: "/#tool/favicon-generator",
     ctaLabel: "Launch Favicon Generator"
   },
   {
@@ -1077,7 +1077,7 @@ export const newToolsData = [
       "Click the **Star** icon on any card to pin your favorite styles to the top for quick access.",
       "Switch to the **Bio Studio** tab to insert aesthetic dividers, sparkles, and curated bio templates."
     ],
-    ctaHref: "../index.html#tool/fancy-font-generator",
+    ctaHref: "/#tool/fancy-font-generator",
     ctaLabel: "Launch Font Studio"
   },
   {
@@ -1126,7 +1126,7 @@ export const newToolsData = [
       "Inspect the live interactive **Donut Chart** and **Growth Curve** stage to visualize principal vs return.",
       "Review the detailed amortization schedule and click **Copy Summary** or **Export to CSV**."
     ],
-    ctaHref: "../index.html#tool/finance-calculator",
+    ctaHref: "/#tool/finance-calculator",
     ctaLabel: "Launch Financial Engine"
   }
 ];

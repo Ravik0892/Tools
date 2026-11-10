@@ -45,43 +45,6 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Is it safe to paste private production JWTs into this tool?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. All parsing executes purely client-side via JavaScript. No tokens, secrets, or cookies are ever transmitted over the network."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool verify the signature of my JWT?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The tool parses the token structure and validates timestamp expiration. For asymmetric signatures (RS256/ES256), public keys can be inspected client-side."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do UTF-8 characters in claims appear garbled in standard atob()?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard browser atob() only supports Latin1. OmniTool Hub implements full UTF-8 byte stream decoders for international characters and emojis."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the expiration timer work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The decoder compares the exp Unix epoch timestamp with Date.now() and updates a real-time countdown display."
-      }
-    }
-  ]
-},
-      {
         "@type": "BreadcrumbList",
         "itemListElement": [
           {
@@ -287,6 +250,34 @@
     .nav-launch-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Language Switcher Capsule */
+    .lang-switch-capsule {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2px 4px;
+      gap: 2px;
+      align-items: center;
+    }
+    .lang-switch-capsule .lang-btn {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 12px;
+      transition: all 0.15s ease;
+    }
+    .lang-switch-capsule .lang-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .lang-switch-capsule .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
     }
 
     /* Breadcrumbs */
@@ -655,7 +646,7 @@
       transform: translateY(-1px);
     }
 
-        .live-guide-tool-viewport {
+    .live-guide-tool-viewport {
       padding: 20px;
       position: relative;
       max-height: 580px;
@@ -999,300 +990,6 @@
       border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-  
-    /* Key Property Specifications Matrix */
-    .specs-table-wrap {
-      overflow-x: auto;
-      margin: 24px 0 32px 0;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      background: rgba(10, 14, 23, 0.65);
-    }
-    .specs-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-    .specs-table th {
-      padding: 14px;
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--accent-cyan);
-      border-bottom: 1px solid var(--border-color);
-      background: rgba(0, 242, 254, 0.04);
-    }
-    .specs-table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border-color);
-      font-size: 13.5px;
-      color: var(--text-muted);
-    }
-    .specs-table tr:last-child td {
-      border-bottom: none;
-    }
-    /* Frequently Asked Questions */
-    .faq-accordion {
-      margin: 24px 0 36px 0;
-    }
-    .faq-item {
-      margin-bottom: 16px;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 18px 20px;
-      background: rgba(255, 255, 255, 0.02);
-      transition: border-color 0.2s ease;
-    }
-    .faq-item:hover {
-      border-color: rgba(0, 242, 254, 0.3);
-    }
-    .faq-question {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      margin-bottom: 8px;
-    }
-    .faq-answer {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin: 0;
-    }
-    /* Tab Sections & Badges */
-    .tab-section {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .tab-title {
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .tab-badge {
-      font-size: 11px;
-      background: var(--accent-purple);
-      color: #fff;
-      padding: 2px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-    .info-box {
-      background: rgba(0, 242, 254, 0.04);
-      border: 1px solid rgba(0, 242, 254, 0.2);
-      border-radius: 10px;
-      padding: 18px;
-      margin: 28px 0;
-    }
-    .info-box strong {
-      color: var(--accent-cyan);
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14.5px;
-    }
-    /* Related Guides Grid */
-    .related-section {
-      margin-top: 50px;
-      padding-top: 36px;
-      border-top: 1px solid var(--border-color);
-    }
-    .related-heading {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .related-heading a {
-      font-size: 13px;
-      color: var(--accent-cyan);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 16px;
-    }
-    .related-card {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 18px;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.2s ease;
-    }
-    .related-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0, 242, 254, 0.4);
-      background: rgba(0, 242, 254, 0.03);
-    }
-    .related-badge {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .related-title {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 8px;
-      line-height: 1.35;
-    }
-    .related-read {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      margin-top: auto;
-      font-weight: 600;
-    }
-    .related-card:hover .related-read {
-      color: var(--accent-cyan);
-    }
-    /* Interactive Poster & Lightbox Modal */
-    .poster-interactive-container {
-      position: relative;
-      cursor: zoom-in;
-      overflow: hidden;
-      background: #080c14;
-    }
-    .poster-interactive-container:hover .poster-zoom-hint {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .poster-zoom-hint {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(14, 19, 31, 0.9);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 242, 254, 0.4);
-      color: var(--accent-cyan);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 11.5px;
-      font-weight: 700;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      opacity: 0.9;
-      transform: translateY(0);
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    }
-    .poster-btn {
-      background: rgba(0, 242, 254, 0.1);
-      border: 1px solid rgba(0, 242, 254, 0.35);
-      color: var(--accent-cyan);
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      font-family: inherit;
-    }
-    .poster-btn:hover {
-      background: rgba(0, 242, 254, 0.2);
-      border-color: var(--accent-cyan);
-      transform: translateY(-1px);
-    }
-    .poster-zoom-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 999999;
-      background: rgba(5, 7, 12, 0.97);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      flex-direction: column;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-    .poster-zoom-modal.active {
-      display: flex;
-      opacity: 1;
-    }
-    .zoom-modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--border-color);
-      background: rgba(14, 19, 31, 0.95);
-      z-index: 10;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .zoom-ctrl-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #f3f4f6;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-    }
-    .zoom-ctrl-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-      border-color: rgba(255, 255, 255, 0.35);
-      color: #fff;
-    }
-    .zoom-stage-viewport {
-      flex: 1;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      cursor: grab;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    .zoom-stage-viewport:active {
-      cursor: grabbing;
-    }
-    .zoom-stage-img {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1200px;
-      height: 800px;
-      transform-origin: 0 0;
-      will-change: transform;
-      pointer-events: none;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85);
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
   </style>
 </head>
 <body>
@@ -1300,16 +997,22 @@
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All 50 Guides</a>
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#tool/jwt-decoder" class="nav-launch-btn">🚀 Launch JWT Decoder</a>
+        <!-- Language Switcher Capsule -->
+        <div class="lang-switch-capsule">
+          <a href="/guides/jwt-decoder" class="lang-btn active" title="English">EN</a>
+          <a href="/guides/es/" class="lang-btn" title="Español">ES</a>
+          <a href="/guides/pt/" class="lang-btn" title="Português">PT</a>
+        </div>
+        <a href="/guides/" class="nav-link-btn">📚 All 50 Guides</a>
+        <a href="/#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="#tool/jwt-decoder" class="nav-launch-btn">🚀 Launch JWT Decoder</a>
       </div>
     </div>
   </nav>
@@ -1317,9 +1020,9 @@
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">🏠 Home</a>
+      <a href="/">🏠 Home</a>
       <span>/</span>
-      <a href="index.html">Guides Hub</a>
+      <a href="/guides/">Guides Hub</a>
       <span>/</span>
       <span class="current">JWT Decoder & Token Parser</span>
     </nav>
@@ -1345,10 +1048,10 @@
         </div>
         <div class="live-tool-quick-links">
           <a href="#guide-article" class="skip-to-guide-link" title="Jump straight to comprehensive written guide">📖 Skip to Guide &darr;</a>
-            <button type="button" class="toggle-tool-collapse-btn" id="toggle-tool-collapse-btn" title="Toggle Live Tool Viewport" aria-expanded="true">
-              <span class="toggle-icon">▾</span> <span class="toggle-text">Collapse Tool</span>
-            </button>
-            <a href="../index.html#tool/jwt-decoder" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+          <button type="button" class="toggle-tool-collapse-btn" id="toggle-tool-collapse-btn" title="Toggle Live Tool Viewport" aria-expanded="true">
+            <span class="toggle-icon">▾</span> <span class="toggle-text">Collapse Tool</span>
+          </button>
+          <a href="/#tool/jwt-decoder" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
       <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
@@ -1431,79 +1134,30 @@
         All JWT parsing is performed via local JavaScript string manipulation. Your token secrets and private scopes never leave your browser sandbox.
       </div>
 
-      
-      <h2>Implementation Guide &amp; Technical Reference</h2>
-      <div style="margin-bottom: 24px;">
-        <h4 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Safe RFC 7519 JWT Claims Extraction in JavaScript</h4>
-        <pre style="background: rgba(10, 14, 23, 0.95); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; color: #a5f3fc; line-height: 1.5;"><code>// Decode JWT header and payload without verifying secret
-function decodeJwt(token) {
-  const parts = token.split('.');
-  if (parts.length !== 3) throw new Error('Invalid JWT format');
-  const base64UrlDecode = (str) => {
-    const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-    return decodeURIComponent(atob(base64).split('').map(c => 
-      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-    ).join(''));
-  };
-  return {
-    header: JSON.parse(base64UrlDecode(parts[0])),
-    payload: JSON.parse(base64UrlDecode(parts[1])),
-    signature: parts[2]
-  };
-}</code></pre>
-        <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">Unicode-safe UTF-8 Base64URL parsing for token claims.</p>
-      </div>
-      
       <h2>Step-by-Step Usage Guide</h2>
       <ol>
         <li>Paste your encoded JWT string (header.payload.signature) into the input field.</li><li>The tool automatically parses the token segments in real-time.</li><li>Explore formatted JSON payloads and metadata tree views in the **Claims** and **Header** tabs.</li><li>Check token expiration warnings and verify signature structures.</li>
       </ol>
-
-      <h2>Frequently Asked Questions (FAQ)</h2>
-      <div class="faq-accordion">
-        
-        <div class="faq-item">
-          <h3 class="faq-question">Is it safe to paste private production JWTs into this tool?</h3>
-          <p class="faq-answer">Yes. All parsing executes purely client-side via JavaScript. No tokens, secrets, or cookies are ever transmitted over the network.</p>
-        </div>
-        
-        <div class="faq-item">
-          <h3 class="faq-question">Does this tool verify the signature of my JWT?</h3>
-          <p class="faq-answer">The tool parses the token structure and validates timestamp expiration. For asymmetric signatures (RS256/ES256), public keys can be inspected client-side.</p>
-        </div>
-        
-        <div class="faq-item">
-          <h3 class="faq-question">Why do UTF-8 characters in claims appear garbled in standard atob()?</h3>
-          <p class="faq-answer">Standard browser atob() only supports Latin1. OmniTool Hub implements full UTF-8 byte stream decoders for international characters and emojis.</p>
-        </div>
-        
-        <div class="faq-item">
-          <h3 class="faq-question">How does the expiration timer work?</h3>
-          <p class="faq-answer">The decoder compares the exp Unix epoch timestamp with Date.now() and updates a real-time countdown display.</p>
-        </div>
-        
-      </div>
-      
     </article>
 
     <!-- Call to Action Banner -->
     <div class="cta-container">
       <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
-      <a href="../index.html#tool/jwt-decoder" class="cta-btn">🚀 Launch JWT Decoder</a>
+      <a href="#tool/jwt-decoder" class="cta-btn">🚀 Launch JWT Decoder</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All 50 Tool Guides &rarr;</a>
+      <a href="/guides/" class="all-guides-cta">📚 Browse All 50 Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All 50 Guides &rarr;</a>
+        <a href="/guides/">View All 50 Guides &rarr;</a>
       </div>
       <div class="related-grid">
         
-          <a href="pipeline-builder.html" class="related-card">
+          <a href="/guides/pipeline-builder" class="related-card">
             <div>
               <div class="related-badge">⚡ Developer Tools</div>
               <div class="related-title">Smart Chain Pipeline Builder</div>
@@ -1511,7 +1165,7 @@ function decodeJwt(token) {
             <div class="related-read">Read Guide &rarr;</div>
           </a>
           
-          <a href="regex-tester.html" class="related-card">
+          <a href="/guides/regex-tester" class="related-card">
             <div>
               <div class="related-badge">🎯 Developer Tools</div>
               <div class="related-title">Visual Regex & Extractor Suite</div>
@@ -1519,7 +1173,7 @@ function decodeJwt(token) {
             <div class="related-read">Read Guide &rarr;</div>
           </a>
           
-          <a href="qr-generator.html" class="related-card">
+          <a href="/guides/qr-generator" class="related-card">
             <div>
               <div class="related-badge">📱 Developer Tools</div>
               <div class="related-title">Dynamic QR Code Studio</div>
@@ -1534,12 +1188,12 @@ function decodeJwt(token) {
   <footer class="guide-footer">
     <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
     <p style="margin-top: 8px;">
-      <a href="../index.html">Home</a> &bull;
-      <a href="index.html">Guides Hub</a> &bull;
-      <a href="../index.html#privacy">Privacy Policy</a> &bull;
-      <a href="../index.html#terms">Terms of Service</a> &bull;
-      <a href="../index.html#refund">Refund Policy</a> &bull;
-      <a href="../index.html#cookies">Cookie Policy</a> &bull;
+      <a href="/">Home</a> &bull;
+      <a href="/guides/">Guides Hub</a> &bull;
+      <a href="/#privacy">Privacy Policy</a> &bull;
+      <a href="/#terms">Terms of Service</a> &bull;
+      <a href="/#refund">Refund Policy</a> &bull;
+      <a href="/#cookies">Cookie Policy</a> &bull;
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
     </p>
   </footer>
@@ -1614,11 +1268,28 @@ function decodeJwt(token) {
         viewport.innerHTML = `
           <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
             <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
-            <a href="../index.html#tool/jwt-decoder" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+            <a href="/#tool/jwt-decoder" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
           </div>
         `;
       }
     }
+  </script>
+
+  <!-- Live Tool Viewport Collapse / Expand Handler -->
+  <script>
+    (function initLiveToolCollapse() {
+      const toggleBtn = document.getElementById('toggle-tool-collapse-btn');
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (!toggleBtn || !viewport) return;
+      toggleBtn.addEventListener('click', () => {
+        const isCollapsed = viewport.style.display === 'none';
+        viewport.style.display = isCollapsed ? 'block' : 'none';
+        toggleBtn.classList.toggle('is-collapsed', !isCollapsed);
+        toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
+        const label = toggleBtn.querySelector('.toggle-text');
+        if (label) label.textContent = isCollapsed ? 'Collapse Tool' : 'Expand Tool';
+      });
+    })();
   </script>
 
   
@@ -1821,22 +1492,5 @@ function decodeJwt(token) {
     }
   </script>
   <!-- End Cloudflare Web Analytics -->
-
-  <!-- Live Tool Viewport Collapse / Expand Handler -->
-  <script>
-    (function initLiveToolCollapse() {
-      const toggleBtn = document.getElementById('toggle-tool-collapse-btn');
-      const viewport = document.getElementById('live-guide-tool-viewport');
-      if (!toggleBtn || !viewport) return;
-      toggleBtn.addEventListener('click', () => {
-        const isCollapsed = viewport.style.display === 'none';
-        viewport.style.display = isCollapsed ? 'block' : 'none';
-        toggleBtn.classList.toggle('is-collapsed', !isCollapsed);
-        toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
-        const label = toggleBtn.querySelector('.toggle-text');
-        if (label) label.textContent = isCollapsed ? 'Collapse Tool' : 'Expand Tool';
-      });
-    })();
-  </script>
 </body>
 </html>

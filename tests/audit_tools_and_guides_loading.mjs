@@ -122,7 +122,7 @@ for (const id of toolIds) {
 console.log('\n▶ [2/5] Auditing subtoolsRegistry & Routing Redirects...');
 
 const subtoolsIdx = appJs.indexOf('subtoolsRegistry: {');
-const subtoolsEnd = appJs.indexOf('},\n  // Navigation', subtoolsIdx);
+const subtoolsEnd = appJs.indexOf('registerTabSwitcher(', subtoolsIdx);
 const subtoolsSlice = appJs.slice(subtoolsIdx, subtoolsEnd);
 
 const subtoolSlugs = [];

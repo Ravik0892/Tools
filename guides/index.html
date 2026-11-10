@@ -8,6 +8,11 @@
   <meta name="keywords" content="developer tools guides, online tools tutorials, pdf tools guide, json formatter tutorial, jwt decoder guide, offline web tools, client side utilities">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://omnitool.worldsneed.com/guides/">
+  <!-- Multilingual SEO hreflang tags -->
+  <link rel="alternate" hreflang="en" href="https://omnitool.worldsneed.com/guides/">
+  <link rel="alternate" hreflang="es" href="https://omnitool.worldsneed.com/guides/es/">
+  <link rel="alternate" hreflang="pt" href="https://omnitool.worldsneed.com/guides/pt/">
+  <link rel="alternate" hreflang="x-default" href="https://omnitool.worldsneed.com/guides/">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website">
@@ -750,6 +755,34 @@
       box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
     }
 
+    /* Language Switcher Capsule */
+    .lang-switch-capsule {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2px 4px;
+      gap: 2px;
+      align-items: center;
+    }
+    .lang-switch-capsule .lang-btn {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 12px;
+      transition: all 0.15s ease;
+    }
+    .lang-switch-capsule .lang-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .lang-switch-capsule .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+    }
+
     /* Main Container */
     .container {
       max-width: 1200px;
@@ -1191,8 +1224,14 @@
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
+        <!-- Language Switcher Capsule -->
+        <div class="lang-switch-capsule">
+          <a href="/guides/" class="lang-btn active" title="English">EN</a>
+          <a href="/guides/es/" class="lang-btn" title="Español">ES</a>
+          <a href="/guides/pt/" class="lang-btn" title="Português">PT</a>
+        </div>
         <a href="/" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#plans" class="nav-link-btn">💎 Plans</a>
+        <a href="/#plans" class="nav-link-btn">💎 Plans</a>
         <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener" class="nav-link-btn">⭐ GitHub</a>
         <a href="/" class="nav-launch-btn">🚀 Open Suite</a>
       </div>
@@ -1249,7 +1288,7 @@
             <span class="card-badge">Data Pipelines</span>
           </div>
           <h2 class="card-title">
-            <a href="pipeline-builder.html">Smart Chain Pipeline Builder</a>
+            <a href="/guides/pipeline-builder">Smart Chain Pipeline Builder</a>
           </h2>
           <p class="card-desc">Learn how to build, reorder, execute, and preview chain data processing pipelines client-side using Smart Chain Pipeline Builder.</p>
           <div class="card-features">
@@ -1257,7 +1296,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pipeline-builder.html" class="read-guide-btn">
+          <a href="/guides/pipeline-builder" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pipeline-builder" class="launch-tool-icon-btn" title="Launch Smart Chain Pipeline Builder">
@@ -1280,7 +1319,7 @@
             <span class="card-badge">Transformations</span>
           </div>
           <h2 class="card-title">
-            <a href="text-encoder-suite.html">Text Cases & Encoder Suite</a>
+            <a href="/guides/text-encoder-suite">Text Cases & Encoder Suite</a>
           </h2>
           <p class="card-desc">Learn how to convert case representations (UPPER, lower, camel, snake, kebab) and run Base64 or URL encoding/decoding operations.</p>
           <div class="card-features">
@@ -1288,7 +1327,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="text-encoder-suite.html" class="read-guide-btn">
+          <a href="/guides/text-encoder-suite" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/text-encoder-suite" class="launch-tool-icon-btn" title="Launch Text Cases & Encoder Suite">
@@ -1311,7 +1350,7 @@
             <span class="card-badge">Crypto & Security</span>
           </div>
           <h2 class="card-title">
-            <a href="jwt-decoder.html">JWT Decoder & Token Parser</a>
+            <a href="/guides/jwt-decoder">JWT Decoder & Token Parser</a>
           </h2>
           <p class="card-desc">Learn how to decode JSON Web Tokens (JWT) to inspect header parameters, claim payloads, and verify signatures.</p>
           <div class="card-features">
@@ -1319,7 +1358,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="jwt-decoder.html" class="read-guide-btn">
+          <a href="/guides/jwt-decoder" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/jwt-decoder" class="launch-tool-icon-btn" title="Launch JWT Decoder & Token Parser">
@@ -1342,7 +1381,7 @@
             <span class="card-badge">Crypto & Security</span>
           </div>
           <h2 class="card-title">
-            <a href="crypto-suite.html">Cryptography & Key Generator Suite</a>
+            <a href="/guides/crypto-suite">Cryptography & Key Generator Suite</a>
           </h2>
           <p class="card-desc">Learn how to generate hashes, run symmetric AES-256 ciphers, and construct RSA keypairs client-side.</p>
           <div class="card-features">
@@ -1350,7 +1389,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="crypto-suite.html" class="read-guide-btn">
+          <a href="/guides/crypto-suite" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/crypto-suite" class="launch-tool-icon-btn" title="Launch Cryptography & Key Generator Suite">
@@ -1373,7 +1412,7 @@
             <span class="card-badge">Writers & Parsers</span>
           </div>
           <h2 class="card-title">
-            <a href="markdown-preview.html">Live Markdown Editor & Previewer</a>
+            <a href="/guides/markdown-preview">Live Markdown Editor & Previewer</a>
           </h2>
           <p class="card-desc">Learn how to write markdown schemas, edit content with live syntax highlights, and preview formatted HTML.</p>
           <div class="card-features">
@@ -1381,7 +1420,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="markdown-preview.html" class="read-guide-btn">
+          <a href="/guides/markdown-preview" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/markdown-preview" class="launch-tool-icon-btn" title="Launch Live Markdown Editor & Previewer">
@@ -1404,7 +1443,7 @@
             <span class="card-badge">Writers & Parsers</span>
           </div>
           <h2 class="card-title">
-            <a href="text-diff.html">Text Diff Comparison Tool</a>
+            <a href="/guides/text-diff">Text Diff Comparison Tool</a>
           </h2>
           <p class="card-desc">Learn how to compare two texts side-by-side or line-by-line and highlight visual differences.</p>
           <div class="card-features">
@@ -1412,7 +1451,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="text-diff.html" class="read-guide-btn">
+          <a href="/guides/text-diff" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/text-diff" class="launch-tool-icon-btn" title="Launch Text Diff Comparison Tool">
@@ -1435,7 +1474,7 @@
             <span class="card-badge">Writers & Parsers</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-searcher.html">Multi-PDF Searcher & OCR</a>
+            <a href="/guides/pdf-searcher">Multi-PDF Searcher & OCR</a>
           </h2>
           <p class="card-desc">Learn how to search multiple PDF documents and perform client-side Optical Character Recognition (OCR).</p>
           <div class="card-features">
@@ -1443,7 +1482,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-searcher.html" class="read-guide-btn">
+          <a href="/guides/pdf-searcher" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-searcher" class="launch-tool-icon-btn" title="Launch Multi-PDF Searcher & OCR">
@@ -1466,7 +1505,7 @@
             <span class="card-badge">Writers & Parsers</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-utilities.html">PDF Toolbox (Split, Merge, Convert & Compress)</a>
+            <a href="/guides/pdf-utilities">PDF Toolbox (Split, Merge, Convert & Compress)</a>
           </h2>
           <p class="card-desc">Learn how to split into PDF, PNG, JPG, or WebP, merge multiple PDFs, rotate/reorganize pages, and compress documents 100% client-side.</p>
           <div class="card-features">
@@ -1474,7 +1513,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-utilities.html" class="read-guide-btn">
+          <a href="/guides/pdf-utilities" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-utilities" class="launch-tool-icon-btn" title="Launch PDF Toolbox (Split, Merge, Convert & Compress)">
@@ -1497,7 +1536,7 @@
             <span class="card-badge">Pattern Analysis</span>
           </div>
           <h2 class="card-title">
-            <a href="regex-tester.html">Visual Regex & Extractor Suite</a>
+            <a href="/guides/regex-tester">Visual Regex & Extractor Suite</a>
           </h2>
           <p class="card-desc">Learn how to test regular expressions, capture matching groups, and extract structured variables.</p>
           <div class="card-features">
@@ -1505,7 +1544,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="regex-tester.html" class="read-guide-btn">
+          <a href="/guides/regex-tester" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/regex-tester" class="launch-tool-icon-btn" title="Launch Visual Regex & Extractor Suite">
@@ -1528,7 +1567,7 @@
             <span class="card-badge">CSS Builders</span>
           </div>
           <h2 class="card-title">
-            <a href="css-studio.html">CSS Studio Suite</a>
+            <a href="/guides/css-studio">CSS Studio Suite</a>
           </h2>
           <p class="card-desc">Learn how to build gradients, shadow layers, and frosted glassmorphism elements visually.</p>
           <div class="card-features">
@@ -1536,7 +1575,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="css-studio.html" class="read-guide-btn">
+          <a href="/guides/css-studio" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/css-studio" class="launch-tool-icon-btn" title="Launch CSS Studio Suite">
@@ -1559,7 +1598,7 @@
             <span class="card-badge">CSS Builders</span>
           </div>
           <h2 class="card-title">
-            <a href="box-shadow.html">CSS Box Shadow Generator</a>
+            <a href="/guides/box-shadow">CSS Box Shadow Generator</a>
           </h2>
           <p class="card-desc">Master multi-layer elevation, blur spread, inset shadows, and copy cross-browser CSS box-shadow code.</p>
           <div class="card-features">
@@ -1567,7 +1606,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="box-shadow.html" class="read-guide-btn">
+          <a href="/guides/box-shadow" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/box-shadow" class="launch-tool-icon-btn" title="Launch CSS Box Shadow Generator">
@@ -1590,7 +1629,7 @@
             <span class="card-badge">CSS Builders</span>
           </div>
           <h2 class="card-title">
-            <a href="gradient-generator.html">CSS Gradient Generator</a>
+            <a href="/guides/gradient-generator">CSS Gradient Generator</a>
           </h2>
           <p class="card-desc">Construct linear, radial, and conic CSS gradients with multi-color stops, angles, and color harmony presets.</p>
           <div class="card-features">
@@ -1598,7 +1637,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="gradient-generator.html" class="read-guide-btn">
+          <a href="/guides/gradient-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/gradient-generator" class="launch-tool-icon-btn" title="Launch CSS Gradient Generator">
@@ -1621,7 +1660,7 @@
             <span class="card-badge">CSS Builders</span>
           </div>
           <h2 class="card-title">
-            <a href="glassmorphism-generator.html">Glassmorphism CSS Generator</a>
+            <a href="/guides/glassmorphism-generator">Glassmorphism CSS Generator</a>
           </h2>
           <p class="card-desc">Build modern frosted glass cards in CSS using backdrop-filter blur, surface opacity, and reflection borders.</p>
           <div class="card-features">
@@ -1629,7 +1668,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="glassmorphism-generator.html" class="read-guide-btn">
+          <a href="/guides/glassmorphism-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/glassmorphism-generator" class="launch-tool-icon-btn" title="Launch Glassmorphism CSS Generator">
@@ -1652,7 +1691,7 @@
             <span class="card-badge">Color Management</span>
           </div>
           <h2 class="card-title">
-            <a href="color-lab.html">Color Lab & Contrast Suite</a>
+            <a href="/guides/color-lab">Color Lab & Contrast Suite</a>
           </h2>
           <p class="card-desc">Learn how to create WCAG-compliant color palettes and evaluate contrast readability ratios.</p>
           <div class="card-features">
@@ -1660,7 +1699,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="color-lab.html" class="read-guide-btn">
+          <a href="/guides/color-lab" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/color-lab" class="launch-tool-icon-btn" title="Launch Color Lab & Contrast Suite">
@@ -1683,7 +1722,7 @@
             <span class="card-badge">Security & Pass</span>
           </div>
           <h2 class="card-title">
-            <a href="security-suite.html">Security & Passwords Suite</a>
+            <a href="/guides/security-suite">Security & Passwords Suite</a>
           </h2>
           <p class="card-desc">Learn how to generate randomized passwords, analyze entropy, and compile bulk UUID keys.</p>
           <div class="card-features">
@@ -1691,7 +1730,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="security-suite.html" class="read-guide-btn">
+          <a href="/guides/security-suite" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/security-suite" class="launch-tool-icon-btn" title="Launch Security & Passwords Suite">
@@ -1714,7 +1753,7 @@
             <span class="card-badge">Calculator</span>
           </div>
           <h2 class="card-title">
-            <a href="datetime-suite.html">Date & Time Suite</a>
+            <a href="/guides/datetime-suite">Date & Time Suite</a>
           </h2>
           <p class="card-desc">Learn how to convert Unix epochs, calculate durations, and calculate offset dates.</p>
           <div class="card-features">
@@ -1722,7 +1761,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="datetime-suite.html" class="read-guide-btn">
+          <a href="/guides/datetime-suite" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/datetime-suite" class="launch-tool-icon-btn" title="Launch Date & Time Suite">
@@ -1745,7 +1784,7 @@
             <span class="card-badge">Conversion</span>
           </div>
           <h2 class="card-title">
-            <a href="unit-converter.html">Universal Unit Converter</a>
+            <a href="/guides/unit-converter">Universal Unit Converter</a>
           </h2>
           <p class="card-desc">Learn how to convert storage metrics, lengths, weights, and temperatures across global standards.</p>
           <div class="card-features">
@@ -1753,7 +1792,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="unit-converter.html" class="read-guide-btn">
+          <a href="/guides/unit-converter" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/unit-converter" class="launch-tool-icon-btn" title="Launch Universal Unit Converter">
@@ -1776,7 +1815,7 @@
             <span class="card-badge">Graphics & Screen Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="graphics-studio.html">Graphics Designer & Screenshot Studio</a>
+            <a href="/guides/graphics-studio">Graphics Designer & Screenshot Studio</a>
           </h2>
           <p class="card-desc">Learn how to capture snapshots, build banners, overlay text, and apply premium vintage filters.</p>
           <div class="card-features">
@@ -1784,7 +1823,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="graphics-studio.html" class="read-guide-btn">
+          <a href="/guides/graphics-studio" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/graphics-studio" class="launch-tool-icon-btn" title="Launch Graphics Designer & Screenshot Studio">
@@ -1807,7 +1846,7 @@
             <span class="card-badge">Calculator</span>
           </div>
           <h2 class="card-title">
-            <a href="calculator.html">Scientific Calculator</a>
+            <a href="/guides/calculator">Scientific Calculator</a>
           </h2>
           <p class="card-desc">Learn how to execute calculations, save histories, and compile trigonometric operations.</p>
           <div class="card-features">
@@ -1815,7 +1854,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="calculator.html" class="read-guide-btn">
+          <a href="/guides/calculator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/calculator" class="launch-tool-icon-btn" title="Launch Scientific Calculator">
@@ -1838,7 +1877,7 @@
             <span class="card-badge">Generators</span>
           </div>
           <h2 class="card-title">
-            <a href="qr-generator.html">Dynamic QR Code Studio</a>
+            <a href="/guides/qr-generator">Dynamic QR Code Studio</a>
           </h2>
           <p class="card-desc">Learn how to design custom vector QR codes with gradients, dots, and centered logos.</p>
           <div class="card-features">
@@ -1846,7 +1885,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="qr-generator.html" class="read-guide-btn">
+          <a href="/guides/qr-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/qr-generator" class="launch-tool-icon-btn" title="Launch Dynamic QR Code Studio">
@@ -1869,7 +1908,7 @@
             <span class="card-badge">Generators</span>
           </div>
           <h2 class="card-title">
-            <a href="seo-previewer.html">Meta Tag & SEO Previewer</a>
+            <a href="/guides/seo-previewer">Meta Tag & SEO Previewer</a>
           </h2>
           <p class="card-desc">Learn how to design meta tags and preview mockups of search engines and social cards.</p>
           <div class="card-features">
@@ -1877,7 +1916,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="seo-previewer.html" class="read-guide-btn">
+          <a href="/guides/seo-previewer" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/seo-previewer" class="launch-tool-icon-btn" title="Launch Meta Tag & SEO Previewer">
@@ -1900,7 +1939,7 @@
             <span class="card-badge">Graphics & Screen Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="image-converter.html">Image Optimizer & Converter</a>
+            <a href="/guides/image-converter">Image Optimizer & Converter</a>
           </h2>
           <p class="card-desc">Learn how to compress file sizes, resize dimensions, and convert formats client-side.</p>
           <div class="card-features">
@@ -1908,7 +1947,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="image-converter.html" class="read-guide-btn">
+          <a href="/guides/image-converter" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/image-converter" class="launch-tool-icon-btn" title="Launch Image Optimizer & Converter">
@@ -1931,7 +1970,7 @@
             <span class="card-badge">Graphics & Screen Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="svg-animator.html">SVG Animation Studio</a>
+            <a href="/guides/svg-animator">SVG Animation Studio</a>
           </h2>
           <p class="card-desc">Learn how to animate SVG vectors, visualize paths, and export animated SVG files.</p>
           <div class="card-features">
@@ -1939,7 +1978,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="svg-animator.html" class="read-guide-btn">
+          <a href="/guides/svg-animator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/svg-animator" class="launch-tool-icon-btn" title="Launch SVG Animation Studio">
@@ -1962,7 +2001,7 @@
             <span class="card-badge">Transformations</span>
           </div>
           <h2 class="card-title">
-            <a href="url-parser.html">URL Query Parser & Builder</a>
+            <a href="/guides/url-parser">URL Query Parser & Builder</a>
           </h2>
           <p class="card-desc">Learn how to parse web addresses, isolate domain routes, edit parameters in a grid, and generate clean links with UTM structures.</p>
           <div class="card-features">
@@ -1970,7 +2009,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="url-parser.html" class="read-guide-btn">
+          <a href="/guides/url-parser" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/url-parser" class="launch-tool-icon-btn" title="Launch URL Query Parser & Builder">
@@ -1993,7 +2032,7 @@
             <span class="card-badge">Pattern Analysis</span>
           </div>
           <h2 class="card-title">
-            <a href="text-analyzer.html">Text Readability & Analyzer</a>
+            <a href="/guides/text-analyzer">Text Readability & Analyzer</a>
           </h2>
           <p class="card-desc">Learn how to evaluate reading times, keyword densities, and calculate Flesch readability scores.</p>
           <div class="card-features">
@@ -2001,7 +2040,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="text-analyzer.html" class="read-guide-btn">
+          <a href="/guides/text-analyzer" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/text-analyzer" class="launch-tool-icon-btn" title="Launch Text Readability & Analyzer">
@@ -2024,7 +2063,7 @@
             <span class="card-badge">Generators</span>
           </div>
           <h2 class="card-title">
-            <a href="mock-data-generator.html">Private CSV/JSON Mock Data Generator</a>
+            <a href="/guides/mock-data-generator">Private CSV/JSON Mock Data Generator</a>
           </h2>
           <p class="card-desc">Learn how to design schemas, configure column formats, and generate mock datasets client-side.</p>
           <div class="card-features">
@@ -2032,7 +2071,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="mock-data-generator.html" class="read-guide-btn">
+          <a href="/guides/mock-data-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/mock-data-generator" class="launch-tool-icon-btn" title="Launch Private CSV/JSON Mock Data Generator">
@@ -2055,7 +2094,7 @@
             <span class="card-badge">Generators</span>
           </div>
           <h2 class="card-title">
-            <a href="code-playground.html">HTML/CSS/JS Live Playground</a>
+            <a href="/guides/code-playground">HTML/CSS/JS Live Playground</a>
           </h2>
           <p class="card-desc">Learn how to write and test front-end HTML, CSS, and JS code in real-time, load external CDN libraries, and debug using simulated logs.</p>
           <div class="card-features">
@@ -2063,7 +2102,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="code-playground.html" class="read-guide-btn">
+          <a href="/guides/code-playground" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/code-playground" class="launch-tool-icon-btn" title="Launch HTML/CSS/JS Live Playground">
@@ -2086,7 +2125,7 @@
             <span class="card-badge">Crypto & Security</span>
           </div>
           <h2 class="card-title">
-            <a href="pii-anonymizer.html">Client-Side PII Masker & Anonymizer</a>
+            <a href="/guides/pii-anonymizer">Client-Side PII Masker & Anonymizer</a>
           </h2>
           <p class="card-desc">Learn how to detect, redact, hash, and mask sensitive Personal Identifiable Information (PII) from server logs locally.</p>
           <div class="card-features">
@@ -2094,7 +2133,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pii-anonymizer.html" class="read-guide-btn">
+          <a href="/guides/pii-anonymizer" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pii-anonymizer" class="launch-tool-icon-btn" title="Launch Client-Side PII Masker & Anonymizer">
@@ -2117,7 +2156,7 @@
             <span class="card-badge">Formatters & Parsers</span>
           </div>
           <h2 class="card-title">
-            <a href="json-formatter.html">JSON, SQL & CSV Data Formatter Suite</a>
+            <a href="/guides/json-formatter">JSON, SQL & CSV Data Formatter Suite</a>
           </h2>
           <p class="card-desc">Learn how to format, validate, and convert JSON, SQL, and CSV datasets entirely client-side using OmniTool Hub's privacy-focused utility suites.</p>
           <div class="card-features">
@@ -2125,7 +2164,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="json-formatter.html" class="read-guide-btn">
+          <a href="/guides/json-formatter" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/json-formatter" class="launch-tool-icon-btn" title="Launch JSON, SQL & CSV Data Formatter Suite">
@@ -2148,7 +2187,7 @@
             <span class="card-badge">Network Utilities</span>
           </div>
           <h2 class="card-title">
-            <a href="ip-subnet-calculator.html">IP Subnet & MAC Address Calculator</a>
+            <a href="/guides/ip-subnet-calculator">IP Subnet & MAC Address Calculator</a>
           </h2>
           <p class="card-desc">Learn how to calculate IPv4 CIDR subnets, discover usable host ranges, inspect wildcard masks, and look up MAC OUI vendors client-side.</p>
           <div class="card-features">
@@ -2156,7 +2195,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="ip-subnet-calculator.html" class="read-guide-btn">
+          <a href="/guides/ip-subnet-calculator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/ip-subnet-calculator" class="launch-tool-icon-btn" title="Launch IP Subnet & MAC Address Calculator">
@@ -2179,7 +2218,7 @@
             <span class="card-badge">Document Conversion</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-converter-hub.html">Document & PDF Converter Hub</a>
+            <a href="/guides/pdf-converter-hub">Document & PDF Converter Hub</a>
           </h2>
           <p class="card-desc">Convert Word DOCX, Excel XLSX, PowerPoint PPTX, Images, HTML, and Markdown to high-fidelity PDF client-side with zero data transmission.</p>
           <div class="card-features">
@@ -2187,7 +2226,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-converter-hub.html" class="read-guide-btn">
+          <a href="/guides/pdf-converter-hub" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-converter-hub" class="launch-tool-icon-btn" title="Launch Document & PDF Converter Hub">
@@ -2210,7 +2249,7 @@
             <span class="card-badge">PDF Editor & Sign</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-editor-suite.html">PDF Editor, Sign & Markup Studio</a>
+            <a href="/guides/pdf-editor-suite">PDF Editor, Sign & Markup Studio</a>
           </h2>
           <p class="card-desc">Draw cursive e-signatures, fill interactive AcroForms, annotate with vector shapes, stamp watermarks, and permanently redact sensitive PII client-side.</p>
           <div class="card-features">
@@ -2218,7 +2257,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-editor-suite.html" class="read-guide-btn">
+          <a href="/guides/pdf-editor-suite" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-editor-suite" class="launch-tool-icon-btn" title="Launch PDF Editor, Sign & Markup Studio">
@@ -2241,7 +2280,7 @@
             <span class="card-badge">PDF Security & Archival</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-security-suite.html">PDF Security, Repair & Archival Suite</a>
+            <a href="/guides/pdf-security-suite">PDF Security, Repair & Archival Suite</a>
           </h2>
           <p class="card-desc">Apply military-grade AES-256 encryption, set granular permissions, repair corrupted xref tables, and convert documents to ISO 19005 PDF/A format.</p>
           <div class="card-features">
@@ -2249,7 +2288,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-security-suite.html" class="read-guide-btn">
+          <a href="/guides/pdf-security-suite" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-security-suite" class="launch-tool-icon-btn" title="Launch PDF Security, Repair & Archival Suite">
@@ -2272,7 +2311,7 @@
             <span class="card-badge">AI Document Intelligence</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-ai.html">AI PDF Summarizer & Translator</a>
+            <a href="/guides/pdf-ai">AI PDF Summarizer & Translator</a>
           </h2>
           <p class="card-desc">Extract executive briefs, generate key takeaways, identify action items, and translate dense PDF documents into 15+ languages client-side.</p>
           <div class="card-features">
@@ -2280,7 +2319,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-ai.html" class="read-guide-btn">
+          <a href="/guides/pdf-ai" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-ai" class="launch-tool-icon-btn" title="Launch AI PDF Summarizer & Translator">
@@ -2303,7 +2342,7 @@
             <span class="card-badge">Document Diffing</span>
           </div>
           <h2 class="card-title">
-            <a href="compare-pdf.html">PDF Document Comparison & Diff</a>
+            <a href="/guides/compare-pdf">PDF Document Comparison & Diff</a>
           </h2>
           <p class="card-desc">Compare two PDF versions side-by-side with interactive pixel diff heatmaps, swipe-wipe inspection sliders, and inline text additions/deletions.</p>
           <div class="card-features">
@@ -2311,7 +2350,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="compare-pdf.html" class="read-guide-btn">
+          <a href="/guides/compare-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/compare-pdf" class="launch-tool-icon-btn" title="Launch PDF Document Comparison & Diff">
@@ -2334,7 +2373,7 @@
             <span class="card-badge">Typography & Dummy Text</span>
           </div>
           <h2 class="card-title">
-            <a href="lorem-generator.html">Smart Lorem Ipsum & Typography</a>
+            <a href="/guides/lorem-generator">Smart Lorem Ipsum & Typography</a>
           </h2>
           <p class="card-desc">Generate classic Latin Cicero text, Cyberpunk lore, and B2B corporate placeholder copy formatted as HTML, Markdown, or JSON arrays.</p>
           <div class="card-features">
@@ -2342,7 +2381,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="lorem-generator.html" class="read-guide-btn">
+          <a href="/guides/lorem-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/lorem-generator" class="launch-tool-icon-btn" title="Launch Smart Lorem Ipsum & Typography">
@@ -2365,7 +2404,7 @@
             <span class="card-badge">Data Formatting</span>
           </div>
           <h2 class="card-title">
-            <a href="formatter-suite.html">Data Formatter & Converter Suite</a>
+            <a href="/guides/formatter-suite">Data Formatter & Converter Suite</a>
           </h2>
           <p class="card-desc">Format, validate, beautify, and cross-convert JSON, SQL queries, CSV spreadsheets, and YAML documents client-side with syntax tree validation.</p>
           <div class="card-features">
@@ -2373,7 +2412,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="formatter-suite.html" class="read-guide-btn">
+          <a href="/guides/formatter-suite" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/formatter-suite" class="launch-tool-icon-btn" title="Launch Data Formatter & Converter Suite">
@@ -2396,7 +2435,7 @@
             <span class="card-badge">QR & Barcode Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="qr-studio.html">Dynamic QR & Barcode Studio</a>
+            <a href="/guides/qr-studio">Dynamic QR & Barcode Studio</a>
           </h2>
           <p class="card-desc">Generate artistic gradient QR codes, create Code-128 and UPC barcodes, and scan codes live using your device camera or uploaded image files.</p>
           <div class="card-features">
@@ -2404,7 +2443,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="qr-studio.html" class="read-guide-btn">
+          <a href="/guides/qr-studio" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/qr-studio" class="launch-tool-icon-btn" title="Launch Dynamic QR & Barcode Studio">
@@ -2427,7 +2466,7 @@
             <span class="card-badge">API Integration</span>
           </div>
           <h2 class="card-title">
-            <a href="curl-converter.html">cURL to Multi-Language Code Converter</a>
+            <a href="/guides/curl-converter">cURL to Multi-Language Code Converter</a>
           </h2>
           <p class="card-desc">Convert raw cURL shell commands into idiomatic JavaScript Fetch, Python Requests, Node.js Axios, Go net/http, and Rust reqwest code client-side.</p>
           <div class="card-features">
@@ -2435,7 +2474,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="curl-converter.html" class="read-guide-btn">
+          <a href="/guides/curl-converter" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/curl-converter" class="launch-tool-icon-btn" title="Launch cURL to Multi-Language Code Converter">
@@ -2458,7 +2497,7 @@
             <span class="card-badge">Task Scheduling</span>
           </div>
           <h2 class="card-title">
-            <a href="cron-builder.html">Visual Cron Expression Builder</a>
+            <a href="/guides/cron-builder">Visual Cron Expression Builder</a>
           </h2>
           <p class="card-desc">Design 5-field cron schedules visually, decode complex cron syntax into plain English, and view exact upcoming execution dates.</p>
           <div class="card-features">
@@ -2466,7 +2505,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="cron-builder.html" class="read-guide-btn">
+          <a href="/guides/cron-builder" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/cron-builder" class="launch-tool-icon-btn" title="Launch Visual Cron Expression Builder">
@@ -2489,7 +2528,7 @@
             <span class="card-badge">Type Compilation</span>
           </div>
           <h2 class="card-title">
-            <a href="json-to-types.html">JSON-to-Code Type Interface Converter</a>
+            <a href="/guides/json-to-types">JSON-to-Code Type Interface Converter</a>
           </h2>
           <p class="card-desc">Automatically infer JSON types and compile schemas into TypeScript interfaces, Python Pydantic models, Go structs, and Rust Serde types.</p>
           <div class="card-features">
@@ -2497,7 +2536,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="json-to-types.html" class="read-guide-btn">
+          <a href="/guides/json-to-types" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/json-to-types" class="launch-tool-icon-btn" title="Launch JSON-to-Code Type Interface Converter">
@@ -2520,7 +2559,7 @@
             <span class="card-badge">SEO & Crawler Directives</span>
           </div>
           <h2 class="card-title">
-            <a href="robots-generator.html">Robots.txt Visual Builder & AI Shield</a>
+            <a href="/guides/robots-generator">Robots.txt Visual Builder & AI Shield</a>
           </h2>
           <p class="card-desc">Design valid robots.txt files, block aggressive AI scrapers (GPTBot, ClaudeBot, CCBot), configure crawl delays, and validate crawler paths.</p>
           <div class="card-features">
@@ -2528,7 +2567,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="robots-generator.html" class="read-guide-btn">
+          <a href="/guides/robots-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/robots-generator" class="launch-tool-icon-btn" title="Launch Robots.txt Visual Builder & AI Shield">
@@ -2551,7 +2590,7 @@
             <span class="card-badge">Privacy & Anti-Spam</span>
           </div>
           <h2 class="card-title">
-            <a href="temp-mail.html">Disposable Temp Mail Client</a>
+            <a href="/guides/temp-mail">Disposable Temp Mail Client</a>
           </h2>
           <p class="card-desc">Generate instant disposable email inboxes, bypass spam, receive OTP confirmation codes, and inspect sanitized HTML messages client-side.</p>
           <div class="card-features">
@@ -2559,7 +2598,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="temp-mail.html" class="read-guide-btn">
+          <a href="/guides/temp-mail" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/temp-mail" class="launch-tool-icon-btn" title="Launch Disposable Temp Mail Client">
@@ -2582,7 +2621,7 @@
             <span class="card-badge">Screenshot Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="screenshot-capture.html">Screen Capture & Window Mockup Studio</a>
+            <a href="/guides/screenshot-capture">Screen Capture & Window Mockup Studio</a>
           </h2>
           <p class="card-desc">Capture application screens or browser tabs, apply macOS and Windows 11 window frames, add vector annotations, and redact private data.</p>
           <div class="card-features">
@@ -2590,7 +2629,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="screenshot-capture.html" class="read-guide-btn">
+          <a href="/guides/screenshot-capture" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/screenshot-capture" class="launch-tool-icon-btn" title="Launch Screen Capture & Window Mockup Studio">
@@ -2613,7 +2652,7 @@
             <span class="card-badge">Screen Recording</span>
           </div>
           <h2 class="card-title">
-            <a href="screen-recorder.html">Browser Screen & Tab Recorder</a>
+            <a href="/guides/screen-recorder">Browser Screen & Tab Recorder</a>
           </h2>
           <p class="card-desc">Record entire desktop screens, specific windows, or browser tabs with microphone audio mixing, webcam PiP overlays, and WebM/MP4 export.</p>
           <div class="card-features">
@@ -2621,7 +2660,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="screen-recorder.html" class="read-guide-btn">
+          <a href="/guides/screen-recorder" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/screen-recorder" class="launch-tool-icon-btn" title="Launch Browser Screen & Tab Recorder">
@@ -2644,7 +2683,7 @@
             <span class="card-badge">Audio Recording</span>
           </div>
           <h2 class="card-title">
-            <a href="voice-recorder.html">Voice Recorder & Waveform Studio</a>
+            <a href="/guides/voice-recorder">Voice Recorder & Waveform Studio</a>
           </h2>
           <p class="card-desc">Record studio-grade voice audio, analyze live FFT spectrum waveforms, and export uncompressed 16-bit PCM WAV audio files client-side.</p>
           <div class="card-features">
@@ -2652,7 +2691,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="voice-recorder.html" class="read-guide-btn">
+          <a href="/guides/voice-recorder" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/voice-recorder" class="launch-tool-icon-btn" title="Launch Voice Recorder & Waveform Studio">
@@ -2675,7 +2714,7 @@
             <span class="card-badge">Audio Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="audio-suite.html">Audio Studio & Transcoding Suite</a>
+            <a href="/guides/audio-suite">Audio Studio & Transcoding Suite</a>
           </h2>
           <p class="card-desc">Transcode audio between MP3, WAV, and OGG formats, visually trim audio waveforms, and extract audio soundtracks from video files client-side.</p>
           <div class="card-features">
@@ -2683,7 +2722,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="audio-suite.html" class="read-guide-btn">
+          <a href="/guides/audio-suite" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/audio-suite" class="launch-tool-icon-btn" title="Launch Audio Studio & Transcoding Suite">
@@ -2706,7 +2745,7 @@
             <span class="card-badge">Video Speed & Analysis</span>
           </div>
           <h2 class="card-title">
-            <a href="video-speed.html">Video Speed Controller & Analyzer</a>
+            <a href="/guides/video-speed">Video Speed Controller & Analyzer</a>
           </h2>
           <p class="card-desc">Control video playback rates from 0.1x to 4.0x with pitch correction, single-frame stepping, and seamless A-B repeating loops.</p>
           <div class="card-features">
@@ -2714,7 +2753,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="video-speed.html" class="read-guide-btn">
+          <a href="/guides/video-speed" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/video-speed" class="launch-tool-icon-btn" title="Launch Video Speed Controller & Analyzer">
@@ -2737,7 +2776,7 @@
             <span class="card-badge">GIF Conversion</span>
           </div>
           <h2 class="card-title">
-            <a href="video-to-gif.html">Video to Animated GIF Converter</a>
+            <a href="/guides/video-to-gif">Video to Animated GIF Converter</a>
           </h2>
           <p class="card-desc">Convert MP4, WebM, and MOV video clips into animated GIFs with NeuQuant 256-color palette quantization and LZW compression client-side.</p>
           <div class="card-features">
@@ -2745,7 +2784,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="video-to-gif.html" class="read-guide-btn">
+          <a href="/guides/video-to-gif" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/video-to-gif" class="launch-tool-icon-btn" title="Launch Video to Animated GIF Converter">
@@ -2768,7 +2807,7 @@
             <span class="card-badge">App Branding</span>
           </div>
           <h2 class="card-title">
-            <a href="favicon-generator.html">Favicon & PWA App Icon Suite</a>
+            <a href="/guides/favicon-generator">Favicon & PWA App Icon Suite</a>
           </h2>
           <p class="card-desc">Generate multi-size .ICO bundles (16x16, 32x32, 48x48), Apple Touch icons, Android PWA manifest icons, and ready-to-paste HTML code.</p>
           <div class="card-features">
@@ -2776,7 +2815,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="favicon-generator.html" class="read-guide-btn">
+          <a href="/guides/favicon-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/favicon-generator" class="launch-tool-icon-btn" title="Launch Favicon & PWA App Icon Suite">
@@ -2799,7 +2838,7 @@
             <span class="card-badge">PRO & Billing</span>
           </div>
           <h2 class="card-title">
-            <a href="payment-guide.html">Payment & License Activation</a>
+            <a href="/guides/payment-guide">Payment & License Activation</a>
           </h2>
           <p class="card-desc">Learn how to pay via UPI (GPay, PhonePe, Paytm), Cards via Gumroad, PayPal, Bank IMPS, or Crypto, and unlock PRO instantly with your 12-digit UTR.</p>
           <div class="card-features">
@@ -2807,10 +2846,10 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="payment-guide.html" class="read-guide-btn">
+          <a href="/guides/payment-guide" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
-          <a href="../index.html#plans" class="launch-tool-icon-btn" title="Launch Payment & License Activation">
+          <a href="/#plans" class="launch-tool-icon-btn" title="Launch Payment & License Activation">
             <span>🚀 Run Tool</span>
           </a>
         </div>
@@ -2832,7 +2871,7 @@
             <span class="card-badge">Unicode Typography</span>
           </div>
           <h2 class="card-title">
-            <a href="fancy-font-generator.html">Fancy Font &amp; Bio Text Generator</a>
+            <a href="/guides/fancy-font-generator">Fancy Font &amp; Bio Text Generator</a>
           </h2>
           <p class="card-desc">Convert text into 60+ stylish Unicode fonts, Gothic Fraktur, cursive calligraphy, small caps, and bio layouts for Instagram, TikTok, and Discord.</p>
           <div class="card-features">
@@ -2840,7 +2879,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="fancy-font-generator.html" class="read-guide-btn">
+          <a href="/guides/fancy-font-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/fancy-font-generator" class="launch-tool-icon-btn" title="Launch Fancy Font &amp; Bio Text Generator">
@@ -2863,7 +2902,7 @@
             <span class="card-badge">Financial Math</span>
           </div>
           <h2 class="card-title">
-            <a href="finance-calculator.html">Financial Growth &amp; Loan Calculator Suite</a>
+            <a href="/guides/finance-calculator">Financial Growth &amp; Loan Calculator Suite</a>
           </h2>
           <p class="card-desc">Master wealth compounding with client-side SIP wealth accumulation, compound interest APY calculators, and reducing balance loan EMI amortization schedules.</p>
           <div class="card-features">
@@ -2871,7 +2910,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="finance-calculator.html" class="read-guide-btn">
+          <a href="/guides/finance-calculator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/finance-calculator" class="launch-tool-icon-btn" title="Launch Financial Growth &amp; Loan Calculator Suite">
@@ -2899,7 +2938,7 @@
             <span class="card-badge">Document Converters</span>
           </div>
           <h2 class="card-title">
-            <a href="word-pdf.html">Word to PDF & PDF to Word Converter</a>
+            <a href="/guides/word-pdf">Word to PDF & PDF to Word Converter</a>
           </h2>
           <p class="card-desc">Convert Microsoft Word (.docx) documents to PDF, or extract PDF layout and typography into native Word files 100% client-side with zero data transmission.</p>
           <div class="card-features">
@@ -2907,7 +2946,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="word-pdf.html" class="read-guide-btn">
+          <a href="/guides/word-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/word-pdf" class="launch-tool-icon-btn" title="Launch Word to PDF & PDF to Word Converter">
@@ -2930,7 +2969,7 @@
             <span class="card-badge">Document Converters</span>
           </div>
           <h2 class="card-title">
-            <a href="excel-pdf.html">Excel to PDF & PDF to Excel Converter</a>
+            <a href="/guides/excel-pdf">Excel to PDF & PDF to Excel Converter</a>
           </h2>
           <p class="card-desc">Convert Excel spreadsheets (.xlsx, .csv) into clean paginated PDF reports or extract PDF data tables into structured Excel workbooks client-side.</p>
           <div class="card-features">
@@ -2938,7 +2977,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="excel-pdf.html" class="read-guide-btn">
+          <a href="/guides/excel-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/excel-pdf" class="launch-tool-icon-btn" title="Launch Excel to PDF & PDF to Excel Converter">
@@ -2961,7 +3000,7 @@
             <span class="card-badge">Document Converters</span>
           </div>
           <h2 class="card-title">
-            <a href="pptx-pdf.html">PowerPoint to PDF & PDF to PPTX Converter</a>
+            <a href="/guides/pptx-pdf">PowerPoint to PDF & PDF to PPTX Converter</a>
           </h2>
           <p class="card-desc">Convert PowerPoint (.pptx) slide decks to high-resolution vector PDF handouts or rebuild PDF slides into editable presentation files in your browser.</p>
           <div class="card-features">
@@ -2969,7 +3008,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pptx-pdf.html" class="read-guide-btn">
+          <a href="/guides/pptx-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pptx-pdf" class="launch-tool-icon-btn" title="Launch PowerPoint to PDF & PDF to PPTX Converter">
@@ -2992,7 +3031,7 @@
             <span class="card-badge">Document Converters</span>
           </div>
           <h2 class="card-title">
-            <a href="images-to-pdf.html">Images to PDF & Photo Compiler</a>
+            <a href="/guides/images-to-pdf">Images to PDF & Photo Compiler</a>
           </h2>
           <p class="card-desc">Combine multiple JPG, PNG, WebP, GIF, and SVG images into a single clean PDF document with custom margins, orientations, and page sizes.</p>
           <div class="card-features">
@@ -3000,7 +3039,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="images-to-pdf.html" class="read-guide-btn">
+          <a href="/guides/images-to-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/images-to-pdf" class="launch-tool-icon-btn" title="Launch Images to PDF & Photo Compiler">
@@ -3023,7 +3062,7 @@
             <span class="card-badge">Document Converters</span>
           </div>
           <h2 class="card-title">
-            <a href="scan-to-pdf.html">Camera Scan to PDF Document Creator</a>
+            <a href="/guides/scan-to-pdf">Camera Scan to PDF Document Creator</a>
           </h2>
           <p class="card-desc">Use your smartphone or webcam camera to scan paper documents, auto-enhance contrast, perspective crop, and compile into standardized PDF files.</p>
           <div class="card-features">
@@ -3031,7 +3070,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="scan-to-pdf.html" class="read-guide-btn">
+          <a href="/guides/scan-to-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/scan-to-pdf" class="launch-tool-icon-btn" title="Launch Camera Scan to PDF Document Creator">
@@ -3054,7 +3093,7 @@
             <span class="card-badge">Document Converters</span>
           </div>
           <h2 class="card-title">
-            <a href="html-to-pdf.html">HTML & Webpage to PDF Studio</a>
+            <a href="/guides/html-to-pdf">HTML & Webpage to PDF Studio</a>
           </h2>
           <p class="card-desc">Render raw HTML, CSS styles, web components, or live URLs into paginated, print-perfect vector PDF documents client-side.</p>
           <div class="card-features">
@@ -3062,7 +3101,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="html-to-pdf.html" class="read-guide-btn">
+          <a href="/guides/html-to-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/html-to-pdf" class="launch-tool-icon-btn" title="Launch HTML & Webpage to PDF Studio">
@@ -3085,7 +3124,7 @@
             <span class="card-badge">Document Converters</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-to-markdown.html">PDF to Markdown & Text Extractor</a>
+            <a href="/guides/pdf-to-markdown">PDF to Markdown & Text Extractor</a>
           </h2>
           <p class="card-desc">Extract text, headings, tables, code blocks, and structured lists from PDF documents into clean, portable Markdown syntax.</p>
           <div class="card-features">
@@ -3093,7 +3132,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-to-markdown.html" class="read-guide-btn">
+          <a href="/guides/pdf-to-markdown" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-to-markdown" class="launch-tool-icon-btn" title="Launch PDF to Markdown & Text Extractor">
@@ -3116,7 +3155,7 @@
             <span class="card-badge">PDF Editor Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="sign-pdf.html">E-Sign PDF & Digital Signature Studio</a>
+            <a href="/guides/sign-pdf">E-Sign PDF & Digital Signature Studio</a>
           </h2>
           <p class="card-desc">Draw, type, or upload legal signatures and initials directly onto PDF documents client-side with zero cloud uploads or third-party tracking.</p>
           <div class="card-features">
@@ -3124,7 +3163,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="sign-pdf.html" class="read-guide-btn">
+          <a href="/guides/sign-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/sign-pdf" class="launch-tool-icon-btn" title="Launch E-Sign PDF & Digital Signature Studio">
@@ -3147,7 +3186,7 @@
             <span class="card-badge">PDF Editor Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-annotate.html">PDF Markup & Vector Annotation Studio</a>
+            <a href="/guides/pdf-annotate">PDF Markup & Vector Annotation Studio</a>
           </h2>
           <p class="card-desc">Draw freehand sketches, add text notes, highlight lines, stamp arrows, and draw geometric shapes directly on PDF pages in your browser.</p>
           <div class="card-features">
@@ -3155,7 +3194,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-annotate.html" class="read-guide-btn">
+          <a href="/guides/pdf-annotate" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-annotate" class="launch-tool-icon-btn" title="Launch PDF Markup & Vector Annotation Studio">
@@ -3178,7 +3217,7 @@
             <span class="card-badge">PDF Editor Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-forms.html">PDF AcroForm Form Filler</a>
+            <a href="/guides/pdf-forms">PDF AcroForm Form Filler</a>
           </h2>
           <p class="card-desc">Inspect, fill, and flatten interactive PDF form fields (text boxes, checkboxes, radio buttons, and dropdowns) 100% client-side with zero data tracking.</p>
           <div class="card-features">
@@ -3186,7 +3225,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-forms.html" class="read-guide-btn">
+          <a href="/guides/pdf-forms" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-forms" class="launch-tool-icon-btn" title="Launch PDF AcroForm Form Filler">
@@ -3209,7 +3248,7 @@
             <span class="card-badge">PDF Editor Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-watermark.html">PDF Watermark & Page Numbering Studio</a>
+            <a href="/guides/pdf-watermark">PDF Watermark & Page Numbering Studio</a>
           </h2>
           <p class="card-desc">Stamp custom text or graphic watermarks, confidentiality notices, and dynamic page numbers (Page X of Y) onto PDF pages client-side.</p>
           <div class="card-features">
@@ -3217,7 +3256,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-watermark.html" class="read-guide-btn">
+          <a href="/guides/pdf-watermark" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-watermark" class="launch-tool-icon-btn" title="Launch PDF Watermark & Page Numbering Studio">
@@ -3240,7 +3279,7 @@
             <span class="card-badge">PDF Editor Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="redact-pdf.html">PDF Redaction & Privacy Sanitizer</a>
+            <a href="/guides/redact-pdf">PDF Redaction & Privacy Sanitizer</a>
           </h2>
           <p class="card-desc">Permanently censor sensitive text, Social Security Numbers, banking details, and faces from PDF documents with irreversible client-side pixel burn.</p>
           <div class="card-features">
@@ -3248,7 +3287,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="redact-pdf.html" class="read-guide-btn">
+          <a href="/guides/redact-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/redact-pdf" class="launch-tool-icon-btn" title="Launch PDF Redaction & Privacy Sanitizer">
@@ -3271,7 +3310,7 @@
             <span class="card-badge">PDF Security Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-security.html">PDF AES-256 Encryption & Password Unlock</a>
+            <a href="/guides/pdf-security">PDF AES-256 Encryption & Password Unlock</a>
           </h2>
           <p class="card-desc">Encrypt PDF documents with enterprise AES-256 encryption, configure permission restrictions, or remove known passwords client-side.</p>
           <div class="card-features">
@@ -3279,7 +3318,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-security.html" class="read-guide-btn">
+          <a href="/guides/pdf-security" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-security" class="launch-tool-icon-btn" title="Launch PDF AES-256 Encryption & Password Unlock">
@@ -3302,7 +3341,7 @@
             <span class="card-badge">PDF Security Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="repair-pdf.html">Corrupted PDF Repair & Stream Recovery</a>
+            <a href="/guides/repair-pdf">Corrupted PDF Repair & Stream Recovery</a>
           </h2>
           <p class="card-desc">Diagnose and repair corrupt, truncated, unreadable, or damaged PDF files by reconstructing cross-reference (xref) tables and stream dictionaries in browser memory.</p>
           <div class="card-features">
@@ -3310,7 +3349,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="repair-pdf.html" class="read-guide-btn">
+          <a href="/guides/repair-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/repair-pdf" class="launch-tool-icon-btn" title="Launch Corrupted PDF Repair & Stream Recovery">
@@ -3333,7 +3372,7 @@
             <span class="card-badge">PDF Security Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-to-pdfa.html">PDF/A Archival Converter</a>
+            <a href="/guides/pdf-to-pdfa">PDF/A Archival Converter</a>
           </h2>
           <p class="card-desc">Convert standard PDF documents into ISO 19005 compliant PDF/A-1b and PDF/A-2b formats for long-term legal, government, and archival preservation.</p>
           <div class="card-features">
@@ -3341,7 +3380,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-to-pdfa.html" class="read-guide-btn">
+          <a href="/guides/pdf-to-pdfa" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-to-pdfa" class="launch-tool-icon-btn" title="Launch PDF/A Archival Converter">
@@ -3364,7 +3403,7 @@
             <span class="card-badge">PDF Utilities Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="split-pdf.html">Split PDF & Extract Pages</a>
+            <a href="/guides/split-pdf">Split PDF & Extract Pages</a>
           </h2>
           <p class="card-desc">Split large PDF documents into individual pages, extract specific page ranges, or burst multi-page files client-side with zero file uploads.</p>
           <div class="card-features">
@@ -3372,7 +3411,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="split-pdf.html" class="read-guide-btn">
+          <a href="/guides/split-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/split-pdf" class="launch-tool-icon-btn" title="Launch Split PDF & Extract Pages">
@@ -3395,7 +3434,7 @@
             <span class="card-badge">PDF Utilities Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="merge-pdf.html">Merge PDF & Combine Documents Studio</a>
+            <a href="/guides/merge-pdf">Merge PDF & Combine Documents Studio</a>
           </h2>
           <p class="card-desc">Combine multiple PDF documents into a single organized file with drag-and-drop page reordering 100% in your browser.</p>
           <div class="card-features">
@@ -3403,7 +3442,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="merge-pdf.html" class="read-guide-btn">
+          <a href="/guides/merge-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/merge-pdf" class="launch-tool-icon-btn" title="Launch Merge PDF & Combine Documents Studio">
@@ -3426,7 +3465,7 @@
             <span class="card-badge">PDF Utilities Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="pdf-organizer.html">PDF Page Organizer, Rotate & Reorder Studio</a>
+            <a href="/guides/pdf-organizer">PDF Page Organizer, Rotate & Reorder Studio</a>
           </h2>
           <p class="card-desc">Rotate upside-down pages, reorder pages with drag and drop, and delete unwanted pages visually client-side.</p>
           <div class="card-features">
@@ -3434,7 +3473,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="pdf-organizer.html" class="read-guide-btn">
+          <a href="/guides/pdf-organizer" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/pdf-organizer" class="launch-tool-icon-btn" title="Launch PDF Page Organizer, Rotate & Reorder Studio">
@@ -3457,7 +3496,7 @@
             <span class="card-badge">PDF Utilities Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="compress-pdf.html">PDF Compression & File Size Reducer</a>
+            <a href="/guides/compress-pdf">PDF Compression & File Size Reducer</a>
           </h2>
           <p class="card-desc">Shrink oversized PDF documents for email attachments, online applications, and faster web loading using intelligent client-side image downsampling.</p>
           <div class="card-features">
@@ -3465,7 +3504,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="compress-pdf.html" class="read-guide-btn">
+          <a href="/guides/compress-pdf" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/compress-pdf" class="launch-tool-icon-btn" title="Launch PDF Compression & File Size Reducer">
@@ -3488,7 +3527,7 @@
             <span class="card-badge">CSS Builders</span>
           </div>
           <h2 class="card-title">
-            <a href="clip-path-generator.html">CSS Clip-Path Generator & Shape Maker</a>
+            <a href="/guides/clip-path-generator">CSS Clip-Path Generator & Shape Maker</a>
           </h2>
           <p class="card-desc">Create custom CSS clip-path shapes, triangles, hexagons, stars, speech bubbles, and irregular polygons with an interactive drag-and-drop coordinate canvas.</p>
           <div class="card-features">
@@ -3496,7 +3535,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="clip-path-generator.html" class="read-guide-btn">
+          <a href="/guides/clip-path-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/clip-path-generator" class="launch-tool-icon-btn" title="Launch CSS Clip-Path Generator & Shape Maker">
@@ -3519,7 +3558,7 @@
             <span class="card-badge">Color Lab</span>
           </div>
           <h2 class="card-title">
-            <a href="color-palette.html">Harmonic Color Palette Generator & WCAG Contrast</a>
+            <a href="/guides/color-palette">Harmonic Color Palette Generator & WCAG Contrast</a>
           </h2>
           <p class="card-desc">Generate aesthetically pleasing harmonic color schemes (complementary, analogous, triadic, tetradic) and verify WCAG 2.1 accessibility contrast ratios.</p>
           <div class="card-features">
@@ -3527,7 +3566,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="color-palette.html" class="read-guide-btn">
+          <a href="/guides/color-palette" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/color-palette" class="launch-tool-icon-btn" title="Launch Harmonic Color Palette Generator & WCAG Contrast">
@@ -3550,7 +3589,7 @@
             <span class="card-badge">Color Lab</span>
           </div>
           <h2 class="card-title">
-            <a href="color-shades.html">Color Shades & Tints Scale Generator</a>
+            <a href="/guides/color-shades">Color Shades & Tints Scale Generator</a>
           </h2>
           <p class="card-desc">Generate complete 10-step monochromatic shade and tint scales from any base HEX color for Tailwind CSS, design tokens, and UI state styling.</p>
           <div class="card-features">
@@ -3558,7 +3597,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="color-shades.html" class="read-guide-btn">
+          <a href="/guides/color-shades" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/color-shades" class="launch-tool-icon-btn" title="Launch Color Shades & Tints Scale Generator">
@@ -3581,7 +3620,7 @@
             <span class="card-badge">Color Lab</span>
           </div>
           <h2 class="card-title">
-            <a href="color-extractor.html">Image Color Palette Extractor</a>
+            <a href="/guides/color-extractor">Image Color Palette Extractor</a>
           </h2>
           <p class="card-desc">Extract dominant color palettes, background tones, and accent hues from any uploaded photo, screenshot, or logo using client-side k-means clustering.</p>
           <div class="card-features">
@@ -3589,7 +3628,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="color-extractor.html" class="read-guide-btn">
+          <a href="/guides/color-extractor" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/color-extractor" class="launch-tool-icon-btn" title="Launch Image Color Palette Extractor">
@@ -3612,7 +3651,7 @@
             <span class="card-badge">Data Formatters</span>
           </div>
           <h2 class="card-title">
-            <a href="sql-beautifier.html">SQL Query Formatter & Beautifier</a>
+            <a href="/guides/sql-beautifier">SQL Query Formatter & Beautifier</a>
           </h2>
           <p class="card-desc">Format, beautify, and standardize unformatted SQL queries across PostgreSQL, MySQL, SQLite, T-SQL, and Oracle dialects in your browser.</p>
           <div class="card-features">
@@ -3620,7 +3659,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="sql-beautifier.html" class="read-guide-btn">
+          <a href="/guides/sql-beautifier" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/sql-beautifier" class="launch-tool-icon-btn" title="Launch SQL Query Formatter & Beautifier">
@@ -3643,7 +3682,7 @@
             <span class="card-badge">Data Formatters</span>
           </div>
           <h2 class="card-title">
-            <a href="json-yaml-csv.html">JSON, YAML & CSV Data Converter</a>
+            <a href="/guides/json-yaml-csv">JSON, YAML & CSV Data Converter</a>
           </h2>
           <p class="card-desc">Convert structured data seamlessly between JSON, YAML, and CSV formats client-side with automatic delimiter detection and syntax validation.</p>
           <div class="card-features">
@@ -3651,7 +3690,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="json-yaml-csv.html" class="read-guide-btn">
+          <a href="/guides/json-yaml-csv" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/json-yaml-csv" class="launch-tool-icon-btn" title="Launch JSON, YAML & CSV Data Converter">
@@ -3674,7 +3713,7 @@
             <span class="card-badge">Text Cases</span>
           </div>
           <h2 class="card-title">
-            <a href="text-converter.html">Text Case Converter & Capitalization</a>
+            <a href="/guides/text-converter">Text Case Converter & Capitalization</a>
           </h2>
           <p class="card-desc">Transform text into camelCase, PascalCase, snake_case, kebab-case, UPPERCASE, lowercase, Title Case, and Sentence case in real time.</p>
           <div class="card-features">
@@ -3682,7 +3721,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="text-converter.html" class="read-guide-btn">
+          <a href="/guides/text-converter" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/text-converter" class="launch-tool-icon-btn" title="Launch Text Case Converter & Capitalization">
@@ -3705,7 +3744,7 @@
             <span class="card-badge">Data Encoders</span>
           </div>
           <h2 class="card-title">
-            <a href="base64.html">Base64 Encoder & Decoder Studio</a>
+            <a href="/guides/base64">Base64 Encoder & Decoder Studio</a>
           </h2>
           <p class="card-desc">Encode and decode UTF-8 text strings, binary files, images, and Data URIs to and from Base64 client-side with zero data leaks.</p>
           <div class="card-features">
@@ -3713,7 +3752,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="base64.html" class="read-guide-btn">
+          <a href="/guides/base64" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/base64" class="launch-tool-icon-btn" title="Launch Base64 Encoder & Decoder Studio">
@@ -3736,7 +3775,7 @@
             <span class="card-badge">Data Encoders</span>
           </div>
           <h2 class="card-title">
-            <a href="url-encoder.html">URL Percent-Encoder & Decoder</a>
+            <a href="/guides/url-encoder">URL Percent-Encoder & Decoder</a>
           </h2>
           <p class="card-desc">Encode and decode URL query strings, path segments, and special characters according to RFC 3986 with support for encodeURI and encodeURIComponent modes.</p>
           <div class="card-features">
@@ -3744,7 +3783,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="url-encoder.html" class="read-guide-btn">
+          <a href="/guides/url-encoder" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/url-encoder" class="launch-tool-icon-btn" title="Launch URL Percent-Encoder & Decoder">
@@ -3767,7 +3806,7 @@
             <span class="card-badge">Cryptographic Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="hash-generator.html">Cryptographic Hash Generator</a>
+            <a href="/guides/hash-generator">Cryptographic Hash Generator</a>
           </h2>
           <p class="card-desc">Calculate cryptographic hash checksums across MD5, SHA-1, SHA-256, SHA-384, SHA-512, and HMAC keys using the hardware-accelerated Web Crypto API.</p>
           <div class="card-features">
@@ -3775,7 +3814,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="hash-generator.html" class="read-guide-btn">
+          <a href="/guides/hash-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/hash-generator" class="launch-tool-icon-btn" title="Launch Cryptographic Hash Generator">
@@ -3798,7 +3837,7 @@
             <span class="card-badge">Cryptographic Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="aes-crypto.html">AES-256-GCM Encryption Studio</a>
+            <a href="/guides/aes-crypto">AES-256-GCM Encryption Studio</a>
           </h2>
           <p class="card-desc">Encrypt and decrypt text messages and files using military-grade AES-GCM 256-bit authenticated encryption with PBKDF2 key derivation in your browser.</p>
           <div class="card-features">
@@ -3806,7 +3845,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="aes-crypto.html" class="read-guide-btn">
+          <a href="/guides/aes-crypto" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/aes-crypto" class="launch-tool-icon-btn" title="Launch AES-256-GCM Encryption Studio">
@@ -3829,7 +3868,7 @@
             <span class="card-badge">Cryptographic Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="rsa-generator.html">RSA Key Pair Generator Studio</a>
+            <a href="/guides/rsa-generator">RSA Key Pair Generator Studio</a>
           </h2>
           <p class="card-desc">Generate cryptographically secure 2048-bit and 4096-bit RSA public and private key pairs formatted in standard PEM (PKCS#1 / PKCS#8) client-side.</p>
           <div class="card-features">
@@ -3837,7 +3876,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="rsa-generator.html" class="read-guide-btn">
+          <a href="/guides/rsa-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/rsa-generator" class="launch-tool-icon-btn" title="Launch RSA Key Pair Generator Studio">
@@ -3860,7 +3899,7 @@
             <span class="card-badge">Security Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="password-generator.html">Strong Password Generator & Entropy</a>
+            <a href="/guides/password-generator">Strong Password Generator & Entropy</a>
           </h2>
           <p class="card-desc">Generate unbreakable, cryptographically secure passwords and passphrases with custom character sets, phonetic pronounceability, and real-time Shannon entropy scores.</p>
           <div class="card-features">
@@ -3868,7 +3907,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="password-generator.html" class="read-guide-btn">
+          <a href="/guides/password-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/password-generator" class="launch-tool-icon-btn" title="Launch Strong Password Generator & Entropy">
@@ -3891,7 +3930,7 @@
             <span class="card-badge">Security Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="uuid-generator.html">RFC 4122 UUID v4 Bulk Generator</a>
+            <a href="/guides/uuid-generator">RFC 4122 UUID v4 Bulk Generator</a>
           </h2>
           <p class="card-desc">Generate cryptographically unique RFC 4122 Version 4 UUIDs (GUIDs) in bulk with custom casing, hyphens, braces, and instant export formats.</p>
           <div class="card-features">
@@ -3899,7 +3938,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="uuid-generator.html" class="read-guide-btn">
+          <a href="/guides/uuid-generator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/uuid-generator" class="launch-tool-icon-btn" title="Launch RFC 4122 UUID v4 Bulk Generator">
@@ -3922,7 +3961,7 @@
             <span class="card-badge">DateTime Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="epoch-converter.html">Unix Epoch Timestamp Converter</a>
+            <a href="/guides/epoch-converter">Unix Epoch Timestamp Converter</a>
           </h2>
           <p class="card-desc">Convert Unix epoch timestamps (seconds and milliseconds) to human-readable dates across UTC and local timezones with a live real-time ticking clock.</p>
           <div class="card-features">
@@ -3930,7 +3969,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="epoch-converter.html" class="read-guide-btn">
+          <a href="/guides/epoch-converter" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/epoch-converter" class="launch-tool-icon-btn" title="Launch Unix Epoch Timestamp Converter">
@@ -3953,7 +3992,7 @@
             <span class="card-badge">DateTime Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="date-calculator.html">Date Duration & Business Days Calculator</a>
+            <a href="/guides/date-calculator">Date Duration & Business Days Calculator</a>
           </h2>
           <p class="card-desc">Calculate exact elapsed days, weeks, months, and working business days between two dates, or add/subtract time intervals client-side.</p>
           <div class="card-features">
@@ -3961,7 +4000,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="date-calculator.html" class="read-guide-btn">
+          <a href="/guides/date-calculator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/date-calculator" class="launch-tool-icon-btn" title="Launch Date Duration & Business Days Calculator">
@@ -3984,7 +4023,7 @@
             <span class="card-badge">QR Studio</span>
           </div>
           <h2 class="card-title">
-            <a href="qr-scanner.html">Live Camera & Image QR Scanner</a>
+            <a href="/guides/qr-scanner">Live Camera & Image QR Scanner</a>
           </h2>
           <p class="card-desc">Scan and decode QR codes and 1D/2D barcodes using your webcam, smartphone camera, or uploaded image files 100% in your browser.</p>
           <div class="card-features">
@@ -3992,7 +4031,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="qr-scanner.html" class="read-guide-btn">
+          <a href="/guides/qr-scanner" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/qr-scanner" class="launch-tool-icon-btn" title="Launch Live Camera & Image QR Scanner">
@@ -4015,7 +4054,7 @@
             <span class="card-badge">Audio Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="audio-converter.html">In-Browser Universal Audio Converter</a>
+            <a href="/guides/audio-converter">In-Browser Universal Audio Converter</a>
           </h2>
           <p class="card-desc">Convert audio files between MP3, WAV, OGG, AAC, and FLAC formats with custom sample rate and bitrate settings client-side.</p>
           <div class="card-features">
@@ -4023,7 +4062,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="audio-converter.html" class="read-guide-btn">
+          <a href="/guides/audio-converter" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/audio-converter" class="launch-tool-icon-btn" title="Launch In-Browser Universal Audio Converter">
@@ -4046,7 +4085,7 @@
             <span class="card-badge">Audio Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="mp4-to-mp3.html">MP4 to MP3 Audio Track Extractor</a>
+            <a href="/guides/mp4-to-mp3">MP4 to MP3 Audio Track Extractor</a>
           </h2>
           <p class="card-desc">Extract audio tracks, podcast voice streams, and soundtrack music from MP4, WebM, MOV, and AVI videos into standalone MP3 and WAV files.</p>
           <div class="card-features">
@@ -4054,7 +4093,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="mp4-to-mp3.html" class="read-guide-btn">
+          <a href="/guides/mp4-to-mp3" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/mp4-to-mp3" class="launch-tool-icon-btn" title="Launch MP4 to MP3 Audio Track Extractor">
@@ -4077,7 +4116,7 @@
             <span class="card-badge">Subnet Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="subnet-calculator.html">IPv4 Subnet CIDR Calculator</a>
+            <a href="/guides/subnet-calculator">IPv4 Subnet CIDR Calculator</a>
           </h2>
           <p class="card-desc">Calculate IPv4 subnet masks, CIDR prefix notation (/24, /16), usable host IP ranges, network IDs, and broadcast addresses for network engineers.</p>
           <div class="card-features">
@@ -4085,7 +4124,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="subnet-calculator.html" class="read-guide-btn">
+          <a href="/guides/subnet-calculator" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/subnet-calculator" class="launch-tool-icon-btn" title="Launch IPv4 Subnet CIDR Calculator">
@@ -4108,7 +4147,7 @@
             <span class="card-badge">Subnet Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="mac-lookup.html">MAC Address OUI Vendor Lookup</a>
+            <a href="/guides/mac-lookup">MAC Address OUI Vendor Lookup</a>
           </h2>
           <p class="card-desc">Lookup hardware manufacturers, NIC vendors, and device details from any MAC address prefix using the official IEEE Organizationally Unique Identifier (OUI) database.</p>
           <div class="card-features">
@@ -4116,7 +4155,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="mac-lookup.html" class="read-guide-btn">
+          <a href="/guides/mac-lookup" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/mac-lookup" class="launch-tool-icon-btn" title="Launch MAC Address OUI Vendor Lookup">
@@ -4139,7 +4178,7 @@
             <span class="card-badge">Regex Suite</span>
           </div>
           <h2 class="card-title">
-            <a href="regex-extractor.html">Regex Match Extractor & Replacer</a>
+            <a href="/guides/regex-extractor">Regex Match Extractor & Replacer</a>
           </h2>
           <p class="card-desc">Extract capture groups, email addresses, phone numbers, URLs, and custom regex pattern matches into clean exportable lists client-side.</p>
           <div class="card-features">
@@ -4147,7 +4186,7 @@
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="regex-extractor.html" class="read-guide-btn">
+          <a href="/guides/regex-extractor" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
           <a href="/tool/regex-extractor" class="launch-tool-icon-btn" title="Launch Regex Match Extractor & Replacer">
@@ -4223,9 +4262,9 @@
     <p>&copy; 2026 OmniTool Hub. The Ultimate Offline-First Client-Side Utility Suite.</p>
     <p style="margin-top: 10px;">
       <a href="/">Main Suite</a> &bull;
-      <a href="../index.html#plans">Membership Plans</a> &bull;
-      <a href="../index.html#privacy">Privacy Policy</a> &bull;
-      <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="/#plans">Membership Plans</a> &bull;
+      <a href="/#privacy">Privacy Policy</a> &bull;
+      <a href="/#terms">Terms of Service</a> &bull;
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub Repository</a>
     </p>
   </footer>

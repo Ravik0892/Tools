@@ -41,6 +41,11 @@ class MockElement {
     this.listeners[evt].push(cb);
   }
   getBoundingClientRect() { return { top: 0, left: 0, right: 650, bottom: 230, width: 650, height: 230, x: 0, y: 0 }; }
+  closest(sel) {
+    const el = new MockElement('div');
+    el.parentElement = this;
+    return el;
+  }
   remove() {
     if (this.parentElement) this.parentElement.removeChild(this);
   }

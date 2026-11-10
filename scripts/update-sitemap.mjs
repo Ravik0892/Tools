@@ -179,6 +179,33 @@ const guideEntries = guideHtmlFiles.map((file, idx) => {
   };
 });
 
+// 4.1 Scan Multilingual Localized Guides (Spanish, Portuguese, etc.)
+const localizedDirs = ['es', 'pt'];
+const localizedGuideEntries = [];
+localizedDirs.forEach(lang => {
+  const langDir = path.join(guidesDir, lang);
+  if (fs.existsSync(langDir)) {
+    localizedGuideEntries.push({
+      loc: `https://omnitool.worldsneed.com/guides/${lang}/`,
+      lastmod: TODAY,
+      changefreq: 'weekly',
+      priority: '0.85',
+      comment: lang === 'es' ? 'Multilingual International SEO Guides (Spanish / Español)' : 'Multilingual International SEO Guides (Portuguese / Português)'
+    });
+
+    const files = fs.readdirSync(langDir).filter(f => f.endsWith('.html') && f !== 'index.html').sort();
+    files.forEach(file => {
+      const toolId = file.replace('.html', '');
+      localizedGuideEntries.push({
+        loc: `https://omnitool.worldsneed.com/guides/${lang}/${toolId}`,
+        lastmod: TODAY,
+        changefreq: 'monthly',
+        priority: '0.80'
+      });
+    });
+  }
+});
+
 // 5. Primary Tools from app.js
 const appJsPath = path.join(projectRoot, 'app.js');
 const appJs = fs.readFileSync(appJsPath, 'utf8');
@@ -193,16 +220,8 @@ for (const m of appJs.matchAll(/\{\s*id:\s*["']([a-z0-9-]+)["'],\s*name:\s*["']/
 const idx = appJs.indexOf('toolRedirects: {');
 let aliasKeys = [];
 if (idx !== -1) {
-  let depth = 0;
-  let end = -1;
-  for (let i = idx + 15; i < appJs.length; i++) {
-    if (appJs[i] === '{') depth++;
-    else if (appJs[i] === '}') {
-      if (depth === 0) { end = i; break; }
-      depth--;
-    }
-  }
-  const redirectsStr = appJs.slice(idx, end + 1);
+  const end = appJs.indexOf('_activeTabSwitchers:', idx);
+  const redirectsStr = end !== -1 ? appJs.slice(idx, end) : appJs.slice(idx, idx + 5000);
   for (const m of redirectsStr.matchAll(/["']([a-z0-9-]+)["']\s*:\s*\{/g)) {
     aliasKeys.push(m[1]);
   }
@@ -260,6 +279,7 @@ appendEntries(mainPages);
 appendEntries(categoryPages);
 appendEntries(guidesHub);
 appendEntries(guideEntries);
+appendEntries(localizedGuideEntries);
 appendEntries(primaryToolEntries);
 appendEntries(aliasEntries);
 
@@ -275,6 +295,6 @@ if (fs.existsSync(path.dirname(androidSitemapPath))) {
   fs.writeFileSync(androidSitemapPath, xml, 'utf8');
 }
 
-const totalCount = mainPages.length + categoryPages.length + guidesHub.length + guideEntries.length + primaryToolEntries.length + aliasEntries.length;
+const totalCount = mainPages.length + categoryPages.length + guidesHub.length + guideEntries.length + localizedGuideEntries.length + primaryToolEntries.length + aliasEntries.length;
 const totalImages = guideEntries.filter(e => e.image).length;
-console.log(`[Sitemap] Successfully updated sitemap.xml with ${totalCount} URLs and ${totalImages} Google Image poster indices on date ${TODAY}.`);
+console.log(`[Sitemap] Successfully updated sitemap.xml with ${totalCount} URLs (including ${localizedGuideEntries.length} localized guides) and ${totalImages} Google Image poster indices on date ${TODAY}.`);

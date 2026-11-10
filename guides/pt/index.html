@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Guias e Tutoriais Técnicos em Português | OmniTool Hub</title>
+  <meta name="description" content="Explore guias e tutoriais passo a passo gratuitos para ferramentas de PDF, QR Code, validadores JSON e geradores de senhas 100% privados.">
+  <link rel="canonical" href="https://omnitool.worldsneed.com/guides/pt/">
+
+  <!-- Multilingual SEO hreflang tags -->
+  <link rel="alternate" hreflang="en" href="https://omnitool.worldsneed.com/guides/">
+  <link rel="alternate" hreflang="es" href="https://omnitool.worldsneed.com/guides/es/">
+  <link rel="alternate" hreflang="pt" href="https://omnitool.worldsneed.com/guides/pt/">
+  <link rel="alternate" hreflang="x-default" href="https://omnitool.worldsneed.com/guides/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Central de Guias e Tutoriais Técnicos em Português | OmniTool Hub">
+  <meta property="og:description" content="Explore guias e tutoriais passo a passo gratuitos para ferramentas de PDF, QR Code, validadores JSON e geradores de senhas 100% privados.">
+  <meta property="og:url" content="https://omnitool.worldsneed.com/guides/pt/">
+  <meta property="og:site_name" content="OmniTool Hub">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css?v=2.1.6">
+
+  <style>
+    :root {
+      --bg-app: #07090e;
+      --bg-card: rgba(18, 24, 38, 0.65);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9d4edd;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .top-nav {
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 24px;
+    }
+    .top-nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .lang-switch-capsule {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2px 4px;
+      gap: 2px;
+    }
+    .lang-switch-capsule .lang-btn {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
+    .lang-switch-capsule .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+    }
+    .container {
+      max-width: 1240px;
+      margin: 40px auto;
+      padding: 0 24px;
+      flex: 1;
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    p.lead {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 720px;
+      margin-bottom: 36px;
+    }
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .guide-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .guide-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 242, 254, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1);
+    }
+    .guide-card-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .guide-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+    .guide-card p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .guide-card-footer {
+      margin-top: 18px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <a href="/?lang=pt" style="color: #fff; font-weight: 800; text-decoration: none;">OmniTool Hub</a>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="lang-switch-capsule">
+          <a href="/guides/" class="lang-btn">EN</a>
+          <a href="/guides/es/" class="lang-btn ">ES</a>
+          <a href="/guides/pt/" class="lang-btn active">PT</a>
+        </div>
+        <a href="/?lang=pt" style="color: #9ca3af; text-decoration: none; font-size: 13px;">← Ir para o App</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Central de Guias e Tutoriais em Português</h1>
+    <p class="lead">Explore guias e tutoriais passo a passo gratuitos para ferramentas de PDF, QR Code, validadores JSON e geradores de senhas 100% privados.</p>
+
+    <div class="guides-grid">
+      
+        <a href="/guides/pt/compress-pdf" class="guide-card">
+          <div class="guide-card-tag">Ferramentas de Escritório</div>
+          <h2>Compressor de PDF Online e Redutor de Tamanho</h2>
+          <p>Diminua o tamanho de documentos PDF para anexar em e-mails e portais online com compressão inteligente executada 100% no seu navegador sem enviar arquivos.</p>
+          <div class="guide-card-footer">Ler Guia e Testar ao Vivo →</div>
+        </a>
+
+        <a href="/guides/pt/pdf-utilities" class="guide-card">
+          <div class="guide-card-tag">Ferramentas de Escritório</div>
+          <h2>Central de Ferramentas e Gestão de Documentos PDF</h2>
+          <p>Junte múltiplos arquivos PDF, separe páginas em arquivos avulsos, gire folhas invertidas e organize seus documentos com total privacidade no navegador.</p>
+          <div class="guide-card-footer">Ler Guia e Testar ao Vivo →</div>
+        </a>
+
+        <a href="/guides/pt/qr-studio" class="guide-card">
+          <div class="guide-card-tag">Design e Gráficos</div>
+          <h2>Estúdio Profissional de Códigos QR com Logotipo</h2>
+          <p>Gere QR Codes personalizados em alta resolução com logotipo central, cores em degradê, molduras estilizadas e download em SVG ou PNG sem custos.</p>
+          <div class="guide-card-footer">Ler Guia e Testar ao Vivo →</div>
+        </a>
+
+        <a href="/guides/pt/json-formatter" class="guide-card">
+          <div class="guide-card-tag">Ferramentas de Desenvolvedor</div>
+          <h2>Formatador, Validador e Embelezador JSON</h2>
+          <p>Formate, valide e embeleze payloads JSON com realce de sintaxe colorido, indentação ajustável e diagnóstico imediato de erros no navegador.</p>
+          <div class="guide-card-footer">Ler Guia e Testar ao Vivo →</div>
+        </a>
+
+        <a href="/guides/pt/password-generator" class="guide-card">
+          <div class="guide-card-tag">Segurança e Criptografia</div>
+          <h2>Gerador Criptográfico de Senhas Fortes e Aleatórias</h2>
+          <p>Gere senhas criptograficamente seguras com alta entropia, caracteres especiais, números e comprimento customizado usando a Web Crypto API no navegador.</p>
+          <div class="guide-card-footer">Ler Guia e Testar ao Vivo →</div>
+        </a>
+    </div>
+  </div>
+  <script>
+    try { localStorage.setItem('omnitool_language', 'pt'); } catch (e) {}
+  </script>
+</body>
+</html>

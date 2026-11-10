@@ -94,6 +94,38 @@
   ],
   "rewrites": [
     {
+      "source": "/guides/:lang(es|pt|de|fr)/:slug/index.html",
+      "destination": "/guides/:lang/:slug.html"
+    },
+    {
+      "source": "/guides/:slug/index.html",
+      "destination": "/guides/:slug.html"
+    },
+    {
+      "source": "/guides/:lang(es|pt|de|fr)/",
+      "destination": "/guides/:lang/index.html"
+    },
+    {
+      "source": "/guides/:lang(es|pt|de|fr)",
+      "destination": "/guides/:lang/index.html"
+    },
+    {
+      "source": "/guides/:lang(es|pt|de|fr)/:slug",
+      "destination": "/guides/:lang/:slug.html"
+    },
+    {
+      "source": "/guides/",
+      "destination": "/guides/index.html"
+    },
+    {
+      "source": "/guides",
+      "destination": "/guides/index.html"
+    },
+    {
+      "source": "/guides/:slug",
+      "destination": "/guides/:slug.html"
+    },
+    {
       "source": "/tool/:path*",
       "destination": "/index.html"
     },

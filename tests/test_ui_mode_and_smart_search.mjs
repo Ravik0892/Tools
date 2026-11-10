@@ -141,8 +141,8 @@ const app = evalFunc();
 
 // TEST 3.1: Beginner tools configuration
 const beginnerToolsCount = Object.keys(app.beginnerToolsConfig).length;
-if (beginnerToolsCount !== 18) {
-  console.error(`FAIL: Expected 18 beginner tools, found ${beginnerToolsCount}`);
+if (beginnerToolsCount !== 20) {
+  console.error(`FAIL: Expected 20 beginner tools, found ${beginnerToolsCount}`);
   process.exit(1);
 }
 console.log(`PASS: beginnerToolsConfig has exactly ${beginnerToolsCount} curated tools`);

@@ -19,6 +19,13 @@
   <meta name="author" content="OmniTool Hub">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://omnitool.worldsneed.com/">
+  <!-- Multilingual SEO & Alternate Language References -->
+  <link rel="alternate" hreflang="x-default" href="https://omnitool.worldsneed.com/">
+  <link rel="alternate" hreflang="en" href="https://omnitool.worldsneed.com/">
+  <link rel="alternate" hreflang="es" href="https://omnitool.worldsneed.com/?lang=es">
+  <link rel="alternate" hreflang="pt" href="https://omnitool.worldsneed.com/?lang=pt">
+  <link rel="alternate" hreflang="de" href="https://omnitool.worldsneed.com/?lang=de">
+  <link rel="alternate" hreflang="fr" href="https://omnitool.worldsneed.com/?lang=fr">
   <meta name="google-site-verification" content="BVvuzzw4uiKQl1IbZ3c6dcBsHZo__C0VxV-8mxgne_0" />
 
   <!-- Google Analytics (GA4) -->
@@ -172,7 +179,7 @@
       <div
         style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
         <div id="aesthetics-modal-title"
-          style="font-size: 18px; font-weight: 800; color: var(--text-main); margin: 0; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+          style="font-size: 18px; font-weight: 800; color: var(--text-main); margin: 0; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;" data-i18n="themeTitle">
           Theme &amp; Aesthetics</div>
         <button id="aesthetics-modal-close" aria-label="Close Theme Modal" title="Close Theme Settings"
           style="background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; outline: none; padding: 4px;">
@@ -186,7 +193,7 @@
       <!-- Theme Preset Selection -->
       <div class="form-group">
         <label
-          style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Accent
+          style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;" data-i18n="paletteTheme">Accent
           Palette Theme</label>
         <div class="color-swatch-list-user" style="display: flex; gap: 12px; flex-wrap: wrap;">
           <div class="color-swatch-item-user" role="button" tabindex="0" aria-label="Cyber Cyan &amp; Violet theme" data-preset="default" title="Cyber Cyan &amp; Violet"
@@ -224,19 +231,19 @@
 
       <!-- Layout Density -->
       <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
-        <label for="aesthetics-density" style="font-size: 13px; font-weight: 700; color: var(--text-main);">Layout
+        <label for="aesthetics-density" style="font-size: 13px; font-weight: 700; color: var(--text-main);" data-i18n="layoutDensity">Layout
           Spacing Density</label>
         <select class="form-select" id="aesthetics-density"
           style="width: 100%; height: 38px; padding: 0 12px; font-size: 13px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main);">
-          <option value="comfortable">Comfortable</option>
-          <option value="compact">Compact (Dense)</option>
-          <option value="loose">Spacious</option>
+          <option value="comfortable" data-i18n="densityComfortable">Comfortable</option>
+          <option value="compact" data-i18n="densityCompact">Compact (Dense)</option>
+          <option value="loose" data-i18n="densitySpacious">Spacious</option>
         </select>
       </div>
 
       <!-- Clock Format -->
       <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
-        <label for="aesthetics-clock" style="font-size: 13px; font-weight: 700; color: var(--text-main);">Clock Display
+        <label for="aesthetics-clock" style="font-size: 13px; font-weight: 700; color: var(--text-main);" data-i18n="clockFormat">Clock Display
           Format</label>
         <select class="form-select" id="aesthetics-clock"
           style="width: 100%; height: 38px; padding: 0 12px; font-size: 13px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main);">
@@ -251,14 +258,14 @@
           style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-main);">
           <input type="checkbox" id="aesthetics-audio"
             style="width: 16px; height: 16px; accent-color: var(--accent-cyan);">
-          <span>Enable Sound FX &amp; Audio Feedback</span>
+          <span data-i18n="enableSound">Enable Sound FX &amp; Audio Feedback</span>
         </label>
       </div>
 
       <div
         style="display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 4px;">
         <button id="aesthetics-modal-save" class="tool-btn primary"
-          style="padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700;">Save Changes</button>
+          style="padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700;" data-i18n="saveChanges">Save Changes</button>
       </div>
     </div>
   </div>
@@ -271,9 +278,9 @@
         <div class="checkout-header-left">
           <div class="checkout-badge-pill">
             <span class="badge-dot"></span>
-            <span>256-Bit SSL Encrypted Checkout</span>
+            <span data-i18n="sslEncrypted">256-Bit SSL Encrypted Checkout</span>
           </div>
-          <h2 class="checkout-title" id="checkout-title">Upgrade to OmniTool Hub PRO</h2>
+          <h2 class="checkout-title" id="checkout-title" data-i18n="checkoutTitle">Upgrade to OmniTool Hub PRO</h2>
         </div>
         <button id="checkout-modal-close" class="cp-close-btn" title="Close Checkout (Esc)" aria-label="Close checkout">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
@@ -306,8 +313,8 @@
             <span class="cpp-radio"></span>
             <div>
               <div class="cpp-title-row">
-                <span class="cpp-name">Lifetime Developer Pass</span>
-                <span class="cpp-tag">Best Value</span>
+                <span class="cpp-name" data-i18n="lifetimePass">Lifetime Developer Pass</span>
+                <span class="cpp-tag" data-i18n="bestValue">Best Value</span>
               </div>
               <div class="cpp-desc dynamic-plan-desc">Pay once, keep forever • All <span class="dynamic-tool-count">46+</span> offline tools • Lifetime updates</div>
             </div>
@@ -323,7 +330,7 @@
             <span class="cpp-radio"></span>
             <div>
               <div class="cpp-title-row">
-                <span class="cpp-name">Pro Monthly Subscription</span>
+                <span class="cpp-name" data-i18n="monthlySub">Pro Monthly Subscription</span>
                 <span class="cpp-tag alt">Flexible</span>
               </div>
               <div class="cpp-desc">100% ad-free experience • Cancel anytime • Monthly access</div>
@@ -697,7 +704,7 @@
             <button type="button" class="tool-btn primary" id="chk-guide-ready-btn" onclick="app.handleGuideReadyClick()" style="font-size: 12px; height: 34px; padding: 0 14px;">
               ⚡ Ready to Pay? Open Checkout Tab
             </button>
-            <a href="guides/payment-guide.html" target="_blank" class="caf-guide-link" style="font-size: 12px;">
+            <a href="/guides/payment-guide" target="_blank" class="caf-guide-link" style="font-size: 12px;">
               <span>Read Full Documentation &amp; FAQ Page &rarr;</span>
             </a>
           </div>
@@ -759,7 +766,7 @@
             <span class="caf-hint-item" id="chk-hint-crypto"><span style="color: #10b981;">✔</span> Crypto TXID / Hash</span>
             <span class="caf-hint-item" id="chk-hint-key"><span style="color: #10b981;">✔</span> Gumroad / PayPal Key</span>
           </div>
-          <a href="guides/payment-guide.html" target="_blank" class="caf-guide-link">
+          <a href="/guides/payment-guide" target="_blank" class="caf-guide-link">
             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
             <span>Payment Guide &amp; FAQ &rarr;</span>
           </a>
@@ -835,16 +842,16 @@
                   <rect x="14" y="14" width="7" height="7"></rect>
                   <rect x="3" y="14" width="7" height="7"></rect>
                 </svg>
-                <span>Dashboard</span>
+                <span data-i18n="dashboard">Dashboard</span>
               </a>
             </li>
             <li>
-              <a class="nav-link" href="guides/index.html" id="cat-guides" style="color: var(--accent-cyan); font-weight: 700;">
+              <a class="nav-link" href="/guides/" id="cat-guides" style="color: var(--accent-cyan); font-weight: 700;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
-                <span>Guides &amp; Tutorials</span>
+                <span data-i18n="guides">Guides &amp; Tutorials</span>
               </a>
             </li>
             <li>
@@ -854,7 +861,7 @@
                     points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
                   </polygon>
                 </svg>
-                <span>Favorites</span>
+                <span data-i18n="favorites">Favorites</span>
                 <span class="favorites-indicator" id="fav-count" style="display: none;">0</span>
               </a>
             </li>
@@ -867,7 +874,7 @@
                     d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
                   </path>
                 </svg>
-                <span>Aesthetics</span>
+                <span data-i18n="aestheticsStudio">Aesthetics</span>
               </a>
             </li>
             <li>
@@ -880,7 +887,7 @@
                   <line x1="2" y1="8.5" x2="12" y2="12"></line>
                   <line x1="22" y1="8.5" x2="12" y2="12"></line>
                 </svg>
-                <span>Plans</span>
+                <span data-i18n="plans">Plans</span>
               </a>
             </li>
           </ul>
@@ -896,7 +903,7 @@
                   <polyline points="16 18 22 12 16 6"></polyline>
                   <polyline points="8 6 2 12 8 18"></polyline>
                 </svg>
-                <span>Developer Tools</span>
+                <span data-i18n="devTools">Developer Tools</span>
                 <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
@@ -917,7 +924,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path>
                 </svg>
-                <span>Text &amp; Writing</span>
+                <span data-i18n="textWriting">Text &amp; Writing</span>
                 <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
@@ -939,7 +946,7 @@
                   </path>
                   <path d="M2 12h20"></path>
                 </svg>
-                <span>Design &amp; Styling</span>
+                <span data-i18n="designStyling">Design &amp; Styling</span>
                 <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
@@ -961,7 +968,7 @@
                   <line x1="10" y1="3" x2="10" y2="21"></line>
                   <line x1="14" y1="3" x2="14" y2="21"></line>
                 </svg>
-                <span>Math &amp; Converter</span>
+                <span data-i18n="mathConverter">Math &amp; Converter</span>
                 <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
@@ -1020,6 +1027,25 @@
             <span>Support on Ko-fi</span>
           </a>
         </div>
+
+        <!-- Mobile Drawer Language Selector -->
+        <div class="sidebar-lang-container" style="padding: 12px 16px; border-top: 1px solid var(--border-color); margin-top: 12px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span data-i18n="languageLabel">Language / Idioma</span>
+          </div>
+          <div class="prefs-sizer-pills prefs-lang-pills">
+            <button class="sizer-option-btn lang-option-btn active" data-lang="en" title="English" aria-label="English" aria-pressed="true">EN</button>
+            <button class="sizer-option-btn lang-option-btn" data-lang="es" title="Español" aria-label="Español" aria-pressed="false">ES</button>
+            <button class="sizer-option-btn lang-option-btn" data-lang="pt" title="Português" aria-label="Português" aria-pressed="false">PT</button>
+            <button class="sizer-option-btn lang-option-btn" data-lang="de" title="Deutsch" aria-label="Deutsch" aria-pressed="false">DE</button>
+            <button class="sizer-option-btn lang-option-btn" data-lang="fr" title="Français" aria-label="Français" aria-pressed="false">FR</button>
+          </div>
+        </div>
       </nav>
     </aside>
 
@@ -1056,11 +1082,11 @@
           <div class="ui-mode-capsule" id="ui-mode-capsule" role="radiogroup" aria-label="Experience Mode Switcher">
             <button type="button" class="ui-mode-pill active" data-mode="beginner" id="mode-btn-beginner" title="Everyday Mode: Simple, essential utilities with zero technical jargon">
               <span class="ui-mode-dot beginner"></span>
-              <span class="ui-mode-text">Everyday</span>
+              <span class="ui-mode-text" data-i18n="everyday">Everyday</span>
             </button>
             <button type="button" class="ui-mode-pill" data-mode="developer" id="mode-btn-developer" title="Developer Mode: Full suite with 46+ tools, code formatters and crypto pipelines">
               <span class="ui-mode-icon">⚡</span>
-              <span class="ui-mode-text">Developer</span>
+              <span class="ui-mode-text" data-i18n="developer">Developer</span>
             </button>
           </div>
         </div>
@@ -1075,7 +1101,7 @@
               <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
               <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
             </svg>
-            <span>Dashboard</span>
+            <span data-i18n="dashboard">Dashboard</span>
           </a>
 
           <!-- Mega Menu Trigger -->
@@ -1084,7 +1110,7 @@
               <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
               </svg>
-              <span>Tools</span>
+              <span data-i18n="tools">Tools</span>
               <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
@@ -1099,7 +1125,7 @@
                         <polyline points="16 18 22 12 16 6"></polyline>
                         <polyline points="8 6 2 12 8 18"></polyline>
                       </svg>
-                      Developer Tools
+                      <span data-i18n="devTools">Developer Tools</span>
                     </a>
                   </div>
                   <ul class="mega-tool-list" id="mega-list-dev">
@@ -1114,7 +1140,7 @@
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path>
                       </svg>
-                      Text &amp; Writing
+                      <span data-i18n="textWriting">Text &amp; Writing</span>
                     </a>
                   </div>
                   <ul class="mega-tool-list" id="mega-list-text">
@@ -1133,7 +1159,7 @@
                         </path>
                         <path d="M2 12h20"></path>
                       </svg>
-                      Design &amp; Styling
+                      <span data-i18n="designStyling">Design &amp; Styling</span>
                     </a>
                   </div>
                   <ul class="mega-tool-list" id="mega-list-design">
@@ -1151,7 +1177,7 @@
                         <line x1="10" y1="3" x2="10" y2="21"></line>
                         <line x1="14" y1="3" x2="14" y2="21"></line>
                       </svg>
-                      Math &amp; Converter
+                      <span data-i18n="mathConverter">Math &amp; Converter</span>
                     </a>
                   </div>
                   <ul class="mega-tool-list" id="mega-list-math">
@@ -1164,40 +1190,40 @@
               <div class="mega-menu-recents-bar" id="mega-recents-bar">
                 <div class="mega-recents-title">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                  <span>Recently Used:</span>
+                  <span data-i18n="recentlyUsed">Recently Used:</span>
                 </div>
                 <div class="mega-recents-list" id="mega-recents-list">
-                  <span style="font-size: 11.5px; color: var(--text-muted); padding: 3px 6px;">No tools visited yet</span>
+                  <span style="font-size: 11.5px; color: var(--text-muted); padding: 3px 6px;" data-i18n="noToolsVisited">No tools visited yet</span>
                 </div>
                 <!-- Interactive Surprise Me / Lucky Tool Action -->
                 <button class="mega-surprise-btn" id="mega-surprise-btn" title="Pick a random utility to test right now">
                   <span class="surprise-dice-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8" cy="8" r="1.2" fill="currentColor"></circle><circle cx="16" cy="8" r="1.2" fill="currentColor"></circle><circle cx="12" cy="12" r="1.2" fill="currentColor"></circle><circle cx="8" cy="16" r="1.2" fill="currentColor"></circle><circle cx="16" cy="16" r="1.2" fill="currentColor"></circle></svg></span>
-                  <span>Surprise Me</span>
+                  <span data-i18n="surpriseMe">Surprise Me</span>
                 </button>
               </div>
             </div>
           </div>
 
-          <a href="guides/index.html" class="nav-link guides-nav-link" id="desktop-guides-link">
+          <a href="/guides/" class="nav-link guides-nav-link" id="desktop-guides-link">
             <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
             </svg>
-            <span>Guides</span>
+            <span data-i18n="guides">Guides</span>
           </a>
 
-          <a class="nav-link tour-nav-link" href="landing.html" id="desktop-tour-link" title="Product Tour & Features Showcase">
+          <a class="nav-link tour-nav-link" href="/landing" id="desktop-tour-link" title="Product Tour & Features Showcase">
             <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
-            <span>Tour</span>
+            <span data-i18n="tour">Tour</span>
           </a>
 
           <a class="nav-link" href="#favorites" data-category="fav" id="desktop-cat-fav">
             <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
-            <span>Favorites</span>
+            <span data-i18n="favorites">Favorites</span>
             <span class="favorites-indicator" id="desktop-fav-count" style="display: none;">0</span>
           </a>
 
@@ -1208,7 +1234,7 @@
               <line x1="2" y1="8.5" x2="12" y2="12"></line>
               <line x1="22" y1="8.5" x2="12" y2="12"></line>
             </svg>
-            <span>Plans</span>
+            <span data-i18n="plans">Plans</span>
             <span class="nav-sparkle-pill">PRO</span>
           </a>
         </nav>
@@ -1228,9 +1254,56 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
-              <span class="search-pill-text">Search</span>
+              <span class="search-pill-text" data-i18n="search">Search</span>
               <kbd class="search-pill-kbd">Ctrl K</kbd>
             </button>
+
+            <div class="capsule-vsep"></div>
+
+            <!-- Prominent Language Selector Dropdown Menu -->
+            <div class="lang-dropdown-container">
+              <button class="control-btn lang-dropdown-btn" id="header-lang-btn" title="Select Language / Idioma" aria-label="Select Language" aria-expanded="false" aria-haspopup="menu" aria-controls="header-lang-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span class="lang-badge" id="header-lang-badge">EN</span>
+                <svg class="lang-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="lang-dropdown-menu" id="header-lang-menu" role="menu" aria-labelledby="header-lang-btn">
+                <div class="lang-menu-header" role="presentation">
+                  <span data-i18n="languageLabel">Language / Idioma</span>
+                </div>
+                <button class="lang-menu-option active" data-lang="en" role="menuitemradio" aria-checked="true">
+                  <span class="lang-flag" aria-hidden="true">🇺🇸</span>
+                  <span class="lang-label">English</span>
+                  <span class="lang-tick" aria-hidden="true">✓</span>
+                </button>
+                <button class="lang-menu-option" data-lang="es" role="menuitemradio" aria-checked="false">
+                  <span class="lang-flag" aria-hidden="true">🇪🇸</span>
+                  <span class="lang-label">Español</span>
+                  <span class="lang-tick" aria-hidden="true">✓</span>
+                </button>
+                <button class="lang-menu-option" data-lang="pt" role="menuitemradio" aria-checked="false">
+                  <span class="lang-flag" aria-hidden="true">🇧🇷</span>
+                  <span class="lang-label">Português</span>
+                  <span class="lang-tick" aria-hidden="true">✓</span>
+                </button>
+                <button class="lang-menu-option" data-lang="de" role="menuitemradio" aria-checked="false">
+                  <span class="lang-flag" aria-hidden="true">🇩🇪</span>
+                  <span class="lang-label">Deutsch</span>
+                  <span class="lang-tick" aria-hidden="true">✓</span>
+                </button>
+                <button class="lang-menu-option" data-lang="fr" role="menuitemradio" aria-checked="false">
+                  <span class="lang-flag" aria-hidden="true">🇫🇷</span>
+                  <span class="lang-label">Français</span>
+                  <span class="lang-tick" aria-hidden="true">✓</span>
+                </button>
+              </div>
+            </div>
 
             <div class="capsule-vsep"></div>
 
@@ -1272,8 +1345,8 @@
 
               <div class="header-prefs-menu" id="header-prefs-menu">
                 <div class="prefs-menu-header">
-                  <span class="prefs-menu-title">Preferences</span>
-                  <span class="prefs-menu-badge">Offline Sandbox</span>
+                  <span class="prefs-menu-title" data-i18n="preferences">Preferences</span>
+                  <span class="prefs-menu-badge" data-i18n="offlineSandbox">Offline Sandbox</span>
                 </div>
 
                 <!-- Aesthetics Modal Trigger -->
@@ -1286,8 +1359,8 @@
                     </svg>
                   </div>
                   <div class="prefs-item-content">
-                    <span class="prefs-item-title">Aesthetics Studio</span>
-                    <span class="prefs-item-desc">Themes, fonts &amp; synth sounds</span>
+                    <span class="prefs-item-title" data-i18n="aestheticsStudio">Aesthetics Studio</span>
+                    <span class="prefs-item-desc" data-i18n="aestheticsDesc">Themes, fonts &amp; synth sounds</span>
                   </div>
                   <svg class="prefs-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
@@ -1300,13 +1373,32 @@
                       <line x1="9" y1="20" x2="15" y2="20"></line>
                       <line x1="12" y1="4" x2="12" y2="20"></line>
                     </svg>
-                    <span>Interface Zoom Scale</span>
+                    <span data-i18n="interfaceZoom">Interface Zoom Scale</span>
                   </div>
                   <div class="prefs-sizer-pills">
                     <button class="sizer-option-btn" data-scale="0.85" aria-label="Set scale to 85%">85%</button>
                     <button class="sizer-option-btn active" data-scale="1.0" aria-label="Set scale to 100%">100%</button>
                     <button class="sizer-option-btn" data-scale="1.15" aria-label="Set scale to 115%">115%</button>
                     <button class="sizer-option-btn" data-scale="1.3" aria-label="Set scale to 130%">130%</button>
+                  </div>
+                </div>
+
+                <!-- Language Selection Section -->
+                <div class="prefs-sizer-group">
+                  <div class="prefs-sizer-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <span data-i18n="languageLabel">Language / Idioma</span>
+                  </div>
+                  <div class="prefs-sizer-pills prefs-lang-pills" id="header-lang-pills">
+                    <button class="sizer-option-btn lang-option-btn active" data-lang="en" title="English" aria-label="English" aria-pressed="true">EN</button>
+                    <button class="sizer-option-btn lang-option-btn" data-lang="es" title="Español" aria-label="Español" aria-pressed="false">ES</button>
+                    <button class="sizer-option-btn lang-option-btn" data-lang="pt" title="Português" aria-label="Português" aria-pressed="false">PT</button>
+                    <button class="sizer-option-btn lang-option-btn" data-lang="de" title="Deutsch" aria-label="Deutsch" aria-pressed="false">DE</button>
+                    <button class="sizer-option-btn lang-option-btn" data-lang="fr" title="Français" aria-label="Français" aria-pressed="false">FR</button>
                   </div>
                 </div>
 
@@ -1321,8 +1413,8 @@
                     </svg>
                   </div>
                   <div class="prefs-item-content">
-                    <span class="prefs-item-title">Flush Offline Cache</span>
-                    <span class="prefs-item-desc">Clear service worker cache &amp; reload</span>
+                    <span class="prefs-item-title" data-i18n="flushCache">Flush Offline Cache</span>
+                    <span class="prefs-item-desc" data-i18n="flushCacheDesc">Clear service worker cache &amp; reload</span>
                   </div>
                 </button>
               </div>
@@ -1344,12 +1436,12 @@
               </svg>
             </div>
             <div class="pwa-install-text">
-              <strong>Install OmniTool Hub on Desktop &amp; Mobile</strong>
-              <span>Instant offline access • 50+ privacy tools • Zero server uploads</span>
+              <strong data-i18n="installApp">Install OmniTool Hub on Desktop &amp; Mobile</strong>
+              <span data-i18n="pwaDesc">Instant offline access • 50+ privacy tools • Zero server uploads</span>
             </div>
           </div>
           <div class="pwa-install-actions">
-            <button id="pwa-install-btn" class="pwa-install-btn">⚡ Install Free App</button>
+            <button id="pwa-install-btn" class="pwa-install-btn" data-i18n="pwaInstallBtn">⚡ Install Free App</button>
             <button id="pwa-dismiss-btn" class="pwa-dismiss-btn" aria-label="Dismiss">✕</button>
           </div>
         </div>
@@ -1359,30 +1451,30 @@
           <div class="dashboard-hero">
             <div class="hero-badge-pill" id="dashboard-hero-badge">
               <span class="hero-badge-dot"></span>
-              <span id="hero-badge-text">100% Client-Side Sandbox • Zero Server Uploads</span>
+              <span id="hero-badge-text" data-i18n="zeroServer">100% Client-Side Sandbox • Zero Server Uploads</span>
               <span class="hero-badge-sparkle" id="hero-badge-icon">✦</span>
             </div>
-            <h1 id="dashboard-hero-title">All-in-One <span>OmniTool Hub</span></h1>
-            <p id="dashboard-hero-desc">Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
+            <h1 id="dashboard-hero-title" data-i18n="heroTitle">All-in-One <span>OmniTool Hub</span></h1>
+            <p id="dashboard-hero-desc" data-i18n="heroDesc">Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
             <div class="hero-metrics-strip">
               <div class="hero-metric-item">
                 <span class="hero-metric-num dynamic-tool-count" id="hero-tools-count">46+</span>
-                <span class="hero-metric-label">Offline Tools</span>
+                <span class="hero-metric-label" data-i18n="offlineTools">Offline Tools</span>
               </div>
               <div class="hero-metric-sep"></div>
               <div class="hero-metric-item">
                 <span class="hero-metric-num">0 ms</span>
-                <span class="hero-metric-label">Server Delay</span>
+                <span class="hero-metric-label" data-i18n="serverDelay">Server Delay</span>
               </div>
               <div class="hero-metric-sep"></div>
               <div class="hero-metric-item">
                 <span class="hero-metric-num">100%</span>
-                <span class="hero-metric-label">Client Privacy</span>
+                <span class="hero-metric-label" data-i18n="clientPrivacy">Client Privacy</span>
               </div>
               <div class="hero-metric-sep"></div>
               <button class="hero-lucky-btn" id="hero-surprise-btn" title="Pick a random utility to test right now">
                 <span class="lucky-dice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8" cy="8" r="1.2" fill="currentColor"></circle><circle cx="16" cy="8" r="1.2" fill="currentColor"></circle><circle cx="12" cy="12" r="1.2" fill="currentColor"></circle><circle cx="8" cy="16" r="1.2" fill="currentColor"></circle><circle cx="16" cy="16" r="1.2" fill="currentColor"></circle></svg></span>
-                <span>Surprise Me</span>
+                <span data-i18n="surpriseMe">Surprise Me</span>
               </button>
             </div>
             <div id="hero-mode-switch-callout" class="hero-mode-switch-callout"></div>
@@ -1406,49 +1498,49 @@
                 aria-label="Show all 46 tools"
                 data-tooltip="Show all 46 privacy-first offline utilities">
                 <span class="sfc-icon">🌐</span>
-                <span class="sfc-label">All</span>
+                <span class="sfc-label" data-i18n="filterAll">All</span>
                 <span class="sfc-count" id="sfc-count-all">46</span>
               </button>
               <button type="button" class="search-filter-chip" data-filter="tools" id="sfc-tools"
                 aria-label="Filter by single tools (26 items)"
                 data-tooltip="Single-purpose utilities (e.g. JWT Decoder, QR Scanner, Hasher)">
                 <span class="sfc-icon">⚡</span>
-                <span class="sfc-label">Single Tools</span>
+                <span class="sfc-label" data-i18n="filterSingle">Single Tools</span>
                 <span class="sfc-count" id="sfc-count-tools">26</span>
               </button>
               <button type="button" class="search-filter-chip" data-filter="suites" id="sfc-suites"
                 aria-label="Filter by tool suites (20 items)"
                 data-tooltip="All-in-one multi-utility studios & hubs (e.g. Crypto Suite, Data Formatter, Graphics Studio)">
                 <span class="sfc-icon">📦</span>
-                <span class="sfc-label">Tool Suites</span>
+                <span class="sfc-label" data-i18n="filterSuites">Tool Suites</span>
                 <span class="sfc-count" id="sfc-count-suites">20</span>
               </button>
               <button type="button" class="search-filter-chip" data-filter="features" id="sfc-features"
                 aria-label="Filter by interactive apps & workflows (13 items)"
                 data-tooltip="Visual builders, playgrounds & workflows (e.g. Pipeline Builder, PII Masker, Code Playground)">
                 <span class="sfc-icon">✨</span>
-                <span class="sfc-label">Interactive Apps</span>
+                <span class="sfc-label" data-i18n="filterInteractive">Interactive Apps</span>
                 <span class="sfc-count" id="sfc-count-features">13</span>
               </button>
               <button type="button" class="search-filter-chip" data-filter="pro" id="sfc-pro"
                 aria-label="Filter by PRO utilities (30 items)"
                 data-tooltip="Advanced professional-grade offline utilities with premium features">
                 <span class="sfc-icon">💎</span>
-                <span class="sfc-label">PRO</span>
+                <span class="sfc-label" data-i18n="filterPro">PRO</span>
                 <span class="sfc-count" id="sfc-count-pro">30</span>
               </button>
               <button type="button" class="search-filter-chip" data-filter="free" id="sfc-free"
                 aria-label="Filter by 100% free utilities (16 items)"
                 data-tooltip="100% free forever utilities with zero limits or ad gates">
                 <span class="sfc-icon">🆓</span>
-                <span class="sfc-label">Free</span>
+                <span class="sfc-label" data-i18n="filterFree">Free</span>
                 <span class="sfc-count" id="sfc-count-free">16</span>
               </button>
               <button type="button" class="search-filter-chip" data-filter="guides" id="sfc-guides"
                 aria-label="Filter by documentation guides (28 items)"
                 data-tooltip="Step-by-step developer tutorials, architecture guides, and offline recipes">
                 <span class="sfc-icon">📚</span>
-                <span class="sfc-label">Guides</span>
+                <span class="sfc-label" data-i18n="filterGuides">Guides</span>
                 <span class="sfc-count" id="sfc-count-guides">28</span>
               </button>
             </div>
@@ -1473,7 +1565,7 @@
                 <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-top: 4px;">Comprehensive In-Browser Tool Guides &amp; Tutorials</h2>
                 <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px; max-width: 620px;">Learn how to convert Word/Excel to PDF, encrypt with AES-256, format code, and generate RSA keys locally with zero server uploads.</p>
               </div>
-              <a href="guides/index.html" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #000; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 242, 254, 0.35); white-space: nowrap;">Browse All <span class="dynamic-guides-count">92</span> Guides &rarr;</a>
+              <a href="/guides/" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #000; font-weight: 800; font-size: 13.5px; text-decoration: none; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 242, 254, 0.35); white-space: nowrap;">Browse All <span class="dynamic-guides-count">92</span> Guides &rarr;</a>
             </div>
 
             <!-- Header with Title & Live Badge -->
@@ -1500,22 +1592,22 @@
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                   
-                    <a href="guides/word-pdf.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/word-pdf" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Word to PDF & PDF to Word</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Popular</span>
                     </a>
                   
-                    <a href="guides/sign-pdf.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/sign-pdf" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">E-Sign PDF & Signatures</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Essential</span>
                     </a>
                   
-                    <a href="guides/split-pdf.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/split-pdf" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Split PDF & Extract Pages</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Utility</span>
                     </a>
                   
-                    <a href="guides/compress-pdf.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/compress-pdf" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Compress PDF & Shrink Size</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">High-Demand</span>
                     </a>
@@ -1531,22 +1623,22 @@
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                   
-                    <a href="guides/aes-crypto.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/aes-crypto" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">AES-256-GCM Military Cipher</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Military</span>
                     </a>
                   
-                    <a href="guides/rsa-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/rsa-generator" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">RSA Key Pair Generator</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Keys</span>
                     </a>
                   
-                    <a href="guides/hash-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/hash-generator" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">SHA-256 / MD5 Checksums</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Integrity</span>
                     </a>
                   
-                    <a href="guides/password-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/password-generator" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Strong Password & Entropy</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Security</span>
                     </a>
@@ -1562,22 +1654,22 @@
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                   
-                    <a href="guides/box-shadow.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/box-shadow" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">CSS Box Shadow Multi-Layer</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Design DNA</span>
                     </a>
                   
-                    <a href="guides/gradient-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/gradient-generator" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">CSS Linear & Radial Gradients</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Creative</span>
                     </a>
                   
-                    <a href="guides/glassmorphism-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/glassmorphism-generator" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Glassmorphism Frosted Glass</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Modern UI</span>
                     </a>
                   
-                    <a href="guides/clip-path-generator.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/clip-path-generator" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">CSS Clip-Path Polygon Maker</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Shapes</span>
                     </a>
@@ -1593,22 +1685,22 @@
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                   
-                    <a href="guides/jwt-decoder.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/jwt-decoder" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">JWT Token Decoder & Expiry</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Auth</span>
                     </a>
                   
-                    <a href="guides/json-formatter.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/json-formatter" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">JSON Formatter, Lint & Minify</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Developer</span>
                     </a>
                   
-                    <a href="guides/sql-beautifier.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/sql-beautifier" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">SQL Query Formatter & Beautifier</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Database</span>
                     </a>
                   
-                    <a href="guides/regex-tester.html" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
+                    <a href="/guides/regex-tester" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 7px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.06)'; this.querySelector('.guide-link-title').style.color='var(--accent-cyan)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.02)'; this.querySelector('.guide-link-title').style.color='var(--text-main)';">
                       <span class="guide-link-title" style="font-size: 13px; font-weight: 600; color: var(--text-main); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;">Visual Regex Tester & Extractor</span>
                       <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: var(--text-muted); text-transform: uppercase;">Regex</span>
                     </a>
@@ -1632,107 +1724,107 @@
                   </div>
                   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
                     
-                      <a href="guides/scan-to-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/scan-to-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Camera Scan to PDF Document Creator
                       </a>
                     
-                      <a href="guides/pdf-ai.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-ai" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Client-Side AI PDF Summarizer & Translator
                       </a>
                     
-                      <a href="guides/repair-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/repair-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Corrupted PDF Repair & Stream Recovery
                       </a>
                     
-                      <a href="guides/sign-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/sign-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; E-Sign PDF & Digital Signature Studio
                       </a>
                     
-                      <a href="guides/excel-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/excel-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Excel to PDF & PDF to Excel Spreadsheet Converter
                       </a>
                     
-                      <a href="guides/html-to-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/html-to-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; HTML & Webpage to PDF Studio Converter
                       </a>
                     
-                      <a href="guides/images-to-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/images-to-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Images to PDF & Photo to PDF Compiler
                       </a>
                     
-                      <a href="guides/merge-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/merge-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Merge PDF & Combine Documents Studio
                       </a>
                     
-                      <a href="guides/pdf-searcher.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-searcher" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Multi-PDF Searcher & OCR
                       </a>
                     
-                      <a href="guides/pdf-forms.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-forms" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF AcroForm Form Filler & Flattening
                       </a>
                     
-                      <a href="guides/pdf-security.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-security" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF AES-256 Encryption & Password Unlock
                       </a>
                     
-                      <a href="guides/compress-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/compress-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF Compression & File Size Reducer
                       </a>
                     
-                      <a href="guides/pdf-editor-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-editor-suite" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF Editor, Sign & Vector Markup Studio
                       </a>
                     
-                      <a href="guides/pdf-annotate.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-annotate" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF Markup & Vector Annotation Studio
                       </a>
                     
-                      <a href="guides/pdf-organizer.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-organizer" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF Page Organizer, Rotate & Reorder Studio
                       </a>
                     
-                      <a href="guides/redact-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/redact-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF Redaction & PII Privacy Sanitizer
                       </a>
                     
-                      <a href="guides/pdf-security-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-security-suite" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF Security, Repair & ISO Archival Suite
                       </a>
                     
-                      <a href="guides/pdf-to-markdown.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-to-markdown" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF to Markdown & Plain Text Extractor
                       </a>
                     
-                      <a href="guides/pdf-utilities.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-utilities" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF Toolbox (Split, Merge, Convert & Compress)
                       </a>
                     
-                      <a href="guides/pdf-watermark.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-watermark" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF Watermark & Page Numbering Studio
                       </a>
                     
-                      <a href="guides/pdf-to-pdfa.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-to-pdfa" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PDF/A Archival Converter
                       </a>
                     
-                      <a href="guides/pptx-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pptx-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; PowerPoint to PDF & PDF to PPTX Presentation Converter
                       </a>
                     
-                      <a href="guides/split-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/split-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Split PDF & Extract Pages Online
                       </a>
                     
-                      <a href="guides/pdf-converter-hub.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pdf-converter-hub" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Universal Document & PDF Converter Hub
                       </a>
                     
-                      <a href="guides/compare-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/compare-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Visual & Textual PDF Document Diff Tool
                       </a>
                     
-                      <a href="guides/word-pdf.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/word-pdf" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Word to PDF & PDF to Word Converter
                       </a>
                     
@@ -1747,35 +1839,35 @@
                   </div>
                   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
                     
-                      <a href="guides/aes-crypto.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/aes-crypto" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; AES-256-GCM Symmetric Encryption Studio
                       </a>
                     
-                      <a href="guides/pii-anonymizer.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pii-anonymizer" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Client-Side PII Masker & Anonymizer
                       </a>
                     
-                      <a href="guides/hash-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/hash-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Cryptographic Hash Generator
                       </a>
                     
-                      <a href="guides/crypto-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/crypto-suite" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Cryptography Suite
                       </a>
                     
-                      <a href="guides/uuid-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/uuid-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; RFC 4122 UUID v4 Bulk GUID Generator
                       </a>
                     
-                      <a href="guides/rsa-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/rsa-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; RSA Key Pair Generator & PKCS#8 Studio
                       </a>
                     
-                      <a href="guides/security-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/security-suite" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Security & Passwords Suite
                       </a>
                     
-                      <a href="guides/password-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/password-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Strong Password Generator & Entropy Checker
                       </a>
                     
@@ -1790,51 +1882,51 @@
                   </div>
                   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
                     
-                      <a href="guides/color-lab.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/color-lab" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Color Lab & Contrast Suite
                       </a>
                     
-                      <a href="guides/color-shades.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/color-shades" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Color Shades & Tints Generator
                       </a>
                     
-                      <a href="guides/box-shadow.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/box-shadow" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; CSS Box Shadow Generator Guide & Layer Builder
                       </a>
                     
-                      <a href="guides/clip-path-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/clip-path-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; CSS Clip-Path Generator & Polygon Shape Maker
                       </a>
                     
-                      <a href="guides/gradient-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/gradient-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; CSS Gradient Generator
                       </a>
                     
-                      <a href="guides/css-studio.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/css-studio" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; CSS Studio Suite
                       </a>
                     
-                      <a href="guides/glassmorphism-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/glassmorphism-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Glassmorphism CSS Generator Guide & Frosted Glass UI
                       </a>
                     
-                      <a href="guides/graphics-studio.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/graphics-studio" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Graphics Designer & Screenshot Studio
                       </a>
                     
-                      <a href="guides/color-palette.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/color-palette" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Harmonic Color Palette Generator & WCAG Contrast
                       </a>
                     
-                      <a href="guides/color-extractor.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/color-extractor" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Image Color Palette Extractor & Eyedropper
                       </a>
                     
-                      <a href="guides/favicon-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/favicon-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Multi-Resolution Favicon & PWA App Icon Suite
                       </a>
                     
-                      <a href="guides/svg-animator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/svg-animator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; SVG Animation Studio
                       </a>
                     
@@ -1849,123 +1941,123 @@
                   </div>
                   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
                     
-                      <a href="guides/base64.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/base64" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Base64 Encoder & Decoder Studio
                       </a>
                     
-                      <a href="guides/curl-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/curl-converter" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; cURL to Multi-Language Code Converter
                       </a>
                     
-                      <a href="guides/temp-mail.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/temp-mail" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Disposable Temp Mail Client
                       </a>
                     
-                      <a href="guides/qr-studio.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/qr-studio" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Dynamic QR & Barcode Studio
                       </a>
                     
-                      <a href="guides/qr-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/qr-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Dynamic QR Code Studio
                       </a>
                     
-                      <a href="guides/code-playground.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/code-playground" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; HTML/CSS/JS Live Playground
                       </a>
                     
-                      <a href="guides/image-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/image-converter" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Image Optimizer & Converter
                       </a>
                     
-                      <a href="guides/json-to-types.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/json-to-types" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; JSON to TypeScript, Python & Go Interface Converter
                       </a>
                     
-                      <a href="guides/json-formatter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/json-formatter" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; JSON, SQL & CSV Data Formatter Suite
                       </a>
                     
-                      <a href="guides/json-yaml-csv.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/json-yaml-csv" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; JSON, YAML & CSV Data Converter Studio
                       </a>
                     
-                      <a href="guides/jwt-decoder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/jwt-decoder" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; JWT Decoder & Token Parser
                       </a>
                     
-                      <a href="guides/qr-scanner.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/qr-scanner" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Live Camera & Image QR Code Scanner
                       </a>
                     
-                      <a href="guides/markdown-preview.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/markdown-preview" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Live Markdown Editor & Previewer
                       </a>
                     
-                      <a href="guides/seo-previewer.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/seo-previewer" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Meta Tag & SEO Previewer
                       </a>
                     
-                      <a href="guides/mock-data-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/mock-data-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Private CSV/JSON Mock Data Generator
                       </a>
                     
-                      <a href="guides/regex-extractor.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/regex-extractor" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Regex Match Extractor & Dynamic Replacer
                       </a>
                     
-                      <a href="guides/robots-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/robots-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Robots.txt Visual Builder & AI Bot Shield
                       </a>
                     
-                      <a href="guides/pipeline-builder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/pipeline-builder" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Smart Chain Pipeline Builder
                       </a>
                     
-                      <a href="guides/lorem-generator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/lorem-generator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Smart Lorem Ipsum & Typographic Dummy Text Generator
                       </a>
                     
-                      <a href="guides/sql-beautifier.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/sql-beautifier" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; SQL Query Formatter & Beautifier Studio
                       </a>
                     
-                      <a href="guides/payment-guide.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/payment-guide" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Step-by-Step Payment & License Activation
                       </a>
                     
-                      <a href="guides/text-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/text-converter" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Text Case Converter & Capitalization Studio
                       </a>
                     
-                      <a href="guides/text-encoder-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/text-encoder-suite" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Text Cases & Encoder Suite
                       </a>
                     
-                      <a href="guides/text-diff.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/text-diff" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Text Diff Comparison Tool
                       </a>
                     
-                      <a href="guides/text-analyzer.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/text-analyzer" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Text Readability & Analyzer
                       </a>
                     
-                      <a href="guides/formatter-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/formatter-suite" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Universal Code & Data Formatter Suite
                       </a>
                     
-                      <a href="guides/url-encoder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/url-encoder" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; URL Percent-Encoder & Decoder
                       </a>
                     
-                      <a href="guides/url-parser.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/url-parser" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; URL Query Parser & Builder
                       </a>
                     
-                      <a href="guides/cron-builder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/cron-builder" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Visual Cron Expression Builder & Explainer
                       </a>
                     
-                      <a href="guides/regex-tester.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/regex-tester" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Visual Regex & Extractor Suite
                       </a>
                     
@@ -1980,35 +2072,35 @@
                   </div>
                   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
                     
-                      <a href="guides/datetime-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/datetime-suite" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Date & Time Suite
                       </a>
                     
-                      <a href="guides/date-calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/date-calculator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Date Duration & Business Days Calculator
                       </a>
                     
-                      <a href="guides/ip-subnet-calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/ip-subnet-calculator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; IP Subnet & MAC Address Calculator
                       </a>
                     
-                      <a href="guides/subnet-calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/subnet-calculator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; IPv4 Subnet CIDR Calculator & Network Planner
                       </a>
                     
-                      <a href="guides/mac-lookup.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/mac-lookup" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; MAC Address OUI Vendor Lookup
                       </a>
                     
-                      <a href="guides/calculator.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/calculator" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Scientific Calculator
                       </a>
                     
-                      <a href="guides/unit-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/unit-converter" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Unit Converter
                       </a>
                     
-                      <a href="guides/epoch-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/epoch-converter" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Unix Epoch Timestamp Converter & Timezone
                       </a>
                     
@@ -2023,35 +2115,35 @@
                   </div>
                   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px;">
                     
-                      <a href="guides/audio-suite.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/audio-suite" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Audio Studio, Transcoder & Waveform Trimmer
                       </a>
                     
-                      <a href="guides/screen-recorder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/screen-recorder" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Browser Screen & Tab Recorder
                       </a>
                     
-                      <a href="guides/screenshot-capture.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/screenshot-capture" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Browser Screenshot & Window Mockup Studio
                       </a>
                     
-                      <a href="guides/audio-converter.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/audio-converter" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; In-Browser Universal Audio Converter
                       </a>
                     
-                      <a href="guides/mp4-to-mp3.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/mp4-to-mp3" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; MP4 to MP3 Audio Track Extractor
                       </a>
                     
-                      <a href="guides/video-speed.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/video-speed" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Video Playback Speed & Pitch Controller
                       </a>
                     
-                      <a href="guides/video-to-gif.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/video-to-gif" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Video to Animated GIF Converter
                       </a>
                     
-                      <a href="guides/voice-recorder.html" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
+                      <a href="/guides/voice-recorder" style="color: var(--text-muted); text-decoration: none; font-size: 12.5px; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; padding: 3px 0;" onmouseover="this.style.color='var(--accent-cyan)';" onmouseout="this.style.color='var(--text-muted)';">
                         &bull; Voice Recorder & Audio Waveform Studio
                       </a>
                     
@@ -2067,7 +2159,7 @@
                 <span>✨ Show All <span class="dynamic-guides-count">92</span> Guides &amp; Full Catalog</span>
                 <span style="font-size: 11px;">▾</span>
               </button>
-              <a href="guides/index.html" style="color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">
+              <a href="/guides/" style="color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">
                 <span>Open Searchable Guides Hub</span>
                 <span>&rarr;</span>
               </a>
@@ -2103,7 +2195,7 @@
               </div>
             </div>
             <div class="pgb-actions">
-              <a href="guides/payment-guide.html" target="_blank" class="tool-btn secondary" style="font-size: 12.5px; height: 38px; text-decoration: none;">Read Full Guide</a>
+              <a href="/guides/payment-guide" target="_blank" class="tool-btn secondary" style="font-size: 12.5px; height: 38px; text-decoration: none;">Read Full Guide</a>
               <button type="button" class="tool-btn primary" onclick="app.openCheckout('lifetime', 'guide')" style="font-size: 12.5px; height: 38px;">Guided Checkout</button>
             </div>
           </div>
@@ -2150,12 +2242,12 @@
               style="padding: 32px; border-radius: 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; text-align: left; position: relative;">
               <div>
                 <div
-                  style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+                  style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;" data-i18n="starterPlan">
                   Starter</div>
-                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">Free Plan
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;" data-i18n="freePlan">Free Plan
                 </h2>
                 <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">$0 <span
-                    style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ forever</span></div>
+                    style="font-size: 14px; font-weight: 400; color: var(--text-muted);" data-i18n="perForever">/ forever</span></div>
                 <ul
                   style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
@@ -2170,24 +2262,24 @@
               </div>
               <button class="tool-btn secondary" id="plan-btn-free"
                 style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px;"
-                disabled>Current Plan</button>
+                disabled data-i18n="currentPlanBtn">Current Plan</button>
             </div>
 
             <!-- LIFETIME PASS -->
             <div class="glass-card plan-card"
               style="padding: 32px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 242, 254, 0.2); display: flex; flex-direction: column; justify-content: space-between; text-align: left; position: relative; box-shadow: 0 0 20px rgba(0, 242, 254, 0.05);">
               <div
-                style="position: absolute; top: 12px; right: 12px; font-size: 9px; font-weight: 800; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.12); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(0, 242, 254, 0.2); text-transform: uppercase;">
+                style="position: absolute; top: 12px; right: 12px; font-size: 9px; font-weight: 800; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.12); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(0, 242, 254, 0.2); text-transform: uppercase;" data-i18n="bestValue">
                 Best Value</div>
               <div>
                 <div
                   style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
                   Developer Pass</div>
-                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">Lifetime Pass
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;" data-i18n="proLifetime">Lifetime Pass
                 </h2>
                 <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">
                   <span id="plan-price-lifetime-display">$24.99</span>
-                  <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ one-time</span>
+                  <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);" data-i18n="perOnce">/ one-time</span>
                 </div>
                 <ul
                   style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
@@ -2210,7 +2302,7 @@
                 </div>
               </div>
               <button class="tool-btn primary" id="plan-btn-lifetime" onclick="app.openCheckout('lifetime')"
-                style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px;">Buy
+                style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px;" data-i18n="buyLifetimeBtn">Buy
                 Lifetime Pass ($24.99)</button>
             </div>
 
@@ -2218,17 +2310,17 @@
             <div class="glass-card plan-card"
               style="padding: 32px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(157, 78, 221, 0.25); display: flex; flex-direction: column; justify-content: space-between; text-align: left; position: relative; box-shadow: 0 0 20px rgba(157, 78, 221, 0.05);">
               <div
-                style="position: absolute; top: 12px; right: 12px; font-size: 9px; font-weight: 800; color: var(--accent-purple); background: rgba(157, 78, 221, 0.12); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(157, 78, 221, 0.2); text-transform: uppercase;">
+                style="position: absolute; top: 12px; right: 12px; font-size: 9px; font-weight: 800; color: var(--accent-purple); background: rgba(157, 78, 221, 0.12); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(157, 78, 221, 0.2); text-transform: uppercase;" data-i18n="adFreeBadge">
                 100% Ad-Free</div>
               <div>
                 <div
                   style="font-size: 11px; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
                   Power User</div>
-                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;">Pro Monthly
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0;" data-i18n="proMonthly">Pro Monthly
                 </h2>
                 <div style="font-size: 28px; font-weight: 800; color: var(--text-main); margin-bottom: 20px;">
                   <span id="plan-price-monthly-display">$4.99</span>
-                  <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);">/ month</span>
+                  <span style="font-size: 14px; font-weight: 400; color: var(--text-muted);" data-i18n="perMonth">/ month</span>
                 </div>
                 <ul
                   style="list-style: none; padding: 0; margin: 0 20px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
@@ -2250,7 +2342,7 @@
                 </div>
               </div>
               <button class="tool-btn primary" id="plan-btn-monthly" onclick="app.openCheckout('monthly')"
-                style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px; border-color: #9d4edd; background: rgba(157, 78, 221, 0.15); color: #c084fc;">Subscribe
+                style="width: 100%; justify-content: center; height: 44px; font-weight: 700; border-radius: 8px; border-color: #9d4edd; background: rgba(157, 78, 221, 0.15); color: #c084fc;" data-i18n="subscribeMonthlyBtn">Subscribe
                 Monthly ($4.99/mo)</button>
             </div>
 
@@ -2258,9 +2350,9 @@
 
           <div class="plans-footer"
             style="padding: 20px; border-radius: 12px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto; text-align: left;">
-            <h4 style="margin: 0 0 6px 0; font-size: 14px; color: var(--text-main); font-weight: 700;">🔑 Already backed
+            <h4 style="margin: 0 0 6px 0; font-size: 14px; color: var(--text-main); font-weight: 700;" data-i18n="alreadyBacked">🔑 Already backed
               us or have an activation code?</h4>
-            <p style="margin: 0 0 12px 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Enter your
+            <p style="margin: 0 0 12px 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;" data-i18n="enterPasscodeHint">Enter your
               activation passcode below to unlock your Pro or Lifetime membership status.</p>
             <form id="plans-activation-form" style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;"
               onsubmit="event.preventDefault();">
@@ -2268,12 +2360,12 @@
                 style="height: 38px; font-size: 13px; flex-grow: 1; min-width: 260px;" placeholder="Enter 12-digit UPI UTR, Crypto TXID, or License Key"
                 autocomplete="off" spellcheck="false">
               <button type="submit" class="tool-btn primary" id="plans-activate-btn"
-                style="height: 38px; white-space: nowrap; font-weight: 700; border-radius: 8px;">Activate
+                style="height: 38px; white-space: nowrap; font-weight: 700; border-radius: 8px;" data-i18n="activateLicenseBtn">Activate
                 License</button>
             </form>
             <div style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--text-muted);">
-              <span>Supports 12-digit UPI UTR, Crypto Hash, and Gumroad Keys</span>
-              <a href="guides/payment-guide.html" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-weight: 700;">Where to find my code? &rarr;</a>
+              <span data-i18n="codeSupportHint">Supports 12-digit UPI UTR, Crypto Hash, and Gumroad Keys</span>
+              <a href="/guides/payment-guide" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-weight: 700;" data-i18n="whereCodeLink">Where to find my code? &rarr;</a>
             </div>
           </div>
         </div>
@@ -2292,30 +2384,30 @@
                 </svg>
                 <span>OmniTool Hub</span>
               </div>
-              <p class="footer-tagline">Secure, instant, client-side utility suite for developers and designers.</p>
+              <p class="footer-tagline" data-i18n="footerDesc">Secure, instant, client-side utility suite for developers and designers.</p>
             </div>
 
             <div class="footer-center">
               <div class="footer-links">
-                <a href="landing.html" class="footer-link" style="color: var(--accent-cyan); font-weight: 700;">Product Tour</a>
+                <a href="/landing" class="footer-link" data-i18n="tour" style="color: var(--accent-cyan); font-weight: 700;">Product Tour</a>
                 <span class="footer-divider">•</span>
-                <a href="#dashboard" class="footer-link" onclick="event.preventDefault(); app.selectCategory('all');">Dashboard</a>
+                <a href="#dashboard" class="footer-link" data-i18n="dashboard" onclick="event.preventDefault(); app.selectCategory('all');">Dashboard</a>
                 <span class="footer-divider">•</span>
-                <a href="guides/index.html" class="footer-link" style="color: var(--accent-cyan); font-weight: 700;">Guides &amp; Tutorials</a>
+                <a href="/guides/" class="footer-link" data-i18n="guides" style="color: var(--accent-cyan); font-weight: 700;">Guides &amp; Tutorials</a>
                 <span class="footer-divider">•</span>
-                <a href="#favorites" class="footer-link" onclick="event.preventDefault(); app.selectCategory('fav');">Favorites</a>
+                <a href="#favorites" class="footer-link" data-i18n="favorites" onclick="event.preventDefault(); app.selectCategory('fav');">Favorites</a>
                 <span class="footer-divider">•</span>
-                <a href="#about" class="footer-link">About</a>
+                <a href="#about" class="footer-link" data-i18n="about">About</a>
                 <span class="footer-divider">•</span>
-                <a href="#contact" class="footer-link">Contact</a>
+                <a href="#contact" class="footer-link" data-i18n="contact">Contact</a>
                 <span class="footer-divider">•</span>
-                <a href="#privacy" class="footer-link">Privacy Policy</a>
+                <a href="#privacy" class="footer-link" data-i18n="privacy">Privacy Policy</a>
                 <span class="footer-divider">•</span>
-                <a href="#terms" class="footer-link">Terms</a>
+                <a href="#terms" class="footer-link" data-i18n="terms">Terms</a>
                 <span class="footer-divider">•</span>
-                <a href="#refund" class="footer-link">Refund Policy</a>
+                <a href="#refund" class="footer-link" data-i18n="refund">Refund Policy</a>
                 <span class="footer-divider">•</span>
-                <a href="#cookies" class="footer-link">Cookie Policy</a>
+                <a href="#cookies" class="footer-link" data-i18n="cookies">Cookie Policy</a>
               </div>
               <div class="footer-copyright">&copy; 2026 OmniTool Hub &bull; A <a href="https://worldsneed.com" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">WorldsNeed</a> Initiative. All operations run 100% locally in your browser.
               </div>
@@ -2341,7 +2433,7 @@
               </div>
               <div class="footer-status-badge">
                 <span class="status-dot"></span>
-                <span>Offline-First / PWA Ready</span>
+                <span data-i18n="pwaReady">Offline-First / PWA Ready</span>
               </div>
             </div>
           </div>
@@ -2356,7 +2448,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Core JavaScript controllers (Razorpay SDK loads on-demand upon checkout) -->
-  <script src="/app.js?v=2.1.5" defer></script>
+  <script src="/app.js?v=2.2.0" defer></script>
 
   <!-- Vercel Web Analytics -->
   <script>

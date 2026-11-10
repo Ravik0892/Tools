@@ -30,6 +30,9 @@
 /(style.css|app.js)
   Cache-Control: public, max-age=0, must-revalidate
 
+/guides/*
+  Cache-Control: public, max-age=0, must-revalidate
+
 /tools/*
   Cache-Control: public, max-age=0, must-revalidate
 

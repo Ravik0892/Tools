@@ -31,3 +31,13 @@ The coding agent is responsible for making the interface functional.
 - **No Automated Browser Subagents**: To save time, effort, and credits, and to allow the user to learn from the verification process, the AI agent MUST NOT run browser subagents or automated browser testing tasks itself.
 - **Manual Verification Checklists**: Instead of verifying changes itself, the agent must write clear step-by-step instructions for the user to perform manual tests.
 - **Console & Screen Diagnostics**: Provide the user with exact JavaScript commands to execute in their browser Developer Console (if applicable) and describe what visual states, logs, or file downloads to look out for.
+
+## 🛡️ Responsive Viewport Discipline & Zero Horizontal Overflow Standard
+All AI agents modifying layouts, headers, navbars, modals, or tool grids must strictly follow:
+1. **Never Cause Horizontal Overflow**: No element should exceed 100vw or cause horizontal scrollbars. Enforce `overflow-x: clip; max-width: 100vw;` on root containers.
+2. **Progressive Responsive Header Hierarchy**:
+   - `>= 1380px`: Full layout with Logo, Clock, Mode Switcher, Nav Menu, Search with Ctrl+K, Controls.
+   - `1180px - 1379px`: Hide clock, hide Ctrl+K badge, snug nav items, reduce padding.
+   - `1024px - 1179px`: Collapse search into circular icon button, hide secondary nav links (Tour), tighten mode capsule.
+   - `< 1024px`: Completely hide desktop nav (`.desktop-nav-menu: none !important`), activate mobile drawer trigger (`#sidebar-open-btn: flex !important`).
+3. **No Multi-Flex-Shrink-0 Collisions**: Avoid multiple wide non-shrinking elements in the same flex row that sum to > 100% viewport width. Use elastic shrinking (`flex-shrink: 1`) on the centered nav.

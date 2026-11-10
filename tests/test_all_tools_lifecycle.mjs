@@ -60,7 +60,8 @@ const createMockElement = (tag = 'div') => {
     getBoundingClientRect: () => ({ width: 100, height: 100, top: 0, left: 0, bottom: 100, right: 100 }),
     focus: () => {},
     blur: () => {},
-    click: () => {}
+    click: () => {},
+    closest: () => createMockElement()
   };
   return el;
 };

@@ -117,6 +117,7 @@ self.addEventListener("fetch", (e) => {
     url.pathname.endsWith(".html") ||
     url.pathname.endsWith("/") ||
     url.pathname.includes("/tools/") ||
+    url.pathname.startsWith("/guides") ||
     url.pathname === "/landing" ||
     url.pathname === "/welcome" ||
     url.pathname === "/showcase"
@@ -130,11 +131,20 @@ self.addEventListener("fetch", (e) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
         }
         return networkResponse;
-      }).catch(() => {
+      }).catch(async () => {
         if (url.pathname === "/landing" || url.pathname === "/welcome" || url.pathname === "/showcase") {
           return caches.match("landing.html");
         }
-        return caches.match(e.request);
+        const cached = await caches.match(e.request);
+        if (cached) return cached;
+        if (url.pathname.startsWith("/guides")) {
+          const stripped = url.pathname.replace(/\/index\.html$/, "").replace(/\/$/, "");
+          const cleanHtml = await caches.match(stripped + ".html");
+          if (cleanHtml) return cleanHtml;
+          const dirIndex = await caches.match(stripped + "/index.html");
+          if (dirIndex) return dirIndex;
+        }
+        return cached;
       })
     );
     return;

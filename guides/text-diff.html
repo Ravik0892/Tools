@@ -45,43 +45,6 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Does this Text Diff Comparison Tool upload any files or data to remote servers?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. All calculations, transformations, and processing run 100% inside your local web browser using JavaScript and HTML5 Canvas. Your sensitive information never leaves your device."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I use this tool offline without an active internet connection?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Once the web application is loaded, all core utilities operate offline in air-gapped environments without external network dependencies."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What browsers and operating systems are supported?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "OmniTool Hub is fully compatible with modern versions of Google Chrome, Mozilla Firefox, Apple Safari, Microsoft Edge, and Android/iOS mobile browsers."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are there limits on file sizes or processing counts?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "There are no arbitrary paywalls or artificial caps. Because execution relies on your local device RAM and CPU, performance scales directly with your system hardware."
-      }
-    }
-  ]
-},
-      {
         "@type": "BreadcrumbList",
         "itemListElement": [
           {
@@ -287,6 +250,34 @@
     .nav-launch-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Language Switcher Capsule */
+    .lang-switch-capsule {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2px 4px;
+      gap: 2px;
+      align-items: center;
+    }
+    .lang-switch-capsule .lang-btn {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 12px;
+      transition: all 0.15s ease;
+    }
+    .lang-switch-capsule .lang-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .lang-switch-capsule .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
     }
 
     /* Breadcrumbs */
@@ -655,7 +646,7 @@
       transform: translateY(-1px);
     }
 
-        .live-guide-tool-viewport {
+    .live-guide-tool-viewport {
       padding: 20px;
       position: relative;
       max-height: 580px;
@@ -999,300 +990,6 @@
       border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-  
-    /* Key Property Specifications Matrix */
-    .specs-table-wrap {
-      overflow-x: auto;
-      margin: 24px 0 32px 0;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      background: rgba(10, 14, 23, 0.65);
-    }
-    .specs-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-    .specs-table th {
-      padding: 14px;
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--accent-cyan);
-      border-bottom: 1px solid var(--border-color);
-      background: rgba(0, 242, 254, 0.04);
-    }
-    .specs-table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border-color);
-      font-size: 13.5px;
-      color: var(--text-muted);
-    }
-    .specs-table tr:last-child td {
-      border-bottom: none;
-    }
-    /* Frequently Asked Questions */
-    .faq-accordion {
-      margin: 24px 0 36px 0;
-    }
-    .faq-item {
-      margin-bottom: 16px;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 18px 20px;
-      background: rgba(255, 255, 255, 0.02);
-      transition: border-color 0.2s ease;
-    }
-    .faq-item:hover {
-      border-color: rgba(0, 242, 254, 0.3);
-    }
-    .faq-question {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      margin-bottom: 8px;
-    }
-    .faq-answer {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin: 0;
-    }
-    /* Tab Sections & Badges */
-    .tab-section {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .tab-title {
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .tab-badge {
-      font-size: 11px;
-      background: var(--accent-purple);
-      color: #fff;
-      padding: 2px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-    .info-box {
-      background: rgba(0, 242, 254, 0.04);
-      border: 1px solid rgba(0, 242, 254, 0.2);
-      border-radius: 10px;
-      padding: 18px;
-      margin: 28px 0;
-    }
-    .info-box strong {
-      color: var(--accent-cyan);
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14.5px;
-    }
-    /* Related Guides Grid */
-    .related-section {
-      margin-top: 50px;
-      padding-top: 36px;
-      border-top: 1px solid var(--border-color);
-    }
-    .related-heading {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .related-heading a {
-      font-size: 13px;
-      color: var(--accent-cyan);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 16px;
-    }
-    .related-card {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 18px;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.2s ease;
-    }
-    .related-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0, 242, 254, 0.4);
-      background: rgba(0, 242, 254, 0.03);
-    }
-    .related-badge {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .related-title {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 8px;
-      line-height: 1.35;
-    }
-    .related-read {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      margin-top: auto;
-      font-weight: 600;
-    }
-    .related-card:hover .related-read {
-      color: var(--accent-cyan);
-    }
-    /* Interactive Poster & Lightbox Modal */
-    .poster-interactive-container {
-      position: relative;
-      cursor: zoom-in;
-      overflow: hidden;
-      background: #080c14;
-    }
-    .poster-interactive-container:hover .poster-zoom-hint {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .poster-zoom-hint {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(14, 19, 31, 0.9);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 242, 254, 0.4);
-      color: var(--accent-cyan);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 11.5px;
-      font-weight: 700;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      opacity: 0.9;
-      transform: translateY(0);
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    }
-    .poster-btn {
-      background: rgba(0, 242, 254, 0.1);
-      border: 1px solid rgba(0, 242, 254, 0.35);
-      color: var(--accent-cyan);
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      font-family: inherit;
-    }
-    .poster-btn:hover {
-      background: rgba(0, 242, 254, 0.2);
-      border-color: var(--accent-cyan);
-      transform: translateY(-1px);
-    }
-    .poster-zoom-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 999999;
-      background: rgba(5, 7, 12, 0.97);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      flex-direction: column;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-    .poster-zoom-modal.active {
-      display: flex;
-      opacity: 1;
-    }
-    .zoom-modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--border-color);
-      background: rgba(14, 19, 31, 0.95);
-      z-index: 10;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .zoom-ctrl-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #f3f4f6;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-    }
-    .zoom-ctrl-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-      border-color: rgba(255, 255, 255, 0.35);
-      color: #fff;
-    }
-    .zoom-stage-viewport {
-      flex: 1;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      cursor: grab;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    .zoom-stage-viewport:active {
-      cursor: grabbing;
-    }
-    .zoom-stage-img {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1200px;
-      height: 800px;
-      transform-origin: 0 0;
-      will-change: transform;
-      pointer-events: none;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85);
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
   </style>
 </head>
 <body>
@@ -1300,16 +997,22 @@
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All 50 Guides</a>
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#tool/text-diff" class="nav-launch-btn">🚀 Launch Text Diff Tool</a>
+        <!-- Language Switcher Capsule -->
+        <div class="lang-switch-capsule">
+          <a href="/guides/text-diff" class="lang-btn active" title="English">EN</a>
+          <a href="/guides/es/" class="lang-btn" title="Español">ES</a>
+          <a href="/guides/pt/" class="lang-btn" title="Português">PT</a>
+        </div>
+        <a href="/guides/" class="nav-link-btn">📚 All 50 Guides</a>
+        <a href="/#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="#tool/text-diff" class="nav-launch-btn">🚀 Launch Text Diff Tool</a>
       </div>
     </div>
   </nav>
@@ -1317,9 +1020,9 @@
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">🏠 Home</a>
+      <a href="/">🏠 Home</a>
       <span>/</span>
-      <a href="index.html">Guides Hub</a>
+      <a href="/guides/">Guides Hub</a>
       <span>/</span>
       <span class="current">Text Diff Comparison Tool</span>
     </nav>
@@ -1345,10 +1048,10 @@
         </div>
         <div class="live-tool-quick-links">
           <a href="#guide-article" class="skip-to-guide-link" title="Jump straight to comprehensive written guide">📖 Skip to Guide &darr;</a>
-            <button type="button" class="toggle-tool-collapse-btn" id="toggle-tool-collapse-btn" title="Toggle Live Tool Viewport" aria-expanded="true">
-              <span class="toggle-icon">▾</span> <span class="toggle-text">Collapse Tool</span>
-            </button>
-            <a href="../index.html#tool/text-diff" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+          <button type="button" class="toggle-tool-collapse-btn" id="toggle-tool-collapse-btn" title="Toggle Live Tool Viewport" aria-expanded="true">
+            <span class="toggle-icon">▾</span> <span class="toggle-text">Collapse Tool</span>
+          </button>
+          <a href="/#tool/text-diff" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
       <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
@@ -1431,80 +1134,30 @@
         Diff algorithms run entirely in JavaScript within your browser window, making this tool safe for comparing proprietary source code or private logs.
       </div>
 
-      
-      <h2>Implementation Guide &amp; Technical Reference</h2>
-      <div style="margin-bottom: 24px;">
-        <h4 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Native Client-Side Engine Implementation for Text Diff Comparison Tool</h4>
-        <pre style="background: rgba(10, 14, 23, 0.95); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; color: #a5f3fc; line-height: 1.5;"><code>// High-performance client-side Text Diff Comparison Tool execution
-async function processDataLocally(inputData, config = {}) {
-  // Validate input stream in local browser memory
-  if (!inputData) throw new Error('Input data payload is required');
-  
-  // Execute memory-contained transformation
-  const startTime = performance.now();
-  const processedBuffer = await new Promise((resolve) => {
-    // Process without network latency or external tracking
-    const result = typeof inputData === 'string' ? inputData.trim() : inputData;
-    resolve(result);
-  });
-  
-  const elapsedMs = (performance.now() - startTime).toFixed(2);
-  console.log('[OmniTool Hub] Execution finished in: ' + elapsedMs + 'ms');
-  return processedBuffer;
-}</code></pre>
-        <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">RFC-compliant client-side execution pattern in standard ES6 JavaScript.</p>
-      </div>
-      
       <h2>Step-by-Step Usage Guide</h2>
       <ol>
         <li>Paste the original document version into the **Original Text** container.</li><li>Paste the updated document version into the **Modified Text** container.</li><li>Click **Compare Texts** and select your layout mode (**Split View** or **Unified**).</li><li>Inspect highlighted lines and copy diff logs or export changes.</li>
       </ol>
-
-      <h2>Frequently Asked Questions (FAQ)</h2>
-      <div class="faq-accordion">
-        
-        <div class="faq-item">
-          <h3 class="faq-question">Does this Text Diff Comparison Tool upload any files or data to remote servers?</h3>
-          <p class="faq-answer">No. All calculations, transformations, and processing run 100% inside your local web browser using JavaScript and HTML5 Canvas. Your sensitive information never leaves your device.</p>
-        </div>
-        
-        <div class="faq-item">
-          <h3 class="faq-question">Can I use this tool offline without an active internet connection?</h3>
-          <p class="faq-answer">Yes. Once the web application is loaded, all core utilities operate offline in air-gapped environments without external network dependencies.</p>
-        </div>
-        
-        <div class="faq-item">
-          <h3 class="faq-question">What browsers and operating systems are supported?</h3>
-          <p class="faq-answer">OmniTool Hub is fully compatible with modern versions of Google Chrome, Mozilla Firefox, Apple Safari, Microsoft Edge, and Android/iOS mobile browsers.</p>
-        </div>
-        
-        <div class="faq-item">
-          <h3 class="faq-question">Are there limits on file sizes or processing counts?</h3>
-          <p class="faq-answer">There are no arbitrary paywalls or artificial caps. Because execution relies on your local device RAM and CPU, performance scales directly with your system hardware.</p>
-        </div>
-        
-      </div>
-      
     </article>
 
     <!-- Call to Action Banner -->
     <div class="cta-container">
       <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
-      <a href="../index.html#tool/text-diff" class="cta-btn">🚀 Launch Text Diff Tool</a>
+      <a href="#tool/text-diff" class="cta-btn">🚀 Launch Text Diff Tool</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All 50 Tool Guides &rarr;</a>
+      <a href="/guides/" class="all-guides-cta">📚 Browse All 50 Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All 50 Guides &rarr;</a>
+        <a href="/guides/">View All 50 Guides &rarr;</a>
       </div>
       <div class="related-grid">
         
-          <a href="text-encoder-suite.html" class="related-card">
+          <a href="/guides/text-encoder-suite" class="related-card">
             <div>
               <div class="related-badge">🔤 Text & Writing</div>
               <div class="related-title">Text Cases & Encoder Suite</div>
@@ -1512,7 +1165,7 @@ async function processDataLocally(inputData, config = {}) {
             <div class="related-read">Read Guide &rarr;</div>
           </a>
           
-          <a href="markdown-preview.html" class="related-card">
+          <a href="/guides/markdown-preview" class="related-card">
             <div>
               <div class="related-badge">📝 Text & Writing</div>
               <div class="related-title">Live Markdown Editor & Previewer</div>
@@ -1520,7 +1173,7 @@ async function processDataLocally(inputData, config = {}) {
             <div class="related-read">Read Guide &rarr;</div>
           </a>
           
-          <a href="text-analyzer.html" class="related-card">
+          <a href="/guides/text-analyzer" class="related-card">
             <div>
               <div class="related-badge">📊 Text & Writing</div>
               <div class="related-title">Text Readability & Analyzer</div>
@@ -1535,12 +1188,12 @@ async function processDataLocally(inputData, config = {}) {
   <footer class="guide-footer">
     <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
     <p style="margin-top: 8px;">
-      <a href="../index.html">Home</a> &bull;
-      <a href="index.html">Guides Hub</a> &bull;
-      <a href="../index.html#privacy">Privacy Policy</a> &bull;
-      <a href="../index.html#terms">Terms of Service</a> &bull;
-      <a href="../index.html#refund">Refund Policy</a> &bull;
-      <a href="../index.html#cookies">Cookie Policy</a> &bull;
+      <a href="/">Home</a> &bull;
+      <a href="/guides/">Guides Hub</a> &bull;
+      <a href="/#privacy">Privacy Policy</a> &bull;
+      <a href="/#terms">Terms of Service</a> &bull;
+      <a href="/#refund">Refund Policy</a> &bull;
+      <a href="/#cookies">Cookie Policy</a> &bull;
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
     </p>
   </footer>
@@ -1615,11 +1268,28 @@ async function processDataLocally(inputData, config = {}) {
         viewport.innerHTML = `
           <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
             <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
-            <a href="../index.html#tool/text-diff" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+            <a href="/#tool/text-diff" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
           </div>
         `;
       }
     }
+  </script>
+
+  <!-- Live Tool Viewport Collapse / Expand Handler -->
+  <script>
+    (function initLiveToolCollapse() {
+      const toggleBtn = document.getElementById('toggle-tool-collapse-btn');
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (!toggleBtn || !viewport) return;
+      toggleBtn.addEventListener('click', () => {
+        const isCollapsed = viewport.style.display === 'none';
+        viewport.style.display = isCollapsed ? 'block' : 'none';
+        toggleBtn.classList.toggle('is-collapsed', !isCollapsed);
+        toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
+        const label = toggleBtn.querySelector('.toggle-text');
+        if (label) label.textContent = isCollapsed ? 'Collapse Tool' : 'Expand Tool';
+      });
+    })();
   </script>
 
   
@@ -1822,22 +1492,5 @@ async function processDataLocally(inputData, config = {}) {
     }
   </script>
   <!-- End Cloudflare Web Analytics -->
-
-  <!-- Live Tool Viewport Collapse / Expand Handler -->
-  <script>
-    (function initLiveToolCollapse() {
-      const toggleBtn = document.getElementById('toggle-tool-collapse-btn');
-      const viewport = document.getElementById('live-guide-tool-viewport');
-      if (!toggleBtn || !viewport) return;
-      toggleBtn.addEventListener('click', () => {
-        const isCollapsed = viewport.style.display === 'none';
-        viewport.style.display = isCollapsed ? 'block' : 'none';
-        toggleBtn.classList.toggle('is-collapsed', !isCollapsed);
-        toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
-        const label = toggleBtn.querySelector('.toggle-text');
-        if (label) label.textContent = isCollapsed ? 'Collapse Tool' : 'Expand Tool';
-      });
-    })();
-  </script>
 </body>
 </html>
