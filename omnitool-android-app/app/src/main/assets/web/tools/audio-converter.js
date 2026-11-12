@@ -186,7 +186,9 @@ export default {
     `;
   },
 
-  async init() {
+  async init(container, appInstance) {
+    this.container = container || null;
+    this.app = appInstance || null;
     this.bindEvents();
   },
 
@@ -419,10 +421,16 @@ export default {
   },
 
   refreshUI() {
-    const appEl = document.getElementById("tool-render-area") || document.querySelector(".tool-main");
+    const appEl = this.container || document.getElementById("audio-subtool-host") || document.getElementById("active-tool-viewport") || document.getElementById("tool-render-area") || document.querySelector(".tool-main");
     if (appEl) {
       appEl.innerHTML = this.renderUI();
       this.bindEvents();
+      if (typeof this.app?.initLayoutSizer === "function") {
+        this.app.initLayoutSizer(appEl);
+      }
+      if (typeof this.app?._reinjectAudioTabs === "function") {
+        this.app._reinjectAudioTabs();
+      }
     }
   }
 };

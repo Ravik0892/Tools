@@ -2,9 +2,12 @@ import { escapeHtml } from './utils.js';
 
 let formulaStr = "";
 let lastResult = null;
+let previousAnswer = 0;
 let memoryValue = 0;
 let isDegrees = true;
+let isInvMode = false;
 let isResultState = false;
+let isFractionDisplayMode = false;
 let calcHistory = [];
 let app = null;
 let onKeyDownRef = null;
@@ -31,19 +34,102 @@ const scientificConstants = [
   { name: "Rydberg Constant (R∞)", symbol: "R∞", val: "10973731.568160", unit: "m⁻¹", desc: "Limiting atomic spectroscopy transition wavenumber" }
 ];
 
+// Helper: Continued fractions approximation to determine exact simplified fraction p/q
+function toExactFraction(val, maxDenominator = 10000) {
+  if (typeof val !== "number" || !isFinite(val) || isNaN(val)) return null;
+  if (Number.isInteger(val)) return null;
+
+  const sign = val < 0 ? "-" : "";
+  const absVal = Math.abs(val);
+
+  let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
+  let b = absVal;
+  let iterations = 0;
+
+  do {
+    const a = Math.floor(b);
+    let aux = h1;
+    h1 = a * h1 + h2;
+    h2 = aux;
+    aux = k1;
+    k1 = a * k1 + k2;
+    k2 = aux;
+    b = 1 / (b - a);
+    iterations++;
+  } while (Math.abs(absVal - h1 / k1) > absVal * 1e-11 && k1 < maxDenominator && isFinite(b) && iterations < 20);
+
+  if (k1 <= 1 || k1 > maxDenominator) return null;
+  if (Math.abs(absVal - h1 / k1) > 1e-7) return null;
+
+  return {
+    improper: `${sign}${h1}/${k1}`,
+    numerator: val < 0 ? -h1 : h1,
+    denominator: k1
+  };
+}
+
+// Discrete Mathematics & Combinatorics Helpers
+function calcFactorial(n) {
+  if (n < 0) throw new Error("Factorial of negative number");
+  if (!Number.isInteger(n)) throw new Error("Factorial of non-integer");
+  if (n > 170) throw new Error("Overflow (n > 170)");
+  let res = 1;
+  for (let i = 2; i <= n; i++) res *= i;
+  return res;
+}
+
+function calcNCr(n, r) {
+  if (!Number.isInteger(n) || !Number.isInteger(r)) throw new Error("nCr requires integers");
+  if (r < 0 || n < 0 || r > n) throw new Error("Domain Error: nCr requires 0 ≤ r ≤ n");
+  if (r === 0 || r === n) return 1;
+  if (r > n / 2) r = n - r;
+  let res = 1;
+  for (let i = 1; i <= r; i++) {
+    res = (res * (n - i + 1)) / i;
+  }
+  return Math.round(res);
+}
+
+function calcNPr(n, r) {
+  if (!Number.isInteger(n) || !Number.isInteger(r)) throw new Error("nPr requires integers");
+  if (r < 0 || n < 0 || r > n) throw new Error("Domain Error: nPr requires 0 ≤ r ≤ n");
+  if (r === 0) return 1;
+  let res = 1;
+  for (let i = 0; i < r; i++) {
+    res *= (n - i);
+  }
+  return res;
+}
+
+function calcGcd(a, b) {
+  a = Math.abs(Math.round(a));
+  b = Math.abs(Math.round(b));
+  while (b) {
+    const t = b;
+    b = a % b;
+    a = t;
+  }
+  return a;
+}
+
+function calcLcm(a, b) {
+  if (a === 0 || b === 0) return 0;
+  return Math.abs(Math.round((a * b) / calcGcd(a, b)));
+}
+
 export default {
   id: "calculator",
   name: "Scientific Calculator",
   renderUI() {
     return `
       <div class="tool-content-layout split-view">
-        <!-- Left Panel: Math Engine & Inputs -->
-        <div class="tool-panel" style="gap: 12px; background: var(--bg-card); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
-          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px; width: 100%;">
+        <!-- Left Panel: Math Engine & Consolidated Console -->
+        <div class="tool-panel" style="gap: 10px; background: var(--bg-card); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 8px; width: 100%;">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-              <h3 style="color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin: 0;">
-                <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: var(--accent-cyan); fill: none; stroke-width: 2;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line></svg>
-                Math Engine &amp; Inputs
+              <h3 style="color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin: 0; font-size: 15px;">
+                <svg viewBox="0 0 24 24" style="width: 17px; height: 17px; stroke: var(--accent-cyan); fill: none; stroke-width: 2;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line></svg>
+                Math Engine &amp; Console
               </h3>
               <div style="display: flex; gap: 6px; align-items: center;">
                 <span id="calc-memory-badge" class="theme-badge" style="font-size: 10px; display: none; color: var(--accent-purple); background-color: rgba(157, 78, 221, 0.15);" title="Memory Stored">M</span>
@@ -52,213 +138,222 @@ export default {
             </div>
 
             <!-- Segmented Input Mode Tabs -->
-            <div class="keyboard-tabs" style="display: flex; flex-wrap: wrap; gap: 6px; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
-              <button class="tool-btn secondary active keyboard-tab" id="calc-in-tab-pad" style="flex: 1; font-size: 11px; padding: 7px 10px;">
+            <div class="keyboard-tabs" style="display: flex; flex-wrap: wrap; gap: 6px; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+              <button class="tool-btn secondary active keyboard-tab" id="calc-in-tab-pad" style="flex: 1; font-size: 11px; padding: 6px 10px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><circle cx="8" cy="14" r="1"/><circle cx="12" cy="14" r="1"/><circle cx="16" cy="14" r="1"/><circle cx="8" cy="18" r="1"/><circle cx="12" cy="18" r="1"/><circle cx="16" cy="18" r="1"/></svg>
-                Keypad &amp; Formula
+                Keypad Console
               </button>
-              <button class="tool-btn secondary keyboard-tab" id="calc-in-tab-constants" style="flex: 1; font-size: 11px; padding: 7px 10px;">
+              <button class="tool-btn secondary keyboard-tab" id="calc-in-tab-constants" style="flex: 1; font-size: 11px; padding: 6px 10px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                Constants Palette
+                Constants
               </button>
-              <button class="tool-btn secondary keyboard-tab" id="calc-in-tab-grapher" style="flex: 1; font-size: 11px; padding: 7px 10px;">
+              <button class="tool-btn secondary keyboard-tab" id="calc-in-tab-grapher" style="flex: 1; font-size: 11px; padding: 6px 10px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                2D Plotter Controls
+                2D Plotter
               </button>
             </div>
           </div>
 
-          <!-- Active Expression Bar (Always visible on left panel) -->
-          <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 2px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <label for="calc-formula-input" style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Active Expression / Formula</label>
-              <span style="font-size: 10px; color: var(--text-muted);">Keyboard &amp; Numpad Supported</span>
+          <!-- Section 1: Consolidated Zero-Scroll Scientific Console -->
+          <div id="calc-in-sec-pad" style="display: flex; flex-direction: column; gap: 6px;">
+            <!-- Integrated Dual-Line Console Screen (Formula + Returned Result) -->
+            <div class="calc-console-screen" id="calc-console-screen" title="Calculator Display: Click to return/reuse result into formula">
+              <div class="calc-console-history-line" id="calc-console-history-line"></div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                <input type="text" id="calc-formula-input" class="calc-console-input" placeholder="Type formula or tap keys below..." aria-label="Active mathematical expression">
+                <span id="calc-console-live-res" class="calc-console-live-res" title="Click to return this result into calculator">= 0</span>
+              </div>
             </div>
-            <div style="display: flex; gap: 6px; align-items: center; min-width: 0;">
-              <input type="text" id="calc-formula-input" class="form-input" placeholder="Type formula or click buttons below..." aria-label="Active mathematical expression" style="flex: 1; min-width: 0; font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 10px 12px; letter-spacing: 0.5px; background: var(--bg-input);">
-              <button class="tool-btn secondary" id="calc-input-backspace" title="Backspace (⌫)" aria-label="Backspace" style="padding: 10px 12px; font-size: 12px;">⌫</button>
-              <button class="tool-btn secondary" id="calc-input-clear" title="Clear Expression (C)" aria-label="Clear expression" style="padding: 10px 12px; font-size: 12px; color: var(--accent-rose);">C</button>
-            </div>
-          </div>
 
-          <!-- Section 1: Keypad & Scientific Pad -->
-          <div id="calc-in-sec-pad" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Quick Action Controls -->
+            <div style="display: flex; gap: 5px; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <button class="tool-btn secondary" id="calc-input-negate" title="Toggle Positive / Negative (+/-)" aria-label="Toggle Sign" style="padding: 4px 8px; font-size: 11px; font-weight: 700;">+/-</button>
+                <button class="tool-btn secondary" id="calc-return-result-btn" title="Return result on calculator (Enter / Return)" aria-label="Return Result" style="padding: 4px 9px; font-size: 11px; color: var(--accent-cyan); font-weight: 700; border-color: rgba(0, 242, 254, 0.3);">↵ Return</button>
+              </div>
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <button class="tool-btn secondary" id="calc-input-backspace" title="Backspace (⌫)" aria-label="Backspace" style="padding: 4px 8px; font-size: 11px;">⌫</button>
+                <button class="tool-btn secondary" id="calc-input-clear" title="All Clear (AC)" aria-label="All clear" style="padding: 4px 8px; font-size: 11px; color: var(--accent-rose); font-weight: 700;">AC</button>
+              </div>
+            </div>
+
             <!-- Memory Keys Row -->
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;">
-              <button class="calc-btn mem-key" data-op="mc" title="Memory Clear" aria-label="Memory Clear">MC</button>
-              <button class="calc-btn mem-key" data-op="mr" title="Memory Recall" aria-label="Memory Recall">MR</button>
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
+              <button class="calc-btn mem-key" data-op="mc" title="Memory Clear (MC)" aria-label="Memory Clear">MC</button>
+              <button class="calc-btn mem-key" data-op="mr" title="Memory Recall (MR)" aria-label="Memory Recall">MR</button>
               <button class="calc-btn mem-key" data-op="mplus" title="Memory Add (M+)" aria-label="Memory Add">M+</button>
               <button class="calc-btn mem-key" data-op="mminus" title="Memory Subtract (M-)" aria-label="Memory Subtract">M-</button>
-              <button class="calc-btn mem-key" data-op="ms" title="Memory Store" aria-label="Memory Store">MS</button>
+              <button class="calc-btn mem-key" data-op="ms" title="Memory Store (MS)" aria-label="Memory Store">MS</button>
             </div>
 
-            <!-- Scientific / Standard Toggle row -->
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; margin-bottom: 2px;">
-              <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px;">SCIENTIFIC FUNCTIONS (5×5 MATRIX)</span>
-              <label class="checkbox-label" style="font-size: 11px; color: var(--text-muted); margin: 0; cursor: pointer;">
-                <input type="checkbox" id="calc-scientific-toggle" checked style="width: 14px; height: 14px; cursor: pointer; accent-color: var(--accent-cyan);"> Expand Pad
-              </label>
-            </div>
+            <!-- Unified Side-by-Side Console Grid (Zero-Scroll Ergonomics) -->
+            <div class="calc-console-grid">
+              <!-- Left Sub-Grid: Scientific Functions with Inv Toggle (3 Columns x 5 Rows) -->
+              <div class="calc-sci-grid" id="calc-sci-key-grid">
+                <!-- Row 1 -->
+                <button class="calc-btn inv-btn" id="calc-inv-toggle-btn" title="Toggle Inverse Trigonometric & Exponential Functions (Inv)" aria-label="Inverse Mode">Inv</button>
+                <button class="calc-btn fn-key" data-op="sin" data-inv-op="asin" data-norm-text="sin" data-inv-text="sin⁻¹" aria-label="Sine">sin</button>
+                <button class="calc-btn fn-key" data-op="cos" data-inv-op="acos" data-norm-text="cos" data-inv-text="cos⁻¹" aria-label="Cosine">cos</button>
 
-            <!-- Scientific Keypad Grid: Balanced 5x5 Matrix -->
-            <div id="calc-scientific-pad" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; transition: all var(--transition-normal);">
-              <button class="calc-btn fn-key" data-op="sin" aria-label="Sine">sin</button>
-              <button class="calc-btn fn-key" data-op="cos" aria-label="Cosine">cos</button>
-              <button class="calc-btn fn-key" data-op="tan" aria-label="Tangent">tan</button>
-              <button class="calc-btn fn-key" data-op="asin" aria-label="Arcsine">asin</button>
-              <button class="calc-btn fn-key" data-op="acos" aria-label="Arccosine">acos</button>
+                <!-- Row 2 -->
+                <button class="calc-btn fn-key" data-op="tan" data-inv-op="atan" data-norm-text="tan" data-inv-text="tan⁻¹" aria-label="Tangent">tan</button>
+                <button class="calc-btn fn-key" data-op="ln" data-inv-op="exp" data-norm-text="ln" data-inv-text="eˣ" aria-label="Natural Logarithm">ln</button>
+                <button class="calc-btn fn-key" data-op="log" data-inv-op="tenpow" data-norm-text="log" data-inv-text="10ˣ" aria-label="Logarithm Base 10">log</button>
 
-              <button class="calc-btn fn-key" data-op="atan" aria-label="Arctangent">atan</button>
-              <button class="calc-btn fn-key" data-op="sinh" aria-label="Hyperbolic Sine">sinh</button>
-              <button class="calc-btn fn-key" data-op="cosh" aria-label="Hyperbolic Cosine">cosh</button>
-              <button class="calc-btn fn-key" data-op="tanh" aria-label="Hyperbolic Tangent">tanh</button>
-              <button class="calc-btn fn-key" data-op="ln" aria-label="Natural Logarithm">ln</button>
+                <!-- Row 3 -->
+                <button class="calc-btn fn-key" data-op="pow" data-inv-op="yroot" data-norm-text="xʸ" data-inv-text="ʸ√x" title="Power (x^y)" aria-label="Power x raised to y">x<sup>y</sup></button>
+                <button class="calc-btn fn-key" data-op="sq" data-inv-op="cube" data-norm-text="x²" data-inv-text="x³" title="Square (x²)" aria-label="Square">x²</button>
+                <button class="calc-btn fn-key" data-op="sqrt" data-inv-op="cbrt" data-norm-text="√" data-inv-text="³√" title="Square Root" aria-label="Square Root">√</button>
 
-              <button class="calc-btn fn-key" data-op="log" aria-label="Common Logarithm (base 10)">log</button>
-              <button class="calc-btn fn-key" data-op="pow" title="Power (x^y)" aria-label="Power x raised to y">x<sup>y</sup></button>
-              <button class="calc-btn fn-key" data-op="sq" title="Square (x²)" aria-label="Square">x²</button>
-              <button class="calc-btn fn-key" data-op="cube" title="Cube (x³)" aria-label="Cube">x³</button>
-              <button class="calc-btn fn-key" data-op="sqrt" title="Square Root (√)" aria-label="Square Root">√</button>
+                <!-- Row 4 -->
+                <button class="calc-btn fn-key" data-val="PI" data-inv-op="sinh" data-norm-text="π" data-inv-text="sinh" title="Pi Constant (π)" aria-label="Pi">π</button>
+                <button class="calc-btn fn-key" data-val="E" data-inv-op="cosh" data-norm-text="e" data-inv-text="cosh" title="Euler Constant (e)" aria-label="Euler Number">e</button>
+                <button class="calc-btn fn-key" data-op="abs" data-inv-op="tanh" data-norm-text="|x|" data-inv-text="tanh" title="Absolute Value" aria-label="Absolute Value">|x|</button>
 
-              <button class="calc-btn fn-key" data-op="cbrt" title="Cube Root (³√)" aria-label="Cube Root">³√</button>
-              <button class="calc-btn fn-key" data-op="abs" title="Absolute Value (|x|)" aria-label="Absolute Value">|x|</button>
-              <button class="calc-btn fn-key" data-op="exp" title="Exponential (e^x)" aria-label="Exponential e to the x">e<sup>x</sup></button>
-              <button class="calc-btn fn-key" data-op="factorial" title="Factorial (n!)" aria-label="Factorial">n!</button>
-              <button class="calc-btn fn-key" data-op="recip" title="Reciprocal (1/x)" aria-label="Reciprocal">1/x</button>
+                <!-- Row 5 -->
+                <button class="calc-btn fn-key" data-op="factorial" data-inv-op="nCr" data-norm-text="n!" data-inv-text="nCr" title="Factorial (n!) / Combinations (nCr)" aria-label="Factorial">n!</button>
+                <button class="calc-btn fn-key" data-op="recip" data-inv-op="nPr" data-norm-text="1/x" data-inv-text="nPr" title="Reciprocal (1/x) / Permutations (nPr)" aria-label="Reciprocal">1/x</button>
+                <button class="calc-btn fn-key" data-op="percent" data-inv-op="mod" data-norm-text="%" data-inv-text="mod" title="Percentage (%) / Modulo Remainder (mod)" aria-label="Percentage">%</button>
+              </div>
 
-              <button class="calc-btn fn-key" data-val="PI" title="Pi (π)" aria-label="Pi Constant">π</button>
-              <button class="calc-btn fn-key" data-val="E" title="Euler's Constant (e)" aria-label="Euler Constant">e</button>
-              <button class="calc-btn fn-key" data-val="(" aria-label="Open Parenthesis">(</button>
-              <button class="calc-btn fn-key" data-val=")" aria-label="Close Parenthesis">)</button>
-              <button class="calc-btn fn-key" data-op="mod" title="Modulo (remainder)" aria-label="Modulo">mod</button>
-            </div>
+              <!-- Right Sub-Grid: Numbers, Core Actions & Equals (4 Columns x 5 Rows) -->
+              <div class="calc-num-grid">
+                <!-- Row 1 -->
+                <button class="calc-btn fn-key" data-val="(" aria-label="Open Parenthesis">(</button>
+                <button class="calc-btn fn-key" data-val=")" aria-label="Close Parenthesis">)</button>
+                <button class="calc-btn ans-key" data-op="ans" title="Use Previous Computed Answer (Ans)" aria-label="Previous Answer">Ans</button>
+                <button class="calc-btn op-key" data-op="divide" aria-label="Divide">÷</button>
 
-            <!-- Standard Numeric Keypad Grid: 4x4 Grid -->
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 4px;">
-              <button class="calc-btn action-key" data-op="clear" aria-label="Clear" style="color: var(--accent-rose);">C</button>
-              <button class="calc-btn action-key" data-op="allclear" aria-label="All Clear" style="color: var(--accent-rose);">AC</button>
-              <button class="calc-btn action-key" data-op="backspace" aria-label="Backspace">⌫</button>
-              <button class="calc-btn op-key" data-op="divide" aria-label="Divide">÷</button>
+                <!-- Row 2 -->
+                <button class="calc-btn num-key" data-val="7">7</button>
+                <button class="calc-btn num-key" data-val="8">8</button>
+                <button class="calc-btn num-key" data-val="9">9</button>
+                <button class="calc-btn op-key" data-op="multiply" aria-label="Multiply">×</button>
 
-              <button class="calc-btn num-key" data-val="7">7</button>
-              <button class="calc-btn num-key" data-val="8">8</button>
-              <button class="calc-btn num-key" data-val="9">9</button>
-              <button class="calc-btn op-key" data-op="multiply" aria-label="Multiply">×</button>
+                <!-- Row 3 -->
+                <button class="calc-btn num-key" data-val="4">4</button>
+                <button class="calc-btn num-key" data-val="5">5</button>
+                <button class="calc-btn num-key" data-val="6">6</button>
+                <button class="calc-btn op-key" data-op="subtract" aria-label="Subtract">-</button>
 
-              <button class="calc-btn num-key" data-val="4">4</button>
-              <button class="calc-btn num-key" data-val="5">5</button>
-              <button class="calc-btn num-key" data-val="6">6</button>
-              <button class="calc-btn op-key" data-op="subtract" aria-label="Subtract">-</button>
+                <!-- Row 4 -->
+                <button class="calc-btn num-key" data-val="1">1</button>
+                <button class="calc-btn num-key" data-val="2">2</button>
+                <button class="calc-btn num-key" data-val="3">3</button>
+                <button class="calc-btn op-key" data-op="add" aria-label="Add">+</button>
 
-              <button class="calc-btn num-key" data-val="1">1</button>
-              <button class="calc-btn num-key" data-val="2">2</button>
-              <button class="calc-btn num-key" data-val="3">3</button>
-              <button class="calc-btn op-key" data-op="add" aria-label="Add">+</button>
-
-              <button class="calc-btn action-key" data-op="negate" title="Toggle Positive / Negative" aria-label="Toggle Sign">+/-</button>
-              <button class="calc-btn num-key" data-val="0">0</button>
-              <button class="calc-btn num-key" data-val=".">.</button>
-              <button class="calc-btn op-key equal-key" data-op="equals" aria-label="Equals" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: var(--text-inverse); font-weight: 800;">=</button>
+                <!-- Row 5 -->
+                <button class="calc-btn num-key" data-val="0">0</button>
+                <button class="calc-btn num-key" data-val=".">.</button>
+                <button class="calc-btn exp-key" data-op="exp_key" title="Scientific Exponential Notation (e.g. 3 EXP 8 = 3e8)" aria-label="Scientific Exponent">EXP</button>
+                <button class="calc-btn op-key equal-key" data-op="equals" aria-label="Equals" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: var(--text-inverse); font-weight: 800; font-size: 16px;">=</button>
+              </div>
             </div>
           </div>
 
           <!-- Section 2: Constants Palette (Inputs on Left Panel) -->
-          <div id="calc-in-sec-constants" style="display: none; flex-direction: column; gap: 10px; flex: 1;">
+          <div id="calc-in-sec-constants" style="display: none; flex-direction: column; gap: 8px; flex: 1;">
             <div style="display: flex; gap: 8px; align-items: center;">
-              <input type="text" id="calc-constants-search" class="form-input" placeholder="Search physical constants (e.g. speed of light, planck, gravity)..." style="font-size: 12px; padding: 8px 12px; flex: 1;">
+              <input type="text" id="calc-constants-search" class="form-input" placeholder="Search physical constants (speed of light, planck, gravity)..." style="font-size: 12px; padding: 7px 10px; flex: 1;">
             </div>
-            <div id="calc-constants-grid" style="display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: 480px; padding-right: 4px;">
+            <div id="calc-constants-grid" style="display: flex; flex-direction: column; gap: 6px; overflow-y: auto; max-height: 420px; padding-right: 4px;">
               <!-- Injected via JavaScript -->
             </div>
           </div>
 
           <!-- Section 3: 2D Plotter Controls (Inputs on Left Panel) -->
-          <div id="calc-in-sec-grapher" style="display: none; flex-direction: column; gap: 12px; flex: 1;">
+          <div id="calc-in-sec-grapher" style="display: none; flex-direction: column; gap: 10px; flex: 1;">
             <div class="form-group" style="margin-bottom: 2px;">
-              <label for="calc-graph-func" style="font-size: 12px; font-weight: 700; color: var(--text-main);">Function f(x) =</label>
-              <input type="text" id="calc-graph-func" class="form-input" value="sin(x)" style="font-family: var(--font-mono); font-size: 14px; margin-top: 4px;" placeholder="e.g. sin(x) * cos(x) or x^2 - 4 or |x| - 2">
+              <label for="calc-graph-func" style="font-size: 11px; font-weight: 700; color: var(--text-main);">Function f(x) =</label>
+              <input type="text" id="calc-graph-func" class="form-input" value="sin(x)" style="font-family: var(--font-mono); font-size: 13px; margin-top: 4px;" placeholder="e.g. sin(x) * cos(x) or x^2 - 4 or |x| - 2">
             </div>
 
             <div>
-              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Quick Mathematical Presets</label>
-              <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px;">
-                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="sin(x)" style="padding: 4px 8px; font-size: 11px;">sin(x)</button>
-                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="cos(x)" style="padding: 4px 8px; font-size: 11px;">cos(x)</button>
-                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="tan(x)" style="padding: 4px 8px; font-size: 11px;">tan(x)</button>
-                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="x^2 - 4" style="padding: 4px 8px; font-size: 11px;">x² - 4</button>
-                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="x^3 - 3*x" style="padding: 4px 8px; font-size: 11px;">x³ - 3x</button>
-                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="1 / (x^2 + 1)" style="padding: 4px 8px; font-size: 11px;">1/(x²+1)</button>
-                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="sin(x) * cos(x)" style="padding: 4px 8px; font-size: 11px;">sin·cos</button>
-                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="abs(x) - 2" style="padding: 4px 8px; font-size: 11px;">|x| - 2</button>
+              <label style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Quick Mathematical Presets</label>
+              <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px;">
+                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="sin(x)" style="padding: 3px 7px; font-size: 10.5px;">sin(x)</button>
+                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="cos(x)" style="padding: 3px 7px; font-size: 10.5px;">cos(x)</button>
+                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="tan(x)" style="padding: 3px 7px; font-size: 10.5px;">tan(x)</button>
+                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="x^2 - 4" style="padding: 3px 7px; font-size: 10.5px;">x² - 4</button>
+                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="x^3 - 3*x" style="padding: 3px 7px; font-size: 10.5px;">x³ - 3x</button>
+                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="1 / (x^2 + 1)" style="padding: 3px 7px; font-size: 10.5px;">1/(x²+1)</button>
+                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="sin(x) * cos(x)" style="padding: 3px 7px; font-size: 10.5px;">sin·cos</button>
+                <button class="gs-preset-btn calc-graph-preset-btn" data-fn="abs(x) - 2" style="padding: 3px 7px; font-size: 10.5px;">|x| - 2</button>
               </div>
             </div>
 
             <div class="form-row" style="grid-template-columns: 1fr 1fr; gap: 8px;">
               <div class="form-group" style="margin: 0;">
-                <label for="calc-graph-xmin" style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Min X</label>
-                <input type="number" id="calc-graph-xmin" class="form-input" value="-10" style="padding: 8px; font-size: 12px; font-family: var(--font-mono);">
+                <label for="calc-graph-xmin" style="font-size: 10px; font-weight: 700; color: var(--text-muted);">Min X</label>
+                <input type="number" id="calc-graph-xmin" class="form-input" value="-10" style="padding: 6px; font-size: 11px; font-family: var(--font-mono);">
               </div>
               <div class="form-group" style="margin: 0;">
-                <label for="calc-graph-xmax" style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Max X</label>
-                <input type="number" id="calc-graph-xmax" class="form-input" value="10" style="padding: 8px; font-size: 12px; font-family: var(--font-mono);">
+                <label for="calc-graph-xmax" style="font-size: 10px; font-weight: 700; color: var(--text-muted);">Max X</label>
+                <input type="number" id="calc-graph-xmax" class="form-input" value="10" style="padding: 6px; font-size: 11px; font-family: var(--font-mono);">
               </div>
             </div>
 
-            <button class="tool-btn primary" id="calc-graph-draw-btn" style="padding: 10px; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <button class="tool-btn primary" id="calc-graph-draw-btn" style="padding: 8px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Plot &amp; Update Graph Canvas
             </button>
           </div>
         </div>
 
         <!-- Right Panel: Visual Preview & Outputs -->
-        <div class="tool-panel" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; gap: 12px;">
-          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px; width: 100%;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%;">
-              <h3 style="margin: 0; display: flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: var(--accent-cyan); fill: none; stroke-width: 2;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div class="tool-panel" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; gap: 10px;">
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 10px; width: 100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; width: 100%;">
+              <h3 style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 15px;">
+                <svg viewBox="0 0 24 24" style="width: 17px; height: 17px; stroke: var(--accent-cyan); fill: none; stroke-width: 2;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                 Calculation &amp; Visual Output
               </h3>
               <div class="panel-actions preview-header-actions" style="display: inline-flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0;"></div>
             </div>
 
             <!-- Segmented Output Tabs -->
-            <div class="keyboard-tabs" style="display: flex; flex-wrap: wrap; gap: 6px; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
-              <button class="tool-btn secondary active keyboard-tab" id="calc-out-tab-monitor" style="flex: 1; font-size: 11px; padding: 7px 10px;">
+            <div class="keyboard-tabs" style="display: flex; flex-wrap: wrap; gap: 6px; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+              <button class="tool-btn secondary active keyboard-tab" id="calc-out-tab-monitor" style="flex: 1; font-size: 11px; padding: 6px 10px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                 Result Monitor
               </button>
-              <button class="tool-btn secondary keyboard-tab" id="calc-out-tab-graph" style="flex: 1; font-size: 11px; padding: 7px 10px;">
+              <button class="tool-btn secondary keyboard-tab" id="calc-out-tab-graph" style="flex: 1; font-size: 11px; padding: 6px 10px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                 2D Graph Canvas
               </button>
-              <button class="tool-btn secondary keyboard-tab" id="calc-out-tab-history" style="flex: 1; font-size: 11px; padding: 7px 10px;">
+              <button class="tool-btn secondary keyboard-tab" id="calc-out-tab-history" style="flex: 1; font-size: 11px; padding: 6px 10px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                History Log (<span id="calc-history-count">0</span>)
+                History (<span id="calc-history-count">0</span>)
               </button>
             </div>
           </div>
 
           <!-- Output View 1: Result Monitor -->
-          <div id="calc-out-sec-monitor" style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
-            <!-- High-End Digital Screen Display -->
-            <div class="calc-screen-display">
+          <div id="calc-out-sec-monitor" style="display: flex; flex-direction: column; gap: 10px; flex: 1;">
+            <!-- High-End Digital Screen Display (Clickable to Return Result) -->
+            <div class="calc-screen-display clickable-result" id="calc-screen-display" title="Click anywhere on this screen to return result into calculator formula">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <span style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">EVALUATION MONITOR</span>
                 <span id="calc-monitor-status" style="font-size: 10px; font-weight: 600; color: var(--accent-emerald);">● Ready</span>
               </div>
               <div id="calc-formula-display" class="calc-formula-display-text"></div>
-              <div id="calc-result-display" class="calc-result-display-text">0</div>
+              <div id="calc-result-display" class="calc-result-display-text" title="Click to return result">0</div>
+
+              <!-- Clickable S <=> D Exact Fraction Badge -->
+              <div id="calc-fraction-display" class="calc-fraction-pill" style="display: none;" title="Exact Fraction representation. Click to copy or toggle view">
+                <span style="opacity: 0.7;">S ↔ D:</span>
+                <span id="calc-fraction-val"></span>
+              </div>
 
               <!-- Screen Actions Toolbar -->
-              <div style="display: flex; gap: 6px; justify-content: flex-end; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);">
+              <div style="display: flex; gap: 6px; justify-content: flex-end; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06);">
                 <button class="tool-btn secondary" id="calc-copy-result-btn" style="padding: 4px 10px; font-size: 11px;">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                   Copy Result
                 </button>
-                <button class="tool-btn secondary" id="calc-reuse-result-btn" style="padding: 4px 10px; font-size: 11px;">
+                <button class="tool-btn secondary" id="calc-reuse-result-btn" style="padding: 4px 10px; font-size: 11px; color: var(--accent-cyan);">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                  Reuse in Formula
+                  Return to Input
                 </button>
                 <button class="tool-btn secondary" id="calc-clear-screen-btn" style="padding: 4px 10px; font-size: 11px; color: var(--accent-rose);">
                   Clear
@@ -267,8 +362,8 @@ export default {
             </div>
 
             <!-- Programmer Radix Conversions Bar -->
-            <div id="calc-base-conversion-bar" style="display: none; flex-direction: column; gap: 6px;">
-              <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">RADIX / BASE CONVERSIONS (CLICK TO COPY FULL VALUE)</span>
+            <div id="calc-base-conversion-bar" style="display: none; flex-direction: column; gap: 4px;">
+              <span style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">RADIX / BASE CONVERSIONS (CLICK TO COPY)</span>
               <div class="calc-radix-grid">
                 <div class="calc-radix-box" data-base="hex" title="Click to copy HEX">
                   <span class="calc-radix-label">HEXADECIMAL</span>
@@ -290,39 +385,39 @@ export default {
             </div>
 
             <!-- Number Properties Card -->
-            <div id="calc-analytics-card" style="display: flex; flex-direction: column; gap: 6px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px;">
-              <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">NUMBER PROPERTIES &amp; SPECS</span>
-              <div style="grid-template-columns: repeat(3, 1fr); display: grid; gap: 8px; margin-top: 4px;">
-                <div style="display: flex; flex-direction: column; gap: 2px;">
-                  <span style="font-size: 10px; color: var(--text-muted);">Classification</span>
-                  <span id="calc-prop-type" style="font-size: 12px; font-weight: 700; color: var(--text-main);">Zero (Integer)</span>
+            <div id="calc-analytics-card" style="display: flex; flex-direction: column; gap: 4px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 12px; padding: 10px 12px;">
+              <span style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">NUMBER PROPERTIES &amp; SPECS</span>
+              <div style="grid-template-columns: repeat(3, 1fr); display: grid; gap: 6px; margin-top: 2px;">
+                <div style="display: flex; flex-direction: column; gap: 1px;">
+                  <span style="font-size: 9.5px; color: var(--text-muted);">Classification</span>
+                  <span id="calc-prop-type" style="font-size: 11.5px; font-weight: 700; color: var(--text-main);">Zero (Integer)</span>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 2px;">
-                  <span style="font-size: 10px; color: var(--text-muted);">Scientific Notation</span>
+                <div style="display: flex; flex-direction: column; gap: 1px;">
+                  <span style="font-size: 9.5px; color: var(--text-muted);">Scientific Notation</span>
                   <span id="calc-prop-sci" style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--accent-cyan);">0e+0</span>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 2px;">
-                  <span style="font-size: 10px; color: var(--text-muted);">Angle Convention</span>
-                  <span id="calc-prop-angle" style="font-size: 12px; font-weight: 700; color: var(--accent-purple);">Degrees (DEG)</span>
+                <div style="display: flex; flex-direction: column; gap: 1px;">
+                  <span style="font-size: 9.5px; color: var(--text-muted);">Angle Convention</span>
+                  <span id="calc-prop-angle" style="font-size: 11.5px; font-weight: 700; color: var(--accent-purple);">Degrees (DEG)</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Output View 2: 2D Graph Canvas -->
+          <!-- Output View 2: 2D Graph Canvas with Smooth Mouse Pan & Wheel Zoom -->
           <div id="calc-out-sec-graph" style="display: none; flex-direction: column; gap: 8px; flex: 1;">
             <div class="calc-graph-viewport">
               <!-- Graph Top Toolbar -->
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 11px; flex-wrap: wrap; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 11px; flex-wrap: wrap; gap: 6px;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                   <span style="font-family: var(--font-mono); color: var(--accent-cyan); font-weight: 700;" id="calc-graph-title-label">f(x) = sin(x)</span>
-                  <span id="calc-graph-hover-coords" style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">Hover graph to inspect</span>
+                  <span id="calc-graph-hover-coords" style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">Drag to pan • Scroll to zoom</span>
                 </div>
                 <div style="display: flex; gap: 4px; align-items: center;">
-                  <button class="tool-btn secondary" id="calc-graph-zoom-in" style="padding: 3px 8px; font-size: 11px;" title="Zoom In">+</button>
-                  <button class="tool-btn secondary" id="calc-graph-zoom-out" style="padding: 3px 8px; font-size: 11px;" title="Zoom Out">-</button>
-                  <button class="tool-btn secondary" id="calc-graph-reset-range" style="padding: 3px 8px; font-size: 11px;" title="Reset X Range [-10, 10]">Reset Range</button>
-                  <button class="tool-btn secondary" id="calc-graph-export-png" style="padding: 3px 8px; font-size: 11px;" title="Export High-Res PNG">PNG</button>
+                  <button class="tool-btn secondary" id="calc-graph-zoom-in" style="padding: 2px 7px; font-size: 11px;" title="Zoom In">+</button>
+                  <button class="tool-btn secondary" id="calc-graph-zoom-out" style="padding: 2px 7px; font-size: 11px;" title="Zoom Out">-</button>
+                  <button class="tool-btn secondary" id="calc-graph-reset-range" style="padding: 2px 7px; font-size: 10.5px;" title="Reset X Range [-10, 10]">Reset</button>
+                  <button class="tool-btn secondary" id="calc-graph-export-png" style="padding: 2px 7px; font-size: 10.5px;" title="Export High-Res PNG">PNG</button>
                 </div>
               </div>
               <!-- Graph Canvas Area -->
@@ -333,10 +428,10 @@ export default {
           </div>
 
           <!-- Output View 3: Calculation History Log -->
-          <div id="calc-out-sec-history" style="display: none; flex-direction: column; gap: 10px; flex: 1; overflow: hidden;">
+          <div id="calc-out-sec-history" style="display: none; flex-direction: column; gap: 8px; flex: 1; overflow: hidden;">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
-              <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Recent Calculation Archive</span>
-              <button class="tool-btn secondary" id="calc-clear-history-btn" style="padding: 4px 8px; font-size: 10px; color: var(--accent-rose);">Clear All</button>
+              <span style="font-size: 10.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Recent Calculation Archive</span>
+              <button class="tool-btn secondary" id="calc-clear-history-btn" style="padding: 3px 8px; font-size: 10px; color: var(--accent-rose);">Clear All</button>
             </div>
             <div id="calc-history-list" style="display: flex; flex-direction: column; gap: 6px; overflow-y: auto; flex: 1; padding-right: 4px; min-height: 200px;">
               <!-- Injected via JavaScript -->
@@ -349,54 +444,54 @@ export default {
           <div class="tool-guide-header">
             <div class="tool-guide-title">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              <span>Quick Guide &amp; Instructions</span>
+              <span>Quick Guide &amp; Professional Instructions</span>
             </div>
             <button class="tool-btn secondary" id="calc-guide-load-sample" style="font-size: 11px;">Try Example</button>
           </div>
           <div class="tool-guide-steps">
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">1</div>
-              <div class="tool-guide-step-text"><strong>Arithmetic &amp; Scientific Calculations</strong>: Type formulas using the Left expression bar, numpad, or keyboard (e.g. <code>sin(30) + cos(60)</code> then press <code>=</code>). Trailing open parentheses and pipe absolute values <code>|x|</code> auto-balance automatically.</div>
+              <div class="tool-guide-step-text"><strong>Instant Returned Results</strong>: Tap keys or type formulas (e.g. <code>25 × 4</code>). Press <strong>=</strong>, tap <strong>↵ Return</strong>, or hit <strong>Enter</strong> to instantly return the computed result directly into your active expression. Click anywhere on the result monitor screen to return and copy the result.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Constants Palette</strong>: Switch to <strong>Constants Palette</strong> on the Left to insert 17 universal physical constants (Speed of Light, Planck, Gravitation, etc.) directly into your expression with smart multiplication injection.</div>
+              <div class="tool-guide-step-text"><strong>Dynamic Inverse (Inv) &amp; Ans Key</strong>: Toggle <strong>Inv</strong> to swap between standard and inverse functions (e.g. <code>sin ↔ sin⁻¹</code>, <code>ln ↔ eˣ</code>, <code>n! ↔ nCr</code>). Use <strong>Ans</strong> to chain your previous calculated answer and <strong>EXP</strong> for powers of 10.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>2D Function Plotter &amp; Fullscreen</strong>: Select <strong>2D Plotter Controls</strong> on the Left to plot mathematical functions f(x). Hover over the interactive canvas to track the glowing reticle crosshair, and toggle <strong>Fullscreen Mode</strong> for an expanded graphing studio.</div>
+              <div class="tool-guide-step-text"><strong>Exact Fraction Conversion (S ↔ D) &amp; 2D Plotter</strong>: For non-integer outputs, click the purple <strong>S ↔ D</strong> pill to return exact fractions (<code>0.375 = 3/8</code>). Switch to <strong>2D Plotter</strong> to graph f(x) with mouse drag-to-pan and wheel zoom.</div>
             </div>
           </div>
           <div class="tool-guide-example">
             <div class="tool-guide-example-header">
               <span class="tool-guide-example-title">📋 Examples</span>
               <div class="tool-guide-example-tabs">
-                <button class="tool-guide-example-tab-btn active" data-index="0">Trig Formula</button>
-                <button class="tool-guide-example-tab-btn" data-index="1">Exponent Arithmetic</button>
+                <button class="tool-guide-example-tab-btn active" data-index="0">Trig &amp; Percent Formula</button>
+                <button class="tool-guide-example-tab-btn" data-index="1">Combinatorics &amp; Exponents</button>
               </div>
             </div>
             <!-- Example 1 -->
             <div class="tool-guide-io-row example-val-0">
               <div class="tool-guide-io-block">
                 <span class="tool-guide-io-label input-label">📥 Input Formula</span>
-                <div class="tool-guide-io-value">sin(30) + cos(60) (DEG Mode)</div>
+                <div class="tool-guide-io-value">sin(30) + 200 * 15% (DEG Mode)</div>
               </div>
               <div class="tool-guide-io-arrow">→</div>
               <div class="tool-guide-io-block">
                 <span class="tool-guide-io-label output-label">📤 Output Result</span>
-                <div class="tool-guide-io-value">1</div>
+                <div class="tool-guide-io-value">30.5</div>
               </div>
             </div>
             <!-- Example 2 -->
             <div class="tool-guide-io-row example-val-1" style="display: none;">
               <div class="tool-guide-io-block">
                 <span class="tool-guide-io-label input-label">📥 Input Formula</span>
-                <div class="tool-guide-io-value">2^3 + 5*2 - 4</div>
+                <div class="tool-guide-io-value">nCr(10, 3) + 3e4 / 2</div>
               </div>
               <div class="tool-guide-io-arrow">→</div>
               <div class="tool-guide-io-block">
                 <span class="tool-guide-io-label output-label">📤 Output Result</span>
-                <div class="tool-guide-io-value">14</div>
+                <div class="tool-guide-io-value">15120</div>
               </div>
             </div>
           </div>
@@ -408,15 +503,24 @@ export default {
     app = appInstance;
     formulaStr = "";
     lastResult = null;
+    previousAnswer = 0;
     isResultState = false;
+    isInvMode = false;
+    isFractionDisplayMode = false;
 
     // Element references
     const formulaInput = container.querySelector("#calc-formula-input");
+    const consoleHistoryLine = container.querySelector("#calc-console-history-line");
+    const consoleLiveRes = container.querySelector("#calc-console-live-res");
     const formulaDisplay = container.querySelector("#calc-formula-display");
     const resultDisplay = container.querySelector("#calc-result-display");
+    const screenDisplay = container.querySelector("#calc-screen-display");
+    const fractionDisplay = container.querySelector("#calc-fraction-display");
+    const fractionVal = container.querySelector("#calc-fraction-val");
     const monitorStatus = container.querySelector("#calc-monitor-status");
     const memoryBadge = container.querySelector("#calc-memory-badge");
     const angleBadge = container.querySelector("#calc-angle-mode-badge");
+    const invToggleBtn = container.querySelector("#calc-inv-toggle-btn");
 
     const baseConversionBar = container.querySelector("#calc-base-conversion-bar");
     const baseHex = container.querySelector("#calc-base-hex");
@@ -450,7 +554,7 @@ export default {
 
     const rightPanel = container.querySelectorAll(".tool-panel")[1];
 
-    // Grapher Active Coordinate State for Interactive Hover Crosshair
+    // Grapher Active Coordinate State
     let graphState = {
       xMin: -10,
       xMax: 10,
@@ -463,6 +567,7 @@ export default {
     };
     let hoverCrosshair = null;
 
+    // Load & Save History
     const loadCalcHistory = () => {
       const saved = localStorage.getItem("omnitool_calc_history");
       if (saved) {
@@ -486,6 +591,7 @@ export default {
     const updateMemoryUI = () => {
       if (memoryBadge) {
         memoryBadge.style.display = memoryValue !== 0 ? "inline-block" : "none";
+        memoryBadge.title = `Memory Stored: ${memoryValue}`;
       }
     };
 
@@ -503,6 +609,7 @@ export default {
       }
     };
 
+    // Render History Log
     const renderHistory = () => {
       const listEl = container.querySelector("#calc-history-list");
       if (!listEl) return;
@@ -522,7 +629,7 @@ export default {
           <div class="calc-history-result">${escapeHtml(item.result)}</div>
           <div class="calc-history-actions">
             <button class="gs-preset-btn hist-action-btn" data-action="load-formula" data-val="${escapeHtml(item.formula)}" style="padding: 2px 6px; font-size: 10px;">Load Formula</button>
-            <button class="gs-preset-btn hist-action-btn" data-action="load-result" data-val="${escapeHtml(item.result)}" style="padding: 2px 6px; font-size: 10px;">Load Result</button>
+            <button class="gs-preset-btn hist-action-btn" data-action="load-result" data-val="${escapeHtml(item.result)}" style="padding: 2px 6px; font-size: 10px;">Return Result</button>
             <button class="gs-preset-btn hist-action-btn" data-action="copy" data-val="${escapeHtml(item.result)}" style="padding: 2px 6px; font-size: 10px;">Copy</button>
           </div>
         `;
@@ -539,17 +646,14 @@ export default {
               updateLivePreview();
               app.showToast("Loaded formula to input expression", "info");
             } else if (act === "load-result") {
-              if (isResultState) {
-                formulaStr = val;
-                isResultState = false;
-              } else {
-                const trimmed = formulaStr.trim();
-                const needsMul = trimmed && /[\d\)\wπe]$/.test(trimmed);
-                formulaStr += (needsMul ? " × " : "") + val;
-              }
+              formulaStr = val;
+              lastResult = parseFloat(val) || 0;
+              isResultState = true;
+              if (consoleHistoryLine) consoleHistoryLine.innerText = "Ans =";
+              if (consoleLiveRes) consoleLiveRes.innerText = `= ${val}`;
               updateDisplay();
               updateLivePreview();
-              app.showToast("Inserted result into expression", "info");
+              app.showToast(`Returned result into calculator: ${val}`, "success");
             } else if (act === "copy") {
               app.copyText(val);
             }
@@ -559,6 +663,7 @@ export default {
       });
     };
 
+    // Render Physical Constants
     const renderConstants = (filterText = "") => {
       const gridEl = container.querySelector("#calc-constants-grid");
       if (!gridEl) return;
@@ -621,7 +726,7 @@ export default {
       }
     };
 
-    // Auto-balance trailing unclosed parentheses
+    // Auto-balance trailing open parentheses
     function autoCloseParentheses(str) {
       let openCount = 0;
       for (const c of str) {
@@ -634,13 +739,15 @@ export default {
       return str;
     }
 
-    // Tokenizer supporting all scientific, hyperbolic, rounding, and mathematical pipe |x| functions
+    // Tokenizer supporting all scientific, hyperbolic, inverse, percent, and combinatorics functions
     function tokenize(str) {
       const tokens = [];
       let i = 0;
       const functions = [
-        "asin", "acos", "atan", "sinh", "cosh", "tanh", "sin", "cos", "tan",
-        "log10", "log2", "log", "ln", "sqrt", "cbrt", "abs", "exp", "ceil", "floor", "round"
+        "asinh", "acosh", "atanh", "asin", "acos", "atan",
+        "sinh", "cosh", "tanh", "sin", "cos", "tan",
+        "log10", "log2", "log", "ln", "sqrt", "cbrt", "abs", "exp",
+        "ceil", "floor", "round", "ncr", "npr", "gcd", "lcm"
       ];
 
       while (i < str.length) {
@@ -650,11 +757,34 @@ export default {
           continue;
         }
 
+        // Numbers with optional scientific notation (e.g. 1.23e-4 or 5E8)
         const numRegex = /^(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?/;
         const numMatch = str.slice(i).match(numRegex);
         if (numMatch) {
           tokens.push({ type: "NUMBER", value: parseFloat(numMatch[0]) });
           i += numMatch[0].length;
+          continue;
+        }
+
+        // Previous Answer variable: Ans / ans
+        if (str.slice(i, i + 3).toLowerCase() === "ans") {
+          const ansVal = lastResult !== null ? lastResult : previousAnswer;
+          tokens.push({ type: "NUMBER", value: ansVal, isAns: true });
+          i += 3;
+          continue;
+        }
+
+        // Comma separator for multi-argument functions: nCr(n, r), gcd(a, b)
+        if (char === ",") {
+          tokens.push({ type: "COMMA" });
+          i++;
+          continue;
+        }
+
+        // Postfix True Percentage (%)
+        if (char === "%") {
+          tokens.push({ type: "PERCENT" });
+          i++;
           continue;
         }
 
@@ -683,11 +813,6 @@ export default {
           i++;
           continue;
         }
-        if (char === "%") {
-          tokens.push({ type: "MOD" });
-          i++;
-          continue;
-        }
         if (char === "(") {
           tokens.push({ type: "LPAREN" });
           i++;
@@ -709,7 +834,8 @@ export default {
             prev.type === "RPAREN" ||
             prev.type === "FACTORIAL" ||
             prev.type === "SQUARE" ||
-            prev.type === "CUBE"
+            prev.type === "CUBE" ||
+            prev.type === "PERCENT"
           );
           if (isClosing) {
             tokens.push({ type: "RPAREN" });
@@ -721,6 +847,7 @@ export default {
           continue;
         }
 
+        // Modulo Remainder (mod)
         if (str.slice(i, i + 3).toLowerCase() === "mod") {
           tokens.push({ type: "MOD" });
           i += 3;
@@ -736,7 +863,7 @@ export default {
         let foundFn = false;
         for (const fn of functions) {
           if (str.slice(i).toLowerCase().startsWith(fn)) {
-            tokens.push({ type: "FUNCTION", value: fn });
+            tokens.push({ type: "FUNCTION", value: fn.toLowerCase() });
             i += fn.length;
             foundFn = true;
             break;
@@ -754,6 +881,14 @@ export default {
           i++;
           continue;
         }
+
+        // Natural multiplication shorthand: 5x5 or 10x2 (when preceded by number or paren)
+        if ((char === "x" || char === "X") && i > 0 && /[\d\)\%²³\!]/.test(str[i - 1])) {
+          tokens.push({ type: "MULTIPLY" });
+          i++;
+          continue;
+        }
+
         if (char === "x" || char === "X") {
           tokens.push({ type: "VARIABLE", value: "x" });
           i++;
@@ -792,6 +927,7 @@ export default {
       return tokens;
     }
 
+    // Auto-insert implicit multiplications (e.g. 2π -> 2*π, 3(4) -> 3*4, 5Ans -> 5*Ans)
     function insertImplicitMultiplications(tokens) {
       const result = [];
       for (let i = 0; i < tokens.length; i++) {
@@ -799,7 +935,7 @@ export default {
         result.push(curr);
         if (i < tokens.length - 1) {
           const next = tokens[i + 1];
-          const currIsOperand = curr.type === "NUMBER" || curr.type === "CONSTANT" || curr.type === "RPAREN" || curr.type === "FACTORIAL" || curr.type === "SQUARE" || curr.type === "CUBE" || curr.type === "VARIABLE";
+          const currIsOperand = curr.type === "NUMBER" || curr.type === "CONSTANT" || curr.type === "RPAREN" || curr.type === "FACTORIAL" || curr.type === "SQUARE" || curr.type === "CUBE" || curr.type === "VARIABLE" || curr.type === "PERCENT";
           const nextIsOperand = next.type === "NUMBER" || next.type === "CONSTANT" || next.type === "LPAREN" || next.type === "FUNCTION" || next.type === "VARIABLE";
           if (currIsOperand && nextIsOperand) {
             result.push({ type: "MULTIPLY" });
@@ -864,7 +1000,6 @@ export default {
         return node;
       }
 
-      // Unary +/- handles negation with algebraic precedence (-3^2 = -(3^2) = -9)
       function parseUnary() {
         const t = peek();
         if (t && t.type === "PLUS") {
@@ -878,7 +1013,6 @@ export default {
         return parsePower();
       }
 
-      // Exponentiation: right-associative (2^3^2 = 2^(3^2) = 512)
       function parsePower() {
         let node = parsePostfix();
         if (peek() && peek().type === "POWER") {
@@ -891,14 +1025,16 @@ export default {
 
       function parsePostfix() {
         let node = parsePrimary();
-        while (peek() && (peek().type === "FACTORIAL" || peek().type === "SQUARE" || peek().type === "CUBE")) {
+        while (peek() && (peek().type === "FACTORIAL" || peek().type === "SQUARE" || peek().type === "CUBE" || peek().type === "PERCENT")) {
           const token = consume();
           if (token.type === "FACTORIAL") {
-            node = factorial(node);
+            node = calcFactorial(node);
           } else if (token.type === "SQUARE") {
             node = node * node;
           } else if (token.type === "CUBE") {
             node = node * node * node;
+          } else if (token.type === "PERCENT") {
+            node = node * 0.01;
           }
         }
         return node;
@@ -932,17 +1068,22 @@ export default {
           return val;
         }
         if (t.type === "FUNCTION") {
+          const fnName = t.value;
           consume();
-          let arg;
           const next = peek();
           if (next && next.type === "LPAREN") {
             consume("LPAREN");
-            arg = parseExpression();
+            const args = [parseExpression()];
+            while (peek() && peek().type === "COMMA") {
+              consume("COMMA");
+              args.push(parseExpression());
+            }
             consume("RPAREN");
+            return evaluateFunction(fnName, args, degreesMode);
           } else {
-            arg = parseUnary();
+            const arg = parseUnary();
+            return evaluateFunction(fnName, [arg], degreesMode);
           }
-          return evaluateFunction(t.value, arg, degreesMode);
         }
         throw new Error(`Unexpected token: ${t.type}`);
       }
@@ -954,16 +1095,8 @@ export default {
       return result;
     }
 
-    function factorial(n) {
-      if (n < 0) throw new Error("Factorial of negative number");
-      if (!Number.isInteger(n)) throw new Error("Factorial of non-integer");
-      if (n > 170) throw new Error("Overflow (n > 170)");
-      let res = 1;
-      for (let i = 2; i <= n; i++) res *= i;
-      return res;
-    }
-
-    function evaluateFunction(fn, arg, degreesMode) {
+    function evaluateFunction(fn, args, degreesMode) {
+      const arg = args[0];
       let angle = arg;
       if (degreesMode && ["sin", "cos", "tan"].includes(fn)) {
         angle = (arg * Math.PI) / 180;
@@ -1026,6 +1159,17 @@ export default {
         case "tanh":
           val = Math.tanh(arg);
           break;
+        case "asinh":
+          val = Math.asinh(arg);
+          break;
+        case "acosh":
+          if (arg < 1) throw new Error("Domain Error: acosh requires input ≥ 1");
+          val = Math.acosh(arg);
+          break;
+        case "atanh":
+          if (arg <= -1 || arg >= 1) throw new Error("Domain Error: atanh requires -1 < input < 1");
+          val = Math.atanh(arg);
+          break;
         case "ln":
           if (arg <= 0) throw new Error("Domain Error: ln requires positive number");
           val = Math.log(arg);
@@ -1061,6 +1205,22 @@ export default {
         case "cbrt":
           val = Math.cbrt(arg);
           break;
+        case "ncr":
+          if (args.length < 2) throw new Error("nCr requires 2 arguments: nCr(n, r)");
+          val = calcNCr(args[0], args[1]);
+          break;
+        case "npr":
+          if (args.length < 2) throw new Error("nPr requires 2 arguments: nPr(n, r)");
+          val = calcNPr(args[0], args[1]);
+          break;
+        case "gcd":
+          if (args.length < 2) throw new Error("gcd requires 2 arguments: gcd(a, b)");
+          val = calcGcd(args[0], args[1]);
+          break;
+        case "lcm":
+          if (args.length < 2) throw new Error("lcm requires 2 arguments: lcm(a, b)");
+          val = calcLcm(args[0], args[1]);
+          break;
         default:
           throw new Error(`Unknown function: ${fn}`);
       }
@@ -1074,14 +1234,12 @@ export default {
       if (!isFinite(val)) return "Error";
       if (Math.abs(val) < 1e-15) return "0";
 
-      // Scientific notation for huge or micro non-zero values
       if (Math.abs(val) >= 1e14 || (Math.abs(val) < 1e-6 && val !== 0)) {
         const exp = val.toExponential(8);
         return exp.replace(/\.?0+e/, 'e').replace(/(\.\d+?)0+e/, (m, p1) => p1 + 'e');
       }
 
-      const str = Number(val.toPrecision(14)).toString();
-      return str;
+      return Number(val.toPrecision(14)).toString();
     }
 
     function toggleNegate(str) {
@@ -1121,6 +1279,16 @@ export default {
         }
         if (propAngle) {
           propAngle.innerText = isDegrees ? "Degrees (DEG)" : "Radians (RAD)";
+        }
+
+        // Exact Fraction Pill update (S <=> D)
+        const frac = toExactFraction(val);
+        if (frac && fractionDisplay && fractionVal) {
+          fractionDisplay.style.display = "inline-flex";
+          fractionVal.innerText = frac.improper;
+          fractionDisplay.setAttribute("data-fraction-str", frac.improper);
+        } else if (fractionDisplay) {
+          fractionDisplay.style.display = "none";
         }
 
         if (baseConversionBar && isInt && val >= -2e15 && val <= 2e15) {
@@ -1170,13 +1338,22 @@ export default {
         if (propType) propType.innerText = "—";
         if (propSci) propSci.innerText = "—";
         if (baseConversionBar) baseConversionBar.style.display = "none";
+        if (fractionDisplay) fractionDisplay.style.display = "none";
       }
     };
 
-    // Live background computation preview
+    // Live background preview & live returned result indicator
     const updateLivePreview = () => {
       const trimmed = formulaStr.trim();
-      if (!trimmed || isResultState) return;
+      const consoleLive = container.querySelector("#calc-console-live-res");
+
+      if (!trimmed || isResultState) {
+        if (!trimmed && consoleLive) {
+          consoleLive.innerText = "= 0";
+          consoleLive.style.color = "var(--text-muted)";
+        }
+        return;
+      }
 
       try {
         const val = parseAndEvaluate(trimmed, isDegrees);
@@ -1187,6 +1364,10 @@ export default {
             resultDisplay.style.color = "var(--text-muted)";
             updateResultFontSize(formatted);
           }
+          if (consoleLive) {
+            consoleLive.innerText = `= ${formatted}`;
+            consoleLive.style.color = "var(--accent-cyan)";
+          }
           if (monitorStatus) {
             monitorStatus.innerText = "● Live Preview";
             monitorStatus.style.color = "var(--accent-purple)";
@@ -1194,16 +1375,33 @@ export default {
           updatePropertiesAndConversions(val);
         }
       } catch (e) {
-        // Silently wait for completed expression
+        // Silently wait for user to finish expression
       }
     };
 
+    // Inverse Mode Toggle Handler
+    const toggleInvMode = () => {
+      isInvMode = !isInvMode;
+      if (invToggleBtn) {
+        invToggleBtn.classList.toggle("inv-active", isInvMode);
+      }
+      container.querySelectorAll(".calc-sci-grid .fn-key").forEach((btn) => {
+        const normText = btn.getAttribute("data-norm-text");
+        const invText = btn.getAttribute("data-inv-text");
+        if (normText && invText) {
+          btn.innerHTML = isInvMode ? invText : normText;
+        }
+      });
+      if (app && typeof app.playSynthSound === "function") app.playSynthSound("click");
+    };
+
+    // Main Calculator Keypad Dispatcher
     const handleCalcInput = (type, key) => {
       if (app && typeof app.playSynthSound === "function") app.playSynthSound("click");
 
       if (isResultState) {
-        if (type === "num" || key === "PI" || key === "E" || key === "(" ||
-            ["sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh", "ln", "log", "sqrt", "cbrt", "abs", "exp", "round", "√", "³√"].includes(key)) {
+        if (type === "num" || key === "PI" || key === "E" || key === "(" || key === "ans" ||
+            ["sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh", "asinh", "acosh", "atanh", "ln", "log", "sqrt", "cbrt", "abs", "exp", "round", "√", "³√", "nCr", "nPr"].includes(key)) {
           formulaStr = "";
           isResultState = false;
         } else if ((type === "op" && key !== "equals") || key === "mod" || key === "pow") {
@@ -1220,7 +1418,7 @@ export default {
           updateDisplay();
           updateLivePreview();
           return;
-        } else if (key === "sq" || key === "cube" || key === "factorial" || key === "recip") {
+        } else if (key === "sq" || key === "cube" || key === "factorial" || key === "recip" || key === "percent") {
           const prevVal = lastResult !== null ? lastResult : (parseFloat(resultDisplay ? resultDisplay.innerText : "0") || 0);
           const formattedPrev = formatCalcResult(prevVal);
           const wrapped = (prevVal < 0 || !/^-?\d+(\.\d+)?$/.test(formattedPrev)) ? `(${formattedPrev})` : formattedPrev;
@@ -1233,6 +1431,8 @@ export default {
             formulaStr = `${wrapped}!`;
           } else if (key === "recip") {
             formulaStr = `1÷(${formattedPrev})`;
+          } else if (key === "percent") {
+            formulaStr = `${wrapped}%`;
           }
           isResultState = false;
           updateDisplay();
@@ -1246,6 +1446,9 @@ export default {
               resultDisplay.innerText = formulaStr;
               resultDisplay.style.color = "var(--accent-cyan)";
               updateResultFontSize(formulaStr);
+            }
+            if (consoleLiveRes) {
+              consoleLiveRes.innerText = `= ${formulaStr}`;
             }
             updatePropertiesAndConversions(lastResult);
             updateDisplay();
@@ -1297,7 +1500,19 @@ export default {
           }
         }
       } else if (type === "fn") {
-        if (key === "PI") {
+        if (key === "ans") {
+          const trimmed = formulaStr.trim();
+          const needsMul = trimmed && /[\d\)\wπe]$/.test(trimmed);
+          formulaStr += (needsMul ? " × " : "") + "Ans";
+        } else if (key === "exp_key") {
+          if (!formulaStr || /[\s(+×÷\-^%]$/.test(formulaStr)) {
+            formulaStr += "1e";
+          } else if (/\d$/.test(formulaStr)) {
+            formulaStr += "e";
+          } else {
+            formulaStr += " × 10^";
+          }
+        } else if (key === "PI") {
           formulaStr += "π";
         } else if (key === "E") {
           formulaStr += "e";
@@ -1312,12 +1527,16 @@ export default {
           } else if (!formulaStr.endsWith("^")) {
             formulaStr += "^";
           }
+        } else if (key === "yroot") {
+          formulaStr += "^(1÷";
         } else if (key === "sq") {
           formulaStr += "²";
         } else if (key === "cube") {
           formulaStr += "³";
         } else if (key === "factorial") {
           formulaStr += "!";
+        } else if (key === "percent") {
+          formulaStr += "%";
         } else if (key === "recip") {
           if (isResultState && lastResult !== null) {
             formulaStr = "1÷(" + formatCalcResult(lastResult) + ")";
@@ -1350,7 +1569,11 @@ export default {
           } else if (!formulaStr.endsWith(" mod ")) {
             formulaStr += " mod ";
           }
-        } else if (["sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh", "ln", "log", "sqrt", "cbrt", "abs", "exp", "round"].includes(key)) {
+        } else if (key === "tenpow") {
+          formulaStr += "10^(";
+        } else if (key === "nCr" || key === "nPr" || key === "gcd" || key === "lcm") {
+          formulaStr += key + "(";
+        } else if (["sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh", "asinh", "acosh", "atanh", "ln", "log", "sqrt", "cbrt", "abs", "exp", "round"].includes(key)) {
           formulaStr += key + "(";
         } else if (key === "√") {
           formulaStr += "sqrt(";
@@ -1358,24 +1581,16 @@ export default {
           formulaStr += "cbrt(";
         }
       } else if (type === "action") {
-        if (key === "clear") {
-          formulaStr = "";
-          if (resultDisplay) {
-            resultDisplay.innerText = "0";
-            resultDisplay.style.color = "var(--accent-cyan)";
-            updateResultFontSize("0");
-          }
-          if (monitorStatus) {
-            monitorStatus.innerText = "● Cleared";
-            monitorStatus.style.color = "var(--text-muted)";
-          }
-          updatePropertiesAndConversions(null);
-        } else if (key === "allclear") {
+        if (key === "clear" || key === "allclear") {
           formulaStr = "";
           lastResult = null;
-          memoryValue = 0;
-          updateMemoryUI();
-          updatePropertiesAndConversions(null);
+          isResultState = false;
+          if (formulaInput) formulaInput.value = "";
+          if (consoleHistoryLine) consoleHistoryLine.innerText = "";
+          if (consoleLiveRes) {
+            consoleLiveRes.innerText = "= 0";
+            consoleLiveRes.style.color = "var(--text-muted)";
+          }
           if (resultDisplay) {
             resultDisplay.innerText = "0";
             resultDisplay.style.color = "var(--accent-cyan)";
@@ -1385,7 +1600,8 @@ export default {
             monitorStatus.innerText = "● Ready";
             monitorStatus.style.color = "var(--accent-emerald)";
           }
-          app.showToast("Cleared displays and memory", "info");
+          if (fractionDisplay) fractionDisplay.style.display = "none";
+          updatePropertiesAndConversions(null);
         } else if (key === "backspace") {
           if (formulaStr.endsWith(" + ") || formulaStr.endsWith(" - ") || formulaStr.endsWith(" × ") || formulaStr.endsWith(" ÷ ")) {
             formulaStr = formulaStr.slice(0, -3);
@@ -1395,14 +1611,16 @@ export default {
             formulaStr = formulaStr.slice(0, -3);
           } else if (formulaStr.endsWith("round(") || formulaStr.endsWith("floor(") || formulaStr.endsWith("log10(")) {
             formulaStr = formulaStr.slice(0, -6);
-          } else if (formulaStr.endsWith("asin(") || formulaStr.endsWith("acos(") || formulaStr.endsWith("atan(") || formulaStr.endsWith("sinh(") || formulaStr.endsWith("cosh(") || formulaStr.endsWith("tanh(") || formulaStr.endsWith("sqrt(") || formulaStr.endsWith("cbrt(") || formulaStr.endsWith("ceil(") || formulaStr.endsWith("log2(")) {
+          } else if (formulaStr.endsWith("asinh(") || formulaStr.endsWith("acosh(") || formulaStr.endsWith("atanh(") || formulaStr.endsWith("asin(") || formulaStr.endsWith("acos(") || formulaStr.endsWith("atan(") || formulaStr.endsWith("sinh(") || formulaStr.endsWith("cosh(") || formulaStr.endsWith("tanh(") || formulaStr.endsWith("sqrt(") || formulaStr.endsWith("cbrt(") || formulaStr.endsWith("ceil(") || formulaStr.endsWith("log2(")) {
             formulaStr = formulaStr.slice(0, -5);
-          } else if (formulaStr.endsWith("sin(") || formulaStr.endsWith("cos(") || formulaStr.endsWith("tan(") || formulaStr.endsWith("log(") || formulaStr.endsWith("abs(") || formulaStr.endsWith("exp(")) {
+          } else if (formulaStr.endsWith("sin(") || formulaStr.endsWith("cos(") || formulaStr.endsWith("tan(") || formulaStr.endsWith("log(") || formulaStr.endsWith("abs(") || formulaStr.endsWith("exp(") || formulaStr.endsWith("nCr(") || formulaStr.endsWith("nPr(") || formulaStr.endsWith("gcd(") || formulaStr.endsWith("lcm(")) {
             formulaStr = formulaStr.slice(0, -4);
           } else if (formulaStr.endsWith("ln(") || formulaStr.endsWith("³√(")) {
             formulaStr = formulaStr.slice(0, -3);
           } else if (formulaStr.endsWith("√(")) {
             formulaStr = formulaStr.slice(0, -2);
+          } else if (formulaStr.endsWith("Ans")) {
+            formulaStr = formulaStr.slice(0, -3);
           } else {
             formulaStr = formulaStr.slice(0, -1);
           }
@@ -1445,6 +1663,7 @@ export default {
       updateLivePreview();
     };
 
+    // Expression Evaluator & Direct Return to Calculator
     const evaluateExpression = () => {
       const trimmed = formulaStr.trim();
       if (!trimmed) return;
@@ -1452,9 +1671,12 @@ export default {
       try {
         const val = parseAndEvaluate(trimmed, isDegrees);
         lastResult = val;
+        previousAnswer = val;
         isResultState = true;
 
         const formatted = formatCalcResult(val);
+
+        // Update Right Panel Display
         if (resultDisplay) {
           resultDisplay.innerText = formatted;
           resultDisplay.style.color = "var(--accent-cyan)";
@@ -1465,16 +1687,36 @@ export default {
           monitorStatus.style.color = "var(--accent-emerald)";
         }
 
+        // Return Result to Left Panel Console Screen
+        if (consoleHistoryLine) {
+          consoleHistoryLine.innerText = `${trimmed} =`;
+        }
+        if (consoleLiveRes) {
+          consoleLiveRes.innerText = `= ${formatted}`;
+          consoleLiveRes.style.color = "var(--accent-emerald)";
+        }
+
+        // Return the computed result directly into the formula input so subsequent calculations chain immediately
+        formulaStr = formatted;
+        if (formulaInput) {
+          formulaInput.value = formatted;
+        }
+        if (formulaDisplay) {
+          formulaDisplay.innerText = `${trimmed} = ${formatted}`;
+        }
+
         updatePropertiesAndConversions(val);
 
-        calcHistory.unshift({ formula: formulaStr, result: formatted });
-        if (calcHistory.length > 25) calcHistory.pop();
+        calcHistory.unshift({ formula: trimmed, result: formatted });
+        if (calcHistory.length > 30) calcHistory.pop();
         saveCalcHistory();
         renderHistory();
 
         if (outTabMonitor && !outTabMonitor.classList.contains("active")) {
-          outTabMonitor.click();
+          switchRightTab("monitor", false, false);
         }
+
+        if (app && typeof app.playSynthSound === "function") app.playSynthSound("success");
       } catch (err) {
         console.error(err);
         if (resultDisplay) {
@@ -1486,7 +1728,32 @@ export default {
           monitorStatus.innerText = "● Syntax Error";
           monitorStatus.style.color = "var(--accent-rose)";
         }
+        if (consoleLiveRes) {
+          consoleLiveRes.innerText = "Error";
+          consoleLiveRes.style.color = "var(--accent-rose)";
+        }
         updatePropertiesAndConversions(null);
+      }
+    };
+
+    // Dedicated Return Result Function (Triggered by ↵ Return button or clicking result screen)
+    const returnResultToCalculator = () => {
+      const text = resultDisplay ? resultDisplay.innerText : "0";
+      if (text && text !== "Error") {
+        formulaStr = text;
+        lastResult = parseFloat(text) || 0;
+        isResultState = true;
+        if (formulaInput) formulaInput.value = text;
+        if (consoleHistoryLine) consoleHistoryLine.innerText = "Ans =";
+        if (consoleLiveRes) {
+          consoleLiveRes.innerText = `= ${text}`;
+          consoleLiveRes.style.color = "var(--accent-emerald)";
+        }
+        updateLivePreview();
+        app.copyText(text);
+        app.showToast(`Returned result into calculator: ${text}`, "success");
+      } else {
+        evaluateExpression();
       }
     };
 
@@ -1502,7 +1769,8 @@ export default {
       return niceFraction * Math.pow(10, exponent);
     };
 
-    const drawGraph = () => {
+    // 2D Graph Canvas Renderer
+    const drawGraph = (customXMin = null, customXMax = null) => {
       const canvas = container.querySelector("#calc-graph-canvas");
       if (!canvas) return;
       const containerEl = container.querySelector("#calc-graph-container");
@@ -1516,11 +1784,10 @@ export default {
       const xMinInput = parseFloat(container.querySelector("#calc-graph-xmin")?.value);
       const xMaxInput = parseFloat(container.querySelector("#calc-graph-xmax")?.value);
 
-      const xMin = isNaN(xMinInput) ? -10 : xMinInput;
-      const xMax = isNaN(xMaxInput) ? 10 : xMaxInput;
+      const xMin = customXMin !== null ? customXMin : (isNaN(xMinInput) ? -10 : xMinInput);
+      const xMax = customXMax !== null ? customXMax : (isNaN(xMaxInput) ? 10 : xMaxInput);
 
       if (xMin >= xMax) {
-        app.showToast("Min X must be less than Max X", "error");
         return;
       }
 
@@ -1538,12 +1805,9 @@ export default {
       ctx.scale(dpr, dpr);
 
       ctx.clearRect(0, 0, width, height);
-
-      // Deep dark graphing canvas backdrop
       ctx.fillStyle = "#090d16";
       ctx.fillRect(0, 0, width, height);
 
-      // Robust sampling with percentile outlier clamping for clean asymptotes
       const xSpan = xMax - xMin;
       const samples = 240;
       const yVals = [];
@@ -1585,7 +1849,6 @@ export default {
       }
       const ySpan = yMax - yMin;
 
-      // Update state for hover crosshair tracker
       graphState = {
         xMin,
         xMax,
@@ -1643,7 +1906,7 @@ export default {
       }
       ctx.stroke();
 
-      // Draw Function Curve with pixel-level density and asymptote discontinuity protection
+      // Draw Function Curve
       ctx.strokeStyle = "#00f2fe";
       ctx.lineWidth = 2.5;
       ctx.shadowColor = "rgba(0, 242, 254, 0.5)";
@@ -1696,26 +1959,23 @@ export default {
       }
       ctx.stroke();
 
-      // Draw Interactive Crosshair precisely on the mathematical curve if hovering
+      // Draw Interactive Crosshair & Curve Reticle Dot
       if (hoverCrosshair && isFinite(hoverCrosshair.py)) {
         ctx.save();
         ctx.strokeStyle = "rgba(0, 242, 254, 0.4)";
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
 
-        // Vertical guide line
         ctx.beginPath();
         ctx.moveTo(hoverCrosshair.px, 0);
         ctx.lineTo(hoverCrosshair.px, height);
         ctx.stroke();
 
-        // Horizontal guide line
         ctx.beginPath();
         ctx.moveTo(0, hoverCrosshair.py);
         ctx.lineTo(width, hoverCrosshair.py);
         ctx.stroke();
 
-        // Glowing reticle dot on the curve
         ctx.fillStyle = "#00f2fe";
         ctx.shadowColor = "#00f2fe";
         ctx.shadowBlur = 12;
@@ -1723,7 +1983,6 @@ export default {
         ctx.arc(hoverCrosshair.px, hoverCrosshair.py, 5, 0, Math.PI * 2);
         ctx.fill();
 
-        // Coordinate pill on canvas
         ctx.shadowBlur = 0;
         ctx.font = "bold 10px monospace";
         const coordText = `(${hoverCrosshair.x.toFixed(2)}, ${hoverCrosshair.y.toFixed(2)})`;
@@ -1740,8 +1999,8 @@ export default {
       ctx.restore();
     };
 
+    // Setup All Event Listeners
     const initCalculatorListeners = () => {
-      // Direct Formula Input Field Listener
       if (formulaInput) {
         formulaInput.addEventListener("input", () => {
           formulaStr = formulaInput.value;
@@ -1758,13 +2017,38 @@ export default {
         });
       }
 
+      container.querySelector("#calc-input-negate")?.addEventListener("click", () => {
+        handleCalcInput("action", "negate");
+      });
+
       container.querySelector("#calc-input-backspace")?.addEventListener("click", () => {
         handleCalcInput("action", "backspace");
       });
 
       container.querySelector("#calc-input-clear")?.addEventListener("click", () => {
-        handleCalcInput("action", "clear");
+        handleCalcInput("action", "allclear");
       });
+
+      // Dedicated Return Button (↵ Return)
+      container.querySelector("#calc-return-result-btn")?.addEventListener("click", () => {
+        if (!isResultState) {
+          evaluateExpression();
+        } else {
+          returnResultToCalculator();
+        }
+      });
+
+      // Live Result Click to Return
+      consoleLiveRes?.addEventListener("click", () => {
+        if (!isResultState) {
+          evaluateExpression();
+        } else {
+          returnResultToCalculator();
+        }
+      });
+
+      // Inv Button Toggle
+      invToggleBtn?.addEventListener("click", toggleInvMode);
 
       // Keypad Event Listeners
       container.querySelectorAll(".num-key").forEach((btn) => {
@@ -1781,15 +2065,24 @@ export default {
 
       container.querySelectorAll(".fn-key").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const op = btn.getAttribute("data-op");
+          const normOp = btn.getAttribute("data-op");
+          const invOp = btn.getAttribute("data-inv-op");
           const val = btn.getAttribute("data-val");
-          handleCalcInput("fn", op || val);
+
+          const effectiveOp = isInvMode && invOp ? invOp : (normOp || val);
+          handleCalcInput("fn", effectiveOp);
         });
       });
 
-      container.querySelectorAll(".action-key").forEach((btn) => {
+      container.querySelectorAll(".ans-key").forEach((btn) => {
         btn.addEventListener("click", () => {
-          handleCalcInput("action", btn.getAttribute("data-op"));
+          handleCalcInput("fn", "ans");
+        });
+      });
+
+      container.querySelectorAll(".exp-key").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          handleCalcInput("fn", "exp_key");
         });
       });
 
@@ -1798,19 +2091,6 @@ export default {
           handleCalcInput("mem", btn.getAttribute("data-op"));
         });
       });
-
-      // Scientific Toggle
-      const scientificToggle = container.querySelector("#calc-scientific-toggle");
-      const scientificPad = container.querySelector("#calc-scientific-pad");
-      const updateScientificPadVisibility = () => {
-        if (scientificPad && scientificToggle) {
-          scientificPad.style.display = scientificToggle.checked ? "grid" : "none";
-        }
-      };
-      if (scientificToggle) {
-        scientificToggle.addEventListener("change", updateScientificPadVisibility);
-        updateScientificPadVisibility();
-      }
 
       // DEG / RAD Toggle
       if (angleBadge) {
@@ -1825,8 +2105,30 @@ export default {
         });
       }
 
+      // S <=> D Fraction Badge Click to Copy / Toggle
+      if (fractionDisplay) {
+        fractionDisplay.addEventListener("click", () => {
+          const fracStr = fractionDisplay.getAttribute("data-fraction-str");
+          if (fracStr) {
+            isFractionDisplayMode = !isFractionDisplayMode;
+            if (resultDisplay) {
+              if (isFractionDisplayMode) {
+                resultDisplay.innerText = fracStr;
+                updateResultFontSize(fracStr);
+              } else if (lastResult !== null) {
+                const decStr = formatCalcResult(lastResult);
+                resultDisplay.innerText = decStr;
+                updateResultFontSize(decStr);
+              }
+            }
+            app.copyText(fracStr);
+            app.showToast(`Exact Fraction copied: ${fracStr}`, "success");
+          }
+        });
+      }
+
       // Left Input Mode Tab Switching
-      const switchLeftTab = (tabName) => {
+      function switchLeftTab(tabName, syncRight = true, playSound = true) {
         [inTabPad, inTabConstants, inTabGrapher].forEach((b) => b?.classList.remove("active"));
         if (inSecPad) inSecPad.style.display = "none";
         if (inSecConstants) inSecConstants.style.display = "none";
@@ -1835,25 +2137,39 @@ export default {
         if (tabName === "constants") {
           inTabConstants?.classList.add("active");
           if (inSecConstants) inSecConstants.style.display = "flex";
+          // If right panel was on 2D Graph Canvas, switch to Result Monitor so formula/constants context is visible
+          if (syncRight && outSecGraph && outSecGraph.style.display !== "none") {
+            switchRightTab("monitor", false, false);
+          }
         } else if (tabName === "grapher") {
           inTabGrapher?.classList.add("active");
           if (inSecGrapher) inSecGrapher.style.display = "flex";
-          switchRightTab("graph");
+          if (syncRight) {
+            switchRightTab("graph", false, false);
+          }
         } else {
           inTabPad?.classList.add("active");
           if (inSecPad) inSecPad.style.display = "flex";
+          if (syncRight) {
+            switchRightTab("monitor", false, false);
+          }
         }
 
-        if (app && typeof app.playSynthSound === "function") app.playSynthSound("click");
-        if (app && typeof app.syncSubtab === "function") app.syncSubtab("calculator", tabName);
-      };
+        const splitView = container.querySelector(".tool-content-layout.split-view");
+        if (splitView && app && typeof app.setMobileSplitTab === "function" && splitView.classList.contains("has-mobile-tabs")) {
+          app.setMobileSplitTab(splitView, "editor", { silent: true });
+        }
 
-      inTabPad?.addEventListener("click", () => switchLeftTab("pad"));
-      inTabConstants?.addEventListener("click", () => switchLeftTab("constants"));
-      inTabGrapher?.addEventListener("click", () => switchLeftTab("grapher"));
+        if (playSound && app && typeof app.playSynthSound === "function") app.playSynthSound("click");
+        if (app && typeof app.syncSubtab === "function") app.syncSubtab("calculator", tabName);
+      }
+
+      inTabPad?.addEventListener("click", () => switchLeftTab("pad", true, true));
+      inTabConstants?.addEventListener("click", () => switchLeftTab("constants", true, true));
+      inTabGrapher?.addEventListener("click", () => switchLeftTab("grapher", true, true));
 
       // Right Output Tab Switching
-      const switchRightTab = (tabName) => {
+      function switchRightTab(tabName, syncLeft = true, playSound = true) {
         [outTabMonitor, outTabGraph, outTabHistory].forEach((b) => b?.classList.remove("active"));
         if (outSecMonitor) outSecMonitor.style.display = "none";
         if (outSecGraph) outSecGraph.style.display = "none";
@@ -1863,21 +2179,36 @@ export default {
           outTabGraph?.classList.add("active");
           if (outSecGraph) outSecGraph.style.display = "flex";
           setTimeout(drawGraph, 20);
+          if (syncLeft) {
+            switchLeftTab("grapher", false, false);
+          }
         } else if (tabName === "history") {
           outTabHistory?.classList.add("active");
           if (outSecHistory) outSecHistory.style.display = "flex";
           renderHistory();
+          // If left was on 2D plotter controls, switch to pad so user can load formulas/results from history
+          if (syncLeft && inSecGrapher && inSecGrapher.style.display !== "none") {
+            switchLeftTab("pad", false, false);
+          }
         } else {
           outTabMonitor?.classList.add("active");
           if (outSecMonitor) outSecMonitor.style.display = "flex";
+          if (syncLeft) {
+            switchLeftTab("pad", false, false);
+          }
         }
 
-        if (app && typeof app.playSynthSound === "function") app.playSynthSound("click");
-      };
+        const splitView = container.querySelector(".tool-content-layout.split-view");
+        if (splitView && app && typeof app.setMobileSplitTab === "function" && splitView.classList.contains("has-mobile-tabs")) {
+          app.setMobileSplitTab(splitView, "preview", { silent: true });
+        }
 
-      outTabMonitor?.addEventListener("click", () => switchRightTab("monitor"));
-      outTabGraph?.addEventListener("click", () => switchRightTab("graph"));
-      outTabHistory?.addEventListener("click", () => switchRightTab("history"));
+        if (playSound && app && typeof app.playSynthSound === "function") app.playSynthSound("click");
+      }
+
+      outTabMonitor?.addEventListener("click", () => switchRightTab("monitor", true, true));
+      outTabGraph?.addEventListener("click", () => switchRightTab("graph", true, true));
+      outTabHistory?.addEventListener("click", () => switchRightTab("history", true, true));
 
       // Redraw 2D plot when canonical Fullscreen mode toggles
       if (rightPanel && typeof MutationObserver !== "undefined") {
@@ -1896,12 +2227,12 @@ export default {
       if (app && typeof app.registerTabSwitcher === "function") {
         app.registerTabSwitcher("calculator", (subtab) => {
           if (subtab === "constants" || subtab === "grapher" || subtab === "pad") {
-            switchLeftTab(subtab);
+            switchLeftTab(subtab, true, false);
           }
         });
       }
 
-      // Constants search input
+      // Constants Search
       const constantsSearch = container.querySelector("#calc-constants-search");
       if (constantsSearch) {
         constantsSearch.addEventListener("input", (e) => {
@@ -1917,26 +2248,127 @@ export default {
           if (funcInput) funcInput.value = fn;
           if (app && typeof app.playSynthSound === "function") app.playSynthSound("click");
           drawGraph();
-          switchRightTab("graph");
+          switchRightTab("graph", false, false);
+          const splitView = container.querySelector(".tool-content-layout.split-view");
+          if (splitView && app && typeof app.setMobileSplitTab === "function" && splitView.classList.contains("has-mobile-tabs")) {
+            app.setMobileSplitTab(splitView, "preview", { silent: true });
+          }
         });
       });
 
-      // Grapher Controls
+      // Grapher Plot Button
       container.querySelector("#calc-graph-draw-btn")?.addEventListener("click", () => {
-        switchRightTab("graph");
+        switchRightTab("graph", false, false);
         drawGraph();
+        const splitView = container.querySelector(".tool-content-layout.split-view");
+        if (splitView && app && typeof app.setMobileSplitTab === "function" && splitView.classList.contains("has-mobile-tabs")) {
+          app.setMobileSplitTab(splitView, "preview", { silent: true });
+        }
         app.showToast("Graph canvas updated", "info");
       });
 
       ["calc-graph-func", "calc-graph-xmin", "calc-graph-xmax"].forEach((id) => {
-        container.querySelector("#" + id)?.addEventListener("change", drawGraph);
+        container.querySelector("#" + id)?.addEventListener("change", () => drawGraph());
       });
 
-      // Graph canvas hover coordinate tracker & interactive curve crosshair
+      // Interactive 2D Graph Drag-to-Pan & Mouse Wheel Zoom
       const graphCanvas = container.querySelector("#calc-graph-canvas");
       const hoverCoordsEl = container.querySelector("#calc-graph-hover-coords");
+      let isPanning = false;
+      let panStartX = 0;
+      let panOrigXMin = -10;
+      let panOrigXMax = 10;
+
       if (graphCanvas && hoverCoordsEl) {
+        graphCanvas.addEventListener("mousedown", (e) => {
+          if (e.button !== 0) return;
+          isPanning = true;
+          panStartX = e.clientX;
+          panOrigXMin = graphState.xMin;
+          panOrigXMax = graphState.xMax;
+          graphCanvas.style.cursor = "grabbing";
+        });
+
+        window.addEventListener("mousemove", (e) => {
+          if (!isPanning) return;
+          const dx = e.clientX - panStartX;
+          const xSpan = panOrigXMax - panOrigXMin;
+          const xShift = (dx / graphState.width) * xSpan;
+          const newXMin = panOrigXMin - xShift;
+          const newXMax = panOrigXMax - xShift;
+
+          const xMinEl = container.querySelector("#calc-graph-xmin");
+          const xMaxEl = container.querySelector("#calc-graph-xmax");
+          if (xMinEl) xMinEl.value = newXMin.toFixed(2);
+          if (xMaxEl) xMaxEl.value = newXMax.toFixed(2);
+
+          drawGraph(newXMin, newXMax);
+        });
+
+        window.addEventListener("mouseup", () => {
+          if (isPanning) {
+            isPanning = false;
+            if (graphCanvas) graphCanvas.style.cursor = "crosshair";
+          }
+        });
+
+        // Mobile Touch Drag-to-Pan (Android & touch devices)
+        graphCanvas.addEventListener("touchstart", (e) => {
+          if (e.touches && e.touches.length === 1) {
+            isPanning = true;
+            panStartX = e.touches[0].clientX;
+            panOrigXMin = graphState.xMin;
+            panOrigXMax = graphState.xMax;
+          }
+        }, { passive: true });
+
+        window.addEventListener("touchmove", (e) => {
+          if (!isPanning || !e.touches || e.touches.length !== 1) return;
+          const dx = e.touches[0].clientX - panStartX;
+          const xSpan = panOrigXMax - panOrigXMin;
+          const xShift = (dx / graphState.width) * xSpan;
+          const newXMin = panOrigXMin - xShift;
+          const newXMax = panOrigXMax - xShift;
+
+          const xMinEl = container.querySelector("#calc-graph-xmin");
+          const xMaxEl = container.querySelector("#calc-graph-xmax");
+          if (xMinEl) xMinEl.value = newXMin.toFixed(2);
+          if (xMaxEl) xMaxEl.value = newXMax.toFixed(2);
+
+          drawGraph(newXMin, newXMax);
+        }, { passive: true });
+
+        window.addEventListener("touchend", () => {
+          if (isPanning) {
+            isPanning = false;
+          }
+        });
+
+        // Wheel Zoom centered on cursor
+        graphCanvas.addEventListener("wheel", (e) => {
+          e.preventDefault();
+          const rect = graphCanvas.getBoundingClientRect();
+          const mouseXRatio = (e.clientX - rect.left) / rect.width;
+          const zoomFactor = e.deltaY < 0 ? 0.85 : 1.18;
+
+          const xSpan = graphState.xMax - graphState.xMin;
+          const newXSpan = xSpan * zoomFactor;
+          const xMouseVal = graphState.xMin + mouseXRatio * xSpan;
+
+          const newXMin = xMouseVal - mouseXRatio * newXSpan;
+          const newXMax = newXMin + newXSpan;
+
+          const xMinEl = container.querySelector("#calc-graph-xmin");
+          const xMaxEl = container.querySelector("#calc-graph-xmax");
+          if (xMinEl) xMinEl.value = newXMin.toFixed(2);
+          if (xMaxEl) xMaxEl.value = newXMax.toFixed(2);
+
+          drawGraph(newXMin, newXMax);
+        }, { passive: false });
+
+        // Hover Crosshair Tracker
         graphCanvas.addEventListener("mousemove", (e) => {
+          if (isPanning) return;
           const rect = graphCanvas.getBoundingClientRect();
           const xPos = e.clientX - rect.left;
           const curX = graphState.xMin + (xPos / rect.width) * (graphState.xMax - graphState.xMin);
@@ -1966,13 +2398,15 @@ export default {
         });
 
         graphCanvas.addEventListener("mouseleave", () => {
-          hoverCoordsEl.innerText = "Hover graph to inspect";
-          hoverCrosshair = null;
-          drawGraph();
+          if (!isPanning) {
+            hoverCoordsEl.innerText = "Drag to pan • Scroll to zoom";
+            hoverCrosshair = null;
+            drawGraph();
+          }
         });
       }
 
-      // Graph Zoom Controls
+      // Graph Zoom Buttons
       container.querySelector("#calc-graph-zoom-in")?.addEventListener("click", () => {
         const xMinEl = container.querySelector("#calc-graph-xmin");
         const xMaxEl = container.querySelector("#calc-graph-xmax");
@@ -2018,25 +2452,28 @@ export default {
         app.showToast("Downloaded 2D graph PNG", "success");
       });
 
-      // Screen Output Actions
+      // Screen Output Actions (Click to Return Result)
       container.querySelector("#calc-copy-result-btn")?.addEventListener("click", () => {
         const text = resultDisplay ? resultDisplay.innerText : "0";
         app.copyText(text);
       });
 
       container.querySelector("#calc-reuse-result-btn")?.addEventListener("click", () => {
-        const text = resultDisplay ? resultDisplay.innerText : "0";
-        if (text && text !== "Error") {
-          formulaStr = text;
-          isResultState = false;
-          updateDisplay();
-          updateLivePreview();
-          app.showToast("Reused calculated result in formula", "info");
-        }
+        returnResultToCalculator();
+      });
+
+      // Clicking directly on the big result number or the screen display returns result
+      resultDisplay?.addEventListener("click", () => {
+        returnResultToCalculator();
+      });
+
+      screenDisplay?.addEventListener("click", (e) => {
+        if (e.target.closest("button") || e.target.closest(".calc-fraction-pill")) return;
+        returnResultToCalculator();
       });
 
       container.querySelector("#calc-clear-screen-btn")?.addEventListener("click", () => {
-        handleCalcInput("action", "clear");
+        handleCalcInput("action", "allclear");
       });
 
       // Radix Copy Boxes
@@ -2059,7 +2496,7 @@ export default {
         app.showToast("Cleared calculation history", "info");
       });
 
-      // Example tabs in Guide card
+      // Guide Examples
       let activeExampleIndex = 0;
       const tabBtns = container.querySelectorAll(".tool-guide-example-tab-btn");
       const rows = container.querySelectorAll(".tool-guide-io-row");
@@ -2075,26 +2512,25 @@ export default {
         });
       });
 
-      // Quick Guide "Try Example"
       container.querySelector("#calc-guide-load-sample")?.addEventListener("click", () => {
         if (activeExampleIndex === 0) {
           isDegrees = true;
           if (angleBadge) angleBadge.innerText = "DEG";
-          formulaStr = "sin(30) + cos(60)";
+          formulaStr = "sin(30) + 200 * 15%";
           isResultState = false;
           updateDisplay();
           evaluateExpression();
-          app.showToast("Loaded: sin(30) + cos(60) = 1 (DEG)", "info");
+          app.showToast("Loaded: sin(30) + 200 * 15% = 30.5", "info");
         } else {
-          formulaStr = "2^3 + 5*2 - 4";
+          formulaStr = "nCr(10, 3) + 3e4 / 2";
           isResultState = false;
           updateDisplay();
           evaluateExpression();
-          app.showToast("Loaded: 2^3 + 5*2 - 4 = 14", "info");
+          app.showToast("Loaded: nCr(10, 3) + 3e4 / 2 = 15120", "info");
         }
       });
 
-      // Responsive ResizeObserver for crisp graph re-rendering on window or panel size changes
+      // ResizeObserver
       const graphContainer = container.querySelector("#calc-graph-container");
       if (typeof ResizeObserver !== "undefined" && graphContainer) {
         if (resizeObserverRef) resizeObserverRef.disconnect();
@@ -2115,7 +2551,6 @@ export default {
 
       const key = e.key;
 
-      // Let app-level _fsEscapeHandler exit fullscreen cleanly without clearing active formula
       if (key === "Escape") {
         if (rightPanel && rightPanel.classList.contains("preview-fullscreen")) {
           return;
@@ -2150,7 +2585,7 @@ export default {
       } else if (key === "/") {
         handleCalcInput("op", "divide");
       } else if (key === "%") {
-        handleCalcInput("op", "mod");
+        handleCalcInput("fn", "percent");
       } else if (key === "^") {
         handleCalcInput("fn", "pow");
       } else if (key === "!") {

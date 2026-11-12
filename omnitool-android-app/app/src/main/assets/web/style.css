@@ -63,7 +63,7 @@ html {
   height: 100%;
   width: 100%;
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 * {
@@ -186,6 +186,7 @@ body {
   top: 0;
   left: 0;
   height: 100%;
+  height: 100dvh;
   width: 290px;
   transform: translateX(-100%);
   background-color: var(--bg-sidebar);
@@ -194,6 +195,8 @@ body {
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  overscroll-behavior: contain;
   z-index: 2000;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
   flex-shrink: 0;
@@ -204,12 +207,17 @@ body {
   box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.75), var(--shadow-lg) !important;
 }
 
+body:has(#app-sidebar.show) {
+  overflow: hidden !important;
+}
+
 .sidebar-header {
   padding: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
 }
 
 .logo {
@@ -266,6 +274,7 @@ body {
 .search-box-container {
   padding: 16px 20px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .search-input-wrapper {
@@ -645,12 +654,21 @@ body {
 
 
 .sidebar-nav {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
-  padding: 10px 16px;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  padding: 10px 16px calc(28px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.sidebar-nav > * {
+  flex-shrink: 0;
 }
 
 .nav-section-title {
@@ -2414,6 +2432,8 @@ body {
     max-width: 85vw !important;
     height: 100% !important;
     height: 100dvh !important;
+    overflow: hidden !important;
+    overscroll-behavior: contain !important;
     transform: translateX(-100%);
     z-index: 2000 !important;
   }
@@ -2981,15 +3001,107 @@ body {
   border-color: var(--accent-cyan);
 }
 
-/* Scientific Calculator Keys */
+/* Scientific Calculator Console & Keys */
+.calc-console-screen {
+  background: radial-gradient(circle at 90% 10%, rgba(0, 242, 254, 0.05), transparent 70%), var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: text;
+  transition: all var(--transition-fast);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.calc-console-screen:focus-within {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 2px rgba(0, 242, 254, 0.15), inset 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.calc-console-history-line {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  min-height: 16px;
+  line-height: 1.3;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calc-console-input {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  flex: 1;
+  min-width: 0;
+  letter-spacing: 0.5px;
+}
+
+.calc-console-live-res {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.calc-console-live-res:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.calc-screen-display.clickable-result {
+  cursor: pointer;
+}
+
+.calc-screen-display.clickable-result:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 14px rgba(0, 242, 254, 0.15), inset 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.calc-console-grid {
+  display: grid;
+  grid-template-columns: 3fr 4fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.calc-sci-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.calc-num-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
 .calc-btn {
   background-color: var(--bg-input);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   color: var(--text-main);
-  padding: 14px 6px;
+  height: 38px;
+  min-height: 38px;
+  padding: 0 4px;
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -3005,7 +3117,7 @@ body {
   background-color: rgba(0, 242, 254, 0.08);
   color: var(--accent-cyan);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 242, 254, 0.15);
+  box-shadow: 0 3px 10px rgba(0, 242, 254, 0.15);
 }
 
 .calc-btn:active {
@@ -3021,7 +3133,39 @@ body {
   border-color: var(--accent-purple);
   background-color: rgba(157, 78, 221, 0.08);
   color: var(--accent-purple);
-  box-shadow: 0 4px 12px rgba(157, 78, 221, 0.15);
+  box-shadow: 0 3px 10px rgba(157, 78, 221, 0.15);
+}
+
+.calc-btn.inv-btn {
+  border-color: rgba(157, 78, 221, 0.3);
+  color: var(--accent-purple);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.calc-btn.inv-btn.inv-active {
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.35), rgba(0, 242, 254, 0.25)) !important;
+  border-color: var(--accent-cyan) !important;
+  color: #fff !important;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.35) !important;
+}
+
+.calc-btn.ans-key {
+  border-color: rgba(0, 242, 254, 0.25);
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+.calc-btn.ans-key:hover {
+  background-color: rgba(0, 242, 254, 0.12);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 3px 10px rgba(0, 242, 254, 0.2);
+}
+
+.calc-btn.exp-key {
+  border-color: rgba(157, 78, 221, 0.2);
+  color: var(--accent-purple);
+  font-weight: 700;
 }
 
 .calc-btn.op-key {
@@ -3032,7 +3176,7 @@ body {
   border-color: var(--accent-orange);
   background-color: rgba(245, 158, 11, 0.08);
   color: var(--accent-orange);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.15);
 }
 
 .calc-btn.mem-key {
@@ -3042,7 +3186,7 @@ body {
   background-color: transparent;
   border-bottom: 1px solid var(--border-color);
   border-radius: 0;
-  padding: 8px 4px;
+  padding: 6px 4px;
   color: var(--text-muted);
 }
 
@@ -3052,6 +3196,39 @@ body {
   background-color: rgba(255, 255, 255, 0.03);
   box-shadow: none;
   transform: none;
+}
+
+.calc-fraction-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-purple);
+  background: rgba(157, 78, 221, 0.12);
+  border: 1px solid rgba(157, 78, 221, 0.3);
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-top: 6px;
+  align-self: flex-end;
+  user-select: none;
+}
+
+.calc-fraction-pill:hover {
+  background: rgba(157, 78, 221, 0.22);
+  border-color: var(--accent-purple);
+  color: #d8b4fe;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 520px) {
+  .calc-console-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 }
 
 /* History Log list items */
@@ -6002,6 +6179,9 @@ body {
     top: 0;
     left: 0;
     height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: contain;
     width: 290px;
     transform: translateX(-100%);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
@@ -7649,6 +7829,9 @@ body {
     top: 0 !important;
     left: 0 !important;
     height: 100% !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    overscroll-behavior: contain !important;
     width: 290px !important;
     transform: translateX(-100%) !important;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease !important;
@@ -7790,9 +7973,335 @@ body {
   }
 }
 
-/* Mobile Split View Drawer Enhancements */
+/* Default hidden desktop state for Mobile Two-Tab Bar */
+.mobile-split-bar,
+.live-guide-tool-viewport .mobile-split-bar {
+  display: none !important;
+}
+
+/* Mobile Split View Drawer & Two-Tab (Editor / Preview) Enhancements */
 @media (max-width: 1024px) {
-  /* Default Mobile & Tablet Behavior: Stack Panels Vertically so All Tools (Calculator, Formatters, Decoders) are 100% Usable */
+  /* Sticky Mobile Two-Tab Bar (Subtabs + Editor / Preview + Quick Fullscreen) */
+  .mobile-split-bar {
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 45;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 12px 0;
+    padding: 8px;
+    border-radius: 14px;
+    background: rgba(13, 18, 30, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
+  }
+
+  body.app-embedded .mobile-split-bar {
+    top: 0;
+    margin-bottom: 10px;
+  }
+
+  [data-theme="light"] .mobile-split-bar {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  /* Yield cleanly to collapsible drawer dock when Full Screen preview is active */
+  .mobile-split-bar.is-fullscreen,
+  .mobile-split-bar:has(+ .tool-content-layout.has-fullscreen-preview),
+  .mobile-split-bar:has(+ .tool-content-layout .preview-fullscreen) {
+    display: none !important;
+  }
+
+  .mobile-subtabs-wrap:empty {
+    display: none;
+  }
+
+  .mobile-subtabs-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  [data-theme="light"] .mobile-subtabs-wrap {
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+  }
+
+  .mobile-subtabs-strip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 12px;
+    mask-image: linear-gradient(to right, #000 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 92%, transparent 100%);
+  }
+
+  .mobile-subtabs-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-subtab-pill {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 32px;
+    padding: 0 11px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-subtab-pill.active {
+    color: var(--accent-cyan);
+    background: rgba(var(--accent-cyan-rgb), 0.14);
+    border-color: rgba(var(--accent-cyan-rgb), 0.38);
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(var(--accent-cyan-rgb), 0.15);
+  }
+
+  .mobile-subtab-pill:active {
+    transform: scale(0.97);
+  }
+
+  .mobile-subtab-pill:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 1px;
+  }
+
+  [data-theme="light"] .mobile-subtab-pill {
+    color: #475569;
+    background: rgba(15, 23, 42, 0.04);
+    border-color: rgba(15, 23, 42, 0.08);
+  }
+
+  [data-theme="light"] .mobile-subtab-pill.active {
+    color: #0284c7;
+    background: rgba(2, 132, 199, 0.1);
+    border-color: rgba(2, 132, 199, 0.32);
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.12);
+  }
+
+  .mobile-tabs-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .mobile-split-tabs {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 3px;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+  }
+
+  [data-theme="light"] .mobile-split-tabs {
+    background: rgba(15, 23, 42, 0.05);
+    border-color: rgba(15, 23, 42, 0.08);
+  }
+
+  .mobile-split-tab {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-split-tab.active {
+    color: var(--text-main);
+    background: linear-gradient(135deg, rgba(var(--accent-cyan-rgb), 0.2), rgba(168, 85, 247, 0.14));
+    border-color: rgba(var(--accent-cyan-rgb), 0.36);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22), 0 0 14px rgba(var(--accent-cyan-rgb), 0.12);
+  }
+
+  .mobile-split-tab.active svg {
+    color: var(--accent-cyan);
+  }
+
+  [data-theme="light"] .mobile-split-tab.active {
+    color: #0f172a;
+    background: #ffffff;
+    border-color: rgba(2, 132, 199, 0.3);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  }
+
+  [data-theme="light"] .mobile-split-tab.active svg {
+    color: #0284c7;
+  }
+
+  .mobile-split-tab:active {
+    transform: scale(0.985);
+  }
+
+  .mobile-split-tab:focus-visible,
+  .mobile-fs-trigger:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 1px;
+  }
+
+  .mobile-tab-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 8px var(--accent-cyan);
+    opacity: 0;
+    transform: scale(0.4);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+
+  .mobile-split-tab.has-update:not(.active) .mobile-tab-dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .mobile-fs-trigger {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-fs-trigger:hover,
+  .mobile-fs-trigger:active {
+    color: var(--accent-cyan);
+    border-color: rgba(var(--accent-cyan-rgb), 0.35);
+    background: rgba(var(--accent-cyan-rgb), 0.1);
+    transform: scale(0.97);
+  }
+
+  [data-theme="light"] .mobile-fs-trigger {
+    background: rgba(15, 23, 42, 0.04);
+    border-color: rgba(15, 23, 42, 0.08);
+    color: #475569;
+  }
+
+  /* Compact single-row horizontal capability bar on mobile */
+  .tool-capabilities-bar {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100% !important;
+    padding-bottom: 2px;
+  }
+
+  .tool-capabilities-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tool-capabilities-bar .tool-cap-chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* Compact top tool header & spacing on regular Mobile Web so Editor | Preview bar sits high above the fold */
+  .tool-container {
+    padding: 12px 12px 24px !important;
+    gap: 12px !important;
+  }
+
+  .tool-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+
+  .tool-bar-left {
+    gap: 10px;
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .tool-bar-left h2,
+  .tool-bar-left .tool-title {
+    font-size: 18px !important;
+    line-height: 1.25 !important;
+  }
+
+  .tool-bar-left p {
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tool-bar-right {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tool-bar .back-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  /* Hide in-panel promoted suite/mode tabs during normal 2-tab mode (shown in sticky top bar instead, restored inside fullscreen drawer) */
+  .tool-content-layout.split-view.has-mobile-tabs:not(.has-fullscreen-preview):not(:has(.preview-fullscreen)) .mobile-promoted-tabs {
+    display: none !important;
+  }
+
+  /* Default Mobile & Tablet Behavior: Stack Panels Vertically or Switch Cleanly via Editor | Preview Tabs */
   .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) {
     position: relative;
     display: flex !important;
@@ -7818,13 +8327,36 @@ body {
     z-index: auto !important;
   }
 
-  .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) > .tool-panel:nth-of-type(2) {
+  .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) > .tool-panel ~ .tool-panel:not(.tool-guide-card) {
     width: 100% !important;
     max-width: 100% !important;
     flex: unset !important;
     margin: 0 !important;
     padding: 20px !important;
     position: static !important;
+  }
+
+  /* Two-Tab Visibility Toggle (Editor vs Preview) */
+  .tool-content-layout.split-view.has-mobile-tabs:not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) > .tool-panel:not(.tool-guide-card) {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .tool-content-layout.split-view.has-mobile-tabs.mobile-view-editor:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) > .mobile-preview-panel {
+    display: none !important;
+  }
+
+  .tool-content-layout.split-view.has-mobile-tabs.mobile-view-preview:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) > .mobile-editor-panel {
+    display: none !important;
+  }
+
+  .tool-content-layout.split-view.has-mobile-tabs:not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) .markdown-preview {
+    min-height: 280px !important;
+  }
+
+  .tool-content-layout.split-view.has-mobile-tabs:not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) > .tool-panel.sc-viewport-panel {
+    min-height: 320px !important;
   }
 
   .tool-content-layout.split-view:not(.drawer-mode):not(:has(.preview-fullscreen)):not(.has-fullscreen-preview) .adjust-settings-fab,
@@ -7843,28 +8375,33 @@ body {
     width: 100%;
   }
 
-  /* Left panel becomes a slide-over drawer */
+  /* Left panel becomes a viewport-locked slide-over drawer */
   .tool-content-layout.split-view.drawer-mode > .tool-panel:first-of-type {
-    position: absolute !important;
+    position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     bottom: 0 !important;
-    height: 100% !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
     width: 85% !important;
     max-width: 340px !important;
     background: rgba(10, 14, 23, 0.98) !important;
     backdrop-filter: blur(25px) !important;
     -webkit-backdrop-filter: blur(25px) !important;
-    border-radius: 12px 0 0 12px !important;
+    border-radius: 0 14px 14px 0 !important;
     border-right: 1px solid var(--border-color-hover) !important;
     border-top: none !important;
     border-bottom: none !important;
     border-left: none !important;
-    z-index: 1000 !important;
+    z-index: 10000 !important;
     transform: translateX(-100%) !important;
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
     box-shadow: 20px 0 40px rgba(0, 0, 0, 0.6) !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    touch-action: pan-y !important;
     padding: 24px 20px 80px !important;
     margin: 0 !important;
     animation: none !important;
@@ -7907,20 +8444,19 @@ body {
 
   /* Blur backdrop mask for drawer */
   .split-view-backdrop {
-    position: absolute !important;
+    position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    height: 100% !important;
+    height: 100dvh !important;
     background: rgba(0, 0, 0, 0.65) !important;
     backdrop-filter: blur(4px) !important;
     -webkit-backdrop-filter: blur(4px) !important;
-    z-index: 999 !important;
+    z-index: 9999 !important;
     opacity: 0 !important;
     pointer-events: none !important;
     transition: opacity 0.3s ease !important;
-    border-radius: 12px !important;
   }
 
   .tool-content-layout.split-view.drawer-open .split-view-backdrop {
@@ -11576,6 +12112,7 @@ footer.guide-footer {
 
 .mobile-mode-switcher-container {
   padding: 10px 14px 6px 14px;
+  flex-shrink: 0;
 }
 
 .ui-mode-pill {
@@ -12041,7 +12578,7 @@ body[data-ui-mode="beginner"] .hero-badge-pill .hero-badge-dot {
   .tool-container {
     min-width: 0 !important;
     max-width: 100% !important;
-    overflow-x: hidden !important;
+    overflow-x: clip !important;
   }
   .tool-panel input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
   .tool-panel select,
@@ -12080,9 +12617,35 @@ html.app-embedded,
 body.app-embedded {
   height: auto !important;
   min-height: 100% !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
   -webkit-overflow-scrolling: touch !important;
+}
+
+@media (max-width: 480px) {
+  .mobile-split-bar {
+    padding: 6px;
+    gap: 6px;
+    border-radius: 12px;
+  }
+
+  .mobile-split-tab {
+    height: 36px;
+    font-size: 12.5px;
+    gap: 5px;
+    padding: 0 8px;
+  }
+
+  .mobile-fs-trigger {
+    width: 38px;
+    height: 42px;
+  }
+
+  .mobile-subtab-pill {
+    height: 30px;
+    padding: 0 10px;
+    font-size: 11.5px;
+  }
 }
 
 body.app-embedded {
@@ -12097,6 +12660,7 @@ body.app-embedded .app-footer,
 body.app-embedded #sidebar-open-btn,
 body.app-embedded .desktop-nav-menu,
 body.app-embedded .sidebar-toggle-btn,
+body.app-embedded #pwa-install-banner,
 body.app-embedded #app-splash-screen,
 html.app-embedded #app-splash-screen {
   display: none !important;
@@ -12139,9 +12703,9 @@ body.app-embedded .tool-viewport {
   min-height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
+  gap: 10px !important;
   overflow: visible !important;
-  padding-top: 4px !important;
-  padding-bottom: 28px !important;
+  padding: 6px 12px 24px !important;
   width: 100% !important;
   max-width: 100% !important;
 }

@@ -95,7 +95,7 @@ export default {
       tabsNav.className = "suite-tabs-nav";
       editorHeader.appendChild(tabsNav);
     }
-    tabsNav.style.cssText = "display: flex !important; gap: 6px !important; align-items: center !important; width: 100% !important; flex-wrap: wrap !important; margin-top: 4px !important; padding-top: 8px !important; border-top: 1px solid rgba(255, 255, 255, 0.06) !important;";
+    tabsNav.style.cssText = "display: flex; gap: 6px !important; align-items: center !important; width: 100% !important; flex-wrap: wrap !important; margin-top: 4px !important; padding-top: 8px !important; border-top: 1px solid rgba(255, 255, 255, 0.06) !important;";
 
     tabsNav.innerHTML = this.subtools.map(st => `
       <button type="button" class="keyboard-tab ${st.id === this.activeSubtool ? 'active' : ''}" data-subtool="${st.id}" style="font-size: 11px; padding: 4px 10px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;" title="${st.title}">
@@ -190,6 +190,9 @@ export default {
                 const editorHeader = editorPanel.querySelector(".panel-header");
                 if (editorHeader) {
                   this.injectTabs(editorHeader, appInstance, loadSubtool);
+                  if (typeof appInstance.syncMobileSplitBar === "function") {
+                    appInstance.syncMobileSplitBar(splitView || host);
+                  }
                 }
               }
             };

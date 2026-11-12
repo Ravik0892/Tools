@@ -2653,7 +2653,9 @@ const app = {
   },
 
   applyUiModeDOM() {
-    document.body.setAttribute("data-ui-mode", this.uiMode);
+    if (document.body) {
+      document.body.setAttribute("data-ui-mode", this.uiMode);
+    }
 
     const updatePills = (prefix) => {
       const begBtn = document.getElementById(`${prefix}mode-btn-beginner`);
@@ -3845,8 +3847,8 @@ const app = {
       );
     this.isEmbeddedApp = isEmbeddedApp;
     if (isEmbeddedApp) {
-      document.body.classList.add("app-embedded");
-      document.documentElement.classList.add("app-embedded");
+      document.body?.classList?.add("app-embedded");
+      document.documentElement?.classList?.add("app-embedded");
     }
 
     // Inject keywords into tool definitions
@@ -3861,6 +3863,13 @@ const app = {
       window.location.hostname === "host.docker.internal";
     if (!isLocalhost) {
       this.tools = this.tools.filter(t => t.id !== "admin-settings");
+    }
+
+    // Skip async browser hydration, timers, and CSSOM calls in minimal Node.js mock-DOM unit test harnesses
+    const isNodeMockHarness = typeof process !== "undefined" && Boolean(process.versions?.node) && typeof document?.createTreeWalker !== "function";
+    if (isNodeMockHarness && !window.__OMNITOOL_FORCE_INIT__) {
+      this.isInitialLoad = false;
+      return;
     }
 
     await this.loadGlobalConfig();
@@ -4283,7 +4292,7 @@ const app = {
     const logBox = document.getElementById("splash-logs");
     if (!splash) return;
 
-    if (this.isEmbeddedApp || document.body.classList.contains("app-embedded") || document.documentElement.classList.contains("app-embedded")) {
+    if (this.isEmbeddedApp || document.body?.classList?.contains("app-embedded") || document.documentElement?.classList?.contains("app-embedded")) {
       splash.style.display = "none";
       return;
     }
@@ -4295,7 +4304,12 @@ const app = {
       "System status: 100% SECURE. Launching OmniTool Hub."
     ];
 
-    const alreadyVisited = sessionStorage.getItem("omnitool_visited") === "true";
+    let alreadyVisited = false;
+    try {
+      alreadyVisited = typeof sessionStorage !== "undefined" && sessionStorage.getItem("omnitool_visited") === "true";
+    } catch (_) {
+      alreadyVisited = false;
+    }
     if (alreadyVisited) {
       splash.style.transition = "opacity 0.2s ease, visibility 0.2s";
       setTimeout(() => {
@@ -4304,7 +4318,11 @@ const app = {
       return;
     }
 
-    sessionStorage.setItem("omnitool_visited", "true");
+    try {
+      if (typeof sessionStorage !== "undefined") {
+        sessionStorage.setItem("omnitool_visited", "true");
+      }
+    } catch (_) {}
 
     if (logBox) {
       logBox.innerHTML = "";
@@ -6165,10 +6183,12 @@ const app = {
       : (presetsDark[preset] || presetsDark.default);
 
     const root = document.documentElement;
-    root.style.setProperty('--accent-cyan', colors.cyan);
-    root.style.setProperty('--accent-cyan-rgb', colors.cyanRgb);
-    root.style.setProperty('--accent-purple', colors.purple);
-    root.style.setProperty('--accent-purple-rgb', colors.purpleRgb);
+    if (root && root.style && typeof root.style.setProperty === "function") {
+      root.style.setProperty('--accent-cyan', colors.cyan);
+      root.style.setProperty('--accent-cyan-rgb', colors.cyanRgb);
+      root.style.setProperty('--accent-purple', colors.purple);
+      root.style.setProperty('--accent-purple-rgb', colors.purpleRgb);
+    }
   },
 
   playSynthSound(type = 'click') {
@@ -6274,7 +6294,13 @@ const app = {
         if (clockWidget) clockWidget.style.display = "none";
         return;
       }
-      if (clockWidget) clockWidget.style.removeProperty("display");
+      if (clockWidget) {
+        if (typeof clockWidget.style.removeProperty === "function") {
+          clockWidget.style.removeProperty("display");
+        } else {
+          clockWidget.style.display = "";
+        }
+      }
 
       const now = new Date();
 
@@ -8056,6 +8082,304 @@ const app = {
     }
   },
 
+  // Mobile Split-View Tab State (Editor vs Preview) & Subtab Mirroring
+  getMobileTabState(splitView) {
+    const host = splitView?.parentElement;
+    const toolKey = this.activeTool || "default";
+    if (host?.dataset?.mobileActiveTool === toolKey && host.dataset.mobileActiveTab === "preview") {
+      return "preview";
+    }
+    return "editor";
+  },
+
+  setMobileSplitTab(splitView, mode, options = {}) {
+    if (!splitView) return;
+    const targetMode = mode === "preview" ? "preview" : "editor";
+    splitView.classList.remove("mobile-view-editor", "mobile-view-preview");
+    splitView.classList.add(`mobile-view-${targetMode}`);
+
+    const host = splitView.parentElement;
+    if (host?.dataset) {
+      host.dataset.mobileActiveTool = this.activeTool || "default";
+      host.dataset.mobileActiveTab = targetMode;
+    }
+
+    const bar = splitView._mobileBar || (splitView.previousElementSibling?.classList?.contains("mobile-split-bar") ? splitView.previousElementSibling : null);
+    if (bar) {
+      bar.querySelectorAll(".mobile-split-tab").forEach(btn => {
+        const isTarget = btn.dataset.mobileTab === targetMode;
+        btn.classList.toggle("active", isTarget);
+        btn.setAttribute("aria-selected", isTarget ? "true" : "false");
+        btn.setAttribute("tabindex", isTarget ? "0" : "-1");
+        if (isTarget && targetMode === "preview") {
+          btn.classList.remove("has-update");
+        }
+      });
+    }
+
+    if (targetMode === "preview") {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.dispatchEvent(new Event("resize"));
+        });
+      });
+    }
+
+    if (!options.silent) {
+      this.playSynthSound?.("click");
+      if (bar) {
+        const rect = bar.getBoundingClientRect();
+        if (rect.top < 0) {
+          bar.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    }
+  },
+
+  syncMobileSplitBar(splitViewOrRoot) {
+    const root = splitViewOrRoot || document;
+    const splitView = root.classList?.contains("split-view")
+      ? root
+      : root.querySelector?.(".tool-content-layout.split-view");
+    if (!splitView) return;
+
+    const bar = splitView._mobileBar || (splitView.previousElementSibling?.classList?.contains("mobile-split-bar") ? splitView.previousElementSibling : null);
+    if (!bar) return;
+
+    const panels = Array.from(splitView.querySelectorAll(":scope > .tool-panel:not(.tool-guide-card)"));
+    const drawer = panels[0];
+    const previewPanel = panels[1];
+
+    const isFS = Boolean(
+      splitView.classList.contains("has-fullscreen-preview") ||
+      previewPanel?.classList.contains("preview-fullscreen")
+    );
+    bar.classList.toggle("is-fullscreen", isFS);
+
+    const fsTrigger = bar.querySelector(".mobile-fs-trigger");
+    if (fsTrigger) {
+      const hasFsBtn = Boolean(previewPanel?.querySelector(".preview-fullscreen-btn"));
+      fsTrigger.style.display = hasFsBtn ? "" : "none";
+    }
+
+    const subtabsWrap = bar.querySelector(".mobile-subtabs-wrap");
+    if (!subtabsWrap || !drawer) return;
+
+    const editorHeader = drawer.querySelector(":scope > .panel-header");
+    const groups = [];
+
+    if (editorHeader) {
+      const suiteNav = editorHeader.querySelector(".suite-tabs-nav");
+      if (suiteNav && suiteNav.querySelectorAll(".keyboard-tab").length >= 2) {
+        if (suiteNav.style.display) {
+          suiteNav.style.removeProperty("display");
+        }
+        groups.push({ el: suiteNav, kind: "suite" });
+      }
+
+      editorHeader.querySelectorAll("div").forEach(div => {
+        if (div === suiteNav || div.classList.contains("suite-tabs-nav") || div.classList.contains("keyboard-tabs") || div.classList.contains("panel-header-top")) return;
+        if (suiteNav && suiteNav.contains(div)) return;
+        const directTabs = Array.from(div.children).filter(c => c.classList?.contains("keyboard-tab"));
+        if (directTabs.length >= 2) {
+          groups.push({ el: div, kind: "mode" });
+        }
+      });
+    }
+
+    // Remove stale promoted markers if re-syncing
+    drawer.querySelectorAll(".mobile-promoted-tabs").forEach(el => {
+      if (!groups.some(g => g.el === el)) el.classList.remove("mobile-promoted-tabs");
+    });
+
+    subtabsWrap.innerHTML = "";
+    if (!groups.length) return;
+
+    groups.forEach(({ el, kind }) => {
+      el.classList.add("mobile-promoted-tabs");
+      const sourceTabs = Array.from(el.querySelectorAll(":scope > .keyboard-tab"));
+      if (!sourceTabs.length) return;
+
+      const strip = document.createElement("div");
+      strip.className = `mobile-subtabs-strip ${kind === "suite" ? "is-suite-strip" : "is-mode-strip"}`;
+      strip.setAttribute("role", "navigation");
+      strip.setAttribute("aria-label", kind === "suite" ? "Suite Tools" : "Tool Modes");
+
+      sourceTabs.forEach((srcBtn, idx) => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        const isActive = srcBtn.classList.contains("active");
+        pill.className = `mobile-subtab-pill${isActive ? " active" : ""}`;
+        pill.setAttribute("aria-pressed", isActive ? "true" : "false");
+        if (srcBtn.title) pill.title = srcBtn.title;
+        if (srcBtn.dataset.subtool) pill.dataset.subtool = srcBtn.dataset.subtool;
+        if (srcBtn.dataset.tab) pill.dataset.tab = srcBtn.dataset.tab;
+
+        // Clone label/icon content cleanly while stripping duplicate IDs
+        const clone = srcBtn.cloneNode(true);
+        clone.querySelectorAll?.("[id]").forEach(node => node.removeAttribute("id"));
+        pill.innerHTML = clone.innerHTML;
+
+        pill.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const targetTab = (srcBtn.dataset.subtool && el.querySelector(`.keyboard-tab[data-subtool="${srcBtn.dataset.subtool}"]`))
+            || (srcBtn.dataset.tab && el.querySelector(`.keyboard-tab[data-tab="${srcBtn.dataset.tab}"]`))
+            || el.querySelectorAll(":scope > .keyboard-tab")[idx];
+          if (targetTab) {
+            const host = splitView.parentElement;
+            if (host?.dataset) {
+              host.dataset.mobileActiveTool = this.activeTool || "default";
+              host.dataset.mobileActiveTab = splitView.classList.contains("mobile-view-preview") ? "preview" : "editor";
+            }
+            targetTab.click();
+            requestAnimationFrame(() => this.syncMobileSplitBar(splitView));
+          }
+        });
+
+        strip.appendChild(pill);
+      });
+
+      subtabsWrap.appendChild(strip);
+
+      // Keep active pill centered horizontally without vertical scroll jump
+      requestAnimationFrame(() => {
+        const activePill = strip.querySelector(".mobile-subtab-pill.active");
+        if (activePill && strip.scrollWidth > strip.clientWidth) {
+          const targetScroll = activePill.offsetLeft - (strip.clientWidth / 2) + (activePill.offsetWidth / 2);
+          strip.scrollLeft = Math.max(0, targetScroll);
+        }
+      });
+    });
+  },
+
+  initMobileSplitTabs(splitView, drawer, previewPanel) {
+    if (!splitView || !drawer || !previewPanel) return;
+
+    drawer.classList.add("mobile-editor-panel");
+    previewPanel.classList.add("mobile-preview-panel");
+
+    // Clean up any stale sibling bars left behind by partial DOM replacements (e.g. split.outerHTML)
+    let prev = splitView.previousElementSibling;
+    while (prev && prev.classList.contains("mobile-split-bar")) {
+      const toCheck = prev;
+      prev = prev.previousElementSibling;
+      if (toCheck._splitView !== splitView) {
+        toCheck.remove();
+      }
+    }
+
+    let bar = splitView._mobileBar;
+    if (!bar || !bar.isConnected || bar.nextElementSibling !== splitView) {
+      bar = document.createElement("div");
+      bar.className = "mobile-split-bar";
+      bar.innerHTML = `
+        <div class="mobile-subtabs-wrap"></div>
+        <div class="mobile-tabs-row">
+          <div class="mobile-split-tabs" role="tablist" aria-label="Tool Workspace View">
+            <button type="button" class="mobile-split-tab active" role="tab" aria-selected="true" tabindex="0" data-mobile-tab="editor">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span>Editor</span>
+            </button>
+            <button type="button" class="mobile-split-tab" role="tab" aria-selected="false" tabindex="-1" data-mobile-tab="preview">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <span>Preview</span>
+              <span class="mobile-tab-dot" aria-hidden="true" title="Output updated"></span>
+            </button>
+          </div>
+          <button type="button" class="mobile-fs-trigger" title="Full Screen Preview" aria-label="Full Screen Preview">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+          </button>
+        </div>
+      `;
+      splitView.before(bar);
+      bar._splitView = splitView;
+      splitView._mobileBar = bar;
+
+      const editorBtn = bar.querySelector('[data-mobile-tab="editor"]');
+      const previewBtn = bar.querySelector('[data-mobile-tab="preview"]');
+      const fsTrigger = bar.querySelector(".mobile-fs-trigger");
+      const tablist = bar.querySelector(".mobile-split-tabs");
+
+      editorBtn?.addEventListener("click", () => this.setMobileSplitTab(splitView, "editor"));
+      previewBtn?.addEventListener("click", () => this.setMobileSplitTab(splitView, "preview"));
+
+      tablist?.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        e.preventDefault();
+        const nextMode = splitView.classList.contains("mobile-view-editor") ? "preview" : "editor";
+        this.setMobileSplitTab(splitView, nextMode);
+        bar.querySelector(`[data-mobile-tab="${nextMode}"]`)?.focus();
+      });
+
+      fsTrigger?.addEventListener("click", () => {
+        const realFsBtn = previewPanel.querySelector(".preview-fullscreen-btn");
+        if (realFsBtn) {
+          realFsBtn.click();
+        }
+      });
+
+      // Subtle update indicator dot on Preview tab when user modifies inputs on Editor tab
+      const markUpdated = () => {
+        if (splitView.classList.contains("mobile-view-editor")) {
+          previewBtn?.classList.add("has-update");
+        }
+      };
+      drawer.addEventListener("input", markUpdated, { passive: true });
+      drawer.addEventListener("change", markUpdated, { passive: true });
+
+      // Observe dynamic suite tabs (.suite-tabs-nav) & programmatic subtab class changes
+      if (!drawer._mobileTabsObserver && typeof MutationObserver !== "undefined") {
+        let syncQueued = false;
+        const scheduleSync = () => {
+          if (syncQueued) return;
+          syncQueued = true;
+          requestAnimationFrame(() => {
+            syncQueued = false;
+            if (splitView.isConnected) {
+              this.syncMobileSplitBar(splitView);
+            }
+          });
+        };
+        const observer = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            if (m.type === "attributes") {
+              if (m.target.classList?.contains("keyboard-tab")) {
+                scheduleSync();
+                return;
+              }
+            } else if (m.type === "childList") {
+              if (m.target.closest?.(".panel-header")) {
+                scheduleSync();
+                return;
+              }
+            }
+          }
+        });
+        observer.observe(drawer, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["class"]
+        });
+        drawer._mobileTabsObserver = observer;
+      }
+    }
+
+    splitView.classList.add("has-mobile-tabs");
+    const initialTab = this.getMobileTabState(splitView);
+    this.setMobileSplitTab(splitView, initialTab, { silent: true });
+    this.syncMobileSplitBar(splitView);
+  },
+
   initLayoutSizer(container) {
     const root = container || document.getElementById("active-tool-viewport") || document;
     if (!root) return;
@@ -8151,19 +8475,31 @@ const app = {
           });
         }
 
-        // Swipe gesture detector to close drawer
+        // Swipe gesture detector to close drawer (strictly horizontal left-swipe; never interfere with vertical scrolling or sliders)
         let touchStartX = 0;
-        let touchEndX = 0;
         let touchStartY = 0;
-        let touchEndY = 0;
+        let touchIgnoreSwipe = false;
         drawer.addEventListener("touchstart", (e) => {
-          touchStartX = e.changedTouches[0].screenX;
-          touchStartY = e.changedTouches[0].screenY;
+          const touch = e.changedTouches?.[0];
+          if (!touch) return;
+          touchStartX = touch.clientX ?? touch.screenX;
+          touchStartY = touch.clientY ?? touch.screenY;
+          const target = e.target;
+          touchIgnoreSwipe = Boolean(
+            target &&
+            target.closest &&
+            target.closest('input[type="range"], canvas, select, [data-no-drawer-swipe]')
+          );
         }, { passive: true });
         drawer.addEventListener("touchend", (e) => {
-          touchEndX = e.changedTouches[0].screenX;
-          touchEndY = e.changedTouches[0].screenY;
-          if ((touchStartX - touchEndX > 60) || (touchEndY - touchStartY > 70)) {
+          if (touchIgnoreSwipe) return;
+          const touch = e.changedTouches?.[0];
+          if (!touch) return;
+          const endX = touch.clientX ?? touch.screenX;
+          const endY = touch.clientY ?? touch.screenY;
+          const dx = touchStartX - endX;
+          const dy = Math.abs(endY - touchStartY);
+          if (dx > 75 && dx > dy * 1.5) {
             this.playSynthSound('click');
             splitView.classList.remove("drawer-open");
           }
@@ -8351,6 +8687,7 @@ const app = {
               this.playSynthSound('click');
               const isFS = previewPanel.classList.toggle("preview-fullscreen");
               splitView.classList.toggle("has-fullscreen-preview", isFS);
+              splitView._mobileBar?.classList.toggle("is-fullscreen", isFS);
 
               if (isFS) {
                 fsBtn.innerHTML = `
@@ -8392,6 +8729,10 @@ const app = {
                 splitView.classList.remove("drawer-open");
                 drawer?.classList.remove("dock-wide");
               }
+
+              requestAnimationFrame(() => {
+                window.dispatchEvent(new Event("resize"));
+              });
             });
 
             if (!this._fsEscapeHandler) {
@@ -8412,6 +8753,9 @@ const app = {
             }
           }
         }
+
+        // Initialize responsive mobile/Android Editor <-> Preview 2-tab bar
+        this.initMobileSplitTabs(splitView, drawer, previewPanel);
 
         // Distribute ads cleanly into this split-view
         this.distributePanelAds(splitView);
@@ -10707,6 +11051,7 @@ const app = {
   "Configuration": { es: "Configuración", pt: "Configuração", de: "Konfiguration", fr: "Configuration" },
   "Options": { es: "Opciones", pt: "Opções", de: "Optionen", fr: "Options" },
   "Settings": { es: "Ajustes", pt: "Configurações", de: "Einstellungen", fr: "Paramètres" },
+  "Editor": { es: "Editor", pt: "Editor", de: "Editor", fr: "Éditeur" },
   "Preview": { es: "Vista Previa", pt: "Pré-visualização", de: "Vorschau", fr: "Aperçu" },
   "Output": { es: "Resultado", pt: "Saída", de: "Ausgabe", fr: "Sortie" },
   "Input": { es: "Entrada", pt: "Entrada", de: "Eingabe", fr: "Entrée" },

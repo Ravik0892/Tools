@@ -674,6 +674,9 @@ export default {
         host.innerHTML = this.renderUI();
       }
       this.bindEvents();
+      if (typeof this.app?.initLayoutSizer === "function") {
+        this.app.initLayoutSizer(host);
+      }
       this.renderCurrentComparison();
     }
   },
