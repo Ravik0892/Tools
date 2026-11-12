@@ -16,6 +16,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -31,10 +33,18 @@ import com.omnitool.hub.ui.theme.*
 fun DashboardScreen(
     onToolClick: (Tool) -> Unit,
     favorites: Set<String>,
-    onToggleFavorite: (String) -> Unit
+    onToggleFavorite: (String) -> Unit,
+    focusSearchTrigger: Int = 0
 ) {
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("all") }
+    val searchFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(focusSearchTrigger) {
+        if (focusSearchTrigger > 0) {
+            searchFocusRequester.requestFocus()
+        }
+    }
     
     // Filter logic
     val filteredTools = remember(searchQuery, selectedCategory, favorites) {
@@ -99,7 +109,7 @@ fun DashboardScreen(
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            placeholder = { Text("Search 45+ utilities...", color = TextMuted) },
+            placeholder = { Text("Search ${ToolRepository.tools.size} utilities...", color = TextMuted) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
@@ -109,6 +119,7 @@ fun DashboardScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
+                .focusRequester(searchFocusRequester)
                 .padding(bottom = 16.dp),
             shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
@@ -116,7 +127,8 @@ fun DashboardScreen(
                 unfocusedTextColor = TextMain,
                 focusedBorderColor = Primary,
                 unfocusedBorderColor = BorderColor,
-                containerColor = Color(0x0AFFFFFF)
+                focusedContainerColor = Color(0x0AFFFFFF),
+                unfocusedContainerColor = Color(0x0AFFFFFF)
             )
         )
 

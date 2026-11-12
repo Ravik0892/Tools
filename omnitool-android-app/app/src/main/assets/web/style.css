@@ -2034,7 +2034,9 @@ body {
 .slider-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
 }
 
 .slider-input {
@@ -2045,6 +2047,9 @@ body {
   height: 20px !important;
   display: flex !important;
   align-items: center !important;
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  width: 100% !important;
 }
 
 .slider-input::-webkit-slider-runnable-track {
@@ -5499,24 +5504,34 @@ body {
       display: none !important;
     }
     .main-header {
-      padding: 0 16px;
+      padding: 0 14px;
+      gap: 8px;
     }
     .desktop-nav-menu {
       gap: 2px;
-      padding: 3px 5px;
+      padding: 3px 6px;
+    }
+    .desktop-nav-menu .nav-item-icon {
+      display: none;
     }
     .desktop-nav-menu .nav-link,
     .desktop-nav-menu .nav-dropdown-btn {
-      padding: 5px 8px;
-      font-size: 12px;
+      padding: 5px 7px;
+      font-size: 11.5px;
       gap: 4px;
     }
     .desktop-nav-menu .nav-sparkle-pill {
-      padding: 1px 4px;
-      font-size: 8px;
+      display: none !important;
+    }
+    .ui-mode-capsule {
+      padding: 2px 3px;
+    }
+    .ui-mode-pill {
+      padding: 4px 8px;
+      font-size: 11.5px;
     }
     .header-left {
-      gap: 10px;
+      gap: 8px;
     }
     .header-right {
       gap: 6px;
@@ -5607,6 +5622,7 @@ body {
 
   /* Mega Menu Dropdown Panel */
   .mega-menu-panel {
+    display: none;
     position: absolute;
     top: calc(100% + 12px);
     left: 50%;
@@ -5624,14 +5640,19 @@ body {
     box-shadow: var(--shadow-lg),
       0 20px 40px -15px rgba(0, 0, 0, 0.5),
       0 0 30px rgba(0, 242, 254, 0.06);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-50%) translateY(10px) scale(0.98);
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 0.2s ease,
-      visibility 0.2s;
+    transform: translateX(-50%) translateY(0) scale(1);
     z-index: 1000;
-    pointer-events: none;
+  }
+
+  @keyframes megaMenuReveal {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
   }
 
   /* Transparent hover bridge */
@@ -5648,10 +5669,8 @@ body {
   .nav-dropdown:hover .mega-menu-panel,
   .nav-dropdown:focus-within .mega-menu-panel,
   .nav-dropdown.open .mega-menu-panel {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0) scale(1);
-    pointer-events: all;
+    display: block;
+    animation: megaMenuReveal 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .mega-menu-grid {
@@ -7778,6 +7797,8 @@ body {
     position: relative;
     display: flex !important;
     flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    height: auto !important;
     min-height: auto !important;
     width: 100% !important;
     gap: 20px !important;
@@ -7816,6 +7837,8 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap !important;
+    height: auto !important;
     min-height: 100%;
     width: 100%;
   }
@@ -12020,20 +12043,72 @@ body[data-ui-mode="beginner"] .hero-badge-pill .hero-badge-dot {
     max-width: 100% !important;
     overflow-x: hidden !important;
   }
+  .tool-panel input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  .tool-panel select,
+  .tool-panel textarea,
+  .tool-panel .form-input,
+  .tool-panel .form-select,
+  .tool-panel .tool-input,
+  .tool-panel .input-text,
+  .tool-panel .input-select,
+  .tool-panel .input-textarea {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .keyboard-tabs {
+    flex-wrap: wrap !important;
+  }
+  .keyboard-tabs .keyboard-tab {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+  .tool-capabilities-bar {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+  .calc-radix-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ==========================================================================
    Android Native App & Embedded Mode Styles
    ========================================================================== */
 /* Android Native App & Embedded Mode Styles */
+html.app-embedded,
+body.app-embedded {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+body.app-embedded {
+  display: block !important;
+  background-color: var(--bg-app) !important;
+}
+
 body.app-embedded .main-header,
 body.app-embedded #app-sidebar,
 body.app-embedded .sidebar,
 body.app-embedded .app-footer,
 body.app-embedded #sidebar-open-btn,
 body.app-embedded .desktop-nav-menu,
-body.app-embedded .sidebar-toggle-btn {
+body.app-embedded .sidebar-toggle-btn,
+body.app-embedded #app-splash-screen,
+html.app-embedded #app-splash-screen {
   display: none !important;
+}
+
+body.app-embedded .app-container {
+  height: auto !important;
+  min-height: 100% !important;
+  display: block !important;
+  overflow: visible !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 body.app-embedded .main-wrapper {
@@ -12041,13 +12116,37 @@ body.app-embedded .main-wrapper {
   padding: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
+  height: auto !important;
+  min-height: 100% !important;
+  display: block !important;
+  overflow: visible !important;
 }
 
+body.app-embedded .content-area {
+  height: auto !important;
+  min-height: 100% !important;
+  display: block !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+body.app-embedded #active-tool-viewport,
+body.app-embedded .tool-container,
 body.app-embedded .tool-viewport {
+  height: auto !important;
+  min-height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: visible !important;
   padding-top: 4px !important;
-  padding-bottom: 24px !important;
+  padding-bottom: 28px !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 body.app-embedded .tool-bar {
   display: none !important;
 }
+

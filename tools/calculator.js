@@ -52,7 +52,7 @@ export default {
             </div>
 
             <!-- Segmented Input Mode Tabs -->
-            <div class="keyboard-tabs" style="display: flex; gap: 6px; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+            <div class="keyboard-tabs" style="display: flex; flex-wrap: wrap; gap: 6px; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
               <button class="tool-btn secondary active keyboard-tab" id="calc-in-tab-pad" style="flex: 1; font-size: 11px; padding: 7px 10px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><circle cx="8" cy="14" r="1"/><circle cx="12" cy="14" r="1"/><circle cx="16" cy="14" r="1"/><circle cx="8" cy="18" r="1"/><circle cx="12" cy="18" r="1"/><circle cx="16" cy="18" r="1"/></svg>
                 Keypad &amp; Formula
@@ -74,8 +74,8 @@ export default {
               <label for="calc-formula-input" style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Active Expression / Formula</label>
               <span style="font-size: 10px; color: var(--text-muted);">Keyboard &amp; Numpad Supported</span>
             </div>
-            <div style="display: flex; gap: 6px; align-items: center;">
-              <input type="text" id="calc-formula-input" class="form-input" placeholder="Type formula or click buttons below..." aria-label="Active mathematical expression" style="flex: 1; font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 10px 12px; letter-spacing: 0.5px; background: var(--bg-input);">
+            <div style="display: flex; gap: 6px; align-items: center; min-width: 0;">
+              <input type="text" id="calc-formula-input" class="form-input" placeholder="Type formula or click buttons below..." aria-label="Active mathematical expression" style="flex: 1; min-width: 0; font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 10px 12px; letter-spacing: 0.5px; background: var(--bg-input);">
               <button class="tool-btn secondary" id="calc-input-backspace" title="Backspace (⌫)" aria-label="Backspace" style="padding: 10px 12px; font-size: 12px;">⌫</button>
               <button class="tool-btn secondary" id="calc-input-clear" title="Clear Expression (C)" aria-label="Clear expression" style="padding: 10px 12px; font-size: 12px; color: var(--accent-rose);">C</button>
             </div>
@@ -214,20 +214,16 @@ export default {
         <!-- Right Panel: Visual Preview & Outputs -->
         <div class="tool-panel" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; gap: 12px;">
           <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px; width: 100%;">
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%;">
               <h3 style="margin: 0; display: flex; align-items: center; gap: 6px;">
                 <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: var(--accent-cyan); fill: none; stroke-width: 2;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                 Calculation &amp; Visual Output
               </h3>
-              <div class="panel-actions" style="display: flex; gap: 6px; align-items: center;">
-                <button class="tool-btn secondary" id="calc-preview-fullscreen-btn" title="Toggle Fullscreen Output Mode" aria-label="Toggle Fullscreen" style="padding: 4px 8px; font-size: 11px;">
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-                </button>
-              </div>
+              <div class="panel-actions preview-header-actions" style="display: inline-flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0;"></div>
             </div>
 
             <!-- Segmented Output Tabs -->
-            <div class="keyboard-tabs" style="display: flex; gap: 6px; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+            <div class="keyboard-tabs" style="display: flex; flex-wrap: wrap; gap: 6px; width: 100%; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
               <button class="tool-btn secondary active keyboard-tab" id="calc-out-tab-monitor" style="flex: 1; font-size: 11px; padding: 7px 10px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                 Result Monitor
@@ -453,7 +449,6 @@ export default {
     const outSecHistory = container.querySelector("#calc-out-sec-history");
 
     const rightPanel = container.querySelectorAll(".tool-panel")[1];
-    const fullscreenBtn = container.querySelector("#calc-preview-fullscreen-btn");
 
     // Grapher Active Coordinate State for Interactive Hover Crosshair
     let graphState = {
@@ -1884,22 +1879,18 @@ export default {
       outTabGraph?.addEventListener("click", () => switchRightTab("graph"));
       outTabHistory?.addEventListener("click", () => switchRightTab("history"));
 
-      // Toggle Fullscreen Preview Mode
-      const toggleFullscreen = () => {
-        if (!rightPanel) return;
-        const isFull = rightPanel.classList.toggle("preview-fullscreen");
-        if (fullscreenBtn) {
-          fullscreenBtn.classList.toggle("active", isFull);
-          fullscreenBtn.title = isFull ? "Exit Fullscreen (Esc)" : "Toggle Fullscreen Output Mode";
-          fullscreenBtn.innerHTML = isFull
-            ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h6v6m10-10h-6V4m0 6 7-7M9 15l-7 7"/></svg>`
-            : `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
-        }
-        setTimeout(drawGraph, 50);
-        if (app && typeof app.playSynthSound === "function") app.playSynthSound("click");
-      };
-
-      fullscreenBtn?.addEventListener("click", toggleFullscreen);
+      // Redraw 2D plot when canonical Fullscreen mode toggles
+      if (rightPanel && typeof MutationObserver !== "undefined") {
+        let prevFs = rightPanel.classList.contains("preview-fullscreen");
+        const fsClassObserver = new MutationObserver(() => {
+          const nextFs = rightPanel.classList.contains("preview-fullscreen");
+          if (nextFs !== prevFs) {
+            prevFs = nextFs;
+            setTimeout(drawGraph, 50);
+          }
+        });
+        fsClassObserver.observe(rightPanel, { attributes: true, attributeFilter: ["class"] });
+      }
 
       // Register Tab Switcher for URL route synchronization
       if (app && typeof app.registerTabSwitcher === "function") {
@@ -2124,11 +2115,9 @@ export default {
 
       const key = e.key;
 
-      // Handle Escape for fullscreen preview exit
+      // Let app-level _fsEscapeHandler exit fullscreen cleanly without clearing active formula
       if (key === "Escape") {
         if (rightPanel && rightPanel.classList.contains("preview-fullscreen")) {
-          e.preventDefault();
-          fullscreenBtn?.click();
           return;
         }
         e.preventDefault();

@@ -1,12 +1,14 @@
 import {
   verifyRazorpaySignature,
   createSignedToken,
-  RAZORPAY_KEY_ID
+  isProductionRuntime,
+  RAZORPAY_KEY_ID,
+  RAZORPAY_KEY_SECRET
 } from "./_security.js";
 
 /**
  * Serverless Handler: POST /api/verify-razorpay-payment
- * Cryptographically verifies Razorpay payment signatures (HMAC-SHA256).
+ * Cryptographically verifies Razorpay payment signatures (HMAC-SHA256) and confirms paid amount/plan server-side.
  */
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -32,9 +34,15 @@ export default async function handler(req, res) {
       return;
     }
 
-    const isLiveConfigured = RAZORPAY_KEY_ID && !RAZORPAY_KEY_ID.includes("DemoKey");
+    const isLiveConfigured = Boolean(
+      RAZORPAY_KEY_ID &&
+      RAZORPAY_KEY_SECRET &&
+      !RAZORPAY_KEY_ID.includes("DemoKey") &&
+      !RAZORPAY_KEY_SECRET.includes("DemoKey")
+    );
 
-    // In live production, HMAC signature check is mandatory
+    let tier = plan === "monthly" ? "premium" : "lifetime";
+
     if (isLiveConfigured) {
       if (!razorpay_signature) {
         res.status(400).json({ success: false, error: "Missing Razorpay cryptographic signature." });
@@ -49,10 +57,38 @@ export default async function handler(req, res) {
         });
         return;
       }
+
+      // Query authoritative Razorpay order to confirm paid amount & plan (prevent plan tampering)
+      const authHeader = "Basic " + Buffer.from(`${RAZORPAY_KEY_ID}:${RAZORPAY_KEY_SECRET}`).toString("base64");
+      const orderRes = await fetch(`https://api.razorpay.com/v1/orders/${encodeURIComponent(razorpay_order_id)}`, {
+        method: "GET",
+        headers: { "Authorization": authHeader }
+      });
+
+      if (!orderRes.ok) {
+        res.status(502).json({ success: false, error: "Unable to verify Razorpay order record." });
+        return;
+      }
+
+      const orderData = await orderRes.json();
+      const paidAmount = Number(orderData.amount_paid || orderData.amount || 0);
+      const orderPlan = orderData.notes?.plan || (paidAmount >= 79900 ? "lifetime" : "monthly");
+      const expectedMin = orderPlan === "monthly" ? 39900 : 79900;
+
+      if (orderData.currency !== "INR" || paidAmount < expectedMin || (orderData.status !== "paid" && orderData.amount_paid < expectedMin)) {
+        res.status(400).json({ success: false, error: "Razorpay order is not paid or amount mismatch detected." });
+        return;
+      }
+
+      tier = orderPlan === "monthly" ? "premium" : "lifetime";
+    } else if (isProductionRuntime()) {
+      res.status(503).json({
+        success: false,
+        error: "Razorpay live verification credentials are not configured on the server."
+      });
+      return;
     }
 
-    // Payment signature verified! Issue authentic signed License Token
-    const tier = plan === "monthly" ? "premium" : "lifetime";
     const expiresAt = tier === "premium" ? Date.now() + (30 * 24 * 60 * 60 * 1000) : null;
 
     const token = createSignedToken({

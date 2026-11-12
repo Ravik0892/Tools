@@ -94,17 +94,29 @@ To convert this skeleton layout into a fully functioning tool suite in Kotlin:
 
 ---
 
-## 📦 Publishing to Google Play Store or other App Stores
+## 📦 Publishing to Google Play Store & Amazon Appstore
 
-This project is set up to target **Android 14 (API Level 34)**, satisfying the current Google Play Store guidelines.
+This project is fully verified, builds cleanly from source, and is configured for both **Google Play Store** (Android App Bundle `.aab`) and **Amazon Appstore** (Universal APK `.apk` / `.aab`).
 
-### Checklist to Publish:
-1. **Change App Package Name (Optional)**:
-   - If you want a custom developer URL, change `com.omnitool.hub` to your own namespace (e.g., `com.yourcompany.omnitool`) in `app/build.gradle` and `AndroidManifest.xml`.
-2. **Set up App Icons**:
-   - Right-click the `app/` folder in Android Studio and select **New > Image Asset**.
-   - Generate your launcher icons matching your brand.
-3. **Generate Signed Bundle**:
-   - Go to **Build > Generate Signed Bundle / APK** in Android Studio.
-   - Create a Keystore file and input signing credentials.
-   - Export an **Android App Bundle (.aab)** and upload it directly onto the Google Play Console!
+### 📚 Official Step-by-Step Publishing Guides:
+- **Google Play Store Guide**: [`GOOGLE_PLAY_PUBLISH_GUIDE.md`](file:///f:/Tools%20website/omnitool-android-app/GOOGLE_PLAY_PUBLISH_GUIDE.md)
+- **Amazon Appstore Guide**: [`AMAZON_APPSTORE_PUBLISH_GUIDE.md`](file:///f:/Tools%20website/omnitool-android-app/AMAZON_APPSTORE_PUBLISH_GUIDE.md)
+
+### 🎨 Store Graphics & Metadata Directory:
+Pre-sized high-resolution assets and listing text are located in [`omnitool-android-app/store_assets/`](file:///f:/Tools%20website/omnitool-android-app/store_assets/):
+- `icon_512x512.png` — 512x512 High-Res App Icon (Google Play & Amazon Appstore)
+- `icon_114x114.png` — 114x114 Small App Icon (Amazon Appstore required)
+- `feature_graphic_1024x500.png` — 1024x500 Promotional Banner (Google Play & Amazon Appstore)
+- `banner_1280x720.png` — 1280x720 Promotional Banner (Amazon Fire OS optional)
+- `google_play_metadata.json` — Title (<=30 chars), Short description (<=80 chars), Full description, Data Safety specs
+- `amazon_appstore_metadata.json` — Title, Short description, Long description, 5 Feature Bullets, Keywords
+
+### ⚡ 1-Command Build (Command Line):
+```powershell
+$env:JAVA_HOME = "C:\Users\DELL\.gradle\jdks\jetbrains_s_r_o_-21-amd64-windows.2"
+cd "F:\Tools website\omnitool-android-app"
+.\gradlew.bat assembleRelease bundleRelease
+```
+- **Google Play Bundle**: `app/build/outputs/bundle/release/app-release.aab`
+- **Amazon Appstore APK**: `app/build/outputs/apk/release/app-release-unsigned.apk` (or signed via Android Studio / `apksigner`)
+

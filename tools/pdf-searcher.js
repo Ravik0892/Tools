@@ -488,18 +488,18 @@ export default {
               <span>Enhance scanned page images (Binarization/Contrast)</span>
             </label>
 
-            <div class="form-group" id="ocr-profile-wrapper" style="margin-bottom: 12px; display: flex; flex-direction: row; align-items: center; gap: 8px;">
+            <div class="form-group" id="ocr-profile-wrapper" style="margin-bottom: 12px; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; min-width: 0;">
               <label for="pdf-ocr-profile" style="font-size: 12px; white-space: nowrap;">Device Profile:</label>
-              <select class="form-select" id="pdf-ocr-profile" style="padding: 4px 8px; font-size: 12px; flex: 1;">
+              <select class="form-select" id="pdf-ocr-profile" style="padding: 4px 8px; font-size: 12px; flex: 1; min-width: 0; max-width: 100%; box-sizing: border-box;">
                 <option value="performance">High Performance (Fast/Low-end PCs)</option>
                 <option value="balanced" selected>Balanced Mode (Standard)</option>
                 <option value="accuracy">Max Accuracy (Detailed/High-end PCs)</option>
               </select>
             </div>
             
-            <div class="form-group" id="ocr-lang-wrapper" style="margin-bottom: 12px; display: flex; flex-direction: row; align-items: center; gap: 8px;">
+            <div class="form-group" id="ocr-lang-wrapper" style="margin-bottom: 12px; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; min-width: 0;">
               <label for="pdf-ocr-lang" style="font-size: 12px; white-space: nowrap;">OCR Language:</label>
-              <select class="form-select" id="pdf-ocr-lang" style="padding: 4px 8px; font-size: 12px; flex: 1;">
+              <select class="form-select" id="pdf-ocr-lang" style="padding: 4px 8px; font-size: 12px; flex: 1; min-width: 0; max-width: 100%; box-sizing: border-box;">
                 <option value="eng" selected>English (Default)</option>
                 <option value="spa">Spanish (Español)</option>
                 <option value="fra">French (Français)</option>

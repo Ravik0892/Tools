@@ -382,7 +382,7 @@ export default {
       prompt = `Translate the core content and conclusions of the following document into ${targetLang}. Maintain natural phrasing and professional tone.\n\nDOCUMENT CONTENT:\n` + this.extractedText.slice(0, 25000);
     }
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -470,12 +470,16 @@ export default {
     if (apiKey) {
       try {
         const prompt = `You are an expert Q&A assistant for this document.\nDocument Context:\n${this.extractedText.slice(0, 25000)}\n\nUser Question: ${question}\nAnswer clearly and concisely based strictly on the document context:`;
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         const response = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
+        if (!response.ok) {
+          const errJson = await response.json().catch(() => ({}));
+          throw new Error(errJson.error?.message || `HTTP ${response.status}`);
+        }
         const data = await response.json();
         const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to formulate answer.";
 

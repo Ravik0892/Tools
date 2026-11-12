@@ -65,10 +65,10 @@ export default {
               </div>
             </div>
 
-            <div class="form-row" style="grid-template-columns: 2fr 1fr 1fr; align-items: flex-end; gap: 8px; margin-top: 6px;">
-              <div class="form-group">
+            <div class="form-row" style="grid-template-columns: repeat(auto-fit, minmax(min(115px, 100%), 1fr)); align-items: flex-end; gap: 8px; margin-top: 6px;">
+              <div class="form-group" style="min-width: 0;">
                 <label for="grad-harmony">Harmony Preset</label>
-                <select class="form-select" id="grad-harmony">
+                <select class="form-select" id="grad-harmony" style="min-width: 0; width: 100%;">
                   <option value="none" selected>-- Select Harmony --</option>
                   <option value="analogous">Analogous</option>
                   <option value="monochromatic">Monochromatic</option>
@@ -78,9 +78,9 @@ export default {
                   <option value="cyber">Cyberpunk</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="min-width: 0;">
                 <label for="grad-harmony-stops">Stops</label>
-                <select class="form-select" id="grad-harmony-stops">
+                <select class="form-select" id="grad-harmony-stops" style="min-width: 0; width: 100%;">
                   <option value="2">2 Stops</option>
                   <option value="3" selected>3 Stops</option>
                   <option value="4">4 Stops</option>

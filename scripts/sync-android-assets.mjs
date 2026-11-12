@@ -62,7 +62,14 @@ if (fs.existsSync('guides')) {
   console.log('  ✓ guides/ synced');
 }
 
-// 5. Copy social_media_assets/
+// 5. Copy assets/
+console.log('  📂 Syncing assets/ ...');
+if (fs.existsSync('assets')) {
+  copyDirRecursive('assets', path.join(DEST_DIR, 'assets'));
+  console.log('  ✓ assets/ synced');
+}
+
+// 6. Copy social_media_assets/
 console.log('  📂 Syncing social_media_assets/ ...');
 if (fs.existsSync('social_media_assets')) {
   copyDirRecursive('social_media_assets', path.join(DEST_DIR, 'social_media_assets'));

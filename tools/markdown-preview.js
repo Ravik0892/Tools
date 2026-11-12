@@ -10,13 +10,13 @@ export default {
       <div class="tool-content-layout split-view" id="md-workspace-layout">
         <!-- Left Panel: Markdown Input & Editor Controls -->
         <div class="tool-panel" id="md-editor-panel" style="display: flex; flex-direction: column; overflow-y: auto; min-height: 480px;">
-          <div class="panel-header" style="justify-content: space-between; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 20; background: var(--bg-card); backdrop-filter: blur(8px); flex-shrink: 0;">
-            <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="panel-header" style="justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 20; background: var(--bg-card); backdrop-filter: blur(8px); flex-shrink: 0;">
+            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
               <h3 style="margin: 0; font-size: 14px; white-space: nowrap;">Markdown Input</h3>
               <span id="md-autosave-badge" style="font-size: 10px; color: var(--accent-emerald); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 1px 6px; border-radius: 10px;">Autosaved</span>
             </div>
             <!-- File Operations & Size Options inside Editor Panel -->
-            <div style="display: flex; align-items: center; gap: 6px;">
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0;">
               <div style="display: inline-flex; align-items: center; gap: 4px;">
                 <label for="md-editor-height-select" style="font-size: 11px; color: var(--text-muted); cursor: pointer;" title="Adjust Editor Textbox Height">Size:</label>
                 <select id="md-editor-height-select" class="form-select" style="height: 28px; font-size: 11px; padding: 2px 6px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px;" title="Increase text box size to test container scrolling">
@@ -91,7 +91,7 @@ export default {
         <!-- Right Panel: Live Visual Preview / Raw HTML / Table of Contents -->
         <div class="tool-panel" id="md-preview-panel" style="display: flex; flex-direction: column; overflow-y: auto; min-height: 480px;">
           <!-- Tier 1: Panel Header (Clean View Mode Switcher + app.js automatically appends Reset 50/50 & Full Screen) -->
-          <div class="panel-header" style="justify-content: space-between; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 20; background: var(--bg-card); backdrop-filter: blur(8px); flex-shrink: 0;">
+          <div class="panel-header" style="justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 20; background: var(--bg-card); backdrop-filter: blur(8px); flex-shrink: 0;">
             <div class="md-view-tabs" id="md-output-tabs" style="display: inline-flex; align-items: center;">
               <button class="md-view-tab active" data-tab="preview" id="md-tab-btn-preview">
                 <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Live Preview

@@ -28,7 +28,7 @@ export default {
           <div class="form-group">
             <label for="seo-url">Page URL</label>
             <div style="display: flex; gap: 8px;">
-              <input type="text" id="seo-url" class="search-bar" style="flex: 1; border: 1px solid var(--border-color); font-size: 13px;" value="https://omnitoolhub.app" placeholder="https://example.com">
+              <input type="text" id="seo-url" class="search-bar" style="flex: 1; border: 1px solid var(--border-color); font-size: 13px;" value="https://omnitool.worldsneed.com" placeholder="https://example.com">
               <button type="button" class="tool-btn primary" id="seo-fetch-btn" style="font-size: 11px; padding: 0 12px; white-space: nowrap; height: 38px;">Fetch Tags</button>
             </div>
           </div>
@@ -139,8 +139,8 @@ export default {
               <div style="font-size: 12px; color: #202124; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
                 <div style="width: 26px; height: 26px; border-radius: 50%; background: #f1f3f4; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #5f6368; font-size: 11px;" id="google-fav-mock">O</div>
                 <div style="display: flex; flex-direction: column;">
-                  <span id="google-domain-label" style="line-height: 1.2; font-weight: 400;">omnitoolhub.app</span>
-                  <span id="google-url-label" style="font-size: 11px; color: #5f6368; line-height: 1.2;">https://omnitoolhub.app</span>
+                  <span id="google-domain-label" style="line-height: 1.2; font-weight: 400;">omnitool.worldsneed.com</span>
+                  <span id="google-url-label" style="font-size: 11px; color: #5f6368; line-height: 1.2;">https://omnitool.worldsneed.com</span>
                 </div>
               </div>
               <h3 id="google-title-mock" style="font-size: 19px; color: #1a0dab; font-weight: 400; margin: 0 0 4px 0; line-height: 1.3; cursor: pointer; text-decoration: none;">Page Title</h3>
@@ -154,7 +154,7 @@ export default {
                 <div id="fb-img-placeholder" style="color: #8d949e; font-size: 13px;">No Image Chosen</div>
               </div>
               <div style="padding: 12px; background: #f2f3f5; border-top: 1px solid #dddfe2;">
-                <div id="fb-domain-mock" style="font-size: 12px; color: #606770; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">OMNITOOLHUB.APP</div>
+                <div id="fb-domain-mock" style="font-size: 12px; color: #606770; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">OMNITOOL.WORLDSNEED.COM</div>
                 <div id="fb-title-mock" style="font-size: 16px; font-weight: 600; line-height: 20px; color: #1c1e21; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Page Title</div>
                 <div id="fb-desc-mock" style="font-size: 13px; line-height: 18px; color: #606770; height: 36px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">Page description summary content.</div>
               </div>
@@ -167,7 +167,7 @@ export default {
                 <div id="tw-img-placeholder" style="color: #8899a6; font-size: 13px;">No Image Chosen</div>
               </div>
               <div style="padding: 12px;">
-                <div id="tw-domain-mock" style="font-size: 13px; color: #8899a6; margin-bottom: 3px;">omnitoolhub.app</div>
+                <div id="tw-domain-mock" style="font-size: 13px; color: #8899a6; margin-bottom: 3px;">omnitool.worldsneed.com</div>
                 <div id="tw-title-mock" style="font-size: 15px; font-weight: bold; margin-bottom: 3px; color: #ffffff;">Page Title</div>
                 <div id="tw-desc-mock" style="font-size: 13px; color: #8899a6; line-height: 17px; height: 34px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">Page description summary content.</div>
               </div>

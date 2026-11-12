@@ -17,8 +17,8 @@ export default {
           <!-- Cron Expression Input Bar -->
           <div class="form-group">
             <label style="font-size: 12px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase;">Standard 5-Field Cron String</label>
-            <div style="display: flex; gap: 8px;">
-              <input type="text" id="cron-string-input" class="input-text" value="*/15 * * * *" style="font-family: var(--font-mono); font-size: 18px; font-weight: 700; letter-spacing: 2px; text-align: center; color: var(--accent-cyan); height: 46px;" aria-label="Cron Expression">
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; min-width: 0;">
+              <input type="text" id="cron-string-input" class="input-text" value="*/15 * * * *" style="flex: 1; min-width: 140px; font-family: var(--font-mono); font-size: 18px; font-weight: 700; letter-spacing: 2px; text-align: center; color: var(--accent-cyan); height: 46px;" aria-label="Cron Expression">
               <button class="tool-btn primary" id="cron-copy-str-btn" style="white-space: nowrap; height: 46px; padding: 0 16px;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                 <span>Copy</span>
@@ -160,7 +160,7 @@ export default {
             <div style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
               Format Specification
             </div>
-            <pre style="margin: 0; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); line-height: 1.6;">
+            <pre style="margin: 0; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); line-height: 1.6; overflow-x: auto; max-width: 100%;">
 ┌───────────── Minute (0 - 59)
 │ ┌─────────── Hour (0 - 23)
 │ │ ┌───────── Day of Month (1 - 31)

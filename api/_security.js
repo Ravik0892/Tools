@@ -6,12 +6,28 @@ import crypto from "node:crypto";
  * license key verification, and Razorpay signature validation.
  */
 
+// Environment helpers
+export function isProductionRuntime() {
+  return (
+    process.env.NODE_ENV === "production" ||
+    process.env.VERCEL === "1" ||
+    process.env.VERCEL_ENV === "production" ||
+    process.env.CF_PAGES === "1"
+  );
+}
+
 // Master cryptographic secret - override with process.env.LICENSE_SECRET_KEY in production
 const MASTER_SECRET = process.env.LICENSE_SECRET_KEY || "omnitool_master_crypto_secret_f839b2e0417a8c3d9152b";
 
 // Razorpay credentials from environment
 export const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || "rzp_test_OmniToolDemoKey";
 export const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || "OmniToolRazorpaySecretDemoKey";
+
+// PayPal REST API credentials from environment
+export const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || "";
+export const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET || "";
+export const PAYPAL_API_BASE = process.env.PAYPAL_API_BASE ||
+  (process.env.PAYPAL_ENV === "sandbox" ? "https://api-m.sandbox.paypal.com" : "https://api-m.paypal.com");
 
 // Gumroad product permalinks from environment or user defaults
 export const GUMROAD_LIFETIME_PERMALINK = process.env.GUMROAD_LIFETIME_PERMALINK || "omnitool-lifetime";

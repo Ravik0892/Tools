@@ -40,5 +40,3 @@
 /cookies       /index.html    200
 /cookie-policy /index.html    200
 
-# Proxy serverless API endpoints to Vercel backend
-/api/*         https://omnitool-hub.vercel.app/api/:splat  200

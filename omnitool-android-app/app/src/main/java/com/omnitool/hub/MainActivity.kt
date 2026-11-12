@@ -1,6 +1,8 @@
 package com.omnitool.hub
 
+import android.content.Context
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.omnitool.hub.model.Tool
+import com.omnitool.hub.model.ToolRepository
 import com.omnitool.hub.ui.screens.*
 import com.omnitool.hub.ui.theme.OmniToolHubTheme
 import kotlinx.coroutines.launch
@@ -24,14 +27,27 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val prefs = getSharedPreferences("omnitool_prefs", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("privacy_shield", true)) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        }
+
+        val defaultFavorites = setOf("formatter-suite", "text-encoder-suite", "qr-studio")
+        val initialFavorites = prefs.getStringSet("favorite_tools", defaultFavorites) ?: defaultFavorites
+        val initialOledBlack = prefs.getBoolean("oled_black", false)
+
         setContent {
-            OmniToolHubTheme {
+            var oledBlackOverride by remember { mutableStateOf(initialOledBlack) }
+
+            OmniToolHubTheme(oledBlack = oledBlackOverride) {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
-                
+
                 var currentScreen by remember { mutableStateOf("dashboard") }
                 var selectedTool by remember { mutableStateOf<Tool?>(null) }
-                val favorites = remember { mutableStateOf(setOf("json-formatter", "base64", "qr-generator")) }
+                var favorites by remember { mutableStateOf(initialFavorites) }
+                var focusSearchTrigger by remember { mutableStateOf(0) }
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
@@ -84,7 +100,10 @@ class MainActivity : ComponentActivity() {
                                         }
                                     },
                                     actions = {
-                                        IconButton(onClick = { /* Simulated command palette */ }) {
+                                        IconButton(onClick = {
+                                            currentScreen = "dashboard"
+                                            focusSearchTrigger++
+                                        }) {
                                             Icon(
                                                 imageVector = Icons.Default.Search,
                                                 contentDescription = "Search tools"
@@ -130,17 +149,31 @@ class MainActivity : ComponentActivity() {
                                         selectedTool = tool
                                         currentScreen = "tool_details"
                                     },
-                                    favorites = favorites.value,
+                                    favorites = favorites,
                                     onToggleFavorite = { toolId ->
-                                        if (favorites.value.contains(toolId)) {
-                                            favorites.value = favorites.value - toolId
+                                        val updated = if (favorites.contains(toolId)) {
+                                            favorites - toolId
                                         } else {
-                                            favorites.value = favorites.value + toolId
+                                            favorites + toolId
+                                        }
+                                        favorites = updated
+                                        prefs.edit().putStringSet("favorite_tools", updated).apply()
+                                    },
+                                    focusSearchTrigger = focusSearchTrigger
+                                )
+                                "pipeline" -> PipelineScreen(
+                                    onOpenWebPipeline = {
+                                        val pipelineTool = ToolRepository.tools.firstOrNull { it.id == "pipeline-builder" }
+                                        if (pipelineTool != null) {
+                                            selectedTool = pipelineTool
+                                            currentScreen = "tool_details"
                                         }
                                     }
                                 )
-                                "pipeline" -> PipelineScreen()
-                                "settings" -> SettingsScreen()
+                                "settings" -> SettingsScreen(
+                                    oledBlackOverride = oledBlackOverride,
+                                    onOledBlackChange = { oledBlackOverride = it }
+                                )
                                 "tool_details" -> {
                                     val tool = selectedTool
                                     if (tool != null) {

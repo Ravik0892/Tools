@@ -1,5 +1,8 @@
 package com.omnitool.hub.ui.screens
 
+import android.app.Activity
+import android.content.Context
+import android.view.WindowManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -11,17 +14,31 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.omnitool.hub.ui.theme.*
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    oledBlackOverride: Boolean = false,
+    onOledBlackChange: (Boolean) -> Unit = {}
+) {
+    val context = LocalContext.current
+    val prefs = remember { context.getSharedPreferences("omnitool_prefs", Context.MODE_PRIVATE) }
+
+    var dynamicColorsEnabled by remember { mutableStateOf(prefs.getBoolean("dynamic_colors", true)) }
+    var privacyShieldEnabled by remember { mutableStateOf(prefs.getBoolean("privacy_shield", true)) }
+    var offlineCacheEnabled by remember { mutableStateOf(prefs.getBoolean("offline_cache", true)) }
+    var oledBlackState by remember(oledBlackOverride) {
+        mutableStateOf(prefs.getBoolean("oled_black", oledBlackOverride))
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BgMain)
+            .background(if (oledBlackState) Color.Black else BgMain)
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
@@ -33,38 +50,52 @@ fun SettingsScreen() {
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        var dynamicColorsEnabled by remember { mutableStateOf(true) }
-        var privacyShieldEnabled by remember { mutableStateOf(true) }
-        var offlineCacheEnabled by remember { mutableStateOf(true) }
-        var oledBlackOverride by remember { mutableStateOf(false) }
-
         // Settings items
         SettingsToggleRow(
             label = "Dynamic Wallpaper Material",
             desc = "Enables Google Monet dynamic layout colors on Android 12+",
             checked = dynamicColorsEnabled,
-            onCheckedChange = { dynamicColorsEnabled = it }
+            onCheckedChange = { enabled ->
+                dynamicColorsEnabled = enabled
+                prefs.edit().putBoolean("dynamic_colors", enabled).apply()
+            }
         )
 
         SettingsToggleRow(
             label = "Privacy Screen Shield",
-            desc = "Blurs app preview screen in Android Recents task manager",
+            desc = "Blurs app preview screen and blocks screenshots in Android Recents",
             checked = privacyShieldEnabled,
-            onCheckedChange = { privacyShieldEnabled = it }
+            onCheckedChange = { enabled ->
+                privacyShieldEnabled = enabled
+                prefs.edit().putBoolean("privacy_shield", enabled).apply()
+                val window = (context as? Activity)?.window
+                if (enabled) {
+                    window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                } else {
+                    window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                }
+            }
         )
 
         SettingsToggleRow(
             label = "Offline Service Caching",
             desc = "Locally cache resources for zero network usage",
             checked = offlineCacheEnabled,
-            onCheckedChange = { offlineCacheEnabled = it }
+            onCheckedChange = { enabled ->
+                offlineCacheEnabled = enabled
+                prefs.edit().putBoolean("offline_cache", enabled).apply()
+            }
         )
 
         SettingsToggleRow(
             label = "Dark Theme Override",
             desc = "Force pure OLED black mode layout styles",
-            checked = oledBlackOverride,
-            onCheckedChange = { oledBlackOverride = it }
+            checked = oledBlackState,
+            onCheckedChange = { enabled ->
+                oledBlackState = enabled
+                prefs.edit().putBoolean("oled_black", enabled).apply()
+                onOledBlackChange(enabled)
+            }
         )
 
         Spacer(modifier = Modifier.height(24.dp))

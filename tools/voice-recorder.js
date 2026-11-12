@@ -298,18 +298,18 @@ export default {
                 </label>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 2px;">
-                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted);">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 8px; margin-top: 2px;">
+                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted); min-width: 0;">
                   Audio Channels
-                  <select id="vr-channel-select" class="tool-input" style="padding: 6px 10px; font-size: 12px;">
+                  <select id="vr-channel-select" class="tool-input" style="padding: 6px 10px; font-size: 12px; width: 100%; min-width: 0; box-sizing: border-box;">
                     <option value="mono" selected>Mono (Speech &amp; Vocals)</option>
                     <option value="stereo">Stereo (2 Channels)</option>
                   </select>
                 </label>
 
-                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted);">
+                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted); min-width: 0;">
                   Transcription Language
-                  <select id="vr-stt-lang" class="tool-input" style="padding: 6px 10px; font-size: 12px;">
+                  <select id="vr-stt-lang" class="tool-input" style="padding: 6px 10px; font-size: 12px; width: 100%; min-width: 0; box-sizing: border-box;">
                     <option value="en-US" selected>English (US)</option>
                     <option value="en-GB">English (UK)</option>
                     <option value="es-ES">Spanish</option>

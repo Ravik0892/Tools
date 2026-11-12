@@ -4,7 +4,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <style>
+    html, body {
+      background-color: #05060a;
+      color: #f1f5f9;
+    }
+    .splash-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: #05060a;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .splash-logo {
+      width: 90px;
+      height: 90px;
+      stroke: #00f2fe;
+    }
+    html.app-embedded,
+    body.app-embedded {
+      height: auto !important;
+      min-height: 100% !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+    }
+    body.app-embedded #app-splash-screen,
+    html.app-embedded #app-splash-screen {
+      display: none !important;
+    }
+  </style>
   <script>
+    (function() {
+      var isEmbedded = window.location.search.includes('embed=1') ||
+                       window.location.hash.includes('embed=1') ||
+                       window.location.hostname === 'appassets.androidplatform.net' ||
+                       (navigator.userAgent && navigator.userAgent.includes('OmniToolAndroid'));
+      if (isEmbedded) {
+        document.documentElement.classList.add('app-embedded');
+        var hideSplash = function() {
+          if (document.body) document.body.classList.add('app-embedded');
+          var s = document.getElementById('app-splash-screen');
+          if (s) s.style.display = 'none';
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', hideSplash);
+        } else {
+          hideSplash();
+        }
+      }
+    })();
+
     // Ensure base href is set for clean URL routing when running over HTTP/HTTPS
     // While keeping file:/// protocol untouched for Android assets and local offline file opening
     if (window.location.protocol.startsWith('http')) {
@@ -13,7 +64,7 @@
   </script>
   <title>OmniTool Hub | The Ultimate All-in-One Utility Suite</title>
   <meta name="description"
-    content="A premium, free, privacy-first developer and utility tools web application. 50+ tools running 100% client-side — no data ever leaves your device.">
+    content="A premium, free, privacy-first developer and utility tools web application. 47 powerhouse suites (70+ tools) running 100% client-side — no data ever leaves your device.">
   <meta name="keywords"
     content="online tools, developer tools, json formatter, base64, text tools, color picker, calculator, unit converter, free utilities">
   <meta name="author" content="OmniTool Hub">
@@ -47,7 +98,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="OmniTool Hub | All-in-One Utility Suite">
   <meta property="og:description"
-    content="50+ free developer and utility tools. 100% offline-first, client-side, no tracking.">
+    content="47+ powerhouse suites & 70+ free developer and utility tools. 100% offline-first, client-side, no tracking.">
   <meta property="og:url" content="https://omnitool.worldsneed.com/">
   <meta property="og:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg">
   <meta property="og:image:width" content="1200">
@@ -59,7 +110,7 @@
   <meta name="twitter:image" content="https://omnitool.worldsneed.com/social_media_assets/opengraph_landscape_1200x630.svg">
   <meta name="twitter:title" content="OmniTool Hub">
   <meta name="twitter:description"
-    content="50+ free developer tools. JSON, Base64, Crypto, Color, Math & more. 100% client-side.">
+    content="47+ suites & 70+ free developer tools. JSON, Base64, Crypto, Color, Math & more. 100% client-side.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,7 +138,7 @@
         "@id": "https://omnitool.worldsneed.com/#website",
         "url": "https://omnitool.worldsneed.com/",
         "name": "OmniTool Hub",
-        "description": "50+ free client-side developer and utility tools running 100% in-browser.",
+        "description": "47+ suites & 70+ free client-side developer and utility tools running 100% in-browser.",
         "publisher": {
           "@type": "Organization",
           "name": "OmniTool Hub"
@@ -121,7 +172,7 @@
   <div id="app-splash-screen" class="splash-overlay">
     <div class="splash-content">
       <div class="splash-logo-container">
-        <svg class="splash-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <svg class="splash-logo" width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2.5">
           <path class="logo-path" stroke-linecap="round" stroke-linejoin="round"
             d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
@@ -316,7 +367,7 @@
                 <span class="cpp-name" data-i18n="lifetimePass">Lifetime Developer Pass</span>
                 <span class="cpp-tag" data-i18n="bestValue">Best Value</span>
               </div>
-              <div class="cpp-desc dynamic-plan-desc">Pay once, keep forever • All <span class="dynamic-tool-count">46+</span> offline tools • Lifetime updates</div>
+              <div class="cpp-desc dynamic-plan-desc">Pay once, keep forever • All <span class="dynamic-tool-count">47+</span> offline tools • Lifetime updates</div>
             </div>
           </div>
           <div class="cpp-right">
@@ -563,7 +614,7 @@
             <div class="pos-left">
               <span class="pos-badge">Selected Plan</span>
               <strong id="chk-paypal-plan-title">Lifetime Developer Pass</strong>
-              <small id="chk-paypal-plan-desc">One-time payment • Lifetime access to all <span class="dynamic-paid-tool-count">50+</span> tools</small>
+              <small id="chk-paypal-plan-desc">One-time payment • Lifetime access to all <span class="dynamic-paid-tool-count">47+</span> suites (70+ tools)</small>
             </div>
             <div class="pos-right">
               <span class="pos-amount" id="chk-paypal-amount-display">$24.99</span>
@@ -1084,7 +1135,7 @@
               <span class="ui-mode-dot beginner"></span>
               <span class="ui-mode-text" data-i18n="everyday">Everyday</span>
             </button>
-            <button type="button" class="ui-mode-pill" data-mode="developer" id="mode-btn-developer" title="Developer Mode: Full suite with 46+ tools, code formatters and crypto pipelines">
+            <button type="button" class="ui-mode-pill" data-mode="developer" id="mode-btn-developer" title="Developer Mode: Full suite with 47+ powerhouse hubs (70+ tools), code formatters and crypto pipelines">
               <span class="ui-mode-icon">⚡</span>
               <span class="ui-mode-text" data-i18n="developer">Developer</span>
             </button>
@@ -1437,7 +1488,7 @@
             </div>
             <div class="pwa-install-text">
               <strong data-i18n="installApp">Install OmniTool Hub on Desktop &amp; Mobile</strong>
-              <span data-i18n="pwaDesc">Instant offline access • 50+ privacy tools • Zero server uploads</span>
+              <span data-i18n="pwaDesc">Instant offline access • 47+ suites (70+ tools) • Zero server uploads</span>
             </div>
           </div>
           <div class="pwa-install-actions">
@@ -1458,7 +1509,7 @@
             <p id="dashboard-hero-desc" data-i18n="heroDesc">Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
             <div class="hero-metrics-strip">
               <div class="hero-metric-item">
-                <span class="hero-metric-num dynamic-tool-count" id="hero-tools-count">46+</span>
+                <span class="hero-metric-num dynamic-tool-count" id="hero-tools-count">47+</span>
                 <span class="hero-metric-label" data-i18n="offlineTools">Offline Tools</span>
               </div>
               <div class="hero-metric-sep"></div>
@@ -2182,7 +2233,7 @@
                 style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Membership
                 Plan</span></h2>
             <p style="font-size: 14.5px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.5;">
-              Get unlimited access to all <span class="dynamic-tool-count">46+</span> developer utilities with your preferred level of ad configuration.</p>
+              Get unlimited access to all <span class="dynamic-tool-count">47+</span> developer suites with your preferred level of ad configuration.</p>
           </div>
 
           <!-- STEP-BY-STEP PAYMENT & ACTIVATION GUIDE BANNER -->
@@ -2208,7 +2259,7 @@
                 <img alt="OmniTool Hub" src="https://ph-files.imgix.net/1c48fc67-eb5c-4a88-ab5e-e2c50f417b3a.svg?auto=compress,format&amp;codec=mozjpeg&amp;cs=strip&amp;fit=crop&amp;h=80&amp;w=80" style="width: 56px; height: 56px; border-radius: 8px; object-fit: cover; flex-shrink: 0;">
                 <div style="flex: 1 1 0%; min-width: 0px;">
                   <h3 style="margin: 0px; font-size: 17px; font-weight: 600; color: var(--text-main); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">OmniTool Hub</h3>
-                  <p style="margin: 4px 0px 0px; font-size: 13.5px; color: var(--text-muted); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">50+ privacy-first dev utilities running 100% client-side</p>
+                  <p style="margin: 4px 0px 0px; font-size: 13.5px; color: var(--text-muted); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">47+ powerhouse suites (70+ tools) running 100% client-side</p>
                 </div>
               </div>
               <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 8px;">
@@ -2284,7 +2335,7 @@
                 <ul
                   style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
-                      style="color: var(--accent-cyan);">✔</span> Lifetime access to all <span class="dynamic-tool-count">46+</span> tools</li>
+                      style="color: var(--accent-cyan);">✔</span> Lifetime access to all <span class="dynamic-tool-count">47+</span> tools</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-cyan);">✔</span> Bypass all sponsor lock screens</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
@@ -2325,7 +2376,7 @@
                 <ul
                   style="list-style: none; padding: 0; margin: 0 20px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text-main);">
                   <li style="display: flex; gap: 8px; align-items: center;"><span
-                      style="color: var(--accent-cyan);">✔</span> Full access to all <span class="dynamic-paid-tool-count">50+</span> tools</li>
+                      style="color: var(--accent-cyan);">✔</span> Full access to all <span class="dynamic-paid-tool-count">47+</span> suites (70+ tools)</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span
                       style="color: var(--accent-cyan);">✔</span> Bypass all video ads/lock screens</li>
                   <li style="display: flex; gap: 8px; align-items: center;"><span

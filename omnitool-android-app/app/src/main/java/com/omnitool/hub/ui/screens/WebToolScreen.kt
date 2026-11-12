@@ -2,10 +2,20 @@ package com.omnitool.hub.ui.screens
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DownloadManager
+import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.webkit.*
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,6 +37,145 @@ import androidx.webkit.WebViewAssetLoader
 import com.omnitool.hub.model.Tool
 import com.omnitool.hub.ui.theme.BgMain
 import com.omnitool.hub.ui.theme.TextMain
+import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+
+private class AndroidExportBridge(private val context: Context) {
+    @JavascriptInterface
+    fun saveBase64File(dataUriOrBase64: String, fileName: String, mimeType: String) {
+        try {
+            val commaIdx = dataUriOrBase64.indexOf(',')
+            val pureBase64 = if (commaIdx >= 0) dataUriOrBase64.substring(commaIdx + 1) else dataUriOrBase64
+            val bytes = Base64.decode(pureBase64, Base64.DEFAULT)
+
+            val rawName = File(fileName.ifBlank { "omnitool-export.bin" }).name
+            val safeName = rawName.replace(Regex("""[\\/:*?"<>|]"""), "_").ifBlank { "omnitool-export.bin" }
+            val safeMime = mimeType.ifBlank { "application/octet-stream" }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val values = ContentValues().apply {
+                    put(MediaStore.Downloads.DISPLAY_NAME, safeName)
+                    put(MediaStore.Downloads.MIME_TYPE, safeMime)
+                    put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                }
+                val uri = context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+                    ?: throw IllegalStateException("Unable to allocate Downloads MediaStore entry")
+                context.contentResolver.openOutputStream(uri)?.use { out ->
+                    out.write(bytes)
+                }
+            } else {
+                @Suppress("DEPRECATION")
+                val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                if (!dir.exists()) dir.mkdirs()
+                val outFile = File(dir, safeName)
+                FileOutputStream(outFile).use { it.write(bytes) }
+            }
+
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(context, "Saved $safeName to Downloads", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Log.e("OmniToolExport", "Failed to save downloaded payload", e)
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(context, "Export failed: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+}
+
+private fun getAssetMimeType(path: String): String {
+    val clean = path.substringBefore('?').substringBefore('#')
+    val ext = clean.substringAfterLast('.', "").lowercase()
+    return when (ext) {
+        "html", "htm" -> "text/html"
+        "js", "mjs" -> "application/javascript"
+        "css" -> "text/css"
+        "json" -> "application/json"
+        "svg" -> "image/svg+xml"
+        "png" -> "image/png"
+        "jpg", "jpeg" -> "image/jpeg"
+        "gif" -> "image/gif"
+        "webp" -> "image/webp"
+        "ico" -> "image/x-icon"
+        "wasm" -> "application/wasm"
+        "woff" -> "font/woff"
+        "woff2" -> "font/woff2"
+        "ttf" -> "font/ttf"
+        "otf" -> "font/otf"
+        "txt" -> "text/plain"
+        "xml" -> "application/xml"
+        "pdf" -> "application/pdf"
+        else -> MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext) ?: "application/octet-stream"
+    }
+}
+
+private fun isBinaryAsset(mimeType: String): Boolean {
+    return mimeType.startsWith("image/") && !mimeType.contains("svg") ||
+            mimeType.startsWith("font/") ||
+            mimeType.startsWith("audio/") ||
+            mimeType.startsWith("video/") ||
+            mimeType == "application/wasm" ||
+            mimeType == "application/pdf" ||
+            mimeType == "application/octet-stream"
+}
+
+private fun interceptAppAsset(context: Context, rawPath: String): WebResourceResponse? {
+    try {
+        val clean = rawPath.substringBefore('?').substringBefore('#').trim().trimStart('/')
+
+        val subPath = when {
+            clean.startsWith("assets/web/") -> clean.removePrefix("assets/web/")
+            clean.startsWith("web/") -> clean.removePrefix("web/")
+            else -> clean
+        }
+
+        val targetFile = when {
+            subPath.isEmpty() || subPath == "/" -> "index.html"
+            subPath.startsWith("tool/") -> "index.html"
+            else -> subPath
+        }
+
+        val candidatePaths = listOf(
+            "web/$targetFile",
+            "web/assets/$targetFile",
+            targetFile
+        )
+
+        var inputStream: InputStream? = null
+        var resolvedPath = ""
+        for (candidate in candidatePaths) {
+            try {
+                inputStream = context.assets.open(candidate)
+                resolvedPath = candidate
+                break
+            } catch (_: Exception) {
+                // Try next candidate
+            }
+        }
+
+        if (inputStream == null) {
+            Log.w("OmniToolWebView", "Asset not found: $rawPath (tried $candidatePaths)")
+            return null
+        }
+
+        val mimeType = getAssetMimeType(resolvedPath)
+        val encoding = if (isBinaryAsset(mimeType)) null else "UTF-8"
+        val contentType = if (encoding != null) "$mimeType; charset=$encoding" else mimeType
+        val headers = mapOf(
+            "Content-Type" to contentType,
+            "Access-Control-Allow-Origin" to "*",
+            "Access-Control-Allow-Methods" to "GET, OPTIONS",
+            "Access-Control-Allow-Headers" to "*"
+        )
+
+        return WebResourceResponse(mimeType, encoding, 200, "OK", headers, inputStream)
+    } catch (e: Exception) {
+        Log.e("OmniToolWebView", "Error serving asset: $rawPath", e)
+        return null
+    }
+}
 
 @SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,16 +185,14 @@ fun WebToolScreen(
     onBackClick: () -> Unit
 ) {
     val context = LocalContext.current
+    val prefs = remember { context.getSharedPreferences("omnitool_prefs", Context.MODE_PRIVATE) }
+    val offlineCacheEnabled = remember { prefs.getBoolean("offline_cache", true) }
     var webViewRef by remember { mutableStateOf<WebView?>(null) }
     var fileUploadCallback by remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
 
     // System Back Gesture/Button Handler
     BackHandler {
-        if (webViewRef?.canGoBack() == true) {
-            webViewRef?.goBack()
-        } else {
-            onBackClick()
-        }
+        onBackClick()
     }
 
     // Modern Android File Chooser Activity Launcher for tool uploads
@@ -71,11 +218,12 @@ fun WebToolScreen(
 
     val assetLoader = remember {
         WebViewAssetLoader.Builder()
+            .setDomain("appassets.androidplatform.net")
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
             .build()
     }
 
-    val targetUrl = "https://appassets.androidplatform.net/assets/web/index.html?embed=1#tool/${tool.id}"
+    val targetUrl = "https://appassets.androidplatform.net/index.html?embed=1#tool/${tool.id}"
 
     Column(
         modifier = Modifier
@@ -89,13 +237,7 @@ fun WebToolScreen(
                 .padding(horizontal = 8.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {
-                if (webViewRef?.canGoBack() == true) {
-                    webViewRef?.goBack()
-                } else {
-                    onBackClick()
-                }
-            }) {
+            IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back",
@@ -127,14 +269,51 @@ fun WebToolScreen(
                 .weight(1f),
             factory = { ctx ->
                 WebView(ctx).apply {
+                    layoutParams = android.view.ViewGroup.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT
+                    )
                     webViewRef = this
+
+                    val exportBridge = AndroidExportBridge(ctx)
+                    addJavascriptInterface(exportBridge, "OmniToolAndroidBridge")
 
                     webViewClient = object : WebViewClient() {
                         override fun shouldInterceptRequest(
                             view: WebView,
                             request: WebResourceRequest
                         ): WebResourceResponse? {
-                            return assetLoader.shouldInterceptRequest(request.url)
+                            val url = request.url
+                            if (url.host.equals("appassets.androidplatform.net", ignoreCase = true)) {
+                                val localResponse = interceptAppAsset(ctx, url.path ?: "")
+                                if (localResponse != null) {
+                                    return localResponse
+                                }
+                            }
+                            return assetLoader.shouldInterceptRequest(url)
+                        }
+
+                        override fun shouldOverrideUrlLoading(
+                            view: WebView?,
+                            request: WebResourceRequest?
+                        ): Boolean {
+                            val reqUrl = request?.url ?: return false
+                            if (reqUrl.host == "appassets.androidplatform.net" ||
+                                reqUrl.scheme == "blob" ||
+                                reqUrl.scheme == "data"
+                            ) {
+                                return false
+                            }
+                            if (reqUrl.scheme == "http" || reqUrl.scheme == "https") {
+                                return try {
+                                    ctx.startActivity(Intent(Intent.ACTION_VIEW, reqUrl))
+                                    true
+                                } catch (e: Exception) {
+                                    Log.w("OmniToolWebView", "Failed to open external URL: $reqUrl", e)
+                                    false
+                                }
+                            }
+                            return false
                         }
 
                         override fun onReceivedError(
@@ -145,6 +324,72 @@ fun WebToolScreen(
                         ) {
                             super.onReceivedError(view, errorCode, description, failingUrl)
                             Log.w("OmniToolWebView", "Resource error: $description at $failingUrl")
+                        }
+
+                        override fun onPageFinished(view: WebView?, url: String?) {
+                            super.onPageFinished(view, url)
+                            view?.evaluateJavascript(
+                                """
+                                (function() {
+                                    function launch() {
+                                        if (window.app && typeof window.app.navigateToTool === 'function') {
+                                            window.app.navigateToTool('${tool.id}', false);
+                                        } else {
+                                            setTimeout(launch, 50);
+                                        }
+                                    }
+                                    launch();
+                                })();
+                                """.trimIndent(),
+                                null
+                            )
+                        }
+                    }
+
+                    setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
+                        val guessedName = URLUtil.guessFileName(
+                            url,
+                            contentDisposition,
+                            mimeType
+                        )
+                        if (url.startsWith("blob:") || url.startsWith("data:")) {
+                            val jsUrl = JSONObject.quote(url)
+                            val jsName = JSONObject.quote(guessedName)
+                            val jsMime = JSONObject.quote(mimeType ?: "application/octet-stream")
+                            val bridgeScript = """
+                                (function(){
+                                  fetch($jsUrl)
+                                    .then(function(r){ return r.blob(); })
+                                    .then(function(b){
+                                      var reader = new FileReader();
+                                      reader.onloadend = function(){
+                                        if (window.OmniToolAndroidBridge && reader.result) {
+                                          window.OmniToolAndroidBridge.saveBase64File(String(reader.result), $jsName, b.type || $jsMime);
+                                        }
+                                      };
+                                      reader.readAsDataURL(b);
+                                    })
+                                    .catch(function(err){ console.error('Blob download failed', err); });
+                                })();
+                            """.trimIndent()
+                            evaluateJavascript(bridgeScript, null)
+                        } else if (url.startsWith("http://") || url.startsWith("https://")) {
+                            try {
+                                val dmReq = DownloadManager.Request(Uri.parse(url)).apply {
+                                    setMimeType(mimeType)
+                                    addRequestHeader("User-Agent", userAgent)
+                                    setTitle(guessedName)
+                                    setDescription("Downloading from OmniTool Hub")
+                                    setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                                    setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, guessedName)
+                                }
+                                val dm = ctx.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                                dm.enqueue(dmReq)
+                                Toast.makeText(ctx, "Downloading $guessedName...", Toast.LENGTH_SHORT).show()
+                            } catch (e: Exception) {
+                                Log.e("OmniToolWebView", "DownloadManager error", e)
+                                Toast.makeText(ctx, "Download failed: ${e.message}", Toast.LENGTH_LONG).show()
+                            }
                         }
                     }
 
@@ -187,6 +432,8 @@ fun WebToolScreen(
                         }
                     }
 
+                    WebView.setWebContentsDebuggingEnabled(true)
+
                     settings.apply {
                         javaScriptEnabled = true
                         domStorageEnabled = true
@@ -196,6 +443,9 @@ fun WebToolScreen(
                         allowFileAccessFromFileURLs = true
                         allowUniversalAccessFromFileURLs = true
                         mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+                        cacheMode = WebSettings.LOAD_NO_CACHE
+                        useWideViewPort = true
+                        loadWithOverviewMode = true
                         userAgentString = "$userAgentString OmniToolAndroid"
                     }
 
@@ -204,8 +454,15 @@ fun WebToolScreen(
             },
             update = { webView ->
                 val current = webView.url.orEmpty()
-                if (!current.contains("#tool/${tool.id}")) {
+                val targetHash = "#tool/${tool.id}"
+                val targetPath = "/tool/${tool.id}"
+                if (!current.contains(targetHash) && !current.contains(targetPath)) {
                     webView.loadUrl(targetUrl)
+                } else {
+                    webView.evaluateJavascript(
+                        "if (window.app && typeof window.app.navigateToTool === 'function') { window.app.navigateToTool('${tool.id}', false); }",
+                        null
+                    )
                 }
             }
         )

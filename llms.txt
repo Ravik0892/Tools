@@ -1,6 +1,6 @@
 # OmniTool Hub
 
-> OmniTool Hub is a high-performance, privacy-first developer & creator workbench featuring 50+ client-side utilities, Smart Chain Pipelines, and offline PWA capability with zero user payload logging.
+> OmniTool Hub is a high-performance, privacy-first developer & creator workbench featuring 47 powerhouse suites (70+ client-side utilities), Smart Chain Pipelines, 95 interactive tool guides, and offline PWA capability with zero user payload logging.
 
 ## Core Documentation & AI Context
 
@@ -30,5 +30,10 @@
 - [Unit Converter](https://omnitool.worldsneed.com/tool/unit-converter): Multi-dimensional unit conversions across length, weight, temperature, data size, and time.
 - [Smart Calculator](https://omnitool.worldsneed.com/tool/calculator): Scientific calculation suite with history and keyboard-first workflow.
 - [Text Difference Checker](https://omnitool.worldsneed.com/tool/text-diff): Visual side-by-side line and character diff comparison.
-- [QR Code Studio](https://omnitool.worldsneed.com/tool/qr-generator): Generate customizable SVG/PNG QR codes with instant local download.
+- [QR Code Studio](https://omnitool.worldsneed.com/tool/qr-studio): Generate customizable SVG/PNG QR codes with instant local download.
 - [Smart Password Generator](https://omnitool.worldsneed.com/tool/password-generator): Entropy-driven client-side password and passphrase generator.
+- [PDF Utilities Studio](https://omnitool.worldsneed.com/tool/pdf-utilities): Merge, split, crop, compress, and organize PDF pages offline in browser memory.
+- [AI PDF Summarizer & Q&A](https://omnitool.worldsneed.com/tool/pdf-ai): Extract text, summarize documents, and run Q&A over PDFs via local NLP or user-supplied Gemini API keys.
+- [Temp Mail Generator](https://omnitool.worldsneed.com/tool/temp-mail): Disposable temporary inbox with live message polling for signup & QA testing.
+- [Finance & Loan Calculator](https://omnitool.worldsneed.com/tool/finance-calculator): SIP, compound interest, EMI loan amortization, and ROI financial planning suite.
+- [Fancy Font & Unicode Bio Generator](https://omnitool.worldsneed.com/tool/fancy-font-generator): Convert plain text into 50+ Unicode decorative font styles for social profiles.

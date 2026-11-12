@@ -48,13 +48,16 @@ html {
   color: var(--text-main);
   font-family: var(--font-main);
   line-height: 1.65;
+  overflow-x: clip;
+  max-width: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
   min-height: 100vh;
   background-color: var(--bg-primary);
   color: var(--text-main);
@@ -303,6 +306,11 @@ a {
   grid-template-columns: 1.12fr 0.88fr;
   align-items: center;
   gap: 50px;
+}
+
+.hero-container > *,
+.ecosystem-grid > * {
+  min-width: 0;
 }
 
 .hero-pill-badge {
@@ -1194,8 +1202,9 @@ a {
 
 .subdomain-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
+  gap: 10px 14px;
   padding: 10px 14px;
   border-radius: 8px;
   background: rgba(7, 12, 24, 0.6);
@@ -1689,7 +1698,23 @@ a {
     padding: 30px 20px;
   }
 
+  .hero-visual {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
   .cta-card {
     padding: 50px 20px;
+  }
+}
+
+@media (max-width: 540px) {
+  .hero-visual {
+    height: 310px;
+  }
+
+  .orbit-system {
+    transform: scale(0.62);
+    transform-origin: center center;
   }
 }

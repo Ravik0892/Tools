@@ -2087,9 +2087,13 @@ export default {
 
       // Auto-persist directly to ad-config.json on disk so changes survive browser closes & offline reloads
       try {
+        const adminToken = sessionStorage.getItem("omnitool_admin_token") || "";
         fetch("/api/deploy-live", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + adminToken
+          },
           body: JSON.stringify({
             config: configData,
             pushToLive: false
@@ -2278,9 +2282,13 @@ export default {
       if (hookUrl) localStorage.setItem("omnitool_vercel_deploy_hook_url", hookUrl);
 
       try {
+        const adminToken = sessionStorage.getItem("omnitool_admin_token") || "";
         const res = await fetch("/api/deploy-live", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + adminToken
+          },
           body: JSON.stringify({
             config: configData,
             commitMessage: commitMsg,

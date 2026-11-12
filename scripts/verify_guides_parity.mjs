@@ -64,10 +64,11 @@ assert(finJs.includes('Visual Allocation') && finJs.includes('CSV Ledger Export'
 // 5. Check guides/index.html
 const indexHtml = fs.readFileSync('guides/index.html', 'utf8');
 const cardMatches = indexHtml.match(/class="[^"]*guide-card[^"]*"/g) || [];
-assert(cardMatches.length >= 94, `guides/index.html contains all ${cardMatches.length} guide cards (>= 94)`);
-assert(indexHtml.includes('fancy-font-generator.html'), 'guides/index.html contains fancy-font-generator card');
-assert(indexHtml.includes('finance-calculator.html'), 'guides/index.html contains finance-calculator card');
-assert(indexHtml.includes('"position": 94'), 'guides/index.html contains 94 schema items in JSON-LD');
+assert(cardMatches.length >= 95, `guides/index.html contains all ${cardMatches.length} guide cards (>= 95)`);
+assert(indexHtml.includes('/guides/fancy-font-generator') || indexHtml.includes('fancy-font-generator.html'), 'guides/index.html contains fancy-font-generator card');
+assert(indexHtml.includes('/guides/finance-calculator') || indexHtml.includes('finance-calculator.html'), 'guides/index.html contains finance-calculator card');
+assert(indexHtml.includes('/guides/crop-pdf') || indexHtml.includes('crop-pdf.html'), 'guides/index.html contains crop-pdf card');
+assert(indexHtml.includes('"position": 95'), 'guides/index.html contains 95 schema items in JSON-LD');
 
 // 6. Check Android mirror sync
 const androidFontGuide = 'omnitool-android-app/app/src/main/assets/web/guides/fancy-font-generator.html';
@@ -75,7 +76,8 @@ const androidFinGuide = 'omnitool-android-app/app/src/main/assets/web/guides/fin
 const androidIndex = 'omnitool-android-app/app/src/main/assets/web/guides/index.html';
 assert(fs.existsSync(androidFontGuide) && fs.readFileSync(androidFontGuide, 'utf8').includes('live-tool-embed-card'), 'Android mirror has updated fancy-font-generator.html');
 assert(fs.existsSync(androidFinGuide) && fs.readFileSync(androidFinGuide, 'utf8').includes('live-tool-embed-card'), 'Android mirror has updated finance-calculator.html');
-assert(fs.existsSync(androidIndex) && fs.readFileSync(androidIndex, 'utf8').includes('fancy-font-generator.html'), 'Android mirror has updated guides/index.html');
+assert(fs.existsSync('guides/crop-pdf.html'), 'guides/crop-pdf.html exists');
+assert(fs.existsSync(androidIndex) && (fs.readFileSync(androidIndex, 'utf8').includes('/guides/crop-pdf') || fs.readFileSync(androidIndex, 'utf8').includes('fancy-font-generator.html')), 'Android mirror has updated guides/index.html');
 
 console.log('\n====================================================');
 console.log(`TOTAL AUDIT RESULTS: ${pass} PASSED, ${fail} FAILED`);

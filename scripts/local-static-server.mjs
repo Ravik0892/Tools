@@ -35,6 +35,10 @@ createServer(async (req, res) => {
   // Dispatch /api/* to serverless functions
   if (pathname.startsWith("/api/")) {
     const endpoint = pathname.replace(/^\/api\//, "").replace(/\.js$/, "");
+    if (!endpoint || !/^[a-z0-9-]+$/i.test(endpoint) || endpoint.startsWith("_")) {
+      res.writeHead(404, { "Content-Type": "application/json" }).end(JSON.stringify({ error: "API endpoint not found" }));
+      return;
+    }
     const apiPath = join(root, "api", `${endpoint}.js`);
     if (existsSync(apiPath)) {
       let bodyData = "";

@@ -44,10 +44,10 @@ export default {
             <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
               <span style="font-size: 12px; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px;">RECORDING OPTIONS</span>
               
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted);">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 12px;">
+                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted); min-width: 0;">
                   Resolution Target
-                  <select id="sr-res-select" class="tool-input" style="padding: 6px 10px; font-size: 12px;">
+                  <select id="sr-res-select" class="tool-input" style="padding: 6px 10px; font-size: 12px; width: 100%; min-width: 0; box-sizing: border-box;">
                     <option value="native" selected>Original Screen Size</option>
                     <option value="1080">1080p Full HD (1920x1080)</option>
                     <option value="720">720p HD (1280x720)</option>
@@ -55,9 +55,9 @@ export default {
                   </select>
                 </label>
 
-                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted);">
+                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted); min-width: 0;">
                   Frame Rate (FPS)
-                  <select id="sr-fps-select" class="tool-input" style="padding: 6px 10px; font-size: 12px;">
+                  <select id="sr-fps-select" class="tool-input" style="padding: 6px 10px; font-size: 12px; width: 100%; min-width: 0; box-sizing: border-box;">
                     <option value="60">60 FPS (Ultra Smooth)</option>
                     <option value="30" selected>30 FPS (Standard / Recommended)</option>
                     <option value="15">15 FPS (Small File Size)</option>

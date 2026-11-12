@@ -2,6 +2,30 @@
 
 const app = {
   APP_VERSION: "2.2.0",
+  escapeHtml(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  },
+  applyPendingPaste(viewport, resolvedToolId) {
+    if (!this.pendingPaste || !viewport) return;
+    const p = this.pendingPaste;
+    if (p.toolId === resolvedToolId || this.toolRedirects[p.toolId]?.suiteId === resolvedToolId || (p.toolId === "formatter-suite" && resolvedToolId === "formatter-suite")) {
+      const input = viewport.querySelector(p.inputSelector);
+      if (input) {
+        input.value = p.value;
+        input.dispatchEvent(new Event("input"));
+        if (p.btnSelector) {
+          viewport.querySelector(p.btnSelector)?.click();
+        }
+      }
+    }
+    this.pendingPaste = null;
+  },
   getToolsBasePath() {
     if (window.location.hostname === "appassets.androidplatform.net") {
       return "https://appassets.androidplatform.net/assets/web/tools/";
@@ -2396,7 +2420,7 @@ const app = {
   },
 
   
-  // Centralized Curated Registry for Everyday / Beginner Mode (18 Essential Utilities)
+  // Centralized Curated Registry for Everyday / Beginner Mode (20 Essential Utilities)
   beginnerToolsConfig: {
     "pdf-utilities": {
       name: "Combine, Cut & Compress PDF",
@@ -2729,7 +2753,7 @@ const app = {
           <div class="hero-mode-banner">
             <span>💻 Need code formatters, JWT, or developer utilities?</span>
             <button type="button" class="hero-mode-banner-btn" onclick="app.setUiMode('developer')">
-              <span>Switch to Developer Mode (75+ tools) &rarr;</span>
+              <span>Switch to Developer Mode (47+ suites &bull; 70+ tools) &rarr;</span>
             </button>
           </div>
         `;
@@ -3624,7 +3648,7 @@ const app = {
       keywords: "split pdf, extract pages from pdf, crop pdf, pdf to images zip, separate pdf pages",
       category: "text",
       subLabel: "PDF Page Studio",
-      guideUrl: "guides/pdf-utilities.html#split"
+      guideUrl: "guides/crop-pdf.html"
     }
   },
 
@@ -3819,8 +3843,10 @@ const app = {
         (typeof window !== "undefined" && window.location?.hostname === "appassets.androidplatform.net") ||
         (typeof window !== "undefined" && window.location?.href && window.location.href.includes("android_asset"))
       );
+    this.isEmbeddedApp = isEmbeddedApp;
     if (isEmbeddedApp) {
       document.body.classList.add("app-embedded");
+      document.documentElement.classList.add("app-embedded");
     }
 
     // Inject keywords into tool definitions
@@ -4001,7 +4027,7 @@ const app = {
     const promptsByLang = {
       en: {
         beginner: [
-          "Search 18 everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')",
+          "Search 20 everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')",
           "Try 'Combine, Cut & Compress PDF'",
           "Try 'Create & Scan QR Codes'",
           "Try 'Fast Online Calculator'",
@@ -4011,7 +4037,7 @@ const app = {
           "Try 'Date, Age & Time Calculator'"
         ],
         dev: [
-          "Search 50+ developer tools... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')",
+          "Search 47+ developer suites (70+ tools)... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')",
           "Try 'Smart Chain Pipeline Builder'",
           "Try 'JWT Token Decoder & Inspector'",
           "Try 'Cryptography & AES-256 Suite'",
@@ -4024,7 +4050,7 @@ const app = {
       },
       es: {
         beginner: [
-          "Buscar 18 herramientas cotidianas... (ej. 'PDF', 'Código QR', 'Audio')",
+          "Buscar 20 herramientas cotidianas... (ej. 'PDF', 'Código QR', 'Audio')",
           "Prueba 'Combinar, Cortar y Comprimir PDF'",
           "Prueba 'Crear y Escanear Códigos QR'",
           "Prueba 'Calculadora Rápida en Línea'",
@@ -4034,7 +4060,7 @@ const app = {
           "Prueba 'Calculadora de Fechas y Tiempo'"
         ],
         dev: [
-          "Buscar 50+ herramientas de desarrollo... (ej. 'JSON', 'JWT', 'Base64')",
+          "Buscar 47+ suites de desarrollo... (ej. 'JSON', 'JWT', 'Base64')",
           "Prueba 'Constructor de Pipeline en Cadena'",
           "Prueba 'Decodificador e Inspector JWT'",
           "Prueba 'Suite de Criptografía y AES-256'",
@@ -4047,7 +4073,7 @@ const app = {
       },
       pt: {
         beginner: [
-          "Pesquisar 18 ferramentas do dia a dia... (ex: 'PDF', 'QR code', 'Áudio')",
+          "Pesquisar 20 ferramentas do dia a dia... (ex: 'PDF', 'QR code', 'Áudio')",
           "Experimente 'Combinar, Cortar e Comprimir PDF'",
           "Experimente 'Criar e Ler Códigos QR'",
           "Experimente 'Calculadora Rápida Online'",
@@ -4057,7 +4083,7 @@ const app = {
           "Experimente 'Calculadora de Datas e Idade'"
         ],
         dev: [
-          "Pesquisar 50+ utilitários de desenvolvedor... (ex: 'JSON', 'JWT', 'Base64')",
+          "Pesquisar 47+ suítes de desenvolvedor... (ex: 'JSON', 'JWT', 'Base64')",
           "Experimente 'Criador de Fluxos em Cadeia'",
           "Experimente 'Decodificador e Inspetor JWT'",
           "Experimente 'Suíte de Criptografia e AES-256'",
@@ -4070,7 +4096,7 @@ const app = {
       },
       de: {
         beginner: [
-          "18 alltägliche Tools durchsuchen... (z. B. 'PDF', 'QR-Code', 'Audio')",
+          "20 alltägliche Tools durchsuchen... (z. B. 'PDF', 'QR-Code', 'Audio')",
           "Probieren Sie 'PDF zusammenfügen, teilen & komprimieren'",
           "Probieren Sie 'QR-Codes erstellen & scannen'",
           "Probieren Sie 'Schneller Online-Rechner'",
@@ -4080,7 +4106,7 @@ const app = {
           "Probieren Sie 'Datums- und Zeitrechner'"
         ],
         dev: [
-          "50+ Entwickler-Tools durchsuchen... (z. B. 'JSON', 'JWT', 'Base64')",
+          "47+ Entwickler-Suiten durchsuchen... (z. B. 'JSON', 'JWT', 'Base64')",
           "Probieren Sie 'Pipeline-Ketten-Builder'",
           "Probieren Sie 'JWT-Token-Decoder & Inspektor'",
           "Probieren Sie 'Kryptographie- & AES-256-Suite'",
@@ -4093,7 +4119,7 @@ const app = {
       },
       fr: {
         beginner: [
-          "Rechercher 18 outils du quotidien... (ex. 'PDF', 'QR code', 'Audio')",
+          "Rechercher 20 outils du quotidien... (ex. 'PDF', 'QR code', 'Audio')",
           "Essayez 'Combiner, découper & compresser PDF'",
           "Essayez 'Créer & scanner des codes QR'",
           "Essayez 'Calculatrice rapide en ligne'",
@@ -4103,7 +4129,7 @@ const app = {
           "Essayez 'Calculateur de dates et durées'"
         ],
         dev: [
-          "Rechercher 50+ outils pour développeurs... (ex. 'JSON', 'JWT', 'Base64')",
+          "Rechercher 47+ suites pour développeurs... (ex. 'JSON', 'JWT', 'Base64')",
           "Essayez 'Créateur de pipelines en chaîne'",
           "Essayez 'Décodeur et inspecteur de jetons JWT'",
           "Essayez 'Suite de cryptographie & AES-256'",
@@ -4166,8 +4192,9 @@ const app = {
   syncToolCounts() {
     const isBeginner = this.uiMode === "beginner";
     const beginnerCount = Object.keys(this.beginnerToolsConfig || {}).length || 18;
-    const count = isBeginner ? beginnerCount : this.tools.length;
-    const countDisplay = isBeginner ? `${count}` : `${this.tools.length}+`;
+    const devToolsCount = this.tools.filter((t) => t.id !== "admin-settings" && !t.hidden).length;
+    const count = isBeginner ? beginnerCount : devToolsCount;
+    const countDisplay = isBeginner ? `${count}` : `${devToolsCount}+`;
 
     // 1. Hero metric
     const heroNum = document.getElementById("hero-tools-count") || document.querySelector(".hero-metric-item .hero-metric-num");
@@ -4194,7 +4221,7 @@ const app = {
     ].filter(Boolean);
     searchInputs.forEach(input => {
       if (!input.value) {
-        input.setAttribute("placeholder", isBeginner ? "Search 18 everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')" : "Search 50+ developer tools... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')");
+        input.setAttribute("placeholder", isBeginner ? `Search ${beginnerCount} everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')` : `Search ${devToolsCount}+ developer suites... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')`);
       }
     });
 
@@ -4255,6 +4282,11 @@ const app = {
     const splash = document.getElementById("app-splash-screen");
     const logBox = document.getElementById("splash-logs");
     if (!splash) return;
+
+    if (this.isEmbeddedApp || document.body.classList.contains("app-embedded") || document.documentElement.classList.contains("app-embedded")) {
+      splash.style.display = "none";
+      return;
+    }
 
     const logs = [
       "Initializing secure local sandbox...",
@@ -4465,8 +4497,8 @@ const app = {
     if (hash.startsWith("#tool/")) {
       const toolId = hash.replace("#tool/", "").replace(/\/$/, "");
 
-      // Promote hash URL to clean path without # for Google search & modern UX
-      if (window.history && window.history.replaceState) {
+      // Promote hash URL to clean path without # for Google search & modern UX (skip in embedded mode)
+      if (!this.isEmbeddedApp && window.history && window.history.replaceState) {
         try {
           window.history.replaceState({ toolId }, "", "/tool/" + toolId + this.getLangQueryString());
         } catch (e) {}
@@ -4754,7 +4786,7 @@ const app = {
   },
 
   registerServiceWorker() {
-    if (window.location.protocol === "file:") {
+    if (window.location.protocol === "file:" || this.isEmbeddedApp || window.location.hostname === "appassets.androidplatform.net") {
       return;
     }
     const isLocalhost = window.location.hostname === "localhost" ||
@@ -5341,7 +5373,7 @@ const app = {
           </div>
 
           <ul>
-            <li><strong>Free Tier (Local-First Sandbox):</strong> By default, all 50+ developer utilities run entirely within your web browser using WebAssembly, Web Crypto API, and local Web Workers. Code syntax validation, JSON formatting, cryptography hashing, image optimization, and PDF page manipulation happen directly on your machine. Your input payloads, passwords, and documents are never transmitted to our servers.</li>
+            <li><strong>Free Tier (Local-First Sandbox):</strong> By default, all 47 powerhouse suites (70+ developer utilities) run entirely within your web browser using WebAssembly, Web Crypto API, and local Web Workers. Code syntax validation, JSON formatting, cryptography hashing, image optimization, and PDF page manipulation happen directly on your machine. Your input payloads, passwords, and documents are never transmitted to our servers.</li>
             <li><strong>Upcoming Paid / Subscription Tier (Optional Cloud Server Storage):</strong> In forthcoming updates, users who subscribe to our monthly or lifetime PRO plans will have the optional ability to connect to our secure Cloud Server backend. This will enable cross-device synchronization of saved pipeline presets, custom regex libraries, favorite tool settings, and cloud-saved documents. <strong>Cloud synchronization is strictly opt-in</strong>: Free tier users will continue to enjoy 100% client-side privacy without ever being forced to store data on cloud servers. Cloud-stored records will utilize industry-standard AES-256 encryption at rest and TLS 1.3 in transit.</li>
           </ul>
 
@@ -5626,7 +5658,7 @@ const app = {
           <h3>Upcoming Hybrid Architecture Roadmap</h3>
           <p>To serve both independent developers and high-volume engineering teams, we are actively expanding our architecture into a balanced hybrid model:</p>
           <ul>
-            <li><strong>The Free Local-First Pillar:</strong> Our complete 50+ tool suite remains free forever with 100% client-side execution, zero server uploads, and complete offline PWA capability.</li>
+            <li><strong>The Free Local-First Pillar:</strong> Our complete 47-suite (70+ tool) platform remains free forever with 100% client-side execution, zero server uploads, and complete offline PWA capability.</li>
             <li><strong>The Optional Cloud Server Pillar (Upcoming Paid Plan):</strong> For developers seeking multi-device workspace continuity, we are introducing optional encrypted Cloud Server synchronization. This allows power users to save pipelines, custom code templates, and sync configurations securely without compromising our core privacy standards.</li>
           </ul>
 
@@ -5998,7 +6030,7 @@ const app = {
     if (this.cpFiltered.length === 0) {
       const cpLang = this.currentLanguage || "en";
       const noMatchTpl = this.i18n[cpLang]?.noCommandsMatch || 'No commands or items match "{query}"';
-      const noMatchText = noMatchTpl.replace("{query}", query);
+      const noMatchText = noMatchTpl.replace("{query}", this.escapeHtml(query));
       listEl.innerHTML = `<div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px;">${noMatchText}</div>`;
       return;
     }
@@ -7084,7 +7116,7 @@ const app = {
       features: 0,
       pro: 0,
       free: 0,
-      guides: this.guidesList ? this.guidesList.length : 48
+      guides: this.guidesList ? this.guidesList.length : 53
     };
 
     visibleTools.forEach(tool => {
@@ -7301,7 +7333,7 @@ const app = {
         <div style="font-size: 42px; margin-bottom: 12px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));">🔍</div>
         <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">No Utilities Found</h3>
         <p style="font-size: 14px; color: var(--text-muted); max-width: 480px; margin: 0 auto 20px auto;">
-          We couldn't find any utilities matching ${cleanQuery ? `"${cleanQuery}"` : "your filter"} under the "${this.activeSearchFilter.toUpperCase()}" filter category.
+          We couldn't find any utilities matching ${cleanQuery ? `"${this.escapeHtml(cleanQuery)}"` : "your filter"} under the "${this.escapeHtml(this.activeSearchFilter.toUpperCase())}" filter category.
         </p>
         <button type="button" class="btn btn-primary" id="btn-reset-search-filters" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #fff;">
           <span>↺</span> Reset Filters & Show All
@@ -7350,6 +7382,27 @@ const app = {
         window.location.hash = "tool/" + toolId;
       }
       return this.navigateToTool(toolId, false);
+    }
+
+    const redirect = this.toolRedirects ? this.toolRedirects[toolId] : null;
+    if (redirect) {
+      this.activeSubtool = redirect.subtab ? toolId : null;
+      if (redirect.subtab) {
+        this.activeSubtab = redirect.subtab;
+      } else if (this.pendingPaste?.tab) {
+        this.activeSubtab = this.pendingPaste.tab;
+      }
+      if (this.activeTool === redirect.suiteId && redirect.subtab && this._activeTabSwitchers?.[redirect.suiteId]) {
+        this._activeTabSwitchers[redirect.suiteId](redirect.subtab);
+        this.syncSubtab(redirect.suiteId, redirect.subtab, { pushHistory: false, replaceHistory: true });
+        this.applyPendingPaste(document.getElementById("active-tool-viewport"), redirect.suiteId);
+        return;
+      }
+      toolId = redirect.suiteId;
+    } else if (this.pendingPaste?.toolId === toolId && this.pendingPaste.tab) {
+      this.activeSubtab = this.pendingPaste.tab;
+    } else if (!this.activeSubtab) {
+      this.activeSubtool = null;
     }
 
     // Close mobile drawer
@@ -7469,7 +7522,7 @@ const app = {
               <button type="submit" class="tool-btn primary" style="width: 100%; justify-content: center; height: 42px; font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.2s;">Unlock Control Panel</button>
               ${isLocalhost ? `
               <div style="font-size: 11.5px; color: var(--text-muted); background: rgba(0, 242, 254, 0.08); border: 1px dashed rgba(0, 242, 254, 0.28); padding: 8px 12px; border-radius: 8px; text-align: left; line-height: 1.5;">
-                <span style="color: var(--accent-cyan); font-weight: 700;">Local Master Passcodes:</span> <code style="color: #fff; background: rgba(255,255,255,0.1); padding: 1px 5px; border-radius: 4px;">admin123</code> or <code style="color: #fff; background: rgba(255,255,255,0.1); padding: 1px 5px; border-radius: 4px;">OmniAdmin@2026#</code>
+                <span style="color: var(--accent-cyan); font-weight: 700;">Local Dev Mode:</span> Sign in via <code>/api/admin-auth</code> or set <code>ADMIN_PASSCODE</code> in your local environment.
                 <div style="margin-top: 6px; display: flex; justify-content: flex-end;">
                   <button type="button" id="admin-reset-lockout-btn" style="background: none; border: none; color: var(--accent-cyan); font-size: 10.5px; cursor: pointer; text-decoration: underline; padding: 0;">Reset Lockout Timer</button>
                 </div>
@@ -7547,28 +7600,24 @@ const app = {
             // Serverless endpoint offline or static development server
           }
 
-          // 2. Resilient WebCrypto SHA-256 fallback (offline PWA / static server / GitHub Pages)
-          if (!authenticated) {
+          // 2. Local development offline SHA-256 fallback (never permitted on public hosts)
+          if (!authenticated && isLocalhost && typeof crypto !== "undefined" && crypto.subtle) {
             try {
               const encoder = new TextEncoder();
               const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(enteredPasscode));
               const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
 
-              // Validates:
-              // - Master Passcodes: "OmniAdmin@2026#" or "admin123"
-              // - Local admin custom passcode override
               const customPasscode = localStorage.getItem("omnitool_admin_passcode") || "";
-              const isMaster = enteredPasscode === "OmniAdmin@2026#" ||
-                enteredPasscode === "admin123" ||
+              const isDevHash =
                 hashHex === "efb6854ff3cb28f0f3cc0604b481df3eb4ffe5b765361e6d597f7ac5be6ae3a8" ||
                 hashHex === "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9" ||
                 hashHex === "3dfd014c226f9ba7144e5fae62933e8ca7ebbf94f0e4b85da57774c43b9df7ea";
-              const isCustom = customPasscode && (enteredPasscode === customPasscode);
+              const isCustom = customPasscode && (enteredPasscode === customPasscode || hashHex === customPasscode);
 
-              if (isMaster || isCustom) {
+              if (isDevHash || isCustom) {
                 sessionStorage.setItem("omnitool_admin_authenticated", "true");
                 authenticated = true;
-                authMode = "Cryptographically Verified";
+                authMode = "Local Dev SHA-256";
               }
             } catch (_) {}
           }
@@ -7827,20 +7876,7 @@ const app = {
       }
 
       // Handle pending auto-paste values
-      if (this.pendingPaste) {
-        const p = this.pendingPaste;
-        if (p.toolId === toolId || this.toolRedirects[p.toolId]?.suiteId === toolId || (p.toolId === "formatter-suite" && toolId === "formatter-suite")) {
-          const input = viewport.querySelector(p.inputSelector);
-          if (input) {
-            input.value = p.value;
-            input.dispatchEvent(new Event("input"));
-            if (p.btnSelector) {
-              viewport.querySelector(p.btnSelector)?.click();
-            }
-          }
-        }
-        this.pendingPaste = null;
-      }
+      this.applyPendingPaste(viewport, toolId);
     } catch (err) {
       console.error(`Error loading tool ID: ${toolId}`, err);
       if (window.location.protocol === "file:" || err.message?.includes("module specifier") || err.message?.includes("CORS") || err.message?.includes("about:blank")) {
@@ -8358,16 +8394,22 @@ const app = {
               }
             });
 
-            const handleFsEscape = (e) => {
-              if (e.key === "Escape" && previewPanel.classList.contains("preview-fullscreen")) {
-                if (splitView.classList.contains("drawer-open")) {
-                  splitView.classList.remove("drawer-open");
+            if (!this._fsEscapeHandler) {
+              this._fsEscapeHandler = (e) => {
+                if (e.key !== "Escape") return;
+                const activeViewport = document.getElementById("active-tool-viewport");
+                const activePanel = activeViewport?.querySelector(".tool-panel.preview-fullscreen");
+                if (!activePanel) return;
+                const activeSplit = activePanel.closest(".tool-content-layout.split-view");
+                if (activeSplit && activeSplit.classList.contains("drawer-open")) {
+                  activeSplit.classList.remove("drawer-open");
                 } else {
-                  fsBtn.click();
+                  const activeFsBtn = activePanel.querySelector(".preview-fullscreen-btn");
+                  activeFsBtn?.click();
                 }
-              }
-            };
-            window.addEventListener("keydown", handleFsEscape);
+              };
+              window.addEventListener("keydown", this._fsEscapeHandler);
+            }
           }
         }
 
@@ -8690,13 +8732,13 @@ const app = {
     const btdLang = this.currentLanguage || "en";
     document.title = this.i18n[btdLang]?.pageTitle || "OmniTool Hub | The Ultimate All-in-One Utility Suite";
     const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", this.i18n[btdLang]?.metaDesc || "A premium, free, privacy-first developer and utility tools web application. 75+ free online tools consolidated across 45 master suites, running 100% client-side with zero data transmission.");
+    if (metaDesc) metaDesc.setAttribute("content", this.i18n[btdLang]?.metaDesc || "A premium, free, privacy-first developer and utility tools web application. 70+ free online tools consolidated across 47 master suites, running 100% client-side with zero data transmission.");
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute("href", "https://omnitool.worldsneed.com/");
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) ogTitle.setAttribute("content", this.i18n[btdLang]?.pageTitle || "OmniTool Hub | All-in-One Utility Suite");
     const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) ogDesc.setAttribute("content", this.i18n[btdLang]?.metaDesc || "50+ free developer and utility tools. 100% offline-first, client-side, no tracking.");
+    if (ogDesc) ogDesc.setAttribute("content", this.i18n[btdLang]?.metaDesc || "47+ suites (70+ tools) running 100% offline-first, client-side, no tracking.");
     const ogUrl = document.querySelector('meta[property="og:url"]');
     if (ogUrl) ogUrl.setAttribute("content", "https://omnitool.worldsneed.com/");
 
@@ -9220,7 +9262,7 @@ const app = {
       "clockFormat": "Clock Display Format",
       "enableSound": "Enable Sound FX & Audio Feedback",
       "saveChanges": "Save Changes",
-      "pwaDesc": "Instant offline access • 50+ privacy tools • Zero server uploads",
+      "pwaDesc": "Instant offline access • 47+ suites (70+ tools) • Zero server uploads",
       "pwaInstallBtn": "⚡ Install Free App",
       "starterPlan": "Starter",
       "freePlan": "Free Plan",
@@ -9252,7 +9294,7 @@ const app = {
       "refund": "Refund Policy",
       "cookies": "Cookie Policy",
       "pageTitle": "OmniTool Hub | The Ultimate All-in-One Utility Suite",
-      "metaDesc": "A premium, free, privacy-first developer and utility tools web application. 50+ tools running 100% client-side.",
+      "metaDesc": "A premium, free, privacy-first developer and utility tools web application. 47+ suites (70+ tools) running 100% client-side.",
       "copy": "Copy",
       "clear": "Clear",
       "download": "Download",
@@ -9335,7 +9377,7 @@ const app = {
       "clockFormat": "Formato del Reloj",
       "enableSound": "Activar Efectos de Sonido y Audio",
       "saveChanges": "Guardar Cambios",
-      "pwaDesc": "Acceso offline instantáneo • 50+ herramientas privadas • Cero envíos al servidor",
+      "pwaDesc": "Acceso offline instantáneo • 47+ suites (70+ herramientas) • Cero envíos al servidor",
       "pwaInstallBtn": "⚡ Instalar App Gratis",
       "starterPlan": "Inicial",
       "freePlan": "Plan Gratuito",
@@ -9450,7 +9492,7 @@ const app = {
       "clockFormat": "Formato do Relógio",
       "enableSound": "Ativar Efeitos Sonoros e Áudio",
       "saveChanges": "Salvar Alterações",
-      "pwaDesc": "Acesso offline instantâneo • 50+ ferramentas privadas • Zero envios para o servidor",
+      "pwaDesc": "Acesso offline instantâneo • 47+ suítes (70+ ferramentas) • Zero envios para o servidor",
       "pwaInstallBtn": "⚡ Instalar App Grátis",
       "starterPlan": "Iniciante",
       "freePlan": "Plano Gratuito",
@@ -9565,7 +9607,7 @@ const app = {
       "clockFormat": "Uhrzeit-Anzeigeformat",
       "enableSound": "Soundeffekte & Audio-Feedback aktivieren",
       "saveChanges": "Änderungen speichern",
-      "pwaDesc": "Sofortiger Offline-Zugriff • 50+ private Tools • Keine Server-Uploads",
+      "pwaDesc": "Sofortiger Offline-Zugriff • 47+ Suiten (70+ Tools) • Keine Server-Uploads",
       "pwaInstallBtn": "⚡ Kostenlose App installieren",
       "starterPlan": "Starter",
       "freePlan": "Kostenloser Tarif",
@@ -9680,7 +9722,7 @@ const app = {
       "clockFormat": "Format d'affichage de l'horloge",
       "enableSound": "Activer les effets sonores et audio",
       "saveChanges": "Enregistrer les modifications",
-      "pwaDesc": "Accès hors-ligne instantané • 50+ outils privés • Zéro transmission serveur",
+      "pwaDesc": "Accès hors-ligne instantané • 47+ suites (70+ outils) • Zéro transmission serveur",
       "pwaInstallBtn": "⚡ Installer l'App Gratuite",
       "starterPlan": "Découverte",
       "freePlan": "Formule Gratuite",
@@ -10291,7 +10333,9 @@ const app = {
       },
       "code-playground": {
         "name": "Live-HTML/CSS/JS Spielwiese",
-    
+        "desc": "Frontend-Code interaktiv schreiben, Ergebnisse in sicherer Sandbox-Iframe sehen und Konsolenausgaben analysieren."
+      },
+      "curl-converter": {
         "name": "cURL-zu-Code Konverter",
         "desc": "cURL-Befehle direkt in modernen Fetch-Code (ES6 async/await), Axios, Python Requests und Go HTTP umwandeln."
       },
@@ -11929,7 +11973,7 @@ const app = {
           <div class="lock-header">
             <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: 0.5px;">Premium Tool Required</h2>
             <span style="font-size: 11px; font-weight: 700; color: var(--accent-purple); background: rgba(157, 78, 221, 0.12); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(157, 78, 221, 0.2); display: inline-block; margin-bottom: 12px; text-transform: uppercase;">💎 Pro / Premium Tier</span>
-            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Access to <strong>${toolInstance.name}</strong> is reserved for our Premium members. Subscribe or purchase a lifetime pass to unlock all 50+ developer utilities and advanced tools.</p>
+            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Access to <strong>${toolInstance.name}</strong> is reserved for our Premium members. Subscribe or purchase a lifetime pass to unlock all 47+ powerhouse suites (70+ utilities).</p>
           </div>
 
           <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin: 6px 0;">
@@ -12323,18 +12367,11 @@ const app = {
       }
     }
 
-    // Check if it's a Razorpay payment ID (e.g. pay_xxxxxxxx)
+    // Unverified Razorpay Payment IDs cannot bypass cryptographic verification
     if (cleanPrefix.toLowerCase().startsWith("pay_")) {
-      const token = this.createClientAuthorizedToken("lifetime", "razorpay_payment_id", cleanPrefix);
-      localStorage.setItem("omnitool_user_tier", "lifetime");
-      localStorage.setItem("omnitool_license_token", token);
-      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
-      this.playSynthSound("success");
-      this.showToast(`🎉 Razorpay Payment ID verified (${cleanPrefix})! Lifetime PRO unlocked.`, "success");
-      this.closeCheckout();
-      this.renderPlansPage();
-      this.renderPaymentSuccessModal(cleanPrefix, "lifetime");
-      return true;
+      this.playSynthSound("error");
+      this.showToast("Razorpay Payment IDs require server signature verification during checkout. Enter your issued License Key or 12-digit UPI UTR.", "error");
+      return false;
     }
 
     // 2. Check if it's a 12-digit UPI / Bank IMPS UTR or 64-char Crypto TXID
@@ -12481,12 +12518,12 @@ const app = {
           </div>
           <div style="display: flex; justify-content: space-between;">
             <span style="color: var(--text-muted);">Unlocked:</span>
-            <span style="color: var(--text-primary);">All 75+ Tools • 100% Ad-Free • Offline PWA</span>
+            <span style="color: var(--text-primary);">All 47+ Suites (70+ Tools) • 100% Ad-Free • Offline PWA</span>
           </div>
         </div>
 
         <button type="button" class="tool-btn primary" id="success-modal-dashboard-btn" style="width: 100%; height: 44px; justify-content: center; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, #10b981, #059669); border: none; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); cursor: pointer;">
-          🚀 Open All 50+ Pro Tools Now
+          🚀 Open All 47+ Pro Suites Now
         </button>
       </div>
     `;
@@ -12772,9 +12809,13 @@ const app = {
           this.showToast("Capturing and verifying PayPal payment...", "info");
           try {
             const details = await actions.order.capture();
-            const isCompleted = details.status === "COMPLETED" || details.status === "APPROVED" || !details.status;
+            const statusUpper = String(details?.status || "").toUpperCase();
+            let isCompleted = statusUpper === "COMPLETED" || statusUpper === "APPROVED";
             let finalTier = plan === "monthly" ? "premium" : "lifetime";
-            let finalToken = this.createClientAuthorizedToken(finalTier, "paypal_capture", data.orderID || (details && details.id) || Date.now());
+            let finalToken = null;
+            let serverVerified = false;
+            let serverError = "";
+            const isLocalHost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
             try {
               const verifyRes = await fetch("/api/verify-paypal-payment", {
@@ -12792,15 +12833,24 @@ const app = {
               if (contentType.includes("application/json")) {
                 const verifyData = await verifyRes.json();
                 if (verifyRes.ok && verifyData.success) {
+                  serverVerified = true;
                   finalTier = verifyData.tier || finalTier;
                   finalToken = verifyData.token || finalToken;
+                } else {
+                  isCompleted = false;
+                  serverError = verifyData.error || "PayPal server verification failed.";
                 }
               }
             } catch (_) {
-              // Static edge host fallback (Cloudflare Pages)
+              // Verification endpoint unreachable
             }
 
-            if (isCompleted) {
+            if (isCompleted && !serverVerified && isLocalHost) {
+              finalToken = this.createClientAuthorizedToken(finalTier, "paypal_capture", data.orderID || (details && details.id) || Date.now());
+              serverVerified = true;
+            }
+
+            if (isCompleted && serverVerified && finalToken) {
               localStorage.setItem("omnitool_user_tier", finalTier);
               localStorage.setItem("omnitool_license_token", finalToken);
               localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
@@ -12811,7 +12861,7 @@ const app = {
               this.renderPaymentSuccessModal(data.orderID || (details && details.id) || ("PAYPAL-" + Date.now()), finalTier);
             } else {
               this.playSynthSound("error");
-              this.showToast(`PayPal payment status: ${details.status || "Pending"}.`, "error");
+              this.showToast(serverError || `PayPal verification incomplete (status: ${details?.status || "Unknown"}).`, "error");
             }
           } catch (vErr) {
             console.error("PayPal capture error:", vErr);
@@ -13850,6 +13900,10 @@ const app = {
 window.app = app;
 
 // Start application
-window.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", () => {
+    app.init();
+  });
+} else {
   app.init();
-});
+}

@@ -52,7 +52,7 @@ export default {
       <h4>Payment Terms:</h4>
       <p>Due upon receipt (Net 15)</p>
       <p>Wire Transfer / Stripe / UPI</p>
-      <p>support@omnitoolhub.com</p>
+      <p>support@omnitool.worldsneed.com</p>
     </div>
   </div>
 
