@@ -20,8 +20,20 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile rootProject.file('omnitool-release.jks')
+            storePassword 'omnitool2026'
+            keyAlias 'omnitool'
+            keyPassword 'omnitool2026'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -35,6 +47,7 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.5.3'

@@ -58,6 +58,7 @@ object ToolRepository {
         Tool("compare-pdf", "Compare PDF Documents", "Compare two revisions of a PDF side-by-side, highlight layout differences with a pixel difference heatmap, wipe slider, or text clause diff.", "text", "PDF Power Tools"),
         Tool("finance-calculator", "Financial Growth & Loan Calculator Suite", "Calculate SIP mutual fund returns, future compound interest growth, and complete loan EMI / mortgage amortization schedules with interactive SVG charts.", "math", "Calculator"),
         Tool("native-logcat", "Logcat Viewer", "Capture and filter live Android system logs directly on device.", "dev", "Diagnostics"),
-        Tool("native-device-info", "Device Diagnostics", "View live RAM stats, battery health metrics, and hardware specifications.", "dev", "Diagnostics")
+        Tool("native-device-info", "Device Diagnostics", "View live RAM stats, battery health metrics, and hardware specifications.", "dev", "Diagnostics"),
+        Tool("guides-hub", "Guides & Technical Documentation Hub", "Step-by-step developer tutorials, architecture guides, and offline recipes for all utilities across 95 in-depth guides.", "guides", "Official Guides")
     )
 }

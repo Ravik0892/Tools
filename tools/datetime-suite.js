@@ -40,23 +40,23 @@ export default {
           <!-- Tab 2: Date Calculator Panel -->
           <div id="panel-date-controls" class="tab-control-panel hidden">
             <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
-              <button class="date-subtab-btn active" data-subtab="diff" style="flex: 1; text-align: center; font-size: 11px; padding: 6px 4px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); border-bottom: 2px solid transparent;">Duration</button>
-              <button class="date-subtab-btn" data-subtab="math" style="flex: 1; text-align: center; font-size: 11px; padding: 6px 4px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); border-bottom: 2px solid transparent;">Add/Subtract</button>
+              <button class="date-subtab-btn active" data-subtab="diff">Duration</button>
+              <button class="date-subtab-btn" data-subtab="math">Add/Subtract</button>
             </div>
 
             <!-- Subtab 1: Duration -->
             <div id="date-subpane-diff" class="date-subpane">
               <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
                 <label for="date-diff-start">Start Date</label>
-                <input type="date" id="date-diff-start" class="form-input" style="width: 100%;">
+                <input type="date" id="date-diff-start" class="form-input" style="width: 100%; box-sizing: border-box; min-width: 0;">
               </div>
               <div class="form-group" style="margin-bottom: 10px;">
                 <label for="date-diff-end">End Date</label>
-                <input type="date" id="date-diff-end" class="form-input" style="width: 100%;">
+                <input type="date" id="date-diff-end" class="form-input" style="width: 100%; box-sizing: border-box; min-width: 0;">
               </div>
               <div class="form-group" style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                <input type="checkbox" id="date-diff-include-end" style="cursor: pointer; width: 16px; height: 16px;">
-                <label for="date-diff-include-end" style="cursor: pointer; margin: 0; user-select: none; font-size: 11px;">Include end date (+1 day)</label>
+                <input type="checkbox" id="date-diff-include-end" style="cursor: pointer; width: 16px; height: 16px; margin: 0; flex-shrink: 0;">
+                <label for="date-diff-include-end" style="cursor: pointer; margin: 0; user-select: none; font-size: 12px;">Include end date (+1 day)</label>
               </div>
               <button class="tool-btn primary" id="date-diff-calc" style="width: 100%; justify-content: center;">Calculate Duration</button>
             </div>
@@ -65,31 +65,31 @@ export default {
             <div id="date-subpane-math" class="date-subpane hidden">
               <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
                 <label for="date-math-start">Base Date</label>
-                <input type="date" id="date-math-start" class="form-input" style="width: 100%;">
+                <input type="date" id="date-math-start" class="form-input" style="width: 100%; box-sizing: border-box; min-width: 0;">
               </div>
               <div class="form-group" style="margin-bottom: 10px;">
                 <label for="date-math-op">Operation</label>
-                <select class="form-select" id="date-math-op" style="width: 100%;">
+                <select class="form-select" id="date-math-op" style="width: 100%; box-sizing: border-box; min-width: 0;">
                   <option value="add" selected>Add Time (+)</option>
                   <option value="sub">Subtract Time (-)</option>
                 </select>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px;">
-                <div class="form-group">
-                  <label for="date-math-years" style="font-size: 9px; text-align: center;">Years</label>
-                  <input type="number" id="date-math-years" class="form-input" min="0" value="0" style="padding: 6px; text-align: center;">
+              <div class="date-math-grid">
+                <div class="form-group date-math-col">
+                  <label for="date-math-years">Years</label>
+                  <input type="number" id="date-math-years" class="form-input date-number-input" min="0" value="0">
                 </div>
-                <div class="form-group">
-                  <label for="date-math-months" style="font-size: 9px; text-align: center;">Months</label>
-                  <input type="number" id="date-math-months" class="form-input" min="0" value="0" style="padding: 6px; text-align: center;">
+                <div class="form-group date-math-col">
+                  <label for="date-math-months">Months</label>
+                  <input type="number" id="date-math-months" class="form-input date-number-input" min="0" value="0">
                 </div>
-                <div class="form-group">
-                  <label for="date-math-weeks" style="font-size: 9px; text-align: center;">Weeks</label>
-                  <input type="number" id="date-math-weeks" class="form-input" min="0" value="0" style="padding: 6px; text-align: center;">
+                <div class="form-group date-math-col">
+                  <label for="date-math-weeks">Weeks</label>
+                  <input type="number" id="date-math-weeks" class="form-input date-number-input" min="0" value="0">
                 </div>
-                <div class="form-group">
-                  <label for="date-math-days" style="font-size: 9px; text-align: center;">Days</label>
-                  <input type="number" id="date-math-days" class="form-input" min="0" value="0" style="padding: 6px; text-align: center;">
+                <div class="form-group date-math-col">
+                  <label for="date-math-days">Days</label>
+                  <input type="number" id="date-math-days" class="form-input date-number-input" min="0" value="0">
                 </div>
               </div>
               <button class="tool-btn primary" id="date-math-calc" style="width: 100%; justify-content: center;">Calculate Date</button>
@@ -143,17 +143,17 @@ export default {
 
                 <div class="form-group">
                   <label>Alternative Units</label>
-                  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 6px;">
-                    <div class="tool-badge" style="padding: 6px; display: flex; flex-direction: column; align-items: center;">
-                      <span style="font-size: 9px; color: var(--text-muted);">Weeks</span>
+                  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 6px; width: 100%; box-sizing: border-box;">
+                    <div class="tool-badge" style="padding: 6px; display: flex; flex-direction: column; align-items: center; min-width: 0;">
+                      <span style="font-size: 9px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Weeks</span>
                       <span style="font-size: 12px; font-weight: 700;" id="res-diff-weeks">0</span>
                     </div>
-                    <div class="tool-badge" style="padding: 6px; display: flex; flex-direction: column; align-items: center;">
-                      <span style="font-size: 9px; color: var(--text-muted);">Hours</span>
+                    <div class="tool-badge" style="padding: 6px; display: flex; flex-direction: column; align-items: center; min-width: 0;">
+                      <span style="font-size: 9px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Hours</span>
                       <span style="font-size: 12px; font-weight: 700;" id="res-diff-hours">0</span>
                     </div>
-                    <div class="tool-badge" style="padding: 6px; display: flex; flex-direction: column; align-items: center;">
-                      <span style="font-size: 9px; color: var(--text-muted);">Minutes</span>
+                    <div class="tool-badge" style="padding: 6px; display: flex; flex-direction: column; align-items: center; min-width: 0;">
+                      <span style="font-size: 9px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Minutes</span>
                       <span style="font-size: 12px; font-weight: 700;" id="res-diff-minutes">0</span>
                     </div>
                   </div>
@@ -161,10 +161,10 @@ export default {
               </div>
 
               <!-- Math Outputs -->
-              <div id="result-math-group" style="display: none; flex-direction: column; gap: 10px;">
-                <div class="gradient-visualizer" style="padding: 16px 12px; border-radius: 8px; text-align: center;">
+              <div id="result-math-group" style="display: none; flex-direction: column; gap: 10px; width: 100%; box-sizing: border-box;">
+                <div class="gradient-visualizer" style="padding: 16px 12px; border-radius: 8px; text-align: center; width: 100%; box-sizing: border-box;">
                   <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: bold;">Computed Date</div>
-                  <div style="font-size: 18px; font-weight: 800; color: var(--accent-cyan); margin-top: 6px;" id="res-math-date">Monday, January 1, 2026</div>
+                  <div style="font-size: 18px; font-weight: 800; color: var(--accent-cyan); margin-top: 6px; word-break: break-word; overflow-wrap: break-word;" id="res-math-date">Monday, January 1, 2026</div>
                   <div style="font-size: 11px; color: var(--text-color); margin-top: 4px;" id="res-math-relative">Today</div>
                 </div>
               </div>
@@ -217,13 +217,69 @@ export default {
         .tab-control-panel.hidden {
           display: none !important;
         }
+        .date-math-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 8px;
+          margin-bottom: 14px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        .date-math-col {
+          min-width: 0;
+          width: 100%;
+          box-sizing: border-box;
+          gap: 4px;
+        }
+        .date-math-col label {
+          font-size: 11px;
+          font-weight: 600;
+          color: var(--text-muted);
+          text-align: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .date-number-input {
+          min-width: 0;
+          width: 100%;
+          box-sizing: border-box;
+          text-align: center;
+          padding: 8px 4px;
+          font-size: 14px;
+        }
+        .date-subtab-btn {
+          flex: 1;
+          text-align: center;
+          font-size: 12px;
+          font-weight: 500;
+          padding: 8px 6px;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          color: var(--text-muted);
+          border-bottom: 2px solid transparent;
+          transition: all 0.2s ease;
+          border-radius: 4px 4px 0 0;
+        }
+        .date-subtab-btn:hover {
+          color: var(--text-main);
+          background: rgba(255, 255, 255, 0.03);
+        }
         .date-subtab-btn.active {
           color: var(--accent-cyan) !important;
           border-bottom-color: var(--accent-cyan) !important;
           font-weight: 700;
+          background: rgba(0, 242, 254, 0.06);
         }
         .date-subpane.hidden {
           display: none !important;
+        }
+        @media (max-width: 540px) {
+          .date-math-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px 8px;
+          }
         }
       </style>
     `;

@@ -27,9 +27,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val prefs = getSharedPreferences("omnitool_prefs", Context.MODE_PRIVATE)
-        if (prefs.getBoolean("privacy_shield", true)) {
+        if (!BuildConfig.DEBUG && prefs.getBoolean("privacy_shield", false)) {
             window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
+        android.webkit.WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
 
         val defaultFavorites = setOf("formatter-suite", "text-encoder-suite", "qr-studio")
         val initialFavorites = prefs.getStringSet("favorite_tools", defaultFavorites) ?: defaultFavorites

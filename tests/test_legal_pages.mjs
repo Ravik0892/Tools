@@ -101,7 +101,7 @@ const tests = [
       "Razorpay, PayPal, Gumroad, and UPI",
       "GDPR",
       "CCPA / CPRA",
-      "privacy@worldsneed.com"
+      "privacy@omnitool.worldsneed.com"
     ]
   },
   {
@@ -112,14 +112,14 @@ const tests = [
       "Acceptable Use &amp; Prohibited Conduct",
       "Upcoming Cloud Server Terms",
       "Limitation of Liability",
-      "support@worldsneed.com"
+      "support@omnitool.worldsneed.com"
     ]
   },
   {
     page: "refund",
     checks: [
       "14-Day Full Satisfaction Guarantee",
-      "billing@worldsneed.com",
+      "billing@omnitool.worldsneed.com",
       "5 to 7 business days",
       "Subscription Cancellation Policy"
     ]
@@ -147,10 +147,12 @@ const tests = [
     page: "contact",
     checks: [
       "Contact Us & Departmental Support",
-      "contact@worldsneed.com",
-      "support@worldsneed.com",
-      "billing@worldsneed.com",
-      "privacy@worldsneed.com",
+      "contact@omnitool.worldsneed.com",
+      "support@omnitool.worldsneed.com",
+      "ads@omnitool.worldsneed.com",
+      "billing@omnitool.worldsneed.com",
+      "privacy@omnitool.worldsneed.com",
+      "Amazon Appstore &amp; Mobile Publishing Compliance",
       "24–48 business hours"
     ]
   }

@@ -3796,6 +3796,8 @@ const app = {
     if (window.location.protocol === "file:") {
       return;
     }
+
+    // 1. Load local baseline configuration from ad-config.json
     try {
       const isLocalhost = window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1" ||
@@ -3805,15 +3807,61 @@ const app = {
       const response = await fetch('ad-config.json' + cacheBust);
       if (response.ok) {
         this.globalConfig = await response.json();
-        console.log("[Config] Loaded global configuration:", this.globalConfig);
+        console.log("[Config] Loaded global configuration baseline:", this.globalConfig);
         if (this.globalConfig && typeof this.globalConfig === "object") {
           Object.entries(this.globalConfig).forEach(([k, v]) => {
-            try { localStorage.setItem(k, v); } catch (_) {}
+            try {
+              if (localStorage.getItem(k) === null) {
+                localStorage.setItem(k, typeof v === "object" ? JSON.stringify(v) : String(v));
+              }
+            } catch (_) {}
           });
         }
       }
     } catch (e) {
-      console.log("[Config] No global ad-config.json found or failed to load. Falling back to local storage.", e);
+      console.log("[Config] Local ad-config.json loaded from local storage.", e);
+    }
+
+    // 2. Background Auto-Sync with Remote Live Config URL
+    // Allows updating referral ads, sponsor campaigns, ad networks, and pricing
+    // so mobile apps (including Amazon Appstore installs) update automatically without APK re-installation!
+    const remoteUrl = this.getConfigValue("omnitool_remote_config_url", "https://omnitool.worldsneed.com/ad-config.json");
+    if (remoteUrl && (remoteUrl.startsWith("http://") || remoteUrl.startsWith("https://"))) {
+      const fetchLiveConfig = async () => {
+        try {
+          const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+          const timer = controller ? setTimeout(() => controller.abort(), 4500) : null;
+          const sep = remoteUrl.includes("?") ? "&" : "?";
+          const res = await fetch(remoteUrl + sep + "_sync=" + Date.now(), {
+            signal: controller ? controller.signal : undefined,
+            cache: "no-store",
+            headers: { "Accept": "application/json" }
+          });
+          if (timer) clearTimeout(timer);
+          if (res.ok) {
+            const remoteData = await res.json();
+            if (remoteData && typeof remoteData === "object") {
+              console.log("[Config] 🚀 Live Remote Config successfully synced from:", remoteUrl);
+              this.globalConfig = Object.assign({}, this.globalConfig || {}, remoteData);
+              Object.entries(remoteData).forEach(([k, v]) => {
+                try {
+                  localStorage.setItem(k, typeof v === "object" ? JSON.stringify(v) : String(v));
+                } catch (_) {}
+              });
+              localStorage.setItem("omnitool_last_remote_sync", String(Date.now()));
+              if (typeof this.refreshAllAds === "function") {
+                this.refreshAllAds();
+              }
+            }
+          }
+        } catch (err) {
+          console.log("[Config] Remote live config sync skipped (offline or unreachable):", err.message || err);
+        }
+      };
+
+      if (typeof window !== "undefined") {
+        setTimeout(fetchLiveConfig, 100);
+      }
     }
   },
 
@@ -3885,6 +3933,7 @@ const app = {
     this.initLayoutScale();
     this.initLanguage();
     this.bindEvents();
+    this.initMobileSelectPicker();
     this.buildSidebarToolMenu();
     this.buildMegaMenu();
     this.handleRouting();
@@ -3979,6 +4028,259 @@ const app = {
 
     navMenu.addEventListener("mouseleave", () => {
       navMenu.style.setProperty("--spotlight-opacity", "0");
+    });
+  },
+
+  initMobileSelectPicker() {
+    if (this._mobileSelectPickerInitialized) return;
+    this._mobileSelectPickerInitialized = true;
+
+    // Detect if we should enhance <select> interactions (mobile, tablet, touch screen, or embedded app)
+    const isMobileOrTouch = Boolean(
+      this.isEmbeddedApp ||
+      (typeof window !== "undefined" && (
+        "ontouchstart" in window ||
+        (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+        window.innerWidth <= 1024 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || "")
+      ))
+    );
+
+    if (!isMobileOrTouch) return;
+
+    let activeSelect = null;
+    let pickerModal = null;
+
+    const closePicker = () => {
+      if (!pickerModal) return;
+      const sheet = pickerModal.querySelector(".omnitool-select-sheet");
+      if (sheet) {
+        sheet.style.transform = "translateY(100%)";
+        sheet.style.transition = "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)";
+      }
+      pickerModal.style.opacity = "0";
+      pickerModal.style.transition = "opacity 0.2s ease";
+      setTimeout(() => {
+        pickerModal?.remove();
+        pickerModal = null;
+        activeSelect = null;
+      }, 200);
+    };
+
+    const openPicker = (selectEl) => {
+      if (!selectEl || selectEl.disabled) return;
+      activeSelect = selectEl;
+
+      if (pickerModal) {
+        pickerModal.remove();
+        pickerModal = null;
+      }
+
+      // Determine label/title
+      let title = selectEl.getAttribute("aria-label") || selectEl.title || "";
+      if (!title && selectEl.id) {
+        const lbl = document.querySelector(`label[for="${selectEl.id}"]`);
+        if (lbl) title = lbl.textContent.trim();
+      }
+      if (!title) {
+        const parentLabel = selectEl.closest("label");
+        if (parentLabel) {
+          const clone = parentLabel.cloneNode(true);
+          clone.querySelectorAll("select, input, textarea").forEach(n => n.remove());
+          title = clone.textContent.trim();
+        }
+      }
+      if (!title) {
+        const prev = selectEl.previousElementSibling;
+        if (prev && (prev.tagName === "LABEL" || prev.classList.contains("tool-control-label") || prev.classList.contains("panel-label"))) {
+          title = prev.textContent.trim();
+        }
+      }
+      if (!title) title = "Select Option";
+      title = title.replace(/[:*]+$/, "").trim();
+
+      // Collect options & groups
+      const items = [];
+      const children = Array.from(selectEl.children);
+      children.forEach(child => {
+        if (child.tagName === "OPTGROUP") {
+          items.push({
+            isGroup: true,
+            label: child.label || child.getAttribute("label") || "Group"
+          });
+          Array.from(child.children).forEach(opt => {
+            if (opt.tagName === "OPTION") {
+              items.push({
+                isGroup: false,
+                text: opt.text || opt.label || opt.value,
+                value: opt.value,
+                selected: opt.selected,
+                disabled: opt.disabled,
+                originalOption: opt
+              });
+            }
+          });
+        } else if (child.tagName === "OPTION") {
+          items.push({
+            isGroup: false,
+            text: child.text || child.label || child.value,
+            value: child.value,
+            selected: child.selected,
+            disabled: child.disabled,
+            originalOption: child
+          });
+        }
+      });
+
+      if (items.length === 0) return;
+
+      const hasMany = items.filter(i => !i.isGroup).length >= 8;
+
+      pickerModal = document.createElement("div");
+      pickerModal.className = "omnitool-select-modal";
+      pickerModal.setAttribute("role", "dialog");
+      pickerModal.setAttribute("aria-modal", "true");
+
+      const titleEscaped = this.escapeHtml(title);
+
+      pickerModal.innerHTML = `
+        <div class="omnitool-select-backdrop"></div>
+        <div class="omnitool-select-sheet" role="document">
+          <div class="omnitool-select-handle"></div>
+          <div class="omnitool-select-header">
+            <div class="omnitool-select-header-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+              <span>${titleEscaped}</span>
+            </div>
+            <button type="button" class="omnitool-select-close-btn" aria-label="Close dialog">&times;</button>
+          </div>
+          ${hasMany ? `
+            <div class="omnitool-select-search-wrap">
+              <svg class="omnitool-select-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" class="omnitool-select-search-input" placeholder="Search options..." autocomplete="off" autocapitalize="none">
+            </div>
+          ` : ""}
+          <div class="omnitool-select-list" role="listbox">
+            ${items.map((item, idx) => {
+              if (item.isGroup) {
+                return `<div class="omnitool-select-group-header">${this.escapeHtml(item.label)}</div>`;
+              }
+              const isSelected = item.selected;
+              const isDisabled = item.disabled;
+              return `
+                <div class="omnitool-select-option ${isSelected ? "selected" : ""} ${isDisabled ? "disabled" : ""}"
+                     data-value="${this.escapeHtml(item.value)}"
+                     data-index="${idx}"
+                     role="option"
+                     aria-selected="${isSelected ? "true" : "false"}"
+                     ${isDisabled ? 'aria-disabled="true"' : ""}>
+                  <span class="omnitool-select-option-text">${this.escapeHtml(item.text)}</span>
+                  <span class="omnitool-select-option-check">${isSelected ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>` : ""}</span>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(pickerModal);
+
+      // Search filtering
+      if (hasMany) {
+        const searchInput = pickerModal.querySelector(".omnitool-select-search-input");
+        const listItems = pickerModal.querySelectorAll(".omnitool-select-option");
+        searchInput?.addEventListener("input", (e) => {
+          const q = (e.target.value || "").toLowerCase().trim();
+          listItems.forEach(el => {
+            const text = el.querySelector(".omnitool-select-option-text")?.textContent?.toLowerCase() || "";
+            el.style.display = text.includes(q) ? "flex" : "none";
+          });
+        });
+        setTimeout(() => searchInput?.focus(), 100);
+      }
+
+      // Close interactions
+      pickerModal.querySelector(".omnitool-select-backdrop")?.addEventListener("click", closePicker);
+      pickerModal.querySelector(".omnitool-select-close-btn")?.addEventListener("click", closePicker);
+
+      // Option selection
+      const listEl = pickerModal.querySelector(".omnitool-select-list");
+      listEl?.addEventListener("click", (e) => {
+        const optEl = e.target.closest(".omnitool-select-option");
+        if (!optEl || optEl.classList.contains("disabled")) return;
+
+        const val = optEl.getAttribute("data-value");
+        if (val !== null && selectEl) {
+          selectEl.value = val;
+          selectEl.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
+          selectEl.dispatchEvent(new Event("change", { bubbles: true, cancelable: true }));
+        }
+
+        closePicker();
+      });
+
+      // Auto scroll to currently selected item
+      requestAnimationFrame(() => {
+        const selectedEl = listEl?.querySelector(".omnitool-select-option.selected");
+        if (selectedEl) {
+          selectedEl.scrollIntoView({ block: "center", behavior: "auto" });
+        }
+      });
+    };
+
+    this.openCustomSelectPicker = openPicker;
+
+    let lastTriggerTime = 0;
+    const handleSelectTrigger = (e) => {
+      const select = e.target.closest("select");
+      if (!select || select.disabled) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      const now = Date.now();
+      if (now - lastTriggerTime < 350 && activeSelect === select) {
+        return;
+      }
+      lastTriggerTime = now;
+
+      select.blur();
+      openPicker(select);
+    };
+
+    // Capture touchstart, pointerdown, mousedown, and click
+    ["touchstart", "pointerdown", "mousedown", "click"].forEach(evtName => {
+      document.addEventListener(evtName, (e) => {
+        if (e.target && e.target.closest && e.target.closest("select")) {
+          handleSelectTrigger(e);
+        }
+      }, { capture: true, passive: false });
+    });
+
+    // Also support clicking on labels pointing to a select
+    document.addEventListener("click", (e) => {
+      const label = e.target && e.target.closest && e.target.closest("label");
+      if (!label) return;
+      let targetSelect = null;
+      if (label.htmlFor) {
+        targetSelect = document.getElementById(label.htmlFor);
+      } else {
+        targetSelect = label.querySelector("select");
+      }
+      if (targetSelect && targetSelect.tagName === "SELECT") {
+        handleSelectTrigger(e);
+      }
+    }, { capture: true, passive: false });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && pickerModal) {
+        closePicker();
+      }
     });
   },
 
@@ -5436,7 +5738,7 @@ const app = {
             <li><strong>Right of Access &amp; Portability:</strong> The right to request copies of any personal information we hold about you.</li>
             <li><strong>Right to Rectification &amp; Erasure ("Right to be Forgotten"):</strong> The right to demand correction of inaccurate records or complete deletion of transaction logs.</li>
             <li><strong>Right to Object &amp; Restrict Processing:</strong> The right to restrict or halt specific forms of data processing.</li>
-            <li>Because free tool processing occurs client-side in your browser, you exercise immediate data erasure by clearing your browser cache or closing the browser tab. For billing records, requests may be submitted to <a href="mailto:privacy@worldsneed.com">privacy@worldsneed.com</a>.</li>
+            <li>Because free tool processing occurs client-side in your browser, you exercise immediate data erasure by clearing your browser cache or closing the browser tab. For billing records, requests may be submitted to <a href="mailto:privacy@omnitool.worldsneed.com">privacy@omnitool.worldsneed.com</a>.</li>
           </ul>
 
           <h3>8. California Consumer Privacy Act (CCPA / CPRA Notice)</h3>
@@ -5448,8 +5750,8 @@ const app = {
           <h3>10. Data Protection Contact &amp; Grievance Officer</h3>
           <p>If you have any questions, regulatory requests, or feedback regarding this Privacy Policy, our engineering architecture, or data protection practices, please contact our Data Protection desk:</p>
           <ul>
-            <li><strong>Privacy &amp; Legal Desk:</strong> <a href="mailto:privacy@worldsneed.com">privacy@worldsneed.com</a></li>
-            <li><strong>General Support:</strong> <a href="mailto:support@worldsneed.com">support@worldsneed.com</a></li>
+            <li><strong>Privacy &amp; Legal Desk:</strong> <a href="mailto:privacy@omnitool.worldsneed.com">privacy@omnitool.worldsneed.com</a></li>
+            <li><strong>General Support:</strong> <a href="mailto:support@omnitool.worldsneed.com">support@omnitool.worldsneed.com</a></li>
             <li><strong>Parent Organization:</strong> WorldsNeed Ecosystem (<a href="https://worldsneed.com" target="_blank" rel="noopener">worldsneed.com</a>)</li>
           </ul>
         `
@@ -5515,7 +5817,7 @@ const app = {
           <p>These Terms shall be interpreted and governed in accordance with applicable laws, without regard to conflict of law principles. Any legal disputes arising out of or related to these Terms shall be resolved through good-faith mutual negotiation prior to initiating formal dispute proceedings.</p>
 
           <h3>9. Contact &amp; Notices</h3>
-          <p>For questions or notices regarding these Terms of Service, please reach out via <a href="mailto:support@worldsneed.com">support@worldsneed.com</a> or consult our <a href="#contact" onclick="app.renderLegalPage('contact')">Contact Page</a>.</p>
+          <p>For questions or notices regarding these Terms of Service, please reach out via <a href="mailto:support@omnitool.worldsneed.com">support@omnitool.worldsneed.com</a> or consult our <a href="#contact" onclick="app.renderLegalPage('contact')">Contact Page</a>.</p>
         `
       },
       refund: {
@@ -5540,7 +5842,7 @@ const app = {
           <h3>2. How to Request a Refund</h3>
           <p>To initiate a refund, please follow these simple steps:</p>
           <ul>
-            <li>Send an email to <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a> with the subject line: <code>[Refund Request] - Transaction ID / Email</code>.</li>
+            <li>Send an email to <a href="mailto:billing@omnitool.worldsneed.com">billing@omnitool.worldsneed.com</a> with the subject line: <code>[Refund Request] - Transaction ID / Email</code>.</li>
             <li>Include your order reference or license key (from Razorpay, PayPal, or Gumroad).</li>
             <li>Optional: Briefly mention the reason for your request so our engineering team can improve the tool.</li>
             <li>Our billing department will confirm your request within <strong>24 business hours</strong>.</li>
@@ -5560,7 +5862,7 @@ const app = {
           <ul>
             <li>You can cancel your subscription at any time without fees or penalties.</li>
             <li>Upon cancellation, automatic renewals cease immediately. You will retain unrestricted PRO access until the conclusion of your active billing period.</li>
-            <li>Cancellations can be performed directly through your payment receipt portal (Gumroad / PayPal / Razorpay) or by emailing <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a>.</li>
+            <li>Cancellations can be performed directly through your payment receipt portal (Gumroad / PayPal / Razorpay) or by emailing <a href="mailto:billing@omnitool.worldsneed.com">billing@omnitool.worldsneed.com</a>.</li>
           </ul>
 
           <h3>5. Non-Refundable Scenarios</h3>
@@ -5574,8 +5876,8 @@ const app = {
           <h3>6. Billing Support Contact</h3>
           <p>If you have any billing inquiries, invoice requests, or payment assistance needs, our support desk is here to help:</p>
           <ul>
-            <li><strong>Billing Desk:</strong> <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a></li>
-            <li><strong>General Support:</strong> <a href="mailto:support@worldsneed.com">support@worldsneed.com</a></li>
+            <li><strong>Billing Desk:</strong> <a href="mailto:billing@omnitool.worldsneed.com">billing@omnitool.worldsneed.com</a></li>
+            <li><strong>General Support:</strong> <a href="mailto:support@omnitool.worldsneed.com">support@omnitool.worldsneed.com</a></li>
           </ul>
         `
       },
@@ -5722,16 +6024,25 @@ const app = {
               </div>
               <h4>General Inquiries</h4>
               <p>For questions regarding tools, features, ecosystem feedback, or suggestions.</p>
-              <a href="mailto:contact@worldsneed.com" class="contact-card-email">contact@worldsneed.com</a>
+              <a href="mailto:contact@omnitool.worldsneed.com" class="contact-card-email">contact@omnitool.worldsneed.com</a>
             </div>
 
             <div class="contact-card-premium">
               <div class="contact-card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
               </div>
-              <h4>Technical &amp; Bugs</h4>
+              <h4>Technical &amp; Support</h4>
               <p>To report technical issues, algorithm discrepancies, or tool errors.</p>
-              <a href="mailto:support@worldsneed.com" class="contact-card-email">support@worldsneed.com</a>
+              <a href="mailto:support@omnitool.worldsneed.com" class="contact-card-email">support@omnitool.worldsneed.com</a>
+            </div>
+
+            <div class="contact-card-premium">
+              <div class="contact-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <h4>Ads &amp; Partnerships</h4>
+              <p>For brand sponsorships, advertising opportunities, and commercial media.</p>
+              <a href="mailto:ads@omnitool.worldsneed.com" class="contact-card-email">ads@omnitool.worldsneed.com</a>
             </div>
 
             <div class="contact-card-premium">
@@ -5740,7 +6051,7 @@ const app = {
               </div>
               <h4>Billing &amp; Refunds</h4>
               <p>For PRO license activations, invoices, and 14-day refund requests.</p>
-              <a href="mailto:billing@worldsneed.com" class="contact-card-email">billing@worldsneed.com</a>
+              <a href="mailto:billing@omnitool.worldsneed.com" class="contact-card-email">billing@omnitool.worldsneed.com</a>
             </div>
 
             <div class="contact-card-premium">
@@ -5749,7 +6060,40 @@ const app = {
               </div>
               <h4>Privacy &amp; Security</h4>
               <p>For GDPR data rights, security vulnerability reports, and legal notices.</p>
-              <a href="mailto:privacy@worldsneed.com" class="contact-card-email">privacy@worldsneed.com</a>
+              <a href="mailto:privacy@omnitool.worldsneed.com" class="contact-card-email">privacy@omnitool.worldsneed.com</a>
+            </div>
+          </div>
+
+          <div class="contact-publisher-card" style="margin-top: 24px; background: rgba(var(--accent-cyan-rgb), 0.03); border: 1px solid rgba(var(--accent-cyan-rgb), 0.2); border-radius: 12px; padding: 22px; text-align: left;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">📦</span>
+                <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: var(--text-main);">Amazon Appstore &amp; Mobile Publishing Compliance</h4>
+              </div>
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: rgba(52, 211, 153, 0.12); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.25);">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified Publisher
+              </span>
+            </div>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin: 0 0 14px 0;">
+              OmniTool Hub is developed and distributed under the <strong>Worldsneed</strong> digital product ecosystem. For Amazon Developer verification, customer care, and Appstore compliance:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 13px;">
+              <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="color: var(--text-muted); display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px;">Customer Facing Business Name</span>
+                <strong style="color: var(--text-main);">Worldsneed</strong>
+              </div>
+              <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="color: var(--text-muted); display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px;">Lead Developer</span>
+                <strong style="color: var(--text-main);">Ravi Kumar Chaudhary</strong>
+              </div>
+              <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="color: var(--text-muted); display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px;">Appstore Customer Support</span>
+                <a href="mailto:support@omnitool.worldsneed.com" style="color: var(--accent-cyan); font-weight: 600; text-decoration: none;">support@omnitool.worldsneed.com</a>
+              </div>
+              <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="color: var(--text-muted); display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px;">Email Routing &amp; Response</span>
+                <span style="color: var(--text-main); font-weight: 600;">Cloudflare Routed &bull; &lt; 24h</span>
+              </div>
             </div>
           </div>
 
@@ -6076,7 +6420,11 @@ const app = {
       `;
       item.addEventListener("click", () => {
         if (itemData.isGuide) {
-          window.open(this.getGuideUrl(itemData.url), "_blank");
+          if (this.isEmbeddedApp) {
+            window.location.href = this.getGuideUrl(itemData.url);
+          } else {
+            window.open(this.getGuideUrl(itemData.url), "_blank");
+          }
         } else {
           this.navigateToTool(itemData.id);
         }
@@ -6105,7 +6453,11 @@ const app = {
     if (this.cpFiltered.length > 0 && this.cpFiltered[this.cpIndex]) {
       const selected = this.cpFiltered[this.cpIndex];
       if (selected.isGuide) {
-        window.open(this.getGuideUrl(selected.url), "_blank");
+        if (this.isEmbeddedApp) {
+          window.location.href = this.getGuideUrl(selected.url);
+        } else {
+          window.open(this.getGuideUrl(selected.url), "_blank");
+        }
       } else {
         this.navigateToTool(selected.id);
       }
@@ -6480,25 +6832,70 @@ const app = {
     let provider = this.getConfigValue("omnitool_ad_network", "dev");
     if (location === "sidebar") {
       provider = this.getConfigValue("omnitool_sidebar_ad_network", "dev");
+      if (provider === "inherit") {
+        provider = this.getConfigValue("omnitool_ad_network", "dev");
+      }
     }
 
-    // Developer Local Sponsors
-    if (provider === "dev") {
+    // Developer Local Sponsors & Dynamic Referral Ads
+    if (provider === "dev" || provider === "referral") {
       const escape = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
       const activeTool = this.activeTool;
       const suffix = (activeTool && location !== "sidebar") ? "_" + activeTool : "";
 
-      const brand = this.getConfigValue("omnitool_sponsor_brand" + suffix, this.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host"));
-      const slogan = this.getConfigValue("omnitool_sponsor_slogan" + suffix, this.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit."));
-      const btnText = this.getConfigValue("omnitool_sponsor_btn_text" + suffix, this.getConfigValue("omnitool_sponsor_btn_text", "Claim Now"));
-      const url = this.getConfigValue("omnitool_sponsor_url" + suffix, this.getConfigValue("omnitool_sponsor_url", "#"));
-      const iconType = this.getConfigValue("omnitool_sponsor_icon" + suffix, this.getConfigValue("omnitool_sponsor_icon", "cloud"));
+      // Check if multi-campaign referral pool exists
+      let campaigns = null;
+      try {
+        const campaignsRaw = this.getConfigValue("omnitool_referral_campaigns", "");
+        if (campaignsRaw) {
+          campaigns = typeof campaignsRaw === "string" ? JSON.parse(campaignsRaw) : campaignsRaw;
+        }
+      } catch (_) {}
 
-      let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
-      if (iconType === "database") {
-        iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
-      } else if (iconType === "shield") {
-        iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+      let brand, slogan, btnText, url, iconType, badgeText, imageUrl;
+
+      if (Array.isArray(campaigns) && campaigns.length > 0) {
+        // Pick campaign randomly or based on tool
+        const idx = Math.floor(Math.random() * campaigns.length);
+        const camp = campaigns[idx] || {};
+        brand = camp.brand || "Partner Sponsor";
+        slogan = camp.slogan || "";
+        btnText = camp.btnText || "Claim Deal";
+        url = camp.url || "#";
+        iconType = camp.icon || "shopping";
+        badgeText = camp.badge || "FEATURED DEAL";
+        imageUrl = camp.image || "";
+      } else {
+        brand = this.getConfigValue("omnitool_sponsor_brand" + suffix, this.getConfigValue("omnitool_sponsor_brand", "DigitalOcean Cloud"));
+        slogan = this.getConfigValue("omnitool_sponsor_slogan" + suffix, this.getConfigValue("omnitool_sponsor_slogan", "Deploy your Docker containers, web apps, and databases globally. Get $200 free developer credit."));
+        btnText = this.getConfigValue("omnitool_sponsor_btn_text" + suffix, this.getConfigValue("omnitool_sponsor_btn_text", "Claim $200 Credit"));
+        url = this.getConfigValue("omnitool_sponsor_url" + suffix, this.getConfigValue("omnitool_sponsor_url", "#"));
+        iconType = this.getConfigValue("omnitool_sponsor_icon" + suffix, this.getConfigValue("omnitool_sponsor_icon", "cloud"));
+        badgeText = this.getConfigValue("omnitool_sponsor_badge" + suffix, this.getConfigValue("omnitool_sponsor_badge", "SPONSOR"));
+        imageUrl = this.getConfigValue("omnitool_sponsor_image" + suffix, this.getConfigValue("omnitool_sponsor_image", ""));
+      }
+
+      let visualNode = "";
+      if (imageUrl && imageUrl.trim()) {
+        visualNode = `<img src="${escape(imageUrl.trim())}" alt="${escape(brand)}" class="ad-image-custom" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;" />`;
+      } else {
+        let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
+        if (iconType === "database") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
+        } else if (iconType === "shield") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+        } else if (iconType === "shopping") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
+        } else if (iconType === "tag") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`;
+        } else if (iconType === "gift") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`;
+        } else if (iconType === "zap") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+        } else if (iconType === "star") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+        }
+        visualNode = iconSvg;
       }
 
       const targetAttr = url !== "#" ? 'target="_blank" rel="noopener noreferrer"' : '';
@@ -6508,12 +6905,12 @@ const app = {
         <div class="sponsor-ad-block">
           <div class="ad-horizontal-left">
             <div class="ad-image-placeholder">
-              ${iconSvg}
+              ${visualNode}
             </div>
             <div class="ad-info">
               <div class="ad-title-row">
                 <span class="ad-brand">${escape(brand)}</span>
-                <span class="ad-horizontal-badge">SPONSOR</span>
+                <span class="ad-horizontal-badge">${escape(badgeText || "SPONSOR")}</span>
               </div>
               <span class="ad-slogan">${escape(slogan)}</span>
             </div>
@@ -6602,6 +6999,37 @@ const app = {
       `;
     }
 
+    // Amazon Publisher Services (APS) / Amazon Mobile Ads
+    if (provider === "amazon") {
+      const amazonSlotId = this.getConfigValue("omnitool_amazon_slot_id", "amzn-slot-12345");
+      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      if (isLocal) {
+        return `
+          <div class="admob-adsense-mock admob" style="border-color: rgba(255, 153, 0, 0.4);">
+            <div class="mock-badge" style="background: rgba(255, 153, 0, 0.15); color: #ff9900;">AMAZON MOBILE ADS / APS</div>
+            <div class="mock-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ff9900" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              <span style="color: #ff9900;">Amazon Ads Active (Slot: ${amazonSlotId})</span>
+            </div>
+            <div class="mock-details">
+              <span><strong>Amazon Slot:</strong> ${amazonSlotId}</span>
+              <span>•</span>
+              <span>Target: Amazon Fire / Android / Web</span>
+            </div>
+            <div class="mock-note" style="color: #ff9900; border-color: rgba(255, 153, 0, 0.2);">
+              🛒 Amazon Mobile Ads / APS banner active. Shows real ads on live deployed app and website.
+            </div>
+          </div>
+        `;
+      } else {
+        const customHtml = this.getConfigValue("omnitool_custom_ad_html", "");
+        if (customHtml) return `<div class="custom-ad-container">${customHtml}</div>`;
+        return `
+          <div class="amazon-ad-container" id="${amazonSlotId}" style="text-align: center; margin: 12px 0;"></div>
+        `;
+      }
+    }
+
     // Custom HTML block
     if (provider === "custom") {
       const htmlBlock = this.getConfigValue("omnitool_custom_ad_html", "");
@@ -6609,6 +7037,45 @@ const app = {
     }
 
     return "";
+  },
+
+  refreshAllAds() {
+    // 1. Sidebar ad
+    const sidebarAd = document.querySelector(".sidebar-sponsor-container");
+    if (sidebarAd) {
+      sidebarAd.innerHTML = this.getAdHtml("sidebar");
+    }
+
+    // 2. Dashboard ad
+    const dashContainer = document.querySelector("#dashboard-view");
+    if (dashContainer) {
+      const existingAd = dashContainer.querySelector(".sponsor-ad-block, .admob-adsense-mock, .custom-ad-container, .amazon-ad-container");
+      const newAdHtml = this.getAdHtml("dashboard");
+      if (existingAd) {
+        if (newAdHtml) {
+          const temp = document.createElement("div");
+          temp.innerHTML = newAdHtml;
+          const newEl = temp.firstElementChild;
+          if (newEl && existingAd.parentElement) {
+            existingAd.parentElement.replaceChild(newEl, existingAd);
+          }
+        } else {
+          existingAd.remove();
+        }
+      }
+    }
+
+    // 3. Tool views
+    document.querySelectorAll(".tool-panel-ad, .tool-sponsor-bar").forEach(container => {
+      const newToolHtml = this.getAdHtml("tool");
+      if (newToolHtml) {
+        container.innerHTML = newToolHtml;
+        container.style.display = "";
+      } else {
+        container.innerHTML = "";
+        container.style.display = "none";
+      }
+    });
   },
 
   openCoffeeLink(event) {
@@ -7246,7 +7713,7 @@ const app = {
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
             ${matchingGuides.map(g => `
-              <a href="guides/${g.fileName}" class="guide-search-card" target="_blank" rel="noopener">
+              <a href="${this.getGuideUrl(g.fileName)}" class="guide-search-card" target="${this.isEmbeddedApp ? '_self' : '_blank'}" rel="noopener">
                 <div class="guide-search-card-header">
                   <span class="guide-search-tag">Guide</span>
                   <span style="font-size: 18px;">📚</span>
@@ -7328,7 +7795,7 @@ const app = {
             </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
               ${matchingGuides.map(g => `
-                <a href="guides/${g.fileName}" class="guide-search-card" target="_blank" rel="noopener">
+                <a href="${this.getGuideUrl(g.fileName)}" class="guide-search-card" target="${this.isEmbeddedApp ? '_self' : '_blank'}" rel="noopener">
                   <div class="guide-search-card-header">
                     <span class="guide-search-tag">Guide</span>
                     <span style="font-size: 18px;">📚</span>
@@ -8072,7 +8539,7 @@ const app = {
           ${benefits.map(b => `<li>${b}</li>`).join("")}
         </ul>
         <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, 0.05);">
-          <a href="${guideTargetUrl}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; color: var(--accent-cyan); text-decoration: none; font-size: 12.5px; font-weight: 600; transition: opacity var(--transition-fast);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+          <a href="${guideTargetUrl}" target="${this.isEmbeddedApp ? '_self' : '_blank'}" style="display: inline-flex; align-items: center; gap: 6px; color: var(--accent-cyan); text-decoration: none; font-size: 12.5px; font-weight: 600; transition: opacity var(--transition-fast);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
             <span>${readGuideText}</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
           </a>
@@ -8462,10 +8929,13 @@ const app = {
         }
 
         const header = drawer.querySelector(".panel-header");
-        if (header && !header.querySelector(".drawer-close-btn")) {
+        if (header && !header.querySelector(".drawer-close-btn") && splitView.classList.contains("drawer-mode")) {
           const closeBtn = document.createElement("button");
+          closeBtn.type = "button";
           closeBtn.className = "drawer-close-btn";
-          closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px; display: none;";
+          closeBtn.setAttribute("title", "Close Drawer");
+          closeBtn.setAttribute("aria-label", "Close Drawer");
+          closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: none; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px;";
           closeBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
           header.appendChild(closeBtn);
 

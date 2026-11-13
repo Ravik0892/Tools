@@ -842,7 +842,8 @@ export default {
     cBgHex?.addEventListener("input", () => syncHex(cBgHex, cBg));
 
     container.querySelector("#palette-generate-btn")?.addEventListener("click", generateNewPalette);
-    
+    paletteTypeSelect?.addEventListener("change", generateNewPalette);
+
     const shapeChk = container.querySelector("#palette-use-shape-chk");
     if (shapeChk) {
       shapeChk.checked = appInstance.colorLabState.useSharedClipPath;

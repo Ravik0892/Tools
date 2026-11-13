@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -129,23 +130,46 @@ private fun interceptAppAsset(context: Context, rawPath: String): WebResourceRes
             clean.startsWith("assets/web/") -> clean.removePrefix("assets/web/")
             clean.startsWith("web/") -> clean.removePrefix("web/")
             else -> clean
+        }.trimEnd('/')
+
+        val fileCandidates = mutableListOf<String>()
+
+        when {
+            subPath.isEmpty() || subPath == "index.html" || subPath.startsWith("tool/") ||
+                    subPath == "dashboard" || subPath == "favorites" || subPath == "plans" -> {
+                fileCandidates.add("index.html")
+            }
+            subPath == "guides" || subPath == "guides/index" -> {
+                fileCandidates.add("guides/index.html")
+            }
+            subPath == "guides/es" || subPath == "guides/es/index" -> {
+                fileCandidates.add("guides/es/index.html")
+            }
+            subPath == "guides/pt" || subPath == "guides/pt/index" -> {
+                fileCandidates.add("guides/pt/index.html")
+            }
+            else -> {
+                val lastSegment = subPath.substringAfterLast('/')
+                if (lastSegment.contains('.')) {
+                    fileCandidates.add(subPath)
+                } else {
+                    fileCandidates.add("$subPath.html")
+                    fileCandidates.add("$subPath/index.html")
+                    fileCandidates.add(subPath)
+                }
+            }
         }
 
-        val targetFile = when {
-            subPath.isEmpty() || subPath == "/" -> "index.html"
-            subPath.startsWith("tool/") -> "index.html"
-            else -> subPath
+        val assetCandidates = mutableListOf<String>()
+        for (rel in fileCandidates) {
+            assetCandidates.add("web/$rel")
+            assetCandidates.add("web/assets/$rel")
+            assetCandidates.add(rel)
         }
-
-        val candidatePaths = listOf(
-            "web/$targetFile",
-            "web/assets/$targetFile",
-            targetFile
-        )
 
         var inputStream: InputStream? = null
         var resolvedPath = ""
-        for (candidate in candidatePaths) {
+        for (candidate in assetCandidates) {
             try {
                 inputStream = context.assets.open(candidate)
                 resolvedPath = candidate
@@ -156,7 +180,7 @@ private fun interceptAppAsset(context: Context, rawPath: String): WebResourceRes
         }
 
         if (inputStream == null) {
-            Log.w("OmniToolWebView", "Asset not found: $rawPath (tried $candidatePaths)")
+            Log.w("OmniToolWebView", "Asset not found: $rawPath (tried $assetCandidates)")
             return null
         }
 
@@ -177,6 +201,15 @@ private fun interceptAppAsset(context: Context, rawPath: String): WebResourceRes
     }
 }
 
+private fun Context.findActivity(): Activity? {
+    var currentContext = this
+    while (currentContext is ContextWrapper) {
+        if (currentContext is Activity) return currentContext
+        currentContext = currentContext.baseContext
+    }
+    return null
+}
+
 @SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -185,14 +218,22 @@ fun WebToolScreen(
     onBackClick: () -> Unit
 ) {
     val context = LocalContext.current
+    val activityContext = remember(context) { context.findActivity() ?: (context as? Activity) }
     val prefs = remember { context.getSharedPreferences("omnitool_prefs", Context.MODE_PRIVATE) }
     val offlineCacheEnabled = remember { prefs.getBoolean("offline_cache", true) }
     var webViewRef by remember { mutableStateOf<WebView?>(null) }
     var fileUploadCallback by remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
+    var lastLoadedToolId by remember { mutableStateOf(tool.id) }
+    var currentWebTitle by remember { mutableStateOf(tool.name) }
+    var isViewingGuide by remember { mutableStateOf(tool.id == "guides-hub") }
 
-    // System Back Gesture/Button Handler
+    // System Back Gesture / Physical Back Button Handler
     BackHandler {
-        onBackClick()
+        if (webViewRef?.canGoBack() == true) {
+            webViewRef?.goBack()
+        } else {
+            onBackClick()
+        }
     }
 
     // Modern Android File Chooser Activity Launcher for tool uploads
@@ -223,7 +264,11 @@ fun WebToolScreen(
             .build()
     }
 
-    val targetUrl = "https://appassets.androidplatform.net/index.html?embed=1#tool/${tool.id}"
+    val targetUrl = if (tool.id == "guides-hub") {
+        "https://appassets.androidplatform.net/guides/"
+    } else {
+        "https://appassets.androidplatform.net/index.html?embed=1#tool/${tool.id}"
+    }
 
     Column(
         modifier = Modifier
@@ -237,7 +282,13 @@ fun WebToolScreen(
                 .padding(horizontal = 8.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onBackClick) {
+            IconButton(onClick = {
+                if (webViewRef?.canGoBack() == true) {
+                    webViewRef?.goBack()
+                } else {
+                    onBackClick()
+                }
+            }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back",
@@ -247,14 +298,14 @@ fun WebToolScreen(
             Spacer(modifier = Modifier.width(4.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = tool.name,
+                    text = if (isViewingGuide) currentWebTitle else tool.name,
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     maxLines = 1
                 )
                 Text(
-                    text = tool.type,
+                    text = if (isViewingGuide) "📚 Official Guide" else tool.type,
                     fontSize = 11.sp,
                     color = TextMain.copy(alpha = 0.6f),
                     maxLines = 1
@@ -268,14 +319,21 @@ fun WebToolScreen(
                 .fillMaxWidth()
                 .weight(1f),
             factory = { ctx ->
-                WebView(ctx).apply {
+                val targetContext = activityContext ?: ctx
+                WebView(targetContext).apply {
                     layoutParams = android.view.ViewGroup.LayoutParams(
                         android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                         android.view.ViewGroup.LayoutParams.MATCH_PARENT
                     )
+                    isFocusable = true
+                    isFocusableInTouchMode = true
+                    setOnTouchListener { v, _ ->
+                        v.parent?.requestDisallowInterceptTouchEvent(true)
+                        false
+                    }
                     webViewRef = this
 
-                    val exportBridge = AndroidExportBridge(ctx)
+                    val exportBridge = AndroidExportBridge(targetContext)
                     addJavascriptInterface(exportBridge, "OmniToolAndroidBridge")
 
                     webViewClient = object : WebViewClient() {
@@ -298,12 +356,33 @@ fun WebToolScreen(
                             request: WebResourceRequest?
                         ): Boolean {
                             val reqUrl = request?.url ?: return false
-                            if (reqUrl.host == "appassets.androidplatform.net" ||
+                            val host = reqUrl.host.orEmpty()
+                            val path = reqUrl.path.orEmpty()
+                            val fragment = reqUrl.fragment.orEmpty()
+
+                            // Internal app assets & guides
+                            if (host.equals("appassets.androidplatform.net", ignoreCase = true) ||
                                 reqUrl.scheme == "blob" ||
                                 reqUrl.scheme == "data"
                             ) {
+                                // If a tool launch button is clicked inside a guide (e.g. href="#tool/xyz" or "/tool/xyz" or "/#tool/xyz")
+                                if (fragment.startsWith("tool/") || path.startsWith("/tool/")) {
+                                    val toolId = if (fragment.startsWith("tool/")) {
+                                        fragment.removePrefix("tool/")
+                                    } else {
+                                        path.removePrefix("/tool/")
+                                    }
+                                    val targetToolUrl = "https://appassets.androidplatform.net/index.html?embed=1#tool/$toolId"
+                                    view?.loadUrl(targetToolUrl)
+                                    return true
+                                }
+                                if (path == "/" && (fragment.isEmpty() || fragment == "dashboard")) {
+                                    onBackClick()
+                                    return true
+                                }
                                 return false
                             }
+
                             if (reqUrl.scheme == "http" || reqUrl.scheme == "https") {
                                 return try {
                                     ctx.startActivity(Intent(Intent.ACTION_VIEW, reqUrl))
@@ -326,23 +405,44 @@ fun WebToolScreen(
                             Log.w("OmniToolWebView", "Resource error: $description at $failingUrl")
                         }
 
+                        override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
+                            super.onPageStarted(view, url, favicon)
+                            val u = url.orEmpty()
+                            isViewingGuide = u.contains("/guides")
+                        }
+
                         override fun onPageFinished(view: WebView?, url: String?) {
                             super.onPageFinished(view, url)
-                            view?.evaluateJavascript(
-                                """
-                                (function() {
-                                    function launch() {
-                                        if (window.app && typeof window.app.navigateToTool === 'function') {
-                                            window.app.navigateToTool('${tool.id}', false);
-                                        } else {
-                                            setTimeout(launch, 50);
+                            val currentUrl = url.orEmpty()
+                            val isGuide = currentUrl.contains("/guides")
+                            isViewingGuide = isGuide
+
+                            val webTitle = view?.title
+                            if (!webTitle.isNullOrBlank() && !webTitle.contains("appassets", ignoreCase = true)) {
+                                currentWebTitle = webTitle.substringBefore(" | OmniTool Hub").substringBefore(" - OmniTool Hub")
+                            }
+
+                            if (!isGuide && (currentUrl.contains("index.html") || currentUrl.contains("/tool/"))) {
+                                view?.evaluateJavascript(
+                                    """
+                                    (function() {
+                                        var retries = 0;
+                                        function launch() {
+                                            if (window.app && typeof window.app.navigateToTool === 'function') {
+                                                if (window.app.activeTool !== '${tool.id}') {
+                                                    window.app.navigateToTool('${tool.id}', false);
+                                                }
+                                            } else if (retries < 25) {
+                                                retries++;
+                                                setTimeout(launch, 60);
+                                            }
                                         }
-                                    }
-                                    launch();
-                                })();
-                                """.trimIndent(),
-                                null
-                            )
+                                        launch();
+                                    })();
+                                    """.trimIndent(),
+                                    null
+                                )
+                            }
                         }
                     }
 
@@ -402,6 +502,42 @@ fun WebToolScreen(
                             return true
                         }
 
+                        override fun onReceivedTitle(view: WebView?, title: String?) {
+                            super.onReceivedTitle(view, title)
+                            if (!title.isNullOrBlank() && !title.contains("appassets", ignoreCase = true)) {
+                                currentWebTitle = title.substringBefore(" | OmniTool Hub").substringBefore(" - OmniTool Hub")
+                            }
+                        }
+
+                        override fun onCreateWindow(
+                            view: WebView?,
+                            isDialog: Boolean,
+                            isUserGesture: Boolean,
+                            resultMsg: android.os.Message?
+                        ): Boolean {
+                            val hitTest = view?.hitTestResult
+                            val extra = hitTest?.extra
+                            if (!extra.isNullOrBlank()) {
+                                view.loadUrl(extra)
+                                return true
+                            }
+
+                            val transport = resultMsg?.obj as? WebView.WebViewTransport ?: return false
+                            val popupWebView = WebView(view?.context ?: return false)
+                            popupWebView.webViewClient = object : WebViewClient() {
+                                override fun shouldOverrideUrlLoading(v: WebView?, req: WebResourceRequest?): Boolean {
+                                    val destUrl = req?.url?.toString()
+                                    if (!destUrl.isNullOrBlank()) {
+                                        view.loadUrl(destUrl)
+                                    }
+                                    return true
+                                }
+                            }
+                            transport.webView = popupWebView
+                            resultMsg.sendToTarget()
+                            return true
+                        }
+
                         override fun onPermissionRequest(request: PermissionRequest?) {
                             // Grant web permissions (Camera, Mic) requested by tools like QR Scanner & Voice Recorder
                             request?.grant(request.resources)
@@ -446,6 +582,8 @@ fun WebToolScreen(
                         cacheMode = WebSettings.LOAD_NO_CACHE
                         useWideViewPort = true
                         loadWithOverviewMode = true
+                        setSupportMultipleWindows(true)
+                        javaScriptCanOpenWindowsAutomatically = true
                         userAgentString = "$userAgentString OmniToolAndroid"
                     }
 
@@ -453,16 +591,19 @@ fun WebToolScreen(
                 }
             },
             update = { webView ->
-                val current = webView.url.orEmpty()
-                val targetHash = "#tool/${tool.id}"
-                val targetPath = "/tool/${tool.id}"
-                if (!current.contains(targetHash) && !current.contains(targetPath)) {
-                    webView.loadUrl(targetUrl)
-                } else {
-                    webView.evaluateJavascript(
-                        "if (window.app && typeof window.app.navigateToTool === 'function') { window.app.navigateToTool('${tool.id}', false); }",
-                        null
-                    )
+                if (lastLoadedToolId != tool.id) {
+                    lastLoadedToolId = tool.id
+                    val current = webView.url.orEmpty()
+                    val targetHash = "#tool/${tool.id}"
+                    val targetPath = "/tool/${tool.id}"
+                    if (!current.contains(targetHash) && !current.contains(targetPath)) {
+                        webView.loadUrl(targetUrl)
+                    } else {
+                        webView.evaluateJavascript(
+                            "if (window.app && typeof window.app.navigateToTool === 'function' && window.app.activeTool !== '${tool.id}') { window.app.navigateToTool('${tool.id}', false); }",
+                            null
+                        )
+                    }
                 }
             }
         )

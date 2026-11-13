@@ -136,6 +136,7 @@ fun DashboardScreen(
         val categories = listOf(
             "all" to "All",
             "fav" to "⭐ Favorites",
+            "guides" to "📚 Guides",
             "dev" to "Developer",
             "text" to "Text & PDF",
             "design" to "Design & Media",
@@ -236,6 +237,7 @@ fun ToolCard(
         "dev" -> AccentCyan
         "text" -> AccentMagenta
         "design" -> AccentGreen
+        "guides" -> Primary
         else -> AccentOrange
     }
 
@@ -243,6 +245,7 @@ fun ToolCard(
         "dev" -> Icons.Default.Build
         "text" -> Icons.Default.Edit
         "design" -> Icons.Default.ShoppingCart // Representative icon
+        "guides" -> Icons.Default.Info
         else -> Icons.Default.Refresh
     }
 
