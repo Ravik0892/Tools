@@ -36,6 +36,7 @@ const rootFiles = [
   'index.html',
   'style.css',
   'app.js',
+  'ga-guard.js',
   'ad-config.json',
   'manifest.json',
   'sw.js',

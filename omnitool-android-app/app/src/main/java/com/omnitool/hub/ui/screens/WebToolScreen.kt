@@ -327,6 +327,8 @@ fun WebToolScreen(
                     )
                     isFocusable = true
                     isFocusableInTouchMode = true
+                    isHorizontalScrollBarEnabled = false
+                    overScrollMode = android.view.View.OVER_SCROLL_NEVER
                     setOnTouchListener { v, _ ->
                         v.parent?.requestDisallowInterceptTouchEvent(true)
                         false
@@ -591,8 +593,8 @@ fun WebToolScreen(
                         allowUniversalAccessFromFileURLs = true
                         mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                         cacheMode = WebSettings.LOAD_NO_CACHE
-                        useWideViewPort = true
-                        loadWithOverviewMode = true
+                        useWideViewPort = false
+                        loadWithOverviewMode = false
                         setSupportMultipleWindows(true)
                         javaScriptCanOpenWindowsAutomatically = true
                         userAgentString = "$userAgentString OmniToolAndroid"
