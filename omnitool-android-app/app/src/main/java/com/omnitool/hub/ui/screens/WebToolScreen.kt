@@ -342,6 +342,17 @@ fun WebToolScreen(
                             request: WebResourceRequest
                         ): WebResourceResponse? {
                             val url = request.url
+                            val host = url.host.orEmpty()
+
+                            // Completely block Google Analytics & Tag Manager telemetry in mobile app
+                            if (host.contains("google-analytics.com", ignoreCase = true) ||
+                                host.contains("googletagmanager.com", ignoreCase = true) ||
+                                host.contains("analytics.google.com", ignoreCase = true) ||
+                                host.contains("cloudflareinsights.com", ignoreCase = true)
+                            ) {
+                                return WebResourceResponse("text/plain", "UTF-8", 200, "OK", emptyMap(), java.io.ByteArrayInputStream(ByteArray(0)))
+                            }
+
                             if (url.host.equals("appassets.androidplatform.net", ignoreCase = true)) {
                                 val localResponse = interceptAppAsset(ctx, url.path ?: "")
                                 if (localResponse != null) {
