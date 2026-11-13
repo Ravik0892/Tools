@@ -62,8 +62,9 @@ html {
   background-color: var(--bg-app);
   height: 100%;
   width: 100%;
-  max-width: 100vw;
-  overflow-x: clip;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 * {
@@ -79,13 +80,14 @@ body {
   height: 100%;
   min-height: 100%;
   width: 100%;
-  max-width: 100vw;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
-  overflow-x: clip;
+  overflow-x: hidden;
   transition: background-color var(--transition-normal);
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
 }
 
 /* Custom Scrollbars */
@@ -776,10 +778,15 @@ body:has(#app-sidebar.show) {
   flex-direction: column;
   z-index: 1;
   position: relative;
-  overflow: visible;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: visible;
   /* Allow mega-menu dropdowns to overflow */
   height: 100%;
   min-height: 0;
+  box-sizing: border-box;
 }
 
 .main-header {
@@ -929,10 +936,15 @@ body:has(#app-sidebar.show) {
 /* Dashboard Content View */
 .content-area {
   flex: 1;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .dashboard-hero {
@@ -3027,6 +3039,18 @@ select optgroup,
 @media (max-width: 960px) {
   .plans-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .plans-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .tools-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    padding: 0 !important;
   }
 }
 
@@ -12687,9 +12711,12 @@ html.app-embedded,
 body.app-embedded {
   height: auto !important;
   min-height: 100% !important;
-  overflow-x: clip !important;
-  overflow-y: visible !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
+  box-sizing: border-box !important;
 }
 
 @media (max-width: 480px) {
@@ -12721,6 +12748,9 @@ body.app-embedded {
 body.app-embedded {
   display: block !important;
   background-color: var(--bg-app) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 body.app-embedded .main-header,
@@ -12740,9 +12770,11 @@ body.app-embedded .app-container {
   height: auto !important;
   min-height: 100% !important;
   display: block !important;
-  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
   width: 100% !important;
   max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 body.app-embedded .main-wrapper {
@@ -12750,20 +12782,26 @@ body.app-embedded .main-wrapper {
   padding: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
+  min-width: 0 !important;
   height: auto !important;
   min-height: 100% !important;
   display: block !important;
-  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  box-sizing: border-box !important;
 }
 
 body.app-embedded .content-area {
   height: auto !important;
   min-height: 100% !important;
   display: block !important;
-  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
   padding: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
 body.app-embedded #active-tool-viewport,
@@ -12774,10 +12812,13 @@ body.app-embedded .tool-viewport {
   display: flex !important;
   flex-direction: column !important;
   gap: 10px !important;
-  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
   padding: 6px 12px 24px !important;
   width: 100% !important;
   max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
 body.app-embedded .tool-bar {

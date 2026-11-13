@@ -3,11 +3,20 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <style>
     html, body {
       background-color: #05060a;
       color: #f1f5f9;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
     .splash-overlay {
       position: fixed;
@@ -27,8 +36,11 @@
     body.app-embedded {
       height: auto !important;
       min-height: 100% !important;
-      overflow-x: clip !important;
-      overflow-y: visible !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
     }
     body.app-embedded #app-splash-screen,
     html.app-embedded #app-splash-screen {
