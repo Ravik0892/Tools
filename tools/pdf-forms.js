@@ -106,6 +106,31 @@ export default {
             </div>
           </div>
         </div>
+      
+        <!-- Dynamic Guide Card (Unified standard footer guide) -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>QUICK GUIDE: INTERACTIVE PDF FORM FILLER</span>
+            </div>
+          </div>
+          <div class="tool-guide-steps">
+
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Open Fillable PDF</strong>: Upload any PDF containing interactive AcroForm or XFA fields into the client-side document viewer.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Fill Text & Toggle Fields</strong>: Enter text, check boxes, select radio buttons, and populate dropdown menus with instant visual feedback.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Save Flattened Document</strong>: Download the completed form with flattened fields or export raw form values in JSON/FDF format.</div>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   },

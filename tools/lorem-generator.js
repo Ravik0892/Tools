@@ -123,7 +123,54 @@ export default {
             <textarea id="lorem-output-text" class="input-textarea" style="width: 100%; height: 100%; font-family: var(--font-mono); font-size: 13.5px; line-height: 1.6; padding: 14px; background: rgba(0,0,0,0.3); border-color: var(--border-color); color: var(--text-main); resize: none;" readonly spellcheck="false" aria-label="Generated dummy text"></textarea>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Generate Dummy Text</span>
+            </div>
+            <div class="tool-guide-badge">Dummy Content Studio</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Choose Theme & Vocabulary</h4>
+                <p>Select Latin Classic, Modern Tech, Startup Pitch, or Legal & Medical jargon.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Set Quantity & Units</h4>
+                <p>Configure paragraphs, sentences, words, or list items with custom length bounds.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Select Output Markup</h4>
+                <p>Output as clean Plain Text, semantic HTML <p> tags, Markdown, or JSON array.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Copy or Download</h4>
+                <p>One-click copy formatted placeholder text directly into design mockups or codebases.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
     `;
   },
 

@@ -161,7 +161,8 @@ fun ToolLayoutScreen(
                 unfocusedTextColor = TextMain,
                 focusedBorderColor = Primary,
                 unfocusedBorderColor = BorderColor,
-                containerColor = Color(0x05FFFFFF)
+                focusedContainerColor = Color(0x05FFFFFF),
+                unfocusedContainerColor = Color(0x05FFFFFF)
             )
         )
 
@@ -229,7 +230,8 @@ fun ToolLayoutScreen(
                 unfocusedTextColor = TextMain,
                 focusedBorderColor = AccentCyan,
                 unfocusedBorderColor = BorderColor,
-                containerColor = AccentCyan.copy(alpha = 0.02f)
+                focusedContainerColor = AccentCyan.copy(alpha = 0.02f),
+                unfocusedContainerColor = AccentCyan.copy(alpha = 0.02f)
             )
         )
     }

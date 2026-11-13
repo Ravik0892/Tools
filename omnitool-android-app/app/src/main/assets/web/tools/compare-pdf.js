@@ -149,25 +149,35 @@ export default {
         </div>
 
         <!-- Quick Guide Footer -->
-        <div class="tool-guide-card" style="grid-column: 1 / -1; margin-top: 16px;">
-          <div class="guide-header">
-            <div class="guide-title">
-              <span class="guide-icon">💡</span>
-              <h4>QUICK GUIDE: PDF COMPARE & DIFFERENCE INSPECTOR</h4>
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: PDF Compare &amp; Difference Inspector</span>
             </div>
+            <div class="tool-guide-badge">Diff Engine</div>
           </div>
-          <div class="guide-steps" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.6;">
-            <div>
-              <strong style="color: var(--text-main);">1. Upload Two Revisions</strong>
-              <p style="margin: 4px 0 0 0;">Select your baseline original document (A) and modified updated version (B).</p>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Upload Document Pair</h4>
+                <p>Upload original Revision A and modified Revision B PDF files to compare in browser memory.</p>
+              </div>
             </div>
-            <div>
-              <strong style="color: var(--text-main);">2. Choose Visual or Text Mode</strong>
-              <p style="margin: 4px 0 0 0;">Inspect layout shifts with the heatmap/wipe slider, or read word-by-word clause modifications.</p>
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Choose Inspection Mode</h4>
+                <p>Toggle between Visual Side-by-Side, Pixel Diff Heatmap, or Text/Clause Diff matrices.</p>
+              </div>
             </div>
-            <div>
-              <strong style="color: var(--text-main);">3. Export & Verify</strong>
-              <p style="margin: 4px 0 0 0;">Save text difference logs or take high-res snapshots of changed sections for audit reports.</p>
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Export Audit Report</h4>
+                <p>Save text difference logs or take high-res snapshots of changed sections for audit reports.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -664,6 +674,9 @@ export default {
         host.innerHTML = this.renderUI();
       }
       this.bindEvents();
+      if (typeof this.app?.initLayoutSizer === "function") {
+        this.app.initLayoutSizer(host);
+      }
       this.renderCurrentComparison();
     }
   },

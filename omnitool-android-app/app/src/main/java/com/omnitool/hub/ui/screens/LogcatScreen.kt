@@ -144,7 +144,8 @@ fun LogcatScreen(
                 unfocusedTextColor = TextMain,
                 focusedBorderColor = Primary,
                 unfocusedBorderColor = BorderColor,
-                containerColor = Color(0x05FFFFFF)
+                focusedContainerColor = Color(0x05FFFFFF),
+                unfocusedContainerColor = Color(0x05FFFFFF)
             )
         )
 

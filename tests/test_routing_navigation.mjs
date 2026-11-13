@@ -21,7 +21,9 @@ class MockElement {
     this.innerHTML = '';
     this.listeners = {};
     this.attributes = {};
+    this.dataset = {};
   }
+  closest(sel) { return new MockElement('div'); }
   getAttribute(name) { return this.attributes[name] || null; }
   setAttribute(name, val) { this.attributes[name] = val; }
   removeAttribute(name) { delete this.attributes[name]; }
@@ -49,7 +51,8 @@ class MockElement {
   getContext() {
     return {
       fillRect() {}, clearRect() {}, beginPath() {}, moveTo() {}, lineTo() {}, stroke() {}, fill() {},
-      arc() {}, strokeText() {}, fillText() {}, measureText: () => ({ width: 10 }), setLineDash() {}
+      arc() {}, strokeText() {}, fillText() {}, measureText: () => ({ width: 10 }), setLineDash() {},
+      save() {}, restore() {}, scale() {}, rotate() {}, translate() {}
     };
   }
   querySelector(sel) {
@@ -67,6 +70,7 @@ class MockElement {
     return elem;
   }
   querySelectorAll(sel) { return []; }
+  getBoundingClientRect() { return { width: 400, height: 400, top: 0, left: 0, right: 400, bottom: 400 }; }
   remove() { if (this.parentElement) this.parentElement.removeChild(this); }
 }
 
@@ -114,6 +118,10 @@ global.window = {
     if (!this._listeners) this._listeners = {};
     if (!this._listeners[evt]) this._listeners[evt] = [];
     this._listeners[evt].push(cb);
+  },
+  removeEventListener(evt, cb) {
+    if (!this._listeners || !this._listeners[evt]) return;
+    this._listeners[evt] = this._listeners[evt].filter(c => c !== cb);
   },
   triggerEvent(evt) {
     if (this._listeners && this._listeners[evt]) {

@@ -44,10 +44,10 @@ export default {
             <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
               <span style="font-size: 12px; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px;">RECORDING OPTIONS</span>
               
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted);">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 12px;">
+                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted); min-width: 0;">
                   Resolution Target
-                  <select id="sr-res-select" class="tool-input" style="padding: 6px 10px; font-size: 12px;">
+                  <select id="sr-res-select" class="tool-input" style="padding: 6px 10px; font-size: 12px; width: 100%; min-width: 0; box-sizing: border-box;">
                     <option value="native" selected>Original Screen Size</option>
                     <option value="1080">1080p Full HD (1920x1080)</option>
                     <option value="720">720p HD (1280x720)</option>
@@ -55,9 +55,9 @@ export default {
                   </select>
                 </label>
 
-                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted);">
+                <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted); min-width: 0;">
                   Frame Rate (FPS)
-                  <select id="sr-fps-select" class="tool-input" style="padding: 6px 10px; font-size: 12px;">
+                  <select id="sr-fps-select" class="tool-input" style="padding: 6px 10px; font-size: 12px; width: 100%; min-width: 0; box-sizing: border-box;">
                     <option value="60">60 FPS (Ultra Smooth)</option>
                     <option value="30" selected>30 FPS (Standard / Recommended)</option>
                     <option value="15">15 FPS (Small File Size)</option>
@@ -172,7 +172,54 @@ export default {
             </div>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Record Screen & Tab Video</span>
+            </div>
+            <div class="tool-guide-badge">100% In-Browser WebRTC</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Select Capture Source</h4>
+                <p>Choose entire screen, application window, or specific browser tab via native WebRTC.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Configure Audio Inputs</h4>
+                <p>Toggle system internal audio, external microphone narration, or silent recording.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Record with Live Controls</h4>
+                <p>Pause, resume, and inspect elapsed recording time with real-time hardware encoding.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Export WebM or MP4</h4>
+                <p>Download high-framerate video recordings instantly with zero server uploads.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
 
       <style>
         @keyframes sr-pulse {

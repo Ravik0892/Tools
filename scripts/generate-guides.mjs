@@ -47,7 +47,7 @@ const toolsData = [
       "Click **Execute Pipeline** in the Live Execution tab to parse inputs.",
       "View intermediate step results and copy the final output from the **Output Pane**."
     ],
-    ctaHref: "../index.html#tool/pipeline-builder",
+    ctaHref: "/#tool/pipeline-builder",
     ctaLabel: "Launch Pipeline Builder"
   },
   {
@@ -90,7 +90,7 @@ const toolsData = [
       "Configure parameters (such as separator flags) and click the primary action button.",
       "Copy the result instantly from the **Output** textarea."
     ],
-    ctaHref: "../index.html#tool/text-encoder-suite",
+    ctaHref: "/#tool/text-encoder-suite",
     ctaLabel: "Launch Encoder Suite"
   },
   {
@@ -133,7 +133,7 @@ const toolsData = [
       "Explore formatted JSON payloads and metadata tree views in the **Claims** and **Header** tabs.",
       "Check token expiration warnings and verify signature structures."
     ],
-    ctaHref: "../index.html#tool/jwt-decoder",
+    ctaHref: "/#tool/jwt-decoder",
     ctaLabel: "Launch JWT Decoder"
   },
   {
@@ -176,7 +176,7 @@ const toolsData = [
       "Configure keys, passphrases, or bit-strengths.",
       "Click the action button and copy your generated hashes, ciphertext, or PEM keypairs."
     ],
-    ctaHref: "../index.html#tool/crypto-suite",
+    ctaHref: "/#tool/crypto-suite",
     ctaLabel: "Launch Cryptography Suite"
   },
   {
@@ -219,7 +219,7 @@ const toolsData = [
       "Click the **Raw HTML** tab to inspect and copy the generated markup.",
       "Use the quick-action buttons to clear, copy, or download your drafts."
     ],
-    ctaHref: "../index.html#tool/markdown-preview",
+    ctaHref: "/#tool/markdown-preview",
     ctaLabel: "Launch Markdown Editor"
   },
   {
@@ -262,7 +262,7 @@ const toolsData = [
       "Click **Compare Texts** and select your layout mode (**Split View** or **Unified**).",
       "Inspect highlighted lines and copy diff logs or export changes."
     ],
-    ctaHref: "../index.html#tool/text-diff",
+    ctaHref: "/#tool/text-diff",
     ctaLabel: "Launch Text Diff Tool"
   },
   {
@@ -305,7 +305,7 @@ const toolsData = [
       "For scanned pages, toggle **OCR Engine** to parse images into editable text.",
       "Export highlights, copy extracted texts, or download search logs."
     ],
-    ctaHref: "../index.html#tool/pdf-searcher",
+    ctaHref: "/#tool/pdf-searcher",
     ctaLabel: "Launch PDF Searcher"
   },
   {
@@ -353,7 +353,7 @@ const toolsData = [
       "Select your output format (PDF, separate PDFs in ZIP, PNG, JPG, WebP, Text, or JSON) and resolution.",
       "Click the action button to process and download your clean, private files immediately."
     ],
-    ctaHref: "../index.html#tool/pdf-utilities",
+    ctaHref: "/#tool/pdf-utilities",
     ctaLabel: "Launch PDF Toolbox"
   },
   {
@@ -391,7 +391,7 @@ const toolsData = [
       "Review matches highlighted in real time, and inspect captured groups.",
       "Copy extracted variables or export results."
     ],
-    ctaHref: "../index.html#tool/regex-tester",
+    ctaHref: "/#tool/regex-tester",
     ctaLabel: "Launch Regex Suite"
   },
   {
@@ -434,7 +434,7 @@ const toolsData = [
       "Review the live output rendered on preview components.",
       "Click **Copy CSS Code** to copy the generated styles to your clipboard."
     ],
-    ctaHref: "../index.html#tool/css-studio",
+    ctaHref: "/#tool/css-studio",
     ctaLabel: "Launch CSS Studio"
   },
   {
@@ -477,7 +477,7 @@ const toolsData = [
       "Review WCAG compliance indicators.",
       "Copy color codes or export your complete palette schema."
     ],
-    ctaHref: "../index.html#tool/color-lab",
+    ctaHref: "/#tool/color-lab",
     ctaLabel: "Launch Color Lab"
   },
   {
@@ -515,7 +515,7 @@ const toolsData = [
       "Review entropy and security strength ratings.",
       "Click the action button and copy the generated credentials or keys."
     ],
-    ctaHref: "../index.html#tool/security-suite",
+    ctaHref: "/#tool/security-suite",
     ctaLabel: "Launch Security Suite"
   },
   {
@@ -553,7 +553,7 @@ const toolsData = [
       "Configure parameters (seconds/milliseconds or date offsets).",
       "Review formatted date outputs or duration summaries."
     ],
-    ctaHref: "../index.html#tool/datetime-suite",
+    ctaHref: "/#tool/datetime-suite",
     ctaLabel: "Launch Date-Time Suite"
   },
   {
@@ -596,7 +596,7 @@ const toolsData = [
       "Choose the source unit and target unit options.",
       "Copy the converted value instantly."
     ],
-    ctaHref: "../index.html#tool/unit-converter",
+    ctaHref: "/#tool/unit-converter",
     ctaLabel: "Launch Unit Converter"
   },
   {
@@ -634,7 +634,7 @@ const toolsData = [
       "Select and preview vintage filters on your assets.",
       "Click **Download Image** or copy it directly to your clipboard."
     ],
-    ctaHref: "../index.html#tool/graphics-studio",
+    ctaHref: "/#tool/graphics-studio",
     ctaLabel: "Launch Graphics Studio"
   },
   {
@@ -672,7 +672,7 @@ const toolsData = [
       "Press **Enter** or click `=` to compile the result.",
       "Inspect or copy previous results from the **History Log**."
     ],
-    ctaHref: "../index.html#tool/calculator",
+    ctaHref: "/#tool/calculator",
     ctaLabel: "Launch Calculator"
   },
   {
@@ -710,7 +710,7 @@ const toolsData = [
       "Upload your company logo to center in the matrix.",
       "Verify code readability and click **Download SVG/PNG**."
     ],
-    ctaHref: "../index.html#tool/qr-generator",
+    ctaHref: "/#tool/qr-generator",
     ctaLabel: "Launch QR Studio"
   },
   {
@@ -748,7 +748,7 @@ const toolsData = [
       "Click **Generate Tags** to compile the HTML meta block.",
       "Copy the code snippet and paste it into the `<head>` of your website project."
     ],
-    ctaHref: "../index.html#tool/seo-previewer",
+    ctaHref: "/#tool/seo-previewer",
     ctaLabel: "Launch SEO Previewer"
   },
   {
@@ -786,7 +786,7 @@ const toolsData = [
       "Set target dimensions if resizing.",
       "Click **Convert Image** and download the optimized output."
     ],
-    ctaHref: "../index.html#tool/image-converter",
+    ctaHref: "/#tool/image-converter",
     ctaLabel: "Launch Image Optimizer"
   },
   {
@@ -824,7 +824,7 @@ const toolsData = [
       "Adjust stroke colors, animation durations, and easing styles.",
       "Verify the output and click **Export Animated SVG**."
     ],
-    ctaHref: "../index.html#tool/svg-animator",
+    ctaHref: "/#tool/svg-animator",
     ctaLabel: "Launch SVG Studio"
   },
   {
@@ -873,7 +873,7 @@ const toolsData = [
       "Toggle Bulk Edit mode to paste list items or edit parameters as plain text.",
       "Reorder rows using up/down controls, clean tracking parameters in one click, and copy the rebuilt URL or scan the QR Code."
     ],
-    ctaHref: "../index.html#tool/url-parser",
+    ctaHref: "/#tool/url-parser",
     ctaLabel: "Launch URL Parser"
   },
   {
@@ -911,7 +911,7 @@ const toolsData = [
       "Inspect word frequency tables to identify overused terms.",
       "Copy your polished, analyzed text drafts."
     ],
-    ctaHref: "../index.html#tool/text-analyzer",
+    ctaHref: "/#tool/text-analyzer",
     ctaLabel: "Launch Text Analyzer"
   },
   {
@@ -949,7 +949,7 @@ const toolsData = [
       "Choose output formats (**JSON** or **CSV**).",
       "Click **Generate Data** and download the generated file."
     ],
-    ctaHref: "../index.html#tool/mock-data-generator",
+    ctaHref: "/#tool/mock-data-generator",
     ctaLabel: "Launch Mock Generator"
   },
   {
@@ -998,7 +998,7 @@ const toolsData = [
       "Filter simulated console outputs by level (Logs, Warns, Errs) to catch variables or syntax warnings.",
       "Click **Download** to save your compiled work as a single, portable HTML file."
     ],
-    ctaHref: "../index.html#tool/code-playground",
+    ctaHref: "/#tool/code-playground",
     ctaLabel: "Launch Live Playground"
   },
   {
@@ -1047,7 +1047,7 @@ const toolsData = [
       "Select your preferred masking strategy: **Redact**, **Hash**, or **Mask**.",
       "Inspect the live output and click **Copy Output** or **Download File** to save your clean logs."
     ],
-    ctaHref: "../index.html#tool/pii-anonymizer",
+    ctaHref: "/#tool/pii-anonymizer",
     ctaLabel: "Launch PII Anonymizer"
   },
   {
@@ -1090,7 +1090,7 @@ const toolsData = [
       "Configure formatting preferences (2-space, 4-space, tabs, or minify).",
       "Click **Format** or **Convert** and copy the cleaned output instantly."
     ],
-    ctaHref: "../index.html#tool/json-formatter",
+    ctaHref: "/#tool/json-formatter",
     ctaLabel: "Launch Data Formatter"
   },
   {
@@ -1133,7 +1133,7 @@ const toolsData = [
       "Switch to the MAC / OUI tab to format hardware addresses or search device manufacturers.",
       "Copy calculated network parameters directly to your clipboard."
     ],
-    ctaHref: "../index.html#tool/ip-subnet-calculator",
+    ctaHref: "/#tool/ip-subnet-calculator",
     ctaLabel: "Launch Subnet Calculator"
   }
 ];
@@ -1421,6 +1421,34 @@ const template = (tool, allTools) => {
     .nav-launch-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Language Switcher Capsule */
+    .lang-switch-capsule {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2px 4px;
+      gap: 2px;
+      align-items: center;
+    }
+    .lang-switch-capsule .lang-btn {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 12px;
+      transition: all 0.15s ease;
+    }
+    .lang-switch-capsule .lang-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .lang-switch-capsule .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
     }
 
     /* Breadcrumbs */
@@ -1790,17 +1818,37 @@ const template = (tool, allTools) => {
     }
 
     .live-guide-tool-viewport {
-      padding: 24px 20px;
-      min-height: 260px;
+      padding: 20px;
+      position: relative;
+      max-height: 580px;
+      overflow: hidden;
+      background: rgba(8, 12, 20, 0.4);
+      transition: all 0.25s ease;
     }
 
-    /* Embedded Live Playground Full-Fidelity Responsive Overrides */
+    .live-guide-tool-viewport .tool-guide-card,
+    .live-guide-tool-viewport .split-view-resizer,
+    .live-guide-tool-viewport .guide-scroll-arrow,
+    .live-guide-tool-viewport .tool-panel-ad,
+    .live-guide-tool-viewport .adjust-settings-fab,
+    .live-guide-tool-viewport .split-view-backdrop,
+    .live-guide-tool-viewport .drawer-close-btn,
+    .live-guide-tool-viewport .tool-panel:first-of-type::after {
+      display: none !important;
+    }
+
+    /* Embedded Live Playground Contained Viewport Standard with Internal Panel Scrolling */
     .live-guide-tool-viewport .tool-content-layout.split-view {
-      display: flex !important;
-      flex-direction: column !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1.08fr !important;
       gap: 20px !important;
       position: static !important;
       width: 100% !important;
+      height: 520px !important;
+      max-height: 520px !important;
+      overflow: hidden !important;
+      align-items: stretch !important;
+      box-sizing: border-box !important;
     }
 
     .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
@@ -1810,31 +1858,111 @@ const template = (tool, allTools) => {
       transform: none !important;
       width: 100% !important;
       max-width: 100% !important;
-      height: auto !important;
-      min-height: unset !important;
+      height: 100% !important;
+      max-height: 520px !important;
+      min-height: 0 !important;
       box-shadow: none !important;
       border-radius: 12px !important;
-      overflow: visible !important;
-      padding: 20px !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      scrollbar-width: thin;
+      padding: 18px !important;
+      background: rgba(13, 17, 27, 0.75) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-sizing: border-box !important;
     }
 
-    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type::after {
-      display: none !important;
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 242, 254, 0.4);
     }
 
-    .live-guide-tool-viewport .adjust-settings-fab,
-    .live-guide-tool-viewport .split-view-backdrop,
-    .live-guide-tool-viewport .drawer-close-btn {
-      display: none !important;
-    }
-
-    @media (min-width: 960px) {
-      .live-guide-tool-viewport .tool-content-layout.split-view {
-        display: grid !important;
-        grid-template-columns: 1fr 1.05fr !important;
-        gap: 20px !important;
-        align-items: start !important;
+    @media (max-width: 960px) {
+      .live-guide-tool-viewport {
+        max-height: 820px;
+        overflow-y: auto;
       }
+      .live-guide-tool-viewport .tool-content-layout.split-view {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+        max-height: none !important;
+        gap: 16px !important;
+      }
+
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+        height: auto !important;
+        max-height: 380px !important;
+        overflow-y: auto !important;
+      }
+    }
+
+    .skip-to-guide-link {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.04);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .skip-to-guide-link:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(0, 242, 254, 0.35);
+      background: rgba(0, 242, 254, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .toggle-tool-collapse-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toggle-tool-collapse-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .toggle-tool-collapse-btn .toggle-icon {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-tool-collapse-btn.is-collapsed .toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    #guide-article {
+      scroll-margin-top: 85px;
     }
 
     .guide-tool-loading {
@@ -2040,16 +2168,22 @@ const template = (tool, allTools) => {
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All ${allTools.length} Guides</a>
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="${tool.ctaHref}" class="nav-launch-btn">🚀 ${tool.ctaLabel}</a>
+        <!-- Language Switcher Capsule -->
+        <div class="lang-switch-capsule">
+          <a href="/guides/${tool.id}" class="lang-btn active" title="English">EN</a>
+          <a href="${fs.existsSync(path.join(__dirname, '..', 'guides', 'es', tool.fileName)) ? `/guides/es/${tool.id}` : '/guides/es/'}" class="lang-btn" title="Español">ES</a>
+          <a href="${fs.existsSync(path.join(__dirname, '..', 'guides', 'pt', tool.fileName)) ? `/guides/pt/${tool.id}` : '/guides/pt/'}" class="lang-btn" title="Português">PT</a>
+        </div>
+        <a href="/guides/" class="nav-link-btn">📚 All ${allTools.length} Guides</a>
+        <a href="/#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="${tool.ctaHref.replace(/^\.\.\/index\.html/, '')}" class="nav-launch-btn">🚀 ${tool.ctaLabel}</a>
       </div>
     </div>
   </nav>
@@ -2057,9 +2191,9 @@ const template = (tool, allTools) => {
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">🏠 Home</a>
+      <a href="/">🏠 Home</a>
       <span>/</span>
-      <a href="index.html">Guides Hub</a>
+      <a href="/guides/">Guides Hub</a>
       <span>/</span>
       <span class="current">${tool.h1.replace(/ Guide$/i, '')}</span>
     </nav>
@@ -2084,6 +2218,10 @@ const template = (tool, allTools) => {
           <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
         </div>
         <div class="live-tool-quick-links">
+          <a href="#guide-article" class="skip-to-guide-link" title="Jump straight to comprehensive written guide">📖 Skip to Guide &darr;</a>
+          <button type="button" class="toggle-tool-collapse-btn" id="toggle-tool-collapse-btn" title="Toggle Live Tool Viewport" aria-expanded="true">
+            <span class="toggle-icon">▾</span> <span class="toggle-text">Collapse Tool</span>
+          </button>
           <a href="${tool.ctaHref}" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
@@ -2095,7 +2233,7 @@ const template = (tool, allTools) => {
       </div>
     </section>
 
-    <article>
+    <article id="guide-article">
       <p>
         ${tool.leadParagraph}
       </p>
@@ -2157,22 +2295,22 @@ const template = (tool, allTools) => {
     <div class="cta-container">
       <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
-      <a href="${tool.ctaHref}" class="cta-btn">🚀 ${tool.ctaLabel}</a>
+      <a href="${tool.ctaHref.replace(/^\.\.\/index\.html/, '')}" class="cta-btn">🚀 ${tool.ctaLabel}</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All ${allTools.length} Tool Guides &rarr;</a>
+      <a href="/guides/" class="all-guides-cta">📚 Browse All ${allTools.length} Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All ${allTools.length} Guides &rarr;</a>
+        <a href="/guides/">View All ${allTools.length} Guides &rarr;</a>
       </div>
       <div class="related-grid">
         ${related.map(rel => {
           const relMeta = toolMeta[rel.id] || { icon: '🛠️', categoryName: 'Tools' };
           return `
-          <a href="${rel.fileName}" class="related-card">
+          <a href="/guides/${rel.id}" class="related-card">
             <div>
               <div class="related-badge">${relMeta.icon} ${relMeta.categoryName}</div>
               <div class="related-title">${rel.h1.replace(/ Guide$/i, '')}</div>
@@ -2188,12 +2326,12 @@ const template = (tool, allTools) => {
   <footer class="guide-footer">
     <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
     <p style="margin-top: 8px;">
-      <a href="../index.html">Home</a> &bull;
-      <a href="index.html">Guides Hub</a> &bull;
-      <a href="../index.html#privacy">Privacy Policy</a> &bull;
-      <a href="../index.html#terms">Terms of Service</a> &bull;
-      <a href="../index.html#refund">Refund Policy</a> &bull;
-      <a href="../index.html#cookies">Cookie Policy</a> &bull;
+      <a href="/">Home</a> &bull;
+      <a href="/guides/">Guides Hub</a> &bull;
+      <a href="/#privacy">Privacy Policy</a> &bull;
+      <a href="/#terms">Terms of Service</a> &bull;
+      <a href="/#refund">Refund Policy</a> &bull;
+      <a href="/#cookies">Cookie Policy</a> &bull;
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
     </p>
   </footer>
@@ -2247,7 +2385,7 @@ const template = (tool, allTools) => {
       },
       playSynthSound() {},
       getConfigValue(k, d) { return localStorage.getItem(k) || d; },
-      navigateToTool(id) { window.location.href = '../index.html#tool/' + id; }
+      navigateToTool(id) { window.location.href = '/#tool/' + id; }
     };
 
     const targetModule = '${tool.id === 'json-formatter' ? 'formatter-suite.js' : tool.id + '.js'}';
@@ -2273,6 +2411,23 @@ const template = (tool, allTools) => {
         \`;
       }
     }
+  </script>
+
+  <!-- Live Tool Viewport Collapse / Expand Handler -->
+  <script>
+    (function initLiveToolCollapse() {
+      const toggleBtn = document.getElementById('toggle-tool-collapse-btn');
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (!toggleBtn || !viewport) return;
+      toggleBtn.addEventListener('click', () => {
+        const isCollapsed = viewport.style.display === 'none';
+        viewport.style.display = isCollapsed ? 'block' : 'none';
+        toggleBtn.classList.toggle('is-collapsed', !isCollapsed);
+        toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
+        const label = toggleBtn.querySelector('.toggle-text');
+        if (label) label.textContent = isCollapsed ? 'Collapse Tool' : 'Expand Tool';
+      });
+    })();
   </script>
 
   ${tool.diagram ? `
@@ -2691,6 +2846,34 @@ const generateGuidesHub = (allTools) => {
     .nav-launch-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Language Switcher Capsule */
+    .lang-switch-capsule {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2px 4px;
+      gap: 2px;
+      align-items: center;
+    }
+    .lang-switch-capsule .lang-btn {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 12px;
+      transition: all 0.15s ease;
+    }
+    .lang-switch-capsule .lang-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .lang-switch-capsule .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
     }
 
     /* Main Container */
@@ -3127,17 +3310,23 @@ const generateGuidesHub = (allTools) => {
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#plans" class="nav-link-btn">💎 Plans</a>
+        <!-- Language Switcher Capsule -->
+        <div class="lang-switch-capsule">
+          <a href="/guides/" class="lang-btn active" title="English">EN</a>
+          <a href="/guides/es/" class="lang-btn" title="Español">ES</a>
+          <a href="/guides/pt/" class="lang-btn" title="Português">PT</a>
+        </div>
+        <a href="/#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="/#plans" class="nav-link-btn">💎 Plans</a>
         <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener" class="nav-link-btn">⭐ GitHub</a>
-        <a href="../index.html" class="nav-launch-btn">🚀 Open Suite</a>
+        <a href="/" class="nav-launch-btn">🚀 Open Suite</a>
       </div>
     </div>
   </nav>
@@ -3194,7 +3383,7 @@ const generateGuidesHub = (allTools) => {
             <span class="card-badge">${tool.tag}</span>
           </div>
           <h2 class="card-title">
-            <a href="${tool.fileName}">${tool.h1.replace(/ Guide$/i, '')}</a>
+            <a href="/guides/${tool.id}">${tool.h1.replace(/ Guide$/i, '')}</a>
           </h2>
           <p class="card-desc">${tool.description}</p>
           <div class="card-features">
@@ -3202,10 +3391,10 @@ const generateGuidesHub = (allTools) => {
           </div>
         </div>
         <div class="card-footer-actions">
-          <a href="${tool.fileName}" class="read-guide-btn">
+          <a href="/guides/${tool.id}" class="read-guide-btn">
             <span>📖 Read Guide</span>
           </a>
-          <a href="${tool.ctaHref}" class="launch-tool-icon-btn" title="Launch ${tool.h1.replace(/ Guide$/i, '')}">
+          <a href="${tool.ctaHref.replace(/^\.\.\/index\.html/, '')}" class="launch-tool-icon-btn" title="Launch ${tool.h1.replace(/ Guide$/i, '')}">
             <span>🚀 Run Tool</span>
           </a>
         </div>
@@ -3284,10 +3473,10 @@ const generateGuidesHub = (allTools) => {
   <footer class="hub-footer">
     <p>&copy; 2026 OmniTool Hub. The Ultimate Offline-First Client-Side Utility Suite.</p>
     <p style="margin-top: 10px;">
-      <a href="../index.html">Main Suite</a> &bull;
-      <a href="../index.html#plans">Membership Plans</a> &bull;
-      <a href="../index.html#privacy">Privacy Policy</a> &bull;
-      <a href="../index.html#terms">Terms of Service</a> &bull;
+      <a href="/">Main Suite</a> &bull;
+      <a href="/#plans">Membership Plans</a> &bull;
+      <a href="/#privacy">Privacy Policy</a> &bull;
+      <a href="/#terms">Terms of Service</a> &bull;
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub Repository</a>
     </p>
   </footer>
@@ -3384,7 +3573,7 @@ const extraGuides = [
       { badge: "Cards & PayPal" },
       { badge: "Instant Unlock" }
     ],
-    ctaHref: "../index.html#plans",
+    ctaHref: "/#plans",
     ctaLabel: "View Membership Plans"
   }
 ];
@@ -3414,11 +3603,15 @@ for (const tool of toolsData) {
   count++;
 }
 
-// Generate Master Guides & Documentation Hub
-const hubContent = generateGuidesHub(allHubGuides);
-fs.writeFileSync(path.join(guidesDirRoot, 'index.html'), hubContent, 'utf8');
-fs.writeFileSync(path.join(androidGuidesDir, 'index.html'), hubContent, 'utf8');
-console.log('Generated master Guides Hub: guides/index.html');
+// Generate Master Guides & Documentation Hub only if it contains the full set
+if (allHubGuides.length >= 94) {
+  const hubContent = generateGuidesHub(allHubGuides);
+  fs.writeFileSync(path.join(guidesDirRoot, 'index.html'), hubContent, 'utf8');
+  fs.writeFileSync(path.join(androidGuidesDir, 'index.html'), hubContent, 'utf8');
+  console.log('Generated master Guides Hub: guides/index.html');
+} else {
+  console.log(`Preserved guides/index.html master hub with full 94 guides (toolsData subset has ${allHubGuides.length}).`);
+}
 
 console.log(`Successfully generated ${count} static HTML blog posts / guides and master index with all ${allHubGuides.length} guides.`);
 

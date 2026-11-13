@@ -6,124 +6,610 @@
   },
   "entries": [
     {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:json-formatter",
-      "displayName": "JSON Formatter & Validator",
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:pipeline-builder",
+      "displayName": "Smart Chain Pipeline Builder",
       "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/json-formatter",
-      "description": "Validates, formats, prettifies, minifies, and inspects JSON data client-side with zero server latency.",
+      "url": "https://omnitool.worldsneed.com/tool/pipeline-builder",
+      "description": "Connect multiple operations in series (e.g. Decode Base64 ➔ Format JSON ➔ Convert to Uppercase) to process text sequentially.",
       "representativeQueries": [
-        "format json document",
-        "validate and lint json",
-        "prettify json string",
-        "minify json payload"
+        "smart chain",
+        "pipeline",
+        "stack",
+        "sequence"
       ]
     },
     {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:base64",
-      "displayName": "Base64 Encoder & Decoder",
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:formatter-suite",
+      "displayName": "Data Formatter & Converter Suite",
       "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/base64",
-      "description": "Encodes and decodes UTF-8 strings, binary data, and files to and from Base64 entirely in-browser.",
+      "url": "https://omnitool.worldsneed.com/tool/formatter-suite",
+      "description": "Beautify and validate JSON, format messy SQL database queries, and convert data bi-directionally between JSON, YAML, and CSV.",
       "representativeQueries": [
-        "encode string to base64",
-        "decode base64 string",
-        "convert file to base64 data uri"
+        "json",
+        "yaml",
+        "csv",
+        "sql"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:text-encoder-suite",
+      "displayName": "Text Cases & Encoder Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/text-encoder-suite",
+      "description": "Convert text case representations (UPPER, lower, camel, snake, kebab) and run Base64 or URL encoding and decoding operations.",
+      "representativeQueries": [
+        "base64",
+        "url",
+        "hex",
+        "binary"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:fancy-font-generator",
+      "displayName": "Fancy Font & Bio Text Generator",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/fancy-font-generator",
+      "description": "Transform standard text into 60+ aesthetic Unicode fonts, Gothic Fraktur, cursive calligraphy, small caps, bio templates, and glitch text for Instagram, Discord, and TikTok.",
+      "representativeQueries": [
+        "fancy font & bio text generator",
+        "offline fancy font generator"
       ]
     },
     {
       "identifier": "urn:air:omnitool.worldsneed.com:tool:jwt-decoder",
-      "displayName": "JWT Debugger & Inspector",
+      "displayName": "JWT Decoder",
       "type": "application/webmcp-tool+json",
       "url": "https://omnitool.worldsneed.com/tool/jwt-decoder",
-      "description": "Decodes JSON Web Tokens (JWT), parses header and payload claims, and verifies HMAC-SHA signatures securely without transmission.",
+      "description": "Decode JSON Web Tokens instantly to view their header parameters, claim payload and validity.",
       "representativeQueries": [
-        "decode jwt token",
-        "inspect jwt claims",
-        "verify jwt signature offline"
+        "jwt",
+        "token",
+        "decoder",
+        "header"
       ]
     },
     {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:regex-tester",
-      "displayName": "Regex Tester & Explainer",
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:crypto-suite",
+      "displayName": "Cryptography Suite",
       "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/regex-tester",
-      "description": "Evaluates JavaScript regular expressions with real-time match highlighting, group extraction, and flags support.",
+      "url": "https://omnitool.worldsneed.com/tool/crypto-suite",
+      "description": "Generate MD5, SHA-1, SHA-256, SHA-512 hashes, encrypt/decrypt using AES-256 GCM symmetric cipher, and generate asymmetric RSA private/public keys.",
       "representativeQueries": [
-        "test regular expression pattern",
-        "extract regex match groups",
-        "debug regex expression"
+        "md5",
+        "sha1",
+        "sha-1",
+        "sha256"
       ]
     },
     {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:hash-generator",
-      "displayName": "Cryptographic Hash Generator",
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:pii-anonymizer",
+      "displayName": "Client-Side PII Masker & Anonymizer",
       "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/hash-generator",
-      "description": "Generates SHA-256, SHA-512, SHA-1, and MD5 hashes using the browser's hardware-accelerated Web Crypto API.",
+      "url": "https://omnitool.worldsneed.com/tool/pii-anonymizer",
+      "description": "Scan and mask sensitive personal identifiable information (PII) like emails, phone numbers, IP addresses, and credit cards from logs or text files client-side.",
       "representativeQueries": [
-        "calculate sha256 hash",
-        "generate md5 checksum",
-        "hash text string"
-      ]
-    },
-    {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:uuid-generator",
-      "displayName": "UUID & GUID Generator",
-      "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/uuid-generator",
-      "description": "Generates RFC4122 v4 random and v7 timestamp-ordered UUIDs in custom batch sizes.",
-      "representativeQueries": [
-        "generate random uuid v4",
-        "create guid v7",
-        "generate bulk uuids"
+        "pii",
+        "anonymizer",
+        "masker",
+        "redact"
       ]
     },
     {
       "identifier": "urn:air:omnitool.worldsneed.com:tool:markdown-preview",
-      "displayName": "Markdown Live Editor & Previewer",
+      "displayName": "Live Markdown Previewer",
       "type": "application/webmcp-tool+json",
       "url": "https://omnitool.worldsneed.com/tool/markdown-preview",
-      "description": "Live GitHub Flavored Markdown editor with real-time HTML preview, word count, and export capabilities.",
+      "description": "Write standard markdown syntax and preview output immediately as formatted HTML.",
       "representativeQueries": [
-        "preview markdown document",
-        "convert markdown to html",
-        "edit gfm markdown live"
-      ]
-    },
-    {
-      "identifier": "urn:air:omnitool.worldsneed.com:tool:color-lab",
-      "displayName": "Color Palette Studio & Converter",
-      "type": "application/webmcp-tool+json",
-      "url": "https://omnitool.worldsneed.com/tool/color-lab",
-      "description": "Converts color codes between HEX, RGB, HSL, and CMYK formats with harmonic color palette generation.",
-      "representativeQueries": [
-        "convert hex to rgb",
-        "convert rgb to hsl",
-        "generate color palette"
+        "markdown",
+        "preview",
+        "editor",
+        "md"
       ]
     },
     {
       "identifier": "urn:air:omnitool.worldsneed.com:tool:text-diff",
-      "displayName": "Text Difference Checker",
+      "displayName": "Text Diff Comparison",
       "type": "application/webmcp-tool+json",
       "url": "https://omnitool.worldsneed.com/tool/text-diff",
-      "description": "Side-by-side and unified text diff viewer highlighting additions, deletions, and inline modifications.",
+      "description": "Compare two strings side-by-side or line-by-line and visually highlight differences.",
       "representativeQueries": [
-        "compare two text files",
-        "find difference between strings",
-        "generate text diff"
+        "diff",
+        "difference",
+        "compare",
+        "comparison"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:pdf-searcher",
+      "displayName": "Multi-PDF Searcher & OCR",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/pdf-searcher",
+      "description": "Import multiple PDF files, search for words, sentences or data, and run client-side OCR on scanned pages.",
+      "representativeQueries": [
+        "pdf",
+        "search",
+        "ocr",
+        "text extract"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:pdf-utilities",
+      "displayName": "PDF Page Studio & Organizer",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/pdf-utilities",
+      "description": "Split into PDF/Images/Text, merge multiple PDFs, rearrange pages visually, crop margins, and compress documents 100% client-side.",
+      "representativeQueries": [
+        "pdf",
+        "split",
+        "compress",
+        "merge"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:regex-tester",
+      "displayName": "Visual Regex & Extractor Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/regex-tester",
+      "description": "Test regular expressions visually, capture match groups, and batch-extract or replace phone numbers, emails, IPs, and URLs.",
+      "representativeQueries": [
+        "regex",
+        "regexp",
+        "regular expression",
+        "test"
       ]
     },
     {
       "identifier": "urn:air:omnitool.worldsneed.com:tool:css-studio",
-      "displayName": "CSS Minifier & Optimizer",
+      "displayName": "CSS Studio Suite",
       "type": "application/webmcp-tool+json",
       "url": "https://omnitool.worldsneed.com/tool/css-studio",
-      "description": "Minifies CSS stylesheets, strips comments and redundant whitespace client-side.",
+      "description": "Visually build linear & radial CSS gradients, complex box shadows with offset layers, and modern frosted glassmorphism cards.",
       "representativeQueries": [
-        "minify css file",
-        "compress stylesheet",
-        "clean up css code"
+        "gradient",
+        "shadow",
+        "glass",
+        "glassmorphism"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:color-lab",
+      "displayName": "Color Lab & Contrast Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/color-lab",
+      "description": "Create WCAG-compliant color palettes, check contrast accessibility ratios, and generate shades, tints, and opacities.",
+      "representativeQueries": [
+        "color",
+        "contrast",
+        "wcag",
+        "palette"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:security-suite",
+      "displayName": "Security & Passwords Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/security-suite",
+      "description": "Generate highly secure random passwords with entropy strength analysis and create bulk RFC 4122 v4 UUID keys client-side.",
+      "representativeQueries": [
+        "password",
+        "uuid",
+        "guid",
+        "entropy"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:datetime-suite",
+      "displayName": "Date & Time Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/datetime-suite",
+      "description": "Convert Unix epoch timestamps to human dates, compute durations between two times, and add/subtract time fields dynamically.",
+      "representativeQueries": [
+        "date",
+        "time",
+        "unix",
+        "epoch"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:unit-converter",
+      "displayName": "Unit Converter",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/unit-converter",
+      "description": "Instantly convert storage sizes, lengths, weights, and temperatures across global units.",
+      "representativeQueries": [
+        "convert",
+        "unit",
+        "storage",
+        "length"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:graphics-studio",
+      "displayName": "Graphics Designer & Screenshot Studio",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/graphics-studio",
+      "description": "Capture webcam snapshots, crop screen captures, design banners, overlay text, apply vintage cyberpunk filters, and download or copy images to clipboard without AI.",
+      "representativeQueries": [
+        "image",
+        "draw",
+        "canvas",
+        "screenshot"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:calculator",
+      "displayName": "Scientific Calculator",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/calculator",
+      "description": "Perform advanced arithmetic, trigonometric, logarithmic, and factorial calculations with a live history log, constants library, and keyboard shortcuts.",
+      "representativeQueries": [
+        "calculator",
+        "scientific",
+        "math",
+        "arithmetic"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:finance-calculator",
+      "displayName": "Financial Growth & Loan Calculator Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/finance-calculator",
+      "description": "Calculate SIP mutual fund returns, future compound interest growth, and complete loan EMI / mortgage amortization schedules with interactive SVG charts.",
+      "representativeQueries": [
+        "financial growth & loan calculator suite",
+        "offline finance calculator"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:qr-studio",
+      "displayName": "Dynamic QR & Barcode Studio",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/qr-studio",
+      "description": "Generate highly customized art QR codes with linear gradients, custom dot patterns, and logos, or scan QR codes and barcodes live via camera or upload.",
+      "representativeQueries": [
+        "qr",
+        "barcode",
+        "generate qr",
+        "scan qr"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:seo-previewer",
+      "displayName": "Meta Tag & SEO Previewer",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/seo-previewer",
+      "description": "Design and preview page meta tags with live Google, Facebook, Twitter, and Discord mockup cards.",
+      "representativeQueries": [
+        "seo",
+        "meta",
+        "preview",
+        "google"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:image-converter",
+      "displayName": "Image Optimizer & Converter",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/image-converter",
+      "description": "Optimize dimensions, adjust quality, and convert image formats (PNG, JPG, WebP) client-side in seconds.",
+      "representativeQueries": [
+        "image",
+        "compress",
+        "optimize",
+        "convert"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:svg-animator",
+      "displayName": "SVG Animation Studio",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/svg-animator",
+      "description": "Import SVG vectors, visualize paths, apply keyframe presets (self-drawing, spin, float, neon pulse), and export animated SVGs client-side.",
+      "representativeQueries": [
+        "svg",
+        "animate",
+        "animation",
+        "path"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:url-parser",
+      "displayName": "URL Query Parser & Builder",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/url-parser",
+      "description": "Parse web addresses, extract parameters into a key-value grid, edit variables, and build clean query strings.",
+      "representativeQueries": [
+        "url",
+        "query",
+        "parse",
+        "builder"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:text-analyzer",
+      "displayName": "Text Readability & Analyzer",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/text-analyzer",
+      "description": "Calculate Flesch Reading Ease score, evaluate sentence counts, estimate reading time, and check keyword density.",
+      "representativeQueries": [
+        "readability",
+        "flesch",
+        "sentence",
+        "word count"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:mock-data-generator",
+      "displayName": "Private CSV/JSON Mock Data Generator",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/mock-data-generator",
+      "description": "Design custom schemas, configure column types (names, emails, dates, numbers), and bulk-generate up to 50,000 rows of mock data entirely client-side.",
+      "representativeQueries": [
+        "mock",
+        "data",
+        "fake",
+        "generate"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:code-playground",
+      "displayName": "HTML/CSS/JS Live Playground",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/code-playground",
+      "description": "Write front-end HTML, CSS, and JavaScript in real-time, see live rendering in a sandbox iframe, and catch output logs in a simulated console.",
+      "representativeQueries": [
+        "html",
+        "css",
+        "js",
+        "playground"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:ip-subnet-calculator",
+      "displayName": "IP Subnet & MAC Address Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/ip-subnet-calculator",
+      "description": "Calculate subnet CIDR parameters, inspect host ranges, format MAC addresses, and perform local manufacturer OUI lookups.",
+      "representativeQueries": [
+        "ip",
+        "subnet",
+        "cidr",
+        "host"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:curl-converter",
+      "displayName": "cURL to Code Converter",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/curl-converter",
+      "description": "Convert cURL commands directly into modern Fetch (ES6 async/await), Axios, Python Requests, and Go HTTP client code.",
+      "representativeQueries": [
+        "curl",
+        "fetch",
+        "axios",
+        "python"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:cron-builder",
+      "displayName": "Visual Cron Expression Builder & Explainer",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/cron-builder",
+      "description": "Build 5-field cron schedules visually, translate complex expressions into plain English sentences, and preview upcoming execution times.",
+      "representativeQueries": [
+        "cron",
+        "schedule",
+        "crontab",
+        "job"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:json-to-types",
+      "displayName": "JSON-to-Code Interface Converter",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/json-to-types",
+      "description": "Convert JSON payloads into strongly-typed interfaces and models for TypeScript, Python Pydantic, Go structs, and Rust Serde.",
+      "representativeQueries": [
+        "typescript",
+        "interface",
+        "pydantic",
+        "go struct"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:robots-generator",
+      "displayName": "Robots.txt Visual Builder",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/robots-generator",
+      "description": "Create crawl directive rules, block AI web scrapers (GPTBot, CCBot), declare XML sitemaps, configure crawl delays, and validate syntax.",
+      "representativeQueries": [
+        "robots.txt",
+        "robots",
+        "crawler",
+        "bot"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:lorem-generator",
+      "displayName": "Smart Lorem Ipsum Generator",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/lorem-generator",
+      "description": "Generate customizable placeholder copy with classical Latin, Cyberpunk Tech, or Corporate jargon in paragraphs, lists, HTML, Markdown, or JSON.",
+      "representativeQueries": [
+        "lorem",
+        "ipsum",
+        "dummy text",
+        "placeholder"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:favicon-generator",
+      "displayName": "Favicon & App Icon Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/favicon-generator",
+      "description": "Generate complete icon packages (multi-res 16/32 .ico, Apple Touch 180px, Android 192/512px) with shape customizer, tab preview, and ZIP export.",
+      "representativeQueries": [
+        "favicon",
+        "ico",
+        "apple touch icon",
+        "app icon"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:screenshot-capture",
+      "displayName": "Browser Screen & Window Screenshot Studio",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/screenshot-capture",
+      "description": "Capture full screen, tabs, or app windows with countdown timer, wrap with macOS/Windows/Cyberpunk browser frames, redact PII passwords, and add step-by-step annotation callouts.",
+      "representativeQueries": [
+        "screenshot",
+        "screen capture",
+        "browser capture",
+        "tab capture"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:screen-recorder",
+      "displayName": "Browser Screen & Tab Recorder",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/screen-recorder",
+      "description": "Capture your full screen, window, or browser tab with microphone audio commentary, real-time timer, and instant WebM/MP4 download.",
+      "representativeQueries": [
+        "screen recorder",
+        "record screen",
+        "capture screen",
+        "screen capture"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:voice-recorder",
+      "displayName": "Voice Recorder & Audio Waveform Studio",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/voice-recorder",
+      "description": "Record mic memos or inspect audio files with live spectrum & radial visualizers, range trimming, peak normalization, EQ filters, speech-to-text, and lossless WAV export.",
+      "representativeQueries": [
+        "voice recorder",
+        "audio recorder",
+        "record voice",
+        "mic recorder"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:video-speed",
+      "displayName": "Video Playback Speed Controller",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/video-speed",
+      "description": "Adjust playback rate from 0.1x to 4.0x, step frame-by-frame, preserve audio pitch, and create continuous A-B section repeat loops.",
+      "representativeQueries": [
+        "video speed",
+        "playback speed",
+        "speed controller",
+        "slow motion"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:audio-suite",
+      "displayName": "Audio Studio & Extractor",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/audio-suite",
+      "description": "Cross-convert sound files between MP3, WAV, and OGG formats with bitrates up to 320k, or extract audio tracks from video files with visual waveform trimming.",
+      "representativeQueries": [
+        "audio converter",
+        "mp3 converter",
+        "wav to mp3",
+        "ogg converter"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:video-to-gif",
+      "displayName": "Video to Animated GIF Converter",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/video-to-gif",
+      "description": "Convert video clips into animated GIFs client-side with custom resolution, frame rate, duration clipping, and live progress monitor.",
+      "representativeQueries": [
+        "video to gif",
+        "convert to gif",
+        "make gif",
+        "animated gif"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:temp-mail",
+      "displayName": "Disposable Temp Mail Client",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/temp-mail",
+      "description": "Generate instant throwaway email addresses to verify accounts and avoid spam with 10s auto-refresh, notifications, and reader.",
+      "representativeQueries": [
+        "temp mail",
+        "disposable email",
+        "throwaway email",
+        "fake email"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:pdf-converter-hub",
+      "displayName": "Document & PDF Converter Hub",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/pdf-converter-hub",
+      "description": "Convert bi-directionally between Word (.docx), Excel (.xlsx/.csv), PowerPoint (.pptx), Images, Camera Scans, HTML/CSS, and Markdown.",
+      "representativeQueries": [
+        "office to pdf",
+        "word to pdf",
+        "pdf to word",
+        "docx to pdf"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:pdf-editor-suite",
+      "displayName": "PDF Editor, Sign & Markup Studio",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/pdf-editor-suite",
+      "description": "E-sign documents with cursive signatures, fill AcroForms, draw vector annotations, stamp watermarks, and permanently redact PII.",
+      "representativeQueries": [
+        "sign pdf",
+        "pdf signature",
+        "digital signature",
+        "fill and sign"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:pdf-security-suite",
+      "displayName": "PDF Security, Repair & Archival Suite",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/pdf-security-suite",
+      "description": "Protect PDFs with AES encryption, remove passwords, repair corrupted xref tables & headers, and export ISO 19005 PDF/A archives.",
+      "representativeQueries": [
+        "protect pdf",
+        "unlock pdf",
+        "encrypt pdf",
+        "decrypt pdf"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:pdf-ai",
+      "displayName": "AI PDF Summarizer & Translator",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/pdf-ai",
+      "description": "Generate executive summaries, extract actionable commitments, chat with documents in Q&A mode, or translate PDFs into 15+ languages via Gemini & offline NLP.",
+      "representativeQueries": [
+        "ai pdf",
+        "pdf summarizer",
+        "translate pdf",
+        "chat with pdf"
+      ]
+    },
+    {
+      "identifier": "urn:air:omnitool.worldsneed.com:tool:compare-pdf",
+      "displayName": "Compare PDF Documents",
+      "type": "application/webmcp-tool+json",
+      "url": "https://omnitool.worldsneed.com/tool/compare-pdf",
+      "description": "Compare two revisions of a PDF side-by-side, highlight layout differences with a pixel difference heatmap, wipe slider, or text clause diff.",
+      "representativeQueries": [
+        "compare pdf",
+        "pdf diff",
+        "pdf difference",
+        "visual diff"
       ]
     }
   ]

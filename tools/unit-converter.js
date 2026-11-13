@@ -92,26 +92,38 @@ export default {
         </div>
 
         <!-- Quick Guide Footer -->
-        <div class="tool-guide-card" style="grid-column: 1 / -1; margin-top: 16px;">
-          <div class="guide-header">
-            <div class="guide-title">
-              <span class="guide-icon">💡</span>
-              <h4>QUICK GUIDE: MULTI-UNIT CONVERTER</h4>
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: Universal Measurement &amp; Unit Converter</span>
             </div>
-            <button class="tool-btn secondary" id="unit-guide-load-sample" style="font-size: 11px;">Load Sample</button>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button class="tool-btn secondary" id="unit-guide-load-sample" style="font-size: 11px;">Load Sample</button>
+              <div class="tool-guide-badge">Precision Math</div>
+            </div>
           </div>
-          <div class="guide-steps" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.6;">
-            <div>
-              <strong style="color: var(--text-main);">1. Select Category</strong>
-              <p style="margin: 4px 0 0 0;">Switch between Data Size, Physical Length, Mass Weight, or Temperature scales.</p>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Select Measurement Category</h4>
+                <p>Switch between Data Size, Physical Length, Mass Weight, or Temperature scales.</p>
+              </div>
             </div>
-            <div>
-              <strong style="color: var(--text-main);">2. Interactive Conversion</strong>
-              <p style="margin: 4px 0 0 0;">Type any number in the input box; target outputs and matrix breakdown update instantaneously.</p>
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Interactive Live Conversion</h4>
+                <p>Type any number in the input box; target outputs and matrix breakdown update instantaneously.</p>
+              </div>
             </div>
-            <div>
-              <strong style="color: var(--text-main);">3. Instant 1-Click Copy</strong>
-              <p style="margin: 4px 0 0 0;">Copy the exact formatted result with units to your clipboard ready to paste into code or reports.</p>
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Instant One-Click Copy</h4>
+                <p>Copy the exact formatted result with units to your clipboard ready to paste into code or reports.</p>
+              </div>
             </div>
           </div>
         </div>

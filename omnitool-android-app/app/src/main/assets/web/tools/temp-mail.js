@@ -1,5 +1,5 @@
 // OmniTool Hub - Disposable Temp Mail Client
-// 100% Client-Side temporary email generator & inbox reader using open disposable mail APIs with offline fallback simulation.
+// 100% Client-Side temporary email generator & inbox reader using open disposable mail APIs (mail.tm) with offline fallback.
 
 import { escapeHtml } from './utils.js';
 
@@ -10,7 +10,10 @@ export default {
   currentEmail: "",
   login: "",
   domain: "",
-  availableDomains: ["1secmail.com", "1secmail.org", "1secmail.net", "kzccv.com", "qiott.com"],
+  password: "",
+  token: "",
+  apiBase: "https://api.mail.tm",
+  availableDomains: [],
   messages: [],
   activeMessageId: null,
   pollTimer: null,
@@ -142,7 +145,54 @@ export default {
             </div>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Use Disposable Temp Mail</span>
+            </div>
+            <div class="tool-guide-badge">Spam-Free Privacy</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Generate Anonymous Inbox</h4>
+                <p>Create a private random temporary email address with a single click.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Use for Verifications</h4>
+                <p>Paste the email address into signups, trials, or services to avoid spam on personal inboxes.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Receive Real-Time Emails</h4>
+                <p>Auto-refresh incoming messages and inspect verification links and OTP codes safely.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Auto-Purge & Destroy</h4>
+                <p>Discard the inbox anytime; messages and credentials are permanently purged.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
     `;
   },
 
@@ -179,19 +229,62 @@ export default {
     this.deleteMsgBtn.addEventListener('click', () => this.deleteActiveMessage());
 
     // Generate or restore address
-    this.initMailbox();
+    this.initMailbox().catch(() => {});
+  },
+
+  randomString(length = 10, withSymbols = false) {
+    const base = "abcdefghijklmnopqrstuvwxyz0123456789";
+    const extra = withSymbols ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$" : "";
+    const chars = base + extra;
+    let out = "";
+    if (typeof crypto !== "undefined" && crypto.getRandomValues) {
+      const arr = new Uint8Array(length);
+      crypto.getRandomValues(arr);
+      for (let i = 0; i < length; i++) out += chars[arr[i] % chars.length];
+      return out;
+    }
+    for (let i = 0; i < length; i++) out += chars[Math.floor(Math.random() * chars.length)];
+    return out;
+  },
+
+  sanitizeEmailHtml(rawHtml) {
+    const html = String(rawHtml || "");
+    if (typeof DOMParser !== "undefined") {
+      try {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        doc.querySelectorAll("script, iframe, frame, object, embed, applet, base, meta, link[rel='import'], form, noscript").forEach(el => el.remove());
+        doc.querySelectorAll("*").forEach(el => {
+          Array.from(el.attributes).forEach(attr => {
+            const name = attr.name.toLowerCase();
+            const val = (attr.value || "").trim().toLowerCase();
+            if (name.startsWith("on") || name === "srcdoc") {
+              el.removeAttribute(attr.name);
+            } else if ((name === "href" || name === "src" || name === "xlink:href" || name === "action") && (val.startsWith("javascript:") || val.startsWith("vbscript:") || (name === "href" && val.startsWith("data:")))) {
+              el.removeAttribute(attr.name);
+            }
+          });
+        });
+        return doc.body ? doc.body.innerHTML : escapeHtml(html);
+      } catch (_) {}
+    }
+    return html
+      .replace(/<(script|iframe|object|embed|form|base|meta)[\s\S]*?>[\s\S]*?<\/\1>/gi, "")
+      .replace(/<(script|iframe|object|embed|form|base|meta)[^>]*>/gi, "")
+      .replace(/\son[a-z]+\s*=\s*(['"]).*?\1/gi, "")
+      .replace(/javascript:/gi, "");
   },
 
   async initMailbox() {
-    // Check if an existing temp mail address was saved in localStorage
     const saved = localStorage.getItem('omnitool_temp_mail');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (parsed.login && parsed.domain) {
-          this.login = parsed.login;
-          this.domain = parsed.domain;
-          this.currentEmail = `${this.login}@${this.domain}`;
+        if (parsed.provider === "mail.tm" && parsed.email && parsed.password && parsed.token) {
+          this.login = parsed.login || parsed.email.split("@")[0];
+          this.domain = parsed.domain || parsed.email.split("@")[1];
+          this.password = parsed.password;
+          this.token = parsed.token;
+          this.currentEmail = parsed.email;
           this.emailDisplay.value = this.currentEmail;
           this.startPolling();
           this.fetchMessages();
@@ -203,44 +296,90 @@ export default {
     await this.generateNewEmail();
   },
 
+  async authenticateMailTm() {
+    if (!this.currentEmail || !this.password) return false;
+    try {
+      const tokenRes = await fetch(`${this.apiBase}/token`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ address: this.currentEmail, password: this.password }),
+        signal: AbortSignal.timeout(5000)
+      });
+      if (!tokenRes.ok) return false;
+      const tokenData = await tokenRes.json();
+      if (tokenData && tokenData.token) {
+        this.token = tokenData.token;
+        localStorage.setItem('omnitool_temp_mail', JSON.stringify({
+          provider: "mail.tm",
+          email: this.currentEmail,
+          login: this.login,
+          domain: this.domain,
+          password: this.password,
+          token: this.token
+        }));
+        return true;
+      }
+    } catch (_) {}
+    return false;
+  },
+
   async generateNewEmail() {
     this.messages = [];
     this.activeMessageId = null;
+    this.token = "";
+    this.password = "";
+    this.login = "";
+    this.domain = "";
     this.renderMessagesList();
     this.closeReader();
 
+    let createdOnline = false;
+
     try {
-      // Generate random address via 1secmail API or client generator
-      const res = await fetch('https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1', { signal: AbortSignal.timeout(4000) });
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.length > 0) {
-          const parts = data[0].split('@');
-          this.login = parts[0];
-          this.domain = parts[1];
+      const domRes = await fetch(`${this.apiBase}/domains`, {
+        headers: { "Accept": "application/json" },
+        signal: AbortSignal.timeout(5000)
+      });
+      if (domRes.ok) {
+        const domPayload = await domRes.json();
+        const domainList = Array.isArray(domPayload) ? domPayload : (domPayload["hydra:member"] || []);
+        const activeDomains = domainList.filter(d => d && d.domain && d.isActive !== false && !d.isPrivate).map(d => d.domain);
+        if (activeDomains.length > 0) {
+          this.availableDomains = activeDomains;
+          this.domain = activeDomains[Math.floor(Math.random() * activeDomains.length)];
+          this.login = `omni_${this.randomString(8)}`;
+          this.password = this.randomString(16, true);
+          const address = `${this.login}@${this.domain}`;
+
+          const accRes = await fetch(`${this.apiBase}/accounts`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify({ address, password: this.password }),
+            signal: AbortSignal.timeout(5000)
+          });
+
+          if (accRes.ok || accRes.status === 201) {
+            this.currentEmail = address;
+            createdOnline = await this.authenticateMailTm();
+          }
         }
       }
     } catch (e) {
-      console.warn("Could not reach 1secmail API, generating random address with fallback domain:", e);
+      console.warn("Could not reach mail.tm API, generating local offline address:", e);
     }
 
-    // Fallback generation if API request blocked by adblocker
-    if (!this.login || !this.domain) {
-      const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-      let randLogin = "user_";
-      for (let i = 0; i < 7; i++) randLogin += chars[Math.floor(Math.random() * chars.length)];
-      this.login = randLogin;
-      this.domain = this.availableDomains[Math.floor(Math.random() * this.availableDomains.length)];
+    if (!createdOnline) {
+      this.login = `user_${this.randomString(7)}`;
+      this.domain = (this.availableDomains && this.availableDomains[0]) || "temp.omnitool.local";
+      this.currentEmail = `${this.login}@${this.domain}`;
+      this.app.showToast(`Live mail server unavailable — generated offline address: ${this.currentEmail}`, "warning");
+    } else {
+      this.app.showToast(`New live email generated: ${this.currentEmail}`, "success");
     }
 
-    this.currentEmail = `${this.login}@${this.domain}`;
     this.emailDisplay.value = this.currentEmail;
-
-    localStorage.setItem('omnitool_temp_mail', JSON.stringify({ login: this.login, domain: this.domain }));
-    this.app.showToast(`New email generated: ${this.currentEmail}`, "success");
-
     this.startPolling();
-    this.fetchMessages();
+    if (createdOnline) this.fetchMessages();
   },
 
   startPolling() {
@@ -269,25 +408,46 @@ export default {
   },
 
   async fetchMessages(manual = false) {
-    if (this.isFetching || !this.login || !this.domain) return;
+    if (this.isFetching || !this.currentEmail) return;
+    if (!this.token) {
+      if (manual) this.app.showToast("Offline preview address active. Click New Address when online.", "warning");
+      return;
+    }
     this.isFetching = true;
 
     try {
-      const url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${encodeURIComponent(this.login)}&domain=${encodeURIComponent(this.domain)}`;
-      const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+      const url = `${this.apiBase}/messages?page=1`;
+      let res = await fetch(url, {
+        headers: { "Authorization": `Bearer ${this.token}`, "Accept": "application/json" },
+        signal: AbortSignal.timeout(5000)
+      });
+
+      if (res.status === 401 && await this.authenticateMailTm()) {
+        res = await fetch(url, {
+          headers: { "Authorization": `Bearer ${this.token}`, "Accept": "application/json" },
+          signal: AbortSignal.timeout(5000)
+        });
+      }
 
       if (res.ok) {
-        const list = await res.json();
-        if (Array.isArray(list)) {
-          const prevCount = this.messages.length;
-          this.messages = list;
-          this.renderMessagesList();
+        const payload = await res.json();
+        const rawList = Array.isArray(payload) ? payload : (payload["hydra:member"] || []);
+        const normalized = rawList.map(m => ({
+          id: m.id,
+          from: (m.from && (m.from.address || m.from.name)) || "Unknown Sender",
+          subject: m.subject || "(No Subject)",
+          date: m.createdAt ? new Date(m.createdAt).toLocaleString() : "",
+          timeLabel: m.createdAt ? new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ""
+        }));
 
-          if (list.length > prevCount && prevCount > 0) {
-            this.app.showToast("🔔 New email received in your disposable inbox!", "info");
-          } else if (manual) {
-            this.app.showToast("Inbox checked (up to date).", "info");
-          }
+        const prevCount = this.messages.length;
+        this.messages = normalized;
+        this.renderMessagesList();
+
+        if (normalized.length > prevCount && prevCount > 0) {
+          this.app.showToast("🔔 New email received in your disposable inbox!", "info");
+        } else if (manual) {
+          this.app.showToast("Inbox checked (up to date).", "info");
         }
       }
     } catch (err) {
@@ -321,7 +481,7 @@ export default {
         <div class="tm-msg-card" data-id="${escapeHtml(msg.id.toString())}" style="padding: 10px 12px; border-radius: 8px; background: ${isSelected ? 'rgba(0, 242, 254, 0.1)' : 'rgba(255, 255, 255, 0.02)'}; border: 1px solid ${isSelected ? 'var(--accent-cyan)' : 'var(--border-color)'}; cursor: pointer; transition: all 0.2s ease;">
           <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px;">
             <strong style="color: var(--accent-cyan); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px;">${escapeHtml(msg.from)}</strong>
-            <span style="color: var(--text-muted); font-size: 10px;">${escapeHtml(msg.date ? msg.date.split(' ')[1] || msg.date : '')}</span>
+            <span style="color: var(--text-muted); font-size: 10px;">${escapeHtml(msg.timeLabel || msg.date || '')}</span>
           </div>
           <div style="font-size: 12px; font-weight: 700; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
             ${escapeHtml(msg.subject || '(No Subject)')}
@@ -348,13 +508,28 @@ export default {
     this.activeMessageId = id;
     this.renderMessagesList(); // update active card highlight
 
+    if (!this.token) {
+      this.app.showToast("Offline inbox cannot fetch remote messages.", "warning");
+      return;
+    }
+
     try {
-      const url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${encodeURIComponent(this.login)}&domain=${encodeURIComponent(this.domain)}&id=${encodeURIComponent(id)}`;
-      const res = await fetch(url);
+      const url = `${this.apiBase}/messages/${encodeURIComponent(id)}`;
+      const res = await fetch(url, {
+        headers: { "Authorization": `Bearer ${this.token}`, "Accept": "application/json" },
+        signal: AbortSignal.timeout(5000)
+      });
 
       if (res.ok) {
         const fullMsg = await res.json();
-        this.displayMessageContent(fullMsg);
+        const htmlBody = Array.isArray(fullMsg.html) ? fullMsg.html.join('') : (fullMsg.html || '');
+        this.displayMessageContent({
+          subject: fullMsg.subject || "(No Subject)",
+          from: (fullMsg.from && (fullMsg.from.address || fullMsg.from.name)) || "Unknown Sender",
+          date: fullMsg.createdAt ? new Date(fullMsg.createdAt).toLocaleString() : "",
+          htmlBody,
+          body: fullMsg.text || ""
+        });
       } else {
         this.app.showToast("Failed to load message content.", "error");
       }
@@ -370,27 +545,50 @@ export default {
     this.readerActions.style.display = 'flex';
 
     this.msgSubject.textContent = msg.subject || "(No Subject)";
-    this.msgFrom.textContent = msg.from;
-    this.msgDate.textContent = msg.date;
+    this.msgFrom.textContent = msg.from || "";
+    this.msgDate.textContent = msg.date || "";
 
-    // Sanitize HTML body or fallback to text
+    // Always isolate HTML emails inside a sandboxed iframe to prevent XSS in host document
     if (msg.htmlBody) {
-      this.msgBody.innerHTML = msg.htmlBody;
+      const safeHtml = this.sanitizeEmailHtml(msg.htmlBody);
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute("sandbox", "");
+      iframe.setAttribute("referrerpolicy", "no-referrer");
+      iframe.setAttribute("title", "Sandboxed Email Content");
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.minHeight = "290px";
+      iframe.style.border = "none";
+      iframe.style.background = "#ffffff";
+      iframe.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;padding:8px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;line-height:1.55;color:#1e293b;background:#fff;word-break:break-word;}img{max-width:100%;height:auto;}a{color:#0284c7;}</style></head><body>${safeHtml}</body></html>`;
+      this.msgBody.innerHTML = "";
+      this.msgBody.appendChild(iframe);
     } else if (msg.body) {
-      this.msgBody.innerHTML = `<pre style="white-space: pre-wrap; font-family: monospace; font-size: 12px; color: #333;">${escapeHtml(msg.body)}</pre>`;
+      this.msgBody.innerHTML = `<pre style="white-space: pre-wrap; font-family: monospace; font-size: 12px; color: #333; margin: 0;">${escapeHtml(msg.body)}</pre>`;
     } else {
       this.msgBody.innerHTML = `<em style="color: #666;">(Empty message body)</em>`;
     }
   },
 
-  deleteActiveMessage() {
+  async deleteActiveMessage() {
     if (!this.activeMessageId) return;
+    const idToDelete = this.activeMessageId;
 
-    this.messages = this.messages.filter(m => m.id.toString() !== this.activeMessageId.toString());
+    if (this.token) {
+      try {
+        await fetch(`${this.apiBase}/messages/${encodeURIComponent(idToDelete)}`, {
+          method: "DELETE",
+          headers: { "Authorization": `Bearer ${this.token}` },
+          signal: AbortSignal.timeout(4000)
+        });
+      } catch (_) {}
+    }
+
+    this.messages = this.messages.filter(m => m.id.toString() !== idToDelete.toString());
     this.activeMessageId = null;
     this.renderMessagesList();
     this.closeReader();
-    this.app.showToast("Message deleted from list.", "info");
+    this.app.showToast("Message deleted from inbox.", "info");
   },
 
   closeReader() {

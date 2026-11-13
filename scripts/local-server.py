@@ -56,25 +56,69 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
-    def do_HEAD(self):
+    def _resolve_clean_path(self):
+        query = self.path.split("?")[1] if "?" in self.path else ""
         raw_path = self.path.split("?")[0].split("#")[0]
+
+        if raw_path.startswith("/api/"):
+            return True
+
         local_path = self.translate_path(raw_path)
-        if not os.path.exists(local_path) and not raw_path.startswith("/api/"):
-            if raw_path in ["/landing", "/welcome", "/showcase"]:
-                self.path = "/landing.html"
-            else:
-                self.path = "/index.html"
+
+        # 1. Exact file or directory on disk
+        if os.path.exists(local_path):
+            return True
+
+        # 2. Clean URLs (e.g. /guides/es/compress-pdf -> guides/es/compress-pdf.html)
+        if os.path.exists(local_path + ".html") and os.path.isfile(local_path + ".html"):
+            self.path = raw_path + ".html"
+            return True
+
+        # 3. Handle erroneously appended /index.html (e.g. /guides/es/compress-pdf/index.html -> redirect to /guides/es/compress-pdf)
+        if raw_path.endswith("/index.html"):
+            clean_parent = raw_path[:-11]
+            parent_local = self.translate_path(clean_parent)
+            if os.path.exists(parent_local + ".html") and os.path.isfile(parent_local + ".html"):
+                self.send_response(302)
+                target = clean_parent + (("?" + query) if query else "")
+                self.send_header("Location", target)
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                return False
+
+        # 4. Handle trailing slash on clean file URL (e.g. /guides/es/compress-pdf/ -> redirect to /guides/es/compress-pdf)
+        if raw_path.endswith("/"):
+            trimmed = raw_path.rstrip("/")
+            if os.path.exists(self.translate_path(trimmed) + ".html"):
+                self.send_response(302)
+                target = trimmed + (("?" + query) if query else "")
+                self.send_header("Location", target)
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                return False
+
+        # 5. Landing and showcase aliases
+        if raw_path in ["/landing", "/welcome", "/showcase"]:
+            self.path = "/landing.html"
+            return True
+
+        # 6. Plans alias
+        if raw_path in ["/plans", "/pricing"]:
+            self.path = "/index.html"
+            return True
+
+        # 7. SPA Fallback
+        self.path = "/index.html"
+        return True
+
+    def do_HEAD(self):
+        if not self._resolve_clean_path():
+            return
         return super().do_HEAD()
 
     def do_GET(self):
-        # SPA Fallback: If requested path does not exist on disk and is not an API call, serve landing or index.html
-        raw_path = self.path.split("?")[0].split("#")[0]
-        local_path = self.translate_path(raw_path)
-        if not os.path.exists(local_path) and not raw_path.startswith("/api/"):
-            if raw_path in ["/landing", "/welcome", "/showcase"]:
-                self.path = "/landing.html"
-            else:
-                self.path = "/index.html"
+        if not self._resolve_clean_path():
+            return
         return super().do_GET()
 
     def do_POST(self):

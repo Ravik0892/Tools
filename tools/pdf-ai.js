@@ -151,25 +151,35 @@ export default {
         </div>
 
         <!-- Quick Guide Footer -->
-        <div class="tool-guide-card" style="grid-column: 1 / -1; margin-top: 16px;">
-          <div class="guide-header">
-            <div class="guide-title">
-              <span class="guide-icon">💡</span>
-              <h4>QUICK GUIDE: AI PDF SUMMARIZER &amp; TRANSLATOR</h4>
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: AI PDF Summarizer &amp; Translator</span>
             </div>
+            <div class="tool-guide-badge">Dual-Core AI</div>
           </div>
-          <div class="guide-steps" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.6;">
-            <div>
-              <strong style="color: var(--text-main);">1. Dual-Core AI Architecture</strong>
-              <p style="margin: 4px 0 0 0;">Works 100% offline via local statistical NLP heuristics, or seamlessly upgrades to Google Gemini Flash when an API key is provided.</p>
+          <div class="tool-guide-steps">
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Dual-Core AI Architecture</h4>
+                <p>Works 100% offline via local statistical NLP heuristics, or seamlessly upgrades to Google Gemini Flash when an API key is provided.</p>
+              </div>
             </div>
-            <div>
-              <strong style="color: var(--text-main);">2. Context-Aware Q&amp;A Chat</strong>
-              <p style="margin: 4px 0 0 0;">Chat with multi-page agreements and technical papers to pull precise dates, monetary figures, and clause citations.</p>
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Context-Aware Q&amp;A Chat</h4>
+                <p>Chat with multi-page agreements and technical papers to pull precise dates, monetary figures, and clause citations.</p>
+              </div>
             </div>
-            <div>
-              <strong style="color: var(--text-main);">3. Zero Server Persistence</strong>
-              <p style="margin: 4px 0 0 0;">Your API keys and document texts are stored strictly in client localStorage and memory.</p>
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Zero Server Persistence</h4>
+                <p>Your API keys and document texts are stored strictly in client localStorage and memory with zero cloud tracking.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -372,7 +382,7 @@ export default {
       prompt = `Translate the core content and conclusions of the following document into ${targetLang}. Maintain natural phrasing and professional tone.\n\nDOCUMENT CONTENT:\n` + this.extractedText.slice(0, 25000);
     }
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -460,12 +470,16 @@ export default {
     if (apiKey) {
       try {
         const prompt = `You are an expert Q&A assistant for this document.\nDocument Context:\n${this.extractedText.slice(0, 25000)}\n\nUser Question: ${question}\nAnswer clearly and concisely based strictly on the document context:`;
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         const response = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
+        if (!response.ok) {
+          const errJson = await response.json().catch(() => ({}));
+          throw new Error(errJson.error?.message || `HTTP ${response.status}`);
+        }
         const data = await response.json();
         const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to formulate answer.";
 

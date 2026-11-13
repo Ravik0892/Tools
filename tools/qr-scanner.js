@@ -158,6 +158,31 @@ export default {
             </div>
           </div>
         </div>
+      
+        <!-- Dynamic Guide Card (Unified standard footer guide) -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>QUICK GUIDE: QR CODE & BARCODE SCANNER</span>
+            </div>
+          </div>
+          <div class="tool-guide-steps">
+
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Choose Input Source</strong>: Enable live camera stream for instant point-and-scan detection or upload any QR code image file.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Auto-Detect & Decode</strong>: Hardware-accelerated BarcodeDetector and jsQR parse 1D/2D symbologies with millisecond latency.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Copy or Open Decoded Content</strong>: View raw string payloads, formatted URLs, Wi-Fi keys, or vCards, and copy output with one click.</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <style>

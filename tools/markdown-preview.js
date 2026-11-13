@@ -9,14 +9,24 @@ export default {
       <!-- Main Editor & Preview Workspace (Direct 2-view split layout) -->
       <div class="tool-content-layout split-view" id="md-workspace-layout">
         <!-- Left Panel: Markdown Input & Editor Controls -->
-        <div class="tool-panel" style="display: flex; flex-direction: column; overflow: hidden; min-height: 480px;">
-          <div class="panel-header" style="flex-wrap: wrap; gap: 8px; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <h3 style="margin: 0; font-size: 14px;">Markdown Input</h3>
+        <div class="tool-panel" id="md-editor-panel" style="display: flex; flex-direction: column; overflow-y: auto; min-height: 480px;">
+          <div class="panel-header" style="justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 20; background: var(--bg-card); backdrop-filter: blur(8px); flex-shrink: 0;">
+            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+              <h3 style="margin: 0; font-size: 14px; white-space: nowrap;">Markdown Input</h3>
               <span id="md-autosave-badge" style="font-size: 10px; color: var(--accent-emerald); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 1px 6px; border-radius: 10px;">Autosaved</span>
             </div>
-            <!-- File Operations inside Editor Panel -->
-            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+            <!-- File Operations & Size Options inside Editor Panel -->
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0;">
+              <div style="display: inline-flex; align-items: center; gap: 4px;">
+                <label for="md-editor-height-select" style="font-size: 11px; color: var(--text-muted); cursor: pointer;" title="Adjust Editor Textbox Height">Size:</label>
+                <select id="md-editor-height-select" class="form-select" style="height: 28px; font-size: 11px; padding: 2px 6px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px;" title="Increase text box size to test container scrolling">
+                  <option value="460">Default (460px)</option>
+                  <option value="600">Large (600px)</option>
+                  <option value="850">Extra Large (850px)</option>
+                  <option value="1200">Maximum (1200px)</option>
+                  <option value="fit">Fit Viewport</option>
+                </select>
+              </div>
               <input type="file" id="md-file-input" accept=".md,.markdown,.txt" style="display: none;">
               <button class="tool-btn secondary" id="md-open-file" title="Open Markdown or Text File" style="font-size: 11px; padding: 4px 8px; height: 28px;">
                 <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 3px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> Open
@@ -30,8 +40,8 @@ export default {
             </div>
           </div>
 
-          <!-- Extended Markdown Helper Toolbar -->
-          <div style="display: flex; gap: 4px; flex-wrap: wrap; padding: 8px 10px; background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid var(--border-color); align-items: center;">
+          <!-- Extended Markdown Helper Toolbar (Tier 2) -->
+          <div style="display: flex; gap: 4px; flex-wrap: wrap; padding: 6px 10px; background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid var(--border-color); align-items: center; min-height: 40px; box-sizing: border-box; position: sticky; top: 41px; z-index: 15; backdrop-filter: blur(8px); flex-shrink: 0;">
             <button class="tool-btn secondary" id="md-helper-h1" title="Heading 1" style="font-size: 11px; padding: 3px 7px; font-weight: bold;">H1</button>
             <button class="tool-btn secondary" id="md-helper-h2" title="Heading 2" style="font-size: 11px; padding: 3px 7px; font-weight: bold;">H2</button>
             <button class="tool-btn secondary" id="md-helper-h3" title="Heading 3" style="font-size: 11px; padding: 3px 7px; font-weight: bold;">H3</button>
@@ -62,10 +72,10 @@ export default {
             id="md-input" 
             placeholder="Type Markdown here or drag & drop a .md file..." 
             aria-label="Markdown Input" 
-            style="border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0; flex: 1; min-height: 440px; overflow-y: auto; resize: none; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;"></textarea>
+            style="border: none; border-radius: 0; flex: 0 0 auto; width: 100%; height: 460px; min-height: 280px; overflow-y: auto; resize: vertical; font-family: var(--font-mono); font-size: 13px; line-height: 1.55; padding: 16px; box-sizing: border-box;"></textarea>
 
-          <!-- Document Metrics Status Bar -->
-          <div class="md-stats-bar">
+          <!-- Document Metrics Status Bar (Always pinned at bottom) -->
+          <div class="md-stats-bar" style="flex-shrink: 0;">
             <div class="md-stats-group">
               <span class="md-stat-badge">Words: <strong id="md-stat-words">0</strong></span>
               <span class="md-stat-badge">Chars: <strong id="md-stat-chars">0</strong></span>
@@ -79,25 +89,29 @@ export default {
         </div>
 
         <!-- Right Panel: Live Visual Preview / Raw HTML / Table of Contents -->
-        <div class="tool-panel" style="display: flex; flex-direction: column; overflow: hidden; min-height: 480px;">
-          <div class="panel-header" style="flex-wrap: wrap; gap: 8px; justify-content: space-between;">
-            <!-- Left Header Group: Output View Tabs -->
-            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <div class="md-view-tabs" id="md-output-tabs">
-                <button class="md-view-tab active" data-tab="preview" id="md-tab-btn-preview">
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Live Preview
-                </button>
-                <button class="md-view-tab" data-tab="raw" id="md-tab-btn-raw">
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg> Raw HTML
-                </button>
-                <button class="md-view-tab" data-tab="toc" id="md-tab-btn-toc">
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg> Outline
-                </button>
-              </div>
+        <div class="tool-panel" id="md-preview-panel" style="display: flex; flex-direction: column; overflow-y: auto; min-height: 480px;">
+          <!-- Tier 1: Panel Header (Clean View Mode Switcher + app.js automatically appends Reset 50/50 & Full Screen) -->
+          <div class="panel-header" style="justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 20; background: var(--bg-card); backdrop-filter: blur(8px); flex-shrink: 0;">
+            <div class="md-view-tabs" id="md-output-tabs" style="display: inline-flex; align-items: center;">
+              <button class="md-view-tab active" data-tab="preview" id="md-tab-btn-preview">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Live Preview
+              </button>
+              <button class="md-view-tab" data-tab="raw" id="md-tab-btn-raw">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg> Raw HTML
+              </button>
+              <button class="md-view-tab" data-tab="toc" id="md-tab-btn-toc">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg> Outline
+              </button>
+            </div>
+            <!-- app.js auto-injects .preview-header-actions here with Reset 50/50 and Full Screen -->
+          </div>
 
-              <!-- Theme Selector -->
+          <!-- Tier 2: Dedicated Secondary Preview Ribbon (Theme, Sync & Actions) -->
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; padding: 6px 10px; background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid var(--border-color); min-height: 40px; box-sizing: border-box; position: sticky; top: 41px; z-index: 15; backdrop-filter: blur(8px); flex-shrink: 0;">
+            <!-- Left Group: Theme & Sync -->
+            <div style="display: flex; align-items: center; gap: 8px;">
               <div style="display: inline-flex; align-items: center; gap: 4px;">
-                <label for="md-theme-select" style="font-size: 10.5px; color: var(--text-muted);">Theme:</label>
+                <label for="md-theme-select" style="font-size: 11px; color: var(--text-muted);">Theme:</label>
                 <select id="md-theme-select" class="form-select" style="height: 26px; font-size: 11px; padding: 1px 6px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px;">
                   <option value="default">Default Dark</option>
                   <option value="theme-github">GitHub Dark</option>
@@ -105,47 +119,41 @@ export default {
                   <option value="theme-light">Light Paper</option>
                 </select>
               </div>
-
-              <!-- Synchronized Scroll Toggle -->
-              <button class="tool-btn secondary active" id="md-toggle-sync" title="Toggle Synchronized Scrolling between Editor and Preview" style="font-size: 10.5px; padding: 3px 7px; height: 26px;">
+              <button class="tool-btn secondary active" id="md-toggle-sync" title="Toggle Synchronized Scrolling" style="font-size: 10.5px; padding: 3px 8px; height: 26px;">
                 <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 3px;"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 4v12m0 0l4-4m-4 4l-4-4"/></svg> <span id="md-sync-label">Sync: ON</span>
               </button>
             </div>
 
-            <!-- Right Header Group: Copy & Export Actions -->
-            <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
-              <button class="tool-btn secondary" id="md-copy-rich-btn" title="Copy rich formatted text to paste into Docs, Word, or Notion" style="font-size: 11px; padding: 4px 8px; height: 28px;">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 3px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> Rich
+            <!-- Right Group: Copy & Export Actions -->
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <button class="tool-btn secondary" id="md-copy-btn" title="Copy Raw HTML markup" style="font-size: 11px; padding: 3px 7px; height: 26px;">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> HTML
               </button>
-              <button class="tool-btn accent-emerald" id="md-copy-btn" title="Copy Raw HTML markup" style="font-size: 11px; padding: 4px 8px; height: 28px;">
-                <svg viewBox="0 0 24 24" width="12" height="12"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> HTML
+              <button class="tool-btn secondary" id="md-copy-rich-btn" title="Copy rich formatted text for Docs or Word" style="font-size: 11px; padding: 3px 7px; height: 26px;">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> Rich
               </button>
-              <button class="tool-btn secondary" id="md-download-md" title="Download Markdown file (.md)" style="font-size: 11px; padding: 4px 7px; height: 28px;">.md</button>
-              <button class="tool-btn secondary" id="md-download-html" title="Download Standalone HTML file (.html)" style="font-size: 11px; padding: 4px 7px; height: 28px;">.html</button>
-              <button class="tool-btn secondary" id="md-print-btn" title="Print document or save to PDF" style="font-size: 11px; padding: 4px 7px; height: 28px;">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              <div style="width: 1px; height: 16px; background: var(--border-color); margin: 0 1px;"></div>
+              <button class="tool-btn secondary" id="md-download-md" title="Download Markdown file (.md)" style="font-size: 11px; padding: 3px 6px; height: 26px;">.md</button>
+              <button class="tool-btn secondary" id="md-download-html" title="Download Standalone HTML file (.html)" style="font-size: 11px; padding: 3px 6px; height: 26px;">.html</button>
+              <button class="tool-btn secondary" id="md-print-btn" title="Print document or save to PDF" style="font-size: 11px; padding: 3px 6px; height: 26px;">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
               </button>
             </div>
           </div>
 
           <!-- View 1: Formatted Live Preview -->
-          <div class="markdown-preview" id="md-preview-output" style="flex: 1; min-height: 440px; overflow-y: auto; box-sizing: border-box;"></div>
+          <div class="markdown-preview" id="md-preview-output" style="border: none; border-radius: 0; flex: 0 0 auto; width: 100%; min-height: 460px; overflow-y: auto; box-sizing: border-box; padding: 18px 22px;"></div>
 
           <!-- View 2: Raw HTML Output -->
-          <div class="markdown-preview" id="md-raw-html-output" style="display: none; flex: 1; min-height: 440px; overflow-y: auto; box-sizing: border-box;">
+          <div class="markdown-preview" id="md-raw-html-output" style="display: none; border: none; border-radius: 0; flex: 0 0 auto; width: 100%; min-height: 460px; overflow-y: auto; box-sizing: border-box; padding: 18px 22px;">
             <pre style="margin: 0; padding: 0; background: transparent;"><code class="md-raw-html" id="md-raw-html-code"></code></pre>
           </div>
 
           <!-- View 3: Table of Contents Outline -->
-          <div class="markdown-preview" id="md-toc-output" style="display: none; flex: 1; min-height: 440px; overflow-y: auto; box-sizing: border-box;">
+          <div class="markdown-preview" id="md-toc-output" style="display: none; border: none; border-radius: 0; flex: 0 0 auto; width: 100%; min-height: 460px; overflow-y: auto; box-sizing: border-box; padding: 18px 22px;">
             <div class="md-toc-container" id="md-toc-container">
               <div class="md-toc-title">📑 Document Outline</div>
               <ul class="md-toc-list" id="md-toc-list">
-                <li style="color: var(--text-muted); font-size: 13px;">No headings detected yet. Use #, ##, or ### to generate an outline.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
                 <li style="color: var(--text-muted); font-size: 13px;">No headings detected yet. Use #, ##, or ### to generate an outline.</li>
               </ul>
             </div>
@@ -197,8 +205,8 @@ export default {
               <div class="tool-guide-io-arrow">→</div>
               <div class="tool-guide-io-block">
                 <span class="tool-guide-io-label output-label">📤 Rendered Preview</span>
-                <div class="tool-guide-io-value"><table><thead><tr><th>Tool</th><th>Type</th><th>Status</th></tr></thead><tbody><tr><td>Markdown</td><td>Client</td><td>Active</td></tr></tbody></table>
-<div class="md-alert md-alert-note"><div class="md-alert-title">Note</div>100% private in browser memory.</div></div>
+                <div class="tool-guide-io-value markdown-preview" style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; min-height: auto; max-height: none;"><table><thead><tr><th>Tool</th><th>Type</th><th>Status</th></tr></thead><tbody><tr><td>Markdown</td><td>Client</td><td>Active</td></tr></tbody></table>
+<div class="md-alert md-alert-note"><div class="md-alert-title"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Note</div><div class="md-alert-body">100% private in browser memory.</div></div></div>
               </div>
             </div>
             <!-- Example 2: Checklists and Highlights -->
@@ -212,8 +220,8 @@ export default {
               <div class="tool-guide-io-arrow">→</div>
               <div class="tool-guide-io-block">
                 <span class="tool-guide-io-label output-label">📤 Rendered Preview</span>
-                <div class="tool-guide-io-value"><ul><li class="task-list-item"><input type="checkbox" checked disabled> <del>Completed task</del></li>
-<li class="task-list-item"><input type="checkbox" disabled> Upcoming <mark>highlighted</mark> item</li></ul>
+                <div class="tool-guide-io-value markdown-preview" style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; min-height: auto; max-height: none;"><ul><li class="task-list-item"><input type="checkbox" class="task-checkbox" checked disabled> <span><del>Completed task</del></span></li>
+<li class="task-list-item"><input type="checkbox" class="task-checkbox" disabled> <span>Upcoming <mark>highlighted</mark> item</span></li></ul>
 <p><del>Deprecated method</del></p></div>
               </div>
             </div>
@@ -245,6 +253,7 @@ export default {
     // KaTeX CDN dynamic loader for scientific math rendering
     let katexLoaded = false;
     let katexLoading = false;
+    const katexCallbacks = [];
 
     function ensureKaTeXLoaded(callback) {
       if (typeof window === "undefined") return;
@@ -253,6 +262,7 @@ export default {
         if (callback) callback();
         return;
       }
+      if (callback) katexCallbacks.push(callback);
       if (katexLoading) return;
       katexLoading = true;
 
@@ -273,22 +283,28 @@ export default {
           script.onload = () => {
             katexLoaded = true;
             katexLoading = false;
-            if (callback) callback();
+            while (katexCallbacks.length > 0) {
+              const cb = katexCallbacks.shift();
+              try { cb(); } catch (e) {}
+            }
           };
           script.onerror = () => {
             katexLoading = false;
+            katexCallbacks.length = 0;
           };
           document.head.appendChild(script);
         }
       } catch (e) {
         katexLoading = false;
+        katexCallbacks.length = 0;
       }
     }
 
     // URL Sanitizer to prevent XSS (blocks javascript:, vbscript:, data: schemes)
+    // and preserves query parameters without entity double-escaping
     function sanitizeUrl(url) {
       if (!url) return "#";
-      const trimmed = url.trim();
+      const trimmed = url.trim().replace(/&amp;/g, '&');
       if (/^(https?:\/\/|mailto:|tel:|#|\/|\.\/|\.\.\/)/i.test(trimmed)) {
         return escapeHtml(trimmed);
       }
@@ -335,7 +351,7 @@ export default {
 
       // Step 1: Protect fenced code blocks with tokens
       const codeBlocks = [];
-      let text = raw.replace(/(?:^|\n)```([a-zA-Z0-9_+-]*)[ \t]*\r?\n([\s\S]*?)\r?\n```[ \t]*(?=\n|$)/g, (match, lang, code) => {
+      let text = raw.replace(/(?:^|\n)```([a-zA-Z0-9_+#.-]*)[^\n]*\r?\n([\s\S]*?)\r?\n```[ \t]*(?=\n|$)/g, (match, lang, code) => {
         const id = codeBlocks.length;
         codeBlocks.push({
           lang: (lang || '').trim(),
@@ -365,8 +381,9 @@ export default {
         return saveInlineToken('code', escapeHtml(code));
       });
 
-      // Inline math ($...$)
-      text = text.replace(/(?<!\$)\$(?!\$)([^\$\r\n]+)(?<!\$)\$(?!\$)/g, (match, math) => {
+      // Inline math ($...$) - strictly avoids matching currency like $5 and $10
+      text = text.replace(/(?<![\w\$])\$(?!\s)([^\$\r\n]+?)(?<!\s)\$(?![0-9\w])/g, (match, math) => {
+        if (/^\d+(\.\d+)?(\s+(and|or|to)\s+)?$/i.test(math.trim())) return match;
         return saveInlineToken('math', math.trim());
       });
 
@@ -396,7 +413,9 @@ export default {
         str = str.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (m, label, url, title) => {
           const safeUrl = sanitizeUrl(url);
           const titleAttr = title ? ' title="' + escapeHtml(title) + '"' : '';
-          return saveLinkToken('<a href="' + safeUrl + '" target="_blank" rel="noopener noreferrer"' + titleAttr + '>' + label + '</a>');
+          const isInternal = safeUrl.startsWith("#");
+          const targetAttr = isInternal ? '' : ' target="_blank" rel="noopener noreferrer"';
+          return saveLinkToken('<a href="' + safeUrl + '"' + targetAttr + titleAttr + '>' + label + '</a>');
         });
 
         // Bold + Italic: ***text***
@@ -422,8 +441,12 @@ export default {
         // Superscript: ^text^
         str = str.replace(/\^([^\^ \t\r\n]+)\^/g, '<sup>$1</sup>');
 
-        // Safe kbd tags
+        // Safe HTML tags
         str = str.replace(/&lt;kbd&gt;([\s\S]*?)&lt;\/kbd&gt;/gi, '<kbd>$1</kbd>');
+        str = str.replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+        str = str.replace(/&lt;mark&gt;([\s\S]*?)&lt;\/mark&gt;/gi, '<mark>$1</mark>');
+        str = str.replace(/&lt;sub&gt;([\s\S]*?)&lt;\/sub&gt;/gi, '<sub>$1</sub>');
+        str = str.replace(/&lt;sup&gt;([\s\S]*?)&lt;\/sup&gt;/gi, '<sup>$1</sup>');
 
         // Restore link tokens
         str = str.replace(/@@LINKTOKEN_(\d+)@@/g, (m, id) => linkTokens[parseInt(id, 10)] || '');
@@ -697,23 +720,37 @@ export default {
       };
     }
 
-    // Toggle Task checkbox directly in the editor textarea
+    // Toggle Task checkbox directly in the editor textarea, safely ignoring code blocks
     function toggleTaskInEditor(targetTaskIndex, isChecked) {
       const text = mdInput.value;
+      const lines = text.split('\n');
+      let inCodeBlock = false;
       let currentTaskIdx = 0;
-      const newText = text.replace(/^(\s*[\-\*\+]\s+\[)([ xX])(\]\s+)/gm, (match, prefix, check, suffix) => {
-        if (currentTaskIdx === targetTaskIndex) {
-          currentTaskIdx++;
-          return prefix + (isChecked ? 'x' : ' ') + suffix;
-        }
-        currentTaskIdx++;
-        return match;
-      });
+      let modified = false;
 
-      if (newText !== text) {
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (/^\s*```/.test(line)) {
+          inCodeBlock = !inCodeBlock;
+          continue;
+        }
+        if (!inCodeBlock) {
+          const m = line.match(/^(\s*[\-\*\+]\s+\[)([ xX])(\]\s+.*)$/);
+          if (m) {
+            if (currentTaskIdx === targetTaskIndex) {
+              lines[i] = m[1] + (isChecked ? 'x' : ' ') + m[3];
+              modified = true;
+              break;
+            }
+            currentTaskIdx++;
+          }
+        }
+      }
+
+      if (modified) {
         const start = mdInput.selectionStart;
         const end = mdInput.selectionEnd;
-        mdInput.value = newText;
+        mdInput.value = lines.join('\n');
         mdInput.selectionStart = start;
         mdInput.selectionEnd = end;
         renderMarkdown();
@@ -893,6 +930,87 @@ export default {
       }
     });
 
+    // Container-level Dual Scrolling Sync (When panel content exceeds viewport)
+    const editorPanel = container.querySelector("#md-editor-panel");
+    const previewPanel = container.querySelector("#md-preview-panel");
+    let isScrollingEditorPanel = false;
+    let isScrollingPreviewPanel = false;
+
+    editorPanel?.addEventListener("scroll", () => {
+      if (!syncScrollEnabled || isScrollingPreviewPanel || !previewPanel) return;
+      isScrollingEditorPanel = true;
+      const maxLeft = editorPanel.scrollHeight - editorPanel.clientHeight;
+      if (maxLeft > 0) {
+        const ratio = editorPanel.scrollTop / maxLeft;
+        const maxRight = previewPanel.scrollHeight - previewPanel.clientHeight;
+        previewPanel.scrollTop = ratio * maxRight;
+      }
+      setTimeout(() => { isScrollingEditorPanel = false; }, 50);
+    });
+
+    previewPanel?.addEventListener("scroll", () => {
+      if (!syncScrollEnabled || isScrollingEditorPanel || !editorPanel) return;
+      isScrollingPreviewPanel = true;
+      const maxRight = previewPanel.scrollHeight - previewPanel.clientHeight;
+      if (maxRight > 0) {
+        const ratio = previewPanel.scrollTop / maxRight;
+        const maxLeft = editorPanel.scrollHeight - editorPanel.clientHeight;
+        editorPanel.scrollTop = ratio * maxLeft;
+      }
+      setTimeout(() => { isScrollingPreviewPanel = false; }, 50);
+    });
+
+    // Editor Text Box Height / Size Selector
+    const heightSelect = container.querySelector("#md-editor-height-select");
+    const applyEditorHeight = (val) => {
+      if (!mdInput) return;
+      if (val === "fit") {
+        mdInput.style.flex = "1 1 auto";
+        mdInput.style.height = "auto";
+        if (mdPreviewOutput) mdPreviewOutput.style.minHeight = "280px";
+        if (mdRawHtmlOutput) mdRawHtmlOutput.style.minHeight = "280px";
+        if (mdTocOutput) mdTocOutput.style.minHeight = "280px";
+      } else {
+        const numVal = parseInt(val, 10) || 460;
+        mdInput.style.flex = "0 0 auto";
+        mdInput.style.height = numVal + "px";
+        if (mdPreviewOutput) mdPreviewOutput.style.minHeight = numVal + "px";
+        if (mdRawHtmlOutput) mdRawHtmlOutput.style.minHeight = numVal + "px";
+        if (mdTocOutput) mdTocOutput.style.minHeight = numVal + "px";
+      }
+      try {
+        localStorage.setItem("omnitool_md_height", val);
+      } catch (e) {}
+    };
+
+    if (heightSelect) {
+      const savedHeight = localStorage.getItem("omnitool_md_height");
+      if (savedHeight) {
+        heightSelect.value = savedHeight;
+        applyEditorHeight(savedHeight);
+      }
+      heightSelect.addEventListener("change", (e) => {
+        applyEditorHeight(e.target.value);
+        appInstance.showToast(`Editor height set to ${e.target.options[e.target.selectedIndex].text}`, "info");
+      });
+    }
+
+    // Dynamic resize observer: sync preview min-height when user drags native vertical resize handle on mdInput
+    if (window.ResizeObserver && mdInput) {
+      const ro = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const newHeight = entry.contentRect.height;
+          if (newHeight > 200 && mdPreviewOutput) {
+            mdPreviewOutput.style.minHeight = (newHeight + 32) + "px";
+            if (mdRawHtmlOutput) mdRawHtmlOutput.style.minHeight = (newHeight + 32) + "px";
+            if (mdTocOutput) mdTocOutput.style.minHeight = (newHeight + 32) + "px";
+          }
+        }
+      });
+      ro.observe(mdInput);
+      this._resizeObserver = ro;
+    }
+
     // Helper: Insert text/wrapper at cursor
     function insertMarkdownHelper(prefix, suffix = "") {
       const start = mdInput.selectionStart;
@@ -912,23 +1030,50 @@ export default {
 
     // Keyboard Shortcuts & Soft Tab Indentation
     mdInput?.addEventListener("keydown", (e) => {
-      // Soft Tab: Indent 2 spaces without losing focus
+      // Soft Tab: Single-cursor or multi-line block indent/unindent (2 spaces)
       if (e.key === "Tab") {
         e.preventDefault();
         const start = mdInput.selectionStart;
         const end = mdInput.selectionEnd;
         const val = mdInput.value;
 
-        if (e.shiftKey) {
-          // Unindent
-          if (start > 1 && val.substring(start - 2, start) === "  ") {
-            mdInput.value = val.substring(0, start - 2) + val.substring(end);
-            mdInput.selectionStart = mdInput.selectionEnd = start - 2;
+        if (start === end) {
+          // Single cursor position
+          if (e.shiftKey) {
+            if (start >= 2 && val.substring(start - 2, start) === "  ") {
+              mdInput.value = val.substring(0, start - 2) + val.substring(end);
+              mdInput.selectionStart = mdInput.selectionEnd = start - 2;
+            } else if (start >= 1 && val.substring(start - 1, start) === " ") {
+              mdInput.value = val.substring(0, start - 1) + val.substring(end);
+              mdInput.selectionStart = mdInput.selectionEnd = start - 1;
+            }
+          } else {
+            mdInput.value = val.substring(0, start) + "  " + val.substring(end);
+            mdInput.selectionStart = mdInput.selectionEnd = start + 2;
           }
         } else {
-          // Indent 2 spaces
-          mdInput.value = val.substring(0, start) + "  " + val.substring(end);
-          mdInput.selectionStart = mdInput.selectionEnd = start + 2;
+          // Multi-line selection block indent / unindent
+          const lineStart = val.lastIndexOf("\n", start - 1) + 1;
+          const lineEndIdx = val.indexOf("\n", end);
+          const lineEnd = lineEndIdx === -1 ? val.length : lineEndIdx;
+          const selectedBlock = val.substring(lineStart, lineEnd);
+          const blockLines = selectedBlock.split("\n");
+
+          let modifiedLines;
+          if (e.shiftKey) {
+            modifiedLines = blockLines.map(line => {
+              if (line.startsWith("  ")) return line.substring(2);
+              if (line.startsWith(" ")) return line.substring(1);
+              return line;
+            });
+          } else {
+            modifiedLines = blockLines.map(line => "  " + line);
+          }
+
+          const newBlock = modifiedLines.join("\n");
+          mdInput.value = val.substring(0, lineStart) + newBlock + val.substring(lineEnd);
+          mdInput.selectionStart = lineStart;
+          mdInput.selectionEnd = lineStart + newBlock.length;
         }
         renderMarkdown();
         return;
@@ -1005,9 +1150,12 @@ export default {
       }
     });
 
-    // File Input Picker
+    // File Input Picker with clean reset to allow re-opening same file
     const fileInput = container.querySelector("#md-file-input");
-    container.querySelector("#md-open-file")?.addEventListener("click", () => fileInput?.click());
+    container.querySelector("#md-open-file")?.addEventListener("click", () => {
+      if (fileInput) fileInput.value = "";
+      fileInput?.click();
+    });
     fileInput?.addEventListener("change", (e) => {
       const file = e.target.files?.[0];
       if (file) {
@@ -1021,17 +1169,22 @@ export default {
       }
     });
 
-    // Theme Switcher
+    // Theme Switcher with localStorage persistence
     const themeSelect = container.querySelector("#md-theme-select");
-    themeSelect?.addEventListener("change", () => {
-      const val = themeSelect.value;
+    function applyTheme(val) {
       mdPreviewOutput.classList.remove("theme-github", "theme-obsidian", "theme-light");
-      if (val !== "default") {
+      if (val && val !== "default") {
         mdPreviewOutput.classList.add(val);
       }
+      if (themeSelect) themeSelect.value = val || "default";
+      try { localStorage.setItem("omnitool_md_theme", val || "default"); } catch (e) {}
+    }
+
+    themeSelect?.addEventListener("change", () => {
+      applyTheme(themeSelect.value);
     });
 
-    // Copy Raw HTML Markup
+    // Copy Raw HTML Markup with fallback
     const copyBtn = container.querySelector("#md-copy-btn");
     copyBtn?.addEventListener("click", () => {
       const htmlToCopy = currentGeneratedHtml || "";
@@ -1049,7 +1202,7 @@ export default {
       });
     });
 
-    // Copy Rich Formatted Text (Paste directly into Docs / Word / Notion)
+    // Copy Rich Formatted Text (Paste directly into Docs / Word / Notion) with robust catch fallback
     const copyRichBtn = container.querySelector("#md-copy-rich-btn");
     copyRichBtn?.addEventListener("click", () => {
       const htmlContent = mdPreviewOutput.innerHTML;
@@ -1057,6 +1210,14 @@ export default {
         appInstance.showToast("No content to copy.", "warning");
         return;
       }
+
+      const copyPlainFallback = () => {
+        navigator.clipboard.writeText(htmlContent).then(() => {
+          appInstance.showToast("HTML copied to clipboard!", "success");
+        }).catch(() => {
+          appInstance.showToast("Clipboard access denied", "error");
+        });
+      };
 
       if (navigator.clipboard && window.ClipboardItem) {
         try {
@@ -1071,44 +1232,64 @@ export default {
             copyRichBtn.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
             setTimeout(() => { copyRichBtn.innerHTML = originalHtml; }, 2000);
             appInstance.showToast("Rich text copied! Paste directly into Google Docs or Word.", "success");
+          }).catch(() => {
+            copyPlainFallback();
           });
           return;
         } catch (err) {
-          // Fallback to text copy
+          copyPlainFallback();
+          return;
         }
       }
 
-      // Fallback
-      navigator.clipboard.writeText(htmlContent).then(() => {
-        appInstance.showToast("HTML copied to clipboard!", "success");
-      });
+      copyPlainFallback();
     });
 
-    // Download .md File
+    // Document title and clean slug extractor for downloads
+    function getDocumentTitleAndSlug() {
+      const text = mdInput.value || "";
+      const match = text.match(/^#\s+(.+)$/m);
+      if (match && match[1]) {
+        const cleanTitle = match[1].replace(/[*_~`#]/g, '').trim();
+        const slug = cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        return {
+          title: cleanTitle,
+          slug: slug || ('document_' + Date.now())
+        };
+      }
+      return {
+        title: "Markdown Document",
+        slug: 'document_' + Date.now()
+      };
+    }
+
+    // Download .md File with smart filename
     function downloadMarkdownFile() {
       const content = mdInput.value || "";
+      const { slug } = getDocumentTitleAndSlug();
       const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = 'document_' + Date.now() + '.md';
+      a.download = slug + '.md';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      appInstance.showToast("Downloaded Markdown file (.md)", "success");
+      appInstance.showToast('Downloaded ' + a.download, "success");
     }
     container.querySelector("#md-download-md")?.addEventListener("click", downloadMarkdownFile);
 
-    // Download Standalone .html File
+    // Download Standalone .html File with smart title & filename
     function downloadHtmlFile() {
       const htmlBody = currentGeneratedHtml || "";
+      const { title, slug } = getDocumentTitleAndSlug();
       const fullDoc = '<!DOCTYPE html>\n' +
 '<html lang="en">\n' +
 '<head>\n' +
 '  <meta charset="UTF-8">\n' +
 '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
-'  <title>Markdown Document</title>\n' +
+'  <title>' + escapeHtml(title) + '</title>\n' +
 '  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">\n' +
 '  <style>\n' +
 '    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #24292f; background: #ffffff; max-width: 860px; margin: 40px auto; padding: 0 20px; }\n' +
@@ -1139,14 +1320,49 @@ export default {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = 'document_' + Date.now() + '.html';
+      a.download = slug + '.html';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      appInstance.showToast("Downloaded Standalone HTML file (.html)", "success");
+      appInstance.showToast('Downloaded ' + a.download, "success");
     }
     container.querySelector("#md-download-html")?.addEventListener("click", downloadHtmlFile);
+
+    // Fullscreen Preview keydown listener (Esc hotkey)
+    const rightPanel = container.querySelectorAll(".tool-panel")[1];
+    const onKeydown = (e) => {
+      if (e.key === "Escape" && rightPanel?.classList.contains("preview-fullscreen")) {
+        e.preventDefault();
+        const appFsBtn = rightPanel.querySelector(".preview-fullscreen-btn");
+        if (appFsBtn) {
+          appFsBtn.click();
+        } else {
+          rightPanel.classList.remove("preview-fullscreen");
+        }
+      }
+    };
+    window.addEventListener("keydown", onKeydown);
+    this._onKeydown = onKeydown;
+
+    // Intercept in-preview internal anchor clicks to smoothly scroll without altering window.location.hash
+    // (which prevents SPA router collisions that kick users back to dashboard)
+    mdPreviewOutput.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link) return;
+      const href = link.getAttribute("href");
+      if (href && href.startsWith("#")) {
+        e.preventDefault();
+        const targetId = href.substring(1);
+        if (!targetId) return;
+        try {
+          const targetEl = mdPreviewOutput.querySelector("#" + CSS.escape(targetId));
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        } catch (err) {}
+      }
+    });
 
     // Print / PDF
     container.querySelector("#md-print-btn")?.addEventListener("click", () => {
@@ -1265,6 +1481,23 @@ export default {
       mdInput.value = sampleText;
     }
 
+    // Restore saved theme preference
+    try {
+      const savedTheme = localStorage.getItem("omnitool_md_theme");
+      if (savedTheme) applyTheme(savedTheme);
+    } catch (e) {}
+
     renderMarkdown();
+  },
+
+  cleanup() {
+    if (this._onKeydown) {
+      window.removeEventListener("keydown", this._onKeydown);
+      this._onKeydown = null;
+    }
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+      this._resizeObserver = null;
+    }
   }
 };

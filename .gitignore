@@ -45,6 +45,8 @@ __pycache__/
 *.apks
 *.aab
 *.dex
+*.jks
+*.keystore
 captures/
 .externalNativeBuild/
 .cxx/

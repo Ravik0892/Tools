@@ -1,10 +1,12 @@
-import { writeFileSync, existsSync, copyFileSync } from "node:fs";
-import { execSync } from "node:child_process";
-import { resolve, join } from "node:path";
+import { writeFileSync, existsSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { resolve } from "node:path";
+import { verifySignedToken, isProductionRuntime } from "./_security.js";
 
 /**
- * Serverless & Local Handler: POST /api/deploy-live
- * Saves global configuration to ad-config.json, commits, and pushes to live repository (GitHub / Vercel).
+ * Local Dev Admin Handler: POST /api/deploy-live
+ * Saves global configuration to ad-config.json, commits, and pushes to live repository.
+ * Strictly requires valid Administrator Bearer token and uses shell-free execFileSync.
  */
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -22,13 +24,36 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Enforce administrator token verification
+    const authHeader = req.headers?.authorization || "";
+    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+    if (!token) {
+      res.status(401).json({ success: false, error: "Missing admin authorization token." });
+      return;
+    }
+
+    const verification = verifySignedToken(token);
+    if (!verification.valid || verification.payload?.role !== "admin") {
+      res.status(403).json({ success: false, error: "Unauthorized. Valid administrator session required." });
+      return;
+    }
+
+    if (isProductionRuntime()) {
+      res.status(501).json({
+        success: false,
+        error: "Remote git deployments are disabled in serverless production environments."
+      });
+      return;
+    }
+
     const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
     const configData = body.config;
-    const commitMsg = body.commitMessage || "chore(config): update live site settings via Admin Panel";
+    const rawCommitMsg = String(body.commitMessage || "chore(config): update live site settings via Admin Panel");
+    const safeCommitMsg = rawCommitMsg.replace(/[\r\n\x00-\x1f\x7f]/g, " ").trim().slice(0, 200) || "chore(config): update settings";
     const pushToLive = body.pushToLive !== false;
-    const deployHookUrl = body.deployHookUrl || "";
+    const deployHookUrl = typeof body.deployHookUrl === "string" ? body.deployHookUrl.trim() : "";
 
-    if (!configData || typeof configData !== "object") {
+    if (!configData || typeof configData !== "object" || Array.isArray(configData)) {
       res.status(400).json({ success: false, error: "Configuration object required in 'config' property." });
       return;
     }
@@ -53,83 +78,69 @@ export default async function handler(req, res) {
     let gitOutput = "";
     let gitPushed = false;
 
-    // 3. Git Commit and Push to trigger live Vercel deployment
+    const runGit = (args) => execFileSync("git", args, { cwd: projectRoot, stdio: "pipe" }).toString();
+
+    // 3. Git Commit and Push using argument arrays (zero shell interpolation)
     if (pushToLive) {
       try {
-        // Stage config files
-        execSync(`git add "ad-config.json"`, { cwd: projectRoot, stdio: "pipe" });
+        runGit(["add", "ad-config.json"]);
         if (existsSync(androidConfigPath)) {
-          execSync(`git add "omnitool-android-app/app/src/main/assets/web/ad-config.json"`, { cwd: projectRoot, stdio: "pipe" });
+          runGit(["add", "omnitool-android-app/app/src/main/assets/web/ad-config.json"]);
         }
 
-        // Commit changes
         try {
-          const commitOut = execSync(`git commit -m "${commitMsg.replace(/"/g, '\\"')}"`, { cwd: projectRoot, stdio: "pipe" }).toString();
-          gitOutput += commitOut + "\n";
-        } catch (commitErr) {
-          // If no changes staged, continue
+          gitOutput += runGit(["commit", "-m", safeCommitMsg]) + "\n";
+        } catch (_) {
           gitOutput += "No changes detected or already committed.\n";
         }
 
-        // Detect current branch
         let currentBranch = "main";
         try {
-          currentBranch = execSync("git rev-parse --abbrev-ref HEAD", { cwd: projectRoot, stdio: "pipe" }).toString().trim();
+          const detected = runGit(["rev-parse", "--abbrev-ref", "HEAD"]).trim();
+          if (/^[A-Za-z0-9][A-Za-z0-9._/-]*$/.test(detected)) {
+            currentBranch = detected;
+          }
         } catch (_) {}
 
-        // Push current branch to origin
-        const pushOut = execSync(`git push origin ${currentBranch}`, { cwd: projectRoot, stdio: "pipe" }).toString();
-        gitOutput += pushOut + "\n";
+        gitOutput += runGit(["push", "origin", currentBranch]) + "\n";
         gitPushed = true;
 
-        // If on dev (or any non-main branch), safely update ONLY ad-config.json on main WITHOUT merging other website code
         if (currentBranch !== "main") {
           try {
-            // Check if there are uncommitted working files and stash them safely
             let hasStash = false;
             try {
-              const statusCheck = execSync("git status --porcelain", { cwd: projectRoot, stdio: "pipe" }).toString().trim();
+              const statusCheck = runGit(["status", "--porcelain"]).trim();
               if (statusCheck) {
-                execSync("git stash push -u -m 'omnitool-deploy-temp-stash'", { cwd: projectRoot, stdio: "pipe" });
+                runGit(["stash", "push", "-u", "-m", "omnitool-deploy-temp-stash"]);
                 hasStash = true;
               }
             } catch (_) {}
 
-            // Switch to main branch
-            execSync("git checkout main", { cwd: projectRoot, stdio: "pipe" });
-
-            // Extract ONLY ad-config.json from the active working branch into main
-            execSync(`git checkout ${currentBranch} -- "ad-config.json"`, { cwd: projectRoot, stdio: "pipe" });
+            runGit(["checkout", "main"]);
+            runGit(["checkout", currentBranch, "--", "ad-config.json"]);
             if (existsSync(androidConfigPath)) {
               try {
-                execSync(`git checkout ${currentBranch} -- "omnitool-android-app/app/src/main/assets/web/ad-config.json"`, { cwd: projectRoot, stdio: "pipe" });
+                runGit(["checkout", currentBranch, "--", "omnitool-android-app/app/src/main/assets/web/ad-config.json"]);
               } catch (_) {}
             }
 
-            // Commit ONLY ad-config.json on main
             try {
-              execSync(`git commit -m "${commitMsg.replace(/"/g, '\\"')}"`, { cwd: projectRoot, stdio: "pipe" });
-            } catch (_) {
-              // No changes to commit on main
-            }
+              runGit(["commit", "-m", safeCommitMsg]);
+            } catch (_) {}
 
-            // Push main branch so Vercel live production deploys the updated ad-config.json
-            const mainPush = execSync("git push origin main", { cwd: projectRoot, stdio: "pipe" }).toString();
-            gitOutput += mainPush + "\n";
+            gitOutput += runGit(["push", "origin", "main"]) + "\n";
             gitOutput += "Production live site (main branch) updated with ad-config.json ONLY (website code untouched)!\n";
 
-            // Return to working branch
-            execSync(`git checkout ${currentBranch}`, { cwd: projectRoot, stdio: "pipe" });
+            runGit(["checkout", currentBranch]);
 
-            // Restore any stashed working files
             if (hasStash) {
               try {
-                execSync("git stash pop", { cwd: projectRoot, stdio: "pipe" });
+                runGit(["stash", "pop"]);
               } catch (_) {}
             }
           } catch (mainErr) {
             gitOutput += `Notice: Main branch config sync notice: ${mainErr.message}\n`;
-            try { execSync(`git checkout ${currentBranch}`, { cwd: projectRoot, stdio: "pipe" }); } catch (_) {}
+            try { runGit(["checkout", currentBranch]); } catch (_) {}
           }
         }
       } catch (gitErr) {
@@ -138,9 +149,9 @@ export default async function handler(req, res) {
       }
     }
 
-    // 4. Ping Vercel Deploy Hook if provided
+    // 4. Ping validated Vercel Deploy Hook only (prevents SSRF)
     let hookTriggered = false;
-    if (deployHookUrl && deployHookUrl.startsWith("http")) {
+    if (deployHookUrl && /^https:\/\/api\.vercel\.com\/v\d+\/integrations\/deploy\/[A-Za-z0-9/_-]+$/.test(deployHookUrl)) {
       try {
         await fetch(deployHookUrl, { method: "POST" });
         hookTriggered = true;

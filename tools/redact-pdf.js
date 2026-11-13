@@ -131,6 +131,31 @@ export default {
             </div>
           </div>
         </div>
+      
+        <!-- Dynamic Guide Card (Unified standard footer guide) -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>QUICK GUIDE: PERMANENT PDF SANITIZATION & REDACTION</span>
+            </div>
+          </div>
+          <div class="tool-guide-steps">
+
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Load Confidential Document</strong>: Upload your PDF to review pages within the sandboxed client-side redaction canvas.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Draw Blackout Areas & Mask PII</strong>: Select rectangular regions to redact or search keywords (names, SSNs, credit cards) for bulk blackouts.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Burn & Export Sanitized PDF</strong>: Click Apply Redactions to physically erase text streams and rasterize masked pixels permanently.</div>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   },

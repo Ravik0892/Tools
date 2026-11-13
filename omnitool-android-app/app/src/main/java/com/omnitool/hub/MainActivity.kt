@@ -1,161 +1,148 @@
 package com.omnitool.hub
 
+import android.content.Context
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.omnitool.hub.model.Tool
+import com.omnitool.hub.model.ToolRepository
 import com.omnitool.hub.ui.screens.*
 import com.omnitool.hub.ui.theme.OmniToolHubTheme
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val prefs = getSharedPreferences("omnitool_prefs", Context.MODE_PRIVATE)
+        if (!BuildConfig.DEBUG && prefs.getBoolean("privacy_shield", false)) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        }
+        android.webkit.WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
+
+        val defaultFavorites = setOf("formatter-suite", "text-encoder-suite", "qr-studio")
+        val initialFavorites = prefs.getStringSet("favorite_tools", defaultFavorites) ?: defaultFavorites
+        val initialOledBlack = prefs.getBoolean("oled_black", false)
+
         setContent {
-            OmniToolHubTheme {
-                val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-                val scope = rememberCoroutineScope()
-                
+            var oledBlackOverride by remember { mutableStateOf(initialOledBlack) }
+
+            OmniToolHubTheme(oledBlack = oledBlackOverride) {
                 var currentScreen by remember { mutableStateOf("dashboard") }
                 var selectedTool by remember { mutableStateOf<Tool?>(null) }
-                val favorites = remember { mutableStateOf(setOf("json-formatter", "base64", "qr-generator")) }
+                var favorites by remember { mutableStateOf(initialFavorites) }
+                var focusSearchTrigger by remember { mutableStateOf(0) }
 
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    drawerContent = {
-                        ModalDrawerSheet {
-                            Text(
-                                "OmniTool Hub",
-                                modifier = Modifier.padding(16.dp),
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                            Divider()
-                            NavigationDrawerItem(
-                                label = { Text("Dashboard") },
-                                selected = currentScreen == "dashboard",
-                                onClick = {
-                                    currentScreen = "dashboard"
-                                    scope.launch { drawerState.close() }
+                BackHandler(enabled = currentScreen != "dashboard") {
+                    currentScreen = "dashboard"
+                }
+
+                Scaffold(
+                    topBar = {
+                        if (currentScreen != "tool_details") {
+                            CenterAlignedTopAppBar(
+                                title = { Text("OmniTool Hub") },
+                                actions = {
+                                    IconButton(onClick = {
+                                        currentScreen = "dashboard"
+                                        focusSearchTrigger++
+                                    }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Search,
+                                            contentDescription = "Search tools"
+                                        )
+                                    }
                                 }
                             )
-                            NavigationDrawerItem(
-                                label = { Text("Smart Chain Pipeline") },
-                                selected = currentScreen == "pipeline",
-                                onClick = {
-                                    currentScreen = "pipeline"
-                                    scope.launch { drawerState.close() }
-                                }
-                            )
-                            NavigationDrawerItem(
-                                label = { Text("Settings") },
-                                selected = currentScreen == "settings",
-                                onClick = {
-                                    currentScreen = "settings"
-                                    scope.launch { drawerState.close() }
-                                }
-                            )
+                        }
+                    },
+                    bottomBar = {
+                        if (currentScreen != "tool_details") {
+                            NavigationBar {
+                                NavigationBarItem(
+                                    selected = currentScreen == "dashboard",
+                                    onClick = { currentScreen = "dashboard" },
+                                    icon = { Icon(Icons.Default.Home, contentDescription = "Dashboard") },
+                                    label = { Text("Dashboard") }
+                                )
+                                NavigationBarItem(
+                                    selected = currentScreen == "pipeline",
+                                    onClick = { currentScreen = "pipeline" },
+                                    icon = { Icon(Icons.Default.Build, contentDescription = "Smart Chain") },
+                                    label = { Text("Smart Chain") }
+                                )
+                                NavigationBarItem(
+                                    selected = currentScreen == "settings",
+                                    onClick = { currentScreen = "settings" },
+                                    icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
+                                    label = { Text("Settings") }
+                                )
+                            }
                         }
                     }
-                ) {
-                    Scaffold(
-                        topBar = {
-                            if (currentScreen != "tool_details") {
-                                CenterAlignedTopAppBar(
-                                    title = { Text("OmniTool Hub") },
-                                    navigationIcon = {
-                                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                            Icon(
-                                                imageVector = Icons.Default.Menu,
-                                                contentDescription = "Menu Navigation"
-                                            )
-                                        }
-                                    },
-                                    actions = {
-                                        IconButton(onClick = { /* Simulated command palette */ }) {
-                                            Icon(
-                                                imageVector = Icons.Default.Search,
-                                                contentDescription = "Search tools"
-                                            )
-                                        }
+                ) { innerPadding ->
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        when (currentScreen) {
+                            "dashboard" -> DashboardScreen(
+                                onToolClick = { tool ->
+                                    selectedTool = tool
+                                    currentScreen = "tool_details"
+                                },
+                                favorites = favorites,
+                                onToggleFavorite = { toolId ->
+                                    val updated = if (favorites.contains(toolId)) {
+                                        favorites - toolId
+                                    } else {
+                                        favorites + toolId
                                     }
-                                )
-                            }
-                        },
-                        bottomBar = {
-                            if (currentScreen != "tool_details") {
-                                NavigationBar {
-                                    NavigationBarItem(
-                                        selected = currentScreen == "dashboard",
-                                        onClick = { currentScreen = "dashboard" },
-                                        icon = { Icon(Icons.Default.Home, contentDescription = "Dashboard") },
-                                        label = { Text("Dashboard") }
-                                    )
-                                    NavigationBarItem(
-                                        selected = currentScreen == "pipeline",
-                                        onClick = { currentScreen = "pipeline" },
-                                        icon = { Icon(Icons.Default.Build, contentDescription = "Smart Chain") },
-                                        label = { Text("Smart Chain") }
-                                    )
-                                    NavigationBarItem(
-                                        selected = currentScreen == "settings",
-                                        onClick = { currentScreen = "settings" },
-                                        icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
-                                        label = { Text("Settings") }
-                                    )
-                                }
-                            }
-                        }
-                    ) { innerPadding ->
-                        Surface(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(innerPadding)
-                        ) {
-                            when (currentScreen) {
-                                "dashboard" -> DashboardScreen(
-                                    onToolClick = { tool ->
-                                        selectedTool = tool
+                                    favorites = updated
+                                    prefs.edit().putStringSet("favorite_tools", updated).apply()
+                                },
+                                focusSearchTrigger = focusSearchTrigger
+                            )
+                            "pipeline" -> PipelineScreen(
+                                onOpenWebPipeline = {
+                                    val pipelineTool = ToolRepository.tools.firstOrNull { it.id == "pipeline-builder" }
+                                    if (pipelineTool != null) {
+                                        selectedTool = pipelineTool
                                         currentScreen = "tool_details"
-                                    },
-                                    favorites = favorites.value,
-                                    onToggleFavorite = { toolId ->
-                                        if (favorites.value.contains(toolId)) {
-                                            favorites.value = favorites.value - toolId
-                                        } else {
-                                            favorites.value = favorites.value + toolId
-                                        }
                                     }
-                                )
-                                "pipeline" -> PipelineScreen()
-                                "settings" -> SettingsScreen()
-                                "tool_details" -> {
-                                    val tool = selectedTool
-                                    if (tool != null) {
-                                        when (tool.id) {
-                                            "native-logcat" -> LogcatScreen(
-                                                onBackClick = { currentScreen = "dashboard" }
-                                            )
-                                            "native-device-info" -> DeviceInfoScreen(
-                                                onBackClick = { currentScreen = "dashboard" }
-                                            )
-                                            else -> WebToolScreen(
-                                                tool = tool,
-                                                onBackClick = { currentScreen = "dashboard" }
-                                            )
-                                        }
+                                }
+                            )
+                            "settings" -> SettingsScreen(
+                                oledBlackOverride = oledBlackOverride,
+                                onOledBlackChange = { oledBlackOverride = it }
+                            )
+                            "tool_details" -> {
+                                val tool = selectedTool
+                                if (tool != null) {
+                                    when (tool.id) {
+                                        "native-logcat" -> LogcatScreen(
+                                            onBackClick = { currentScreen = "dashboard" }
+                                        )
+                                        "native-device-info" -> DeviceInfoScreen(
+                                            onBackClick = { currentScreen = "dashboard" }
+                                        )
+                                        else -> WebToolScreen(
+                                            tool = tool,
+                                            onBackClick = { currentScreen = "dashboard" }
+                                        )
                                     }
                                 }
                             }

@@ -11,10 +11,10 @@ export default {
     return `
       <div class="tool-content-layout split-view">
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>Configuration</h3>
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+            <h3 style="margin: 0;">Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="text-suite-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 100%; flex-wrap: wrap;" id="text-suite-tabs">
               <button class="keyboard-tab active" data-tab="case" style="font-size: 11px; padding: 4px 8px;">Case Converter</button>
               <button class="keyboard-tab" data-tab="base64" style="font-size: 11px; padding: 4px 8px;">Base64</button>
               <button class="keyboard-tab" data-tab="url" style="font-size: 11px; padding: 4px 8px;">URL Encoder</button>
@@ -230,6 +230,12 @@ export default {
     const switchTab = (tabId, updateRoute = true) => {
       activeTab = tabId;
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabId));
+      if (typeof appInstance?.syncActiveCapabilityChip === "function") {
+        appInstance.syncActiveCapabilityChip(container, tabId);
+      }
+      if (typeof appInstance?.injectGuideBenefits === "function") {
+        appInstance.injectGuideBenefits(container, "text-encoder-suite", tabId);
+      }
 
       panelCase.classList.toggle("hidden", tabId !== "case");
       panelBase64.classList.toggle("hidden", tabId !== "base64");

@@ -3,11 +3,12 @@ import {
   ADMIN_PASSWORD_HASH,
   timingSafeCompare,
   createSignedToken,
-  verifySignedToken
+  isProductionRuntime
 } from "./_security.js";
 
 // In-memory rate limiting map (IP -> { attempts, lockUntil })
 const attemptMap = new Map();
+const MAX_ATTEMPT_ENTRIES = 1000;
 
 /**
  * Serverless Handler: POST /api/admin-auth
@@ -29,8 +30,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    const clientIp = req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "127.0.0.1";
+    const rawIp = req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "127.0.0.1";
+    const clientIp = String(rawIp).split(",")[0].trim() || "127.0.0.1";
     const now = Date.now();
+
+    if (attemptMap.size >= MAX_ATTEMPT_ENTRIES) {
+      for (const [k, v] of attemptMap) {
+        if (v.lockUntil && v.lockUntil < now) attemptMap.delete(k);
+      }
+      if (attemptMap.size >= MAX_ATTEMPT_ENTRIES) {
+        const oldestKey = attemptMap.keys().next().value;
+        if (oldestKey) attemptMap.delete(oldestKey);
+      }
+    }
 
     // Check rate limiting
     const record = attemptMap.get(clientIp) || { attempts: 0, lockUntil: 0 };
@@ -53,7 +65,7 @@ export default async function handler(req, res) {
 
     // Compute SHA-256 of input password
     const inputHash = crypto.createHash("sha256").update(password, "utf8").digest("hex");
-    const isDev = process.env.NODE_ENV !== "production" && !process.env.VERCEL;
+    const isDev = !isProductionRuntime();
     const isMatch = timingSafeCompare(inputHash, ADMIN_PASSWORD_HASH) ||
       (isDev && timingSafeCompare(inputHash, "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"));
 

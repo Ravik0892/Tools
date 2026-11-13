@@ -1,4 +1,4 @@
-import { RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET } from "./_security.js";
+import { RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, isProductionRuntime } from "./_security.js";
 import crypto from "node:crypto";
 
 /**
@@ -30,7 +30,12 @@ export default async function handler(req, res) {
     const receipt = `rcpt_${plan}_${Date.now()}`;
 
     // If real live/test Razorpay keys are configured
-    const isLiveConfigured = RAZORPAY_KEY_ID && !RAZORPAY_KEY_ID.includes("DemoKey");
+    const isLiveConfigured = Boolean(
+      RAZORPAY_KEY_ID &&
+      RAZORPAY_KEY_SECRET &&
+      !RAZORPAY_KEY_ID.includes("DemoKey") &&
+      !RAZORPAY_KEY_SECRET.includes("DemoKey")
+    );
 
     if (isLiveConfigured) {
       const authHeader = "Basic " + Buffer.from(`${RAZORPAY_KEY_ID}:${RAZORPAY_KEY_SECRET}`).toString("base64");
@@ -52,7 +57,7 @@ export default async function handler(req, res) {
       });
 
       if (!rzpRes.ok) {
-        const errData = await rzpRes.json();
+        const errData = await rzpRes.json().catch(() => ({}));
         res.status(502).json({
           success: false,
           error: "Razorpay API Error: " + (errData.error?.description || "Failed to create order.")
@@ -72,7 +77,15 @@ export default async function handler(req, res) {
       return;
     }
 
-    // Secure Test/Demo mode order generation (when live gateway keys are pending in Vercel environment)
+    if (isProductionRuntime()) {
+      res.status(503).json({
+        success: false,
+        error: "Razorpay live gateway keys are not configured on the server."
+      });
+      return;
+    }
+
+    // Local Dev/Test mode order generation (non-production only)
     const demoOrderId = `order_test_${crypto.randomBytes(8).toString("hex")}`;
     res.status(200).json({
       success: true,

@@ -258,6 +258,34 @@
       box-shadow: 0 4px 14px rgba(0, 242, 254, 0.4);
     }
 
+    /* Language Switcher Capsule */
+    .lang-switch-capsule {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2px 4px;
+      gap: 2px;
+      align-items: center;
+    }
+    .lang-switch-capsule .lang-btn {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 12px;
+      transition: all 0.15s ease;
+    }
+    .lang-switch-capsule .lang-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .lang-switch-capsule .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #000;
+    }
+
     /* Breadcrumbs */
     .breadcrumbs-wrap {
       width: 100%;
@@ -625,17 +653,37 @@
     }
 
     .live-guide-tool-viewport {
-      padding: 24px 20px;
-      min-height: 260px;
+      padding: 20px;
+      position: relative;
+      max-height: 580px;
+      overflow: hidden;
+      background: rgba(8, 12, 20, 0.4);
+      transition: all 0.25s ease;
     }
 
-    /* Embedded Live Playground Full-Fidelity Responsive Overrides */
+    .live-guide-tool-viewport .tool-guide-card,
+    .live-guide-tool-viewport .split-view-resizer,
+    .live-guide-tool-viewport .guide-scroll-arrow,
+    .live-guide-tool-viewport .tool-panel-ad,
+    .live-guide-tool-viewport .adjust-settings-fab,
+    .live-guide-tool-viewport .split-view-backdrop,
+    .live-guide-tool-viewport .drawer-close-btn,
+    .live-guide-tool-viewport .tool-panel:first-of-type::after {
+      display: none !important;
+    }
+
+    /* Embedded Live Playground Contained Viewport Standard with Internal Panel Scrolling */
     .live-guide-tool-viewport .tool-content-layout.split-view {
-      display: flex !important;
-      flex-direction: column !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1.08fr !important;
       gap: 20px !important;
       position: static !important;
       width: 100% !important;
+      height: 520px !important;
+      max-height: 520px !important;
+      overflow: hidden !important;
+      align-items: stretch !important;
+      box-sizing: border-box !important;
     }
 
     .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
@@ -645,31 +693,111 @@
       transform: none !important;
       width: 100% !important;
       max-width: 100% !important;
-      height: auto !important;
-      min-height: unset !important;
+      height: 100% !important;
+      max-height: 520px !important;
+      min-height: 0 !important;
       box-shadow: none !important;
       border-radius: 12px !important;
-      overflow: visible !important;
-      padding: 20px !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      scrollbar-width: thin;
+      padding: 18px !important;
+      background: rgba(13, 17, 27, 0.75) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-sizing: border-box !important;
     }
 
-    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type::after {
-      display: none !important;
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+    .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 242, 254, 0.4);
     }
 
-    .live-guide-tool-viewport .adjust-settings-fab,
-    .live-guide-tool-viewport .split-view-backdrop,
-    .live-guide-tool-viewport .drawer-close-btn {
-      display: none !important;
-    }
-
-    @media (min-width: 960px) {
-      .live-guide-tool-viewport .tool-content-layout.split-view {
-        display: grid !important;
-        grid-template-columns: 1fr 1.05fr !important;
-        gap: 20px !important;
-        align-items: start !important;
+    @media (max-width: 960px) {
+      .live-guide-tool-viewport {
+        max-height: 820px;
+        overflow-y: auto;
       }
+      .live-guide-tool-viewport .tool-content-layout.split-view {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+        max-height: none !important;
+        gap: 16px !important;
+      }
+
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel,
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:first-of-type,
+      .live-guide-tool-viewport .tool-content-layout.split-view > .tool-panel:nth-of-type(2) {
+        height: auto !important;
+        max-height: 380px !important;
+        overflow-y: auto !important;
+      }
+    }
+
+    .skip-to-guide-link {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.04);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .skip-to-guide-link:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(0, 242, 254, 0.35);
+      background: rgba(0, 242, 254, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .toggle-tool-collapse-btn {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toggle-tool-collapse-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .toggle-tool-collapse-btn .toggle-icon {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-tool-collapse-btn.is-collapsed .toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    #guide-article {
+      scroll-margin-top: 85px;
     }
 
     .guide-tool-loading {
@@ -875,16 +1003,22 @@
   <!-- Top Sticky Navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <a href="../index.html" class="nav-brand">
+      <a href="/" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21L14.907 18M21 3L13.882 10.118M3 21L10.118 13.882M10.118 10.118L13.882 13.882M10.118 10.118L3 3M13.882 10.118L21 21" />
         </svg>
         <span>OmniTool Hub</span>
       </a>
       <div class="nav-actions">
-        <a href="index.html" class="nav-link-btn">📚 All 48 Guides</a>
-        <a href="../index.html#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
-        <a href="../index.html#tool/code-playground" class="nav-launch-btn">🚀 Launch Live Playground</a>
+        <!-- Language Switcher Capsule -->
+        <div class="lang-switch-capsule">
+          <a href="/guides/code-playground" class="lang-btn active" title="English">EN</a>
+          <a href="/guides/es/" class="lang-btn" title="Español">ES</a>
+          <a href="/guides/pt/" class="lang-btn" title="Português">PT</a>
+        </div>
+        <a href="/guides/" class="nav-link-btn">📚 All 50 Guides</a>
+        <a href="/#dashboard" class="nav-link-btn">🏠 Suite Dashboard</a>
+        <a href="#tool/code-playground" class="nav-launch-btn">🚀 Launch Live Playground</a>
       </div>
     </div>
   </nav>
@@ -892,9 +1026,9 @@
   <!-- Breadcrumbs -->
   <div class="breadcrumbs-wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="../index.html">🏠 Home</a>
+      <a href="/">🏠 Home</a>
       <span>/</span>
-      <a href="index.html">Guides Hub</a>
+      <a href="/guides/">Guides Hub</a>
       <span>/</span>
       <span class="current">HTML/CSS/JS Live Playground</span>
     </nav>
@@ -919,7 +1053,11 @@
           <span><strong>Live In-Browser Tool</strong> — 100% Private, Zero Server Uploads</span>
         </div>
         <div class="live-tool-quick-links">
-          <a href="../index.html#tool/code-playground" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
+          <a href="#guide-article" class="skip-to-guide-link" title="Jump straight to comprehensive written guide">📖 Skip to Guide &darr;</a>
+          <button type="button" class="toggle-tool-collapse-btn" id="toggle-tool-collapse-btn" title="Toggle Live Tool Viewport" aria-expanded="true">
+            <span class="toggle-icon">▾</span> <span class="toggle-text">Collapse Tool</span>
+          </button>
+          <a href="/#tool/code-playground" class="live-fullscreen-link">🚀 Open Fullscreen in Main Suite</a>
         </div>
       </div>
       <div id="live-guide-tool-viewport" class="live-guide-tool-viewport">
@@ -930,7 +1068,7 @@
       </div>
     </section>
 
-    <article>
+    <article id="guide-article">
       <p>
         Developing front-end UI sketches or testing interactive widgets usually requires creating local project files, setting up servers, or dealing with heavy web tools. OmniTool Hub's HTML/CSS/JS Live Playground provides a lightweight, instant developer environment running entirely in your browser sandbox, complete with responsive testing, CDN integrations, and active debugging console diagnostics.
       </p>
@@ -1022,20 +1160,20 @@
     <div class="cta-container">
       <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Try this tool right now in your browser</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Zero server uploads. 100% private, instant execution.</p>
-      <a href="../index.html#tool/code-playground" class="cta-btn">🚀 Launch Live Playground</a>
+      <a href="#tool/code-playground" class="cta-btn">🚀 Launch Live Playground</a>
       <br>
-      <a href="index.html" class="all-guides-cta">📚 Browse All 48 Tool Guides &rarr;</a>
+      <a href="/guides/" class="all-guides-cta">📚 Browse All 50 Tool Guides &rarr;</a>
     </div>
 
     <!-- Related Guides & Internal Links -->
     <section class="related-section">
       <div class="related-heading">
         <span>Explore Related Guides</span>
-        <a href="index.html">View All 48 Guides &rarr;</a>
+        <a href="/guides/">View All 50 Guides &rarr;</a>
       </div>
       <div class="related-grid">
         
-          <a href="pipeline-builder.html" class="related-card">
+          <a href="/guides/pipeline-builder" class="related-card">
             <div>
               <div class="related-badge">⚡ Developer Tools</div>
               <div class="related-title">Smart Chain Pipeline Builder</div>
@@ -1043,7 +1181,7 @@
             <div class="related-read">Read Guide &rarr;</div>
           </a>
           
-          <a href="jwt-decoder.html" class="related-card">
+          <a href="/guides/jwt-decoder" class="related-card">
             <div>
               <div class="related-badge">🔑 Developer Tools</div>
               <div class="related-title">JWT Decoder & Token Parser</div>
@@ -1051,7 +1189,7 @@
             <div class="related-read">Read Guide &rarr;</div>
           </a>
           
-          <a href="regex-tester.html" class="related-card">
+          <a href="/guides/regex-tester" class="related-card">
             <div>
               <div class="related-badge">🎯 Developer Tools</div>
               <div class="related-title">Visual Regex & Extractor Suite</div>
@@ -1066,12 +1204,12 @@
   <footer class="guide-footer">
     <p>&copy; 2026 OmniTool Hub. All operations run 100% locally in your browser.</p>
     <p style="margin-top: 8px;">
-      <a href="../index.html">Home</a> &bull;
-      <a href="index.html">Guides Hub</a> &bull;
-      <a href="../index.html#privacy">Privacy Policy</a> &bull;
-      <a href="../index.html#terms">Terms of Service</a> &bull;
-      <a href="../index.html#refund">Refund Policy</a> &bull;
-      <a href="../index.html#cookies">Cookie Policy</a> &bull;
+      <a href="/">Home</a> &bull;
+      <a href="/guides/">Guides Hub</a> &bull;
+      <a href="/#privacy">Privacy Policy</a> &bull;
+      <a href="/#terms">Terms of Service</a> &bull;
+      <a href="/#refund">Refund Policy</a> &bull;
+      <a href="/#cookies">Cookie Policy</a> &bull;
       <a href="https://github.com/Ravik0892/Tools" target="_blank" rel="noopener">GitHub</a>
     </p>
   </footer>
@@ -1146,11 +1284,28 @@
         viewport.innerHTML = `
           <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px;">
             <p style="margin-bottom: 12px;">This tool is ready to use in the full application workspace.</p>
-            <a href="../index.html#tool/code-playground" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
+            <a href="/#tool/code-playground" class="cta-btn" style="display: inline-block;">🚀 Launch Tool in Main Suite</a>
           </div>
         `;
       }
     }
+  </script>
+
+  <!-- Live Tool Viewport Collapse / Expand Handler -->
+  <script>
+    (function initLiveToolCollapse() {
+      const toggleBtn = document.getElementById('toggle-tool-collapse-btn');
+      const viewport = document.getElementById('live-guide-tool-viewport');
+      if (!toggleBtn || !viewport) return;
+      toggleBtn.addEventListener('click', () => {
+        const isCollapsed = viewport.style.display === 'none';
+        viewport.style.display = isCollapsed ? 'block' : 'none';
+        toggleBtn.classList.toggle('is-collapsed', !isCollapsed);
+        toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
+        const label = toggleBtn.querySelector('.toggle-text');
+        if (label) label.textContent = isCollapsed ? 'Collapse Tool' : 'Expand Tool';
+      });
+    })();
   </script>
 
   

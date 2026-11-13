@@ -144,6 +144,31 @@ export default {
             </div>
           </div>
         </div>
+      
+        <!-- Dynamic Guide Card (Unified standard footer guide) -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>QUICK GUIDE: CROP & TRIM PDF MARGINS</span>
+            </div>
+          </div>
+          <div class="tool-guide-steps">
+
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">1</div>
+              <div class="tool-guide-step-text"><strong>Upload PDF Document</strong>: Select or drag-and-drop any standard PDF document to inspect page dimensions and visual boundary boxes.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">2</div>
+              <div class="tool-guide-step-text"><strong>Adjust Crop Boundaries</strong>: Drag visual boundary handles or type exact margin offsets (top, right, bottom, left) in points or millimeters.</div>
+            </div>
+            <div class="tool-guide-step">
+              <div class="tool-guide-step-num">3</div>
+              <div class="tool-guide-step-text"><strong>Export Trimmed PDF</strong>: Preview the cropped layout in real-time and download your neatly trimmed document with zero server upload.</div>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   },

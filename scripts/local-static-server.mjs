@@ -35,6 +35,10 @@ createServer(async (req, res) => {
   // Dispatch /api/* to serverless functions
   if (pathname.startsWith("/api/")) {
     const endpoint = pathname.replace(/^\/api\//, "").replace(/\.js$/, "");
+    if (!endpoint || !/^[a-z0-9-]+$/i.test(endpoint) || endpoint.startsWith("_")) {
+      res.writeHead(404, { "Content-Type": "application/json" }).end(JSON.stringify({ error: "API endpoint not found" }));
+      return;
+    }
     const apiPath = join(root, "api", `${endpoint}.js`);
     if (existsSync(apiPath)) {
       let bodyData = "";
@@ -76,13 +80,38 @@ createServer(async (req, res) => {
     pathname = "/landing.html";
   }
 
-  const resolved = normalize(join(root, pathname));
-  if (!resolved.startsWith(root)) {
+  let targetPath = normalize(join(root, pathname));
+  if (!targetPath.startsWith(root)) {
     res.writeHead(403).end("Forbidden");
     return;
   }
 
-  const filePath = existsSync(resolved) && statSync(resolved).isFile() ? resolved : join(root, "index.html");
+  // Support directory index.html and clean URLs (e.g. /guides/pt/ -> /guides/pt/index.html, /guides/compress-pdf -> /guides/compress-pdf.html)
+  if (existsSync(targetPath)) {
+    if (statSync(targetPath).isDirectory()) {
+      const dirIndex = join(targetPath, "index.html");
+      if (existsSync(dirIndex) && statSync(dirIndex).isFile()) {
+        targetPath = dirIndex;
+      }
+    }
+  } else if (existsSync(targetPath + ".html") && statSync(targetPath + ".html").isFile()) {
+    targetPath = targetPath + ".html";
+  } else if (pathname.endsWith("/index.html")) {
+    // Handle erroneously appended /index.html on individual tool guides (e.g. /guides/es/compress-pdf/index.html -> compress-pdf.html)
+    const cleanParent = pathname.replace(/\/index\.html$/, "");
+    const parentTarget = normalize(join(root, cleanParent));
+    if (existsSync(parentTarget + ".html") && statSync(parentTarget + ".html").isFile()) {
+      targetPath = parentTarget + ".html";
+    }
+  } else if (pathname.endsWith("/")) {
+    const trimmed = pathname.replace(/\/$/, "");
+    const trimmedTarget = normalize(join(root, trimmed));
+    if (existsSync(trimmedTarget + ".html") && statSync(trimmedTarget + ".html").isFile()) {
+      targetPath = trimmedTarget + ".html";
+    }
+  }
+
+  const filePath = existsSync(targetPath) && statSync(targetPath).isFile() ? targetPath : join(root, "index.html");
   res.writeHead(200, {
     "Content-Type": types[extname(filePath).toLowerCase()] || "application/octet-stream",
     "Cache-Control": "no-store"

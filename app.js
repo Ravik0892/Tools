@@ -1,7 +1,31 @@
 // OmniTool Hub - Core Application Engine v2 (Masterpiece Accordion Edition)
 
 const app = {
-  APP_VERSION: "2.1.4",
+  APP_VERSION: "2.2.0",
+  escapeHtml(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  },
+  applyPendingPaste(viewport, resolvedToolId) {
+    if (!this.pendingPaste || !viewport) return;
+    const p = this.pendingPaste;
+    if (p.toolId === resolvedToolId || this.toolRedirects[p.toolId]?.suiteId === resolvedToolId || (p.toolId === "formatter-suite" && resolvedToolId === "formatter-suite")) {
+      const input = viewport.querySelector(p.inputSelector);
+      if (input) {
+        input.value = p.value;
+        input.dispatchEvent(new Event("input"));
+        if (p.btnSelector) {
+          viewport.querySelector(p.btnSelector)?.click();
+        }
+      }
+    }
+    this.pendingPaste = null;
+  },
   getToolsBasePath() {
     if (window.location.hostname === "appassets.androidplatform.net") {
       return "https://appassets.androidplatform.net/assets/web/tools/";
@@ -1401,7 +1425,123 @@ const app = {
     "audio-suite": [
       "<strong>Universal Sound Transcoder</strong>: Convert between MP3, WAV, and OGG formats with bitrates up to 320k and custom gain.",
       "<strong>Video Audio Demuxer</strong>: Extract soundtracks from MP4, WebM, and MOV video clips with interactive visual waveform trimming."
+    ],
+    "finance-calculator": [
+      "<strong>Multi-Model Financial Engine</strong>: Calculate compound interest, mortgage amortization schedules, ROI, and inflation adjustments in one place.",
+      "<strong>Interactive Growth Heatmap & Charts</strong>: Visualize future wealth accumulation, principal vs. interest breakdown, and monthly payment schedules with zero latency."
+    ],
+    "box-shadow": [
+      "<strong>Layered Ambient Shadows</strong>: Stack multiple soft shadows with fine-tuned X/Y offsets, blur radius, spread, and natural opacity.",
+      "<strong>1-Click CSS Export</strong>: Instantly generate and copy clean, cross-browser CSS box-shadow declarations ready for modern UI design systems."
     ]
+  },
+
+  // Multilingual Tool Benefits Translations
+  toolBenefitsTranslations: {
+    es: {
+      "pipeline-builder": [
+        "<strong>Encadenamiento de Datos</strong>: Ejecuta múltiples conversores, codificadores y transformaciones secuencialmente en un solo clic.",
+        "<strong>Local y Seguro</strong>: Procesa todas las cadenas 100% fuera de línea, manteniendo registros de API y tokens protegidos."
+      ],
+      "formatter-suite": [
+        "<strong>Diagnóstico de Sintaxis</strong>: Identifica anomalías de anidamiento, comas finales o errores de análisis en JSON, YAML y SQL al instante.",
+        "<strong>Conversiones Interoperables</strong>: Migra datos sin problemas entre estructuras CSV, JSON y archivos de configuración."
+      ],
+      "text-encoder-suite": [
+        "<strong>Codificación Segura</strong>: Ejecuta codificación/decodificación Base64 y URL de alto rendimiento sin filtrar variables a servidores externos.",
+        "<strong>Estandarización de Casos</strong>: Normaliza rápidamente formatos de variables (snake_case, camelCase, kebab-case) para migraciones limpias."
+      ],
+      "jwt-decoder": [
+        "<strong>Verificación de Reclamos</strong>: Lee descriptores de carga útil, alcances del emisor y reclamos de seguridad de forma segura sin exponer claves.",
+        "<strong>Marcas de Caducidad</strong>: Analiza automáticamente las marcas de emisión (iat) y caducidad (exp) para diagnosticar problemas de tokens activos."
+      ],
+      "crypto-suite": [
+        "<strong>Hashes Robustos</strong>: Genera valores MD5, SHA-256 y SHA-512 del lado del cliente para sumas de verificación y auditoría de integridad.",
+        "<strong>Claves Simétricas y Asimétricas</strong>: Cifra cargas útiles con AES-256 GCM o genera pares de claves RSA SPKI seguros al instante."
+      ],
+      "pdf-utilities": [
+        "<strong>Extracción Multiformato</strong>: Divide y exporta páginas como PDFs combinados, PDFs individuales en ZIP, imágenes de alta resolución o texto.",
+        "<strong>Unir, Rotar y Comprimir</strong>: Combina múltiples PDFs, rota o elimina páginas y reduce documentos pesados del lado del cliente."
+      ]
+    },
+    pt: {
+      "pipeline-builder": [
+        "<strong>Encadeamento de Dados</strong>: Execute múltiplos conversores, codificadores e transformações sequencialmente em um único clique.",
+        "<strong>Local e Seguro</strong>: Processa todas as cadeias 100% offline, mantendo logs de API e tokens protegidos."
+      ],
+      "formatter-suite": [
+        "<strong>Diagnóstico de Sintaxe</strong>: Identifique anomalias de aninhamento, vírgulas sobressalentes ou erros de análise em JSON, YAML e SQL instantaneamente.",
+        "<strong>Conversões Interoperáveis</strong>: Migre dados facilmente entre estruturas CSV, JSON e arquivos de configuração."
+      ],
+      "text-encoder-suite": [
+        "<strong>Codificação Segura</strong>: Execute codificação/decodificação Base64 e URL de alto desempenho sem vazar dados para servidores externos.",
+        "<strong>Padronização de Casos</strong>: Normalize rapidamente formatos de variáveis (snake_case, camelCase, kebab-case) para migrações limpas."
+      ],
+      "jwt-decoder": [
+        "<strong>Verificação de Claims</strong>: Leia descritores de payload, escopos do emissor e permissões de segurança sem expor chaves secretas.",
+        "<strong>Carimbos de Expiração</strong>: Analise automaticamente carimbos de emissão (iat) e expiração (exp) para diagnosticar problemas em tokens."
+      ],
+      "crypto-suite": [
+        "<strong>Hashes Robustos</strong>: Gere valores MD5, SHA-256 e SHA-512 no cliente para somas de verificação e auditoria de integridade.",
+        "<strong>Chaves Simétricas e Assimétricas</strong>: Criptografe dados com AES-256 GCM ou gere pares de chaves RSA SPKI seguros instantaneamente."
+      ],
+      "pdf-utilities": [
+        "<strong>Extração Multiformato</strong>: Divida e exporte seleções de páginas como PDFs combinados, PDFs separados em ZIP, imagens de alta resolução ou texto.",
+        "<strong>Juntar, Girar e Comprimir</strong>: Combine múltiplos PDFs, gire ou remova páginas e reduza o tamanho de arquivos pesados no navegador."
+      ]
+    },
+    de: {
+      "pipeline-builder": [
+        "<strong>Datenverkettung</strong>: Führen Sie mehrere Konverter, Encoder und Transformationen sequenziell mit einem Klick aus.",
+        "<strong>Lokal & Sicher</strong>: Verarbeitet alle Ketten 100% offline, sodass sensible API-Logs und Token geschützt bleiben."
+      ],
+      "formatter-suite": [
+        "<strong>Syntax-Diagnose</strong>: Erkennen Sie Verschachtelungsfehler, überflüssige Kommas oder Parsing-Fehler in JSON, YAML und SQL sofort.",
+        "<strong>Interoperable Konvertierung</strong>: Migrieren Sie Daten nahtlos zwischen CSV-, JSON-Strukturen und Konfigurationsdateien."
+      ],
+      "text-encoder-suite": [
+        "<strong>Sichere Kodierung</strong>: Führen Sie leistungsstarke Base64- und URL-Kodierung durch, ohne Daten an externe Server zu senden.",
+        "<strong>Schreibweisen-Standardisierung</strong>: Normalisieren Sie Variablenformate (snake_case, camelCase, kebab-case) für sauberen Code."
+      ],
+      "jwt-decoder": [
+        "<strong>Claim-Verifizierung</strong>: Lesen Sie Nutzlastdaten, Issuer-Berechtigungen und Sicherheitsansprüche sicher ohne Schlüsselrisiko.",
+        "<strong>Ablaufstempel</strong>: Ermitteln Sie automatisch Ausstellungs- (iat) und Ablaufzeiten (exp) zur Fehlerbehebung."
+      ],
+      "crypto-suite": [
+        "<strong>Robuste Hashes</strong>: Erstellen Sie MD5-, SHA-256- und SHA-512-Werte clientseitig für Prüfsummen und Integritätsprüfungen.",
+        "<strong>Symmetrische & Asymmetrische Schlüssel</strong>: Verschlüsseln Sie Daten mit AES-256 GCM oder erstellen Sie sichere RSA-Schlüsselpaare."
+      ],
+      "pdf-utilities": [
+        "<strong>Multiformat-Extraktion</strong>: Extrahieren und exportieren Sie Seiten als kombinierte PDFs, ZIP-Dateien, hochauflösende Bilder oder Text.",
+        "<strong>Zusammenfügen, Drehen & Komprimieren</strong>: Kombinieren Sie PDFs, rotieren oder löschen Sie Seiten und verkleinern Sie Dokumente clientseitig."
+      ]
+    },
+    fr: {
+      "pipeline-builder": [
+        "<strong>Chaînage de Données</strong>: Exécutez plusieurs convertisseurs, encodeurs et transformations séquentiellement en un seul clic.",
+        "<strong>Local et Sécurisé</strong>: Traite toutes les chaînes 100% hors ligne, protégeant vos journaux d'API et jetons sensibles."
+      ],
+      "formatter-suite": [
+        "<strong>Diagnostic Syntaxique</strong>: Détectez instantanément les erreurs d'imbrication, virgules superflues ou erreurs d'analyse en JSON, YAML et SQL.",
+        "<strong>Conversions Interopérables</strong>: Migrez facilement des données entre structures CSV, JSON et fichiers de configuration."
+      ],
+      "text-encoder-suite": [
+        "<strong>Encodage Sécurisé</strong>: Exécutez un encodage/décodage Base64 et URL ultra-rapide sans fuite de variables vers des serveurs tiers.",
+        "<strong>Standardisation de Casse</strong>: Normalisez rapidement les variables (snake_case, camelCase, kebab-case) pour des migrations propres."
+      ],
+      "jwt-decoder": [
+        "<strong>Vérification des Revendications</strong>: Inspectez la charge utile, portées de l'émetteur et revendications de sécurité en toute sécurité.",
+        "<strong>Horodatages d'Expiration</strong>: Analysez automatiquement les dates d'émission (iat) et d'expiration (exp) pour diagnostiquer les anomalies."
+      ],
+      "crypto-suite": [
+        "<strong>Hachages Robustes</strong>: Générez des empreintes MD5, SHA-256 et SHA-512 côté client pour les sommes de contrôle et l'intégrité.",
+        "<strong>Clés Symétriques et Asymétriques</strong>: Chiffrez avec AES-256 GCM ou générez des paires de clés RSA sécurisées instantanément."
+      ],
+      "pdf-utilities": [
+        "<strong>Extraction Multi-Formats</strong>: Exportez vos pages sous forme de PDF fusionnés, PDF individuels en ZIP, images haute résolution ou texte brut.",
+        "<strong>Fusionner, Pivoter & Compresser</strong>: Combinez plusieurs PDF, pivotez ou supprimez des pages et réduisez la taille sans téléversement."
+      ]
+    }
   },
 
   // Centralized Tool Features (Micro Capability Capsules for instant visibility)
@@ -1413,10 +1553,10 @@ const app = {
       { label: "Instant Execution", icon: "⚡" }
     ],
     "formatter-suite": [
-      { label: "JSON / SQL / YAML / CSV", icon: "🔄", primary: true },
-      { label: "Syntax Validation", icon: "✅" },
-      { label: "Minify & Beautify", icon: "✨" },
-      { label: "Client-Side Processing", icon: "⚡" }
+      { label: "JSON Formatter", icon: "🔄", primary: true, tab: "json" },
+      { label: "SQL Beautifier", icon: "✨", tab: "sql" },
+      { label: "YAML & CSV", icon: "📑", tab: "yaml" },
+      { label: "XML / HTML", icon: "🌐", tab: "xml" }
     ],
     "text-encoder-suite": [
       { label: "Base64 & URL Encoding", icon: "🔤", primary: true },
@@ -1431,9 +1571,9 @@ const app = {
       { label: "Formatted JSON Payload", icon: "📜" }
     ],
     "crypto-suite": [
-      { label: "MD5 / SHA-256 / SHA-512", icon: "#️⃣", primary: true },
-      { label: "AES-256-GCM Encryption", icon: "🔐" },
-      { label: "RSA 2048/4096 Keypairs", icon: "🗝️" },
+      { label: "MD5 / SHA Hash Gen", icon: "#️⃣", primary: true, tab: "hash" },
+      { label: "AES-256 Encryption", icon: "🔐", tab: "aes" },
+      { label: "RSA 2048/4096 Keys", icon: "🗝️", tab: "rsa" },
       { label: "WebCrypto Hardware Speed", icon: "⚡" }
     ],
     "pii-anonymizer": [
@@ -1473,10 +1613,10 @@ const app = {
       { label: "Regex Cheat Sheet", icon: "📚" }
     ],
     "css-studio": [
-      { label: "Gradients & Mesh Generator", icon: "🎨", primary: true },
-      { label: "Multi-Layer Box Shadows", icon: "👥" },
-      { label: "Frosted Glassmorphism", icon: "🧊" },
-      { label: "1-Click CSS Copy", icon: "📋" }
+      { label: "Gradients & Mesh", icon: "🎨", primary: true, tab: "gradient" },
+      { label: "Multi-Layer Shadows", icon: "👥", tab: "shadow" },
+      { label: "Frosted Glassmorphism", icon: "🧊", tab: "glass" },
+      { label: "Clip Path Shapes", icon: "📐", tab: "clippath" }
     ],
     "color-lab": [
       { label: "WCAG 2.1 Contrast Ratios", icon: "👁️", primary: true },
@@ -1485,15 +1625,15 @@ const app = {
       { label: "HEX / RGB / HSL Sync", icon: "📐" }
     ],
     "security-suite": [
-      { label: "Cryptographic Entropy", icon: "🎲", primary: true },
-      { label: "RFC 4122 v4 UUIDs", icon: "🔑" },
+      { label: "Password Generator", icon: "🎲", primary: true, tab: "pass" },
+      { label: "RFC 4122 v4 UUIDs", icon: "🔑", tab: "uuid" },
       { label: "Bulk Key Generation", icon: "📦" },
       { label: "Hardware RNG Seeded", icon: "⚡" }
     ],
     "datetime-suite": [
-      { label: "Unix Epoch Converter", icon: "⏱️", primary: true },
-      { label: "Millisecond & Second Mode", icon: "⚡" },
-      { label: "Duration & Date Math", icon: "📅" },
+      { label: "Unix Epoch Converter", icon: "⏱️", primary: true, tab: "epoch" },
+      { label: "Date Difference & Math", icon: "📅", tab: "calc" },
+      { label: "Millisecond Mode", icon: "⚡" },
       { label: "Local Timezone Sync", icon: "🌍" }
     ],
     "unit-converter": [
@@ -1785,32 +1925,35 @@ const app = {
       { label: "XMP Archival Metadata Packet", icon: "🏷️" }
     ],
     "pdf-converter-hub": [
-      { label: "Word, Excel & PPTX", icon: "📄", primary: true },
-      { label: "Images & Camera Scanner", icon: "📷" },
-      { label: "HTML/CSS & Markdown", icon: "💻" },
-      { label: "100% In-Browser", icon: "🔒" }
+      { label: "Word to PDF", icon: "📄", primary: true, subtool: "word-pdf" },
+      { label: "Excel to PDF", icon: "📊", subtool: "excel-pdf" },
+      { label: "Images to PDF", icon: "📷", subtool: "images-to-pdf" },
+      { label: "Scan to PDF", icon: "📸", subtool: "scan-to-pdf" },
+      { label: "HTML to PDF", icon: "💻", subtool: "html-to-pdf" },
+      { label: "PPTX to PDF", icon: "📑", subtool: "pptx-pdf" }
     ],
     "pdf-editor-suite": [
-      { label: "Draw & Cursive Sign", icon: "✍️", primary: true },
-      { label: "AcroForm Fill & Flatten", icon: "📋" },
-      { label: "Vector Markup & Watermark", icon: "✏️" },
-      { label: "Permanent Redaction", icon: "⬛" }
+      { label: "Draw & Cursive Sign", icon: "✍️", primary: true, subtool: "sign-pdf" },
+      { label: "Annotate & Draw", icon: "✏️", subtool: "pdf-annotate" },
+      { label: "AcroForm Fill & Flatten", icon: "📋", subtool: "pdf-forms" },
+      { label: "Watermark & Page Numbers", icon: "💧", subtool: "pdf-watermark" },
+      { label: "Permanent Redaction", icon: "⬛", subtool: "redact-pdf" }
     ],
     "pdf-security-suite": [
-      { label: "AES-256 Encrypt & Unlock", icon: "🔒", primary: true },
-      { label: "Corrupt Xref Stream Repair", icon: "🛠️" },
-      { label: "ISO 19005 PDF/A Archive", icon: "🏛️" },
+      { label: "AES-256 Encrypt & Unlock", icon: "🔒", primary: true, subtool: "pdf-security" },
+      { label: "Corrupt Xref Stream Repair", icon: "🛠️", subtool: "repair-pdf" },
+      { label: "ISO 19005 PDF/A Archive", icon: "🏛️", subtool: "pdf-to-pdfa" },
       { label: "Zero Server Uploads", icon: "⚡" }
     ],
     "qr-studio": [
-      { label: "Art Gradients & Logos", icon: "🎨", primary: true },
-      { label: "Webcam & File Scanner", icon: "📷" },
+      { label: "Art Gradients & Logos", icon: "🎨", primary: true, subtool: "qr-generator" },
+      { label: "Webcam & File Scanner", icon: "📷", subtool: "qr-scanner" },
       { label: "1D/2D Barcode Support", icon: "📦" },
       { label: "Client-Side Speed", icon: "⚡" }
     ],
     "audio-suite": [
-      { label: "MP3, WAV & OGG Transcode", icon: "🎧", primary: true },
-      { label: "Video Audio Demuxer", icon: "🎬" },
+      { label: "MP3, WAV & OGG Transcode", icon: "🎧", primary: true, subtool: "audio-converter" },
+      { label: "Video Audio Demuxer", icon: "🎬", subtool: "mp4-to-mp3" },
       { label: "Visual Waveform Trimmer", icon: "📊" },
       { label: "Bitrates up to 320k", icon: "⚡" }
     ]
@@ -2277,7 +2420,7 @@ const app = {
   },
 
   
-  // Centralized Curated Registry for Everyday / Beginner Mode (18 Essential Utilities)
+  // Centralized Curated Registry for Everyday / Beginner Mode (20 Essential Utilities)
   beginnerToolsConfig: {
     "pdf-utilities": {
       name: "Combine, Cut & Compress PDF",
@@ -2510,7 +2653,9 @@ const app = {
   },
 
   applyUiModeDOM() {
-    document.body.setAttribute("data-ui-mode", this.uiMode);
+    if (document.body) {
+      document.body.setAttribute("data-ui-mode", this.uiMode);
+    }
 
     const updatePills = (prefix) => {
       const begBtn = document.getElementById(`${prefix}mode-btn-beginner`);
@@ -2610,7 +2755,7 @@ const app = {
           <div class="hero-mode-banner">
             <span>💻 Need code formatters, JWT, or developer utilities?</span>
             <button type="button" class="hero-mode-banner-btn" onclick="app.setUiMode('developer')">
-              <span>Switch to Developer Mode (75+ tools) &rarr;</span>
+              <span>Switch to Developer Mode (47+ suites &bull; 70+ tools) &rarr;</span>
             </button>
           </div>
         `;
@@ -2638,6 +2783,17 @@ const app = {
       tool.category || "",
       tool.subcategory || ""
     ];
+
+    // Localized translations index (allows searching in ES, PT, DE, FR)
+    if (this.toolTranslations) {
+      Object.keys(this.toolTranslations).forEach(lang => {
+        const tr = this.toolTranslations[lang]?.[tool.id];
+        if (tr) {
+          if (tr.name) parts.push(tr.name);
+          if (tr.desc) parts.push(tr.desc);
+        }
+      });
+    }
 
     if (tool.keywords && Array.isArray(tool.keywords)) {
       parts.push(...tool.keywords);
@@ -2773,7 +2929,17 @@ const app = {
 
     // SVG Studio
     "svg-morph": { suiteId: "svg-animator", subtab: "morph" },
-    "path-morph": { suiteId: "svg-animator", subtab: "morph" }
+    "path-morph": { suiteId: "svg-animator", subtab: "morph" },
+
+    // Finance Calculator Subtools
+    "sip-calculator": { suiteId: "finance-calculator", subtab: "sip" },
+    "compound-interest-calculator": { suiteId: "finance-calculator", subtab: "compound" },
+    "emi-calculator": { suiteId: "finance-calculator", subtab: "emi" },
+
+    // Fancy Font & Text Generator Aliases
+    "font-generator": { suiteId: "fancy-font-generator" },
+    "instagram-fonts": { suiteId: "fancy-font-generator" },
+    "zalgo-text-generator": { suiteId: "fancy-font-generator" }
   },
 
   
@@ -2791,7 +2957,7 @@ const app = {
       keywords: "css box shadow generator, box shadow builder, multi layer shadow css, drop shadow generator, inset shadow css, css box shadow maker",
       category: "design",
       subLabel: "CSS Builders",
-      guideUrl: "guides/split-pdf.html"
+      guideUrl: "guides/box-shadow.html"
     },
     "gradient-generator": {
       suiteId: "css-studio",
@@ -3484,7 +3650,7 @@ const app = {
       keywords: "split pdf, extract pages from pdf, crop pdf, pdf to images zip, separate pdf pages",
       category: "text",
       subLabel: "PDF Page Studio",
-      guideUrl: "guides/pdf-utilities.html#split"
+      guideUrl: "guides/crop-pdf.html"
     }
   },
 
@@ -3505,12 +3671,13 @@ const app = {
     const subtool = this.getTabSubtool(suiteId, tabId);
     const effectiveSlug = subtool ? subtool.slug : suiteId;
     const targetPath = '/tool/' + effectiveSlug;
+    const targetUrl = targetPath + this.getLangQueryString();
 
     if (options && options.pushHistory) {
       if (window.history && window.history.pushState) {
         try {
           if (window.location.pathname !== targetPath) {
-            window.history.pushState({ toolId: suiteId, subtab: tabId, subtool: effectiveSlug }, "", targetPath);
+            window.history.pushState({ toolId: suiteId, subtab: tabId, subtool: effectiveSlug }, "", targetUrl);
           }
         } catch (_) {
           window.location.hash = "tool/" + effectiveSlug;
@@ -3519,13 +3686,16 @@ const app = {
     } else if (options && options.replaceHistory) {
       if (window.history && window.history.replaceState) {
         try {
-          window.history.replaceState({ toolId: suiteId, subtab: tabId, subtool: effectiveSlug }, "", targetPath);
+          window.history.replaceState({ toolId: suiteId, subtab: tabId, subtool: effectiveSlug }, "", targetUrl);
         } catch (_) {}
       }
     }
 
     this.activeSubtool = subtool ? subtool.slug : null;
     this.updateToolSEO(suiteId, subtool ? subtool.slug : null);
+    const activeViewport = document.getElementById("active-tool-viewport");
+    this.injectGuideBenefits(activeViewport, suiteId, subtool ? subtool.slug : null);
+    this.syncActiveCapabilityChip(activeViewport, subtool ? subtool.slug : null);
 
     // Update Header View Title smoothly
     const titleEl = document.getElementById("header-view-title");
@@ -3549,11 +3719,15 @@ const app = {
     if (!meta) return;
 
     const effectiveId = subMeta ? subtoolId : toolId;
-    const fullTitle = meta.title || `${meta.name} | OmniTool Hub`;
+    const currentLang = this.currentLanguage || "en";
+    const tTrans = this.toolTranslations?.[currentLang]?.[effectiveId] || this.toolTranslations?.[currentLang]?.[toolId];
+    const localizedName = tTrans?.name || meta.name;
+    const localizedDesc = tTrans?.desc || meta.desc;
+    const fullTitle = tTrans ? `${localizedName} | OmniTool Hub` : (meta.title || `${meta.name} | OmniTool Hub`);
     document.title = fullTitle;
 
     const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc && meta.desc) metaDesc.setAttribute("content", meta.desc);
+    if (metaDesc && localizedDesc) metaDesc.setAttribute("content", localizedDesc);
 
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute("href", `https://omnitool.worldsneed.com/tool/${effectiveId}`);
@@ -3562,7 +3736,7 @@ const app = {
     if (ogTitle) ogTitle.setAttribute("content", fullTitle);
 
     const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc && meta.desc) ogDesc.setAttribute("content", meta.desc);
+    if (ogDesc && localizedDesc) ogDesc.setAttribute("content", localizedDesc);
 
     const ogUrl = document.querySelector('meta[property="og:url"]');
     if (ogUrl) ogUrl.setAttribute("content", `https://omnitool.worldsneed.com/tool/${effectiveId}`);
@@ -3622,6 +3796,8 @@ const app = {
     if (window.location.protocol === "file:") {
       return;
     }
+
+    // 1. Load local baseline configuration from ad-config.json
     try {
       const isLocalhost = window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1" ||
@@ -3631,15 +3807,61 @@ const app = {
       const response = await fetch('ad-config.json' + cacheBust);
       if (response.ok) {
         this.globalConfig = await response.json();
-        console.log("[Config] Loaded global configuration:", this.globalConfig);
+        console.log("[Config] Loaded global configuration baseline:", this.globalConfig);
         if (this.globalConfig && typeof this.globalConfig === "object") {
           Object.entries(this.globalConfig).forEach(([k, v]) => {
-            try { localStorage.setItem(k, v); } catch (_) {}
+            try {
+              if (localStorage.getItem(k) === null) {
+                localStorage.setItem(k, typeof v === "object" ? JSON.stringify(v) : String(v));
+              }
+            } catch (_) {}
           });
         }
       }
     } catch (e) {
-      console.log("[Config] No global ad-config.json found or failed to load. Falling back to local storage.", e);
+      console.log("[Config] Local ad-config.json loaded from local storage.", e);
+    }
+
+    // 2. Background Auto-Sync with Remote Live Config URL
+    // Allows updating referral ads, sponsor campaigns, ad networks, and pricing
+    // so mobile apps (including Amazon Appstore installs) update automatically without APK re-installation!
+    const remoteUrl = this.getConfigValue("omnitool_remote_config_url", "https://omnitool.worldsneed.com/ad-config.json");
+    if (remoteUrl && (remoteUrl.startsWith("http://") || remoteUrl.startsWith("https://"))) {
+      const fetchLiveConfig = async () => {
+        try {
+          const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+          const timer = controller ? setTimeout(() => controller.abort(), 4500) : null;
+          const sep = remoteUrl.includes("?") ? "&" : "?";
+          const res = await fetch(remoteUrl + sep + "_sync=" + Date.now(), {
+            signal: controller ? controller.signal : undefined,
+            cache: "no-store",
+            headers: { "Accept": "application/json" }
+          });
+          if (timer) clearTimeout(timer);
+          if (res.ok) {
+            const remoteData = await res.json();
+            if (remoteData && typeof remoteData === "object") {
+              console.log("[Config] 🚀 Live Remote Config successfully synced from:", remoteUrl);
+              this.globalConfig = Object.assign({}, this.globalConfig || {}, remoteData);
+              Object.entries(remoteData).forEach(([k, v]) => {
+                try {
+                  localStorage.setItem(k, typeof v === "object" ? JSON.stringify(v) : String(v));
+                } catch (_) {}
+              });
+              localStorage.setItem("omnitool_last_remote_sync", String(Date.now()));
+              if (typeof this.refreshAllAds === "function") {
+                this.refreshAllAds();
+              }
+            }
+          }
+        } catch (err) {
+          console.log("[Config] Remote live config sync skipped (offline or unreachable):", err.message || err);
+        }
+      };
+
+      if (typeof window !== "undefined") {
+        setTimeout(fetchLiveConfig, 100);
+      }
     }
   },
 
@@ -3671,8 +3893,10 @@ const app = {
         (typeof window !== "undefined" && window.location?.hostname === "appassets.androidplatform.net") ||
         (typeof window !== "undefined" && window.location?.href && window.location.href.includes("android_asset"))
       );
+    this.isEmbeddedApp = isEmbeddedApp;
     if (isEmbeddedApp) {
-      document.body.classList.add("app-embedded");
+      document.body?.classList?.add("app-embedded");
+      document.documentElement?.classList?.add("app-embedded");
     }
 
     // Inject keywords into tool definitions
@@ -3689,6 +3913,13 @@ const app = {
       this.tools = this.tools.filter(t => t.id !== "admin-settings");
     }
 
+    // Skip async browser hydration, timers, and CSSOM calls in minimal Node.js mock-DOM unit test harnesses
+    const isNodeMockHarness = typeof process !== "undefined" && Boolean(process.versions?.node) && typeof document?.createTreeWalker !== "function";
+    if (isNodeMockHarness && !window.__OMNITOOL_FORCE_INIT__) {
+      this.isInitialLoad = false;
+      return;
+    }
+
     await this.loadGlobalConfig();
     this.refreshDonationButtons();
     this.initSplash();
@@ -3700,7 +3931,9 @@ const app = {
     this.initTheme();
     this.initUiMode();
     this.initLayoutScale();
+    this.initLanguage();
     this.bindEvents();
+    this.initMobileSelectPicker();
     this.buildSidebarToolMenu();
     this.buildMegaMenu();
     this.handleRouting();
@@ -3798,6 +4031,259 @@ const app = {
     });
   },
 
+  initMobileSelectPicker() {
+    if (this._mobileSelectPickerInitialized) return;
+    this._mobileSelectPickerInitialized = true;
+
+    // Detect if we should enhance <select> interactions (mobile, tablet, touch screen, or embedded app)
+    const isMobileOrTouch = Boolean(
+      this.isEmbeddedApp ||
+      (typeof window !== "undefined" && (
+        "ontouchstart" in window ||
+        (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+        window.innerWidth <= 1024 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || "")
+      ))
+    );
+
+    if (!isMobileOrTouch) return;
+
+    let activeSelect = null;
+    let pickerModal = null;
+
+    const closePicker = () => {
+      if (!pickerModal) return;
+      const sheet = pickerModal.querySelector(".omnitool-select-sheet");
+      if (sheet) {
+        sheet.style.transform = "translateY(100%)";
+        sheet.style.transition = "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)";
+      }
+      pickerModal.style.opacity = "0";
+      pickerModal.style.transition = "opacity 0.2s ease";
+      setTimeout(() => {
+        pickerModal?.remove();
+        pickerModal = null;
+        activeSelect = null;
+      }, 200);
+    };
+
+    const openPicker = (selectEl) => {
+      if (!selectEl || selectEl.disabled) return;
+      activeSelect = selectEl;
+
+      if (pickerModal) {
+        pickerModal.remove();
+        pickerModal = null;
+      }
+
+      // Determine label/title
+      let title = selectEl.getAttribute("aria-label") || selectEl.title || "";
+      if (!title && selectEl.id) {
+        const lbl = document.querySelector(`label[for="${selectEl.id}"]`);
+        if (lbl) title = lbl.textContent.trim();
+      }
+      if (!title) {
+        const parentLabel = selectEl.closest("label");
+        if (parentLabel) {
+          const clone = parentLabel.cloneNode(true);
+          clone.querySelectorAll("select, input, textarea").forEach(n => n.remove());
+          title = clone.textContent.trim();
+        }
+      }
+      if (!title) {
+        const prev = selectEl.previousElementSibling;
+        if (prev && (prev.tagName === "LABEL" || prev.classList.contains("tool-control-label") || prev.classList.contains("panel-label"))) {
+          title = prev.textContent.trim();
+        }
+      }
+      if (!title) title = "Select Option";
+      title = title.replace(/[:*]+$/, "").trim();
+
+      // Collect options & groups
+      const items = [];
+      const children = Array.from(selectEl.children);
+      children.forEach(child => {
+        if (child.tagName === "OPTGROUP") {
+          items.push({
+            isGroup: true,
+            label: child.label || child.getAttribute("label") || "Group"
+          });
+          Array.from(child.children).forEach(opt => {
+            if (opt.tagName === "OPTION") {
+              items.push({
+                isGroup: false,
+                text: opt.text || opt.label || opt.value,
+                value: opt.value,
+                selected: opt.selected,
+                disabled: opt.disabled,
+                originalOption: opt
+              });
+            }
+          });
+        } else if (child.tagName === "OPTION") {
+          items.push({
+            isGroup: false,
+            text: child.text || child.label || child.value,
+            value: child.value,
+            selected: child.selected,
+            disabled: child.disabled,
+            originalOption: child
+          });
+        }
+      });
+
+      if (items.length === 0) return;
+
+      const hasMany = items.filter(i => !i.isGroup).length >= 8;
+
+      pickerModal = document.createElement("div");
+      pickerModal.className = "omnitool-select-modal";
+      pickerModal.setAttribute("role", "dialog");
+      pickerModal.setAttribute("aria-modal", "true");
+
+      const titleEscaped = this.escapeHtml(title);
+
+      pickerModal.innerHTML = `
+        <div class="omnitool-select-backdrop"></div>
+        <div class="omnitool-select-sheet" role="document">
+          <div class="omnitool-select-handle"></div>
+          <div class="omnitool-select-header">
+            <div class="omnitool-select-header-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+              <span>${titleEscaped}</span>
+            </div>
+            <button type="button" class="omnitool-select-close-btn" aria-label="Close dialog">&times;</button>
+          </div>
+          ${hasMany ? `
+            <div class="omnitool-select-search-wrap">
+              <svg class="omnitool-select-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" class="omnitool-select-search-input" placeholder="Search options..." autocomplete="off" autocapitalize="none">
+            </div>
+          ` : ""}
+          <div class="omnitool-select-list" role="listbox">
+            ${items.map((item, idx) => {
+              if (item.isGroup) {
+                return `<div class="omnitool-select-group-header">${this.escapeHtml(item.label)}</div>`;
+              }
+              const isSelected = item.selected;
+              const isDisabled = item.disabled;
+              return `
+                <div class="omnitool-select-option ${isSelected ? "selected" : ""} ${isDisabled ? "disabled" : ""}"
+                     data-value="${this.escapeHtml(item.value)}"
+                     data-index="${idx}"
+                     role="option"
+                     aria-selected="${isSelected ? "true" : "false"}"
+                     ${isDisabled ? 'aria-disabled="true"' : ""}>
+                  <span class="omnitool-select-option-text">${this.escapeHtml(item.text)}</span>
+                  <span class="omnitool-select-option-check">${isSelected ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>` : ""}</span>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(pickerModal);
+
+      // Search filtering
+      if (hasMany) {
+        const searchInput = pickerModal.querySelector(".omnitool-select-search-input");
+        const listItems = pickerModal.querySelectorAll(".omnitool-select-option");
+        searchInput?.addEventListener("input", (e) => {
+          const q = (e.target.value || "").toLowerCase().trim();
+          listItems.forEach(el => {
+            const text = el.querySelector(".omnitool-select-option-text")?.textContent?.toLowerCase() || "";
+            el.style.display = text.includes(q) ? "flex" : "none";
+          });
+        });
+        setTimeout(() => searchInput?.focus(), 100);
+      }
+
+      // Close interactions
+      pickerModal.querySelector(".omnitool-select-backdrop")?.addEventListener("click", closePicker);
+      pickerModal.querySelector(".omnitool-select-close-btn")?.addEventListener("click", closePicker);
+
+      // Option selection
+      const listEl = pickerModal.querySelector(".omnitool-select-list");
+      listEl?.addEventListener("click", (e) => {
+        const optEl = e.target.closest(".omnitool-select-option");
+        if (!optEl || optEl.classList.contains("disabled")) return;
+
+        const val = optEl.getAttribute("data-value");
+        if (val !== null && selectEl) {
+          selectEl.value = val;
+          selectEl.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
+          selectEl.dispatchEvent(new Event("change", { bubbles: true, cancelable: true }));
+        }
+
+        closePicker();
+      });
+
+      // Auto scroll to currently selected item
+      requestAnimationFrame(() => {
+        const selectedEl = listEl?.querySelector(".omnitool-select-option.selected");
+        if (selectedEl) {
+          selectedEl.scrollIntoView({ block: "center", behavior: "auto" });
+        }
+      });
+    };
+
+    this.openCustomSelectPicker = openPicker;
+
+    let lastTriggerTime = 0;
+    const handleSelectTrigger = (e) => {
+      const select = e.target.closest("select");
+      if (!select || select.disabled) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      const now = Date.now();
+      if (now - lastTriggerTime < 350 && activeSelect === select) {
+        return;
+      }
+      lastTriggerTime = now;
+
+      select.blur();
+      openPicker(select);
+    };
+
+    // Capture touchstart, pointerdown, mousedown, and click
+    ["touchstart", "pointerdown", "mousedown", "click"].forEach(evtName => {
+      document.addEventListener(evtName, (e) => {
+        if (e.target && e.target.closest && e.target.closest("select")) {
+          handleSelectTrigger(e);
+        }
+      }, { capture: true, passive: false });
+    });
+
+    // Also support clicking on labels pointing to a select
+    document.addEventListener("click", (e) => {
+      const label = e.target && e.target.closest && e.target.closest("label");
+      if (!label) return;
+      let targetSelect = null;
+      if (label.htmlFor) {
+        targetSelect = document.getElementById(label.htmlFor);
+      } else {
+        targetSelect = label.querySelector("select");
+      }
+      if (targetSelect && targetSelect.tagName === "SELECT") {
+        handleSelectTrigger(e);
+      }
+    }, { capture: true, passive: false });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && pickerModal) {
+        closePicker();
+      }
+    });
+  },
+
   initSurpriseTool() {
     const handleSurprise = (e) => {
       if (e) {
@@ -3849,34 +4335,131 @@ const app = {
 
     if (!searchInputs.length) return;
 
-    const beginnerPrompts = [
-      "Search 18 everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')",
-      "Try 'Combine, Cut & Compress PDF'",
-      "Try 'Create & Scan QR Codes'",
-      "Try 'Fast Online Calculator'",
-      "Try 'Voice Memo & Audio Recorder'",
-      "Try 'Photo & Image Converter'",
-      "Try 'Color Picker & Palette Matcher'",
-      "Try 'Date, Age & Time Calculator'"
-    ];
-
-    const devPrompts = [
-      "Search 50+ developer tools... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')",
-      "Try 'Smart Chain Pipeline Builder'",
-      "Try 'JWT Token Decoder & Inspector'",
-      "Try 'Cryptography & AES-256 Suite'",
-      "Try 'Visual Regex Tester & Extractor'",
-      "Try 'cURL to Fetch / Axios Converter'",
-      "Try 'JSON-to-Code Interface Converter'",
-      "Try 'Mock Data Generator'",
-      "Try 'HTML/CSS/JS Live Playground'"
-    ];
+    const promptsByLang = {
+      en: {
+        beginner: [
+          "Search 20 everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')",
+          "Try 'Combine, Cut & Compress PDF'",
+          "Try 'Create & Scan QR Codes'",
+          "Try 'Fast Online Calculator'",
+          "Try 'Voice Memo & Audio Recorder'",
+          "Try 'Photo & Image Converter'",
+          "Try 'Color Picker & Palette Matcher'",
+          "Try 'Date, Age & Time Calculator'"
+        ],
+        dev: [
+          "Search 47+ developer suites (70+ tools)... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')",
+          "Try 'Smart Chain Pipeline Builder'",
+          "Try 'JWT Token Decoder & Inspector'",
+          "Try 'Cryptography & AES-256 Suite'",
+          "Try 'Visual Regex Tester & Extractor'",
+          "Try 'cURL to Fetch / Axios Converter'",
+          "Try 'JSON-to-Code Interface Converter'",
+          "Try 'Mock Data Generator'",
+          "Try 'HTML/CSS/JS Live Playground'"
+        ]
+      },
+      es: {
+        beginner: [
+          "Buscar 20 herramientas cotidianas... (ej. 'PDF', 'Código QR', 'Audio')",
+          "Prueba 'Combinar, Cortar y Comprimir PDF'",
+          "Prueba 'Crear y Escanear Códigos QR'",
+          "Prueba 'Calculadora Rápida en Línea'",
+          "Prueba 'Grabadora de Voz y Notas de Audio'",
+          "Prueba 'Convertidor de Fotos e Imágenes'",
+          "Prueba 'Selector de Color y Paletas'",
+          "Prueba 'Calculadora de Fechas y Tiempo'"
+        ],
+        dev: [
+          "Buscar 47+ suites de desarrollo... (ej. 'JSON', 'JWT', 'Base64')",
+          "Prueba 'Constructor de Pipeline en Cadena'",
+          "Prueba 'Decodificador e Inspector JWT'",
+          "Prueba 'Suite de Criptografía y AES-256'",
+          "Prueba 'Probador Visual de Expresiones Regulares'",
+          "Prueba 'Conversor de cURL a Fetch / Axios'",
+          "Prueba 'Conversor de JSON a Interfaces'",
+          "Prueba 'Generador de Datos Falsos'",
+          "Prueba 'Playground en Vivo HTML/CSS/JS'"
+        ]
+      },
+      pt: {
+        beginner: [
+          "Pesquisar 20 ferramentas do dia a dia... (ex: 'PDF', 'QR code', 'Áudio')",
+          "Experimente 'Combinar, Cortar e Comprimir PDF'",
+          "Experimente 'Criar e Ler Códigos QR'",
+          "Experimente 'Calculadora Rápida Online'",
+          "Experimente 'Gravador de Voz e Áudio'",
+          "Experimente 'Conversor de Fotos e Imagens'",
+          "Experimente 'Seletor de Cores e Paletas'",
+          "Experimente 'Calculadora de Datas e Idade'"
+        ],
+        dev: [
+          "Pesquisar 47+ suítes de desenvolvedor... (ex: 'JSON', 'JWT', 'Base64')",
+          "Experimente 'Criador de Fluxos em Cadeia'",
+          "Experimente 'Decodificador e Inspetor JWT'",
+          "Experimente 'Suíte de Criptografia e AES-256'",
+          "Experimente 'Testador Visual de Regex'",
+          "Experimente 'Conversor de cURL para Fetch / Axios'",
+          "Experimente 'Conversor de JSON para Interfaces'",
+          "Experimente 'Gerador de Dados de Teste'",
+          "Experimente 'Playground ao Vivo HTML/CSS/JS'"
+        ]
+      },
+      de: {
+        beginner: [
+          "20 alltägliche Tools durchsuchen... (z. B. 'PDF', 'QR-Code', 'Audio')",
+          "Probieren Sie 'PDF zusammenfügen, teilen & komprimieren'",
+          "Probieren Sie 'QR-Codes erstellen & scannen'",
+          "Probieren Sie 'Schneller Online-Rechner'",
+          "Probieren Sie 'Sprach- und Audiorekorder'",
+          "Probieren Sie 'Foto- und Bildkonverter'",
+          "Probieren Sie 'Farbwähler & Paletten-Studio'",
+          "Probieren Sie 'Datums- und Zeitrechner'"
+        ],
+        dev: [
+          "47+ Entwickler-Suiten durchsuchen... (z. B. 'JSON', 'JWT', 'Base64')",
+          "Probieren Sie 'Pipeline-Ketten-Builder'",
+          "Probieren Sie 'JWT-Token-Decoder & Inspektor'",
+          "Probieren Sie 'Kryptographie- & AES-256-Suite'",
+          "Probieren Sie 'Visueller Regex-Tester & Extraktor'",
+          "Probieren Sie 'cURL-zu-Fetch / Axios-Konverter'",
+          "Probieren Sie 'JSON-zu-Code-Schnittstellen-Konverter'",
+          "Probieren Sie 'Mock-Daten-Generator'",
+          "Probieren Sie 'HTML/CSS/JS Live-Playground'"
+        ]
+      },
+      fr: {
+        beginner: [
+          "Rechercher 20 outils du quotidien... (ex. 'PDF', 'QR code', 'Audio')",
+          "Essayez 'Combiner, découper & compresser PDF'",
+          "Essayez 'Créer & scanner des codes QR'",
+          "Essayez 'Calculatrice rapide en ligne'",
+          "Essayez 'Enregistreur vocal et audio'",
+          "Essayez 'Convertisseur de photos & images'",
+          "Essayez 'Sélecteur de couleurs et palettes'",
+          "Essayez 'Calculateur de dates et durées'"
+        ],
+        dev: [
+          "Rechercher 47+ suites pour développeurs... (ex. 'JSON', 'JWT', 'Base64')",
+          "Essayez 'Créateur de pipelines en chaîne'",
+          "Essayez 'Décodeur et inspecteur de jetons JWT'",
+          "Essayez 'Suite de cryptographie & AES-256'",
+          "Essayez 'Testeur visuel de Regex & extracteur'",
+          "Essayez 'Convertisseur cURL vers Fetch / Axios'",
+          "Essayez 'Convertisseur JSON vers interfaces'",
+          "Essayez 'Générateur de fausses données'",
+          "Essayez 'Playground interactif HTML/CSS/JS'"
+        ]
+      }
+    };
 
     let promptIdx = 0;
     setInterval(() => {
       promptIdx = promptIdx + 1;
+      const lang = this.currentLanguage || "en";
+      const langPrompts = promptsByLang[lang] || promptsByLang.en;
       const isBeginner = this.uiMode === "beginner";
-      const prompts = isBeginner ? beginnerPrompts : devPrompts;
+      const prompts = isBeginner ? langPrompts.beginner : langPrompts.dev;
       const chosen = prompts[promptIdx % prompts.length];
       searchInputs.forEach(input => {
         if (document.activeElement !== input && !input.value) {
@@ -3920,8 +4503,9 @@ const app = {
   syncToolCounts() {
     const isBeginner = this.uiMode === "beginner";
     const beginnerCount = Object.keys(this.beginnerToolsConfig || {}).length || 18;
-    const count = isBeginner ? beginnerCount : this.tools.length;
-    const countDisplay = isBeginner ? `${count}` : `${this.tools.length}+`;
+    const devToolsCount = this.tools.filter((t) => t.id !== "admin-settings" && !t.hidden).length;
+    const count = isBeginner ? beginnerCount : devToolsCount;
+    const countDisplay = isBeginner ? `${count}` : `${devToolsCount}+`;
 
     // 1. Hero metric
     const heroNum = document.getElementById("hero-tools-count") || document.querySelector(".hero-metric-item .hero-metric-num");
@@ -3948,7 +4532,7 @@ const app = {
     ].filter(Boolean);
     searchInputs.forEach(input => {
       if (!input.value) {
-        input.setAttribute("placeholder", isBeginner ? "Search 18 everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')" : "Search 50+ developer tools... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')");
+        input.setAttribute("placeholder", isBeginner ? `Search ${beginnerCount} everyday tools... (e.g. 'PDF', 'QR code', 'Audio', 'Calculator')` : `Search ${devToolsCount}+ developer suites... (e.g. 'JSON', 'JWT', 'Base64', 'Regex')`);
       }
     });
 
@@ -4010,6 +4594,11 @@ const app = {
     const logBox = document.getElementById("splash-logs");
     if (!splash) return;
 
+    if (this.isEmbeddedApp || document.body?.classList?.contains("app-embedded") || document.documentElement?.classList?.contains("app-embedded")) {
+      splash.style.display = "none";
+      return;
+    }
+
     const logs = [
       "Initializing secure local sandbox...",
       "Verifying client-side decryption certificates...",
@@ -4017,7 +4606,12 @@ const app = {
       "System status: 100% SECURE. Launching OmniTool Hub."
     ];
 
-    const alreadyVisited = sessionStorage.getItem("omnitool_visited") === "true";
+    let alreadyVisited = false;
+    try {
+      alreadyVisited = typeof sessionStorage !== "undefined" && sessionStorage.getItem("omnitool_visited") === "true";
+    } catch (_) {
+      alreadyVisited = false;
+    }
     if (alreadyVisited) {
       splash.style.transition = "opacity 0.2s ease, visibility 0.2s";
       setTimeout(() => {
@@ -4026,7 +4620,11 @@ const app = {
       return;
     }
 
-    sessionStorage.setItem("omnitool_visited", "true");
+    try {
+      if (typeof sessionStorage !== "undefined") {
+        sessionStorage.setItem("omnitool_visited", "true");
+      }
+    } catch (_) {}
 
     if (logBox) {
       logBox.innerHTML = "";
@@ -4064,13 +4662,17 @@ const app = {
     const hiddenToolsStr = this.getConfigValue("omnitool_hidden_tools", "");
     const hiddenToolsSet = new Set(hiddenToolsStr.split(",").filter(Boolean));
 
+    const currentLang = this.currentLanguage || "en";
+
     this.tools.forEach(tool => {
       if (hiddenToolsSet.has(tool.id)) return;
+      const tTrans = this.toolTranslations?.[currentLang]?.[tool.id];
+      const toolName = tTrans?.name || tool.name;
       const li = document.createElement("li");
       li.innerHTML = `
         <a href="#tool/${tool.id}" class="sidebar-tool-link mega-item" data-tool="${tool.id}">
           ${tool.icon}
-          <span>${tool.name}</span>
+          <span>${toolName}</span>
         </a>
       `;
 
@@ -4215,10 +4817,10 @@ const app = {
     if (hash.startsWith("#tool/")) {
       const toolId = hash.replace("#tool/", "").replace(/\/$/, "");
 
-      // Promote hash URL to clean path without # for Google search & modern UX
-      if (window.history && window.history.replaceState) {
+      // Promote hash URL to clean path without # for Google search & modern UX (skip in embedded mode)
+      if (!this.isEmbeddedApp && window.history && window.history.replaceState) {
         try {
-          window.history.replaceState({ toolId }, "", "/tool/" + toolId);
+          window.history.replaceState({ toolId }, "", "/tool/" + toolId + this.getLangQueryString());
         } catch (e) {}
       }
 
@@ -4268,11 +4870,22 @@ const app = {
       }
     }
 
+    // If the SPA loaded on a guide route (e.g. /guides/ or /guides/pt/), cleanly redirect to the static guide file
+    if (pathname.startsWith("/guides")) {
+      const stripped = pathname.replace(/\/index\.html$/, "").replace(/\/$/, "");
+      const isHub = stripped === "/guides" || stripped === "/guides/es" || stripped === "/guides/pt";
+      const cleanPath = isHub ? stripped + "/index.html" : (stripped.endsWith(".html") ? stripped : stripped + ".html");
+      if (typeof window !== "undefined" && window.location && window.location.replace) {
+        window.location.replace(cleanPath + window.location.search);
+        return;
+      }
+    }
+
     // 3. If navigating to a non-tool hash route while pathname still has /tool/, cleanly reset pathname to root
     if (pathname.startsWith("/tool/") && hash && !hash.startsWith("#tool/")) {
       if (window.history && window.history.replaceState) {
         try {
-          window.history.replaceState(null, "", "/" + hash);
+          window.history.replaceState(null, "", "/" + this.getLangQueryString() + hash);
           pathname = "/";
         } catch (e) {}
       }
@@ -4418,10 +5031,13 @@ const app = {
       const subList = document.createElement("ul");
       subList.className = "sidebar-sub-tools";
 
+      const currentLang = this.currentLanguage || "en";
       const matchingTools = this.tools.filter(t => t.subcategory === filter && !hiddenToolsSet.has(t.id));
       matchingTools.forEach(tool => {
+        const tTrans = this.toolTranslations?.[currentLang]?.[tool.id];
+        const toolName = tTrans?.name || tool.name;
         const toolLi = document.createElement("li");
-        toolLi.innerHTML = `<a href="#tool/${tool.id}" class="sidebar-tool-link" data-tool="${tool.id}">${tool.name}</a>`;
+        toolLi.innerHTML = `<a href="#tool/${tool.id}" class="sidebar-tool-link" data-tool="${tool.id}">${toolName}</a>`;
         toolLi.querySelector(".sidebar-tool-link").addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -4490,7 +5106,7 @@ const app = {
   },
 
   registerServiceWorker() {
-    if (window.location.protocol === "file:") {
+    if (window.location.protocol === "file:" || this.isEmbeddedApp || window.location.hostname === "appassets.androidplatform.net") {
       return;
     }
     const isLocalhost = window.location.hostname === "localhost" ||
@@ -4824,6 +5440,17 @@ const app = {
       prefsBtn.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
+
+        // Mutually dismiss language dropdown if open
+        const langMenu = document.getElementById("header-lang-menu");
+        const langBtn = document.getElementById("header-lang-btn");
+        const langContainer = langBtn?.closest(".lang-dropdown-container");
+        if (langMenu && langMenu.classList.contains("show")) {
+          langMenu.classList.remove("show");
+          langContainer?.classList.remove("open");
+          langBtn?.setAttribute("aria-expanded", "false");
+        }
+
         const isOpen = prefsMenu.classList.contains("show");
         prefsMenu.classList.toggle("show", !isOpen);
         prefsBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
@@ -4896,6 +5523,26 @@ const app = {
         this.toggleCommandPalette();
       }
       if (e.key === "Escape") {
+        // Dismiss prominent language dropdown
+        const langMenu = document.getElementById("header-lang-menu");
+        const langBtn = document.getElementById("header-lang-btn");
+        const langContainer = langBtn?.closest(".lang-dropdown-container");
+        if (langMenu && langMenu.classList.contains("show")) {
+          langMenu.classList.remove("show");
+          langContainer?.classList.remove("open");
+          langBtn?.setAttribute("aria-expanded", "false");
+          langBtn?.focus();
+        }
+
+        // Dismiss preferences menu
+        const prefsMenu = document.getElementById("header-prefs-menu");
+        const prefsBtn = document.getElementById("header-prefs-btn");
+        if (prefsMenu && prefsMenu.classList.contains("show")) {
+          prefsMenu.classList.remove("show");
+          prefsBtn?.setAttribute("aria-expanded", "false");
+          prefsBtn?.focus();
+        }
+
         if (this.cpOpen) {
           this.toggleCommandPalette(false);
         }
@@ -5046,7 +5693,7 @@ const app = {
           </div>
 
           <ul>
-            <li><strong>Free Tier (Local-First Sandbox):</strong> By default, all 50+ developer utilities run entirely within your web browser using WebAssembly, Web Crypto API, and local Web Workers. Code syntax validation, JSON formatting, cryptography hashing, image optimization, and PDF page manipulation happen directly on your machine. Your input payloads, passwords, and documents are never transmitted to our servers.</li>
+            <li><strong>Free Tier (Local-First Sandbox):</strong> By default, all 47 powerhouse suites (70+ developer utilities) run entirely within your web browser using WebAssembly, Web Crypto API, and local Web Workers. Code syntax validation, JSON formatting, cryptography hashing, image optimization, and PDF page manipulation happen directly on your machine. Your input payloads, passwords, and documents are never transmitted to our servers.</li>
             <li><strong>Upcoming Paid / Subscription Tier (Optional Cloud Server Storage):</strong> In forthcoming updates, users who subscribe to our monthly or lifetime PRO plans will have the optional ability to connect to our secure Cloud Server backend. This will enable cross-device synchronization of saved pipeline presets, custom regex libraries, favorite tool settings, and cloud-saved documents. <strong>Cloud synchronization is strictly opt-in</strong>: Free tier users will continue to enjoy 100% client-side privacy without ever being forced to store data on cloud servers. Cloud-stored records will utilize industry-standard AES-256 encryption at rest and TLS 1.3 in transit.</li>
           </ul>
 
@@ -5091,7 +5738,7 @@ const app = {
             <li><strong>Right of Access &amp; Portability:</strong> The right to request copies of any personal information we hold about you.</li>
             <li><strong>Right to Rectification &amp; Erasure ("Right to be Forgotten"):</strong> The right to demand correction of inaccurate records or complete deletion of transaction logs.</li>
             <li><strong>Right to Object &amp; Restrict Processing:</strong> The right to restrict or halt specific forms of data processing.</li>
-            <li>Because free tool processing occurs client-side in your browser, you exercise immediate data erasure by clearing your browser cache or closing the browser tab. For billing records, requests may be submitted to <a href="mailto:privacy@worldsneed.com">privacy@worldsneed.com</a>.</li>
+            <li>Because free tool processing occurs client-side in your browser, you exercise immediate data erasure by clearing your browser cache or closing the browser tab. For billing records, requests may be submitted to <a href="mailto:privacy@omnitool.worldsneed.com">privacy@omnitool.worldsneed.com</a>.</li>
           </ul>
 
           <h3>8. California Consumer Privacy Act (CCPA / CPRA Notice)</h3>
@@ -5103,8 +5750,8 @@ const app = {
           <h3>10. Data Protection Contact &amp; Grievance Officer</h3>
           <p>If you have any questions, regulatory requests, or feedback regarding this Privacy Policy, our engineering architecture, or data protection practices, please contact our Data Protection desk:</p>
           <ul>
-            <li><strong>Privacy &amp; Legal Desk:</strong> <a href="mailto:privacy@worldsneed.com">privacy@worldsneed.com</a></li>
-            <li><strong>General Support:</strong> <a href="mailto:support@worldsneed.com">support@worldsneed.com</a></li>
+            <li><strong>Privacy &amp; Legal Desk:</strong> <a href="mailto:privacy@omnitool.worldsneed.com">privacy@omnitool.worldsneed.com</a></li>
+            <li><strong>General Support:</strong> <a href="mailto:support@omnitool.worldsneed.com">support@omnitool.worldsneed.com</a></li>
             <li><strong>Parent Organization:</strong> WorldsNeed Ecosystem (<a href="https://worldsneed.com" target="_blank" rel="noopener">worldsneed.com</a>)</li>
           </ul>
         `
@@ -5170,7 +5817,7 @@ const app = {
           <p>These Terms shall be interpreted and governed in accordance with applicable laws, without regard to conflict of law principles. Any legal disputes arising out of or related to these Terms shall be resolved through good-faith mutual negotiation prior to initiating formal dispute proceedings.</p>
 
           <h3>9. Contact &amp; Notices</h3>
-          <p>For questions or notices regarding these Terms of Service, please reach out via <a href="mailto:support@worldsneed.com">support@worldsneed.com</a> or consult our <a href="#contact" onclick="app.renderLegalPage('contact')">Contact Page</a>.</p>
+          <p>For questions or notices regarding these Terms of Service, please reach out via <a href="mailto:support@omnitool.worldsneed.com">support@omnitool.worldsneed.com</a> or consult our <a href="#contact" onclick="app.renderLegalPage('contact')">Contact Page</a>.</p>
         `
       },
       refund: {
@@ -5195,7 +5842,7 @@ const app = {
           <h3>2. How to Request a Refund</h3>
           <p>To initiate a refund, please follow these simple steps:</p>
           <ul>
-            <li>Send an email to <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a> with the subject line: <code>[Refund Request] - Transaction ID / Email</code>.</li>
+            <li>Send an email to <a href="mailto:billing@omnitool.worldsneed.com">billing@omnitool.worldsneed.com</a> with the subject line: <code>[Refund Request] - Transaction ID / Email</code>.</li>
             <li>Include your order reference or license key (from Razorpay, PayPal, or Gumroad).</li>
             <li>Optional: Briefly mention the reason for your request so our engineering team can improve the tool.</li>
             <li>Our billing department will confirm your request within <strong>24 business hours</strong>.</li>
@@ -5215,7 +5862,7 @@ const app = {
           <ul>
             <li>You can cancel your subscription at any time without fees or penalties.</li>
             <li>Upon cancellation, automatic renewals cease immediately. You will retain unrestricted PRO access until the conclusion of your active billing period.</li>
-            <li>Cancellations can be performed directly through your payment receipt portal (Gumroad / PayPal / Razorpay) or by emailing <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a>.</li>
+            <li>Cancellations can be performed directly through your payment receipt portal (Gumroad / PayPal / Razorpay) or by emailing <a href="mailto:billing@omnitool.worldsneed.com">billing@omnitool.worldsneed.com</a>.</li>
           </ul>
 
           <h3>5. Non-Refundable Scenarios</h3>
@@ -5229,8 +5876,8 @@ const app = {
           <h3>6. Billing Support Contact</h3>
           <p>If you have any billing inquiries, invoice requests, or payment assistance needs, our support desk is here to help:</p>
           <ul>
-            <li><strong>Billing Desk:</strong> <a href="mailto:billing@worldsneed.com">billing@worldsneed.com</a></li>
-            <li><strong>General Support:</strong> <a href="mailto:support@worldsneed.com">support@worldsneed.com</a></li>
+            <li><strong>Billing Desk:</strong> <a href="mailto:billing@omnitool.worldsneed.com">billing@omnitool.worldsneed.com</a></li>
+            <li><strong>General Support:</strong> <a href="mailto:support@omnitool.worldsneed.com">support@omnitool.worldsneed.com</a></li>
           </ul>
         `
       },
@@ -5331,7 +5978,7 @@ const app = {
           <h3>Upcoming Hybrid Architecture Roadmap</h3>
           <p>To serve both independent developers and high-volume engineering teams, we are actively expanding our architecture into a balanced hybrid model:</p>
           <ul>
-            <li><strong>The Free Local-First Pillar:</strong> Our complete 50+ tool suite remains free forever with 100% client-side execution, zero server uploads, and complete offline PWA capability.</li>
+            <li><strong>The Free Local-First Pillar:</strong> Our complete 47-suite (70+ tool) platform remains free forever with 100% client-side execution, zero server uploads, and complete offline PWA capability.</li>
             <li><strong>The Optional Cloud Server Pillar (Upcoming Paid Plan):</strong> For developers seeking multi-device workspace continuity, we are introducing optional encrypted Cloud Server synchronization. This allows power users to save pipelines, custom code templates, and sync configurations securely without compromising our core privacy standards.</li>
           </ul>
 
@@ -5377,16 +6024,25 @@ const app = {
               </div>
               <h4>General Inquiries</h4>
               <p>For questions regarding tools, features, ecosystem feedback, or suggestions.</p>
-              <a href="mailto:contact@worldsneed.com" class="contact-card-email">contact@worldsneed.com</a>
+              <a href="mailto:contact@omnitool.worldsneed.com" class="contact-card-email">contact@omnitool.worldsneed.com</a>
             </div>
 
             <div class="contact-card-premium">
               <div class="contact-card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
               </div>
-              <h4>Technical &amp; Bugs</h4>
+              <h4>Technical &amp; Support</h4>
               <p>To report technical issues, algorithm discrepancies, or tool errors.</p>
-              <a href="mailto:support@worldsneed.com" class="contact-card-email">support@worldsneed.com</a>
+              <a href="mailto:support@omnitool.worldsneed.com" class="contact-card-email">support@omnitool.worldsneed.com</a>
+            </div>
+
+            <div class="contact-card-premium">
+              <div class="contact-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <h4>Ads &amp; Partnerships</h4>
+              <p>For brand sponsorships, advertising opportunities, and commercial media.</p>
+              <a href="mailto:ads@omnitool.worldsneed.com" class="contact-card-email">ads@omnitool.worldsneed.com</a>
             </div>
 
             <div class="contact-card-premium">
@@ -5395,7 +6051,7 @@ const app = {
               </div>
               <h4>Billing &amp; Refunds</h4>
               <p>For PRO license activations, invoices, and 14-day refund requests.</p>
-              <a href="mailto:billing@worldsneed.com" class="contact-card-email">billing@worldsneed.com</a>
+              <a href="mailto:billing@omnitool.worldsneed.com" class="contact-card-email">billing@omnitool.worldsneed.com</a>
             </div>
 
             <div class="contact-card-premium">
@@ -5404,7 +6060,40 @@ const app = {
               </div>
               <h4>Privacy &amp; Security</h4>
               <p>For GDPR data rights, security vulnerability reports, and legal notices.</p>
-              <a href="mailto:privacy@worldsneed.com" class="contact-card-email">privacy@worldsneed.com</a>
+              <a href="mailto:privacy@omnitool.worldsneed.com" class="contact-card-email">privacy@omnitool.worldsneed.com</a>
+            </div>
+          </div>
+
+          <div class="contact-publisher-card" style="margin-top: 24px; background: rgba(var(--accent-cyan-rgb), 0.03); border: 1px solid rgba(var(--accent-cyan-rgb), 0.2); border-radius: 12px; padding: 22px; text-align: left;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">📦</span>
+                <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: var(--text-main);">Amazon Appstore &amp; Mobile Publishing Compliance</h4>
+              </div>
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: rgba(52, 211, 153, 0.12); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.25);">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified Publisher
+              </span>
+            </div>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin: 0 0 14px 0;">
+              OmniTool Hub is developed and distributed under the <strong>Worldsneed</strong> digital product ecosystem. For Amazon Developer verification, customer care, and Appstore compliance:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 13px;">
+              <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="color: var(--text-muted); display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px;">Customer Facing Business Name</span>
+                <strong style="color: var(--text-main);">Worldsneed</strong>
+              </div>
+              <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="color: var(--text-muted); display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px;">Lead Developer</span>
+                <strong style="color: var(--text-main);">Ravi Kumar Chaudhary</strong>
+              </div>
+              <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="color: var(--text-muted); display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px;">Appstore Customer Support</span>
+                <a href="mailto:support@omnitool.worldsneed.com" style="color: var(--accent-cyan); font-weight: 600; text-decoration: none;">support@omnitool.worldsneed.com</a>
+              </div>
+              <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="color: var(--text-muted); display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px;">Email Routing &amp; Response</span>
+                <span style="color: var(--text-main); font-weight: 600;">Cloudflare Routed &bull; &lt; 24h</span>
+              </div>
             </div>
           </div>
 
@@ -5458,7 +6147,7 @@ const app = {
     if (window.history && window.history.pushState) {
       try {
         if (window.location.pathname !== "/" + page) {
-          window.history.pushState({ page }, "", "/" + page);
+          window.history.pushState({ page }, "", "/" + page + this.getLangQueryString());
         }
       } catch (_) {}
     }
@@ -5662,14 +6351,16 @@ const app = {
         matchingTools = matchingTools.filter(t => this.classifyTool(t).isFeature);
       }
 
+      const currentLang = this.currentLanguage || "en";
       results = matchingTools.map(t => {
         const cls = this.classifyTool(t);
         const tag = cls.isSuite ? "Suite" : (cls.isFeature ? "Feature" : "Tool");
+        const tTrans = this.toolTranslations?.[currentLang]?.[t.id];
         return {
           isGuide: false,
           id: t.id,
-          name: t.name,
-          desc: t.desc,
+          name: tTrans?.name || t.name,
+          desc: tTrans?.desc || t.desc,
           tag: tag,
           icon: t.icon
         };
@@ -5699,7 +6390,10 @@ const app = {
     this.cpIndex = 0;
 
     if (this.cpFiltered.length === 0) {
-      listEl.innerHTML = `<div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px;">No commands or items match "${query}"</div>`;
+      const cpLang = this.currentLanguage || "en";
+      const noMatchTpl = this.i18n[cpLang]?.noCommandsMatch || 'No commands or items match "{query}"';
+      const noMatchText = noMatchTpl.replace("{query}", this.escapeHtml(query));
+      listEl.innerHTML = `<div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px;">${noMatchText}</div>`;
       return;
     }
 
@@ -5726,7 +6420,7 @@ const app = {
       `;
       item.addEventListener("click", () => {
         if (itemData.isGuide) {
-          window.open(itemData.url, "_blank");
+          window.open(this.getGuideUrl(itemData.url), "_blank");
         } else {
           this.navigateToTool(itemData.id);
         }
@@ -5755,7 +6449,7 @@ const app = {
     if (this.cpFiltered.length > 0 && this.cpFiltered[this.cpIndex]) {
       const selected = this.cpFiltered[this.cpIndex];
       if (selected.isGuide) {
-        window.open(selected.url, "_blank");
+        window.open(this.getGuideUrl(selected.url), "_blank");
       } else {
         this.navigateToTool(selected.id);
       }
@@ -5833,10 +6527,12 @@ const app = {
       : (presetsDark[preset] || presetsDark.default);
 
     const root = document.documentElement;
-    root.style.setProperty('--accent-cyan', colors.cyan);
-    root.style.setProperty('--accent-cyan-rgb', colors.cyanRgb);
-    root.style.setProperty('--accent-purple', colors.purple);
-    root.style.setProperty('--accent-purple-rgb', colors.purpleRgb);
+    if (root && root.style && typeof root.style.setProperty === "function") {
+      root.style.setProperty('--accent-cyan', colors.cyan);
+      root.style.setProperty('--accent-cyan-rgb', colors.cyanRgb);
+      root.style.setProperty('--accent-purple', colors.purple);
+      root.style.setProperty('--accent-purple-rgb', colors.purpleRgb);
+    }
   },
 
   playSynthSound(type = 'click') {
@@ -5915,6 +6611,7 @@ const app = {
   triggerHaptics(type = 'light') {
     if (this.isInitialLoad) return;
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
       try {
         if (type === 'light') {
           navigator.vibrate(15);
@@ -5941,7 +6638,13 @@ const app = {
         if (clockWidget) clockWidget.style.display = "none";
         return;
       }
-      if (clockWidget) clockWidget.style.removeProperty("display");
+      if (clockWidget) {
+        if (typeof clockWidget.style.removeProperty === "function") {
+          clockWidget.style.removeProperty("display");
+        } else {
+          clockWidget.style.display = "";
+        }
+      }
 
       const now = new Date();
 
@@ -5998,7 +6701,7 @@ const app = {
       const targetHash = category === "fav" ? "#favorites" : "#dashboard";
       if (window.history && window.history.pushState && window.location.pathname.startsWith('/tool/')) {
         try {
-          window.history.pushState(null, "", "/" + targetHash);
+          window.history.pushState(null, "", "/" + this.getLangQueryString() + targetHash);
         } catch (e) {
           window.location.hash = targetHash;
         }
@@ -6033,7 +6736,7 @@ const app = {
       const targetHash = "#category/" + filter;
       if (window.history && window.history.pushState && window.location.pathname.startsWith('/tool/')) {
         try {
-          window.history.pushState(null, "", "/" + targetHash);
+          window.history.pushState(null, "", "/" + this.getLangQueryString() + targetHash);
         } catch (e) {
           window.location.hash = targetHash;
         }
@@ -6121,25 +6824,70 @@ const app = {
     let provider = this.getConfigValue("omnitool_ad_network", "dev");
     if (location === "sidebar") {
       provider = this.getConfigValue("omnitool_sidebar_ad_network", "dev");
+      if (provider === "inherit") {
+        provider = this.getConfigValue("omnitool_ad_network", "dev");
+      }
     }
 
-    // Developer Local Sponsors
-    if (provider === "dev") {
+    // Developer Local Sponsors & Dynamic Referral Ads
+    if (provider === "dev" || provider === "referral") {
       const escape = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
       const activeTool = this.activeTool;
       const suffix = (activeTool && location !== "sidebar") ? "_" + activeTool : "";
 
-      const brand = this.getConfigValue("omnitool_sponsor_brand" + suffix, this.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host"));
-      const slogan = this.getConfigValue("omnitool_sponsor_slogan" + suffix, this.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit."));
-      const btnText = this.getConfigValue("omnitool_sponsor_btn_text" + suffix, this.getConfigValue("omnitool_sponsor_btn_text", "Claim Now"));
-      const url = this.getConfigValue("omnitool_sponsor_url" + suffix, this.getConfigValue("omnitool_sponsor_url", "#"));
-      const iconType = this.getConfigValue("omnitool_sponsor_icon" + suffix, this.getConfigValue("omnitool_sponsor_icon", "cloud"));
+      // Check if multi-campaign referral pool exists
+      let campaigns = null;
+      try {
+        const campaignsRaw = this.getConfigValue("omnitool_referral_campaigns", "");
+        if (campaignsRaw) {
+          campaigns = typeof campaignsRaw === "string" ? JSON.parse(campaignsRaw) : campaignsRaw;
+        }
+      } catch (_) {}
 
-      let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
-      if (iconType === "database") {
-        iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
-      } else if (iconType === "shield") {
-        iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+      let brand, slogan, btnText, url, iconType, badgeText, imageUrl;
+
+      if (Array.isArray(campaigns) && campaigns.length > 0) {
+        // Pick campaign randomly or based on tool
+        const idx = Math.floor(Math.random() * campaigns.length);
+        const camp = campaigns[idx] || {};
+        brand = camp.brand || "Partner Sponsor";
+        slogan = camp.slogan || "";
+        btnText = camp.btnText || "Claim Deal";
+        url = camp.url || "#";
+        iconType = camp.icon || "shopping";
+        badgeText = camp.badge || "FEATURED DEAL";
+        imageUrl = camp.image || "";
+      } else {
+        brand = this.getConfigValue("omnitool_sponsor_brand" + suffix, this.getConfigValue("omnitool_sponsor_brand", "DigitalOcean Cloud"));
+        slogan = this.getConfigValue("omnitool_sponsor_slogan" + suffix, this.getConfigValue("omnitool_sponsor_slogan", "Deploy your Docker containers, web apps, and databases globally. Get $200 free developer credit."));
+        btnText = this.getConfigValue("omnitool_sponsor_btn_text" + suffix, this.getConfigValue("omnitool_sponsor_btn_text", "Claim $200 Credit"));
+        url = this.getConfigValue("omnitool_sponsor_url" + suffix, this.getConfigValue("omnitool_sponsor_url", "#"));
+        iconType = this.getConfigValue("omnitool_sponsor_icon" + suffix, this.getConfigValue("omnitool_sponsor_icon", "cloud"));
+        badgeText = this.getConfigValue("omnitool_sponsor_badge" + suffix, this.getConfigValue("omnitool_sponsor_badge", "SPONSOR"));
+        imageUrl = this.getConfigValue("omnitool_sponsor_image" + suffix, this.getConfigValue("omnitool_sponsor_image", ""));
+      }
+
+      let visualNode = "";
+      if (imageUrl && imageUrl.trim()) {
+        visualNode = `<img src="${escape(imageUrl.trim())}" alt="${escape(brand)}" class="ad-image-custom" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;" />`;
+      } else {
+        let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
+        if (iconType === "database") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
+        } else if (iconType === "shield") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+        } else if (iconType === "shopping") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
+        } else if (iconType === "tag") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`;
+        } else if (iconType === "gift") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`;
+        } else if (iconType === "zap") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+        } else if (iconType === "star") {
+          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+        }
+        visualNode = iconSvg;
       }
 
       const targetAttr = url !== "#" ? 'target="_blank" rel="noopener noreferrer"' : '';
@@ -6149,12 +6897,12 @@ const app = {
         <div class="sponsor-ad-block">
           <div class="ad-horizontal-left">
             <div class="ad-image-placeholder">
-              ${iconSvg}
+              ${visualNode}
             </div>
             <div class="ad-info">
               <div class="ad-title-row">
                 <span class="ad-brand">${escape(brand)}</span>
-                <span class="ad-horizontal-badge">SPONSOR</span>
+                <span class="ad-horizontal-badge">${escape(badgeText || "SPONSOR")}</span>
               </div>
               <span class="ad-slogan">${escape(slogan)}</span>
             </div>
@@ -6243,6 +6991,37 @@ const app = {
       `;
     }
 
+    // Amazon Publisher Services (APS) / Amazon Mobile Ads
+    if (provider === "amazon") {
+      const amazonSlotId = this.getConfigValue("omnitool_amazon_slot_id", "amzn-slot-12345");
+      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      if (isLocal) {
+        return `
+          <div class="admob-adsense-mock admob" style="border-color: rgba(255, 153, 0, 0.4);">
+            <div class="mock-badge" style="background: rgba(255, 153, 0, 0.15); color: #ff9900;">AMAZON MOBILE ADS / APS</div>
+            <div class="mock-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ff9900" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              <span style="color: #ff9900;">Amazon Ads Active (Slot: ${amazonSlotId})</span>
+            </div>
+            <div class="mock-details">
+              <span><strong>Amazon Slot:</strong> ${amazonSlotId}</span>
+              <span>•</span>
+              <span>Target: Amazon Fire / Android / Web</span>
+            </div>
+            <div class="mock-note" style="color: #ff9900; border-color: rgba(255, 153, 0, 0.2);">
+              🛒 Amazon Mobile Ads / APS banner active. Shows real ads on live deployed app and website.
+            </div>
+          </div>
+        `;
+      } else {
+        const customHtml = this.getConfigValue("omnitool_custom_ad_html", "");
+        if (customHtml) return `<div class="custom-ad-container">${customHtml}</div>`;
+        return `
+          <div class="amazon-ad-container" id="${amazonSlotId}" style="text-align: center; margin: 12px 0;"></div>
+        `;
+      }
+    }
+
     // Custom HTML block
     if (provider === "custom") {
       const htmlBlock = this.getConfigValue("omnitool_custom_ad_html", "");
@@ -6250,6 +7029,45 @@ const app = {
     }
 
     return "";
+  },
+
+  refreshAllAds() {
+    // 1. Sidebar ad
+    const sidebarAd = document.querySelector(".sidebar-sponsor-container");
+    if (sidebarAd) {
+      sidebarAd.innerHTML = this.getAdHtml("sidebar");
+    }
+
+    // 2. Dashboard ad
+    const dashContainer = document.querySelector("#dashboard-view");
+    if (dashContainer) {
+      const existingAd = dashContainer.querySelector(".sponsor-ad-block, .admob-adsense-mock, .custom-ad-container, .amazon-ad-container");
+      const newAdHtml = this.getAdHtml("dashboard");
+      if (existingAd) {
+        if (newAdHtml) {
+          const temp = document.createElement("div");
+          temp.innerHTML = newAdHtml;
+          const newEl = temp.firstElementChild;
+          if (newEl && existingAd.parentElement) {
+            existingAd.parentElement.replaceChild(newEl, existingAd);
+          }
+        } else {
+          existingAd.remove();
+        }
+      }
+    }
+
+    // 3. Tool views
+    document.querySelectorAll(".tool-panel-ad, .tool-sponsor-bar").forEach(container => {
+      const newToolHtml = this.getAdHtml("tool");
+      if (newToolHtml) {
+        container.innerHTML = newToolHtml;
+        container.style.display = "";
+      } else {
+        container.innerHTML = "";
+        container.style.display = "none";
+      }
+    });
   },
 
   openCoffeeLink(event) {
@@ -6572,11 +7390,13 @@ const app = {
 
       const isBeginner = this.uiMode === "beginner";
       const bConfig = this.beginnerToolsConfig ? this.beginnerToolsConfig[tool.id] : null;
+      const lang = this.currentLanguage || "en";
+      const tTrans = this.toolTranslations?.[lang]?.[tool.id];
 
-      const toolName = (isBeginner && bConfig) ? bConfig.name : tool.name;
-      const toolDesc = (isBeginner && bConfig) ? bConfig.desc : tool.desc;
+      const toolName = tTrans?.name || ((isBeginner && bConfig) ? bConfig.name : tool.name);
+      const toolDesc = tTrans?.desc || ((isBeginner && bConfig) ? bConfig.desc : tool.desc);
       const badgeText = (isBeginner && bConfig) ? bConfig.badge : tool.subLabel.toUpperCase();
-      const actionText = isBeginner ? "Open Utility" : "Launch Tool";
+      const actionText = isBeginner ? (this.i18n[lang]?.openUtility || "Open Utility") : (this.i18n[lang]?.launchTool || "Launch Tool");
 
       const effectiveMonetization = overrides[tool.id] || tool.monetization || "free";
 
@@ -6603,7 +7423,7 @@ const app = {
             ` : ''}
           </div>
           <span class="launch-action">
-            <span>Launch Tool</span>
+            <span>${actionText}</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </span>
         </div>
@@ -6621,16 +7441,19 @@ const app = {
     const bar = document.getElementById("category-tabs-bar");
     if (!bar) return;
 
+    const lang = this.currentLanguage || "en";
+    const i18n = this.i18n[lang] || this.i18n.en;
+
     if (this.uiMode === "beginner") {
       const tabs = [
-        { id: "all", label: "All Everyday", icon: "🌐" },
-        { id: "documents", label: "PDF & Docs", icon: "📄" },
-        { id: "media", label: "Audio & Video", icon: "🎙️" },
-        { id: "qr", label: "QR & Snip", icon: "📱" },
-        { id: "images", label: "Photos & Colors", icon: "🎨" },
-        { id: "math", label: "Math & Calc", icon: "🧮" },
-        { id: "security", label: "Passwords", icon: "🔒" },
-        { id: "fav", label: "Favorites", icon: "⭐" }
+        { id: "all", label: i18n.allEveryday || "All Everyday", icon: "🌐" },
+        { id: "documents", label: i18n.catDocs || "PDF & Docs", icon: "📄" },
+        { id: "media", label: i18n.catMedia || "Audio & Video", icon: "🎙️" },
+        { id: "qr", label: i18n.catQr || "QR & Snip", icon: "📱" },
+        { id: "images", label: i18n.catImages || "Photos & Colors", icon: "🎨" },
+        { id: "math", label: i18n.catMath || "Math & Calc", icon: "🧮" },
+        { id: "security", label: i18n.catSecurity || "Passwords", icon: "🔒" },
+        { id: "fav", label: i18n.catFavorites || "Favorites", icon: "⭐" }
       ];
 
       const currentActive = this.activeCategory || "all";
@@ -6667,12 +7490,12 @@ const app = {
     }
 
     const tabs = [
-      { id: "all", label: "All Tools", icon: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>`, hash: "dashboard" },
-      { id: "dev", label: "Developer", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`, hash: "category/dev-all" },
-      { id: "text", label: "Text", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>`, hash: "category/text-all" },
-      { id: "design", label: "Design", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`, hash: "category/design-all" },
-      { id: "math", label: "Math", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>`, hash: "category/math-all" },
-      { id: "fav", label: "Favorites", icon: `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`, hash: "favorites" }
+      { id: "all", label: i18n.allTools || "All Tools", icon: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>`, hash: "dashboard" },
+      { id: "dev", label: i18n.catDev || "Developer", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`, hash: "category/dev-all" },
+      { id: "text", label: i18n.catText || "Text", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg>`, hash: "category/text-all" },
+      { id: "design", label: i18n.catDesign || "Design", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`, hash: "category/design-all" },
+      { id: "math", label: i18n.catMath || "Math", icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="10" y2="21"></line><line x1="14" y1="3" x2="14" y2="21"></line></svg>`, hash: "category/math-all" },
+      { id: "fav", label: i18n.catFavorites || "Favorites", icon: `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`, hash: "favorites" }
     ];
 
     bar.innerHTML = tabs.map(tab => `
@@ -6778,7 +7601,7 @@ const app = {
       features: 0,
       pro: 0,
       free: 0,
-      guides: this.guidesList ? this.guidesList.length : 48
+      guides: this.guidesList ? this.guidesList.length : 53
     };
 
     visibleTools.forEach(tool => {
@@ -6995,7 +7818,7 @@ const app = {
         <div style="font-size: 42px; margin-bottom: 12px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));">🔍</div>
         <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">No Utilities Found</h3>
         <p style="font-size: 14px; color: var(--text-muted); max-width: 480px; margin: 0 auto 20px auto;">
-          We couldn't find any utilities matching ${cleanQuery ? `"${cleanQuery}"` : "your filter"} under the "${this.activeSearchFilter.toUpperCase()}" filter category.
+          We couldn't find any utilities matching ${cleanQuery ? `"${this.escapeHtml(cleanQuery)}"` : "your filter"} under the "${this.escapeHtml(this.activeSearchFilter.toUpperCase())}" filter category.
         </p>
         <button type="button" class="btn btn-primary" id="btn-reset-search-filters" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; border: none; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: #fff;">
           <span>↺</span> Reset Filters & Show All
@@ -7036,7 +7859,7 @@ const app = {
     if (updateHash) {
       if (window.history && window.history.pushState) {
         try {
-          window.history.pushState({ toolId }, "", "/tool/" + toolId);
+          window.history.pushState({ toolId }, "", "/tool/" + toolId + this.getLangQueryString());
         } catch (e) {
           window.location.hash = "tool/" + toolId;
         }
@@ -7044,6 +7867,27 @@ const app = {
         window.location.hash = "tool/" + toolId;
       }
       return this.navigateToTool(toolId, false);
+    }
+
+    const redirect = this.toolRedirects ? this.toolRedirects[toolId] : null;
+    if (redirect) {
+      this.activeSubtool = redirect.subtab ? toolId : null;
+      if (redirect.subtab) {
+        this.activeSubtab = redirect.subtab;
+      } else if (this.pendingPaste?.tab) {
+        this.activeSubtab = this.pendingPaste.tab;
+      }
+      if (this.activeTool === redirect.suiteId && redirect.subtab && this._activeTabSwitchers?.[redirect.suiteId]) {
+        this._activeTabSwitchers[redirect.suiteId](redirect.subtab);
+        this.syncSubtab(redirect.suiteId, redirect.subtab, { pushHistory: false, replaceHistory: true });
+        this.applyPendingPaste(document.getElementById("active-tool-viewport"), redirect.suiteId);
+        return;
+      }
+      toolId = redirect.suiteId;
+    } else if (this.pendingPaste?.toolId === toolId && this.pendingPaste.tab) {
+      this.activeSubtab = this.pendingPaste.tab;
+    } else if (!this.activeSubtab) {
+      this.activeSubtool = null;
     }
 
     // Close mobile drawer
@@ -7163,7 +8007,7 @@ const app = {
               <button type="submit" class="tool-btn primary" style="width: 100%; justify-content: center; height: 42px; font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.2s;">Unlock Control Panel</button>
               ${isLocalhost ? `
               <div style="font-size: 11.5px; color: var(--text-muted); background: rgba(0, 242, 254, 0.08); border: 1px dashed rgba(0, 242, 254, 0.28); padding: 8px 12px; border-radius: 8px; text-align: left; line-height: 1.5;">
-                <span style="color: var(--accent-cyan); font-weight: 700;">Local Master Passcodes:</span> <code style="color: #fff; background: rgba(255,255,255,0.1); padding: 1px 5px; border-radius: 4px;">admin123</code> or <code style="color: #fff; background: rgba(255,255,255,0.1); padding: 1px 5px; border-radius: 4px;">OmniAdmin@2026#</code>
+                <span style="color: var(--accent-cyan); font-weight: 700;">Local Dev Mode:</span> Sign in via <code>/api/admin-auth</code> or set <code>ADMIN_PASSCODE</code> in your local environment.
                 <div style="margin-top: 6px; display: flex; justify-content: flex-end;">
                   <button type="button" id="admin-reset-lockout-btn" style="background: none; border: none; color: var(--accent-cyan); font-size: 10.5px; cursor: pointer; text-decoration: underline; padding: 0;">Reset Lockout Timer</button>
                 </div>
@@ -7241,28 +8085,24 @@ const app = {
             // Serverless endpoint offline or static development server
           }
 
-          // 2. Resilient WebCrypto SHA-256 fallback (offline PWA / static server / GitHub Pages)
-          if (!authenticated) {
+          // 2. Local development offline SHA-256 fallback (never permitted on public hosts)
+          if (!authenticated && isLocalhost && typeof crypto !== "undefined" && crypto.subtle) {
             try {
               const encoder = new TextEncoder();
               const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(enteredPasscode));
               const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
 
-              // Validates:
-              // - Master Passcodes: "OmniAdmin@2026#" or "admin123"
-              // - Local admin custom passcode override
               const customPasscode = localStorage.getItem("omnitool_admin_passcode") || "";
-              const isMaster = enteredPasscode === "OmniAdmin@2026#" ||
-                enteredPasscode === "admin123" ||
+              const isDevHash =
                 hashHex === "efb6854ff3cb28f0f3cc0604b481df3eb4ffe5b765361e6d597f7ac5be6ae3a8" ||
                 hashHex === "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9" ||
                 hashHex === "3dfd014c226f9ba7144e5fae62933e8ca7ebbf94f0e4b85da57774c43b9df7ea";
-              const isCustom = customPasscode && (enteredPasscode === customPasscode);
+              const isCustom = customPasscode && (enteredPasscode === customPasscode || hashHex === customPasscode);
 
-              if (isMaster || isCustom) {
+              if (isDevHash || isCustom) {
                 sessionStorage.setItem("omnitool_admin_authenticated", "true");
                 authenticated = true;
-                authMode = "Cryptographically Verified";
+                authMode = "Local Dev SHA-256";
               }
             } catch (_) {}
           }
@@ -7349,12 +8189,19 @@ const app = {
       const isMonetizationActive = this.getConfigValue("omnitool_monetization_active", "false") === "true";
 
       const isFav = this.favorites.has(toolId);
+      const currentLang = this.currentLanguage || "en";
+      const tTrans = this.toolTranslations?.[currentLang]?.[toolId];
+      const backText = this.i18n[currentLang]?.back || "Back";
+      const displayName = (this.uiMode === "beginner" && this.beginnerToolsConfig && this.beginnerToolsConfig[toolId]) 
+        ? this.beginnerToolsConfig[toolId].name 
+        : (tTrans?.name || toolInstance.name);
+
       const toolbarHtml = `
         <div class="tool-bar">
           <div class="tool-bar-left">
-            <button class="back-btn" onclick="app.backToDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back</button>
+            <button class="back-btn" onclick="app.backToDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> <span>${backText}</span></button>
             <div class="tool-title-info">
-              <h2>${(this.uiMode === "beginner" && this.beginnerToolsConfig && this.beginnerToolsConfig[toolId]) ? this.beginnerToolsConfig[toolId].name : toolInstance.name}</h2>
+              <h2>${displayName}</h2>
             </div>
           </div>
           <div class="tool-bar-right">
@@ -7384,124 +8231,38 @@ const app = {
 
       viewport.innerHTML = toolbarHtml + toolInstance.renderUI();
 
+      // Translate inside tool viewport according to current active language
+      const currentToolLang = this.currentLanguage || "en";
+      this.translateToolViewport(viewport, currentToolLang);
+
+      // Attach MutationObserver to dynamically translate any tabs or panels updated inside the tool
+      if (this._toolViewportObserver) {
+        this._toolViewportObserver.disconnect();
+      }
+      if (typeof MutationObserver !== "undefined") {
+        this._toolViewportObserver = new MutationObserver(() => {
+          if (this._toolObserverTimer) clearTimeout(this._toolObserverTimer);
+          this._toolObserverTimer = setTimeout(() => {
+            const activeVp = document.getElementById("active-tool-viewport");
+            if (activeVp && this.activeTool) {
+              this.translateToolViewport(activeVp, this.currentLanguage || "en");
+            }
+          }, 60);
+        });
+        this._toolViewportObserver.observe(viewport, { childList: true, subtree: true });
+      }
+
+      // Initialize interactive capability bar chips
+      this.initCapabilitiesBar(viewport, toolId);
+
       // Split view layout drawer enhancements & draggable resizer
       this.initLayoutSizer(viewport);
 
+      // Inject standard unified guide card benefits and deep link
+      this.injectGuideBenefits(viewport, toolId);
 
-      // Inject "How it Benefits You" dynamic section inside any present guide card
-      const guideCard = viewport.querySelector(".tool-guide-card");
-      if (guideCard) {
-        const benefits = this.toolBenefits[toolId];
-        if (benefits && !guideCard.querySelector(".tool-guide-benefits")) {
-          const benefitsDiv = document.createElement("div");
-          benefitsDiv.className = "tool-guide-benefits";
-          benefitsDiv.style.cssText = "margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.08); font-size: 12.5px; line-height: 1.5; color: var(--text-muted); text-align: left;";
-
-          // Map tool ID to static guide page name
-          const guideMap = {
-            "pipeline-builder": "pipeline-builder.html",
-            "formatter-suite": "json-formatter.html",
-            "text-encoder-suite": "text-encoder-suite.html",
-            "jwt-decoder": "jwt-decoder.html",
-            "crypto-suite": "crypto-suite.html",
-            "pii-anonymizer": "pii-anonymizer.html",
-            "markdown-preview": "markdown-preview.html",
-            "text-diff": "text-diff.html",
-            "pdf-searcher": "pdf-searcher.html",
-            "pdf-utilities": "pdf-utilities.html",
-            "pdf-converter-hub": "pdf-converter-hub.html",
-            "pdf-editor-suite": "pdf-editor-suite.html",
-            "pdf-security-suite": "pdf-security-suite.html",
-            "pdf-ai": "pdf-ai.html",
-            "compare-pdf": "compare-pdf.html",
-            "regex-tester": "regex-tester.html",
-            "css-studio": "css-studio.html",
-            "color-lab": "color-lab.html",
-            "security-suite": "security-suite.html",
-            "datetime-suite": "datetime-suite.html",
-            "unit-converter": "unit-converter.html",
-            "graphics-studio": "graphics-studio.html",
-            "screenshot-capture": "graphics-studio.html",
-            "calculator": "calculator.html",
-            "qr-generator": "qr-generator.html",
-            "seo-previewer": "seo-previewer.html",
-            "image-converter": "image-converter.html",
-            "svg-animator": "svg-animator.html",
-            "url-parser": "url-parser.html",
-            "text-analyzer": "text-analyzer.html",
-            "mock-data-generator": "mock-data-generator.html",
-            "code-playground": "code-playground.html",
-            "fancy-font-generator": "fancy-font-generator.html"
-          };
-          const guideFile = guideMap[toolId];
-          const blogLinkHtml = guideFile ? `
-            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, 0.05);">
-              <a href="guides/${guideFile}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; color: var(--accent-cyan); text-decoration: none; font-size: 12.5px; font-weight: 600; transition: opacity var(--transition-fast);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-                <span>📖 Read Detailed SEO Blog Post</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          ` : "";
-
-          benefitsDiv.innerHTML = `
-            <strong style="color: var(--accent-cyan); display: block; margin-bottom: 6px; font-size: 13px;">💡 How it Benefits You:</strong>
-            <ul style="margin: 0; padding-left: 18px; list-style-type: disc; display: flex; flex-direction: column; gap: 6px;">
-              ${benefits.map(b => `<li>${b}</li>`).join("")}
-            </ul>
-            ${blogLinkHtml}
-          `;
-          guideCard.appendChild(benefitsDiv);
-        }
-      }
-
-      // Append sponsor bar below tool contents (only if not a split-view tool)
-      const hasSplitView = viewport.querySelector(".tool-content-layout.split-view");
-      if (!hasSplitView) {
-        const toolAdHtml = this.getAdHtml("tool");
-        if (toolAdHtml) {
-          const sponsorBar = document.createElement("div");
-          sponsorBar.className = "tool-sponsor-bar";
-          sponsorBar.innerHTML = toolAdHtml;
-          viewport.appendChild(sponsorBar);
-        }
-      } else {
-        // Distribute ads inside split-view panels so page doesn't scroll
-        const panels = Array.from(viewport.querySelectorAll(".tool-content-layout.split-view > .tool-panel:not(.tool-guide-card)"));
-        if (panels.length >= 2) {
-          // Left Panel Ad (1 ad)
-          const adHtml1 = this.getAdHtml("tool");
-          if (adHtml1) {
-            const adContainer = document.createElement("div");
-            adContainer.className = "tool-panel-ad";
-            adContainer.innerHTML = adHtml1;
-            panels[0].appendChild(adContainer);
-          }
-          // Right Panel Ad (1 ad)
-          const adHtml2 = this.getAdHtml("tool");
-          if (adHtml2) {
-            const adContainer2 = document.createElement("div");
-            adContainer2.className = "tool-panel-ad";
-            adContainer2.innerHTML = adHtml2;
-            panels[1].appendChild(adContainer2);
-          }
-        }
-
-        // Guide Card Ad (1 ad, bringing total to 3 ads while preserving layout space)
-        const guideCard = viewport.querySelector(".tool-guide-card");
-        if (guideCard) {
-          const adHtml3 = this.getAdHtml("tool");
-          if (adHtml3) {
-            const adContainer3 = document.createElement("div");
-            adContainer3.className = "tool-panel-ad";
-            adContainer3.style.marginTop = "18px";
-            adContainer3.style.paddingTop = "14px";
-            adContainer3.style.borderTop = "1px dashed var(--border-color)";
-            adContainer3.style.width = "100%";
-            adContainer3.innerHTML = adHtml3;
-            guideCard.appendChild(adContainer3);
-          }
-        }
-      }
+      // Distribute in-panel ads for split-view tools or append sponsor bar
+      this.distributePanelAds(viewport);
 
       // Bind back button
       viewport.querySelector(".back-btn")?.addEventListener("click", () => this.backToDashboard());
@@ -7522,21 +8283,37 @@ const app = {
       const titleEl = document.getElementById("header-view-title");
       const toolMetadata = this.tools.find(t => t.id === toolId);
       if (titleEl && toolMetadata) {
-        titleEl.innerText = `${toolMetadata.subLabel} / ${toolMetadata.name}`;
+        titleEl.innerText = `${toolMetadata.subLabel} / ${tTrans?.name || toolMetadata.name}`;
         titleEl.style.display = "block";
       }
 
       // Initialize tool module
       await toolInstance.init(viewport, this);
 
-      // Re-run initLayoutSizer for dynamically mounted subtools
+      // Global tactile click feedback for all suite tabs (like CSS Studio Suite)
+      if (!viewport.dataset.keyboardTabSoundBound) {
+        viewport.dataset.keyboardTabSoundBound = "true";
+        viewport.addEventListener("click", (e) => {
+          const tabBtn = e.target.closest(".keyboard-tab, .date-subtab-btn, .util-tab, .mode-segment-btn");
+          if (tabBtn) {
+            this.playSynthSound("click");
+          }
+        });
+      }
+
+      // Re-run initLayoutSizer and guide benefits for dynamically mounted subtools
       this.initLayoutSizer(viewport);
+      this.initCapabilitiesBar(viewport, toolId);
+      this.injectGuideBenefits(viewport, toolId, this.activeSubtool);
+      this.syncActiveCapabilityChip(viewport, this.activeSubtool);
+      this.distributePanelAds(viewport);
 
       // Render connected workflow bridge cards
       this.renderWorkflowBridges(viewport, toolId);
 
       // Add a floating bouncing down arrow for split-view tools to scroll to the guide
       const hasGuideCard = viewport.querySelector(".tool-guide-card");
+      const hasSplitView = !!viewport.querySelector(".tool-content-layout.split-view");
 
       if (hasSplitView && hasGuideCard) {
         const arrow = document.createElement("button");
@@ -7584,20 +8361,7 @@ const app = {
       }
 
       // Handle pending auto-paste values
-      if (this.pendingPaste) {
-        const p = this.pendingPaste;
-        if (p.toolId === toolId || this.toolRedirects[p.toolId]?.suiteId === toolId || (p.toolId === "formatter-suite" && toolId === "formatter-suite")) {
-          const input = viewport.querySelector(p.inputSelector);
-          if (input) {
-            input.value = p.value;
-            input.dispatchEvent(new Event("input"));
-            if (p.btnSelector) {
-              viewport.querySelector(p.btnSelector)?.click();
-            }
-          }
-        }
-        this.pendingPaste = null;
-      }
+      this.applyPendingPaste(viewport, toolId);
     } catch (err) {
       console.error(`Error loading tool ID: ${toolId}`, err);
       if (window.location.protocol === "file:" || err.message?.includes("module specifier") || err.message?.includes("CORS") || err.message?.includes("about:blank")) {
@@ -7639,21 +8403,440 @@ const app = {
   },
 
   renderCapabilitiesBar(toolId) {
-    const features = this.toolFeatures[toolId] || [
-      { label: "100% Client-Side", icon: "⚡", primary: true },
-      { label: "Zero Server Uploads", icon: "🔒" },
-      { label: "Instant Execution", icon: "🚀" }
+    const capLang = this.currentLanguage || "en";
+    const defaultFeatures = [
+      { label: this.i18n[capLang]?.clientSideOnly || "100% Client-Side", icon: "⚡", primary: true },
+      { label: this.i18n[capLang]?.zeroServerUploads || "Zero Server Uploads", icon: "🔒" },
+      { label: this.i18n[capLang]?.instantExecution || "Instant Execution", icon: "🚀" }
     ];
+    const features = this.toolFeatures[toolId] || defaultFeatures;
+    const activeSub = this.activeSubtool || "";
     return `
-      <div class="tool-capabilities-bar">
-        ${features.map(f => `
-          <span class="tool-cap-chip ${f.primary ? 'primary' : ''}">
-            <span class="cap-icon-box" style="display: inline-flex; align-items: center;">${this.getFeatureIconSvg(f.icon)}</span>
-            <span>${f.label}</span>
-          </span>
-        `).join("")}
+      <div class="tool-capabilities-bar" data-tool-id="${toolId}">
+        ${features.map(f => {
+          const isInteractive = Boolean(f.subtool || f.tab);
+          const tag = isInteractive ? 'button' : 'span';
+          const typeAttr = isInteractive ? 'type="button"' : '';
+          const subtoolAttr = f.subtool ? `data-subtool="${f.subtool}"` : '';
+          const tabAttr = f.tab ? `data-tab="${f.tab}"` : '';
+          const capLabel = (this.toolUiDictionary?.[f.label]?.[capLang]) || (this.i18n[capLang]?.[f.label]) || f.label;
+          const titleAttr = isInteractive ? `title="${this.i18n[capLang]?.switchTo || 'Switch to'} ${capLabel}"` : '';
+          const isActive = f.subtool ? (f.subtool === activeSub) : (f.primary && !activeSub);
+          return `
+            <${tag} ${typeAttr} class="tool-cap-chip ${isActive ? 'primary active' : ''} ${isInteractive ? 'interactive' : ''}" ${subtoolAttr} ${tabAttr} ${titleAttr} data-orig-text="${f.label}">
+              <span class="cap-icon-box" style="display: inline-flex; align-items: center;">${this.getFeatureIconSvg(f.icon)}</span>
+              <span>${capLabel}</span>
+            </${tag}>
+          `;
+        }).join("")}
       </div>
     `;
+  },
+
+  initCapabilitiesBar(container, toolId) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root) return;
+    const capBar = root.querySelector(".tool-capabilities-bar");
+    if (!capBar || capBar.dataset.capsInitialized === "true") return;
+    capBar.dataset.capsInitialized = "true";
+
+    capBar.querySelectorAll(".tool-cap-chip.interactive").forEach(chip => {
+      chip.addEventListener("click", () => {
+        this.playSynthSound('click');
+        const subtool = chip.dataset.subtool;
+        const tab = chip.dataset.tab;
+
+        if (subtool) {
+          const subtoolBtn = root.querySelector(`.suite-tabs-nav .keyboard-tab[data-subtool="${subtool}"]`);
+          if (subtoolBtn) {
+            subtoolBtn.click();
+          }
+        } else if (tab) {
+          const tabBtn = root.querySelector(`.keyboard-tab[data-tab="${tab}"]`);
+          if (tabBtn) {
+            tabBtn.click();
+          }
+        }
+
+        capBar.querySelectorAll(".tool-cap-chip").forEach(c => {
+          c.classList.remove("active", "primary");
+        });
+        chip.classList.add("active", "primary");
+      });
+    });
+  },
+
+  syncActiveCapabilityChip(container, activeId) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root || !activeId) return;
+    const chips = root.querySelectorAll(".tool-capabilities-bar .tool-cap-chip");
+    chips.forEach(c => {
+      const isMatch = (c.dataset.subtool === activeId) || (c.dataset.tab === activeId);
+      c.classList.toggle("active", isMatch);
+      c.classList.toggle("primary", isMatch);
+    });
+  },
+
+  injectGuideBenefits(container, toolId, subtoolId = null) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root) return;
+    const guideCard = root.querySelector(".tool-guide-card");
+    if (!guideCard) return;
+
+    const effectiveId = subtoolId || this.activeSubtool || toolId;
+    const bnfLang = this.currentLanguage || "en";
+    const localizedBenefits = (this.toolBenefitsTranslations?.[bnfLang]?.[effectiveId]) ||
+                              (this.toolBenefitsTranslations?.[bnfLang]?.[toolId]);
+    const rawBenefits = (bnfLang !== "en" && localizedBenefits) ? localizedBenefits :
+                     ((this.toolBenefits && this.toolBenefits[effectiveId]) || (this.toolBenefits && this.toolBenefits[toolId])) || [];
+
+    const benefits = rawBenefits.map(b => {
+      if (bnfLang === "en") return b;
+      const m = b.match(/^<strong>([^<]+)<\/strong>(.*)$/);
+      if (m) {
+        const strongTitle = m[1].trim();
+        const transTitle = this.toolUiDictionary?.[strongTitle]?.[bnfLang] || strongTitle;
+        return `<strong>${transTitle}</strong>${m[2]}`;
+      }
+      return b;
+    });
+
+    const guideMap = {
+      "formatter-suite": "json-formatter.html",
+      "text-encoder-suite": "text-encoder-suite.html",
+      "crypto-suite": "crypto-suite.html",
+      "datetime-suite": "datetime-suite.html",
+      "security-suite": "security-suite.html",
+      "screenshot-capture": "graphics-studio.html",
+      "code-playground": "code-playground.html"
+    };
+    const guideFile = guideMap[effectiveId] || `${effectiveId}.html`;
+
+    const existing = guideCard.querySelector(".tool-guide-benefits");
+    if (existing) existing.remove();
+
+    if (benefits && benefits.length > 0) {
+      const benefitsDiv = document.createElement("div");
+      benefitsDiv.className = "tool-guide-benefits";
+      benefitsDiv.style.cssText = "margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.08); font-size: 12.5px; line-height: 1.5; color: var(--text-muted); text-align: left;";
+
+      const bnfLang = this.currentLanguage || "en";
+      const howItBenefitsText = this.i18n[bnfLang]?.howItBenefits || "💡 How it Benefits You:";
+      const readGuideText = this.i18n[bnfLang]?.readCompleteGuide || "📖 Read Complete Step-by-Step Guide & Tutorial";
+      const guideTargetUrl = this.getGuideUrl(guideFile);
+
+      benefitsDiv.innerHTML = `
+        <strong style="color: var(--accent-cyan); display: block; margin-bottom: 6px; font-size: 13px;">${howItBenefitsText}</strong>
+        <ul style="margin: 0; padding-left: 18px; list-style-type: disc; display: flex; flex-direction: column; gap: 6px;">
+          ${benefits.map(b => `<li>${b}</li>`).join("")}
+        </ul>
+        <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, 0.05);">
+          <a href="${guideTargetUrl}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; color: var(--accent-cyan); text-decoration: none; font-size: 12.5px; font-weight: 600; transition: opacity var(--transition-fast);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+            <span>${readGuideText}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </div>
+      `;
+      guideCard.appendChild(benefitsDiv);
+    }
+  },
+
+  // Mobile Split-View Tab State (Editor vs Preview) & Subtab Mirroring
+  getMobileTabState(splitView) {
+    const host = splitView?.parentElement;
+    const toolKey = this.activeTool || "default";
+    if (host?.dataset?.mobileActiveTool === toolKey && host.dataset.mobileActiveTab === "preview") {
+      return "preview";
+    }
+    return "editor";
+  },
+
+  setMobileSplitTab(splitView, mode, options = {}) {
+    if (!splitView) return;
+    const targetMode = mode === "preview" ? "preview" : "editor";
+    splitView.classList.remove("mobile-view-editor", "mobile-view-preview");
+    splitView.classList.add(`mobile-view-${targetMode}`);
+
+    const host = splitView.parentElement;
+    if (host?.dataset) {
+      host.dataset.mobileActiveTool = this.activeTool || "default";
+      host.dataset.mobileActiveTab = targetMode;
+    }
+
+    const bar = splitView._mobileBar || (splitView.previousElementSibling?.classList?.contains("mobile-split-bar") ? splitView.previousElementSibling : null);
+    if (bar) {
+      bar.querySelectorAll(".mobile-split-tab").forEach(btn => {
+        const isTarget = btn.dataset.mobileTab === targetMode;
+        btn.classList.toggle("active", isTarget);
+        btn.setAttribute("aria-selected", isTarget ? "true" : "false");
+        btn.setAttribute("tabindex", isTarget ? "0" : "-1");
+        if (isTarget && targetMode === "preview") {
+          btn.classList.remove("has-update");
+        }
+      });
+    }
+
+    if (targetMode === "preview") {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.dispatchEvent(new Event("resize"));
+        });
+      });
+    }
+
+    if (!options.silent) {
+      this.playSynthSound?.("click");
+      if (bar) {
+        const rect = bar.getBoundingClientRect();
+        if (rect.top < 0) {
+          bar.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    }
+  },
+
+  syncMobileSplitBar(splitViewOrRoot) {
+    const root = splitViewOrRoot || document;
+    const splitView = root.classList?.contains("split-view")
+      ? root
+      : root.querySelector?.(".tool-content-layout.split-view");
+    if (!splitView) return;
+
+    const bar = splitView._mobileBar || (splitView.previousElementSibling?.classList?.contains("mobile-split-bar") ? splitView.previousElementSibling : null);
+    if (!bar) return;
+
+    const panels = Array.from(splitView.querySelectorAll(":scope > .tool-panel:not(.tool-guide-card)"));
+    const drawer = panels[0];
+    const previewPanel = panels[1];
+
+    const isFS = Boolean(
+      splitView.classList.contains("has-fullscreen-preview") ||
+      previewPanel?.classList.contains("preview-fullscreen")
+    );
+    bar.classList.toggle("is-fullscreen", isFS);
+
+    const fsTrigger = bar.querySelector(".mobile-fs-trigger");
+    if (fsTrigger) {
+      const hasFsBtn = Boolean(previewPanel?.querySelector(".preview-fullscreen-btn"));
+      fsTrigger.style.display = hasFsBtn ? "" : "none";
+    }
+
+    const subtabsWrap = bar.querySelector(".mobile-subtabs-wrap");
+    if (!subtabsWrap || !drawer) return;
+
+    const editorHeader = drawer.querySelector(":scope > .panel-header");
+    const groups = [];
+
+    if (editorHeader) {
+      const suiteNav = editorHeader.querySelector(".suite-tabs-nav");
+      if (suiteNav && suiteNav.querySelectorAll(".keyboard-tab").length >= 2) {
+        if (suiteNav.style.display) {
+          suiteNav.style.removeProperty("display");
+        }
+        groups.push({ el: suiteNav, kind: "suite" });
+      }
+
+      editorHeader.querySelectorAll("div").forEach(div => {
+        if (div === suiteNav || div.classList.contains("suite-tabs-nav") || div.classList.contains("keyboard-tabs") || div.classList.contains("panel-header-top")) return;
+        if (suiteNav && suiteNav.contains(div)) return;
+        const directTabs = Array.from(div.children).filter(c => c.classList?.contains("keyboard-tab"));
+        if (directTabs.length >= 2) {
+          groups.push({ el: div, kind: "mode" });
+        }
+      });
+    }
+
+    // Remove stale promoted markers if re-syncing
+    drawer.querySelectorAll(".mobile-promoted-tabs").forEach(el => {
+      if (!groups.some(g => g.el === el)) el.classList.remove("mobile-promoted-tabs");
+    });
+
+    subtabsWrap.innerHTML = "";
+    if (!groups.length) return;
+
+    groups.forEach(({ el, kind }) => {
+      el.classList.add("mobile-promoted-tabs");
+      const sourceTabs = Array.from(el.querySelectorAll(":scope > .keyboard-tab"));
+      if (!sourceTabs.length) return;
+
+      const strip = document.createElement("div");
+      strip.className = `mobile-subtabs-strip ${kind === "suite" ? "is-suite-strip" : "is-mode-strip"}`;
+      strip.setAttribute("role", "navigation");
+      strip.setAttribute("aria-label", kind === "suite" ? "Suite Tools" : "Tool Modes");
+
+      sourceTabs.forEach((srcBtn, idx) => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        const isActive = srcBtn.classList.contains("active");
+        pill.className = `mobile-subtab-pill${isActive ? " active" : ""}`;
+        pill.setAttribute("aria-pressed", isActive ? "true" : "false");
+        if (srcBtn.title) pill.title = srcBtn.title;
+        if (srcBtn.dataset.subtool) pill.dataset.subtool = srcBtn.dataset.subtool;
+        if (srcBtn.dataset.tab) pill.dataset.tab = srcBtn.dataset.tab;
+
+        // Clone label/icon content cleanly while stripping duplicate IDs
+        const clone = srcBtn.cloneNode(true);
+        clone.querySelectorAll?.("[id]").forEach(node => node.removeAttribute("id"));
+        pill.innerHTML = clone.innerHTML;
+
+        pill.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const targetTab = (srcBtn.dataset.subtool && el.querySelector(`.keyboard-tab[data-subtool="${srcBtn.dataset.subtool}"]`))
+            || (srcBtn.dataset.tab && el.querySelector(`.keyboard-tab[data-tab="${srcBtn.dataset.tab}"]`))
+            || el.querySelectorAll(":scope > .keyboard-tab")[idx];
+          if (targetTab) {
+            const host = splitView.parentElement;
+            if (host?.dataset) {
+              host.dataset.mobileActiveTool = this.activeTool || "default";
+              host.dataset.mobileActiveTab = splitView.classList.contains("mobile-view-preview") ? "preview" : "editor";
+            }
+            targetTab.click();
+            requestAnimationFrame(() => this.syncMobileSplitBar(splitView));
+          }
+        });
+
+        strip.appendChild(pill);
+      });
+
+      subtabsWrap.appendChild(strip);
+
+      // Keep active pill centered horizontally without vertical scroll jump
+      requestAnimationFrame(() => {
+        const activePill = strip.querySelector(".mobile-subtab-pill.active");
+        if (activePill && strip.scrollWidth > strip.clientWidth) {
+          const targetScroll = activePill.offsetLeft - (strip.clientWidth / 2) + (activePill.offsetWidth / 2);
+          strip.scrollLeft = Math.max(0, targetScroll);
+        }
+      });
+    });
+  },
+
+  initMobileSplitTabs(splitView, drawer, previewPanel) {
+    if (!splitView || !drawer || !previewPanel) return;
+
+    drawer.classList.add("mobile-editor-panel");
+    previewPanel.classList.add("mobile-preview-panel");
+
+    // Clean up any stale sibling bars left behind by partial DOM replacements (e.g. split.outerHTML)
+    let prev = splitView.previousElementSibling;
+    while (prev && prev.classList.contains("mobile-split-bar")) {
+      const toCheck = prev;
+      prev = prev.previousElementSibling;
+      if (toCheck._splitView !== splitView) {
+        toCheck.remove();
+      }
+    }
+
+    let bar = splitView._mobileBar;
+    if (!bar || !bar.isConnected || bar.nextElementSibling !== splitView) {
+      bar = document.createElement("div");
+      bar.className = "mobile-split-bar";
+      bar.innerHTML = `
+        <div class="mobile-subtabs-wrap"></div>
+        <div class="mobile-tabs-row">
+          <div class="mobile-split-tabs" role="tablist" aria-label="Tool Workspace View">
+            <button type="button" class="mobile-split-tab active" role="tab" aria-selected="true" tabindex="0" data-mobile-tab="editor">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span>Editor</span>
+            </button>
+            <button type="button" class="mobile-split-tab" role="tab" aria-selected="false" tabindex="-1" data-mobile-tab="preview">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <span>Preview</span>
+              <span class="mobile-tab-dot" aria-hidden="true" title="Output updated"></span>
+            </button>
+          </div>
+          <button type="button" class="mobile-fs-trigger" title="Full Screen Preview" aria-label="Full Screen Preview">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+          </button>
+        </div>
+      `;
+      splitView.before(bar);
+      bar._splitView = splitView;
+      splitView._mobileBar = bar;
+
+      const editorBtn = bar.querySelector('[data-mobile-tab="editor"]');
+      const previewBtn = bar.querySelector('[data-mobile-tab="preview"]');
+      const fsTrigger = bar.querySelector(".mobile-fs-trigger");
+      const tablist = bar.querySelector(".mobile-split-tabs");
+
+      editorBtn?.addEventListener("click", () => this.setMobileSplitTab(splitView, "editor"));
+      previewBtn?.addEventListener("click", () => this.setMobileSplitTab(splitView, "preview"));
+
+      tablist?.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        e.preventDefault();
+        const nextMode = splitView.classList.contains("mobile-view-editor") ? "preview" : "editor";
+        this.setMobileSplitTab(splitView, nextMode);
+        bar.querySelector(`[data-mobile-tab="${nextMode}"]`)?.focus();
+      });
+
+      fsTrigger?.addEventListener("click", () => {
+        const realFsBtn = previewPanel.querySelector(".preview-fullscreen-btn");
+        if (realFsBtn) {
+          realFsBtn.click();
+        }
+      });
+
+      // Subtle update indicator dot on Preview tab when user modifies inputs on Editor tab
+      const markUpdated = () => {
+        if (splitView.classList.contains("mobile-view-editor")) {
+          previewBtn?.classList.add("has-update");
+        }
+      };
+      drawer.addEventListener("input", markUpdated, { passive: true });
+      drawer.addEventListener("change", markUpdated, { passive: true });
+
+      // Observe dynamic suite tabs (.suite-tabs-nav) & programmatic subtab class changes
+      if (!drawer._mobileTabsObserver && typeof MutationObserver !== "undefined") {
+        let syncQueued = false;
+        const scheduleSync = () => {
+          if (syncQueued) return;
+          syncQueued = true;
+          requestAnimationFrame(() => {
+            syncQueued = false;
+            if (splitView.isConnected) {
+              this.syncMobileSplitBar(splitView);
+            }
+          });
+        };
+        const observer = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            if (m.type === "attributes") {
+              if (m.target.classList?.contains("keyboard-tab")) {
+                scheduleSync();
+                return;
+              }
+            } else if (m.type === "childList") {
+              if (m.target.closest?.(".panel-header")) {
+                scheduleSync();
+                return;
+              }
+            }
+          }
+        });
+        observer.observe(drawer, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["class"]
+        });
+        drawer._mobileTabsObserver = observer;
+      }
+    }
+
+    splitView.classList.add("has-mobile-tabs");
+    const initialTab = this.getMobileTabState(splitView);
+    this.setMobileSplitTab(splitView, initialTab, { silent: true });
+    this.syncMobileSplitBar(splitView);
   },
 
   initLayoutSizer(container) {
@@ -7738,10 +8921,13 @@ const app = {
         }
 
         const header = drawer.querySelector(".panel-header");
-        if (header && !header.querySelector(".drawer-close-btn")) {
+        if (header && !header.querySelector(".drawer-close-btn") && splitView.classList.contains("drawer-mode")) {
           const closeBtn = document.createElement("button");
+          closeBtn.type = "button";
           closeBtn.className = "drawer-close-btn";
-          closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px; display: none;";
+          closeBtn.setAttribute("title", "Close Drawer");
+          closeBtn.setAttribute("aria-label", "Close Drawer");
+          closeBtn.style.cssText = "background: none; border: none; color: var(--text-muted); cursor: pointer; display: none; align-items: center; justify-content: center; font-size: 18px; outline: none; margin-left: auto; padding: 4px;";
           closeBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
           header.appendChild(closeBtn);
 
@@ -7751,19 +8937,31 @@ const app = {
           });
         }
 
-        // Swipe gesture detector to close drawer
+        // Swipe gesture detector to close drawer (strictly horizontal left-swipe; never interfere with vertical scrolling or sliders)
         let touchStartX = 0;
-        let touchEndX = 0;
         let touchStartY = 0;
-        let touchEndY = 0;
+        let touchIgnoreSwipe = false;
         drawer.addEventListener("touchstart", (e) => {
-          touchStartX = e.changedTouches[0].screenX;
-          touchStartY = e.changedTouches[0].screenY;
+          const touch = e.changedTouches?.[0];
+          if (!touch) return;
+          touchStartX = touch.clientX ?? touch.screenX;
+          touchStartY = touch.clientY ?? touch.screenY;
+          const target = e.target;
+          touchIgnoreSwipe = Boolean(
+            target &&
+            target.closest &&
+            target.closest('input[type="range"], canvas, select, [data-no-drawer-swipe]')
+          );
         }, { passive: true });
         drawer.addEventListener("touchend", (e) => {
-          touchEndX = e.changedTouches[0].screenX;
-          touchEndY = e.changedTouches[0].screenY;
-          if ((touchStartX - touchEndX > 60) || (touchEndY - touchStartY > 70)) {
+          if (touchIgnoreSwipe) return;
+          const touch = e.changedTouches?.[0];
+          if (!touch) return;
+          const endX = touch.clientX ?? touch.screenX;
+          const endY = touch.clientY ?? touch.screenY;
+          const dx = touchStartX - endX;
+          const dy = Math.abs(endY - touchStartY);
+          if (dx > 75 && dx > dy * 1.5) {
             this.playSynthSound('click');
             splitView.classList.remove("drawer-open");
           }
@@ -7908,10 +9106,18 @@ const app = {
           }
         }
         if (previewHeader) {
-          if (!previewHeader.querySelector(".reset-split-btn")) {
+          let actionsWrapper = previewHeader.querySelector(".preview-header-actions");
+          if (!actionsWrapper) {
+            actionsWrapper = document.createElement("div");
+            actionsWrapper.className = "preview-header-actions";
+            actionsWrapper.style.cssText = "display: inline-flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0;";
+            previewHeader.appendChild(actionsWrapper);
+          }
+
+          if (!actionsWrapper.querySelector(".reset-split-btn")) {
             const resetHeaderBtn = document.createElement("button");
             resetHeaderBtn.className = "reset-split-btn tool-btn secondary";
-            resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; margin-left: auto; margin-right: 6px; gap: 4px; display: inline-flex; align-items: center;";
+            resetHeaderBtn.style.cssText = "font-size: 11px; padding: 4px 8px; gap: 4px; display: inline-flex; align-items: center;";
             resetHeaderBtn.setAttribute("title", "Reset sections to 50/50 layout");
             resetHeaderBtn.innerHTML = `
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11">
@@ -7920,13 +9126,13 @@ const app = {
               </svg>
               <span>Reset 50/50</span>
             `;
-            previewHeader.appendChild(resetHeaderBtn);
+            actionsWrapper.appendChild(resetHeaderBtn);
             resetHeaderBtn.addEventListener("click", () => {
               resetSplit();
             });
           }
 
-          if (!previewHeader.querySelector(".preview-fullscreen-btn")) {
+          if (!actionsWrapper.querySelector(".preview-fullscreen-btn")) {
             const fsBtn = document.createElement("button");
             fsBtn.id = "btn-preview-fullscreen-toggle";
             fsBtn.className = "preview-fullscreen-btn tool-btn secondary";
@@ -7937,12 +9143,13 @@ const app = {
               </svg>
               <span>Full Screen</span>
             `;
-            previewHeader.appendChild(fsBtn);
+            actionsWrapper.appendChild(fsBtn);
 
             fsBtn.addEventListener("click", () => {
               this.playSynthSound('click');
               const isFS = previewPanel.classList.toggle("preview-fullscreen");
               splitView.classList.toggle("has-fullscreen-preview", isFS);
+              splitView._mobileBar?.classList.toggle("is-fullscreen", isFS);
 
               if (isFS) {
                 fsBtn.innerHTML = `
@@ -7984,22 +9191,130 @@ const app = {
                 splitView.classList.remove("drawer-open");
                 drawer?.classList.remove("dock-wide");
               }
+
+              requestAnimationFrame(() => {
+                window.dispatchEvent(new Event("resize"));
+              });
             });
 
-            const handleFsEscape = (e) => {
-              if (e.key === "Escape" && previewPanel.classList.contains("preview-fullscreen")) {
-                if (splitView.classList.contains("drawer-open")) {
-                  splitView.classList.remove("drawer-open");
+            if (!this._fsEscapeHandler) {
+              this._fsEscapeHandler = (e) => {
+                if (e.key !== "Escape") return;
+                const activeViewport = document.getElementById("active-tool-viewport");
+                const activePanel = activeViewport?.querySelector(".tool-panel.preview-fullscreen");
+                if (!activePanel) return;
+                const activeSplit = activePanel.closest(".tool-content-layout.split-view");
+                if (activeSplit && activeSplit.classList.contains("drawer-open")) {
+                  activeSplit.classList.remove("drawer-open");
                 } else {
-                  fsBtn.click();
+                  const activeFsBtn = activePanel.querySelector(".preview-fullscreen-btn");
+                  activeFsBtn?.click();
                 }
-              }
-            };
-            window.addEventListener("keydown", handleFsEscape);
+              };
+              window.addEventListener("keydown", this._fsEscapeHandler);
+            }
           }
         }
+
+        // Initialize responsive mobile/Android Editor <-> Preview 2-tab bar
+        this.initMobileSplitTabs(splitView, drawer, previewPanel);
+
+        // Distribute ads cleanly into this split-view
+        this.distributePanelAds(splitView);
       }
     });
+  },
+
+  distributePanelAds(container) {
+    const root = container || document.getElementById("active-tool-viewport") || document;
+    if (!root) return;
+
+    const splitView = (root.classList && root.classList.contains("split-view"))
+      ? root
+      : root.querySelector(".tool-content-layout.split-view");
+
+    if (!splitView) {
+      // Single view tool or Hub wrapper before subtool mount
+      const viewport = document.getElementById("active-tool-viewport") || root;
+      if (!viewport.querySelector(".tool-sponsor-bar")) {
+        const toolAdHtml = this.getAdHtml("tool");
+        if (toolAdHtml) {
+          const sponsorBar = document.createElement("div");
+          sponsorBar.className = "tool-sponsor-bar";
+          sponsorBar.innerHTML = toolAdHtml;
+          viewport.appendChild(sponsorBar);
+        }
+      }
+      return;
+    }
+
+    const panels = Array.from(splitView.querySelectorAll(":scope > .tool-panel:not(.tool-guide-card)"));
+    if (panels.length >= 2) {
+      // Left Panel Ad (Editor side - covers bottom space and frames controls)
+      let adContainer1 = panels[0].querySelector(".tool-panel-ad");
+      if (!adContainer1) {
+        const adHtml1 = this.getAdHtml("tool");
+        if (adHtml1) {
+          adContainer1 = document.createElement("div");
+          adContainer1.className = "tool-panel-ad";
+          adContainer1.innerHTML = adHtml1;
+          panels[0].appendChild(adContainer1);
+        }
+      } else if (!adContainer1.innerHTML.trim()) {
+        const adHtml1 = this.getAdHtml("tool");
+        if (adHtml1) adContainer1.innerHTML = adHtml1;
+      }
+
+      // Right Panel Ad (Preview side - covers bottom space and frames preview)
+      let adContainer2 = panels[1].querySelector(".tool-panel-ad");
+      if (!adContainer2) {
+        const adHtml2 = this.getAdHtml("tool");
+        if (adHtml2) {
+          adContainer2 = document.createElement("div");
+          adContainer2.className = "tool-panel-ad";
+          adContainer2.innerHTML = adHtml2;
+          panels[1].appendChild(adContainer2);
+        }
+      } else if (!adContainer2.innerHTML.trim()) {
+        const adHtml2 = this.getAdHtml("tool");
+        if (adHtml2) adContainer2.innerHTML = adHtml2;
+      }
+    }
+
+    // Guide Card Ad (1 ad)
+    const guideCard = splitView.querySelector(".tool-guide-card") || root.querySelector(".tool-guide-card");
+    if (guideCard) {
+      let adContainer3 = guideCard.querySelector(".tool-panel-ad");
+      if (!adContainer3) {
+        const adHtml3 = this.getAdHtml("tool");
+        if (adHtml3) {
+          adContainer3 = document.createElement("div");
+          adContainer3.className = "tool-panel-ad";
+          adContainer3.style.marginTop = "18px";
+          adContainer3.style.paddingTop = "14px";
+          adContainer3.style.borderTop = "1px dashed var(--border-color)";
+          adContainer3.style.width = "100%";
+          adContainer3.innerHTML = adHtml3;
+          guideCard.appendChild(adContainer3);
+        }
+      } else if (!adContainer3.innerHTML.trim()) {
+        const adHtml3 = this.getAdHtml("tool");
+        if (adHtml3) adContainer3.innerHTML = adHtml3;
+      }
+    }
+
+    // Bottom Sponsor Bar at bottom of viewport (omit if already displayed inside guide card)
+    const viewport = document.getElementById("active-tool-viewport") || document;
+    const hasGuideAd = guideCard && guideCard.querySelector(".tool-panel-ad");
+    if (!hasGuideAd && !viewport.querySelector(":scope > .tool-sponsor-bar")) {
+      const toolAdHtml = this.getAdHtml("tool");
+      if (toolAdHtml) {
+        const sponsorBar = document.createElement("div");
+        sponsorBar.className = "tool-sponsor-bar";
+        sponsorBar.innerHTML = toolAdHtml;
+        viewport.appendChild(sponsorBar);
+      }
+    }
   },
 
 
@@ -8008,11 +9323,20 @@ const app = {
     const workflows = this.toolWorkflows[toolId];
     if (!workflows || workflows.length === 0) return;
 
-    if (viewport.querySelector(".tool-workflow-bridge")) return;
+    const existingBridge = viewport.querySelector(".tool-workflow-bridge");
+    if (existingBridge) existingBridge.remove();
+
+    const currentLang = this.currentLanguage || "en";
+    const bTag = this.i18n[currentLang]?.connectedWorkflows || "Connected Workflows";
+    const bTitle = this.i18n[currentLang]?.frequentlyCombined || "Frequently Combined Next Steps";
+    const bDesc = this.i18n[currentLang]?.workflowBridgeDesc || "Keep your momentum going — chain this output directly into complementary developer utilities.";
 
     const cardsHtml = workflows.map(wf => {
       const targetTool = this.tools.find(t => t.id === wf.targetId);
       if (!targetTool) return "";
+      const tTrans = this.toolTranslations?.[currentLang]?.[targetTool.id];
+      const targetName = tTrans?.name || targetTool.name;
+      const targetHint = (this.toolUiDictionary?.[wf.hint]?.[currentLang]) || tTrans?.desc || wf.hint;
       const icon = targetTool.icon || `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
       return `
         <div class="bridge-tool-card" data-target-tool="${targetTool.id}">
@@ -8020,8 +9344,8 @@ const app = {
             ${icon}
           </div>
           <div class="bridge-tool-info">
-            <div class="bridge-tool-name">${targetTool.name}</div>
-            <div class="bridge-tool-hint">${wf.hint}</div>
+            <div class="bridge-tool-name">${targetName}</div>
+            <div class="bridge-tool-hint">${targetHint}</div>
           </div>
           <div class="bridge-tool-arrow">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
@@ -8036,9 +9360,9 @@ const app = {
     bridgeContainer.className = "tool-workflow-bridge";
     bridgeContainer.innerHTML = `
       <div class="bridge-header">
-        <span class="bridge-tag">⚡ Connected Workflows</span>
-        <h3 class="bridge-title">Frequently Combined Next Steps</h3>
-        <p class="bridge-desc">Keep your momentum going — chain this output directly into complementary developer utilities.</p>
+        <span class="bridge-tag">⚡ ${bTag}</span>
+        <h3 class="bridge-title">${bTitle}</h3>
+        <p class="bridge-desc">${bDesc}</p>
       </div>
       <div class="bridge-grid">
         ${cardsHtml}
@@ -8143,13 +9467,23 @@ const app = {
                          (this.activeCategory === "subcategory-filter" ? "#category/" + this.activeSubcategory : "#dashboard");
       if (window.history && window.history.pushState && window.location.pathname.startsWith('/tool/')) {
         try {
-          window.history.pushState(null, "", "/" + targetHash);
+          window.history.pushState(null, "", "/" + this.getLangQueryString() + targetHash);
         } catch (e) {
           window.location.hash = targetHash;
         }
       } else {
         window.location.hash = targetHash;
       }
+    }
+
+    // Disconnect active tool viewport translation observer
+    if (this._toolViewportObserver) {
+      this._toolViewportObserver.disconnect();
+      this._toolViewportObserver = null;
+    }
+    if (this._toolObserverTimer) {
+      clearTimeout(this._toolObserverTimer);
+      this._toolObserverTimer = null;
     }
 
     // Lifecycle Memory Management: Clean up active tool when returning to dashboard
@@ -8188,27 +9522,29 @@ const app = {
     this.syncSidebarUI();
 
     const titleEl = document.getElementById("header-view-title");
+    const currentLang = this.currentLanguage || "en";
     if (titleEl) {
       titleEl.style.display = "none";
       if (this.activeCategory === "all") {
-        titleEl.innerText = "Dashboard";
+        titleEl.innerText = this.i18n[currentLang]?.dashboard || "Dashboard";
       } else if (this.activeCategory === "fav") {
-        titleEl.innerText = "Favorites";
+        titleEl.innerText = this.i18n[currentLang]?.favorites || "Favorites";
       } else {
         titleEl.innerText = this.getSubcategoryLabel(this.activeSubcategory);
       }
     }
 
-    // Restore default SEO Meta Tags for main application
-    document.title = "OmniTool Hub | The Ultimate All-in-One Utility Suite";
+    // Restore default SEO Meta Tags for main application (localized)
+    const btdLang = this.currentLanguage || "en";
+    document.title = this.i18n[btdLang]?.pageTitle || "OmniTool Hub | The Ultimate All-in-One Utility Suite";
     const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", "A premium, free, privacy-first developer and utility tools web application. 75+ free online tools consolidated across 45 master suites, running 100% client-side with zero data transmission.");
+    if (metaDesc) metaDesc.setAttribute("content", this.i18n[btdLang]?.metaDesc || "A premium, free, privacy-first developer and utility tools web application. 70+ free online tools consolidated across 47 master suites, running 100% client-side with zero data transmission.");
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute("href", "https://omnitool.worldsneed.com/");
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute("content", "OmniTool Hub | All-in-One Utility Suite");
+    if (ogTitle) ogTitle.setAttribute("content", this.i18n[btdLang]?.pageTitle || "OmniTool Hub | All-in-One Utility Suite");
     const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) ogDesc.setAttribute("content", "50+ free developer and utility tools. 100% offline-first, client-side, no tracking.");
+    if (ogDesc) ogDesc.setAttribute("content", this.i18n[btdLang]?.metaDesc || "47+ suites (70+ tools) running 100% offline-first, client-side, no tracking.");
     const ogUrl = document.querySelector('meta[property="og:url"]');
     if (ogUrl) ogUrl.setAttribute("content", "https://omnitool.worldsneed.com/");
 
@@ -8643,7 +9979,7 @@ const app = {
     document.documentElement.style.setProperty("--font-scale", scale);
     document.body.style.zoom = scale;
 
-    const optionBtns = document.querySelectorAll(".sizer-option-btn");
+    const optionBtns = document.querySelectorAll(".sizer-option-btn[data-scale]");
     optionBtns.forEach(btn => {
       const btnScale = btn.getAttribute("data-scale");
       if (parseFloat(btnScale) === parseFloat(scale)) {
@@ -8654,6 +9990,2656 @@ const app = {
         btn.style.fontWeight = "normal";
       }
     });
+  },
+
+  // Multilingual UI i18n Dictionary
+  i18n: {
+    "en": {
+      "connectedWorkflows": "Connected Workflows",
+      "frequentlyCombined": "Frequently Combined Next Steps",
+      "workflowBridgeDesc": "Keep your momentum going — chain this output directly into complementary developer utilities.",
+      "dashboard": "Dashboard",
+      "tools": "Tools",
+      "guides": "Guides",
+      "tour": "Tour",
+      "favorites": "Favorites",
+      "plans": "Plans",
+      "search": "Search",
+      "everyday": "Everyday",
+      "developer": "Developer",
+      "heroTitle": "All-in-One <span>OmniTool Hub</span>",
+      "heroDesc": "Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.",
+      "offlineTools": "Offline Tools",
+      "serverDelay": "Server Delay",
+      "clientPrivacy": "Client Privacy",
+      "surpriseMe": "Surprise Me",
+      "zeroServer": "100% Client-Side Sandbox • Zero Server Uploads",
+      "devTools": "Developer Tools",
+      "textWriting": "Text & Writing",
+      "designStyling": "Design & Styling",
+      "mathConverter": "Math & Converter",
+      "preferences": "Preferences",
+      "aestheticsStudio": "Aesthetics Studio",
+      "interfaceZoom": "Interface Zoom Scale",
+      "languageLabel": "Language / Idioma",
+      "flushCache": "Flush Offline Cache",
+      "installApp": "Install OmniTool Hub on Desktop & Mobile",
+      "filterAll": "All",
+      "filterSingle": "Single Tools",
+      "filterSuites": "Tool Suites",
+      "filterInteractive": "Interactive Apps",
+      "filterPro": "PRO",
+      "filterFree": "Free",
+      "filterGuides": "Guides",
+      "launchTool": "Launch Tool",
+      "openUtility": "Open Utility",
+      "searchPlaceholder": "Search utilities... (e.g. JSON, encoder, base64)",
+      "searchCpPlaceholder": "Type a tool name, command or value... (Esc to close)",
+      "allTools": "All Tools",
+      "allEveryday": "All Everyday",
+      "catDocs": "PDF & Docs",
+      "catMedia": "Audio & Video",
+      "catQr": "QR & Snip",
+      "catImages": "Photos & Colors",
+      "catMath": "Math & Calc",
+      "catSecurity": "Passwords",
+      "catFavorites": "Favorites",
+      "catDev": "Developer",
+      "catText": "Text",
+      "catDesign": "Design",
+      "langName": "English",
+      "recentlyUsed": "Recently Used:",
+      "noToolsVisited": "No tools visited yet",
+      "back": "Back",
+      "clientSideOnly": "100% Client-Side",
+      "zeroServerUploads": "Zero Server Uploads",
+      "instantExecution": "Instant Execution",
+      "howItBenefits": "💡 How it Benefits You:",
+      "readCompleteGuide": "📖 Read Complete Step-by-Step Guide & Tutorial",
+      "offlineSandbox": "Offline Sandbox",
+      "aestheticsDesc": "Themes, fonts & synth sounds",
+      "flushCacheDesc": "Clear service worker cache & reload",
+      "themeTitle": "Theme & Aesthetics",
+      "paletteTheme": "Accent Palette Theme",
+      "layoutDensity": "Layout Spacing Density",
+      "densityComfortable": "Comfortable",
+      "densityCompact": "Compact (Dense)",
+      "densitySpacious": "Spacious",
+      "clockFormat": "Clock Display Format",
+      "enableSound": "Enable Sound FX & Audio Feedback",
+      "saveChanges": "Save Changes",
+      "pwaDesc": "Instant offline access • 47+ suites (70+ tools) • Zero server uploads",
+      "pwaInstallBtn": "⚡ Install Free App",
+      "starterPlan": "Starter",
+      "freePlan": "Free Plan",
+      "perForever": "/ forever",
+      "proLifetime": "Lifetime Pass",
+      "perOnce": "/ one-time",
+      "proMonthly": "Pro Monthly",
+      "perMonth": "/ month",
+      "alreadyBacked": "🔑 Already backed us or have an activation code?",
+      "enterPasscodeHint": "Enter your activation passcode below to unlock your Pro or Lifetime membership status.",
+      "activateLicenseBtn": "Activate License",
+      "codeSupportHint": "Supports 12-digit UPI UTR, Crypto Hash, and Gumroad Keys",
+      "whereCodeLink": "Where to find my code? →",
+      "currentPlanBtn": "Current Plan",
+      "buyLifetimeBtn": "Buy Lifetime Pass ($24.99)",
+      "subscribeMonthlyBtn": "Subscribe Monthly ($4.99/mo)",
+      "bestValue": "Best Value",
+      "adFreeBadge": "100% Ad-Free",
+      "checkoutTitle": "Upgrade to OmniTool Hub PRO",
+      "sslEncrypted": "256-Bit SSL Encrypted Checkout",
+      "billingCurrency": "Billing Currency:",
+      "lifetimePass": "Lifetime Developer Pass",
+      "monthlySub": "Pro Monthly Subscription",
+      "footerDesc": "Secure, instant, client-side utility suite for developers and designers.",
+      "about": "About",
+      "contact": "Contact",
+      "privacy": "Privacy Policy",
+      "terms": "Terms",
+      "refund": "Refund Policy",
+      "cookies": "Cookie Policy",
+      "pageTitle": "OmniTool Hub | The Ultimate All-in-One Utility Suite",
+      "metaDesc": "A premium, free, privacy-first developer and utility tools web application. 47+ suites (70+ tools) running 100% client-side.",
+      "copy": "Copy",
+      "clear": "Clear",
+      "download": "Download",
+      "copied": "Copied!",
+      "close": "Close",
+      "noCommandsMatch": "No commands or items match \"{query}\"",
+      "pwaReady": "Offline-First / PWA Ready"
+    },
+    "es": {
+      "connectedWorkflows": "Flujos Conectados",
+      "frequentlyCombined": "Próximos Pasos Frecuentes",
+      "workflowBridgeDesc": "Continúa tu flujo de trabajo — encadena esta salida directamente con herramientas complementarias.",
+      "dashboard": "Panel",
+      "tools": "Herramientas",
+      "guides": "Guías",
+      "tour": "Recorrido",
+      "favorites": "Favoritos",
+      "plans": "Planes",
+      "search": "Buscar",
+      "everyday": "Diario",
+      "developer": "Desarrollador",
+      "heroTitle": "Centro Todo-en-Uno <span>OmniTool</span>",
+      "heroDesc": "Herramientas web instantáneas y privadas que funcionan 100% en tu navegador. Pulsa <strong>Ctrl + K</strong> para buscar.",
+      "offlineTools": "Herramientas Offline",
+      "serverDelay": "Demora Servidor",
+      "clientPrivacy": "Privacidad Total",
+      "surpriseMe": "Sorpréndeme",
+      "zeroServer": "Entorno 100% en Navegador • Cero Envíos al Servidor",
+      "devTools": "Herramientas de Desarrollador",
+      "textWriting": "Texto y Redacción",
+      "designStyling": "Diseño y Estilos",
+      "mathConverter": "Matemáticas y Conversión",
+      "preferences": "Preferencias",
+      "aestheticsStudio": "Estudio Estético",
+      "interfaceZoom": "Escala de Interfaz",
+      "languageLabel": "Idioma / Language",
+      "flushCache": "Vaciar Caché Local",
+      "installApp": "Instalar OmniTool Hub en Escritorio y Móvil",
+      "filterAll": "Todas",
+      "filterSingle": "Herramientas Únicas",
+      "filterSuites": "Suites de Herramientas",
+      "filterInteractive": "Apps Interactivas",
+      "filterPro": "PRO",
+      "filterFree": "Gratis",
+      "filterGuides": "Guías",
+      "launchTool": "Abrir Herramienta",
+      "openUtility": "Abrir Utilidad",
+      "searchPlaceholder": "Buscar herramientas... (ej. PDF, JSON, cifrado)",
+      "searchCpPlaceholder": "Escribe una herramienta, comando o valor... (Esc para cerrar)",
+      "allTools": "Todas las Herramientas",
+      "allEveryday": "Todo Diario",
+      "catDocs": "PDF y Docs",
+      "catMedia": "Audio y Video",
+      "catQr": "QR y Recortes",
+      "catImages": "Fotos y Colores",
+      "catMath": "Mate y Cálculos",
+      "catSecurity": "Contraseñas",
+      "catFavorites": "Favoritos",
+      "catDev": "Desarrollador",
+      "catText": "Texto",
+      "catDesign": "Diseño",
+      "langName": "Español",
+      "recentlyUsed": "Usado Recientemente:",
+      "noToolsVisited": "Ninguna herramienta visitada aún",
+      "back": "Volver",
+      "clientSideOnly": "100% en el Navegador",
+      "zeroServerUploads": "Cero Envíos al Servidor",
+      "instantExecution": "Ejecución Instantánea",
+      "howItBenefits": "💡 Cómo te beneficia:",
+      "readCompleteGuide": "📖 Leer Guía y Tutorial Paso a Paso Completo",
+      "offlineSandbox": "Entorno Offline",
+      "aestheticsDesc": "Temas, fuentes y sonidos sintetizados",
+      "flushCacheDesc": "Limpiar caché de service worker y recargar",
+      "themeTitle": "Tema y Estética",
+      "paletteTheme": "Paleta de Color de Acento",
+      "layoutDensity": "Densidad de Espaciado",
+      "densityComfortable": "Cómodo",
+      "densityCompact": "Compacto (Denso)",
+      "densitySpacious": "Espacioso",
+      "clockFormat": "Formato del Reloj",
+      "enableSound": "Activar Efectos de Sonido y Audio",
+      "saveChanges": "Guardar Cambios",
+      "pwaDesc": "Acceso offline instantáneo • 47+ suites (70+ herramientas) • Cero envíos al servidor",
+      "pwaInstallBtn": "⚡ Instalar App Gratis",
+      "starterPlan": "Inicial",
+      "freePlan": "Plan Gratuito",
+      "perForever": "/ para siempre",
+      "proLifetime": "Pase Vitalicio",
+      "perOnce": "/ pago único",
+      "proMonthly": "Pro Mensual",
+      "perMonth": "/ mes",
+      "alreadyBacked": "🔑 ¿Ya nos has apoyado o tienes un código de activación?",
+      "enterPasscodeHint": "Introduce tu clave o código abajo para activar tu suscripción Pro o Vitalicia.",
+      "activateLicenseBtn": "Activar Licencia",
+      "codeSupportHint": "Compatible con UTR UPI de 12 dígitos, hash cripto y claves de Gumroad",
+      "whereCodeLink": "¿Dónde encuentro mi código? →",
+      "currentPlanBtn": "Plan Actual",
+      "buyLifetimeBtn": "Comprar Pase Vitalicio ($24.99)",
+      "subscribeMonthlyBtn": "Suscribirse Mensual ($4.99/mes)",
+      "bestValue": "Mejor Opción",
+      "adFreeBadge": "100% Sin Anuncios",
+      "checkoutTitle": "Actualizar a OmniTool Hub PRO",
+      "sslEncrypted": "Pago Seguro Cifrado SSL de 256 Bits",
+      "billingCurrency": "Moneda de Pago:",
+      "lifetimePass": "Pase de Desarrollador Vitalicio",
+      "monthlySub": "Suscripción Pro Mensual",
+      "footerDesc": "Suite de utilidades segura, instantánea y privada para desarrolladores y diseñadores.",
+      "about": "Acerca de",
+      "contact": "Contacto",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos",
+      "refund": "Política de Reembolso",
+      "cookies": "Política de Cookies",
+      "pageTitle": "OmniTool Hub | La Suite Definitiva de Herramientas Todo en Uno",
+      "metaDesc": "Herramientas web privadas y gratuitas para desarrolladores y uso diario. Más de 50 utilidades 100% en el navegador.",
+      "copy": "Copiar",
+      "clear": "Limpiar",
+      "download": "Descargar",
+      "copied": "¡Copiado!",
+      "close": "Cerrar",
+      "noCommandsMatch": "No hay comandos ni elementos que coincidan con \"{query}\"",
+      "pwaReady": "100% Offline / Compatible con PWA"
+    },
+    "pt": {
+      "connectedWorkflows": "Fluxos Conectados",
+      "frequentlyCombined": "Próximos Passos Frequentes",
+      "workflowBridgeDesc": "Mantenha o ritmo — encadeie esta saída diretamente em utilitários de desenvolvimento complementares.",
+      "dashboard": "Painel",
+      "tools": "Ferramentas",
+      "guides": "Guias",
+      "tour": "Visão Geral",
+      "favorites": "Favoritos",
+      "plans": "Planos",
+      "search": "Pesquisar",
+      "everyday": "Dia a Dia",
+      "developer": "Desenvolvedor",
+      "heroTitle": "Central Tudo-em-Um <span>OmniTool</span>",
+      "heroDesc": "Ferramentas web instantâneas e privadas que rodam 100% no seu navegador. Pressione <strong>Ctrl + K</strong> para pesquisar.",
+      "offlineTools": "Ferramentas Offline",
+      "serverDelay": "Delay do Servidor",
+      "clientPrivacy": "Privacidade Total",
+      "surpriseMe": "Surpreenda-me",
+      "zeroServer": "Ambiente 100% no Navegador • Zero Envio para o Servidor",
+      "devTools": "Ferramentas de Desenvolvedor",
+      "textWriting": "Texto e Escrita",
+      "designStyling": "Design e Estilos",
+      "mathConverter": "Matemática e Conversão",
+      "preferences": "Preferências",
+      "aestheticsStudio": "Estúdio Visual",
+      "interfaceZoom": "Escala da Interface",
+      "languageLabel": "Idioma / Language",
+      "flushCache": "Limpar Cache Offline",
+      "installApp": "Instalar OmniTool Hub no Computador e Celular",
+      "filterAll": "Todas",
+      "filterSingle": "Ferramentas Únicas",
+      "filterSuites": "Suítes de Ferramentas",
+      "filterInteractive": "Apps Interativos",
+      "filterPro": "PRO",
+      "filterFree": "Grátis",
+      "filterGuides": "Guias",
+      "launchTool": "Abrir Ferramenta",
+      "openUtility": "Abrir Utilidade",
+      "searchPlaceholder": "Pesquisar ferramentas... (ex. PDF, JSON, criptografia)",
+      "searchCpPlaceholder": "Digite um utilitário, comando ou valor... (Esc para fechar)",
+      "allTools": "Todas as Ferramentas",
+      "allEveryday": "Todo Dia a Dia",
+      "catDocs": "PDF e Docs",
+      "catMedia": "Áudio e Vídeo",
+      "catQr": "QR e Recortes",
+      "catImages": "Fotos e Cores",
+      "catMath": "Matemática & Cálc",
+      "catSecurity": "Senhas",
+      "catFavorites": "Favoritos",
+      "catDev": "Desenvolvedor",
+      "catText": "Texto",
+      "catDesign": "Design",
+      "langName": "Português",
+      "recentlyUsed": "Usado Recentemente:",
+      "noToolsVisited": "Nenhuma ferramenta visitada ainda",
+      "back": "Voltar",
+      "clientSideOnly": "100% no Navegador",
+      "zeroServerUploads": "Zero Envio para o Servidor",
+      "instantExecution": "Execução Instantânea",
+      "howItBenefits": "💡 Como isso beneficia você:",
+      "readCompleteGuide": "📖 Ler Guia e Tutorial Passo a Paso Completo",
+      "offlineSandbox": "Ambiente Offline",
+      "aestheticsDesc": "Temas, fontes e sons sintetizados",
+      "flushCacheDesc": "Limpar cache do service worker e recarregar",
+      "themeTitle": "Tema e Estética",
+      "paletteTheme": "Paleta de Cor de Destaque",
+      "layoutDensity": "Densidade do Layout",
+      "densityComfortable": "Confortável",
+      "densityCompact": "Compacto (Denso)",
+      "densitySpacious": "Espaçoso",
+      "clockFormat": "Formato do Relógio",
+      "enableSound": "Ativar Efeitos Sonoros e Áudio",
+      "saveChanges": "Salvar Alterações",
+      "pwaDesc": "Acesso offline instantâneo • 47+ suítes (70+ ferramentas) • Zero envios para o servidor",
+      "pwaInstallBtn": "⚡ Instalar App Grátis",
+      "starterPlan": "Iniciante",
+      "freePlan": "Plano Gratuito",
+      "perForever": "/ para sempre",
+      "proLifetime": "Passe Vitalício",
+      "perOnce": "/ pagamento único",
+      "proMonthly": "Pro Mensal",
+      "perMonth": "/ mês",
+      "alreadyBacked": "🔑 Já nos apoiou ou possui um código de ativação?",
+      "enterPasscodeHint": "Insira sua chave ou código abaixo para ativar sua assinatura Pro ou Vitalícia.",
+      "activateLicenseBtn": "Ativar Licença",
+      "codeSupportHint": "Compatível com UTR UPI de 12 dígitos, hash cripto e chaves Gumroad",
+      "whereCodeLink": "Onde encontrar meu código? →",
+      "currentPlanBtn": "Plano Atual",
+      "buyLifetimeBtn": "Comprar Passe Vitalício ($24.99)",
+      "subscribeMonthlyBtn": "Assinar Mensal ($4.99/mês)",
+      "bestValue": "Melhor Escolha",
+      "adFreeBadge": "100% Sem Anúncios",
+      "checkoutTitle": "Atualizar para OmniTool Hub PRO",
+      "sslEncrypted": "Checkout Seguro com Criptografia SSL 256 Bits",
+      "billingCurrency": "Moeda de Cobrança:",
+      "lifetimePass": "Passe de Desenvolvedor Vitalício",
+      "monthlySub": "Assinatura Pro Mensal",
+      "footerDesc": "Suíte de utilitários segura, instantânea e privada para desenvolvedores e designers.",
+      "about": "Sobre",
+      "contact": "Contato",
+      "privacy": "Política de Privacidade",
+      "terms": "Termos",
+      "refund": "Política de Reembolso",
+      "cookies": "Política de Cookies",
+      "pageTitle": "OmniTool Hub | A Central Definitiva de Utilitários Tudo-em-Um",
+      "metaDesc": "Ferramentas web privadas e gratuitas para desenvolvedores e dia a dia. Mais de 50 utilitários 100% no navegador.",
+      "copy": "Copiar",
+      "clear": "Limpar",
+      "download": "Baixar",
+      "copied": "Copiado!",
+      "close": "Fechar",
+      "noCommandsMatch": "Nenhum comando ou item corresponde a \"{query}\"",
+      "pwaReady": "100% Offline / Pronto para PWA"
+    },
+    "de": {
+      "connectedWorkflows": "Verbundene Workflows",
+      "frequentlyCombined": "Häufig kombinierte nächste Schritte",
+      "workflowBridgeDesc": "Halten Sie den Schwung aufrecht — verknüpfen Sie diese Ausgabe direkt mit ergänzenden Entwicklertools.",
+      "dashboard": "Übersicht",
+      "tools": "Werkzeuge",
+      "guides": "Anleitungen",
+      "tour": "Tour",
+      "favorites": "Favoriten",
+      "plans": "Tarife",
+      "search": "Suchen",
+      "everyday": "Alltag",
+      "developer": "Entwickler",
+      "heroTitle": "All-in-One <span>OmniTool Hub</span>",
+      "heroDesc": "Sofortige, lokale Web-Tools mit maximaler Privatsphäre direkt im Browser. <strong>Strg + K</strong> zum Suchen.",
+      "offlineTools": "Offline-Werkzeuge",
+      "serverDelay": "Server-Verzögerung",
+      "clientPrivacy": "100% Privatsphäre",
+      "surpriseMe": "Überrasch mich",
+      "zeroServer": "100% Client-seitige Sandbox • Keine Server-Uploads",
+      "devTools": "Entwickler-Tools",
+      "textWriting": "Text & Schreiben",
+      "designStyling": "Design & Styling",
+      "mathConverter": "Mathe & Konverter",
+      "preferences": "Einstellungen",
+      "aestheticsStudio": "Design-Studio",
+      "interfaceZoom": "Oberflächen-Skalierung",
+      "languageLabel": "Sprache / Language",
+      "flushCache": "Offline-Cache leeren",
+      "installApp": "OmniTool Hub auf Desktop & Mobil installieren",
+      "filterAll": "Alle",
+      "filterSingle": "Einzel-Tools",
+      "filterSuites": "Tool-Suites",
+      "filterInteractive": "Interaktive Apps",
+      "filterPro": "PRO",
+      "filterFree": "Kostenlos",
+      "filterGuides": "Anleitungen",
+      "launchTool": "Tool öffnen",
+      "openUtility": "Werkzeug starten",
+      "searchPlaceholder": "Tools durchsuchen... (z.B. PDF, JSON, Base64)",
+      "searchCpPlaceholder": "Tool-Name, Befehl oder Wert eingeben... (Esc zum Schließen)",
+      "allTools": "Alle Werkzeuge",
+      "allEveryday": "Alle Alltags-Tools",
+      "catDocs": "PDF & Dokumente",
+      "catMedia": "Audio & Video",
+      "catQr": "QR & Barcode",
+      "catImages": "Fotos & Farben",
+      "catMath": "Mathe & Rechner",
+      "catSecurity": "Passwörter",
+      "catFavorites": "Favoriten",
+      "catDev": "Entwickler",
+      "catText": "Text",
+      "catDesign": "Design",
+      "langName": "Deutsch",
+      "recentlyUsed": "Zuletzt Verwendet:",
+      "noToolsVisited": "Noch keine Werkzeuge besucht",
+      "back": "Zurück",
+      "clientSideOnly": "100% Client-seitig",
+      "zeroServerUploads": "Keine Server-Uploads",
+      "instantExecution": "Sofortige Ausführung",
+      "howItBenefits": "💡 Ihre Vorteile:",
+      "readCompleteGuide": "📖 Vollständige Schritt-für-Schritt-Anleitung lesen",
+      "offlineSandbox": "Offline-Sandbox",
+      "aestheticsDesc": "Designs, Schriften & Audio-Effekte",
+      "flushCacheDesc": "Service-Worker-Cache leeren & neu laden",
+      "themeTitle": "Design & Erscheinungsbild",
+      "paletteTheme": "Akzentfarben-Palette",
+      "layoutDensity": "Layout-Abstandsdichte",
+      "densityComfortable": "Komfortabel",
+      "densityCompact": "Kompakt (Dicht)",
+      "densitySpacious": "Großzügig",
+      "clockFormat": "Uhrzeit-Anzeigeformat",
+      "enableSound": "Soundeffekte & Audio-Feedback aktivieren",
+      "saveChanges": "Änderungen speichern",
+      "pwaDesc": "Sofortiger Offline-Zugriff • 47+ Suiten (70+ Tools) • Keine Server-Uploads",
+      "pwaInstallBtn": "⚡ Kostenlose App installieren",
+      "starterPlan": "Starter",
+      "freePlan": "Kostenloser Tarif",
+      "perForever": "/ für immer",
+      "proLifetime": "Lebenslanger Pass",
+      "perOnce": "/ einmalig",
+      "proMonthly": "Pro Monatlich",
+      "perMonth": "/ Monat",
+      "alreadyBacked": "🔑 Bereits Unterstützer oder Aktivierungscode vorhanden?",
+      "enterPasscodeHint": "Geben Sie Ihren Aktivierungscode unten ein, um Ihren Pro- oder Lifetime-Status freizuschalten.",
+      "activateLicenseBtn": "Lizenz aktivieren",
+      "codeSupportHint": "Unterstützt 12-stellige UPI-UTR, Krypto-Hash und Gumroad-Schlüssel",
+      "whereCodeLink": "Wo finde ich meinen Code? →",
+      "currentPlanBtn": "Aktueller Tarif",
+      "buyLifetimeBtn": "Lebenslangen Pass kaufen ($24.99)",
+      "subscribeMonthlyBtn": "Monatlich abonnieren ($4.99/Monat)",
+      "bestValue": "Bester Wert",
+      "adFreeBadge": "100% Werbefrei",
+      "checkoutTitle": "Auf OmniTool Hub PRO upgraden",
+      "sslEncrypted": "256-Bit SSL-verschlüsselter Checkout",
+      "billingCurrency": "Abrechnungswährung:",
+      "lifetimePass": "Lebenslanger Entwickler-Pass",
+      "monthlySub": "Pro Monats-Abonnement",
+      "footerDesc": "Sichere, sofortige Client-seitige Werkzeugsammlung für Entwickler und Designer.",
+      "about": "Über uns",
+      "contact": "Kontakt",
+      "privacy": "Datenschutzerklärung",
+      "terms": "Nutzungsbedingungen",
+      "refund": "Rückerstattungsrichtlinie",
+      "cookies": "Cookie-Richtlinie",
+      "pageTitle": "OmniTool Hub | Die ultimative All-in-One Werkzeugsammlung",
+      "metaDesc": "Kostenlose, private Web-Tools für Entwickler und Alltag. Über 50 Werkzeuge direkt 100% im Browser.",
+      "copy": "Kopieren",
+      "clear": "Löschen",
+      "download": "Herunterladen",
+      "copied": "Kopiert!",
+      "close": "Schließen",
+      "noCommandsMatch": "Keine Befehle oder Elemente entsprechen \"{query}\"",
+      "pwaReady": "100% Offline / PWA-fähig"
+    },
+    "fr": {
+      "connectedWorkflows": "Flux Connectés",
+      "frequentlyCombined": "Prochaines Étapes Fréquemment Combinées",
+      "workflowBridgeDesc": "Poursuivez sur votre lancée — enchaînez cette sortie directement avec des utilitaires complémentaires.",
+      "dashboard": "Tableau de bord",
+      "tools": "Outils",
+      "guides": "Guides",
+      "tour": "Visite",
+      "favorites": "Favoris",
+      "plans": "Formules",
+      "search": "Rechercher",
+      "everyday": "Quotidien",
+      "developer": "Développeur",
+      "heroTitle": "Centre Tout-en-Un <span>OmniTool</span>",
+      "heroDesc": "Outils web instantanés et privés exécutés à 100% dans votre navigateur. <strong>Ctrl + K</strong> pour rechercher.",
+      "offlineTools": "Outils Hors-ligne",
+      "serverDelay": "Délai Serveur",
+      "clientPrivacy": "100% Confidentialité",
+      "surpriseMe": "Surprenez-moi",
+      "zeroServer": "Bac à sable 100% navigateur • Zéro transmission serveur",
+      "devTools": "Outils Développeur",
+      "textWriting": "Texte & Rédaction",
+      "designStyling": "Design & Style",
+      "mathConverter": "Math & Convertisseur",
+      "preferences": "Préférences",
+      "aestheticsStudio": "Studio Visuel",
+      "interfaceZoom": "Échelle de l'interface",
+      "languageLabel": "Langue / Language",
+      "flushCache": "Vider le cache hors-ligne",
+      "installApp": "Installer OmniTool Hub sur PC & Mobile",
+      "filterAll": "Tous",
+      "filterSingle": "Outils Simples",
+      "filterSuites": "Suites d'outils",
+      "filterInteractive": "Apps Interactives",
+      "filterPro": "PRO",
+      "filterFree": "Gratuit",
+      "filterGuides": "Guides",
+      "launchTool": "Ouvrir l'outil",
+      "openUtility": "Lancer l'outil",
+      "searchPlaceholder": "Rechercher des outils... (ex. PDF, JSON, chiffrement)",
+      "searchCpPlaceholder": "Tapez un nom d'outil, commande ou valeur... (Échap pour fermer)",
+      "allTools": "Tous les Outils",
+      "allEveryday": "Tout Quotidien",
+      "catDocs": "PDF & Documents",
+      "catMedia": "Audio & Vidéo",
+      "catQr": "QR & Codes",
+      "catImages": "Photos & Couleurs",
+      "catMath": "Math & Calcul",
+      "catSecurity": "Mots de passe",
+      "catFavorites": "Favoris",
+      "catDev": "Développeur",
+      "catText": "Texte",
+      "catDesign": "Design",
+      "langName": "Français",
+      "recentlyUsed": "Récemment Utilisé :",
+      "noToolsVisited": "Aucun outil visité pour l'instant",
+      "back": "Retour",
+      "clientSideOnly": "100% Côté Client",
+      "zeroServerUploads": "Zéro Envoi Serveur",
+      "instantExecution": "Exécution Instantanée",
+      "howItBenefits": "💡 Vos avantages :",
+      "readCompleteGuide": "📖 Lire le Guide et Tutoriel Complet Étape par Étape",
+      "offlineSandbox": "Bac à sable hors-ligne",
+      "aestheticsDesc": "Thèmes, polices et effets sonores",
+      "flushCacheDesc": "Vider le cache du service worker et recharger",
+      "themeTitle": "Thème et Esthétique",
+      "paletteTheme": "Palette de Couleurs d'Accent",
+      "layoutDensity": "Densité d'Espacement",
+      "densityComfortable": "Confortable",
+      "densityCompact": "Compact (Dense)",
+      "densitySpacious": "Spacieux",
+      "clockFormat": "Format d'affichage de l'horloge",
+      "enableSound": "Activer les effets sonores et audio",
+      "saveChanges": "Enregistrer les modifications",
+      "pwaDesc": "Accès hors-ligne instantané • 47+ suites (70+ outils) • Zéro transmission serveur",
+      "pwaInstallBtn": "⚡ Installer l'App Gratuite",
+      "starterPlan": "Découverte",
+      "freePlan": "Formule Gratuite",
+      "perForever": "/ pour toujours",
+      "proLifetime": "Pass à Vie",
+      "perOnce": "/ paiement unique",
+      "proMonthly": "Pro Mensuel",
+      "perMonth": "/ mois",
+      "alreadyBacked": "🔑 Vous nous soutenez déjà ou possédez un code d'activation ?",
+      "enterPasscodeHint": "Entrez votre code d'activation ci-dessous pour débloquer votre statut Pro ou À Vie.",
+      "activateLicenseBtn": "Activer la Licence",
+      "codeSupportHint": "Compatible avec UTR UPI 12 chiffres, hash crypto et clés Gumroad",
+      "whereCodeLink": "Où trouver mon code ? →",
+      "currentPlanBtn": "Formule Actuelle",
+      "buyLifetimeBtn": "Acheter le Pass à Vie ($24.99)",
+      "subscribeMonthlyBtn": "S'abonner Mensuellement (4,99 $/mois)",
+      "bestValue": "Meilleure Offre",
+      "adFreeBadge": "100% Sans Pub",
+      "checkoutTitle": "Passer à OmniTool Hub PRO",
+      "sslEncrypted": "Paiement Sécurisé Chiffré SSL 256 Bits",
+      "billingCurrency": "Devise de Facturation :",
+      "lifetimePass": "Pass Développeur à Vie",
+      "monthlySub": "Abonnement Pro Mensuel",
+      "footerDesc": "Suite d'utilitaires sécurisée, instantanée et privée pour développeurs et designers.",
+      "about": "À propos",
+      "contact": "Contact",
+      "privacy": "Politique de Confidentialité",
+      "terms": "Conditions",
+      "refund": "Politique de Remboursement",
+      "cookies": "Politique relative aux Cookies",
+      "pageTitle": "OmniTool Hub | La Suite Ultime d'Utilitaires Tout-en-Un",
+      "metaDesc": "Outils web gratuits et privés pour développeurs et quotidien. Plus de 50 utilitaires 100% dans votre navigateur.",
+      "copy": "Copier",
+      "clear": "Effacer",
+      "download": "Télécharger",
+      "copied": "Copié !",
+      "close": "Fermer",
+      "noCommandsMatch": "Aucune commande ou élément ne correspond à \"{query}\"",
+      "pwaReady": "100% Hors Ligne / Prêt pour PWA"
+    }
+  },
+
+  toolTranslations: {
+    "es": {
+      "pdf-utilities": {
+        "name": "Utilidades PDF Offline",
+        "desc": "Comprime, une, divide y rota documentos PDF sin subir archivos a ningún servidor."
+      },
+      "pdf-converter-hub": {
+        "name": "Centro Conversor Universal PDF",
+        "desc": "Convierte Word, Excel, PowerPoint, imágenes y páginas web a PDF y viceversa 100% en el navegador."
+      },
+      "qr-studio": {
+        "name": "Estudio de Códigos QR y Barras",
+        "desc": "Genera códigos QR vectoriales personalizados con logo y escanea códigos directamente desde la cámara."
+      },
+      "formatter-suite": {
+        "name": "Suite de Formato y Conversión de Datos",
+        "desc": "Formatea y valida JSON, consultas SQL y convierte datos bi-direccionalmente entre JSON, YAML y CSV."
+      },
+      "pipeline-builder": {
+        "name": "Creador de Flujos Inteligentes",
+        "desc": "Conecta múltiples operaciones en cadena para procesar texto secuencialmente con total privacidad."
+      },
+      "security-suite": {
+        "name": "Suite de Seguridad y Claves",
+        "desc": "Genera contraseñas aleatorias ultra-seguras y crea identificadores UUID/GUID v4 al instante."
+      },
+      "crypto-suite": {
+        "name": "Suite de Criptografía",
+        "desc": "Calcula hashes SHA-256, cifra y descifra con AES-256 GCM y genera pares de claves RSA 4096-bit."
+      },
+      "text-encoder-suite": {
+        "name": "Casos de Texto y Codificación",
+        "desc": "Transforma mayúsculas, minúsculas, camelCase y ejecuta operaciones de codificación Base64 y URL."
+      },
+      "fancy-font-generator": {
+        "name": "Generador de Fuentes y Textos",
+        "desc": "Convierte texto estándar en más de 60 fuentes estéticas Unicode para Instagram, Discord y TikTok."
+      },
+      "audio-suite": {
+        "name": "Estudio de Audio en Navegador",
+        "desc": "Convierte audios entre MP3, WAV, AAC y extrae pistas de audio de vídeos MP4 sin servidor."
+      },
+      "finance-calculator": {
+        "name": "Calculadora Financiera y Préstamos",
+        "desc": "Calcula crecimiento de planes SIP, interés compuesto y cuotas mensuales EMI con tablas de amortización."
+      },
+      "css-studio": {
+        "name": "Estudio Visual CSS",
+        "desc": "Genera sombras multicapa, gradientes lineales/radiales, efectos glassmorphism y clip-paths visualmente."
+      },
+      "color-lab": {
+        "name": "Laboratorio de Color y Contraste",
+        "desc": "Crea paletas armoniosas, calcula contraste accesible APCA y WCAG y convierte códigos de color."
+      },
+      "regex-tester": {
+        "name": "Comprobador Visual Regex",
+        "desc": "Prueba y depura expresiones regulares con explicaciones visuales paso a paso y extracción masiva."
+      },
+      "markdown-preview": {
+        "name": "Visualizador Markdown en Vivo",
+        "desc": "Escribe markdown con vista previa inmediata en HTML con soporte para fórmulas matemáticas y tablas."
+      },
+      "text-diff": {
+        "name": "Comparador de Texto y Código",
+        "desc": "Compara diferencias línea por línea entre dos fragmentos de texto o código con resaltado visual."
+      },
+      "jwt-decoder": {
+        "name": "Decodificador JWT",
+        "desc": "Decodifica tokens JSON Web Token al instante para examinar cabeceras, payload y fechas de expiración."
+      },
+      "pii-anonymizer": {
+        "name": "Anonimizador de Datos Sensibles PII",
+        "desc": "Detecta y censura correos, teléfonos y tarjetas de crédito en archivos de texto y registros."
+      },
+      "svg-animator": {
+        "name": "Estudio de Animación y Morfismo SVG",
+        "desc": "Interpola y crea transiciones animadas entre trazados vectoriales SVG directamente en el navegador."
+      },
+      "ip-subnet-calculator": {
+        "name": "Calculadora de Subredes IP y MAC",
+        "desc": "Calcula rangos de host CIDR IPv4, máscaras de subred y consulta fabricantes OUI de direcciones MAC."
+      },
+      "pdf-security-suite": {
+        "name": "Seguridad y Reparación PDF",
+        "desc": "Desbloquea documentos PDF protegidos con contraseña y cifra archivos con AES-256."
+      },
+      "pdf-searcher": {
+        "name": "Buscador Multi-PDF y OCR",
+        "desc": "Busca palabras o texto en múltiples PDF y ejecuta OCR local en páginas escaneadas sin servidores."
+      },
+      "datetime-suite": {
+        "name": "Suite de Fecha y Hora",
+        "desc": "Convierte marcas de tiempo epoch Unix, calcula duraciones exactas y suma/resta intervalos temporales."
+      },
+      "unit-converter": {
+        "name": "Conversor Universal de Unidades",
+        "desc": "Convierte instantáneamente almacenamiento, longitudes, masas, temperaturas y datos en tiempo real."
+      },
+      "graphics-studio": {
+        "name": "Estudio Gráfico y Capturas",
+        "desc": "Crea banners, añade textos vectoriales, recorta capturas y aplica filtros estéticos 100% offline."
+      },
+      "calculator": {
+        "name": "Calculadora Científica",
+        "desc": "Realiza cálculos aritméticos avanzados, trigonométricos y logarítmicos con historial en vivo y atajos de teclado."
+      },
+      "seo-previewer": {
+        "name": "Previsualizador SEO y Meta Tags",
+        "desc": "Diseña meta etiquetas y genera vistas previas enriquecidas para Google, Twitter, Facebook y Discord."
+      },
+      "image-converter": {
+        "name": "Optimizador y Conversor de Imágenes",
+        "desc": "Comprime peso, ajusta dimensiones y convierte imágenes entre PNG, JPG y WebP en segundos en tu equipo."
+      },
+      "url-parser": {
+        "name": "Analizador y Constructor de URL",
+        "desc": "Inspecciona parámetros de consulta web en tabla clave-valor, edita variables y compila cadenas URL limpias."
+      },
+      "text-analyzer": {
+        "name": "Analizador de Texto y Legibilidad",
+        "desc": "Calcula puntuación Flesch, cuenta palabras, oraciones, tiempo estimado de lectura y densidad léxica."
+      },
+      "mock-data-generator": {
+        "name": "Generador de Datos Ficticios CSV/JSON",
+        "desc": "Diseña esquemas personalizados y genera hasta 50.000 filas de datos de prueba de forma privada en tu navegador."
+      },
+      "admin-settings": {
+        "name": "Panel de Configuración y Parámetros",
+        "desc": "Administra códigos de anuncios locales, prueba pasarelas y purga el almacenamiento caché del sistema."
+      },
+      "code-playground": {
+        "name": "Playground HTML/CSS/JS en Vivo",
+        "desc": "Escribe código front-end en tiempo real con renderizado seguro en iframe sandbox y consola de depuración."
+      },
+      "curl-converter": {
+        "name": "Conversor de cURL a Código",
+        "desc": "Convierte comandos cURL a código Fetch (async/await), Axios, Python Requests y Go HTTP al instante."
+      },
+      "cron-builder": {
+        "name": "Generador Visual de Expresiones Cron",
+        "desc": "Construye programaciones cron visualmente, tradúcelas a lenguaje natural y previsualiza ejecuciones."
+      },
+      "json-to-types": {
+        "name": "Conversor de JSON a Interfaces de Tipos",
+        "desc": "Transforma cargas JSON en interfaces fuertemente tipadas para TypeScript, Pydantic, Go structs y Rust Serde."
+      },
+      "robots-generator": {
+        "name": "Constructor Visual Robots.txt",
+        "desc": "Crea directivas de rastreo web, bloquea scrapers de IA, declara sitemaps XML y valida la sintaxis."
+      },
+      "lorem-generator": {
+        "name": "Generador Inteligente de Texto Lorem",
+        "desc": "Genera texto de relleno personalizado en latín clásico, estilo ciberpunk o corporativo en HTML, Markdown o JSON."
+      },
+      "favicon-generator": {
+        "name": "Suite de Favicon e Iconos de App",
+        "desc": "Genera paquetes completos de iconos multi-resolución (.ico, Apple Touch, Android) con previsualización y ZIP."
+      },
+      "screenshot-capture": {
+        "name": "Captura de Pantalla y Ventanas",
+        "desc": "Captura pestañas, pantallas o ventanas con marcos maquetas, censura contraseñas y añade anotaciones."
+      },
+      "screen-recorder": {
+        "name": "Grabador de Pantalla y Pestañas",
+        "desc": "Graba tu pantalla o ventana del navegador con audio de micrófono y exporta directamente en WebM o MP4."
+      },
+      "voice-recorder": {
+        "name": "Grabadora de Voz y Ondas de Audio",
+        "desc": "Graba notas de voz con espectro visualizador en vivo, recorte de rangos, ecualizador y exportación WAV."
+      },
+      "video-speed": {
+        "name": "Controlador de Velocidad de Video",
+        "desc": "Acelera o desacelera videos de 0.1x a 4.0x preservando el tono de audio y con bucles continuos A-B."
+      },
+      "video-to-gif": {
+        "name": "Conversor de Video a GIF Animado",
+        "desc": "Convierte clips de video a GIFs animados optimizados localmente con control de FPS y resolución."
+      },
+      "temp-mail": {
+        "name": "Cliente de Correo Temporal Desechable",
+        "desc": "Genera bandejas de entrada desechables instantáneas para registrarte sin spam con auto-recarga y visor."
+      },
+      "pdf-editor-suite": {
+        "name": "Editor, Firma y Marcado PDF",
+        "desc": "Firma documentos digitalmente, completa formularios AcroForms, estampa marcas de agua y censura datos sensibles."
+      },
+      "pdf-ai": {
+        "name": "Resumen y Traducción IA de PDF",
+        "desc": "Genera resúmenes ejecutivos, extrae acuerdos de acción, chatea con tus documentos y traduce archivos PDF."
+      },
+      "compare-pdf": {
+        "name": "Comparador de Documentos PDF",
+        "desc": "Compara dos versiones de un PDF lado a lado con mapa de calor de diferencias visuales y cambios de cláusulas."
+      },
+      "qr-generator": {
+        "name": "Estudio de Códigos QR y Barras",
+        "desc": "Genera códigos QR vectoriales con logotipo personalizado y colores, o escanea códigos directamente desde la cámara."
+      },
+      "json-formatter": {
+        "name": "Formateador y Validador JSON",
+        "desc": "Formatea, valida, embellece y comprime estructuras de datos JSON localmente con vista de árbol y texto."
+      },
+      "payment-guide": {
+        "name": "Guía de Pago y Asistente de Licencia",
+        "desc": "Instrucciones paso a paso para UPI QR, tarjetas vía Gumroad, transferencia bancaria y desbloqueo instantáneo con UTR."
+      },
+      "box-shadow": {
+        "name": "Generador de Sombras CSS Box Shadow",
+        "desc": "Diseña sombras CSS multicapa ultra suaves con vista previa en tiempo real y exportación para Tailwind."
+      },
+      "glassmorphism-generator": {
+        "name": "Generador de Glassmorphism CSS",
+        "desc": "Crea elegantes elementos translúcidos de vidrio esmerilado con filtros de fondo y bordes iluminados."
+      },
+      "gradient-generator": {
+        "name": "Generador de Degradados CSS",
+        "desc": "Construye degradados CSS lineales, radiales y cónicos con múltiples paradas de color y preajustes."
+      }
+    },
+    "pt": {
+      "pdf-utilities": {
+        "name": "Utilitários PDF Offline",
+        "desc": "Comprima, junte, divida e gire arquivos PDF sem enviar dados para nenhum servidor."
+      },
+      "pdf-converter-hub": {
+        "name": "Hub Conversor Universal de PDF",
+        "desc": "Converta Word, Excel, PowerPoint, imagens e páginas web em PDF e vice-versa 100% no navegador."
+      },
+      "qr-studio": {
+        "name": "Estúdio de Códigos QR e Barras",
+        "desc": "Gere códigos QR vetoriais personalizados com logo e faça leitura em tempo real pela câmera."
+      },
+      "formatter-suite": {
+        "name": "Suíte de Formatação e Conversão",
+        "desc": "Formate JSON, consultas SQL e converta dados entre JSON, YAML e CSV com rapidez."
+      },
+      "pipeline-builder": {
+        "name": "Criador de Fluxos em Cadeia",
+        "desc": "Conecte várias operações em série para processar textos sequencialmente com total privacidade."
+      },
+      "security-suite": {
+        "name": "Suíte de Segurança e Chaves",
+        "desc": "Gere senhas criptograficamente fortes com entropia e crie identificadores UUID v4 instantaneamente."
+      },
+      "crypto-suite": {
+        "name": "Suíte de Criptografia",
+        "desc": "Calcule hashes SHA-256, encripte com AES-256 GCM e crie pares de chaves assimétricas RSA."
+      },
+      "text-encoder-suite": {
+        "name": "Formatos de Texto e Codificação",
+        "desc": "Alterne maiúsculas, minúsculas, camelCase e codifique/decodifique Base64 e URL."
+      },
+      "fancy-font-generator": {
+        "name": "Gerador de Fontes Estilosas",
+        "desc": "Transforme textos normais em mais de 60 fontes Unicode para Instagram, Discord e TikTok."
+      },
+      "audio-suite": {
+        "name": "Estúdio de Áudio no Navegador",
+        "desc": "Converta áudios entre MP3, WAV e extraia faixas sonoras de vídeos MP4 localmente."
+      },
+      "finance-calculator": {
+        "name": "Calculadora Financeira e Empréstimos",
+        "desc": "Simule planos de investimento SIP, juros compostos e parcelas de financiamento EMI."
+      },
+      "css-studio": {
+        "name": "Estúdio Visual de CSS",
+        "desc": "Crie sombras em camadas, gradientes lineares, cartões glassmorphism e clip-paths interativos."
+      },
+      "color-lab": {
+        "name": "Laboratório de Cores e Contraste",
+        "desc": "Monte paletas harmônicas, avalie contraste acessível WCAG e converta formatos de cores."
+      },
+      "regex-tester": {
+        "name": "Testador Visual de Regex",
+        "desc": "Teste expressões regulares com análise visual passo a passo e extração de dados em lote."
+      },
+      "markdown-preview": {
+        "name": "Visualizador de Markdown ao Vivo",
+        "desc": "Escreva notas em markdown com pré-visualização instantânea e suporte a tabelas e fórmulas."
+      },
+      "text-diff": {
+        "name": "Comparador de Textos e Códigos",
+        "desc": "Encontre diferenças linha por linha entre dois textos com realce semântico de alterações."
+      },
+      "jwt-decoder": {
+        "name": "Decodificador de JWT",
+        "desc": "Inspecione tokens JWT instantaneamente para validar cabeçalhos, payloads e prazos de expiração."
+      },
+      "pii-anonymizer": {
+        "name": "Anonimizador de Dados PII",
+        "desc": "Localize e mascare e-mails, telefones e CPFs/cartões em logs com total privacidade."
+      },
+      "svg-animator": {
+        "name": "Estúdio de Animação SVG",
+        "desc": "Crie transições suaves e morphing entre caminhos vetoriais SVG diretamente no navegador."
+      },
+      "ip-subnet-calculator": {
+        "name": "Calculadora de Sub-redes IP e MAC",
+        "desc": "Calcule prefixos IPv4 CIDR, máscaras de sub-rede e consulte fabricantes OUI de placas de rede."
+      },
+      "pdf-security-suite": {
+        "name": "Segurança e Reparo de PDF",
+        "desc": "Remova senhas e restrições de PDFs protegidos ou aplique criptografia AES-256 localmente."
+      },
+      "pdf-searcher": {
+        "name": "Buscador Multi-PDF e OCR",
+        "desc": "Pesquise termos em vários arquivos PDF e execute OCR client-side em documentos escaneados sem servidor."
+      },
+      "datetime-suite": {
+        "name": "Suíte de Data e Hora",
+        "desc": "Converta timestamps Unix epoch em datas humanas, calcule intervalos de tempo e faça somas/subtrações dinâmicas."
+      },
+      "unit-converter": {
+        "name": "Conversor Universal de Unidades",
+        "desc": "Converta capacidades de armazenamento, distâncias, massas, temperaturas e medidas em tempo real."
+      },
+      "graphics-studio": {
+        "name": "Estúdio Gráfico e Capturas",
+        "desc": "Crie banners profissionais, sobreponha textos vetoriais, recorte telas e aplique filtros com privacidade total."
+      },
+      "calculator": {
+        "name": "Calculadora Científica",
+        "desc": "Execute cálculos avançados de trigonometria, logaritmos e fatoriais com histórico em tempo real e atalhos."
+      },
+      "seo-previewer": {
+        "name": "Pré-visualizador SEO e Meta Tags",
+        "desc": "Projete meta tags e gere cartões de pré-visualização para Google, Facebook, Twitter e Discord."
+      },
+      "image-converter": {
+        "name": "Otimizador e Conversor de Imagens",
+        "desc": "Comprima tamanho, redimensione e converta imagens entre PNG, JPG e WebP no navegador em segundos."
+      },
+      "url-parser": {
+        "name": "Analisador e Construtor de URLs",
+        "desc": "Inspecione parâmetros de consulta web em formato chave-valor, altere variáveis e crie links limpos."
+      },
+      "text-analyzer": {
+        "name": "Analisador de Textos e Legibilidade",
+        "desc": "Calcule facilidade de leitura Flesch, conte palavras, orações, tempo estimado e densidade léxica."
+      },
+      "mock-data-generator": {
+        "name": "Gerador de Dados Fictícios CSV/JSON",
+        "desc": "Crie schemas personalizados e gere até 50.000 linhas de dados fictícios com total privacidade."
+      },
+      "admin-settings": {
+        "name": "Painel de Parâmetros e Configuração",
+        "desc": "Gerencie blocos de anúncios locais, altere parâmetros do sistema e limpe caches offline."
+      },
+      "code-playground": {
+        "name": "Playground HTML/CSS/JS ao Vivo",
+        "desc": "Desenvolva código front-end em tempo real com pré-visualização em sandbox segura e console de logs."
+      },
+      "curl-converter": {
+        "name": "Conversor de cURL para Código",
+        "desc": "Transforme comandos cURL em código Fetch (async/await), Axios, Python Requests e Go HTTP."
+      },
+      "cron-builder": {
+        "name": "Construtor Visual de Expressões Cron",
+        "desc": "Monte cronogramas cron visualmente, traduza expressões para português e veja próximas execuções."
+      },
+      "json-to-types": {
+        "name": "Conversor de JSON para Interfaces",
+        "desc": "Converta estruturas JSON em tipagens para TypeScript, Pydantic, Go structs e Rust Serde."
+      },
+      "robots-generator": {
+        "name": "Criador Visual de Robots.txt",
+        "desc": "Defina regras de rastreamento, bloqueie robôs de IA (GPTBot), declare sitemaps e valide a sintaxe."
+      },
+      "lorem-generator": {
+        "name": "Gerador Inteligente de Lorem Ipsum",
+        "desc": "Crie textos de preenchimento em latim clássico, estilo corporativo ou cyberpunk em HTML, Markdown ou JSON."
+      },
+      "favicon-generator": {
+        "name": "Suíte de Favicon e Ícones de App",
+        "desc": "Produza pacotes completos de ícones (.ico multi-resolução, Apple Touch, Android) com prévia e ZIP."
+      },
+      "screenshot-capture": {
+        "name": "Captura de Tela e Janelas",
+        "desc": "Capture telas, janelas ou abas com molduras de navegadores, mascare senhas e adicione anotações."
+      },
+      "screen-recorder": {
+        "name": "Gravador de Tela e Abas",
+        "desc": "Grave sua tela ou janela do navegador com áudio do microfone e baixe vídeos WebM ou MP4."
+      },
+      "voice-recorder": {
+        "name": "Gravador de Voz e Ondas de Áudio",
+        "desc": "Grave áudios com espectrograma em tempo real, corte trechos, aplique equalização e exporte em WAV."
+      },
+      "video-speed": {
+        "name": "Controlador de Velocidade de Vídeo",
+        "desc": "Ajuste a velocidade de 0.1x a 4.0x preservando o tom da voz e crie loops contínuos de trechos A-B."
+      },
+      "video-to-gif": {
+        "name": "Conversor de Vídeo para GIF Animado",
+        "desc": "Transforme clipes de vídeo em GIFs animados no seu computador com controle de FPS e resolução."
+      },
+      "temp-mail": {
+        "name": "Cliente de E-mail Temporário e Descartável",
+        "desc": "Gere e-mails descartáveis instantâneos para validação sem spam com atualização automática."
+      },
+      "pdf-editor-suite": {
+        "name": "Editor, Assinatura e Marcação de PDF",
+        "desc": "Assine documentos digitalmente, preencha formulários AcroForms, adicione marcas d'água e oculte dados sensíveis."
+      },
+      "pdf-ai": {
+        "name": "Resumo e Tradução de PDF por IA",
+        "desc": "Crie resumos executivos, extraia tarefas, converse com documentos em modo Q&A e traduza PDFs."
+      },
+      "compare-pdf": {
+        "name": "Comparador de Documentos PDF",
+        "desc": "Compare duas versões de um PDF lado a lado com mapa térmico de diferenças e destaque de textos."
+      },
+      "qr-generator": {
+        "name": "Estúdio de Códigos QR e Barras",
+        "desc": "Gere códigos QR vetoriais com logotipo personalizado e cores, ou leia códigos diretamente pela câmera."
+      },
+      "json-formatter": {
+        "name": "Formatador e Validador JSON",
+        "desc": "Formate, valide, embeleze e comprima estruturas de dados JSON offline com visualização em árvore e texto."
+      },
+      "payment-guide": {
+        "name": "Guia de Pagamento e Assistente de Licença",
+        "desc": "Instruções passo a passo para UPI QR, cartões via Gumroad, transferência bancária e ativação instantânea com UTR."
+      },
+      "box-shadow": {
+        "name": "Gerador de Sombras CSS Box Shadow",
+        "desc": "Desenhe sombras CSS multicamadas ultra suaves com prévia em tempo real e exportação para Tailwind."
+      },
+      "glassmorphism-generator": {
+        "name": "Gerador de Glassmorphism CSS",
+        "desc": "Crie elegantes elementos translúcidos de vidro fosco com filtros de fundo e bordas iluminadas."
+      },
+      "gradient-generator": {
+        "name": "Gerador de Gradientes CSS",
+        "desc": "Crie gradientes CSS lineares, radiais e cônicos com múltiplas paradas de cor e predefinições."
+      }
+    },
+    "de": {
+      "pdf-utilities": {
+        "name": "Offline-PDF-Werkzeuge",
+        "desc": "PDFs komprimieren, zusammenfügen, trennen und drehen – ganz ohne Server-Upload."
+      },
+      "pdf-converter-hub": {
+        "name": "Universeller PDF-Konverter",
+        "desc": "Word, Excel, PowerPoint, Bilder und Webseiten direkt im Browser in PDF und zurück konvertieren."
+      },
+      "qr-studio": {
+        "name": "QR-Code & Barcode Studio",
+        "desc": "Individuelle Vektor-QR-Codes mit Logo erstellen und Barcodes per Kamera scannen."
+      },
+      "formatter-suite": {
+        "name": "Daten-Formatierer & Konverter",
+        "desc": "JSON bereinigen, SQL-Abfragen formatieren und zwischen JSON, YAML und CSV konvertieren."
+      },
+      "pipeline-builder": {
+        "name": "Pipeline-Ketten-Editor",
+        "desc": "Verbinde mehrere Textoperationen in Serie für automatisierte, private Verarbeitung."
+      },
+      "security-suite": {
+        "name": "Sicherheits- & Schlüssel-Suite",
+        "desc": "Sichere Passwörter mit Entropieprüfung und konforme UUID-v4-Schlüssel generieren."
+      },
+      "crypto-suite": {
+        "name": "Kryptografie-Suite",
+        "desc": "SHA-256 Hashes berechnen, Daten mit AES-256 verschlüsseln und RSA-Schlüsselpaare erzeugen."
+      },
+      "text-encoder-suite": {
+        "name": "Text-Konverter & Codecs",
+        "desc": "Groß-/Kleinschreibung konvertieren sowie Base64- und URL-Codierung lokal durchführen."
+      },
+      "fancy-font-generator": {
+        "name": "Schriftarten- & Text-Generator",
+        "desc": "Standardtexte in über 60 Unicode-Schriften für Instagram, TikTok und Discord verwandeln."
+      },
+      "audio-suite": {
+        "name": "Audio-Studio im Browser",
+        "desc": "Audiodateien zwischen MP3, WAV transkodieren und Tonspuren aus MP4-Videos extrahieren."
+      },
+      "finance-calculator": {
+        "name": "Finanz- & Zinsrechner",
+        "desc": "Sparpläne, Zinseszins und Kreditraten mit detaillierten Tilgungsplänen berechnen."
+      },
+      "css-studio": {
+        "name": "CSS-Design-Studio",
+        "desc": "Mehrschichtige Schatten, Verläufe, Frosted-Glass-Effekte und Clip-Paths visuell erstellen."
+      },
+      "color-lab": {
+        "name": "Farblabor & Kontrast-Prüfer",
+        "desc": "Farbpaletten harmonisieren, WCAG-Kontraste prüfen und Farbwerte direkt konvertieren."
+      },
+      "regex-tester": {
+        "name": "Visueller Regex-Tester",
+        "desc": "Reguläre Ausdrücke interaktiv testen, visualisieren und Textmuster stapelweise extrahieren."
+      },
+      "markdown-preview": {
+        "name": "Live-Markdown-Vorschau",
+        "desc": "Markdown schreiben mit direkter HTML-Vorschau, mathematischen Formeln und Tabellen."
+      },
+      "text-diff": {
+        "name": "Text- & Code-Vergleich",
+        "desc": "Unterschiede zwischen zwei Texten oder Codezeilen mit semantischem Diff visualisieren."
+      },
+      "jwt-decoder": {
+        "name": "JWT-Dekodierer",
+        "desc": "JSON Web Tokens sofort entschlüsseln, Header, Gültigkeit und Claims analysieren."
+      },
+      "pii-anonymizer": {
+        "name": "Lokaler PII-Maskierer",
+        "desc": "Sensible Daten wie E-Mails, Telefonnummern und Kreditkarten in Texten lokal schwärzen."
+      },
+      "svg-animator": {
+        "name": "SVG-Animationsstudio",
+        "desc": "SVG-Pfade visuell animieren und Formen fließend morphen im Webbrowser."
+      },
+      "ip-subnet-calculator": {
+        "name": "IP-Subnetz- & MAC-Rechner",
+        "desc": "IPv4-CIDR-Netzwerkmasken berechnen und Hardware-Hersteller anhand von MAC-OUIs ermitteln."
+      },
+      "pdf-security-suite": {
+        "name": "PDF-Sicherheit & Reparatur",
+        "desc": "Passwörter aus geschützten PDFs entfernen und Dokumente mit AES-256 verschlüsseln."
+      },
+      "pdf-searcher": {
+        "name": "Multi-PDF-Suche & OCR",
+        "desc": "Durchsuche mehrere PDFs nach Begriffen und wende lokale Texterkennung (OCR) auf Scans ohne Server an."
+      },
+      "datetime-suite": {
+        "name": "Datums- & Uhrzeit-Suite",
+        "desc": "Unix-Timestamps in lesbare Daten umwandeln, Zeiträume berechnen und Zeitfelder dynamisch addieren."
+      },
+      "unit-converter": {
+        "name": "Universeller Einheiten-Rechner",
+        "desc": "Speichergrößen, Längen, Gewichte, Temperaturen und Datenmengen blitzschnell umrechnen."
+      },
+      "graphics-studio": {
+        "name": "Grafik-Studio & Bildschirm-Editor",
+        "desc": "Banner gestalten, Vektortext platzieren, Screenshots zuschneiden und Filter lokal anwenden."
+      },
+      "calculator": {
+        "name": "Wissenschaftlicher Rechner",
+        "desc": "Präzise Berechnungen mit Trigonometrie, Logarithmen und Fakultäten inklusive Verlaufsansicht und Tastaturkürzeln."
+      },
+      "seo-previewer": {
+        "name": "Meta-Tag- & SEO-Vorschau",
+        "desc": "Meta-Tags entwerfen und Live-Vorschaukarten für Google, Twitter, Facebook und Discord generieren."
+      },
+      "image-converter": {
+        "name": "Bild-Optimierer & Konverter",
+        "desc": "Dateigröße komprimieren, Auflösung anpassen und Formate (PNG, JPG, WebP) sekundenschnell im Browser konvertieren."
+      },
+      "url-parser": {
+        "name": "URL-Parser & Query-Builder",
+        "desc": "Web-Adressen analysieren, Query-Parameter in Schlüssel-Wert-Tabellen bearbeiten und saubere URLs erzeugen."
+      },
+      "text-analyzer": {
+        "name": "Text- & Lesbarkeits-Analyse",
+        "desc": "Flesch-Lesbarkeitsindex berechnen, Wort- und Satzanzahl ermitteln, Lesezeit schätzen und Keyword-Dichte prüfen."
+      },
+      "mock-data-generator": {
+        "name": "Lokaler CSV/JSON Testdaten-Generator",
+        "desc": "Eigene Daten-Schemas entwerfen und bis zu 50.000 Zeilen realistischer Testdaten privat im Browser generieren."
+      },
+      "admin-settings": {
+        "name": "Einstellungs- & Werbe-Systemsteuerung",
+        "desc": "Werbenetzwerk-Codes verwalten, lokale Cache-Speicher leeren und Entwicklungsparameter festlegen."
+      },
+      "code-playground": {
+        "name": "Live-HTML/CSS/JS Spielwiese",
+        "desc": "Frontend-Code interaktiv schreiben, Ergebnisse in sicherer Sandbox-Iframe sehen und Konsolenausgaben analysieren."
+      },
+      "curl-converter": {
+        "name": "cURL-zu-Code Konverter",
+        "desc": "cURL-Befehle direkt in modernen Fetch-Code (ES6 async/await), Axios, Python Requests und Go HTTP umwandeln."
+      },
+      "cron-builder": {
+        "name": "Visueller Cron-Schedule-Editor",
+        "desc": "Cron-Zeitpläne interaktiv erstellen, in verständliche Sätze übersetzen und anstehende Ausführungszeiten einsehen."
+      },
+      "json-to-types": {
+        "name": "JSON-zu-Typen Konverter",
+        "desc": "JSON-Objekte in typsichere Modelle für TypeScript, Python Pydantic, Go Structs und Rust Serde transformieren."
+      },
+      "robots-generator": {
+        "name": "Visueller Robots.txt Generator",
+        "desc": "Crawler-Direktiven definieren, KI-Scraper (GPTBot) sperren, Sitemaps angeben und Syntax überprüfen."
+      },
+      "lorem-generator": {
+        "name": "Intelligenter Blindtext-Generator",
+        "desc": "Passgenauen Blindtext in Latein, Cyberpunk- oder Business-Jargon für HTML, Markdown oder JSON erstellen."
+      },
+      "favicon-generator": {
+        "name": "Favicon- & App-Icon Studio",
+        "desc": "Komplette Icon-Pakete (.ico mit 16/32px, Apple Touch, Android) mit Form-Editor und ZIP-Download erzeugen."
+      },
+      "screenshot-capture": {
+        "name": "Screenshot-Studio für Browser & Tabs",
+        "desc": "Bildschirme oder App-Fenster aufnehmen, mit Betriebssystem-Rahmen versehen, Passwörter schwärzen und Anmerkungen machen."
+      },
+      "screen-recorder": {
+        "name": "Bildschirm- & Tab-Videorekorder",
+        "desc": "Vollbild oder Browser-Tabs mit Mikrofon-Kommentar aufzeichnen und direkt als WebM oder MP4 herunterladen."
+      },
+      "voice-recorder": {
+        "name": "Sprachrekorder & Audio-Wellenform Studio",
+        "desc": "Sprachnotizen aufnehmen, Wellenformen in Echtzeit analysieren, Passagen schneiden und verlustfrei als WAV exportieren."
+      },
+      "video-speed": {
+        "name": "Videogeschwindigkeits-Regler",
+        "desc": "Abspielgeschwindigkeit von 0.1x bis 4.0x stufenlos anpassen, Tonhöhe erhalten und A-B-Wiederholungsschleifen nutzen."
+      },
+      "video-to-gif": {
+        "name": "Video-in-GIF Konverter",
+        "desc": "Videoclips lokal im Browser mit individueller Framerate und Auflösung in animierte GIFs umwandeln."
+      },
+      "temp-mail": {
+        "name": "Temporäre Wegwerf-E-Mail",
+        "desc": "Sofortige Wegwerf-Postfächer zur spamfreien Registrierung mit automatischer Aktualisierung und Textanzeige."
+      },
+      "pdf-editor-suite": {
+        "name": "PDF-Editor, Signatur & Anmerkungen",
+        "desc": "Dokumente handschriftlich signieren, Formulare ausfüllen, Wasserzeichen stempeln und sensible Daten schwärzen."
+      },
+      "pdf-ai": {
+        "name": "KI-PDF Zusammenfassung & Übersetzung",
+        "desc": "Prägnante Zusammenfassungen erstellen, To-Do-Listen extrahieren, interaktiv mit Dokumenten chatten und PDFs übersetzen."
+      },
+      "compare-pdf": {
+        "name": "PDF-Dokumentenvergleich",
+        "desc": "Zwei Versionen einer PDF-Datei visuell nebeneinander vergleichen, Unterschiede hervorheben und Textänderungen prüfen."
+      },
+      "qr-generator": {
+        "name": "QR-Code & Barcode Studio",
+        "desc": "Erstellen Sie Vektor-QR-Codes mit benutzerdefiniertem Logo und Farben, oder scannen Sie Codes direkt über die Kamera."
+      },
+      "json-formatter": {
+        "name": "JSON-Formatierer & Validierer",
+        "desc": "Formatieren, validieren, verschönern und komprimieren Sie JSON-Datenstrukturen offline mit Baum- und Rohtextansicht."
+      },
+      "payment-guide": {
+        "name": "Zahlungsanleitung & Lizenz-Assistent",
+        "desc": "Schritt-für-Schritt-Anleitung für UPI QR, Kreditkarten via Gumroad, Banküberweisung und sofortige Freischaltung per UTR."
+      },
+      "box-shadow": {
+        "name": "CSS Box-Shadow Generator",
+        "desc": "Erstellen Sie weiche mehrschichtige CSS-Schatten mit Echtzeit-Vorschau und Tailwind-Export."
+      },
+      "glassmorphism-generator": {
+        "name": "CSS Glassmorphism Generator",
+        "desc": "Erstellen Sie elegante Milchglas-Elemente mit Hintergrundfiltern und anpassbaren Glanzkanten."
+      },
+      "gradient-generator": {
+        "name": "CSS Farbverlauf-Generator",
+        "desc": "Erstellen Sie lineare, radiale und konische CSS-Verläufe mit Farbstopps und Presets."
+      }
+    },
+    "fr": {
+      "pdf-utilities": {
+        "name": "Utilitaires PDF Hors-ligne",
+        "desc": "Compressez, fusionnez, divisez et faites pivoter vos PDF sans aucun envoi vers un serveur."
+      },
+      "pdf-converter-hub": {
+        "name": "Centre Universel de Conversion PDF",
+        "desc": "Convertissez Word, Excel, PowerPoint, images et pages web en PDF et inversement directement dans le navigateur."
+      },
+      "qr-studio": {
+        "name": "Studio de Codes QR & Barres",
+        "desc": "Générez des QR codes vectoriels avec logo et scannez des codes directement via votre caméra."
+      },
+      "formatter-suite": {
+        "name": "Suite de Formatage & Conversion",
+        "desc": "Embellissez le JSON, formatez les requêtes SQL et convertissez entre JSON, YAML et CSV."
+      },
+      "pipeline-builder": {
+        "name": "Générateur de Pipelines",
+        "desc": "Enchaînez plusieurs traitements textuels en séquence avec une confidentialité absolue."
+      },
+      "security-suite": {
+        "name": "Sécurité & Générateur de Clés",
+        "desc": "Créez des mots de passe ultra-sécurisés et générez des identifiants UUID v4 instantanément."
+      },
+      "crypto-suite": {
+        "name": "Suite de Cryptographie",
+        "desc": "Calculez des empreintes SHA-256, chiffrez en AES-256 et produisez des paires de clés RSA."
+      },
+      "text-encoder-suite": {
+        "name": "Casse de Texte & Encodeurs",
+        "desc": "Convertissez la casse (majuscule, camelCase) et réalisez des encodages Base64 et URL."
+      },
+      "fancy-font-generator": {
+        "name": "Générateur de Polices Stylisées",
+        "desc": "Transformez vos textes en plus de 60 styles Unicode pour Instagram, Discord et TikTok."
+      },
+      "audio-suite": {
+        "name": "Studio Audio dans le Navigateur",
+        "desc": "Convertissez des formats audio MP3/WAV et extrayez le son de vidéos MP4 en local."
+      },
+      "finance-calculator": {
+        "name": "Calculateur Financier & Prêts",
+        "desc": "Calculez vos rendements d'épargne, intérêts composés et mensualités de crédit avec tableaux d'amortissement."
+      },
+      "css-studio": {
+        "name": "Studio Visuel CSS",
+        "desc": "Créez des ombres portées, dégradés linéaires, effets de verre dépoli et clip-paths en direct."
+      },
+      "color-lab": {
+        "name": "Laboratoire de Couleur & Contraste",
+        "desc": "Harmonisez vos palettes, validez les contrastes WCAG et convertissez vos codes couleurs."
+      },
+      "regex-tester": {
+        "name": "Testeur Visuel d'Expressions Regex",
+        "desc": "Validez vos expressions régulières avec explications visuelles et extraction par lots."
+      },
+      "markdown-preview": {
+        "name": "Aperçu Markdown en Direct",
+        "desc": "Rédigez en syntaxe Markdown avec rendu HTML immédiat, formules et tableaux."
+      },
+      "text-diff": {
+        "name": "Comparateur de Texte & Code",
+        "desc": "Visualisez les différences ligne par ligne entre deux versions de code avec coloration syntaxique."
+      },
+      "jwt-decoder": {
+        "name": "Décodeur de Tokens JWT",
+        "desc": "Analysez vos tokens JWT pour inspecter les paramètres d'en-tête, les données et l'expiration."
+      },
+      "pii-anonymizer": {
+        "name": "Anonymiseur Local de Données PII",
+        "desc": "Détectez et masquez les adresses e-mail, téléphones et cartes bancaires en toute confidentialité."
+      },
+      "svg-animator": {
+        "name": "Studio d'Animation SVG",
+        "desc": "Animez et déformez visuellement des chemins SVG avec interpolation vectorielle."
+      },
+      "ip-subnet-calculator": {
+        "name": "Calculateur de Sous-réseau IP & MAC",
+        "desc": "Calculez les masques de réseau IPv4 CIDR et identifiez les constructeurs réseau par OUI."
+      },
+      "pdf-security-suite": {
+        "name": "Sécurité & Réparation PDF",
+        "desc": "Déverrouillez les documents PDF protégés ou chiffrez vos fichiers avec AES-256."
+      },
+      "pdf-searcher": {
+        "name": "Recherche Multi-PDF & OCR",
+        "desc": "Recherchez des termes dans plusieurs PDF et lancez une reconnaissance optique (OCR) sur pages numérisées sans serveur."
+      },
+      "datetime-suite": {
+        "name": "Suite Date & Heure",
+        "desc": "Convertissez les timestamps Unix epoch en dates lisibles, calculez des durées et ajoutez/soustrayez des périodes."
+      },
+      "unit-converter": {
+        "name": "Convertisseur Universel d'Unités",
+        "desc": "Convertissez instantanément unités de stockage, longueurs, masses, températures et volumes en temps réel."
+      },
+      "graphics-studio": {
+        "name": "Studio Graphique & Captures",
+        "desc": "Concevez des bannières, ajoutez des textes vectoriels, recadrez vos captures et appliquez des filtres sans serveur."
+      },
+      "calculator": {
+        "name": "Calculatrice Scientifique",
+        "desc": "Calculs avancés de trigonométrie, logarithmes et factorielles avec historique en direct et raccourcis clavier."
+      },
+      "seo-previewer": {
+        "name": "Prévisualiseur SEO & Balises Meta",
+        "desc": "Concevez vos balises meta et simulez le rendu de partage sur Google, Twitter, Facebook et Discord."
+      },
+      "image-converter": {
+        "name": "Optimiseur & Convertisseur d'Images",
+        "desc": "Compressez le poids, modifiez la résolution et convertissez entre PNG, JPG et WebP directement dans le navigateur."
+      },
+      "url-parser": {
+        "name": "Analyseur & Constructeur d'URL",
+        "desc": "Décomposez les paramètres d'URL en tableau clé-valeur, modifiez les requêtes et assemblez des adresses propres."
+      },
+      "text-analyzer": {
+        "name": "Analyseur de Texte & Lisibilité",
+        "desc": "Calculez le score Flesch, comptez les mots et phrases, estimez le temps de lecture et vérifiez la densité lexicale."
+      },
+      "mock-data-generator": {
+        "name": "Générateur de Données Fictives CSV/JSON",
+        "desc": "Concevez des structures personnalisées et générez jusqu'à 50 000 lignes de données de test en toute confidentialité."
+      },
+      "admin-settings": {
+        "name": "Panneau d'Administration & Réglages",
+        "desc": "Gérez les emplacements d'annonces locales, configurez les paramètres généraux et videz le cache hors-ligne."
+      },
+      "code-playground": {
+        "name": "Playground HTML/CSS/JS en Direct",
+        "desc": "Écrivez du code front-end en temps réel avec aperçu immédiat dans un bac à sable sécurisé et console de logs."
+      },
+      "curl-converter": {
+        "name": "Convertisseur de cURL en Code",
+        "desc": "Traduisez vos requêtes cURL en code Fetch moderne (ES6 async/await), Axios, Python Requests et Go HTTP."
+      },
+      "cron-builder": {
+        "name": "Générateur Visuel d'Expressions Cron",
+        "desc": "Configurez des planifications cron visuellement, traduisez-les en phrases claires et visualisez les prochaines exécutions."
+      },
+      "json-to-types": {
+        "name": "Convertisseur de JSON en Interfaces",
+        "desc": "Générez des modèles fortement typés pour TypeScript, Python Pydantic, Go structs et Rust Serde à partir de JSON."
+      },
+      "robots-generator": {
+        "name": "Générateur Visuel de Robots.txt",
+        "desc": "Définissez les règles de crawl, bloquez les robots d'IA (GPTBot), déclarez vos sitemaps et validez la syntaxe."
+      },
+      "lorem-generator": {
+        "name": "Générateur Intelligent de Faux Texte",
+        "desc": "Créez du faux-texte sur mesure en latin, jargon d'entreprise ou cyberpunk au format HTML, Markdown ou JSON."
+      },
+      "favicon-generator": {
+        "name": "Studio de Favicons & Icônes d'Apps",
+        "desc": "Générez des packs complets d'icônes (.ico multi-tailles, Apple Touch, Android) avec personnalisation et archive ZIP."
+      },
+      "screenshot-capture": {
+        "name": "Studio de Capture d'Écran & Fenêtres",
+        "desc": "Capturez fenêtres ou onglets avec habillages systèmes, masquez vos mots de passe et ajoutez des annotations."
+      },
+      "screen-recorder": {
+        "name": "Enregistreur d'Écran & d'Onglets",
+        "desc": "Enregistrez votre écran ou un onglet avec le son du micro et téléchargez la vidéo au format WebM ou MP4."
+      },
+      "voice-recorder": {
+        "name": "Enregistreur Vocal & Studio Audio",
+        "desc": "Enregistrez des mémos vocaux avec visualiseur de spectre, coupez des sections, égalisez et exportez en WAV sans perte."
+      },
+      "video-speed": {
+        "name": "Contrôleur de Vitesse de Lecture Vidéo",
+        "desc": "Ajustez la cadence de 0.1x à 4.0x en conservant la tonalité audio et activez des boucles de répétition A-B."
+      },
+      "video-to-gif": {
+        "name": "Convertisseur de Vidéo en GIF Animé",
+        "desc": "Transformez vos séquences vidéo en GIF animés optimisés en local avec réglage du débit d'images et de la taille."
+      },
+      "temp-mail": {
+        "name": "Client d'E-mail Temporaire Jetable",
+        "desc": "Obtenez des adresses jetables instantanées pour vos inscriptions sans spam avec rafraîchissement automatique."
+      },
+      "pdf-editor-suite": {
+        "name": "Éditeur, Signature & Annotation PDF",
+        "desc": "Signez vos documents, complétez des formulaires AcroForms, ajoutez des filigranes et caviardez des données sensibles."
+      },
+      "pdf-ai": {
+        "name": "Synthèse & Traduction de PDF par IA",
+        "desc": "Rédigez des synthèses exécutives, extrayez des plans d'action, dialoguez avec vos documents et traduisez vos PDF."
+      },
+      "compare-pdf": {
+        "name": "Comparateur de Fichiers PDF",
+        "desc": "Comparez deux versions d'un PDF côte à côte avec superposition thermique des écarts et détection des clauses modifiées."
+      },
+      "qr-generator": {
+        "name": "Studio de Codes QR & Codes-barres",
+        "desc": "Générez des codes QR vectoriels avec logo personnalisé et couleurs, ou scannez des codes directement depuis la caméra."
+      },
+      "json-formatter": {
+        "name": "Formateur et Validateur JSON",
+        "desc": "Formatez, validez, embellissez et compressez des structures de données JSON hors-ligne avec vue arborescente et brute."
+      },
+      "payment-guide": {
+        "name": "Guide de Paiement & Assistant de Licence",
+        "desc": "Instructions étape par étape pour QR UPI, cartes via Gumroad, virement bancaire et activation instantanée via UTR."
+      },
+      "box-shadow": {
+        "name": "Générateur d'Ombre Portée CSS Box Shadow",
+        "desc": "Créez des ombres portées CSS multicouches ultra fluides avec aperçu en temps réel et export Tailwind."
+      },
+      "glassmorphism-generator": {
+        "name": "Générateur de Glassmorphisme CSS",
+        "desc": "Créez des éléments d'interface modernes en verre dépoli avec filtres d'arrière-plan et bordures lumineuses."
+      },
+      "gradient-generator": {
+        "name": "Générateur de Dégradés CSS",
+        "desc": "Créez des dégradés linéaires, radiaux et coniques avec plusieurs étapes de couleur et préréglages."
+      }
+    }
+  },
+
+    toolUiDictionary: {
+  // Action Buttons
+  "Clear File": { es: "Limpiar Archivo", pt: "Limpar Arquivo", de: "Datei löschen", fr: "Effacer le fichier" },
+  "Clear": { es: "Limpiar", pt: "Limpar", de: "Löschen", fr: "Effacer" },
+  "Copy": { es: "Copiar", pt: "Copiar", de: "Kopieren", fr: "Copier" },
+  "Copied!": { es: "¡Copiado!", pt: "Copiado!", de: "Kopiert!", fr: "Copié !" },
+  "Download": { es: "Descargar", pt: "Baixar", de: "Herunterladen", fr: "Télécharger" },
+  "Download PDF": { es: "Descargar PDF", pt: "Baixar PDF", de: "PDF herunterladen", fr: "Télécharger PDF" },
+  "Download ZIP": { es: "Descargar ZIP", pt: "Baixar ZIP", de: "ZIP herunterladen", fr: "Télécharger ZIP" },
+  "Download All": { es: "Descargar Todo", pt: "Baixar Tudo", de: "Alles herunterladen", fr: "Tout télécharger" },
+  "Download Image": { es: "Descargar Imagen", pt: "Baixar Imagem", de: "Bild herunterladen", fr: "Télécharger l'image" },
+  "Format": { es: "Formatear", pt: "Formatar", de: "Formatieren", fr: "Formater" },
+  "Minify": { es: "Minificar", pt: "Minificar", de: "Minimieren", fr: "Minifier" },
+  "Convert": { es: "Convertir", pt: "Converter", de: "Konvertieren", fr: "Convertir" },
+  "Generate": { es: "Generar", pt: "Gerar", de: "Generieren", fr: "Générer" },
+  "Calculate": { es: "Calcular", pt: "Calcular", de: "Berechnen", fr: "Calculer" },
+  "Validate": { es: "Validar", pt: "Validar", de: "Validieren", fr: "Valider" },
+  "Compress": { es: "Comprimir", pt: "Comprimir", de: "Komprimieren", fr: "Compresser" },
+  "Merge": { es: "Unir", pt: "Juntar", de: "Zusammenführen", fr: "Fusionner" },
+  "Split": { es: "Dividir", pt: "Dividir", de: "Teilen", fr: "Diviser" },
+  "Rotate": { es: "Rotar", pt: "Girar", de: "Drehen", fr: "Faire pivoter" },
+  "Rotate 90°": { es: "Rotar 90°", pt: "Girar 90°", de: "90° drehen", fr: "Pivoter 90°" },
+  "Rotate 180°": { es: "Rotar 180°", pt: "Girar 180°", de: "180° drehen", fr: "Pivoter 180°" },
+  "Rotate 270°": { es: "Rotar 270°", pt: "Girar 270°", de: "270° drehen", fr: "Pivoter 270°" },
+  "Swap": { es: "Intercambiar", pt: "Inverter", de: "Tauschen", fr: "Intervertir" },
+  "Encode": { es: "Codificar", pt: "Codificar", de: "Kodieren", fr: "Encoder" },
+  "Decode": { es: "Decodificar", pt: "Decodificar", de: "Dekodieren", fr: "Décoder" },
+  "Encrypt": { es: "Cifrar", pt: "Criptografar", de: "Verschlüsseln", fr: "Chiffrer" },
+  "Decrypt": { es: "Descifrar", pt: "Descriptografar", de: "Entschlüsseln", fr: "Déchiffrer" },
+  "Run": { es: "Ejecutar", pt: "Executar", de: "Ausführen", fr: "Exécuter" },
+  "Reset": { es: "Restablecer", pt: "Redefinir", de: "Zurücksetzen", fr: "Réinitialiser" },
+  "Upload": { es: "Subir", pt: "Enviar", de: "Hochladen", fr: "Téléverser" },
+  "Save": { es: "Guardar", pt: "Salvar", de: "Speichern", fr: "Enregistrer" },
+  "Export": { es: "Exportar", pt: "Exportar", de: "Exportieren", fr: "Exporter" },
+  "Paste": { es: "Pegar", pt: "Colar", de: "Einfügen", fr: "Coller" },
+  "Sample": { es: "Ejemplo", pt: "Exemplo", de: "Beispiel", fr: "Exemple" },
+  "Load Sample": { es: "Cargar Ejemplo", pt: "Carregar Exemplo", de: "Beispiel laden", fr: "Charger un exemple" },
+  "Select All": { es: "Seleccionar Todo", pt: "Selecionar Tudo", de: "Alles auswählen", fr: "Tout sélectionner" },
+  "Deselect All": { es: "Deseleccionar Todo", pt: "Desmarcar Tudo", de: "Auswahl aufheben", fr: "Tout désélectionner" },
+  "Invert Selection": { es: "Invertir Selección", pt: "Inverter Seleção", de: "Auswahl umkehren", fr: "Inverser la sélection" },
+  "Process Files": { es: "Procesar Archivos", pt: "Processar Arquivos", de: "Dateien verarbeiten", fr: "Traiter les fichiers" },
+  "Convert PDF": { es: "Convertir PDF", pt: "Converter PDF", de: "PDF konvertieren", fr: "Convertir le PDF" },
+  "Extract Text": { es: "Extraer Texto", pt: "Extrair Texto", de: "Text extrahieren", fr: "Extraire le texte" },
+  "Extract Images": { es: "Extraer Imágenes", pt: "Extrair Imagens", de: "Bilder extrahieren", fr: "Extraire les images" },
+  "Compare": { es: "Comparar", pt: "Comparar", de: "Vergleichen", fr: "Comparer" },
+  "Beautify": { es: "Embellecer", pt: "Embelezar", de: "Verschönern", fr: "Embellir" },
+  "Test Regex": { es: "Probar Regex", pt: "Testar Regex", de: "Regex testen", fr: "Tester Regex" },
+  "Generate Password": { es: "Generar Contraseña", pt: "Gerar Senha", de: "Passwort generieren", fr: "Générer mot de passe" },
+  "Generate QR": { es: "Generar QR", pt: "Gerar QR", de: "QR generieren", fr: "Générer QR" },
+  "Scan QR": { es: "Escanear QR", pt: "Escanear QR", de: "QR scannen", fr: "Scanner QR" },
+  "Start Recording": { es: "Iniciar Grabación", pt: "Iniciar Gravação", de: "Aufnahme starten", fr: "Démarrer l'enregistrement" },
+  "Stop Recording": { es: "Detener Grabación", pt: "Parar Gravação", de: "Aufnahme stoppen", fr: "Arrêter l'enregistrement" },
+  "Pause": { es: "Pausar", pt: "Pausar", de: "Pause", fr: "Pause" },
+  "Resume": { es: "Reanudar", pt: "Continuar", de: "Fortsetzen", fr: "Reprendre" },
+  "Take Screenshot": { es: "Capturar Pantalla", pt: "Capturar Tela", de: "Screenshot aufnehmen", fr: "Prendre une capture" },
+  "Add Stage": { es: "Añadir Etapa", pt: "Adicionar Etapa", de: "Schritt hinzufügen", fr: "Ajouter une étape" },
+  "Remove": { es: "Eliminar", pt: "Remover", de: "Entfernen", fr: "Supprimer" },
+  "Delete": { es: "Borrar", pt: "Excluir", de: "Löschen", fr: "Supprimer" },
+  "Cancel": { es: "Cancelar", pt: "Cancelar", de: "Abbrechen", fr: "Annuler" },
+  "Apply": { es: "Aplicar", pt: "Aplicar", de: "Anwenden", fr: "Appliquer" },
+  "Filter": { es: "Filtrar", pt: "Filtrar", de: "Filtern", fr: "Filtrer" },
+  "Search": { es: "Buscar", pt: "Pesquisar", de: "Suchen", fr: "Rechercher" },
+
+  // Panel Headers & Sections
+  "Configuration": { es: "Configuración", pt: "Configuração", de: "Konfiguration", fr: "Configuration" },
+  "Options": { es: "Opciones", pt: "Opções", de: "Optionen", fr: "Options" },
+  "Settings": { es: "Ajustes", pt: "Configurações", de: "Einstellungen", fr: "Paramètres" },
+  "Editor": { es: "Editor", pt: "Editor", de: "Editor", fr: "Éditeur" },
+  "Preview": { es: "Vista Previa", pt: "Pré-visualização", de: "Vorschau", fr: "Aperçu" },
+  "Output": { es: "Resultado", pt: "Saída", de: "Ausgabe", fr: "Sortie" },
+  "Input": { es: "Entrada", pt: "Entrada", de: "Eingabe", fr: "Entrée" },
+  "Results": { es: "Resultados", pt: "Resultados", de: "Ergebnisse", fr: "Résultats" },
+  "Live Preview": { es: "Vista Previa en Vivo", pt: "Pré-visualização em Tempo Real", de: "Live-Vorschau", fr: "Aperçu en Direct" },
+  "Visual Preview": { es: "Vista Previa Visual", pt: "Pré-visualização Visual", de: "Visuelle Vorschau", fr: "Aperçu Visuel" },
+  "PDF Operations": { es: "Operaciones PDF", pt: "Operações PDF", de: "PDF-Operationen", fr: "Opérations PDF" },
+  "PDF Suite": { es: "Suite PDF", pt: "Suíte PDF", de: "PDF-Suite", fr: "Suite PDF" },
+  "Audio Settings": { es: "Ajustes de Audio", pt: "Configurações de Áudio", de: "Audio-Einstellungen", fr: "Paramètres Audio" },
+  "Audio Preview & Output": { es: "Vista Previa y Salida de Audio", pt: "Prévia e Saída de Áudio", de: "Audio-Vorschau & Ausgabe", fr: "Aperçu et Sortie Audio" },
+  "Math Engine & Inputs": { es: "Motor de Cálculo y Entradas", pt: "Motor de Cálculo e Entradas", de: "Rechner-Engine & Eingaben", fr: "Moteur de Calcul et Entrées" },
+  "Calculation & Visual Output": { es: "Cálculo y Salida Visual", pt: "Cálculo e Saída Visual", de: "Berechnung & Visuelle Ausgabe", fr: "Calcul et Sortie Visuelle" },
+  "Quick Guide": { es: "Guía Rápida", pt: "Guia Rápido", de: "Kurzanleitung", fr: "Guide Rapide" },
+  "Tree View": { es: "Vista en Árbol", pt: "Visualização em Árvore", de: "Baumansicht", fr: "Vue Arborescente" },
+  "Raw View": { es: "Vista Texto", pt: "Visualização Bruta", de: "Rohdatenansicht", fr: "Vue Brute" },
+  "Formatted": { es: "Formateado", pt: "Formatado", de: "Formatiert", fr: "Formaté" },
+  "History": { es: "Historial", pt: "Histórico", de: "Verlauf", fr: "Historique" },
+  "Statistics": { es: "Estadísticas", pt: "Estatísticas", de: "Statistiken", fr: "Statistiques" },
+  "Live Counter": { es: "Contador en Vivo", pt: "Contador em Tempo Real", de: "Live-Zähler", fr: "Compteur en Direct" },
+  "Document Information": { es: "Información del Documento", pt: "Informações do Documento", de: "Dokument-Informationen", fr: "Informations du Document" },
+  "File Details": { es: "Detalles del Archivo", pt: "Detalhes do Arquivo", de: "Datei-Details", fr: "Détails du Fichier" },
+  "Properties": { es: "Propiedades", pt: "Propriedades", de: "Eigenschaften", fr: "Propriétés" },
+
+  // Tabs
+  "Case Converter": { es: "Conversor de Mayúsculas", pt: "Conversor de Maiúsculas", de: "Groß-/Kleinschreibung", fr: "Casse de Texte" },
+  "Base64": { es: "Base64", pt: "Base64", de: "Base64", fr: "Base64" },
+  "URL Encoder": { es: "Codificador URL", pt: "Codificador URL", de: "URL-Kodierer", fr: "Encodeur URL" },
+  "Split PDF": { es: "Dividir PDF", pt: "Dividir PDF", de: "PDF teilen", fr: "Diviser PDF" },
+  "Merge PDF": { es: "Unir PDF", pt: "Juntar PDF", de: "PDF zusammenführen", fr: "Fusionner PDF" },
+  "Compress PDF": { es: "Comprimir PDF", pt: "Comprimir PDF", de: "PDF komprimieren", fr: "Compresser PDF" },
+  "Rotate PDF": { es: "Rotar PDF", pt: "Girar PDF", de: "PDF drehen", fr: "Faire pivoter PDF" },
+  "Reorder Pages": { es: "Reordenar Páginas", pt: "Reordenar Páginas", de: "Seiten sortieren", fr: "Réorganiser les pages" },
+  "Sign PDF": { es: "Firmar PDF", pt: "Assinar PDF", de: "PDF signieren", fr: "Signer le PDF" },
+  "Watermark": { es: "Marca de Agua", pt: "Marca d'Água", de: "Wasserzeichen", fr: "Filigrane" },
+
+  // Dropzone Messages
+  "Drag & drop a PDF here or browse files": { es: "Arrastra un PDF aquí o busca archivos", pt: "Arraste um PDF aqui ou selecione arquivos", de: "Ziehen Sie eine PDF hierher oder Dateien durchsuchen", fr: "Glissez-déposez un PDF ici ou parcourez les fichiers" },
+  "Drag & drop files here or browse": { es: "Arrastra archivos aquí o busca en tu equipo", pt: "Arraste arquivos aqui ou procure", de: "Dateien hierher ziehen oder durchsuchen", fr: "Glissez-déposez des fichiers ici ou parcourez" },
+  "Drag & drop an image here or browse": { es: "Arrastra una imagen aquí o busca en tu equipo", pt: "Arraste uma imagem aqui ou procure", de: "Bild hierher ziehen oder durchsuchen", fr: "Glissez-déposez une image ici ou parcourez" },
+  "Drag & drop audio here or browse": { es: "Arrastra un archivo de audio aquí o busca", pt: "Arraste um arquivo de áudio aqui ou procure", de: "Audio hierher ziehen oder durchsuchen", fr: "Glissez-déposez un fichier audio ici ou parcourez" },
+  "Drop your files here": { es: "Suelta tus archivos aquí", pt: "Solte seus arquivos aqui", de: "Dateien hier ablegen", fr: "Déposez vos fichiers ici" },
+  "browse files": { es: "buscar archivos", pt: "selecionar arquivos", de: "Dateien auswählen", fr: "parcourir les fichiers" },
+  "browse": { es: "explorar", pt: "procurar", de: "durchsuchen", fr: "parcourir" },
+  "Client-Side Sandbox • 100% Private & Offline": { es: "Entorno 100% en Navegador • Privado y Offline", pt: "Ambiente 100% no Navegador • Privado e Offline", de: "100% Client-seitig • Privat & Offline", fr: "Bac à sable 100% navigateur • Privé & Hors-ligne" },
+
+  // Common Labels
+  "Input Text": { es: "Texto de Entrada", pt: "Texto de Entrada", de: "Eingabetext", fr: "Texte d'Entrée" },
+  "Output Text": { es: "Texto de Salida", pt: "Texto de Saída", de: "Ausgabetext", fr: "Texte de Sortie" },
+  "Characters": { es: "Caracteres", pt: "Caracteres", de: "Zeichen", fr: "Caractères" },
+  "Words": { es: "Palabras", pt: "Palavras", de: "Wörter", fr: "Mots" },
+  "Lines": { es: "Líneas", pt: "Linhas", de: "Zeilen", fr: "Lignes" },
+  "File Size": { es: "Tamaño de Archivo", pt: "Tamanho do Arquivo", de: "Dateigröße", fr: "Taille du fichier" },
+  "Target Format": { es: "Formato de Destino", pt: "Formato de Destino", de: "Zielformat", fr: "Format Cible" },
+  "Target Language": { es: "Lenguaje de Destino", pt: "Linguagem de Destino", de: "Zielsprache", fr: "Langage Cible" },
+  "Quality": { es: "Calidad", pt: "Qualidade", de: "Qualität", fr: "Qualité" },
+  "Password": { es: "Contraseña", pt: "Senha", de: "Passwort", fr: "Mot de passe" },
+  "Case Sensitive": { es: "Distinguir Mayúsculas", pt: "Diferenciar Maiúsculas", de: "Groß-/Kleinschreibung", fr: "Sensible à la casse" },
+  "Global Match": { es: "Coincidencia Global", pt: "Correspondência Global", de: "Globale Suche", fr: "Correspondance Globale" },
+  "Multiline": { es: "Multilínea", pt: "Multilinha", de: "Mehrzeilig", fr: "Multiligne" },
+  "Delimiter": { es: "Delimitador", pt: "Delimitador", de: "Trennzeichen", fr: "Délimiteur" },
+  "Indent Size": { es: "Tamaño de Sangría", pt: "Tamanho da Indentação", de: "Einrückungsgröße", fr: "Taille de l'indentation" },
+  "Orientation": { es: "Orientación", pt: "Orientação", de: "Ausrichtung", fr: "Orientation" },
+  "Resolution": { es: "Resolución", pt: "Resolução", de: "Auflösung", fr: "Résolution" },
+
+  // Common Placeholders
+  "Type or paste your content here...": { es: "Escribe o pega tu contenido aquí...", pt: "Digite ou cole seu conteúdo aqui...", de: "Inhalt hier eingeben oder einfügen...", fr: "Tapez ou collez votre contenu ici..." },
+  "Paste your JSON here...": { es: "Pega tu código JSON aquí...", pt: "Cole seu código JSON aqui...", de: "JSON hier einfügen...", fr: "Collez votre JSON ici..." },
+  "Enter text to encode...": { es: "Introduce texto para codificar...", pt: "Insira o texto para codificar...", de: "Text zum Kodieren eingeben...", fr: "Entrez le texte à encoder..." },
+  "Enter regular expression...": { es: "Introduce expresión regular...", pt: "Insira a expressão regular...", de: "Regulären Ausdruck eingeben...", fr: "Entrez l'expression régulière..." },
+  "Test string...": { es: "Texto de prueba...", pt: "Texto de teste...", de: "Testtext...", fr: "Texte de test..." },
+  "Search...": { es: "Buscar...", pt: "Pesquisar...", de: "Suchen...", fr: "Rechercher..." },
+
+  // Guide Steps
+  "Step 1": { es: "Paso 1", pt: "Passo 1", de: "Schritt 1", fr: "Étape 1" },
+  "Step 2": { es: "Paso 2", pt: "Passo 2", de: "Schritt 2", fr: "Étape 2" },
+  "Step 3": { es: "Paso 3", pt: "Passo 3", de: "Schritt 3", fr: "Étape 3" },
+  "Step 4": { es: "Paso 4", pt: "Passo 4", de: "Schritt 4", fr: "Étape 4" },
+  "Step 5": { es: "Paso 5", pt: "Passo 5", de: "Schritt 5", fr: "Étape 5" },
+
+  // --- Expanded Multilingual Tool Vocabulary & Feature Chips ---
+  "Configure Processing Chain": {"es":"Configurar Cadena de Procesamiento","pt":"Configurar Cadeia de Processamento","de":"Verarbeitungskette konfigurieren","fr":"Configurer la Chaîne de Traitement"},
+  "Pipeline Data Flow": {"es":"Flujo de Datos del Pipeline","pt":"Fluxo de Dados do Pipeline","de":"Pipeline-Datenfluss","fr":"Flux de Données du Pipeline"},
+  "+ Add Step": {"es":"+ Añadir Paso","pt":"+ Adicionar Passo","de":"+ Schritt hinzufügen","fr":"+ Ajouter une étape"},
+  "Add Step": {"es":"Añadir Paso","pt":"Adicionar Passo","de":"Schritt hinzufügen","fr":"Ajouter une étape"},
+  "Saved Presets": {"es":"Ajustes Guardados","pt":"Predefinições Salvas","de":"Gespeicherte Voreinstellungen","fr":"Préréglages Enregistrés"},
+  "-- Load Saved Preset --": {"es":"-- Cargar Ajuste Guardado --","pt":"-- Carregar Predefinição --","de":"-- Voreinstellung laden --","fr":"-- Charger un Préréglage --"},
+  "Load Saved Preset": {"es":"Cargar Ajuste Guardado","pt":"Carregar Predefinição","de":"Voreinstellung laden","fr":"Charger un Préréglage"},
+  "Save Current": {"es":"Guardar Actual","pt":"Salvar Atual","de":"Aktuelle speichern","fr":"Enregistrer l'actuel"},
+  "Export Config": {"es":"Exportar Configuración","pt":"Exportar Configuração","de":"Konfiguration exportieren","fr":"Exporter la Configuration"},
+  "📤 Export Config": {"es":"📤 Exportar Configuración","pt":"📤 Exportar Configuração","de":"📤 Konfiguration exportieren","fr":"📤 Exporter la Configuration"},
+  "Import Config": {"es":"Importar Configuración","pt":"Importar Configuração","de":"Konfiguration importieren","fr":"Importer la Configuration"},
+  "📥 Import Config": {"es":"📥 Importar Configuración","pt":"📥 Importar Configuração","de":"📥 Konfiguration importieren","fr":"📥 Importer la Configuration"},
+  "Initial Input Text": {"es":"Texto de Entrada Inicial","pt":"Texto de Entrada Inicial","de":"Anfänglicher Eingabetext","fr":"Texte d'Entrée Initial"},
+  "Final Processed Output": {"es":"Resultado Final Procesado","pt":"Resultado Final Processado","de":"Endgültige verarbeitete Ausgabe","fr":"Résultat Final Traité"},
+  "Load File": {"es":"Cargar Archivo","pt":"Carregar Arquivo","de":"Datei laden","fr":"Charger un fichier"},
+  "📂 Load File": {"es":"📂 Cargar Archivo","pt":"📂 Carregar Arquivo","de":"📂 Datei laden","fr":"📂 Charger un fichier"},
+  "Copy Output": {"es":"Copiar Resultado","pt":"Copiar Saída","de":"Ausgabe kopieren","fr":"Copier le résultat"},
+  "Process Action": {"es":"Acción de Proceso","pt":"Ação de Processamento","de":"Verarbeitungsaktion","fr":"Action de Traitement"},
+  "Ignore Errors": {"es":"Ignorar Errores","pt":"Ignorar Erros","de":"Fehler ignorieren","fr":"Ignorer les erreurs"},
+  "Show Intermediate Output": {"es":"Mostrar Salida Intermedia","pt":"Mostrar Saída Intermediária","de":"Zwischenergebnis anzeigen","fr":"Afficher le résultat intermédiaire"},
+  "Hide Intermediate Output": {"es":"Ocultar Salida Intermedia","pt":"Ocultar Saída Intermediária","de":"Zwischenergebnis ausblenden","fr":"Masquer le résultat intermédiaire"},
+  "Reset 50/50": {"es":"Restablecer 50/50","pt":"Redefinir 50/50","de":"50/50 zurücksetzen","fr":"Réinitialiser 50/50"},
+  "Full Screen": {"es":"Pantalla Completa","pt":"Tela Cheia","de":"Vollbild","fr":"Plein Écran"},
+  "Exit Full Screen": {"es":"Salir de Pantalla Completa","pt":"Sair da Tela Cheia","de":"Vollbild beenden","fr":"Quitter le Plein Écran"},
+  "Configure steps sequentially. Data will flow from top node to bottom node, executing each function on the results of the previous.": {"es":"Configura los pasos secuencialmente. Los datos fluirán del nodo superior al inferior, ejecutando cada función sobre los resultados de la anterior.","pt":"Configure os passos sequencialmente. Os dados fluirão do nó superior para o inferior, executando cada função nos resultados da anterior.","de":"Schritte nacheinander konfigurieren. Die Daten fließen von oben nach unten und führen jede Funktion auf den vorherigen Ergebnissen aus.","fr":"Configurez les étapes séquentiellement. Les données circulent du haut vers le bas, exécutant chaque fonction sur les résultats précédents."},
+  "Base64 Encode": {"es":"Codificar Base64","pt":"Codificar Base64","de":"Base64 kodieren","fr":"Encoder en Base64"},
+  "Base64 Decode": {"es":"Decodificar Base64","pt":"Decodificar Base64","de":"Base64 dekodieren","fr":"Décoder Base64"},
+  "JSON Format": {"es":"Formatear JSON","pt":"Formatar JSON","de":"JSON formatieren","fr":"Formater JSON"},
+  "JSON Minify": {"es":"Minificar JSON","pt":"Minificar JSON","de":"JSON minimieren","fr":"Minifier JSON"},
+  "URL Encode": {"es":"Codificar URL","pt":"Codificar URL","de":"URL kodieren","fr":"Encoder URL"},
+  "URL Decode": {"es":"Decodificar URL","pt":"Decodificar URL","de":"URL dekodieren","fr":"Décoder URL"},
+  "Convert to UPPERCASE": {"es":"Convertir a MAYÚSCULAS","pt":"Converter para MAIÚSCULAS","de":"In GROSSBUCHSTABEN umwandeln","fr":"Convertir en MAJUSCULES"},
+  "Convert to lowercase": {"es":"Convertir a minúsculas","pt":"Converter para minúsculas","de":"In kleinbuchstaben umwandeln","fr":"Convertir en minuscules"},
+  "Convert to Title Case": {"es":"Convertir a Tipo Título","pt":"Converter para Iniciais Maiúsculas","de":"In Groß-/Kleinschreibung (Titel)","fr":"Convertir en Casse Titre"},
+  "Convert to camelCase": {"es":"Convertir a camelCase","pt":"Converter para camelCase","de":"In camelCase umwandeln","fr":"Convertir en camelCase"},
+  "Convert to snake_case": {"es":"Convertir a snake_case","pt":"Converter para snake_case","de":"In snake_case umwandeln","fr":"Convertir en snake_case"},
+  "Convert to kebab-case": {"es":"Convertir a kebab-case","pt":"Converter para kebab-case","de":"In kebab-case umwandeln","fr":"Convertir en kebab-case"},
+  "MD5 Hashing": {"es":"Hash MD5","pt":"Hash MD5","de":"MD5-Hashing","fr":"Hachage MD5"},
+  "SHA-256 Hashing": {"es":"Hash SHA-256","pt":"Hash SHA-256","de":"SHA-256 Hashing","fr":"Hachage SHA-256"},
+  "SHA-512 Hashing": {"es":"Hash SHA-512","pt":"Hash SHA-512","de":"SHA-512 Hashing","fr":"Hachage SHA-512"},
+  "Regex Replace": {"es":"Reemplazo con Regex","pt":"Substituição por Regex","de":"Regex-Ersetzung","fr":"Remplacement Regex"},
+  "Trim Whitespace": {"es":"Recortar Espacios en Blanco","pt":"Remover Espaços","de":"Leerzeichen trimmen","fr":"Supprimer les espaces"},
+  "Strip HTML Tags": {"es":"Eliminar Etiquetas HTML","pt":"Remover Tags HTML","de":"HTML-Tags entfernen","fr":"Supprimer les balises HTML"},
+  "Sort Lines": {"es":"Ordenar Líneas","pt":"Ordenar Linhas","de":"Zeilen sortieren","fr":"Trier les lignes"},
+  "Remove Duplicate Lines": {"es":"Eliminar Líneas Duplicadas","pt":"Remover Linhas Duplicadas","de":"Doppelte Zeilen entfernen","fr":"Supprimer les doublons"},
+  "Remove Empty Lines": {"es":"Eliminar Líneas Vacías","pt":"Remover Linhas Vazias","de":"Leerzeilen entfernen","fr":"Supprimer les lignes vides"},
+  "Add Prefix / Suffix (Per Line)": {"es":"Añadir Prefijo / Sufijo (Por Línea)","pt":"Adicionar Prefixo / Sufixo (Por Linha)","de":"Präfix / Suffix hinzufügen (Pro Zeile)","fr":"Ajouter Préfixe / Suffixe (Par Ligne)"},
+  "ROT13 Obfuscation": {"es":"Ofuscación ROT13","pt":"Ofuscação ROT13","de":"ROT13-Verschleierung","fr":"Obscurcissement ROT13"},
+  "Custom JS Function": {"es":"Función JS Personalizada","pt":"Função JS Personalizada","de":"Benutzerdefinierte JS-Funktion","fr":"Fonction JS Personnalisée"},
+  "Regex Pattern": {"es":"Patrón Regex","pt":"Padrão Regex","de":"Regex-Muster","fr":"Motif Regex"},
+  "Replacement": {"es":"Reemplazo","pt":"Substituição","de":"Ersetzung","fr":"Remplacement"},
+  "Flags (g, i, m)": {"es":"Modificadores (g, i, m)","pt":"Modificadores (g, i, m)","de":"Flags (g, i, m)","fr":"Modificateurs (g, i, m)"},
+  "Line Prefix": {"es":"Prefijo de Línea","pt":"Prefixo de Linha","de":"Zeilenpräfix","fr":"Préfixe de Ligne"},
+  "Line Suffix": {"es":"Sufijo de Línea","pt":"Sufixo de Linha","de":"Zeilensuffix","fr":"Suffixe de Ligne"},
+  "Sort Direction": {"es":"Dirección de Ordenación","pt":"Direção de Ordenação","de":"Sortierrichtung","fr":"Sens de Tri"},
+  "Ascending (A-Z)": {"es":"Ascendente (A-Z)","pt":"Ascendente (A-Z)","de":"Aufsteigend (A-Z)","fr":"Ascendant (A-Z)"},
+  "Descending (Z-A)": {"es":"Descendente (Z-A)","pt":"Descendente (Z-A)","de":"Absteigend (Z-A)","fr":"Descendant (Z-A)"},
+  "JavaScript Function Body": {"es":"Cuerpo de Función JavaScript","pt":"Corpo da Função JavaScript","de":"JavaScript-Funktionskörper","fr":"Corps de Fonction JavaScript"},
+  "New Preset Name...": {"es":"Nombre del nuevo ajuste...","pt":"Nome da nova predefinição...","de":"Neuer Voreinstellungsname...","fr":"Nom du nouveau préréglage..."},
+  "Type initial input string to feed into the pipeline...": {"es":"Escriba la cadena de entrada inicial para el pipeline...","pt":"Digite o texto de entrada inicial para o pipeline...","de":"Geben Sie den anfänglichen Eingabetext für die Pipeline ein...","fr":"Tapez la chaîne d'entrée initiale à alimenter dans le pipeline..."},
+  "Calculations will process here...": {"es":"Los cálculos se procesarán aquí...","pt":"Os cálculos serão processados aqui...","de":"Berechnungen werden hier verarbeitet...","fr":"Les calculs seront traités ici..."},
+  "Multi-Step Chaining": {"es":"Encadenamiento Multi-Etapa","pt":"Encadeamento Multi-Etapas","de":"Mehrstufige Verkettung","fr":"Chaînage Multi-Étapes"},
+  "Live Visual Preview": {"es":"Vista Previa Visual en Vivo","pt":"Prévia Visual em Tempo Real","de":"Visuelle Live-Vorschau","fr":"Aperçu Visuel en Direct"},
+  "Zero Server Uploads": {"es":"Cero Cargas al Servidor","pt":"Zero Uploads para o Servidor","de":"Keine Server-Uploads","fr":"Zéro Téléversement Serveur"},
+  "Instant Execution": {"es":"Ejecución Instantánea","pt":"Execução Instantânea","de":"Sofortige Ausführung","fr":"Exécution Instantanée"},
+  "JSON Formatter": {"es":"Formateador JSON","pt":"Formatador JSON","de":"JSON-Formatierer","fr":"Formateur JSON"},
+  "SQL Beautifier": {"es":"Embellecedor SQL","pt":"Embelezador SQL","de":"SQL-Beautifier","fr":"Embellisseur SQL"},
+  "YAML & CSV": {"es":"YAML y CSV","pt":"YAML e CSV","de":"YAML & CSV","fr":"YAML et CSV"},
+  "XML / HTML": {"es":"XML / HTML","pt":"XML / HTML","de":"XML / HTML","fr":"XML / HTML"},
+  "Base64 & URL Encoding": {"es":"Codificación Base64 y URL","pt":"Codificação Base64 e URL","de":"Base64- & URL-Kodierung","fr":"Encodage Base64 et URL"},
+  "Case Transformations": {"es":"Transformación de Mayúsculas y Minúsculas","pt":"Transformações de Maiúsculas/Minúsculas","de":"Groß-/Kleinschreibungstransformation","fr":"Transformations de Casse"},
+  "Slugify & Kebab/Snake": {"es":"Crear Slugs y Kebab/Snake","pt":"Gerar Slugs e Kebab/Snake","de":"Slugify & Kebab/Snake","fr":"Slugification & Kebab/Snake"},
+  "Offline Safe": {"es":"Seguro sin Conexión","pt":"Seguro Offline","de":"Offline sicher","fr":"Sécurisé Hors Ligne"},
+  "Header & Claims Inspect": {"es":"Inspección de Cabecera y Claims","pt":"Inspeção de Cabeçalho e Declarações","de":"Header & Claims untersuchen","fr":"Inspection En-tête & Déclarations"},
+  "Expiry Auto-Detect": {"es":"Detección Automática de Expiración","pt":"Detecção Automática de Expiração","de":"Ablaufzeit-Auto-Erkennung","fr":"Détection Auto d'Expiration"},
+  "Zero Token Transmission": {"es":"Cero Transmisión de Tokens","pt":"Zero Transmissão de Tokens","de":"Keine Token-Übertragung","fr":"Zéro Transmission de Tokens"},
+  "Formatted JSON Payload": {"es":"Carga JSON Formateada","pt":"Carga Útil JSON Formatada","de":"Formatierte JSON-Nutzlast","fr":"Charge Utile JSON Formatée"},
+  "MD5 / SHA Hash Gen": {"es":"Generador de Hash MD5 / SHA","pt":"Gerador de Hashes MD5 / SHA","de":"MD5 / SHA-Hash-Generator","fr":"Génération de Hachage MD5 / SHA"},
+  "AES-256 Encryption": {"es":"Cifrado AES-256","pt":"Criptografia AES-256","de":"AES-256-Verschlüsselung","fr":"Chiffrement AES-256"},
+  "RSA 2048/4096 Keys": {"es":"Claves RSA 2048/4096","pt":"Chaves RSA 2048/4096","de":"RSA 2048/4096 Schlüssel","fr":"Clés RSA 2048/4096"},
+  "WebCrypto Hardware Speed": {"es":"Velocidad de Hardware WebCrypto","pt":"Velocidade de Hardware WebCrypto","de":"WebCrypto Hardware-Beschleunigung","fr":"Vitesse Matérielle WebCrypto"},
+  "GDPR & HIPAA Compliant": {"es":"Conforme con RGPD y HIPAA","pt":"Compatível com LGPD e HIPAA","de":"DSGVO- & HIPAA-konform","fr":"Conforme RGPD & HIPAA"},
+  "Email / Phone / IP Masking": {"es":"Enmascaramiento de Email / Tel / IP","pt":"Mascaramento de Email / Tel / IP","de":"E-Mail- / Telefon- / IP-Maskierung","fr":"Masquage E-mail / Téléphone / IP"},
+  "Deterministic SHA Hashing": {"es":"Hashing Determinista SHA","pt":"Hashing Determinístico SHA","de":"Deterministisches SHA-Hashing","fr":"Hachage SHA Déterministe"},
+  "100% In-Browser Scrubbing": {"es":"Limpieza 100% en el Navegador","pt":"Limpeza 100% no Navegador","de":"100% Bereinigung im Browser","fr":"Nettoyage 100% dans le Navigateur"},
+  "Live Split-Pane Preview": {"es":"Vista Previa en Panel Dividido","pt":"Prévia em Painel Dividido","de":"Live-Vorschau mit geteiltem Fenster","fr":"Aperçu en Volet Divisé"},
+  "GFM Table Support": {"es":"Soporte de Tablas GFM","pt":"Suporte a Tabelas GFM","de":"GFM-Tabellenunterstützung","fr":"Support des Tableaux GFM"},
+  "HTML Source View": {"es":"Vista de Código Fuente HTML","pt":"Visualização do Código Fonte HTML","de":"HTML-Quellcode-Ansicht","fr":"Vue Code Source HTML"},
+  "Instant Render": {"es":"Renderizado Instantáneo","pt":"Renderização Instantânea","de":"Sofortiges Rendern","fr":"Rendu Instantané"},
+  "Side-by-Side Comparison": {"es":"Comparación Lado a Lado","pt":"Comparação Lado a Lado","de":"Gegenüberstellung (Side-by-Side)","fr":"Comparaison Côte à Côte"},
+  "Word & Char Highlighting": {"es":"Resaltado de Palabras y Caracteres","pt":"Destaque de Palavras e Caracteres","de":"Wort- & Zeichen-Hervorhebung","fr":"Mise en Valeur Mots & Caractères"},
+  "Unified Diff Mode": {"es":"Modo Diff Unificado","pt":"Modo Diff Unificado","de":"Einheitlicher Diff-Modus","fr":"Mode Diff Unifié"},
+  "Zero Telemetry": {"es":"Cero Telemetría","pt":"Zero Telemetria","de":"Keine Telemetrie","fr":"Zéro Télémétrie"},
+  "Multi-Document Search": {"es":"Búsqueda Multidocumento","pt":"Busca em Múltiplos Documentos","de":"Dokumentübergreifende Suche","fr":"Recherche Multi-Documents"},
+  "Client-Side Tesseract OCR": {"es":"OCR Tesseract del Lado del Cliente","pt":"OCR Tesseract no Navegador","de":"Clientseitige Tesseract OCR","fr":"OCR Tesseract Côté Client"},
+  "Scanned Page Parsing": {"es":"Análisis de Páginas Escaneadas","pt":"Análise de Páginas Digitalizadas","de":"Gescannte Seiten analysieren","fr":"Analyse de Pages Numérisées"},
+  "Private & Local": {"es":"Privado y Local","pt":"Privado e Local","de":"Privat & Lokal","fr":"Privé et Local"},
+  "Split, Merge & Rotate": {"es":"Dividir, Unir y Rotar","pt":"Dividir, Mesclar e Girar","de":"Teilen, Zusammenführen & Drehen","fr":"Diviser, Fusionner et Faire Pivoter"},
+  "Convert to PNG / JPG / WebP": {"es":"Convertir a PNG / JPG / WebP","pt":"Converter para PNG / JPG / WebP","de":"In PNG / JPG / WebP konvertieren","fr":"Convertir en PNG / JPG / WebP"},
+  "Document Compression": {"es":"Compresión de Documentos","pt":"Compressão de Documentos","de":"Dokumentenkomprimierung","fr":"Compression de Documents"},
+  "Zero Server Upload": {"es":"Cero Cargas al Servidor","pt":"Zero Uploads ao Servidor","de":"Kein Server-Upload","fr":"Zéro Envoi au Serveur"},
+  "Live Pattern Matching": {"es":"Coincidencia de Patrones en Vivo","pt":"Correspondência de Padrões em Tempo Real","de":"Live-Mustervergleich","fr":"Correspondance de Motifs en Direct"},
+  "Capture Group Analyzer": {"es":"Analizador de Grupos de Captura","pt":"Analisador de Grupos de Captura","de":"Erfassungsgruppen-Analysator","fr":"Analyseur de Groupes de Capture"},
+  "Batch String Extractor": {"es":"Extractor de Cadenas por Lotes","pt":"Extrator de Strings em Lote","de":"Stapel-String-Extraktor","fr":"Extracteur de Chaînes par Lots"},
+  "Regex Cheat Sheet": {"es":"Hoja de Referencia Regex","pt":"Guia Rápido de Regex","de":"Regex-Spickzettel","fr":"Aide-mémoire Regex"},
+  "Gradients & Mesh": {"es":"Gradientes y Malla","pt":"Gradientes e Malha","de":"Farbverläufe & Mesh","fr":"Dégradés et Maillage"},
+  "Multi-Layer Shadows": {"es":"Sombras Multicapa","pt":"Sombras Multicamadas","de":"Mehrschichtige Schatten","fr":"Ombres Multicouches"},
+  "Frosted Glassmorphism": {"es":"Efecto Cristal Esmerilado","pt":"Efeito Vidro Fosco","de":"Milchglas-Effekt (Glassmorphism)","fr":"Effet Verre Dépoli (Glassmorphism)"},
+  "Clip Path Shapes": {"es":"Formas de Clip Path","pt":"Formas de Clip Path","de":"Clip-Path-Formen","fr":"Formes Découpées Clip Path"},
+  "WCAG 2.1 Contrast Ratios": {"es":"Ratios de Contraste WCAG 2.1","pt":"Proporções de Contraste WCAG 2.1","de":"WCAG 2.1 Kontrastverhältnisse","fr":"Ratios de Contraste WCAG 2.1"},
+  "Harmonic Palette Generator": {"es":"Generador de Paletas Armónicas","pt":"Gerador de Paletas Harmônicas","de":"Harmonischer Palettengenerator","fr":"Générateur de Palettes Harmoniques"},
+  "Tints, Shades & Opacities": {"es":"Tintes, Tonos y Opacidades","pt":"Tintas, Tons e Opacidades","de":"Farbtöne, Nuancen & Deckkraft","fr":"Teintes, Nuances et Opacités"},
+  "HEX / RGB / HSL Sync": {"es":"Sincronización HEX / RGB / HSL","pt":"Sincronização HEX / RGB / HSL","de":"HEX- / RGB- / HSL-Synchronisierung","fr":"Synchronisation HEX / RGB / HSL"},
+  "Password Generator": {"es":"Generador de Contraseñas","pt":"Gerador de Senhas","de":"Passwort-Generator","fr":"Générateur de Mots de Passe"},
+  "RFC 4122 v4 UUIDs": {"es":"UUIDs RFC 4122 v4","pt":"UUIDs RFC 4122 v4","de":"RFC 4122 v4 UUIDs","fr":"UUIDs RFC 4122 v4"},
+  "Bulk Key Generation": {"es":"Generación de Claves Masivas","pt":"Geração de Chaves em Massa","de":"Massen-Schlüsselgenerierung","fr":"Génération de Clés en Masse"},
+  "Hardware RNG Seeded": {"es":"Semilla RNG por Hardware","pt":"RNG Baseado em Hardware","de":"Hardware-RNG initialisiert","fr":"Génération RNG Matérielle"},
+  "Unix Epoch Converter": {"es":"Conversor Epoch Unix","pt":"Conversor Unix Epoch","de":"Unix-Epoch-Konverter","fr":"Convertisseur Epoch Unix"},
+  "Date Difference & Math": {"es":"Diferencia y Cálculos de Fechas","pt":"Diferença e Cálculo de Datas","de":"Datumsdifferenz & Berechnungen","fr":"Différence et Calcul de Dates"},
+  "Millisecond Mode": {"es":"Modo Milisegundos","pt":"Modo Milissegundos","de":"Millisekunden-Modus","fr":"Mode Millisecondes"},
+  "Local Timezone Sync": {"es":"Sincronización de Zona Horaria","pt":"Sincronização de Fuso Horário","de":"Lokale Zeitzonensynchronisierung","fr":"Synchronisation Fuseau Horaire"},
+  "Digital Storage (B to TB)": {"es":"Almacenamiento Digital (B a TB)","pt":"Armazenamento Digital (B a TB)","de":"Digitaler Speicher (B bis TB)","fr":"Stockage Numérique (o à To)"},
+  "Length / Weight / Temp": {"es":"Longitud / Peso / Temperatura","pt":"Comprimento / Peso / Temp","de":"Länge / Gewicht / Temperatur","fr":"Longueur / Poids / Température"},
+  "Real-time Bi-directional": {"es":"Bidireccional en Tiempo Real","pt":"Bidirecional em Tempo Real","de":"Bidirektional in Echtzeit","fr":"Bidirectionnel en Temps Réel"},
+  "High Precision Formula": {"es":"Fórmulas de Alta Precisión","pt":"Fórmulas de Alta Precisão","de":"Hochpräzise Berechnungen","fr":"Formules Haute Précision"},
+  "Webcam & Screen Capture": {"es":"Captura de Cámara y Pantalla","pt":"Captura de Webcam e Tela","de":"Webcam- & Bildschirmaufnahme","fr":"Capture Webcam & Écran"},
+  "Layered Canvas Editor": {"es":"Editor de Lienzo por Capas","pt":"Editor de Canvas em Camadas","de":"Ebenenbasierter Canvas-Editor","fr":"Éditeur de Canevas par Calques"},
+  "Cyberpunk & Vintage Filters": {"es":"Filtros Cyberpunk y Vintage","pt":"Filtros Cyberpunk e Vintage","de":"Cyberpunk- & Vintage-Filter","fr":"Filtres Cyberpunk et Vintage"},
+  "100% In-Browser GPU": {"es":"GPU 100% en el Navegador","pt":"GPU 100% no Navegador","de":"100% GPU-Beschleunigung im Browser","fr":"GPU 100% dans le Navigateur"},
+  "Scientific Math Functions": {"es":"Funciones Matemáticas Científicas","pt":"Funções Matemáticas Científicas","de":"Wissenschaftliche Mathefunktionen","fr":"Fonctions Mathématiques Scientifiques"},
+  "Trig, Log & Factorial": {"es":"Trigonometría, Logaritmos y Factorial","pt":"Trigonometria, Logaritmo e Fatorial","de":"Trigonometrie, Logarithmen & Fakultät","fr":"Trigonométrie, Logarithme & Factorielle"},
+  "Interactive History Reel": {"es":"Historial Interactivo de Cálculos","pt":"Histórico Interativo de Cálculos","de":"Interaktiver Verlaufsspeicher","fr":"Bobine d'Historique Interactif"},
+  "Constants Library (π, e)": {"es":"Biblioteca de Constantes (π, e)","pt":"Biblioteca de Constantes (π, e)","de":"Konstanten-Bibliothek (π, e)","fr":"Bibliothèque de Constantes (π, e)"},
+  "Gradient & Art QR Codes": {"es":"Códigos QR con Degradados y Arte","pt":"Códigos QR com Gradiente e Arte","de":"Gradienten- & Design-QR-Codes","fr":"Codes QR Artistiques et Dégradés"},
+  "Custom Dot & Eye Styles": {"es":"Puntos y Ojos Personalizados","pt":"Estilos de Pontos e Cantos Personalizados","de":"Individuelle Punkt- & Augenstile","fr":"Styles de Points et Yeux Personnalisés"},
+  "Center Logo Embedding": {"es":"Incrustación de Logo Central","pt":"Inserção de Logotipo Central","de":"Zentrales Logo einbetten","fr":"Intégration de Logo Central"},
+  "High-Res SVG & PNG Export": {"es":"Exportación SVG y PNG en Alta Resolución","pt":"Exportação SVG e PNG em Alta Resolução","de":"Hochauflösender SVG- & PNG-Export","fr":"Exportation Haute Résolution SVG & PNG"},
+  "Google SERP Mockup": {"es":"Simulador de Google SERP","pt":"Simulador de Resultados Google (SERP)","de":"Google-Suchergebnis-Vorschau (SERP)","fr":"Maquette SERP Google"},
+  "Facebook, X, Discord Cards": {"es":"Tarjetas para Facebook, X y Discord","pt":"Cartões para Facebook, X e Discord","de":"Facebook-, X- & Discord-Karten","fr":"Cartes Facebook, X et Discord"},
+  "OpenGraph Tag Builder": {"es":"Generador de Etiquetas OpenGraph","pt":"Gerador de Tags OpenGraph","de":"OpenGraph-Tag-Generator","fr":"Générateur de Balises OpenGraph"},
+  "Length Warnings": {"es":"Alertas de Longitud","pt":"Avisos de Comprimento","de":"Längenwarnungen","fr":"Avertissements de Longueur"},
+  "PNG / JPG / WebP Conversion": {"es":"Conversión a PNG / JPG / WebP","pt":"Conversão PNG / JPG / WebP","de":"PNG / JPG / WebP Konvertierung","fr":"Conversion PNG / JPG / WebP"},
+  "Lossless / Lossy Compression": {"es":"Compresión con / sin Pérdida","pt":"Compressão com / sem Perdas","de":"Verlustfreie / Verlustbehaftete Kompression","fr":"Compression Avec ou Sans Perte"},
+  "Resolution Rescaling": {"es":"Cambio de Resolución","pt":"Redimensionamento de Resolução","de":"Auflösung skalieren","fr":"Redimensionnement de Résolution"},
+  "Instant Local Download": {"es":"Descarga Local Instantánea","pt":"Download Local Instantâneo","de":"Sofortiger lokaler Download","fr":"Téléchargement Local Instantané"},
+  "Keyframe Path Animations": {"es":"Animaciones de Trazos con Keyframes","pt":"Animações de Caminhos por Keyframes","de":"Keyframe-Pfadanimationen","fr":"Animations de Tracé par Images Clés"},
+  "Self-Drawing & Neon Presets": {"es":"Efectos Auto-Dibujo y Neón","pt":"Predefinições de Auto-Desenho e Neon","de":"Selbstzeichnende & Neon-Vorlagen","fr":"Préréglages Auto-Traçage et Néon"},
+  "Live Interactive Playback": {"es":"Reproducción Interactiva en Vivo","pt":"Reprodução Interativa em Tempo Real","de":"Interaktive Live-Wiedergabe","fr":"Lecture Interactive en Direct"},
+  "Pure Animated SVG Export": {"es":"Exportación SVG Animado Puro","pt":"Exportação SVG Animado Puro","de":"Reiner animierter SVG-Export","fr":"Export SVG Animé Pur"},
+  "Query Parameter Breakdown": {"es":"Desglose de Parámetros de Consulta","pt":"Detalhamento de Parâmetros de URL","de":"Query-Parameter aufschlüsseln","fr":"Ventilation des Paramètres de Requête"},
+  "Key-Value Live Editor": {"es":"Editor Clave-Valor en Tiempo Real","pt":"Editor Chave-Valor em Tempo Real","de":"Schlüssel-Wert-Live-Editor","fr":"Éditeur Clé-Valeur en Direct"},
+  "Path & Protocol Inspector": {"es":"Inspector de Ruta y Protocolo","pt":"Inspetor de Rota e Protocolo","de":"Pfad- & Protokoll-Inspektor","fr":"Inspecteur de Chemin et Protocole"},
+  "Automatic URL Encoding": {"es":"Codificación URL Automática","pt":"Codificação Automática de URL","de":"Automatische URL-Kodierung","fr":"Encodage URL Automatique"},
+  "Flesch Reading Ease Score": {"es":"Puntuación de Facilidad Lectora Flesch","pt":"Índice de Legibilidade Flesch","de":"Flesch-Lesbarkeitsindex","fr":"Indice de Lisibilité Flesch"},
+  "Word & Character Counter": {"es":"Contador de Palabras y Caracteres","pt":"Contador de Palavras e Caracteres","de":"Wort- & Zeichenzähler","fr":"Compteur de Mots et Caractères"},
+  "Reading & Speaking Time": {"es":"Tiempo de Lectura y Locución","pt":"Tempo de Leitura e Fala","de":"Lese- & Sprechzeit","fr":"Temps de Lecture et d'Élocution"},
+  "Top Keyword Density": {"es":"Densidad de Palabras Clave","pt":"Densidade de Palavras-Chave","de":"Keyword-Dichte-Analyse","fr":"Densité des Mots-Clés Principaux"},
+  "Schema-Driven Row Builder": {"es":"Generador de Filas basado en Esquema","pt":"Gerador de Linhas Baseado em Esquema","de":"Schemagesteuerter Zeilengenerator","fr":"Générateur de Lignes selon Schéma"},
+  "Up to 50,000 Rows": {"es":"Hasta 50.000 Filas","pt":"Até 50.000 Linhas","de":"Bis zu 50.000 Zeilen","fr":"Jusqu'à 50 000 Lignes"},
+  "Names, Emails, Dates, UUIDs": {"es":"Nombres, Emails, Fechas, UUIDs","pt":"Nomes, Emails, Datas, UUIDs","de":"Namen, E-Mails, Daten, UUIDs","fr":"Noms, E-mails, Dates, UUIDs"},
+  "CSV & JSON Export": {"es":"Exportación CSV y JSON","pt":"Exportação CSV e JSON","de":"CSV- & JSON-Export","fr":"Exportation CSV et JSON"},
+  "Central Ad Management": {"es":"Gestión Centralizada de Anuncios","pt":"Gerenciamento Central de Anúncios","de":"Zentrale Anzeigenverwaltung","fr":"Gestion Centralisée des Publicités"},
+  "Google AdSense & AdMob IDs": {"es":"IDs de Google AdSense y AdMob","pt":"IDs do Google AdSense e AdMob","de":"Google AdSense & AdMob IDs","fr":"Identifiants Google AdSense & AdMob"},
+  "Zero Server Config": {"es":"Cero Configuración en Servidor","pt":"Zero Configuração no Servidor","de":"Keine Serverkonfiguration","fr":"Zéro Configuration Serveur"},
+  "Encrypted Passcode Lock": {"es":"Bloqueo con Código Cifrado","pt":"Bloqueio com Código Criptografado","de":"Verschlüsselte Passcode-Sperre","fr":"Verrouillage par Code Chiffré"},
+  "HTML/CSS/JS Sandbox": {"es":"Entorno Sandbox HTML/CSS/JS","pt":"Sandbox HTML/CSS/JS","de":"HTML/CSS/JS-Sandbox","fr":"Bac à Sable HTML/CSS/JS"},
+  "Live Iframe Rendering": {"es":"Renderizado en Iframe en Tiempo Real","pt":"Renderização em Iframe em Tempo Real","de":"Live-Iframe-Darstellung","fr":"Rendu Iframe en Direct"},
+  "Simulated Console Diagnostics": {"es":"Diagnósticos de Consola Simulados","pt":"Diagnósticos de Console Simulados","de":"Simulierte Konsolendiagnose","fr":"Diagnostics de Console Simulés"},
+  "Zero-Setup Prototyping": {"es":"Prototipado sin Configuración Previa","pt":"Prototipagem Sem Instalação","de":"Konfigurationsfreies Prototyping","fr":"Prototypage Sans Configuration"},
+  "CIDR & Subnet Range Calc": {"es":"Cálculo de Rangos CIDR y Subred","pt":"Cálculo de Faixa CIDR e Sub-rede","de":"CIDR- & Subnetzbereich-Rechner","fr":"Calcul de Plage CIDR et Sous-réseau"},
+  "Broadcast & Usable Hosts": {"es":"Dirección Broadcast y Hosts Útiles","pt":"Broadcast e Hosts Utilizáveis","de":"Broadcast & nutzbare Hosts","fr":"Diffusion & Hôtes Utilisables"},
+  "MAC OUI Vendor Lookup": {"es":"Búsqueda de Fabricante OUI MAC","pt":"Consulta de Fabricante OUI MAC","de":"MAC-OUI-Herstellersuche","fr":"Recherche de Fabricant MAC OUI"},
+  "Binary Mask Visualizer": {"es":"Visualizador de Máscara Binaria","pt":"Visualizador de Máscara Binária","de":"Binärmasken-Visualisierer","fr":"Visualiseur de Masque Binaire"},
+  "Fetch, Axios, Requests, Go": {"es":"Fetch, Axios, Requests, Go","pt":"Fetch, Axios, Requests, Go","de":"Fetch, Axios, Requests, Go","fr":"Fetch, Axios, Requests, Go"},
+  "Auto Auth & Header Parser": {"es":"Analizador Automático de Auth y Headers","pt":"Análise Automática de Autenticação e Cabeçalhos","de":"Auto-Authentifizierung & Header-Parser","fr":"Analyseur Auto Auth & En-têtes"},
+  "JSON Body Formatter": {"es":"Formateador de Cuerpo JSON","pt":"Formatador de Corpo JSON","de":"JSON-Body-Formatierer","fr":"Formateur de Corps JSON"},
+  "ES6 Async/Await Ready": {"es":"Compatible con ES6 Async/Await","pt":"Compatível com ES6 Async/Await","de":"ES6 Async/Await einsatzbereit","fr":"Prêt pour ES6 Async/Await"},
+  "Visual 5-Field Builder": {"es":"Constructor Visual de 5 Campos","pt":"Construtor Visual de 5 Campos","de":"Visueller 5-Felder-Editor","fr":"Générateur Visuel à 5 Champs"},
+  "Plain English Explainer": {"es":"Explicación en Lenguaje Natural","pt":"Explicação em Linguagem Simples","de":"Verständliche Klartexterklärung","fr":"Explication en Langage Clair"},
+  "Next 5 Execution Times": {"es":"Próximas 5 Ejecuciones","pt":"Próximas 5 Execuções","de":"Nächste 5 Ausführungszeiten","fr":"5 Prochaines Exécutions"},
+  "Standard Cron Syntax": {"es":"Sintaxis Cron Estándar","pt":"Sintaxe Cron Padrão","de":"Standard-Cron-Syntax","fr":"Syntaxe Cron Standard"},
+  "TypeScript & Python Pydantic": {"es":"TypeScript y Python Pydantic","pt":"TypeScript e Python Pydantic","de":"TypeScript & Python Pydantic","fr":"TypeScript & Python Pydantic"},
+  "Go Structs & Rust Serde": {"es":"Go Structs y Rust Serde","pt":"Estruturas Go e Rust Serde","de":"Go-Structs & Rust Serde","fr":"Structures Go & Rust Serde"},
+  "Recursive Nested Interfaces": {"es":"Interfaces Anidadas Recursivas","pt":"Interfaces Aninhadas Recursivas","de":"Rekursiv verschachtelte Schnittstellen","fr":"Interfaces Imbriquées Récursives"},
+  "100% In-Browser Types": {"es":"Tipos 100% en el Navegador","pt":"Tipos 100% no Navegador","de":"100% Typengenerierung im Browser","fr":"Types 100% dans le Navigateur"},
+  "Visual Crawl Rule Builder": {"es":"Generador Visual de Reglas de Rastreo","pt":"Construtor Visual de Regras de Rastreador","de":"Visueller Crawl-Regel-Editor","fr":"Générateur Visuel de Règles de Crawl"},
+  "AI Bot Scraper Shield": {"es":"Escudo Anti-Bots de IA","pt":"Escudo Contra Bots de IA","de":"KI-Bot-Scraper-Schutz","fr":"Bouclier Anti-Scraping IA"},
+  "XML Sitemap Integration": {"es":"Integración de Sitemap XML","pt":"Integração com Sitemap XML","de":"XML-Sitemap-Integration","fr":"Intégration Sitemap XML"},
+  "One-Click Robots.txt Export": {"es":"Exportación de Robots.txt en 1 Clic","pt":"Exportação de Robots.txt em 1 Clique","de":"Robots.txt-Export mit 1 Klick","fr":"Exportation Robots.txt en 1 Clic"},
+  "Latin, Cyber & Corporate Modes": {"es":"Modos Latín, Cyber y Corporativo","pt":"Modos Latim, Cyber e Corporativo","de":"Latein-, Cyber- & Unternehmensmodus","fr":"Modes Latin, Cyber et Entreprise"},
+  "Paragraphs, Lists & Words": {"es":"Párrafos, Listas y Palabras","pt":"Parágrafos, Listas e Palavras","de":"Absätze, Listen & Wörter","fr":"Paragraphes, Listes et Mots"},
+  "HTML, Markdown & JSON Formats": {"es":"Formatos HTML, Markdown y JSON","pt":"Formatos HTML, Markdown e JSON","de":"HTML-, Markdown- & JSON-Formate","fr":"Formats HTML, Markdown & JSON"},
+  "Live Word & Char Counters": {"es":"Contadores de Palabras y Caracteres en Vivo","pt":"Contadores de Palavras e Caracteres em Tempo Real","de":"Echtzeit-Wort- & Zeichenzähler","fr":"Compteurs Mots & Caractères en Direct"},
+  "Webcam & Live Camera Scanning": {"es":"Escaneo con Cámara en Directo","pt":"Leitura com Câmera ao Vivo","de":"Webcam- & Live-Kamera-Scanning","fr":"Numérisation par Caméra en Direct"},
+  "File Drop & Clipboard Paste": {"es":"Arrastrar Archivo y Pegar Portapapeles","pt":"Arrastar Arquivo e Colar Transferência","de":"Datei ablegen & Zwischenablage einfügen","fr":"Dépôt de Fichier & Presse-papiers"},
+  "Smart URL, WiFi & Action Detect": {"es":"Detección Inteligente de URL, WiFi y Acciones","pt":"Detecção Inteligente de URL, WiFi e Ações","de":"Intelligente URL-, WLAN- & Aktionserkennung","fr":"Détection Intelligente URL, WiFi & Actions"},
+  "100% In-Browser Privacy": {"es":"Privacidad 100% en el Navegador","pt":"Privacidade 100% no Navegador","de":"100% Privatsphäre im Browser","fr":"Confidentialité 100% dans le Navigateur"},
+  "Dominant Palette Quantization": {"es":"Cuantificación de Paleta Dominante","pt":"Quantização de Paleta Dominante","de":"Dominante Farbpaletten-Quantisierung","fr":"Quantification de Palette Dominante"},
+  "Zoom Magnifier Eyedropper": {"es":"Cuentagotas con Lupa de Aumento","pt":"Conta-gotas com Lupa de Ampliação","de":"Zoom-Pipette mit Lupe","fr":"Pipette avec Loupe Grossissante"},
+  "WCAG 2.1 Contrast Testing": {"es":"Prueba de Contraste WCAG 2.1","pt":"Teste de Contraste WCAG 2.1","de":"WCAG 2.1 Kontrastprüfung","fr":"Test de Contraste WCAG 2.1"},
+  "CSS, Tailwind & JSON Export": {"es":"Exportación a CSS, Tailwind y JSON","pt":"Exportação para CSS, Tailwind e JSON","de":"CSS-, Tailwind- & JSON-Export","fr":"Exportation CSS, Tailwind & JSON"},
+  "Multi-Resolution .ICO Compiler": {"es":"Compilador .ICO Multi-Resolución","pt":"Compilador .ICO Multi-Resolução","de":"Multi-Resolution .ICO-Compiler","fr":"Compilateur .ICO Multi-Résolution"},
+  "Apple Touch & Android PWA Icons": {"es":"Iconos Apple Touch y PWA Android","pt":"Ícones Apple Touch e PWA Android","de":"Apple Touch & Android PWA Icons","fr":"Icônes Apple Touch & PWA Android"},
+  "Live Tab & Screen Previews": {"es":"Vistas Previas de Pestaña y Pantalla","pt":"Prévias em Tempo Real de Aba e Tela","de":"Live-Tab- & Bildschirm-Vorschau","fr":"Aperçus d'Onglet et d'Écran en Direct"},
+  "All-in-One ZIP Package": {"es":"Paquete ZIP Todo en Uno","pt":"Pacote ZIP Tudo-em-Um","de":"All-in-One ZIP-Archiv","fr":"Archive ZIP Complète Tout-en-Un"},
+  "JPG, PNG & WebP to PDF": {"es":"JPG, PNG y WebP a PDF","pt":"JPG, PNG e WebP para PDF","de":"JPG, PNG & WebP zu PDF","fr":"JPG, PNG et WebP vers PDF"},
+  "Visual Reorder & Rotate Board": {"es":"Panel Visual para Reordenar y Rotar","pt":"Painel Visual para Reordenar e Girar","de":"Visuelles Sortier- & Dreh-Board","fr":"Panneau Visuel de Réorganisation et Rotation"},
+  "A4, Letter & Fit Page Sizes": {"es":"Tamaños A4, Carta y Ajuste de Página","pt":"Formatos A4, Carta e Ajuste Automático","de":"A4-, US-Letter- & automatische Formate","fr":"Formats A4, Lettre et Ajusté"},
+  "Pure Client-Side PDF-Lib": {"es":"PDF-Lib 100% del Lado del Cliente","pt":"PDF-Lib 100% no Navegador","de":"Reines clientseitiges PDF-Lib","fr":"PDF-Lib 100% Côté Client"},
+  "Native Tab & Screen Snip": {"es":"Captura Nativa de Pestaña y Pantalla","pt":"Captura Nativa de Aba e Tela","de":"Natives Tab- & Bildschirmfoto","fr":"Capture Native d'Onglet et d'Écran"},
+  "macOS & Windows Mockup": {"es":"Maquetas de macOS y Windows","pt":"Mockups de macOS e Windows","de":"macOS- & Windows-Mockups","fr":"Maquettes macOS et Windows"},
+  "PII & Password Redaction": {"es":"Censura de Datos Personales y Contraseñas","pt":"Ocultação de Dados Pessoais e Senhas","de":"Schwärzung von sensiblen Daten & Passwörtern","fr":"Caviardage Données Personnelles & Mots de Passe"},
+  "1-Click Clipboard Copy": {"es":"Copia al Portapapeles en 1 Clic","pt":"Cópia para Área de Transferência em 1 Clique","de":"1-Klick-Kopieren in Zwischenablage","fr":"Copie dans le Presse-papiers en 1 Clic"},
+  "Screen, Window & Tab Capture": {"es":"Captura de Pantalla, Ventana y Pestaña","pt":"Captura de Tela, Janela e Aba","de":"Bildschirm-, Fenster- & Tab-Aufnahme","fr":"Capture d'Écran, Fenêtre et Onglet"},
+  "Mic Commentary Audio Mix": {"es":"Mezcla de Audio de Micrófono","pt":"Mixagem de Áudio do Microfone","de":"Mikrofon-Kommentaraudio-Mix","fr":"Mixage Audio du Microphone"},
+  "60 FPS / 1080p / 4K Modes": {"es":"Modos 60 FPS / 1080p / 4K","pt":"Modos 60 FPS / 1080p / 4K","de":"60 FPS / 1080p / 4K Modi","fr":"Modes 60 FPS / 1080p / 4K"},
+  "WebM & MP4 Download": {"es":"Descarga en WebM y MP4","pt":"Download em WebM e MP4","de":"WebM- & MP4-Download","fr":"Téléchargement WebM & MP4"},
+  "Studio-Grade Vocals": {"es":"Voces de Calidad de Estudio","pt":"Áudio Vocal de Estúdio","de":"Studioqualität für Gesang & Sprache","fr":"Voix de Qualité Studio"},
+  "Live Spectrum & Oscilloscope": {"es":"Espectro y Osciloscopio en Tiempo Real","pt":"Espectro e Osciloscópio em Tempo Real","de":"Echtzeit-Spektrum & Oszilloskop","fr":"Spectre et Oscilloscope en Direct"},
+  "Lossless 16-bit WAV Export": {"es":"Exportación WAV de 16 bits sin Pérdidas","pt":"Exportação WAV de 16 bits Sem Perdas","de":"Verlustfreier 16-Bit-WAV-Export","fr":"Exportation WAV 16 bits Sans Perte"},
+  "Noise & Echo Suppression": {"es":"Supresión de Ruido y Eco","pt":"Supressão de Ruído e Eco","de":"Rausch- & Echounterdrückung","fr":"Suppression du Bruit et de l'Écho"},
+  "0.1x to 4.0x Speed Control": {"es":"Control de Velocidad 0.1x a 4.0x","pt":"Controle de Velocidade 0.1x a 4.0x","de":"0.1x bis 4.0x Geschwindigkeitssteuerung","fr":"Contrôle de Vitesse de 0.1x à 4.0x"},
+  "Frame-by-Frame Stepper": {"es":"Paso a Paso Cuadro por Cuadro","pt":"Avanço Quadro a Quadro","de":"Bild-für-Bild-Steuerung","fr":"Avance Image par Image"},
+  "Pitch Preservation Engine": {"es":"Motor de Preservación de Tono","pt":"Motor de Preservação de Tom","de":"Tonhöhen-Erhaltungs-Engine","fr":"Moteur de Préservation de la Hauteur Tonale"},
+  "Continuous A-B Loop Repeater": {"es":"Repetidor Continuo de Bucle A-B","pt":"Repetidor de Loop A-B Contínuo","de":"Kontinuierlicher A-B-Schleifenwiederholer","fr":"Répéteur de Boucle A-B Continu"},
+  "Video to Audio Extraction": {"es":"Extracción de Audio desde Video","pt":"Extração de Áudio de Vídeo","de":"Video-zu-Audio-Extraktion","fr":"Extraction Audio à partir de Vidéo"},
+  "Interactive Audio Waveform": {"es":"Forma de Onda de Audio Interactiva","pt":"Forma de Onda de Áudio Interativa","de":"Interaktive Audiowellenform","fr":"Forme d'Onde Audio Interactive"},
+  "Sub-Second Range Trimming": {"es":"Recorte Preciso de Sub-Segundos","pt":"Corte Preciso com Frações de Segundo","de":"Präziser Sub-Sekunden-Zuschnitt","fr":"Découpage Précis à la Sous-Seconde"},
+  "Studio WAV & WebM Export": {"es":"Exportación WAV y WebM de Estudio","pt":"Exportação em WAV e WebM de Estúdio","de":"Studio-WAV- & WebM-Export","fr":"Exportation Studio WAV & WebM"},
+  "Video to Animated GIF": {"es":"Video a GIF Animado","pt":"Vídeo para GIF Animado","de":"Video zu animiertem GIF","fr":"Vidéo vers GIF Animé"},
+  "Custom Resolution & FPS": {"es":"Resolución y FPS Personalizados","pt":"Resolução e FPS Personalizados","de":"Individuelle Auflösung & FPS","fr":"Résolution & FPS Personnalisés"},
+  "Frame-by-Frame Progress": {"es":"Progreso Cuadro por Cuadro","pt":"Progresso Quadro a Quadro","de":"Bild-für-Bild-Fortschritt","fr":"Progression Image par Image"},
+  "Pure Client-Side LZW": {"es":"Compresión LZW 100% en el Navegador","pt":"Compressão LZW 100% no Cliente","de":"Reine clientseitige LZW-Kompression","fr":"Compression LZW 100% Côté Client"},
+  "Instant Throwaway Address": {"es":"Dirección Desechable Instantánea","pt":"Endereço Descartável Instantâneo","de":"Sofortige Wegwerf-E-Mail-Adresse","fr":"Adresse Jetable Instantanée"},
+  "10-Second Auto Refresh": {"es":"Actualización Automática cada 10s","pt":"Atualização Automática a Cada 10s","de":"Automatische 10-Sekunden-Aktualisierung","fr":"Actualisation Automatique Toutes les 10s"},
+  "Built-in HTML Email Viewer": {"es":"Visor Integrado de Correos HTML","pt":"Visualizador Integrado de Emails HTML","de":"Integrierter HTML-E-Mail-Viewer","fr":"Visionneuse E-mail HTML Intégrée"},
+  "100% Free & No Registration": {"es":"100% Gratis y Sin Registro","pt":"100% Gratuito e Sem Registro","de":"100% Kostenlos & Keine Registrierung","fr":"100% Gratuit et Sans Inscription"},
+  "Draw, Type & Stamp Signatures": {"es":"Dibujar, Escribir y Estampar Firmas","pt":"Desenhar, Digitar e Estampar Assinaturas","de":"Zeichnen, Tippen & Stempeln von Signaturen","fr":"Dessiner, Taper et Tamponner des Signatures"},
+  "Interactive Visual Placement": {"es":"Colocación Visual Interactiva","pt":"Posicionamento Visual Interativo","de":"Interaktive visuelle Platzierung","fr":"Placement Visuel Interactif"},
+  "Multi-Page PDF Support": {"es":"Compatibilidad con PDF Multipágina","pt":"Suporte a PDFs com Múltiplas Páginas","de":"Mehrseitige PDF-Unterstützung","fr":"Support PDF Multi-Pages"},
+  "100% Client-Side PDF-Lib": {"es":"PDF-Lib 100% en el Navegador","pt":"PDF-Lib 100% no Cliente","de":"100% clientseitiges PDF-Lib","fr":"PDF-Lib 100% Côté Client"},
+  "AES Password Protection": {"es":"Protección con Contraseña AES","pt":"Proteção por Senha AES","de":"AES-Passwortschutz","fr":"Protection par Mot de Passe AES"},
+  "Unlock & Decrypt PDFs": {"es":"Desbloquear y Descifrar PDFs","pt":"Desbloquear e Descriptografar PDFs","de":"PDFs entsperren & entschlüsseln","fr":"Déverrouiller & Déchiffrer les PDF"},
+  "Print & Copy Restrictions": {"es":"Restricciones de Impresión y Copia","pt":"Restrições de Impressão e Cópia","de":"Druck- & Kopierbeschränkungen","fr":"Restrictions d'Impression et de Copie"},
+  "Zero Cloud Uploads": {"es":"Cero Cargas a la Nube","pt":"Zero Uploads para a Nuvem","de":"Keine Cloud-Uploads","fr":"Zéro Téléversement Cloud"},
+  "Angled & Horizontal Watermarks": {"es":"Marcas de Agua Anguladas y Horizontales","pt":"Marcas d'Água Inclinadas e Horizontais","de":"Diagonale & horizontale Wasserzeichen","fr":"Filigranes Obliques et Horizontaux"},
+  "Dynamic Page Numbers (X of Y)": {"es":"Números de Página Dinámicos (X de Y)","pt":"Numeração Dinâmica de Páginas (X de Y)","de":"Dynamische Seitenzahlen (X von Y)","fr":"Numérotation Dynamique (X sur Y)"},
+  "Color, Opacity & Font Scale": {"es":"Color, Opacidad y Escala de Fuente","pt":"Cor, Opacidade e Tamanho da Fonte","de":"Farbe, Deckkraft & Schriftgröße","fr":"Couleur, Opacité et Taille de Police"},
+  "Skip First Page Cover Option": {"es":"Opción de Omitir Portada","pt":"Opção de Ignorar Capa da Primeira Página","de":"Option: Deckblatt überspringen","fr":"Option d'Omission de la Couverture"},
+  "Drag & Reorder Page Grid": {"es":"Arrastrar y Reordenar Cuadrícula de Páginas","pt":"Arrastar e Reordenar Grade de Páginas","de":"Seitenraster per Drag & Drop sortieren","fr":"Glisser-Déposer pour Réorganiser les Pages"},
+  "90° Page Rotation": {"es":"Rotación de Página a 90°","pt":"Rotação de Página em 90°","de":"90° Seitendrehung","fr":"Rotation de Page à 90°"},
+  "Delete Unwanted Pages": {"es":"Eliminar Páginas No Deseadas","pt":"Excluir Páginas Indesejadas","de":"Unerwünschte Seiten löschen","fr":"Supprimer les Pages Inutiles"},
+  "High-Fidelity Thumbnails": {"es":"Miniaturas de Alta Fidelidad","pt":"Miniaturas de Alta Fidelidade","de":"Hochpräzise Seitenvorschauen","fr":"Vignettes Haute Fidélité"},
+  "Visual Bounding Box Crop": {"es":"Recorte Visual con Caja Delimitadora","pt":"Corte Visual por Caixa Delimitadora","de":"Visueller Zuschnitt mit Bounding-Box","fr":"Recadrage Visuel par Boîte Délimitante"},
+  "All / Even / Odd Scope": {"es":"Alcance: Todas / Pares / Impares","pt":"Escopo: Todas / Pares / Ímpares","de":"Umfang: Alle / Gerade / Ungerade Seiten","fr":"Portée : Toutes / Paires / Impaires"},
+  "Millimeter & Point Margins": {"es":"Márgenes en Milímetros y Puntos","pt":"Margens em Milímetros e Pontos","de":"Millimeter- & Punkt-Ränder","fr":"Marges en Millimètres et Points"},
+  "MediaBox & CropBox Engine": {"es":"Motor de MediaBox y CropBox","pt":"Motor de MediaBox e CropBox","de":"MediaBox- & CropBox-Engine","fr":"Moteur MediaBox & CropBox"},
+  "Fill Interactive AcroForms": {"es":"Rellenar Formularios AcroForm Interactivos","pt":"Preencher Formulários AcroForm Interativos","de":"Interaktive AcroForms ausfüllen","fr":"Remplir Formulaires AcroForm Interactifs"},
+  "Text, Checks & Dropdowns": {"es":"Campos de Texto, Casillas y Desplegables","pt":"Campos de Texto, Caixas e Menus","de":"Textfelder, Kontrollkästchen & Dropdowns","fr":"Champs Texte, Cases et Listes Déroulantes"},
+  "Flatten & Lock Fields": {"es":"Aplanar y Bloquear Campos","pt":"Mesclar e Bloquear Campos","de":"Felder reduzieren & sperren (Flatten)","fr":"Aplatir et Verrouiller les Champs"},
+  "Export Filled Documents": {"es":"Exportar Documentos Completados","pt":"Exportar Documentos Preenchidos","de":"Ausgefüllte Dokumente exportieren","fr":"Exporter les Documents Remplis"},
+  "Permanent Stream Redaction": {"es":"Censura Permanente de Contenido","pt":"Ocultação Permanente de Fluxo","de":"Dauerhafte Schwärzung im PDF-Stream","fr":"Caviardage Définitif de Flux"},
+  "Blackout & Whiteout Boxes": {"es":"Cuadros de Censura Negros y Blancos","pt":"Caixas de Tarja Preta e Branca","de":"Schwarze & weiße Abdeckungsblöcke","fr":"Zones de Caviardage Noires et Blanches"},
+  "Scrub PII & Financial Data": {"es":"Eliminar Datos Personales y Financieros","pt":"Remover Dados Pessoais e Financeiros","de":"Personenbezogene & Finanzdaten bereinigen","fr":"Purger Données Personnelles et Financières"},
+  "Zero Server Transmission": {"es":"Cero Transmisión a Servidores","pt":"Zero Transmissão para Servidores","de":"Keine Serverübertragung","fr":"Zéro Transmission au Serveur"},
+  "Excel to PDF & PDF to Excel": {"es":"Excel a PDF y PDF a Excel","pt":"Excel para PDF e PDF para Excel","de":"Excel zu PDF & PDF zu Excel","fr":"Excel vers PDF et PDF vers Excel"},
+  "Multi-Sheet Tabs Supported": {"es":"Compatibilidad con Varias Hojas","pt":"Suporte a Múltiplas Abas/Planilhas","de":"Unterstützung mehrerer Arbeitsblätter","fr":"Prise en Charge Multi-Feuilles"},
+  "Zebra & Grid Themes": {"es":"Estilos Cebra y Cuadrícula","pt":"Estilos Zebrado e Grade","de":"Zebra- & Gitter-Designs","fr":"Thèmes Zébré et Grille"},
+  "Pure In-Browser SheetJS": {"es":"SheetJS 100% en el Navegador","pt":"SheetJS 100% no Navegador","de":"Reines SheetJS im Browser","fr":"SheetJS Pur dans le Navigateur"},
+  "DOCX to PDF & PDF to Word": {"es":"DOCX a PDF y PDF a Word","pt":"DOCX para PDF e PDF para Word","de":"DOCX zu PDF & PDF zu Word","fr":"DOCX vers PDF et PDF vers Word"},
+  "Preserves Tables & Headings": {"es":"Conserva Tablas y Encabezados","pt":"Preserva Tabelas e Títulos","de":"Behält Tabellen & Überschriften bei","fr":"Conserve Tableaux et Titres"},
+  "Native Word (.docx) Export": {"es":"Exportación Nativa a Word (.docx)","pt":"Exportação Nativa para Word (.docx)","de":"Nativer Word-Export (.docx)","fr":"Exportation Native Word (.docx)"},
+  "100% Client-Side Privacy": {"es":"Privacidad 100% del Lado del Cliente","pt":"Privacidade 100% no Cliente","de":"100% clientseitige Privatsphäre","fr":"Confidentialité 100% Côté Client"},
+  "Live HTML/CSS Sandbox": {"es":"Entorno Sandbox HTML/CSS en Vivo","pt":"Sandbox HTML/CSS em Tempo Real","de":"Live-HTML/CSS-Sandbox","fr":"Bac à Sable HTML/CSS en Direct"},
+  "Pre-Built Invoice Templates": {"es":"Plantillas de Factura Predefinidas","pt":"Modelos Prontos de Fatura","de":"Vorgefertigte Rechnungsvorlagen","fr":"Modèles de Facture Prêts à l'Emploi"},
+  "Page-Break CSS Controls": {"es":"Control de Saltos de Página CSS","pt":"Controles CSS de Quebra de Página","de":"CSS-Seitenumbruch-Steuerung","fr":"Contrôles CSS de Saut de Page"},
+  "Crisp 3x Retina Scaling": {"es":"Escalado Nítido Retina 3x","pt":"Escala Nítida Retina 3x","de":"Gestochen scharfe 3x Retina-Skalierung","fr":"Mise à l'Échelle Retina 3x Ultra-Nette"},
+  "PDF to GitHub Markdown (GFM)": {"es":"PDF a GitHub Markdown (GFM)","pt":"PDF para GitHub Markdown (GFM)","de":"PDF zu GitHub Markdown (GFM)","fr":"PDF vers GitHub Markdown (GFM)"},
+  "Auto Heading (#) Detection": {"es":"Detección Automática de Títulos (#)","pt":"Detecção Automática de Títulos (#)","de":"Automatische Überschriftenerkennung (#)","fr":"Détection Automatique des Titres (#)"},
+  "Pipe Table Conversion": {"es":"Conversión de Tablas con Barra (|)","pt":"Conversão de Tabelas com Barras (|)","de":"Pipe-Tabellen-Konvertierung","fr":"Conversion de Tableaux Markdown (|)"},
+  "One-Click .md Download": {"es":"Descarga de .md en 1 Clic","pt":"Download de .md em 1 Clique","de":".md-Download mit 1 Klick","fr":"Téléchargement .md en 1 Clic"},
+  "Executive Bullet Summaries": {"es":"Resúmenes Ejecutivos en Viñetas","pt":"Resumos Executivos em Tópicos","de":"Zusammenfassungen in Stichpunkten","fr":"Synthèses Exécutives à Puces"},
+  "Action Items & Deadlines": {"es":"Tareas Pendientes y Plazos","pt":"Itens de Ação e Prazos","de":"Aktionspunkte & Fristen","fr":"Actions à Mener & Échéances"},
+  "15+ Language Translations": {"es":"Traducción a Más de 15 Idiomas","pt":"Tradução para Mais de 15 Idiomas","de":"Übersetzungen in über 15 Sprachen","fr":"Traductions en Plus de 15 Langues"},
+  "Google Gemini & Offline NLP": {"es":"Google Gemini y PLN Offline","pt":"Google Gemini e PNL Offline","de":"Google Gemini & Offline-NLP","fr":"Google Gemini & Traitement NLP Hors Ligne"},
+  "Live Camera Viewfinder": {"es":"Visor de Cámara en Directo","pt":"Visor de Câmera em Tempo Real","de":"Live-Kamera-Sucher","fr":"Viseur de Caméra en Direct"},
+  "Multi-Page Rapid Snapping": {"es":"Captura Rápida Multipágina","pt":"Captura Rápida de Múltiplas Páginas","de":"Schnelle mehrseitige Erfassung","fr":"Prise Rapide Multi-Pages"},
+  "B&W Document Contrast Filter": {"es":"Filtro de Contraste B/N para Documentos","pt":"Filtro de Contraste P&B para Documentos","de":"S/W-Dokumentenkontrastfilter","fr":"Filtre de Contraste Document N&B"},
+  "Single/Multi-Page PDF Export": {"es":"Exportación PDF de Una o Múltiples Páginas","pt":"Exportação em PDF de Página Única/Múltipla","de":"Ein-/Mehrseitiger PDF-Export","fr":"Exportation PDF Simple ou Multi-Pages"},
+  "PowerPoint (.pptx) to PDF": {"es":"PowerPoint (.pptx) a PDF","pt":"PowerPoint (.pptx) para PDF","de":"PowerPoint (.pptx) zu PDF","fr":"PowerPoint (.pptx) vers PDF"},
+  "PDF to PowerPoint Slides": {"es":"PDF a Diapositivas de PowerPoint","pt":"PDF para Diapositivos do PowerPoint","de":"PDF zu PowerPoint-Folien","fr":"PDF vers Diapositives PowerPoint"},
+  "PptxGenJS Vector Slides": {"es":"Diapositivas Vectoriales PptxGenJS","pt":"Diapositivos Vetoriais PptxGenJS","de":"PptxGenJS Vektorfolien","fr":"Diapositives Vectorielles PptxGenJS"},
+  "100% Client-Side Conversion": {"es":"Conversión 100% del Lado del Cliente","pt":"Conversão 100% no Cliente","de":"100% clientseitige Konvertierung","fr":"Conversion 100% Côté Client"},
+  "Visual Page Comparison": {"es":"Comparación Visual de Páginas","pt":"Comparação Visual de Páginas","de":"Visueller Seitenvergleich","fr":"Comparaison Visuelle de Pages"},
+  "Pixel Difference Heatmap": {"es":"Mapa Térmico de Diferencia de Píxeles","pt":"Mapa de Calor de Diferença de Pixels","de":"Pixel-Differenz-Heatmap","fr":"Carte Thermique des Différences de Pixels"},
+  "Interactive Wipe Slider": {"es":"Deslizador Interactivo de Comparación","pt":"Controle Deslizante Interativo de Comparação","de":"Interaktiver Schieberegler-Vergleich","fr":"Curseur de Comparaison Interactif"},
+  "Text & Clause Diff Export": {"es":"Exportación de Diferencias de Texto y Cláusulas","pt":"Exportação de Diferenças de Texto e Cláusulas","de":"Text- & Klausel-Diff-Export","fr":"Exportation des Différences de Texte & Clauses"},
+  "Freehand Pen & Highlighter": {"es":"Lápiz a Mano Alzada y Resaltador","pt":"Caneta Livre e Marca-texto","de":"Freihandstift & Textmarker","fr":"Stylet à Main Levée et Surligneur"},
+  "Text Stamps & Bounding Boxes": {"es":"Sellos de Texto y Cajas Delimitadoras","pt":"Carimbos de Texto e Caixas Delimitadoras","de":"Textstempel & Bounding-Boxen","fr":"Tampons de Texte & Boîtes Délimitantes"},
+  "Arrow Directional Pointers": {"es":"Flechas y Punteros Direccionales","pt":"Setas e Indicadores Direcionais","de":"Richtungspfeile & Zeiger","fr":"Flèches et Pointeurs Directionnels"},
+  "Burn Annotations to PDF": {"es":"Integrar Anotaciones al PDF","pt":"Fixar Anotações no PDF","de":"Anmerkungen fest ins PDF einbetten","fr":"Graver les Annotations dans le PDF"},
+  "MP3, WAV & OGG Transcode": {"es":"Transcodificación a MP3, WAV y OGG","pt":"Transcodificação para MP3, WAV e OGG","de":"MP3-, WAV- & OGG-Transkodierung","fr":"Transcodage MP3, WAV & OGG"},
+  "Bitrates up to 320 kbps": {"es":"Tasas de Bits de hasta 320 kbps","pt":"Taxas de Bits de até 320 kbps","de":"Bitraten bis zu 320 kbit/s","fr":"Débits jusqu'à 320 kbps"},
+  "Stereo / Mono Downmix": {"es":"Mezcla Estéreo a Mono","pt":"Mixagem Estéreo / Mono","de":"Stereo- / Mono-Downmix","fr":"Mixage Stéréo / Mono"},
+  "Volume Gain Booster (200%)": {"es":"Amplificador de Volumen (200%)","pt":"Amplificador de Volume (200%)","de":"Lautstärke-Verstärker (200%)","fr":"Amplificateur de Volume (200%)"},
+  "Rebuild Damaged Xref Tables": {"es":"Reconstruir Tablas Xref Dañadas","pt":"Reconstruir Tabelas Xref Danificadas","de":"Beschädigte Xref-Tabellen reparieren","fr":"Reconstruire les Tables Xref Endommagées"},
+  "Fix Missing Trailers & Headers": {"es":"Reparar Encabezados y Cierres Faltantes","pt":"Corrigir Cabeçalhos e Rodapés Ausentes","de":"Fehlende Header & Trailer reparieren","fr":"Réparer En-têtes & Pieds de Fichier Manquants"},
+  "Permissive Stream Salvage": {"es":"Recuperación Permisiva de Flujos","pt":"Recuperação Permissiva de Fluxos","de":"Tolerante Datenstrom-Rettung","fr":"Sauvetage Permissif des Flux"},
+  "Real-Time Diagnostic Console": {"es":"Consola de Diagnóstico en Tiempo Real","pt":"Console de Diagnóstico em Tempo Real","de":"Echtzeit-Diagnosekonsole","fr":"Console de Diagnostic en Direct"},
+  "ISO 19005 Standardization": {"es":"Estandarización ISO 19005","pt":"Padronização ISO 19005","de":"ISO 19005 Standardisierung","fr":"Normalisation ISO 19005"},
+  "PDF/A-1b, 2b & 3b Profiles": {"es":"Perfiles PDF/A-1b, 2b y 3b","pt":"Perfis PDF/A-1b, 2b e 3b","de":"PDF/A-1b, 2b & 3b Profile","fr":"Profils PDF/A-1b, 2b & 3b"},
+  "Embedded sRGB OutputIntent": {"es":"OutputIntent sRGB Incrustado","pt":"OutputIntent sRGB Incorporado","de":"Eingebettetes sRGB-OutputIntent","fr":"OutputIntent sRGB Incorporé"},
+  "XMP Archival Metadata Packet": {"es":"Paquete de Metadatos de Archivo XMP","pt":"Pacote de Metadados de Arquivo XMP","de":"XMP-Archivierungs-Metadatenpaket","fr":"Paquet de Métadonnées d'Archivage XMP"},
+  "Word to PDF": {"es":"Word a PDF","pt":"Word para PDF","de":"Word zu PDF","fr":"Word vers PDF"},
+  "Excel to PDF": {"es":"Excel a PDF","pt":"Excel para PDF","de":"Excel zu PDF","fr":"Excel vers PDF"},
+  "Images to PDF": {"es":"Imágenes a PDF","pt":"Imagens para PDF","de":"Bilder zu PDF","fr":"Images vers PDF"},
+  "Scan to PDF": {"es":"Escanear a PDF","pt":"Digitalizar para PDF","de":"Scannen zu PDF","fr":"Numériser vers PDF"},
+  "HTML to PDF": {"es":"HTML a PDF","pt":"HTML para PDF","de":"HTML zu PDF","fr":"HTML vers PDF"},
+  "PPTX to PDF": {"es":"PPTX a PDF","pt":"PPTX para PDF","de":"PPTX zu PDF","fr":"PPTX vers PDF"},
+  "Draw & Cursive Sign": {"es":"Dibujar y Firma Cursiva","pt":"Desenhar e Assinatura Cursiva","de":"Zeichnen & Handschriftliche Signatur","fr":"Dessiner et Signature Cursive"},
+  "Annotate & Draw": {"es":"Anotar y Dibujar","pt":"Anotar e Desenhar","de":"Kommentieren & Zeichnen","fr":"Annoter et Dessiner"},
+  "AcroForm Fill & Flatten": {"es":"Rellenar y Aplanar AcroForm","pt":"Preencher e Achatar AcroForm","de":"AcroForm ausfüllen & reduzieren","fr":"Remplir et Aplatir AcroForm"},
+  "Watermark & Page Numbers": {"es":"Marca de Agua y Números de Página","pt":"Marca d'Água e Numeração de Páginas","de":"Wasserzeichen & Seitenzahlen","fr":"Filigrane et Numérotation de Pages"},
+  "Permanent Redaction": {"es":"Censura Permanente","pt":"Ocultação Permanente","de":"Dauerhafte Schwärzung","fr":"Caviardage Définitif"},
+  "AES-256 Encrypt & Unlock": {"es":"Cifrado AES-256 y Desbloqueo","pt":"Criptografia AES-256 e Desbloqueio","de":"AES-256 verschlüsseln & entsperren","fr":"Chiffrement AES-256 et Déverrouillage"},
+  "Corrupt Xref Stream Repair": {"es":"Reparación de Flujo Xref Corrupto","pt":"Reparo de Fluxo Xref Corrompido","de":"Reparatur beschädigter Xref-Streams","fr":"Réparation de Flux Xref Corrompu"},
+  "ISO 19005 PDF/A Archive": {"es":"Archivo PDF/A ISO 19005","pt":"Arquivo PDF/A ISO 19005","de":"ISO 19005 PDF/A-Archiv","fr":"Archivage PDF/A ISO 19005"},
+  "Art Gradients & Logos": {"es":"Degradados Artísticos y Logos","pt":"Gradientes Artísticos e Logos","de":"Design-Farbverläufe & Logos","fr":"Dégradés Artistiques et Logos"},
+  "Webcam & File Scanner": {"es":"Escáner por Cámara y Archivos","pt":"Scanner por Webcam e Arquivo","de":"Webcam- & Datei-Scanner","fr":"Scanner par Webcam et Fichier"},
+  "1D/2D Barcode Support": {"es":"Compatibilidad Códigos de Barras 1D/2D","pt":"Suporte a Código de Barras 1D/2D","de":"1D/2D-Barcode-Unterstützung","fr":"Support des Codes-Barres 1D/2D"},
+  "Client-Side Speed": {"es":"Velocidad en el Cliente","pt":"Velocidade no Cliente","de":"Clientseitige Geschwindigkeit","fr":"Vitesse Côté Client"},
+  "Video Audio Demuxer": {"es":"Separador de Audio de Video","pt":"Separador de Áudio e Vídeo","de":"Video-Audio-Demuxer","fr":"Démultiplexeur Audio Vidéo"},
+  "Visual Waveform Trimmer": {"es":"Recortador Visual de Onda","pt":"Cortador Visual de Forma de Onda","de":"Visueller Wellenform-Cutter","fr":"Découpeur Visuel de Forme d'Onde"},
+  "Bitrates up to 320k": {"es":"Tasas de Bits hasta 320k","pt":"Taxas de Bits até 320k","de":"Bitraten bis zu 320k","fr":"Débits jusqu'à 320k"},
+  "💾 Download": {"es":"💾 Descargar","pt":"💾 Baixar","de":"💾 Herunterladen","fr":"💾 Télécharger"},
+  "Deploy to Live Site 🚀": {"es":"Implementar en Sitio en Vivo 🚀","pt":"Implantar no Site Ativo 🚀","de":"Auf Live-Site bereitstellen 🚀","fr":"Déployer sur le Site en Direct 🚀"},
+  "Deploy to Live Site": {"es":"Implementar en Sitio en Vivo","pt":"Implantar no Site Ativo","de":"Auf Live-Site bereitstellen","fr":"Déployer sur le Site en Direct"},
+  "Save All Settings": {"es":"Guardar Todas las Configuraciones","pt":"Salvar Todas as Configurações","de":"Alle Einstellungen speichern","fr":"Enregistrer Tous les Paramètres"},
+  "Live Checkout Simulator": {"es":"Simulador de Pago en Vivo","pt":"Simulador de Checkout em Tempo Real","de":"Live-Kassen-Simulator","fr":"Simulateur de Paiement en Direct"},
+  "Live Ad Simulator": {"es":"Simulador de Anuncios en Vivo","pt":"Simulador de Anúncios em Tempo Real","de":"Live-Werbe-Simulator","fr":"Simulateur de Publicités en Direct"},
+  "Extracted Color Palette": {"es":"Paleta de Colores Extraída","pt":"Paleta de Cores Extraída","de":"Extrahierte Farbpalette","fr":"Palette de Couleurs Extraite"},
+  "WCAG Contrast Ratio Checker": {"es":"Verificador de Contraste WCAG","pt":"Verificador de Contraste WCAG","de":"WCAG-Kontrastverhältnis-Prüfer","fr":"Vérificateur de Contraste WCAG"},
+  "Generated Swatches": {"es":"Muestras Generadas","pt":"Amostras Geradas","de":"Generierte Farbfelder","fr":"Échantillons Générés"},
+  "Upload Both PDF Revisions": {"es":"Subir Ambas Revisiones del PDF","pt":"Enviar Ambas as Revisões do PDF","de":"Beide PDF-Revisionen hochladen","fr":"Téléverser les Deux Révisions PDF"},
+  "Upload Document Pair": {"es":"Subir Par de Documentos","pt":"Enviar Par de Documentos","de":"Dokumentenpaar hochladen","fr":"Téléverser la Paire de Documents"},
+  "Choose Inspection Mode": {"es":"Elegir Modo de Inspección","pt":"Escolher Modo de Inspeção","de":"Inspektionsmodus wählen","fr":"Choisir le Mode d'Inspection"},
+  "Export Audit Report": {"es":"Exportar Informe de Auditoría","pt":"Exportar Relatório de Auditoria","de":"Audit-Bericht exportieren","fr":"Exporter le Rapport d'Audit"},
+  "Visual Cron Expression Builder": {"es":"Constructor Visual de Expresiones Cron","pt":"Construtor Visual de Expressões Cron","de":"Visueller Cron-Ausdrucks-Editor","fr":"Générateur Visuel d'Expressions Cron"},
+  "Human Explanation & Next Run Schedule": {"es":"Explicación Clara y Próximas Ejecuciones","pt":"Explicação Clara e Próximas Execuções","de":"Verständliche Erklärung & Nächste Ausführungen","fr":"Explication Claire & Prochaines Exécutions"},
+  "Crop PDF Margins": {"es":"Recortar Márgenes del PDF","pt":"Recortar Margens do PDF","de":"PDF-Ränder zuschneiden","fr":"Rogner les Marges du PDF"},
+  "Crop Boundary Preview": {"es":"Vista Previa del Límite de Recorte","pt":"Prévia do Limite de Recorte","de":"Zuschnittsbereich-Vorschau","fr":"Aperçu de la Délimitation du Rognage"},
+  "Output Result": {"es":"Resultado de Salida","pt":"Resultado de Saída","de":"Ausgabeergebnis","fr":"Résultat"},
+  "cURL Command Input": {"es":"Entrada de Comando cURL","pt":"Entrada do Comando cURL","de":"cURL-Befehlseingabe","fr":"Entrée de Commande cURL"},
+  "Generated Code": {"es":"Código Generado","pt":"Código Gerado","de":"Generierter Code","fr":"Code Généré"},
+  "Calculated Result": {"es":"Resultado Calculado","pt":"Resultado Calculado","de":"Berechnetes Ergebnis","fr":"Résultat Calculé"},
+  "Spreadsheet Setup": {"es":"Configuración de Hoja de Cálculo","pt":"Configuração da Planilha","de":"Tabellenkonfiguration","fr":"Configuration de la Feuille de Calcul"},
+  "Conversion Complete!": {"es":"¡Conversión Completa!","pt":"Conversão Concluída!","de":"Konvertierung abgeschlossen!","fr":"Conversion Terminée !"},
+  "No Audio Selected": {"es":"Ningún Audio Seleccionado","pt":"Nenhum Áudio Selecionado","de":"Kein Audio ausgewählt","fr":"Aucun Fichier Audio Sélectionné"},
+  "Edit Page": {"es":"Editar Página","pt":"Editar Página","de":"Seite bearbeiten","fr":"Modifier la Page"},
+  "Reset Page": {"es":"Restablecer Página","pt":"Redefinir Página","de":"Seite zurücksetzen","fr":"Réinitialiser la Page"},
+  "Show All": {"es":"Mostrar Todo","pt":"Mostrar Tudo","de":"Alle anzeigen","fr":"Tout Afficher"},
+  "Hide All": {"es":"Ocultar Todo","pt":"Ocultar Tudo","de":"Alle ausblenden","fr":"Tout Masquer"},
+  "Clear Recents List": {"es":"Limpiar Lista de Recientes","pt":"Limpar Lista de Recentes","de":"Verlaufsliste löschen","fr":"Effacer la Liste des Récents"},
+  "Reset Favorites": {"es":"Restablecer Favoritos","pt":"Redefinir Favoritos","de":"Favoriten zurücksetzen","fr":"Réinitialiser les Favoris"},
+  "Save All Customizations": {"es":"Guardar Todas las Personalizaciones","pt":"Salvar Todas as Personalizações","de":"Alle Anpassungen speichern","fr":"Enregistrer Toutes les Personnalisations"},
+  "Try Example": {"es":"Probar Ejemplo","pt":"Testar Exemplo","de":"Beispiel ausprobieren","fr":"Essayer un Exemple"},
+  "Color Presets": {"es":"Ajustes de Color","pt":"Predefinições de Cor","de":"Farb-Voreinstellungen","fr":"Préréglages de Couleur"},
+  "Grid Customization": {"es":"Personalización de Cuadrícula","pt":"Personalização de Grade","de":"Raster-Anpassung","fr":"Personnalisation de Grille"},
+  "Source Image & Eyedropper": {"es":"Imagen de Origen y Cuentagotas","pt":"Imagem de Origem e Conta-gotas","de":"Quellbild & Pipette","fr":"Image Source & Pipette"},
+  "Payment & Checkout": {"es":"Pago y Facturación","pt":"Pagamento e Checkout","de":"Zahlung & Kasse","fr":"Paiement et Caisse"},
+  "Monetization & Ads": {"es":"Monetización y Anuncios","pt":"Monetização e Anúncios","de":"Monetarisierung & Anzeigen","fr":"Monétisation & Annonces"},
+  "Theme & Aesthetics": {"es":"Tema y Estética","pt":"Tema e Estética","de":"Design & Ästhetik","fr":"Thème & Esthétique"},
+  "Tool Visibility": {"es":"Visibilidad de Herramientas","pt":"Visibilidade de Ferramentas","de":"Tool-Sichtbarkeit","fr":"Visibilité des Outils"},
+  "Monetization Tiers": {"es":"Niveles de Monetización","pt":"Níveis de Monetização","de":"Monetarisierungsstufen","fr":"Niveaux de Monétisation"},
+  "Backup & System": {"es":"Copia de Seguridad y Sistema","pt":"Backup e Sistema","de":"Sicherung & System","fr":"Sauvegarde & Système"},
+  "Keypad & Formula": {"es":"Teclado y Fórmula","pt":"Teclado e Fórmula","de":"Tastenfeld & Formel","fr":"Clavier et Formule"},
+  "Constants Palette": {"es":"Paleta de Constantes","pt":"Paleta de Constantes","de":"Konstanten-Palette","fr":"Palette de Constantes"},
+  "2D Plotter Controls": {"es":"Controles del Trazador 2D","pt":"Controles do Traçador 2D","de":"2D-Plotter-Steuerung","fr":"Commandes du Traceur 2D"},
+  "Result Monitor": {"es":"Monitor de Resultados","pt":"Monitor de Resultados","de":"Ergebnis-Monitor","fr":"Moniteur de Résultats"},
+  "2D Graph Canvas": {"es":"Lienzo de Gráfico 2D","pt":"Tela de Gráfico 2D","de":"2D-Diagramm-Leinwand","fr":"Canevas Graphique 2D"},
+  "History Log": {"es":"Registro Histórico","pt":"Histórico de Registros","de":"Verlaufsprotokoll","fr":"Historique"},
+  "Trig Formula": {"es":"Fórmula Trigonométrica","pt":"Fórmula Trigonométrica","de":"Trig-Formel","fr":"Formule Trigonométrique"},
+  "Exponent Arithmetic": {"es":"Aritmética Exponencial","pt":"Aritmética Exponencial","de":"Exponenten-Arithmetik","fr":"Arithmétique Exponentielle"},
+  "Load Formula": {"es":"Cargar Fórmula","pt":"Carregar Fórmula","de":"Formel laden","fr":"Charger la Formule"},
+  "Load Result": {"es":"Cargar Resultado","pt":"Carregar Resultado","de":"Ergebnis laden","fr":"Charger le Résultat"},
+  "Visual Diff": {"es":"Diferencia Visual","pt":"Diferença Visual","de":"Visueller Vergleich","fr":"Diff Visuel"},
+  "Text Diff": {"es":"Diferencia de Texto","pt":"Diferença de Texto","de":"Textvergleich","fr":"Diff Texte"},
+  "Line Diff": {"es":"Diferencia de Líneas","pt":"Diferença de Linhas","de":"Zeilenvergleich","fr":"Diff Ligne"},
+  "Word Diff": {"es":"Diferencia de Palabras","pt":"Diferença de Palavras","de":"Wortvergleich","fr":"Diff Mot"},
+  "Palette Generator": {"es":"Generador de Paleta","pt":"Gerador de Paleta","de":"Farbpaletten-Generator","fr":"Générateur de Palette"},
+  "Shades & Tints": {"es":"Sombras y Matices","pt":"Sombras e Matizes","de":"Farbtöne & Schattierungen","fr":"Nuances & Teintes"},
+  "Extract from Image": {"es":"Extraer de Imagen","pt":"Extrair da Imagem","de":"Aus Bild extrahieren","fr":"Extraire de l'image"},
+  "Tints (Lighter)": {"es":"Matices (Más claros)","pt":"Matizes (Mais claros)","de":"Farbtöne (Heller)","fr":"Teintes (Plus claires)"},
+  "Shades (Darker)": {"es":"Sombras (Más oscuras)","pt":"Sombras (Mais escuras)","de":"Schattierungen (Dunkler)","fr":"Ombres (Plus sombres)"},
+  "Opacities (Alpha)": {"es":"Opacidades (Alfa)","pt":"Opacidades (Alfa)","de":"Deckkraft (Alpha)","fr":"Opacités (Alpha)"},
+  "Hashes": {"es":"Hashes","pt":"Hashes","de":"Hashes","fr":"Hachages"},
+  "AES Cipher": {"es":"Cifrado AES","pt":"Cifra AES","de":"AES-Verschlüsselung","fr":"Chiffrement AES"},
+  "Asymmetric Keys": {"es":"Claves Asimétricas","pt":"Chaves Assimétricas","de":"Asymmetrische Schlüssel","fr":"Clés Asymétriques"},
+  "Passwords": {"es":"Contraseñas","pt":"Senhas","de":"Passwörter","fr":"Mots de passe"},
+  "UUIDs": {"es":"UUIDs","pt":"UUIDs","de":"UUIDs","fr":"UUIDs"},
+  "Gradients": {"es":"Gradientes","pt":"Gradientes","de":"Farbverläufe","fr":"Dégradés"},
+  "Box Shadows": {"es":"Sombras de Caja","pt":"Sombras de Caixa","de":"Box-Schatten","fr":"Ombres de Boîte"},
+  "Glassmorphism": {"es":"Glassmorfismo","pt":"Glassmorfismo","de":"Glassmorphismus","fr":"Glassmorphisme"},
+  "Clip Path": {"es":"Ruta de Recorte","pt":"Caminho de Recorte","de":"Clip-Pfad","fr":"Tracé de Découpe"},
+  "Fetch (JS)": {"es":"Fetch (JS)","pt":"Fetch (JS)","de":"Fetch (JS)","fr":"Fetch (JS)"},
+  "Axios (JS)": {"es":"Axios (JS)","pt":"Axios (JS)","de":"Axios (JS)","fr":"Axios (JS)"},
+  "Python": {"es":"Python","pt":"Python","de":"Python","fr":"Python"},
+  "Go HTTP": {"es":"Go HTTP","pt":"Go HTTP","de":"Go HTTP","fr":"Go HTTP"},
+  "TypeScript": {"es":"TypeScript","pt":"TypeScript","de":"TypeScript","fr":"TypeScript"},
+  "Python Pydantic": {"es":"Python Pydantic","pt":"Python Pydantic","de":"Python Pydantic","fr":"Python Pydantic"},
+  "Go Structs": {"es":"Go Structs","pt":"Go Structs","de":"Go-Strukturen","fr":"Structures Go"},
+  "Rust Serde": {"es":"Rust Serde","pt":"Rust Serde","de":"Rust Serde","fr":"Rust Serde"},
+  "Epoch Converter": {"es":"Conversor Epoch","pt":"Conversor Epoch","de":"Epoch-Konverter","fr":"Convertisseur Epoch"},
+  "Date Calculator": {"es":"Calculadora de Fechas","pt":"Calculadora de Datas","de":"Datumsrechner","fr":"Calculateur de Date"},
+  "Duration": {"es":"Duración","pt":"Duração","de":"Dauer","fr":"Durée"},
+  "Add/Subtract": {"es":"Sumar/Restar","pt":"Somar/Subtrair","de":"Addieren/Subtrahieren","fr":"Ajouter/Soustraire"},
+  "Font Styler": {"es":"Estilizador de Fuentes","pt":"Estilizador de Fontes","de":"Schriftarten-Styler","fr":"Styliseur de Polices"},
+  "Bio Templates": {"es":"Plantillas de Bio","pt":"Modelos de Bio","de":"Bio-Vorlagen","fr":"Modèles de Bio"},
+  "Symbols": {"es":"Símbolos","pt":"Símbolos","de":"Symbole","fr":"Symboles"},
+  "Aesthetic": {"es":"Estético","pt":"Estético","de":"Ästhetisch","fr":"Esthétique"},
+  "Royal": {"es":"Real","pt":"Real","de":"Königlich","fr":"Royal"},
+  "Gamer": {"es":"Gamer","pt":"Gamer","de":"Gamer","fr":"Gamer"},
+  "Creator": {"es":"Creador","pt":"Criador","de":"Ersteller","fr":"Créateur"},
+  "Dark": {"es":"Oscuro","pt":"Escuro","de":"Dunkel","fr":"Sombre"},
+  "Royal & Fraktur": {"es":"Real y Fraktur","pt":"Real e Fraktur","de":"Königlich & Fraktur","fr":"Royal & Fraktur"},
+  "Cursive & Script": {"es":"Cursiva y Manuscrita","pt":"Cursiva e Manuscrita","de":"Kursiv & Schreibschrift","fr":"Cursif & Manuscrit"},
+  "Aesthetic & Caps": {"es":"Estético y Mayúsculas","pt":"Estético e Maiúsculas","de":"Ästhetisch & Großbuchstaben","fr":"Esthétique & Majuscules"},
+  "Badges & Bubbles": {"es":"Insignias y Burbujas","pt":"Distintivos e Bolhas","de":"Abzeichen & Blasen","fr":"Badges & Bulles"},
+  "Tech & Mono": {"es":"Tecnología y Monoespaciado","pt":"Tecnologia e Monoespaçado","de":"Tech & Monospace","fr":"Tech & Mono"},
+  "Frames & Wings": {"es":"Marcos y Alas","pt":"Molduras e Asas","de":"Rahmen & Flügel","fr":"Cadres & Ailes"},
+  "Glitch & Zalgo": {"es":"Glitch y Zalgo","pt":"Glitch e Zalgo","de":"Glitch & Zalgo","fr":"Glitch & Zalgo"},
+  "SIP & Wealth": {"es":"SIP y Patrimonio","pt":"SIP e Patrimônio","de":"Sparplan & Vermögen","fr":"Épargne & Patrimoine"},
+  "Compound Interest": {"es":"Interés Compuesto","pt":"Juros Compostos","de":"Zinseszins","fr":"Intérêts Composés"},
+  "Loan EMI & Mortgage": {"es":"Préstamo e Hipoteca","pt":"Empréstimo e Hipoteca","de":"Kreditrate & Hypothek","fr":"Prêt & Hypothèque"},
+  "Subnet Calc": {"es":"Cálculo de Subred","pt":"Cálculo de Sub-rede","de":"Subnetz-Rechner","fr":"Calcul de Sous-réseau"},
+  "MAC Suite": {"es":"Suite MAC","pt":"Suite MAC","de":"MAC-Suite","fr":"Suite MAC"},
+  "Decoded Payload": {"es":"Carga Útil Decodificada","pt":"Carga Decodificada","de":"Dekodierte Nutzlast","fr":"Charge Utile Décodée"},
+  "Token Header": {"es":"Encabezado del Token","pt":"Cabeçalho do Token","de":"Token-Header","fr":"En-tête de Jeton"},
+  "Raw HTML": {"es":"HTML Puro","pt":"HTML Puro","de":"Rohes HTML","fr":"HTML Brut"},
+  "Outline": {"es":"Esquema","pt":"Estrutura","de":"Gliederung","fr":"Plan"},
+  "GFM Table & Alerts": {"es":"Tablas y Alertas GFM","pt":"Tabelas e Alertas GFM","de":"GFM-Tabellen & Hinweise","fr":"Tableaux et Alertes GFM"},
+  "Tasks & Highlights": {"es":"Tareas y Destacados","pt":"Tarefas e Destaques","de":"Aufgaben & Highlights","fr":"Tâches & Points Forts"},
+  "Summary": {"es":"Resumen","pt":"Resumo","de":"Zusammenfassung","fr":"Résumé"},
+  "Action Items": {"es":"Puntos de Acción","pt":"Itens de Ação","de":"Aktionspunkte","fr":"Points d'action"},
+  "Translate": {"es":"Traducir","pt":"Traduzir","de":"Übersetzen","fr":"Traduire"},
+  "Q&A Chat": {"es":"Chat de Preguntas y Respuestas","pt":"Chat de Perguntas e Respostas","de":"Frage-und-Antwort-Chat","fr":"Chat Questions/Réponses"},
+  "Pen": {"es":"Lápiz","pt":"Caneta","de":"Stift","fr":"Stylo"},
+  "Highlight": {"es":"Resaltador","pt":"Destacar","de":"Hervorheben","fr":"Surligneur"},
+  "Stamp": {"es":"Sello","pt":"Carimbo","de":"Stempel","fr":"Tampon"},
+  "Box": {"es":"Caja","pt":"Caixa","de":"Rechteck","fr":"Boîte"},
+  "Arrow": {"es":"Flecha","pt":"Seta","de":"Pfeil","fr":"Flèche"},
+  "Protect PDF (Add Password)": {"es":"Proteger PDF (Añadir Contraseña)","pt":"Proteger PDF (Adicionar Senha)","de":"PDF schützen (Passwort hinzufügen)","fr":"Protéger le PDF (Ajouter mot de passe)"},
+  "Unlock PDF (Remove Password)": {"es":"Desbloquear PDF (Quitar Contraseña)","pt":"Desbloquear PDF (Remover Senha)","de":"PDF entsperren (Passwort entfernen)","fr":"Déverrouiller PDF (Supprimer mot de passe)"},
+  "Split & Save": {"es":"Dividir y Guardar","pt":"Dividir e Salvar","de":"Teilen & Speichern","fr":"Diviser et Enregistrer"},
+  "Merge PDFs": {"es":"Unir PDFs","pt":"Juntar PDFs","de":"PDFs zusammenfügen","fr":"Fusionner les PDF"},
+  "Organize & Rotate": {"es":"Organizar y Rotar","pt":"Organizar e Girar","de":"Organisieren & Drehen","fr":"Organiser & Faire Pivoter"},
+  "Regex Tester": {"es":"Probador de Regex","pt":"Testador de Regex","de":"Regex-Tester","fr":"Testeur de Regex"},
+  "Extractor & Replacer": {"es":"Extractor y Reemplazador","pt":"Extrator e Substituidor","de":"Extrahierer & Ersetzer","fr":"Extracteur & Remplacement"},
+  "Capture": {"es":"Capturar","pt":"Capturar","de":"Aufnehmen","fr":"Capturer"},
+  "Mockup": {"es":"Maqueta","pt":"Mockup","de":"Mockup","fr":"Maquette"},
+  "Backdrop": {"es":"Fondo","pt":"Plano de Fundo","de":"Hintergrund","fr":"Arrière-plan"},
+  "Markup": {"es":"Marcas","pt":"Marcação","de":"Beschriftung","fr":"Annotation"},
+  "Preset Animator": {"es":"Animador Preestablecido","pt":"Animador Predefinido","de":"Vorlagen-Animator","fr":"Animateur de Préréglages"},
+  "Path Morph Studio": {"es":"Estudio de Morfismo de Trazados","pt":"Estúdio de Morfismo de Caminhos","de":"Pfad-Morphing-Studio","fr":"Studio de Métamorphose de Tracé"},
+  "Data": {"es":"Datos","pt":"Dados","de":"Daten","fr":"Données"},
+  "Length": {"es":"Longitud","pt":"Comprimento","de":"Länge","fr":"Longueur"},
+  "Weight": {"es":"Peso","pt":"Peso","de":"Gewicht","fr":"Poids"},
+  "Temp": {"es":"Temperatura","pt":"Temperatura","de":"Temperatur","fr":"Température"},
+  "Table Grid": {"es":"Cuadrícula de Tabla","pt":"Grade de Tabela","de":"Tabellengitter","fr":"Grille de Tableau"},
+  "Bulk Edit": {"es":"Edición Masiva","pt":"Edição em Massa","de":"Massenbearbeitung","fr":"Édition en Masse"},
+  "Rebuilt URL": {"es":"URL Reconstruida","pt":"URL Reconstruída","de":"Neu erstellte URL","fr":"URL Reconstruite"},
+  "UTM Builder": {"es":"Creador UTM","pt":"Construtor UTM","de":"UTM-Ersteller","fr":"Générateur UTM"},
+  "Live Microphone": {"es":"Micrófono en Vivo","pt":"Microfone ao Vivo","de":"Live-Mikrofon","fr":"Microphone en Direct"},
+  "Upload Audio Track": {"es":"Subir Pista de Audio","pt":"Enviar Faixa de Áudio","de":"Audiospur hochladen","fr":"Téléverser une Piste Audio"},
+  "Quick Guide & Instructions": {"es":"Guía Rápida e Instrucciones","pt":"Guia Rápido e Instruções","de":"Kurzanleitung & Hinweise","fr":"Guide Rapide et Instructions"},
+  "Examples": {"es":"Ejemplos","pt":"Exemplos","de":"Beispiele","fr":"Exemples"},
+  "2-Step Decode": {"es":"Decodificación en 2 Pasos","pt":"Decodificação em 2 Etapas","de":"2-Schritt-Dekodierung","fr":"Décodage en 2 Étapes"},
+  "4-Step Pipeline": {"es":"Pipeline de 4 Pasos","pt":"Pipeline de 4 Etapas","de":"4-Schritt-Pipeline","fr":"Pipeline en 4 Étapes"},
+  "Add Pipeline Steps": {"es":"Añadir Pasos del Pipeline","pt":"Adicionar Passos do Pipeline","de":"Pipeline-Schritte hinzufügen","fr":"Ajouter des Étapes de Pipeline"},
+  "Configure & Reorder": {"es":"Configurar y Reordenar","pt":"Configurar e Reordenar","de":"Konfigurieren & Neu anordnen","fr":"Configurer et Réorganiser"},
+  "Save & Export Presets": {"es":"Guardar y Exportar Ajustes","pt":"Salvar e Exportar Predefinições","de":"Vorlagen speichern & exportieren","fr":"Enregistrer et Exporter les Préréglages"},
+  "Data Chaining": {"es":"Encadenamiento de Datos","pt":"Encadeamento de Dados","de":"Datenverkettung","fr":"Chaînage de Données"},
+  "Local & Secure": {"es":"Local y Seguro","pt":"Local e Seguro","de":"Lokal & Sicher","fr":"Local et Sécurisé"},
+  "Step 2 (Final)": {"es":"Paso 2 (Final)","pt":"Etapa 2 (Final)","de":"Schritt 2 (Endgültig)","fr":"Étape 2 (Final)"},
+  "Step 4 (Final)": {"es":"Paso 4 (Final)","pt":"Etapa 4 (Final)","de":"Schritt 4 (Endgültig)","fr":"Étape 4 (Final)"},
+  "UPPERCASE": {"es":"MAYÚSCULAS","pt":"MAIÚSCULAS","de":"GROSSBUCHSTABEN","fr":"MAJUSCULES"},
+  "Connected Workflows": {"es":"Flujos Conectados","pt":"Fluxos Conectados","de":"Verbundene Workflows","fr":"Flux Connectés"},
+  "Frequently Combined Next Steps": {"es":"Próximos Pasos Frecuentes","pt":"Próximos Passos Frequentes","de":"Häufig kombinierte nächste Schritte","fr":"Prochaines Étapes Fréquemment Combinées"},
+  "Keep your momentum going — chain this output directly into complementary developer utilities.": {"es":"Continúa tu flujo de trabajo — encadena esta salida directamente con herramientas complementarias.","pt":"Mantenha o ritmo — encadeie esta saída diretamente em utilitários de desenvolvimento complementares.","de":"Halten Sie den Schwung aufrecht — verknüpfen Sie diese Ausgabe direkt mit ergänzenden Entwicklertools.","fr":"Poursuivez sur votre lancée — enchaînez cette sortie directement avec des utilitaires complémentaires."},
+  "Data Formatter & Converter Suite": {"es":"Suite de Formateador y Conversor de Datos","pt":"Suíte de Formatador e Conversor de Dados","de":"Datenformatierer- & Konverter-Suite","fr":"Suite de Formatage et Conversion de Données"},
+  "Text Cases & Encoder Suite": {"es":"Suite de Codificador y Casos de Texto","pt":"Suíte de Codificador e Casos de Texto","de":"Text-Cases- & Encoder-Suite","fr":"Suite d'Encodage et Casse de Texte"},
+  "Format or convert pipeline JSON/CSV outputs": {"es":"Formatea o convierte salidas JSON/CSV del pipeline","pt":"Formate ou converta saídas JSON/CSV do pipeline","de":"Formatieren oder konvertieren Sie JSON/CSV-Ausgaben der Pipeline","fr":"Formatez ou convertissez les sorties JSON/CSV du pipeline"},
+  "Apply additional Base64 or URL transformations": {"es":"Aplica transformaciones adicionales Base64 o URL","pt":"Aplique transformações adicionais em Base64 ou URL","de":"Wenden Sie zusätzliche Base64- oder URL-Transformationen an","fr":"Appliquez des transformations Base64 ou URL supplémentaires"}
+},
+
+  translateToolViewport(viewport, lang) {
+    if (!viewport) return;
+    const isEn = !lang || lang === "en";
+
+    // 1. Process any explicit data-i18n attributes
+    viewport.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      const val = this.i18n[lang]?.[key] || this.i18n.en?.[key];
+      if (val) {
+        if (val.includes("<") && val.includes(">")) el.innerHTML = val;
+        else el.textContent = val;
+      }
+    });
+
+    const dict = this.toolUiDictionary || {};
+    if (!dict || Object.keys(dict).length === 0) return;
+
+    // Helper for direct text node translation with reversible dataset.origText
+    const translateTextNode = (node, ownerEl) => {
+      const trimmed = (node.textContent || "").trim();
+      if (!trimmed) return;
+
+      if (!ownerEl.dataset.origText) {
+        ownerEl.dataset.origText = trimmed;
+      }
+
+      const orig = ownerEl.dataset.origText;
+      let target = orig;
+
+      if (!isEn) {
+        let entry = dict[orig];
+        let prefix = "";
+        let suffix = "";
+
+        if (!entry) {
+          if (orig.endsWith(":")) {
+            suffix = ":";
+            entry = dict[orig.slice(0, -1).trim()];
+          } else if (orig.endsWith("...")) {
+            suffix = "...";
+            entry = dict[orig.slice(0, -3).trim()];
+          }
+        }
+
+        if (!entry) {
+          const match = orig.match(/^([\p{Emoji}\p{Extended_Pictographic}\u200d\uFE0F\s*•\-\+➜➔✔✓]+)\s*(.+)$/u);
+          if (match) {
+            prefix = match[1];
+            let sub = match[2].trim();
+            if (sub.endsWith(":")) {
+              suffix = ":";
+              sub = sub.slice(0, -1).trim();
+            }
+            entry = dict[sub];
+          }
+        }
+        if (entry && entry[lang]) {
+          target = prefix + entry[lang] + suffix;
+        }
+      }
+
+      const leading = node.textContent.match(/^\s*/)[0];
+      const trailing = node.textContent.match(/\s*$/)[0];
+      node.textContent = leading + target + trailing;
+    };
+
+    // 2. Translate capability chips in header bar (.tool-cap-chip)
+    viewport.querySelectorAll(".tool-capabilities-bar .tool-cap-chip, .tool-cap-chip").forEach(chip => {
+      const labelSpan = chip.querySelector("span:not(.cap-icon-box)") || chip.querySelector("span:last-child");
+      if (labelSpan) {
+        if (!labelSpan.dataset.origText) {
+          labelSpan.dataset.origText = chip.getAttribute("data-orig-text") || labelSpan.textContent.trim();
+        }
+        const orig = labelSpan.dataset.origText;
+        if (isEn) {
+          labelSpan.textContent = orig;
+        } else {
+          const entry = dict[orig];
+          if (entry && entry[lang]) {
+            labelSpan.textContent = entry[lang];
+          }
+        }
+      }
+    });
+
+    // 3. Translate interactive buttons, tool tabs, action pills, split header controls
+    viewport.querySelectorAll("button, a.tool-btn, .keyboard-tab, .tab-btn, .pill-btn, .preset-btn, .action-btn, .sfc-tab, .tool-tab-btn, .settings-tab-btn, .tool-guide-example-tab-btn, .split-reset-header-btn, .preview-fullscreen-btn").forEach(btn => {
+      let foundTextNode = false;
+      for (const node of btn.childNodes) {
+        if (node.nodeType === 3 && node.textContent.trim()) { // TEXT_NODE
+          foundTextNode = true;
+          translateTextNode(node, btn);
+        }
+      }
+      btn.querySelectorAll("span, strong, b").forEach(childEl => {
+        if (childEl.classList.contains("cap-icon-box") || childEl.closest("svg")) return;
+        for (const node of childEl.childNodes) {
+          if (node.nodeType === 3 && node.textContent.trim()) {
+            foundTextNode = true;
+            translateTextNode(node, childEl);
+          }
+        }
+      });
+      if (!foundTextNode && btn.children.length === 0 && btn.textContent.trim()) {
+        if (!btn.dataset.origText) btn.dataset.origText = btn.textContent.trim();
+        const orig = btn.dataset.origText;
+        if (isEn) {
+          btn.textContent = orig;
+        } else {
+          const entry = dict[orig];
+          if (entry && entry[lang]) btn.textContent = entry[lang];
+        }
+      }
+    });
+
+    // 4. Translate panel headings, badges, and node strong titles
+    viewport.querySelectorAll("h2, h3, h4, .panel-header h3, .tool-badge-pill, .panel-title, .node-header strong, .pipeline-node strong, .node-header span, .pipeline-node span, span.node-title, .pipeline-node-header span, .pipeline-flow-badge, .pipeline-flow-op, .pipeline-flow-header span").forEach(heading => {
+      let foundTextNode = false;
+      for (const node of heading.childNodes) {
+        if (node.nodeType === 3 && node.textContent.trim()) {
+          foundTextNode = true;
+          translateTextNode(node, heading);
+        }
+      }
+      if (!foundTextNode && heading.children.length === 0 && heading.textContent.trim()) {
+        if (!heading.dataset.origText) heading.dataset.origText = heading.textContent.trim();
+        const orig = heading.dataset.origText;
+        if (isEn) {
+          heading.textContent = orig;
+        } else {
+          const entry = dict[orig];
+          if (entry && entry[lang]) heading.textContent = entry[lang];
+        }
+      }
+    });
+
+    // 5. Translate form labels
+    viewport.querySelectorAll("label").forEach(lbl => {
+      for (const node of lbl.childNodes) {
+        if (node.nodeType === 3 && node.textContent.trim()) {
+          translateTextNode(node, lbl);
+        }
+      }
+    });
+
+    // 6. Translate dropdown select options
+    viewport.querySelectorAll("select option").forEach(opt => {
+      const text = (opt.textContent || "").trim();
+      if (!text) return;
+      if (!opt.dataset.origText) opt.dataset.origText = text;
+      const orig = opt.dataset.origText;
+      if (isEn) {
+        opt.textContent = orig;
+      } else {
+        const entry = dict[orig];
+        if (entry && entry[lang]) opt.textContent = entry[lang];
+      }
+    });
+
+    // 7. Translate dropzone text and subtext
+    viewport.querySelectorAll(".dropzone-text, .dropzone-subtext, .pdf-dropzone p, .audio-dropzone p, .dropzone p").forEach(dz => {
+      for (const node of dz.childNodes) {
+        if (node.nodeType === 3 && node.textContent.trim()) {
+          translateTextNode(node, dz);
+        }
+      }
+    });
+
+    // 8. Translate input & textarea placeholders
+    viewport.querySelectorAll("input[placeholder], textarea[placeholder]").forEach(input => {
+      const ph = input.getAttribute("placeholder");
+      if (ph) {
+        if (!input.dataset.origPlaceholder) {
+          input.dataset.origPlaceholder = ph;
+        }
+        const orig = input.dataset.origPlaceholder;
+        if (isEn) {
+          input.setAttribute("placeholder", orig);
+        } else {
+          const entry = dict[orig];
+          if (entry && entry[lang]) {
+            input.setAttribute("placeholder", entry[lang]);
+          }
+        }
+      }
+    });
+
+    // 9. Translate tool descriptive paragraphs & guide helper texts
+    viewport.querySelectorAll(".tool-panel > p, .pipeline-desc, p.help-text, p.tool-desc, .panel-header + p").forEach(p => {
+      const text = (p.textContent || "").trim();
+      if (!text) return;
+      if (!p.dataset.origText) p.dataset.origText = text;
+      const orig = p.dataset.origText;
+      if (isEn) {
+        p.textContent = orig;
+      } else {
+        const entry = dict[orig];
+        if (entry && entry[lang]) p.textContent = entry[lang];
+      }
+    });
+
+    // 10. Translate quick guide steps, headers, examples and benefit points
+    viewport.querySelectorAll(".tool-guide-card .tool-guide-step-title, .tool-guide-header h3, .tool-guide-title, .tool-guide-title span, .tool-guide-example-title, .tool-guide-step-text strong, .tool-guide-benefits strong, .tool-guide-benefits li strong, .tool-guide-step-num + div strong, .tool-guide-example-tab-btn, .bridge-tool-card .bridge-tool-name, .bridge-tool-card .bridge-tool-hint, .bridge-tag, .bridge-title, .bridge-desc").forEach(el => {
+      let foundTextNode = false;
+      for (const node of el.childNodes) {
+        if (node.nodeType === 3 && node.textContent.trim()) {
+          foundTextNode = true;
+          translateTextNode(node, el);
+        }
+      }
+      if (!foundTextNode && el.children.length === 0 && el.textContent.trim()) {
+        if (!el.dataset.origText) el.dataset.origText = el.textContent.trim();
+        const orig = el.dataset.origText;
+        if (isEn) {
+          el.textContent = orig;
+        } else {
+          let entry = dict[orig];
+          let prefix = "";
+          if (!entry) {
+            const match = orig.match(/^([\p{Emoji}\p{Extended_Pictographic}\u200d\uFE0F\s*•\-\+➜➔✔✓]+)\s*(.+)$/u);
+            if (match) {
+              prefix = match[1];
+              entry = dict[match[2].trim()];
+            }
+          }
+          if (entry && entry[lang]) el.textContent = prefix + entry[lang];
+        }
+      }
+    });
+  },
+
+  getGuideUrl(guideFileName) {
+    const currentLang = this.currentLanguage || "en";
+    const localizedGuides = {
+      es: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"],
+      pt: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"]
+    };
+    const cleanBase = (guideFileName || "")
+      .replace(/^\/?guides\/(es|pt)\//, "")
+      .replace(/^\/?guides\//, "")
+      .replace(/^\//, "")
+      .replace(/\.html$/, "");
+
+    if (!cleanBase || cleanBase === "index") {
+      return currentLang === "en" ? "/guides/" : `/guides/${currentLang}/`;
+    }
+    if (localizedGuides[currentLang] && localizedGuides[currentLang].includes(cleanBase)) {
+      return `/guides/${currentLang}/${cleanBase}`;
+    }
+    return `/guides/${cleanBase}`;
+  },
+
+  getLangQueryString() {
+    if (typeof this.currentLanguage === "string" && this.currentLanguage && this.currentLanguage !== "en") {
+      return "?lang=" + encodeURIComponent(this.currentLanguage);
+    }
+    return "";
+  },
+
+  t(key, fallback = "") {
+    const lang = this.currentLanguage || "en";
+    return this.i18n[lang]?.[key] || this.i18n.en?.[key] || fallback || key;
+  },
+
+  initLanguage() {
+    let queryLang = null;
+    let pathLang = null;
+    if (typeof window !== "undefined" && window.location) {
+      const params = new URLSearchParams(window.location.search);
+      const urlLang = params.get("lang");
+      if (urlLang && this.i18n[urlLang]) {
+        queryLang = urlLang;
+      }
+      const pathMatch = window.location.pathname.match(/\/(es|pt|de|fr)(\/|$)/);
+      if (pathMatch && this.i18n[pathMatch[1]]) {
+        pathLang = pathMatch[1];
+      }
+    }
+    let savedLang = queryLang || pathLang || localStorage.getItem("omnitool_language");
+    if (!savedLang && typeof navigator !== "undefined" && navigator.language) {
+      const navLang = navigator.language.slice(0, 2).toLowerCase();
+      if (this.i18n[navLang]) {
+        savedLang = navLang;
+      }
+    }
+    const currentLang = savedLang && this.i18n[savedLang] ? savedLang : "en";
+    this.applyLanguage(currentLang, false);
+
+    // Header Prominent Language Dropdown Handler
+    const langBtn = document.getElementById("header-lang-btn");
+    const langMenu = document.getElementById("header-lang-menu");
+    const langContainer = langBtn?.closest(".lang-dropdown-container");
+
+    if (langBtn && langMenu) {
+      langBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Mutually close preferences menu if open
+        const prefsMenu = document.getElementById("header-prefs-menu");
+        const prefsBtn = document.getElementById("header-prefs-btn");
+        if (prefsMenu && prefsMenu.classList.contains("show")) {
+          prefsMenu.classList.remove("show");
+          prefsBtn?.setAttribute("aria-expanded", "false");
+        }
+
+        const isOpen = langMenu.classList.contains("show");
+        langMenu.classList.toggle("show", !isOpen);
+        langContainer?.classList.toggle("open", !isOpen);
+        langBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+        this.playSynthSound('click');
+
+        if (!isOpen) {
+          const activeOpt = langMenu.querySelector(".lang-menu-option.active") || langMenu.querySelector(".lang-menu-option");
+          activeOpt?.focus();
+        }
+      });
+
+      // Keyboard arrow navigation on trigger button
+      langBtn.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          const prefsMenu = document.getElementById("header-prefs-menu");
+          const prefsBtn = document.getElementById("header-prefs-btn");
+          if (prefsMenu && prefsMenu.classList.contains("show")) {
+            prefsMenu.classList.remove("show");
+            prefsBtn?.setAttribute("aria-expanded", "false");
+          }
+          langMenu.classList.add("show");
+          langContainer?.classList.add("open");
+          langBtn.setAttribute("aria-expanded", "true");
+          const activeOpt = langMenu.querySelector(".lang-menu-option.active") || langMenu.querySelector(".lang-menu-option");
+          activeOpt?.focus();
+        }
+      });
+
+      // Keyboard arrow & focus traversal inside language dropdown menu
+      langMenu.addEventListener("keydown", (e) => {
+        const options = Array.from(langMenu.querySelectorAll(".lang-menu-option"));
+        const currentIndex = options.indexOf(document.activeElement);
+
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          const nextIndex = (currentIndex + 1) % options.length;
+          options[nextIndex]?.focus();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          const prevIndex = (currentIndex - 1 + options.length) % options.length;
+          options[prevIndex]?.focus();
+        } else if (e.key === "Home") {
+          e.preventDefault();
+          options[0]?.focus();
+        } else if (e.key === "End") {
+          e.preventDefault();
+          options[options.length - 1]?.focus();
+        } else if (e.key === "Escape") {
+          e.preventDefault();
+          langMenu.classList.remove("show");
+          langContainer?.classList.remove("open");
+          langBtn.setAttribute("aria-expanded", "false");
+          langBtn.focus();
+        }
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".lang-dropdown-container")) {
+          langMenu.classList.remove("show");
+          langContainer?.classList.remove("open");
+          langBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    // Bind click events on all language buttons and dropdown items
+    document.querySelectorAll(".lang-option-btn, .lang-menu-option").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const targetLang = btn.getAttribute("data-lang");
+        if (targetLang && this.i18n[targetLang]) {
+          this.applyLanguage(targetLang, true);
+          this.playSynthSound('click');
+          if (langMenu) {
+            langMenu.classList.remove("show");
+            langContainer?.classList.remove("open");
+            langBtn?.setAttribute("aria-expanded", "false");
+            if (btn.classList.contains("lang-menu-option")) {
+              langBtn?.focus();
+            }
+          }
+        }
+      });
+    });
+  },
+
+  applyLanguage(lang, showToast = false) {
+    if (!this.i18n[lang]) lang = "en";
+    this.currentLanguage = lang;
+    localStorage.setItem("omnitool_language", lang);
+
+    // Sync URL query param without reload for clean sharing & SEO
+    if (typeof window !== "undefined" && window.history && window.history.replaceState) {
+      try {
+        const url = new URL(window.location.href);
+        if (lang === "en") {
+          url.searchParams.delete("lang");
+        } else {
+          url.searchParams.set("lang", lang);
+        }
+        const newUrl = url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
+        window.history.replaceState(null, "", newUrl);
+      } catch (e) {}
+    }
+
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = lang;
+
+      // Update dynamic document title and meta description
+      const pageTitle = this.i18n[lang]?.pageTitle || this.i18n.en.pageTitle;
+      if (pageTitle && !this.activeTool) {
+        document.title = pageTitle;
+      }
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc && this.i18n[lang]?.metaDesc) {
+        metaDesc.setAttribute("content", this.i18n[lang].metaDesc);
+      }
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle && pageTitle && !this.activeTool) {
+        ogTitle.setAttribute("content", pageTitle);
+      }
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc && this.i18n[lang]?.metaDesc) {
+        ogDesc.setAttribute("content", this.i18n[lang].metaDesc);
+      }
+
+      // Automatically sync guide navigation links to localized guides
+      document.querySelectorAll('a[href*="guides/"], a[href*="/guides"]').forEach(link => {
+        const href = link.getAttribute("href");
+        if (href && (href.startsWith("guides/") || href.startsWith("/guides/") || href.startsWith("/guides"))) {
+          link.setAttribute("href", this.getGuideUrl(href));
+        }
+      });
+
+      // Update data-i18n elements
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        const val = this.i18n[lang]?.[key] || this.i18n.en[key];
+        if (val) {
+          if (val.includes("<") && val.includes(">")) {
+            el.innerHTML = val;
+          } else {
+            el.textContent = val;
+          }
+        }
+      });
+
+      // Update hero title specifically if present
+      const heroTitle = document.getElementById("dashboard-hero-title");
+      if (heroTitle && this.i18n[lang]?.heroTitle) {
+        heroTitle.innerHTML = this.i18n[lang].heroTitle;
+      }
+
+      // Update search input placeholders
+      const searchInput = document.getElementById("tool-search");
+      if (searchInput && this.i18n[lang]?.searchPlaceholder) {
+        searchInput.placeholder = this.i18n[lang].searchPlaceholder;
+      }
+      const cpSearchInput = document.getElementById("cp-search-input");
+      if (cpSearchInput && this.i18n[lang]?.searchCpPlaceholder) {
+        cpSearchInput.placeholder = this.i18n[lang].searchCpPlaceholder;
+      }
+
+      // Update header language button badge
+      const headerLangBadge = document.getElementById("header-lang-badge");
+      if (headerLangBadge) {
+        headerLangBadge.textContent = lang.toUpperCase();
+      }
+
+      // Update active state and ARIA attributes in pills and dropdown menu options
+      document.querySelectorAll(".lang-option-btn").forEach(btn => {
+        const btnLang = btn.getAttribute("data-lang");
+        const isActive = btnLang === lang;
+        btn.classList.toggle("active", isActive);
+        btn.style.fontWeight = isActive ? "bold" : "normal";
+        btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+
+      document.querySelectorAll(".lang-menu-option").forEach(opt => {
+        const optLang = opt.getAttribute("data-lang");
+        const isActive = optLang === lang;
+        opt.classList.toggle("active", isActive);
+        opt.setAttribute("aria-checked", isActive ? "true" : "false");
+      });
+
+      // Re-render mega menu with translated tool names
+      if (typeof this.buildMegaMenu === "function") {
+        this.buildMegaMenu();
+      }
+
+      // Re-render sidebar drawer sub-tool links with translated names
+      if (typeof this.buildSidebarToolMenu === "function") {
+        this.buildSidebarToolMenu();
+      }
+
+      // Re-render category tabs with translated labels
+      if (typeof this.renderCategoryTabs === "function") {
+        this.renderCategoryTabs();
+      }
+
+      // Re-render tools dashboard if currently on dashboard
+      if (!this.activeTool && typeof this.renderDashboard === "function") {
+        this.renderDashboard();
+      }
+
+      // Update active tool view header, toolbar labels and internal controls in real-time
+      if (this.activeTool) {
+        const activeVp = document.getElementById("active-tool-viewport");
+        if (activeVp) {
+          this.translateToolViewport(activeVp, lang);
+          this.injectGuideBenefits(activeVp, this.activeTool, this.activeSubtool);
+          this.renderWorkflowBridges(activeVp, this.activeTool);
+        }
+        const toolMetadata = this.tools.find(t => t.id === this.activeTool);
+        const tTrans = this.toolTranslations?.[lang]?.[this.activeTool];
+        const categoryTitle = (toolMetadata && this.i18n[lang]?.[toolMetadata.category + "Tools"]) || toolMetadata?.subLabel || "";
+        const titleEl = document.getElementById("header-view-title");
+        if (titleEl && toolMetadata) {
+          titleEl.innerText = `${categoryTitle || toolMetadata.subLabel} / ${tTrans?.name || toolMetadata.name}`;
+        }
+        const toolTitleHeading = document.querySelector("#active-tool-viewport .tool-title-info h2");
+        if (toolTitleHeading && toolMetadata) {
+          toolTitleHeading.innerText = tTrans?.name || 
+            ((this.uiMode === "beginner" && this.beginnerToolsConfig && this.beginnerToolsConfig[this.activeTool])
+              ? this.beginnerToolsConfig[this.activeTool].name
+              : toolMetadata.name);
+        }
+        const backBtnSpan = document.querySelector("#active-tool-viewport .back-btn span");
+        if (backBtnSpan) {
+          backBtnSpan.innerText = this.i18n[lang]?.back || "Back";
+        }
+      }
+
+      // Dispatch event for any active tools or plugins
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("omnitool:langchange", { detail: { lang } }));
+      }
+
+      if (showToast && typeof this.showToast === "function") {
+        const langName = this.i18n[lang]?.langName || lang;
+        this.showToast(`Language switched to ${langName}`, "info");
+      }
+    }
   },
 
   // Monetization Highlights Registry
@@ -8794,7 +12780,7 @@ const app = {
           <div class="lock-header">
             <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: 0.5px;">Premium Tool Required</h2>
             <span style="font-size: 11px; font-weight: 700; color: var(--accent-purple); background: rgba(157, 78, 221, 0.12); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(157, 78, 221, 0.2); display: inline-block; margin-bottom: 12px; text-transform: uppercase;">💎 Pro / Premium Tier</span>
-            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Access to <strong>${toolInstance.name}</strong> is reserved for our Premium members. Subscribe or purchase a lifetime pass to unlock all 50+ developer utilities and advanced tools.</p>
+            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Access to <strong>${toolInstance.name}</strong> is reserved for our Premium members. Subscribe or purchase a lifetime pass to unlock all 47+ powerhouse suites (70+ utilities).</p>
           </div>
 
           <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin: 6px 0;">
@@ -9188,18 +13174,11 @@ const app = {
       }
     }
 
-    // Check if it's a Razorpay payment ID (e.g. pay_xxxxxxxx)
+    // Unverified Razorpay Payment IDs cannot bypass cryptographic verification
     if (cleanPrefix.toLowerCase().startsWith("pay_")) {
-      const token = this.createClientAuthorizedToken("lifetime", "razorpay_payment_id", cleanPrefix);
-      localStorage.setItem("omnitool_user_tier", "lifetime");
-      localStorage.setItem("omnitool_license_token", token);
-      localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
-      this.playSynthSound("success");
-      this.showToast(`🎉 Razorpay Payment ID verified (${cleanPrefix})! Lifetime PRO unlocked.`, "success");
-      this.closeCheckout();
-      this.renderPlansPage();
-      this.renderPaymentSuccessModal(cleanPrefix, "lifetime");
-      return true;
+      this.playSynthSound("error");
+      this.showToast("Razorpay Payment IDs require server signature verification during checkout. Enter your issued License Key or 12-digit UPI UTR.", "error");
+      return false;
     }
 
     // 2. Check if it's a 12-digit UPI / Bank IMPS UTR or 64-char Crypto TXID
@@ -9346,12 +13325,12 @@ const app = {
           </div>
           <div style="display: flex; justify-content: space-between;">
             <span style="color: var(--text-muted);">Unlocked:</span>
-            <span style="color: var(--text-primary);">All 75+ Tools • 100% Ad-Free • Offline PWA</span>
+            <span style="color: var(--text-primary);">All 47+ Suites (70+ Tools) • 100% Ad-Free • Offline PWA</span>
           </div>
         </div>
 
         <button type="button" class="tool-btn primary" id="success-modal-dashboard-btn" style="width: 100%; height: 44px; justify-content: center; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, #10b981, #059669); border: none; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); cursor: pointer;">
-          🚀 Open All 50+ Pro Tools Now
+          🚀 Open All 47+ Pro Suites Now
         </button>
       </div>
     `;
@@ -9637,9 +13616,13 @@ const app = {
           this.showToast("Capturing and verifying PayPal payment...", "info");
           try {
             const details = await actions.order.capture();
-            const isCompleted = details.status === "COMPLETED" || details.status === "APPROVED" || !details.status;
+            const statusUpper = String(details?.status || "").toUpperCase();
+            let isCompleted = statusUpper === "COMPLETED" || statusUpper === "APPROVED";
             let finalTier = plan === "monthly" ? "premium" : "lifetime";
-            let finalToken = this.createClientAuthorizedToken(finalTier, "paypal_capture", data.orderID || (details && details.id) || Date.now());
+            let finalToken = null;
+            let serverVerified = false;
+            let serverError = "";
+            const isLocalHost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
             try {
               const verifyRes = await fetch("/api/verify-paypal-payment", {
@@ -9657,15 +13640,24 @@ const app = {
               if (contentType.includes("application/json")) {
                 const verifyData = await verifyRes.json();
                 if (verifyRes.ok && verifyData.success) {
+                  serverVerified = true;
                   finalTier = verifyData.tier || finalTier;
                   finalToken = verifyData.token || finalToken;
+                } else {
+                  isCompleted = false;
+                  serverError = verifyData.error || "PayPal server verification failed.";
                 }
               }
             } catch (_) {
-              // Static edge host fallback (Cloudflare Pages)
+              // Verification endpoint unreachable
             }
 
-            if (isCompleted) {
+            if (isCompleted && !serverVerified && isLocalHost) {
+              finalToken = this.createClientAuthorizedToken(finalTier, "paypal_capture", data.orderID || (details && details.id) || Date.now());
+              serverVerified = true;
+            }
+
+            if (isCompleted && serverVerified && finalToken) {
               localStorage.setItem("omnitool_user_tier", finalTier);
               localStorage.setItem("omnitool_license_token", finalToken);
               localStorage.setItem("omnitool_license_activated_at", new Date().toISOString());
@@ -9676,7 +13668,7 @@ const app = {
               this.renderPaymentSuccessModal(data.orderID || (details && details.id) || ("PAYPAL-" + Date.now()), finalTier);
             } else {
               this.playSynthSound("error");
-              this.showToast(`PayPal payment status: ${details.status || "Pending"}.`, "error");
+              this.showToast(serverError || `PayPal verification incomplete (status: ${details?.status || "Unknown"}).`, "error");
             }
           } catch (vErr) {
             console.error("PayPal capture error:", vErr);
@@ -10715,6 +14707,10 @@ const app = {
 window.app = app;
 
 // Start application
-window.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", () => {
+    app.init();
+  });
+} else {
   app.init();
-});
+}

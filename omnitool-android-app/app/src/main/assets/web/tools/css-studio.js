@@ -65,10 +65,10 @@ export default {
               </div>
             </div>
 
-            <div class="form-row" style="grid-template-columns: 2fr 1fr 1fr; align-items: flex-end; gap: 8px; margin-top: 6px;">
-              <div class="form-group">
+            <div class="form-row" style="grid-template-columns: repeat(auto-fit, minmax(min(115px, 100%), 1fr)); align-items: flex-end; gap: 8px; margin-top: 6px;">
+              <div class="form-group" style="min-width: 0;">
                 <label for="grad-harmony">Harmony Preset</label>
-                <select class="form-select" id="grad-harmony">
+                <select class="form-select" id="grad-harmony" style="min-width: 0; width: 100%;">
                   <option value="none" selected>-- Select Harmony --</option>
                   <option value="analogous">Analogous</option>
                   <option value="monochromatic">Monochromatic</option>
@@ -78,9 +78,9 @@ export default {
                   <option value="cyber">Cyberpunk</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="min-width: 0;">
                 <label for="grad-harmony-stops">Stops</label>
-                <select class="form-select" id="grad-harmony-stops">
+                <select class="form-select" id="grad-harmony-stops" style="min-width: 0; width: 100%;">
                   <option value="2">2 Stops</option>
                   <option value="3" selected>3 Stops</option>
                   <option value="4">4 Stops</option>
@@ -350,7 +350,7 @@ export default {
             <div class="form-group">
               <label for="clippath-preset">Select Shape Preset</label>
               <select class="form-select" id="clippath-preset" style="width: 100%;">
-                <option value="" disabled selected hidden>-- Choose Preset Shape / Design --</option>
+                <option value="">-- Choose Preset Shape / Design --</option>
                 <option value="triangle">Triangle</option>
                 <option value="rhombus">Rhombus</option>
                 <option value="pentagon">Pentagon</option>
@@ -798,10 +798,20 @@ export default {
       visualClipPath.classList.toggle("hidden", tabId !== "clippath");
 
       bgSelectorGroup.style.display = (tabId === "shadow" || tabId === "glass") ? "block" : "none";
+      if (tabId === "shadow" || tabId === "glass") {
+        if (bgSelect) applyPreviewBackground(bgSelect.value);
+      }
 
       if (guideTitle && guideSteps) {
         guideTitle.innerText = guides[tabId].title;
         guideSteps.innerHTML = guides[tabId].steps;
+      }
+
+      if (typeof appInstance?.syncActiveCapabilityChip === "function") {
+        appInstance.syncActiveCapabilityChip(container, tabId);
+      }
+      if (typeof appInstance?.injectGuideBenefits === "function") {
+        appInstance.injectGuideBenefits(container, "css-studio", tabId);
       }
 
       if (tabId === "gradient") {
@@ -866,13 +876,20 @@ export default {
       console.error(err);
     }
 
-    const generateHarmoniousGradient = () => {
+    const generateHarmoniousGradient = (defaultIfNone = false) => {
       const harmonySelect = container.querySelector("#grad-harmony");
       const stopsSelect = container.querySelector("#grad-harmony-stops");
       if (!harmonySelect || !stopsSelect) return;
 
-      const harmony = harmonySelect.value;
-      if (harmony === "none") return;
+      let harmony = harmonySelect.value;
+      if (harmony === "none") {
+        if (defaultIfNone) {
+          harmony = "analogous";
+          harmonySelect.value = "analogous";
+        } else {
+          return;
+        }
+      }
 
       const stopCount = parseInt(stopsSelect.value, 10);
       const seedHue = Math.floor(Math.random() * 360);
@@ -1141,8 +1158,9 @@ export default {
     shapeEl?.addEventListener("change", buildGradient);
     posEl?.addEventListener("change", buildGradient);
     repeatingEl?.addEventListener("change", buildGradient);
-    container.querySelector("#grad-harmony")?.addEventListener("change", generateHarmoniousGradient);
-    container.querySelector("#grad-harmony-gen-btn")?.addEventListener("click", generateHarmoniousGradient);
+    container.querySelector("#grad-harmony")?.addEventListener("change", () => generateHarmoniousGradient(false));
+    container.querySelector("#grad-harmony-stops")?.addEventListener("change", () => generateHarmoniousGradient(false));
+    container.querySelector("#grad-harmony-gen-btn")?.addEventListener("click", () => generateHarmoniousGradient(true));
     container.querySelector("#grad-randomize-btn")?.addEventListener("click", randomizeGradient);
 
     container.querySelector("#grad-add-stop-btn")?.addEventListener("click", () => {
@@ -1498,26 +1516,32 @@ export default {
     // ==========================================
     // SHARED PREVIEW BG CONTROLLER
     // ==========================================
+    const applyPreviewBackground = (val) => {
+      [visualShadow, visualGlass].forEach(targetContainer => {
+        if (!targetContainer) return;
+        const isHidden = targetContainer.classList.contains("hidden");
+        targetContainer.className = isHidden ? "hidden" : "";
+
+        const blobs = targetContainer.querySelectorAll(".glass-bg-deco-blob");
+
+        if (val === "cyber-mesh") {
+          targetContainer.classList.add("glass-bg-mesh");
+          blobs.forEach(b => b.style.display = "block");
+        } else if (val === "polka-dots") {
+          targetContainer.classList.add("glass-bg-dots");
+          blobs.forEach(b => b.style.display = "block");
+        } else if (val === "sunset-glow") {
+          targetContainer.classList.add("glass-bg-sunset");
+          blobs.forEach(b => b.style.display = "none");
+        } else {
+          targetContainer.classList.add("glass-bg-dark");
+          blobs.forEach(b => b.style.display = "none");
+        }
+      });
+    };
+
     bgSelect?.addEventListener("change", (e) => {
-      const val = e.target.value;
-      const targetContainer = activeTab === "shadow" ? visualShadow : visualGlass;
-      targetContainer.className = "";
-
-      const blobs = targetContainer.querySelectorAll(".glass-bg-deco-blob");
-
-      if (val === "cyber-mesh") {
-        targetContainer.className = "glass-bg-mesh";
-        blobs.forEach(b => b.style.display = "block");
-      } else if (val === "polka-dots") {
-        targetContainer.className = "glass-bg-dots";
-        blobs.forEach(b => b.style.display = "block");
-      } else if (val === "sunset-glow") {
-        targetContainer.className = "glass-bg-sunset";
-        blobs.forEach(b => b.style.display = "none");
-      } else {
-        targetContainer.className = "glass-bg-dark";
-        blobs.forEach(b => b.style.display = "none");
-      }
+      applyPreviewBackground(e.target.value);
     });
 
     // --- Unified copy ---
@@ -1625,10 +1649,10 @@ export default {
       
       renderClipPathUI();
       
-      // Reset select dropdown value to placeholder
+      // Keep select dropdown in sync with selected preset
       const cpPreset = container.querySelector("#clippath-preset");
-      if (cpPreset) {
-        cpPreset.value = "";
+      if (cpPreset && typeof presetName === "string") {
+        cpPreset.value = presetName;
       }
     };
 
@@ -1730,7 +1754,7 @@ export default {
           <span style="font-family:var(--font-mono); font-size:10px; color:${isActive ? 'var(--accent-cyan)' : 'var(--text-muted)'};">#${index + 1}</span>
           <input type="text" class="shape-name-input" value="${shape.name}" style="background:transparent; border:none; color:#fff; font-size:11px; width:70px; font-weight:${isActive ? 'bold' : 'normal'}; outline:none;">
           <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
-            <select class="shape-mode-select" title="Operation Mode (Add or Subtract shape)" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; font-size:10px; padding:2px 4px; border-radius:4px; outline:none; cursor:pointer;">
+            <select class="shape-mode-select form-select" title="Operation Mode (Add or Subtract shape)" style="background:var(--bg-input); border:1px solid var(--border-color); color:var(--text-main); font-size:10px; padding:2px 6px; border-radius:4px; outline:none; cursor:pointer;">
               <option value="add" ${!shape.inverted ? 'selected' : ''}>Add</option>
               <option value="subtract" ${shape.inverted ? 'selected' : ''}>Subtract</option>
             </select>
@@ -1834,6 +1858,10 @@ export default {
           isDragging = true;
           handle.classList.add("dragging");
           e.preventDefault();
+          document.addEventListener("mousemove", onDragMove);
+          document.addEventListener("mouseup", onDragEnd);
+          document.addEventListener("touchmove", onDragMove, { passive: false });
+          document.addEventListener("touchend", onDragEnd);
         };
 
         const onDragMove = (e) => {
@@ -1866,16 +1894,15 @@ export default {
           if (isDragging) {
             isDragging = false;
             handle.classList.remove("dragging");
+            document.removeEventListener("mousemove", onDragMove);
+            document.removeEventListener("mouseup", onDragEnd);
+            document.removeEventListener("touchmove", onDragMove);
+            document.removeEventListener("touchend", onDragEnd);
           }
         };
 
         handle.addEventListener("mousedown", onDragStart);
-        document.addEventListener("mousemove", onDragMove);
-        document.addEventListener("mouseup", onDragEnd);
-
         handle.addEventListener("touchstart", onDragStart);
-        document.addEventListener("touchmove", onDragMove, { passive: false });
-        document.addEventListener("touchend", onDragEnd);
 
         cpHandlesContainer.appendChild(handle);
 

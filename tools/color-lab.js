@@ -8,10 +8,10 @@ export default {
       <div class="tool-content-layout split-view">
         <!-- Configuration & Inputs (Left Panel) -->
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>Configuration</h3>
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+            <h3 style="margin: 0;">Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 440px; margin-left: 15px;" id="color-lab-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 100%; flex-wrap: wrap;" id="color-lab-tabs">
               <button class="keyboard-tab active" data-tab="palette" style="font-size: 11px; padding: 4px 8px;">Palette Generator</button>
               <button class="keyboard-tab" data-tab="shades" style="font-size: 11px; padding: 4px 8px;">Shades & Tints</button>
               <button class="keyboard-tab" data-tab="extract" style="font-size: 11px; padding: 4px 8px;">Extract from Image</button>
@@ -842,7 +842,8 @@ export default {
     cBgHex?.addEventListener("input", () => syncHex(cBgHex, cBg));
 
     container.querySelector("#palette-generate-btn")?.addEventListener("click", generateNewPalette);
-    
+    paletteTypeSelect?.addEventListener("change", generateNewPalette);
+
     const shapeChk = container.querySelector("#palette-use-shape-chk");
     if (shapeChk) {
       shapeChk.checked = appInstance.colorLabState.useSharedClipPath;

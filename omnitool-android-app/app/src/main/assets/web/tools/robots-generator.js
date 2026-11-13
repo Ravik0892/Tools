@@ -38,8 +38,8 @@ export default {
           <!-- User Agents & Crawl Delay -->
           <div class="form-group" style="margin-bottom: 14px;">
             <label style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">2. Targeted Crawler</label>
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-top: 4px;">
-              <select id="robots-user-agent" class="form-select" style="height: 38px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 8px; margin-top: 4px;">
+              <select id="robots-user-agent" class="form-select" style="height: 38px; min-width: 0; width: 100%;">
                 <option value="*" selected>All Crawlers (*)</option>
                 <option value="Googlebot">Googlebot (Google Search)</option>
                 <option value="Googlebot-Image">Googlebot-Image</option>
@@ -54,7 +54,7 @@ export default {
                 <option value="CCBot">Common Crawl</option>
               </select>
 
-              <select id="robots-crawl-delay" class="form-select" style="height: 38px;">
+              <select id="robots-crawl-delay" class="form-select" style="height: 38px; min-width: 0; width: 100%;">
                 <option value="" selected>No Delay</option>
                 <option value="1">1 sec</option>
                 <option value="2">2 sec</option>
@@ -120,7 +120,7 @@ export default {
 
           <!-- Code View Area -->
           <div class="form-group" style="height: calc(100% - 110px); min-height: 380px;">
-            <textarea id="robots-code-output" class="input-textarea" style="width: 100%; height: 100%; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; padding: 14px; background: rgba(0,0,0,0.3); border-color: var(--border-color); color: #00f2fe; resize: none; white-space: pre;" readonly spellcheck="false" aria-label="robots.txt output"></textarea>
+            <textarea id="robots-code-output" class="input-textarea" style="width: 100%; height: 100%; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; padding: 14px; background: rgba(0,0,0,0.3); border-color: var(--border-color); color: #00f2fe; resize: none; white-space: pre-wrap; word-break: break-word; min-width: 0; box-sizing: border-box;" readonly spellcheck="false" aria-label="robots.txt output"></textarea>
           </div>
 
           <!-- Validation Tips Card -->
@@ -131,7 +131,54 @@ export default {
             </span>
           </div>
         </div>
-      </div>
+      
+        <!-- Standard Canonical Tool Guide Card -->
+        <div class="tool-guide-card" style="flex-basis: 100%;">
+          <div class="tool-guide-header">
+            <div class="tool-guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Quick Guide: How to Generate robots.txt</span>
+            </div>
+            <div class="tool-guide-badge">SEO & AI Shield</div>
+          </div>
+
+          <div class="tool-guide-steps">
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">1</div>
+              <div class="tool-step-content">
+                <h4>Select Crawlers & Directives</h4>
+                <p>Choose user-agents like Googlebot, Bingbot, or wildcard (*) and configure crawl delay.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">2</div>
+              <div class="tool-step-content">
+                <h4>Add Path Restrictions</h4>
+                <p>Specify directories to Disallow (like /admin/ or /private/) and public paths to Allow.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">3</div>
+              <div class="tool-step-content">
+                <h4>Toggle AI Scraper Shield</h4>
+                <p>Block unauthorized AI crawlers including GPTBot, CCBot, and ClaudeBot with one click.</p>
+              </div>
+            </div>
+            
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Deploy to Domain Root</h4>
+                <p>Download or copy robots.txt and place it at the exact root of your web server domain.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  </div>
     `;
   },
 
@@ -164,13 +211,13 @@ export default {
       rulesContainer.innerHTML = "";
       rules.forEach((rule, idx) => {
         const row = document.createElement("div");
-        row.style.cssText = "display: flex; gap: 6px; align-items: center;";
+        row.style.cssText = "display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-width: 0;";
         row.innerHTML = `
           <select class="form-select rule-type-select" data-index="${idx}" style="width: 100px; height: 34px; font-size: 12px; padding: 0 8px;">
             <option value="Disallow" ${rule.type === "Disallow" ? "selected" : ""}>Disallow</option>
             <option value="Allow" ${rule.type === "Allow" ? "selected" : ""}>Allow</option>
           </select>
-          <input type="text" class="form-input rule-path-input" data-index="${idx}" value="${escapeHtml(rule.path)}" placeholder="/folder/" style="flex: 1; height: 34px; font-family: var(--font-mono); font-size: 12px;">
+          <input type="text" class="form-input rule-path-input" data-index="${idx}" value="${escapeHtml(rule.path)}" placeholder="/folder/" style="flex: 1; min-width: 120px; height: 34px; font-family: var(--font-mono); font-size: 12px;">
           <button type="button" class="tool-btn secondary rule-del-btn" data-index="${idx}" style="padding: 0 8px; height: 34px; color: var(--accent-rose);" title="Remove rule">✕</button>
         `;
         rulesContainer.appendChild(row);
@@ -206,9 +253,9 @@ export default {
       sitemapsContainer.innerHTML = "";
       sitemaps.forEach((url, idx) => {
         const row = document.createElement("div");
-        row.style.cssText = "display: flex; gap: 6px; align-items: center;";
+        row.style.cssText = "display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-width: 0;";
         row.innerHTML = `
-          <input type="text" class="form-input sitemap-url-input" data-index="${idx}" value="${escapeHtml(url)}" placeholder="https://yourdomain.com/sitemap.xml" style="flex: 1; height: 34px; font-family: var(--font-mono); font-size: 12px;">
+          <input type="text" class="form-input sitemap-url-input" data-index="${idx}" value="${escapeHtml(url)}" placeholder="https://yourdomain.com/sitemap.xml" style="flex: 1; min-width: 140px; height: 34px; font-family: var(--font-mono); font-size: 12px;">
           <button type="button" class="tool-btn secondary sitemap-del-btn" data-index="${idx}" style="padding: 0 8px; height: 34px; color: var(--accent-rose);" title="Remove sitemap">✕</button>
         `;
         sitemapsContainer.appendChild(row);
@@ -239,7 +286,7 @@ export default {
 
       let code = `# ==========================================\n`;
       code += `# Robots.txt generated by OmniTool Hub\n`;
-      code += `# https://omnitools-hub.vercel.app/\n`;
+      code += `# https://omnitool.worldsneed.com/\n`;
       code += `# Created: ${new Date().toISOString().split('T')[0]}\n`;
       code += `# ==========================================\n\n`;
 

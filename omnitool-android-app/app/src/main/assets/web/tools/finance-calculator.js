@@ -634,7 +634,7 @@ export default {
           <div class="tool-guide-header">
             <div class="tool-guide-title">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              <span>Financial Mastery Guide &amp; Mathematical Principles</span>
+              <span>Quick Guide: How to Use Financial &amp; Loan Calculator</span>
             </div>
             <div class="tool-guide-badge">Zero-Server 100% Private</div>
           </div>
@@ -643,27 +643,35 @@ export default {
             <div class="tool-guide-step">
               <div class="tool-step-num">1</div>
               <div class="tool-step-content">
-                <h4>Systematic Investment Plan (SIP)</h4>
-                <p>A SIP allows disciplined compounding by investing fixed amounts periodically into mutual funds or index funds. Compounding interest accelerates exponentially in years 10–30 as accumulated returns begin generating their own returns.</p>
-                <div style="margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-cyan); background: rgba(0,0,0,0.25); padding: 4px 8px; border-radius: 4px;">Formula: M = P × [ (1 + i)ⁿ - 1 ] / i × (1 + i)</div>
+                <h4>Select Engine &amp; Global Currency</h4>
+                <p>Choose between <strong>SIP Wealth Planner</strong>, <strong>Compound Interest</strong>, or <strong>Loan EMI</strong>. Use the currency selector at the top of the controls to switch between USD ($), INR (₹), EUR (€), GBP (£), and JPY (¥).</p>
+                <div style="margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-cyan); background: rgba(0,0,0,0.25); padding: 4px 8px; border-radius: 4px;">SIP Formula: M = P × [ (1 + i)ⁿ - 1 ] / i × (1 + i)</div>
               </div>
             </div>
 
             <div class="tool-guide-step">
               <div class="tool-step-num">2</div>
               <div class="tool-step-content">
-                <h4>Albert Einstein's 8th Wonder: Compound Interest</h4>
-                <p>Compound interest computes interest on both initial principal and prior accumulated interest. Higher compounding frequency (daily vs annual) increases the Annual Percentage Yield (APY) through frequent capitalization.</p>
-                <div style="margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-emerald); background: rgba(0,0,0,0.25); padding: 4px 8px; border-radius: 4px;">Formula: A = P(1 + r/n)ⁿᵗ &nbsp;|&nbsp; APY = (1 + r/n)ⁿ - 1</div>
+                <h4>Adjust Real-Time Sliders &amp; Rates</h4>
+                <p>Fine-tune principal investments, monthly contributions, expected annual return %, and tenure years. Every slider and numeric input provides instant sub-millisecond calculation updates with zero lag.</p>
+                <div style="margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-emerald); background: rgba(0,0,0,0.25); padding: 4px 8px; border-radius: 4px;">Compound: A = P(1 + r/n)ⁿᵗ &nbsp;|&nbsp; APY = (1 + r/n)ⁿ - 1</div>
               </div>
             </div>
 
             <div class="tool-guide-step">
               <div class="tool-step-num">3</div>
               <div class="tool-step-content">
-                <h4>Equated Monthly Installment (Reducing Balance EMI)</h4>
-                <p>Loan EMI calculates the exact fixed monthly payment required to eliminate debt. Prepaying extra monthly or annual principal slashes the outstanding balance and saves thousands in cumulative interest.</p>
-                <div style="margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-rose); background: rgba(0,0,0,0.25); padding: 4px 8px; border-radius: 4px;">Formula: EMI = [P × r × (1 + r)ⁿ] / [ (1 + r)ⁿ - 1 ]</div>
+                <h4>Accelerate Returns &amp; Slash Debt Tenure</h4>
+                <p>Toggle <strong>Step-Up %</strong> in SIP mode to model annual contribution increases, or test <strong>Monthly / Lump-sum Prepayments</strong> in Loan EMI mode to visualize thousands saved in interest and years shaved off your mortgage.</p>
+                <div style="margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-rose); background: rgba(0,0,0,0.25); padding: 4px 8px; border-radius: 4px;">Reducing Balance: EMI = [P × r × (1 + r)ⁿ] / [ (1 + r)ⁿ - 1 ]</div>
+              </div>
+            </div>
+
+            <div class="tool-guide-step">
+              <div class="tool-step-num">4</div>
+              <div class="tool-step-content">
+                <h4>Visual Allocation &amp; CSV Ledger Export</h4>
+                <p>Switch between the visual <strong>Donut Chart</strong> (Principal vs Returns) and the <strong>Growth Curve Stage</strong>. Copy formatted plan summaries with one click, or export the complete year-by-year and month-by-month ledger to CSV.</p>
               </div>
             </div>
           </div>

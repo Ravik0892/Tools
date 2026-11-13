@@ -8,7 +8,7 @@
     "generate-guides": "node scripts/generate-guides.mjs",
     "update-sitemap": "node scripts/update-sitemap.mjs",
     "sync-android": "node scripts/sync-android-assets.mjs",
-    "test": "node tests/test_all_tools_runtime.mjs && node tests/test_payment_system.mjs && node tests/test_api_endpoints.mjs && node tests/test_admin_auth.mjs && node tests/comprehensive_audit.mjs && node tests/test_search_filters.mjs && node tests/test_markdown_parser.mjs && node tests/test_screenshot_studio.mjs && node tests/verify_all_studio_features.mjs && node tests/test_routing_navigation.mjs && node tests/test_ui_mode_and_smart_search.mjs",
+    "test": "node tests/test_all_tools_runtime.mjs && node tests/test_payment_system.mjs && node tests/test_api_endpoints.mjs && node tests/test_admin_auth.mjs && node tests/comprehensive_audit.mjs && node tests/test_search_filters.mjs && node tests/test_markdown_parser.mjs && node tests/test_screenshot_studio.mjs && node tests/verify_all_studio_features.mjs && node tests/test_routing_navigation.mjs && node tests/test_ui_mode_and_smart_search.mjs && node tests/test_language_changing_perfection.mjs",
     "validate-repo": "node tests/validate_repo.mjs"
   }
 }

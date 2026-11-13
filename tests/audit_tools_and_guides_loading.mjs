@@ -122,7 +122,7 @@ for (const id of toolIds) {
 console.log('\n▶ [2/5] Auditing subtoolsRegistry & Routing Redirects...');
 
 const subtoolsIdx = appJs.indexOf('subtoolsRegistry: {');
-const subtoolsEnd = appJs.indexOf('},\n  // Navigation', subtoolsIdx);
+const subtoolsEnd = appJs.indexOf('registerTabSwitcher(', subtoolsIdx);
 const subtoolsSlice = appJs.slice(subtoolsIdx, subtoolsEnd);
 
 const subtoolSlugs = [];
@@ -212,7 +212,7 @@ for (const file of guideFiles) {
 console.log('\n▶ [4/5] Auditing Guides Hub (guides/index.html)...');
 
 const guidesIndexContent = fs.readFileSync(path.join(guidesDir, 'index.html'), 'utf8');
-const cardLinks = [...guidesIndexContent.matchAll(/<a href="([^"]+\.html)" class="read-guide-btn">/g)].map(m => m[1]);
+const cardLinks = [...guidesIndexContent.matchAll(/<a href="(?:\/guides\/)?([^"#?]+?)(?:\.html)?" class="read-guide-btn">/g)].map(m => `${m[1]}.html`);
 
 console.log(`  Found ${cardLinks.length} guide card links in guides/index.html`);
 

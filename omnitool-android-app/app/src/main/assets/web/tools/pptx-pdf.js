@@ -23,12 +23,17 @@ export default {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M8 8h5a2.5 2.5 0 0 1 0 5H8z"></path><line x1="8" y1="8" x2="8" y2="16"></line></svg>
               Presentation Setup
             </h3>
-            <div style="display: flex; gap: 6px;">
-              <button class="keyboard-tab ${this.activeMode === 'pptx-to-pdf' ? 'active' : ''}" id="btn-mode-pptx-to-pdf" style="font-size: 11px; padding: 4px 8px;">
-                📊 PPTX to PDF
+          </div>
+
+          <!-- Conversion Direction Segmented Control -->
+          <div class="conversion-mode-bar" style="margin: 14px 0 16px 0;">
+            <label style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: block; margin-bottom: 6px;">Conversion Direction</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: rgba(255, 255, 255, 0.03); padding: 4px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <button type="button" class="mode-segment-btn ${this.activeMode === 'pptx-to-pdf' ? 'active' : ''}" id="btn-mode-pptx-to-pdf" style="padding: 7px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+                <span>📊 PPTX to PDF</span>
               </button>
-              <button class="keyboard-tab ${this.activeMode === 'pdf-to-pptx' ? 'active' : ''}" id="btn-mode-pdf-to-pptx" style="font-size: 11px; padding: 4px 8px;">
-                📑 PDF to PPTX
+              <button type="button" class="mode-segment-btn ${this.activeMode === 'pdf-to-pptx' ? 'active' : ''}" id="btn-mode-pdf-to-pptx" style="padding: 7px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+                <span>📑 PDF to PPTX</span>
               </button>
             </div>
           </div>

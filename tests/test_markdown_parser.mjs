@@ -171,12 +171,14 @@ if (!sampleCapturedHtml.includes('task-checkbox') || !sampleCapturedHtml.include
   process.exit(1);
 }
 
-// Test 4: Verify All Fixed Edge Cases (URL Underscores, Inline Code, Snake_Case, Math, XSS)
+// Test 4: Verify All Fixed Edge Cases (URL Underscores, Query Params, Inline Code, Snake_Case, Math vs Currency, XSS, Internal Links)
 console.log('\n--- VERIFYING PARSER FIXES & ENHANCEMENTS ---');
 const edgeCaseInput = [
   'Inline code: `<div>` and `foo_bar_baz` and `a * b`',
   '',
   'URL test: [Documentation](https://example.com/api_v1_auth) and ![Photo](https://example.com/img_v2_small.png)',
+  '',
+  'Query params: [API](https://example.com/search?q=test&lang=en) and Internal: [Jump](#section-one)',
   '',
   'Snake case: user_profile_token is intact, but _italic text_ works.',
   '',
@@ -191,7 +193,9 @@ const edgeCaseInput = [
   'E = mc^2',
   '$$',
   '',
-  'Math inline: Formula $a^2 + b^2 = c^2$'
+  'Math inline: Formula $a^2 + b^2 = c^2$',
+  '',
+  'Currency text: The cost was $5 and now it is $10.'
 ].join('\n');
 
 let edgeCaseHtml = '';
@@ -240,10 +244,15 @@ const codeNoItalic = edgeCaseHtml.includes('<code>foo_bar_baz</code>');
 console.log('Inline code escaped once (<div>):', codeSingleEscaped ? 'PASS' : 'FAIL');
 console.log('Inline code preserves underscores (foo_bar_baz):', codeNoItalic ? 'PASS' : 'FAIL');
 
-// Check 2: URLs with underscores preserved in href and src
+// Check 2: URLs with underscores and query params preserved without double-escaping
 const urlUnderscorePreserved = edgeCaseHtml.includes('href="https://example.com/api_v1_auth"') &&
                                edgeCaseHtml.includes('src="https://example.com/img_v2_small.png"');
+const queryParamsClean = edgeCaseHtml.includes('href="https://example.com/search?q=test&amp;lang=en"') &&
+                         !edgeCaseHtml.includes('&amp;amp;');
+const internalLinkNoBlank = edgeCaseHtml.includes('<a href="#section-one">Jump</a>');
 console.log('URL & Image underscores preserved (no <em> in href/src):', urlUnderscorePreserved ? 'PASS' : 'FAIL');
+console.log('URL query parameters clean without double-escaping (&amp;):', queryParamsClean ? 'PASS' : 'FAIL');
+console.log('Internal anchor links omit target="_blank":', internalLinkNoBlank ? 'PASS' : 'FAIL');
 
 // Check 3: Snake case preserved without italics
 const snakeCasePreserved = edgeCaseHtml.includes('user_profile_token') && !edgeCaseHtml.includes('user<em>profile</em>token');
@@ -260,13 +269,24 @@ const tableWithCodePipe = edgeCaseHtml.includes('<table><thead><tr><th style="te
                           edgeCaseHtml.includes('<code>cat file | grep text</code>');
 console.log('Table with pipe inside inline code:', tableWithCodePipe ? 'PASS' : 'FAIL');
 
-// Check 6: Math block and inline math rendered
+// Check 6: Math block and inline math rendered, currency NOT treated as math
 const mathBlockRendered = edgeCaseHtml.includes('md-math-block') || edgeCaseHtml.includes('md-math-display');
 const mathInlineRendered = edgeCaseHtml.includes('md-math-inline');
+const currencyIntact = edgeCaseHtml.includes('$5 and now it is $10.');
 console.log('Math block rendered:', mathBlockRendered ? 'PASS' : 'FAIL');
 console.log('Math inline rendered ($...$):', mathInlineRendered ? 'PASS' : 'FAIL');
+console.log('Currency text preserved without false math ($5 and $10):', currencyIntact ? 'PASS' : 'FAIL');
 
-if (!codeSingleEscaped || !codeNoItalic || !urlUnderscorePreserved || !snakeCasePreserved || !italicWorks || !xssBlocked || !tableWithCodePipe || !mathBlockRendered || !mathInlineRendered) {
+// Check 7: UI Markup DOM tag balance & Module Lifecycle Cleanup
+const divOpens = (html.match(/<div\b/g) || []).length;
+const divCloses = (html.match(/<\/div>/g) || []).length;
+const normalizedHtml = html.replace(/\r\n/g, '\n');
+const domBalanced = divOpens === divCloses && (normalizedHtml.match(/No headings detected yet/g) || []).length === 1;
+const hasCleanup = typeof mod.cleanup === 'function';
+console.log('UI DOM div tags balanced (opens: ' + divOpens + ', closes: ' + divCloses + '):', domBalanced ? 'PASS' : 'FAIL');
+console.log('Module exports mandatory cleanup() method:', hasCleanup ? 'PASS' : 'FAIL');
+
+if (!codeSingleEscaped || !codeNoItalic || !urlUnderscorePreserved || !queryParamsClean || !internalLinkNoBlank || !snakeCasePreserved || !italicWorks || !xssBlocked || !tableWithCodePipe || !mathBlockRendered || !mathInlineRendered || !currencyIntact || !domBalanced || !hasCleanup) {
   console.error('\nEdge case verification failed! Captured HTML:');
   console.error(edgeCaseHtml);
   process.exit(1);

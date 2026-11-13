@@ -35,7 +35,7 @@ object ToolRepository {
         Tool("url-parser", "URL Query Parser & Builder", "Parse web addresses, extract parameters into a key-value grid, edit variables, and build clean query strings.", "text", "Transformations"),
         Tool("text-analyzer", "Text Readability & Analyzer", "Calculate Flesch Reading Ease score, evaluate sentence counts, estimate reading time, and check keyword density.", "text", "Pattern Analysis"),
         Tool("mock-data-generator", "Private CSV/JSON Mock Data Generator", "Design custom schemas, configure column types (names, emails, dates, numbers), and bulk-generate up to 50,000 rows of mock data entirely client-side.", "dev", "Generators"),
-        Tool("admin-settings", "Settings & Ad Control Panel", "Manage ad network codes, toggle locations, edit AdSense/AdMob IDs, and clear local caches.", "dev", "Admin Center"),
+        Tool("fancy-font-generator", "Fancy Font & Bio Text Generator", "Transform standard text into 60+ aesthetic Unicode fonts, Gothic Fraktur, cursive calligraphy, small caps, bio templates, and glitch text for Instagram, Discord, and TikTok.", "text", "Transformations"),
         Tool("code-playground", "HTML/CSS/JS Live Playground", "Write front-end HTML, CSS, and JavaScript in real-time, see live rendering in a sandbox iframe, and catch output logs in a simulated console.", "dev", "Generators"),
         Tool("ip-subnet-calculator", "IP Subnet & MAC Address Suite", "Calculate subnet CIDR parameters, inspect host ranges, format MAC addresses, and perform local manufacturer OUI lookups.", "math", "Calculator"),
         Tool("curl-converter", "cURL to Code Converter", "Convert cURL commands directly into modern Fetch (ES6 async/await), Axios, Python Requests, and Go HTTP client code.", "dev", "Generators"),
@@ -56,7 +56,9 @@ object ToolRepository {
         Tool("pdf-security-suite", "PDF Security, Repair & Archival Suite", "Protect PDFs with AES encryption, remove passwords, repair corrupted xref tables & headers, and export ISO 19005 PDF/A archives.", "text", "PDF Security & Repair"),
         Tool("pdf-ai", "AI PDF Summarizer & Translator", "Generate executive summaries, extract actionable commitments, chat with documents in Q&A mode, or translate PDFs into 15+ languages via Gemini & offline NLP.", "text", "AI & Intelligence"),
         Tool("compare-pdf", "Compare PDF Documents", "Compare two revisions of a PDF side-by-side, highlight layout differences with a pixel difference heatmap, wipe slider, or text clause diff.", "text", "PDF Power Tools"),
+        Tool("finance-calculator", "Financial Growth & Loan Calculator Suite", "Calculate SIP mutual fund returns, future compound interest growth, and complete loan EMI / mortgage amortization schedules with interactive SVG charts.", "math", "Calculator"),
         Tool("native-logcat", "Logcat Viewer", "Capture and filter live Android system logs directly on device.", "dev", "Diagnostics"),
-        Tool("native-device-info", "Device Diagnostics", "View live RAM stats, battery health metrics, and hardware specifications.", "dev", "Diagnostics")
+        Tool("native-device-info", "Device Diagnostics", "View live RAM stats, battery health metrics, and hardware specifications.", "dev", "Diagnostics"),
+        Tool("guides-hub", "Guides & Technical Documentation Hub", "Step-by-step developer tutorials, architecture guides, and offline recipes for all utilities across 95 in-depth guides.", "guides", "Official Guides")
     )
 }

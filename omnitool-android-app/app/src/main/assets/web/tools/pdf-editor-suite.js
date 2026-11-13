@@ -9,11 +9,11 @@ export default {
   currentModule: null,
 
   subtools: [
-    { id: "sign-pdf", label: "Sign Document", icon: "✍️", title: "Sign PDF Document", desc: "Draw hand-written signatures, type elegant cursive names, or upload stamp seals, then position and embed them directly onto any PDF page." },
+    { id: "sign-pdf", label: "Draw & Cursive Sign", icon: "✍️", title: "Sign PDF Document", desc: "Draw hand-written signatures, type elegant cursive names, or upload stamp seals, then position and embed them directly onto any PDF page." },
     { id: "pdf-annotate", label: "Annotate & Draw", icon: "✏️", title: "Annotate & Draw on PDF", desc: "Highlight passages, sketch freehand notes, stamp text markers, draw framing boxes, and arrows directly onto PDF pages." },
-    { id: "pdf-forms", label: "Form Filler", icon: "📋", title: "PDF Form Filler & AcroForms", desc: "Inspect and fill interactive PDF AcroForm fields (text fields, checkboxes, dropdowns, radio groups) directly in-browser and flatten or export." },
+    { id: "pdf-forms", label: "AcroForm Fill & Flatten", icon: "📋", title: "PDF Form Filler & AcroForms", desc: "Inspect and fill interactive PDF AcroForm fields (text fields, checkboxes, dropdowns, radio groups) directly in-browser and flatten or export." },
     { id: "pdf-watermark", label: "Watermark & Pages", icon: "💧", title: "PDF Watermark & Page Numbers", desc: "Add customizable diagonal/horizontal text watermarks and stamp dynamic page numbers (Page X of Y) with position, font, and opacity controls." },
-    { id: "redact-pdf", label: "Redact & Censor", icon: "⬛", title: "PDF Redact & Privacy Sanitizer", desc: "Permanently scrub sensitive text, PII, and financial details from PDF pages by drawing opaque redaction boxes burned into document streams." }
+    { id: "redact-pdf", label: "Permanent Redaction", icon: "⬛", title: "PDF Redact & Privacy Sanitizer", desc: "Permanently scrub sensitive text, PII, and financial details from PDF pages by drawing opaque redaction boxes burned into document streams." }
   ],
 
   renderUI() {
@@ -74,23 +74,31 @@ export default {
   injectTabs(editorHeader, appInstance, loadSubtoolFn) {
     if (!editorHeader) return;
 
+    editorHeader.classList.add("suite-header");
+    editorHeader.style.cssText = "display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 8px !important;";
+
+    // Ensure the top row of header has the title and any right-aligned actions
+    let headerTop = editorHeader.querySelector(".panel-header-top");
+    if (!headerTop) {
+      headerTop = document.createElement("div");
+      headerTop.className = "panel-header-top";
+      headerTop.style.cssText = "display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px;";
+      
+      const existingChildren = Array.from(editorHeader.children).filter(c => !c.classList.contains("suite-tabs-nav"));
+      existingChildren.forEach(c => headerTop.appendChild(c));
+      editorHeader.appendChild(headerTop);
+    }
+
     let tabsNav = editorHeader.querySelector(".suite-tabs-nav");
     if (!tabsNav) {
       tabsNav = document.createElement("div");
       tabsNav.className = "suite-tabs-nav";
-      tabsNav.id = "editor-tabs-bar";
-      tabsNav.style.cssText = "display: flex; gap: 5px; align-items: center; overflow-x: auto; max-width: calc(100% - 150px); scrollbar-width: none; margin-left: auto; padding: 2px 0;";
-
-      const actionBtn = editorHeader.querySelector(".tool-btn, #sp-change-pdf-btn, #btn-change-pdf");
-      if (actionBtn) {
-        editorHeader.insertBefore(tabsNav, actionBtn);
-      } else {
-        editorHeader.appendChild(tabsNav);
-      }
+      editorHeader.appendChild(tabsNav);
     }
+    tabsNav.style.cssText = "display: flex; gap: 6px !important; align-items: center !important; width: 100% !important; flex-wrap: wrap !important; margin-top: 4px !important; padding-top: 8px !important; border-top: 1px solid rgba(255, 255, 255, 0.06) !important;";
 
     tabsNav.innerHTML = this.subtools.map(st => `
-      <button type="button" class="keyboard-tab ${st.id === this.activeSubtool ? 'active' : ''}" data-subtool="${st.id}" style="font-size: 11px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; flex-shrink: 0;" title="${st.title}">
+      <button type="button" class="keyboard-tab ${st.id === this.activeSubtool ? 'active' : ''}" data-subtool="${st.id}" style="font-size: 11px; padding: 4px 10px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;" title="${st.title}">
         <span>${st.icon}</span>
         <span>${st.label}</span>
       </button>
@@ -125,26 +133,47 @@ export default {
       }
       const config = this.subtools.find(st => st.id === subtoolId) || this.subtools[0];
 
-      if (host) {
+      const isInitialMount = !host.firstElementChild || host.querySelector(".suite-loading-spinner");
+      if (isInitialMount) {
         host.innerHTML = `
-          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 350px; gap: 12px; color: var(--text-muted);">
+          <div class="suite-loading-spinner" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 350px; gap: 12px; color: var(--text-muted);">
             <div style="width: 32px; height: 32px; border: 3px solid rgba(157,78,221,0.2); border-top-color: var(--accent-purple); border-radius: 50%; animation: editor-spin 0.8s linear infinite;"></div>
             <span style="font-size: 13px;">Mounting ${config.label} canvas engine...</span>
           </div>
         `;
+      } else {
+        host.classList.add("subtool-transitioning");
       }
 
       try {
-        const module = await import(`./${subtoolId}.js?t=${Date.now()}`);
+        if (!this._subtoolModules) this._subtoolModules = {};
+        let module = this._subtoolModules[subtoolId];
+        if (!module) {
+          module = await import(`./${subtoolId}.js`);
+          this._subtoolModules[subtoolId] = module;
+        }
         if (module && module.default) {
           this.currentModule = module.default;
           if (host) {
             host.innerHTML = module.default.renderUI();
+            host.classList.remove("subtool-transitioning");
+            host.classList.add("subtool-fade-in");
+            setTimeout(() => host.classList.remove("subtool-fade-in"), 300);
+
             if (typeof module.default.init === "function") {
               module.default.init(host, appInstance);
             }
             if (typeof appInstance.initLayoutSizer === "function") {
-              appInstance.initLayoutSizer();
+              appInstance.initLayoutSizer(host);
+            }
+            if (typeof appInstance.injectGuideBenefits === "function") {
+              appInstance.injectGuideBenefits(host, "pdf-editor-suite", subtoolId);
+            }
+            if (typeof appInstance.syncActiveCapabilityChip === "function") {
+              appInstance.syncActiveCapabilityChip(document, subtoolId);
+            }
+            if (typeof appInstance.distributePanelAds === "function") {
+              appInstance.distributePanelAds(host);
             }
 
             // Find editor panel (Panel 0, Configuration/Editor) and inject tabs
@@ -161,6 +190,9 @@ export default {
                 const editorHeader = editorPanel.querySelector(".panel-header");
                 if (editorHeader) {
                   this.injectTabs(editorHeader, appInstance, loadSubtool);
+                  if (typeof appInstance.syncMobileSplitBar === "function") {
+                    appInstance.syncMobileSplitBar(splitView || host);
+                  }
                 }
               }
             };

@@ -1115,6 +1115,9 @@ export default {
     // Template Selector & Reset Handlers
     const loadTemplate = (key, notify = true) => {
       const template = this.defaultTemplates[key] || this.defaultTemplates.helloWorld;
+      if (templateSelect && this.defaultTemplates[key]) {
+        templateSelect.value = key;
+      }
       htmlInput.value = template.html;
       cssInput.value = template.css;
       jsInput.value = template.js;
@@ -1202,6 +1205,14 @@ export default {
         libSelect.value = "";
       } else {
         appInstance.showToast("Please select a popular library from the list", "warn");
+      }
+    });
+
+    libSelect?.addEventListener("change", () => {
+      const selected = libSelect.value;
+      if (selected) {
+        addLibrary(selected);
+        libSelect.value = "";
       }
     });
 

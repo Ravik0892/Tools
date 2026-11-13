@@ -7,10 +7,10 @@ export default {
     return `
       <div class="tool-content-layout split-view">
         <div class="tool-panel">
-          <div class="panel-header">
-            <h3>Configuration</h3>
+          <div class="panel-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+            <h3 style="margin: 0;">Configuration</h3>
             <!-- Tabs inside config panel -->
-            <div style="display: flex; gap: 8px; width: 100%; max-width: 320px; margin-left: 15px;" id="svg-suite-tabs">
+            <div style="display: flex; gap: 8px; width: 100%; max-width: 100%; flex-wrap: wrap;" id="svg-suite-tabs">
               <button class="keyboard-tab active" data-tab="animator" style="font-size: 11px; padding: 4px 8px;">Preset Animator</button>
               <button class="keyboard-tab" data-tab="morph" style="font-size: 11px; padding: 4px 8px;">Path Morph Studio</button>
             </div>

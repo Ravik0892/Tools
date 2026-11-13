@@ -422,7 +422,26 @@ export default {
             <div class="form-group" id="ad-network-group" style="margin-bottom: 16px;">
               <label for="ad-network-select">Active Ad Provider (Dashboard &amp; Tools)</label>
               <select class="form-select" id="ad-network-select">
-                <option value="dev">Developer Sponsor Ads (Default Local)</option>
+            <!-- Remote Live Config Sync (Update Mobile App Without App Updates) -->
+            <div class="form-group" style="background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 10px; padding: 14px; margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+                <label for="remote-config-url" style="color: var(--accent-cyan); font-weight: 700; margin-bottom: 0;">📡 Live Remote Config URL (Auto-Sync to Mobile App &amp; Web)</label>
+                <span style="font-size: 11px; font-weight: 700; color: #10b981; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3);">NO APP UPDATE REQUIRED</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">When users install your app from Amazon Appstore or use your website, their app automatically syncs new ads, referral links, and pricing from this live URL on startup!</p>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" class="form-input" id="remote-config-url" placeholder="https://omnitool.worldsneed.com/ad-config.json" style="flex: 1;">
+                <button type="button" class="tool-btn secondary" id="btn-test-remote-sync" style="white-space: nowrap; font-size: 12px; padding: 0 14px; height: 38px;">Test Live Sync</button>
+              </div>
+              <div id="remote-sync-status" style="font-size: 11.5px; margin-top: 6px; display: none;"></div>
+            </div>
+
+            <!-- Ad Network Selector -->
+            <div class="form-group" id="ad-network-group" style="margin-bottom: 16px;">
+              <label for="ad-network-select">Active Ad Provider (Dashboard &amp; Tools)</label>
+              <select class="form-select" id="ad-network-select">
+                <option value="dev">Developer &amp; Referral Partner Ads</option>
+                <option value="amazon">Amazon Mobile Ads / APS</option>
                 <option value="adsense">Google AdSense</option>
                 <option value="admob">AdMob Mobile Banner</option>
                 <option value="custom">Custom Ad Script / HTML Code</option>
@@ -434,7 +453,8 @@ export default {
               <label for="sidebar-ad-network-select">Sidebar Ad Provider</label>
               <select class="form-select" id="sidebar-ad-network-select">
                 <option value="inherit">Inherit Active Ad Provider (Default)</option>
-                <option value="dev">Developer Sponsor Ads</option>
+                <option value="dev">Developer &amp; Referral Partner Ads</option>
+                <option value="amazon">Amazon Mobile Ads / APS</option>
                 <option value="adsense">Google AdSense</option>
                 <option value="admob">AdMob Mobile Banner</option>
                 <option value="custom">Custom Ad Script / HTML Code</option>
@@ -443,16 +463,16 @@ export default {
 
             <!-- Dynamic Network Inputs -->
             <div class="network-inputs-container">
-              <!-- Developer Sponsor Inputs -->
+              <!-- Developer & Referral Sponsor Inputs -->
               <div id="inputs-dev" class="ad-network-fields" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                  <span style="font-weight: 700; font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Sponsor Details</span>
+                  <span style="font-weight: 700; font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Referral / Sponsor Details</span>
                   <span id="sponsor-edit-status" style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0, 242, 254, 0.2);">Global Defaults</span>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="sponsor-brand">Sponsor Brand Name</label>
-                    <input type="text" class="form-input" id="sponsor-brand" placeholder="e.g. HexaCloud Host">
+                    <label for="sponsor-brand">Partner / Brand Name</label>
+                    <input type="text" class="form-input" id="sponsor-brand" placeholder="e.g. DigitalOcean, Amazon, Binance">
                   </div>
                   <div class="form-group">
                     <label for="sponsor-icon-select">Sponsor Icon Style</label>
@@ -460,21 +480,36 @@ export default {
                       <option value="cloud">Cloud Server</option>
                       <option value="database">Database Server</option>
                       <option value="shield">Security Shield</option>
+                      <option value="shopping">Shopping / Amazon Deals</option>
+                      <option value="tag">Discount Coupon / Tag</option>
+                      <option value="gift">Gift / Referral Bonus</option>
+                      <option value="zap">Instant Lightning</option>
+                      <option value="star">Featured Partner</option>
                     </select>
                   </div>
                 </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="sponsor-badge">Badge Label Text</label>
+                    <input type="text" class="form-input" id="sponsor-badge" placeholder="e.g. SPONSOR, REFERRAL BONUS, AMAZON DEAL">
+                  </div>
+                  <div class="form-group">
+                    <label for="sponsor-image-url">Custom Logo / Image URL (Optional)</label>
+                    <input type="text" class="form-input" id="sponsor-image-url" placeholder="https://.../brand-logo.png">
+                  </div>
+                </div>
                 <div class="form-group">
-                  <label for="sponsor-slogan">Sponsor Slogan / Description</label>
-                  <input type="text" class="form-input" id="sponsor-slogan" placeholder="e.g. Secure, lightning-fast hosting...">
+                  <label for="sponsor-slogan">Referral Slogan / Description</label>
+                  <input type="text" class="form-input" id="sponsor-slogan" placeholder="e.g. Claim $200 free credit, or exclusive 20% discount...">
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="sponsor-url">Sponsor Affiliate Link</label>
-                    <input type="text" class="form-input" id="sponsor-url" placeholder="e.g. https://your-affiliate-link.com">
+                    <label for="sponsor-url">Affiliate / Referral Link</label>
+                    <input type="text" class="form-input" id="sponsor-url" placeholder="e.g. https://amazon.com/?tag=yourtag or https://.../?refcode=...">
                   </div>
                   <div class="form-group">
                     <label for="sponsor-btn-text">Button Text</label>
-                    <input type="text" class="form-input" id="sponsor-btn-text" placeholder="e.g. Claim Now">
+                    <input type="text" class="form-input" id="sponsor-btn-text" placeholder="e.g. Claim Deal, Shop Now">
                   </div>
                 </div>
                 
@@ -493,6 +528,16 @@ export default {
                   <p style="font-size: 11px; color: var(--text-muted);">Select a tool, click "Edit Page" to customize its sponsor ad. Click "Reset Page" to restore global default sponsor.</p>
                 </div>
               </div>
+
+              <!-- Amazon Mobile Ads / APS Inputs -->
+              <div id="inputs-amazon" class="ad-network-fields" style="display: none;">
+                <div class="form-group">
+                  <label for="amazon-slot-id">Amazon Mobile Ads Slot / Placement ID</label>
+                  <input type="text" class="form-input" id="amazon-slot-id" placeholder="e.g. amzn-slot-12345">
+                  <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Amazon Publisher Services (APS) banner slot ID for Amazon Fire, Android apps, and web monetization.</p>
+                </div>
+              </div>
+
               <!-- AdSense Inputs -->
               <div id="inputs-adsense" class="ad-network-fields" style="display: none;">
                 <div class="form-group">
@@ -533,6 +578,9 @@ export default {
                 </div>
                 <div class="form-group">
                   <label for="admob-unit-side">Sidebar Drawer Banner Unit ID</label>
+                  <input type="text" class="form-input" id="admob-unit-side" placeholder="e.g. ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX">
+                </div>
+              </div>
                   <input type="text" class="form-input" id="admob-unit-side" placeholder="e.g. ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX">
                 </div>
               </div>
@@ -1075,7 +1123,14 @@ export default {
     const previewBox = container.querySelector("#ad-preview-box");
     const previewBadge = container.querySelector("#preview-network-badge");
 
-    // Developer Sponsor selectors
+    // Developer Sponsor & Remote Config selectors
+    const remoteConfigUrl = container.querySelector("#remote-config-url");
+    const btnTestRemoteSync = container.querySelector("#btn-test-remote-sync");
+    const remoteSyncStatus = container.querySelector("#remote-sync-status");
+    const sponsorBadge = container.querySelector("#sponsor-badge");
+    const sponsorImageUrl = container.querySelector("#sponsor-image-url");
+    const amazonSlotId = container.querySelector("#amazon-slot-id");
+
     const sponsorBrand = container.querySelector("#sponsor-brand");
     const sponsorIcon = container.querySelector("#sponsor-icon-select");
     const sponsorSlogan = container.querySelector("#sponsor-slogan");
@@ -1586,6 +1641,42 @@ export default {
       });
     }
 
+    // Test Live Remote Sync connection
+    btnTestRemoteSync?.addEventListener("click", async () => {
+      const url = remoteConfigUrl ? remoteConfigUrl.value.trim() : "";
+      if (!url || (!url.startsWith("http://") && !url.startsWith("https://"))) {
+        appInstance.showToast("Please enter a valid HTTP/HTTPS URL first.", "error");
+        return;
+      }
+      if (remoteSyncStatus) {
+        remoteSyncStatus.style.display = "block";
+        remoteSyncStatus.style.color = "var(--accent-cyan)";
+        remoteSyncStatus.innerHTML = `⏳ Testing connection to <code>${escapeHtml(url)}</code>...`;
+      }
+      try {
+        const t0 = performance.now();
+        const sep = url.includes("?") ? "&" : "?";
+        const res = await fetch(url + sep + "_test=" + Date.now(), { cache: "no-store" });
+        const latency = Math.round(performance.now() - t0);
+        if (res.ok) {
+          const json = await res.json();
+          if (remoteSyncStatus) {
+            remoteSyncStatus.style.color = "#10b981";
+            remoteSyncStatus.innerHTML = `✅ <strong>Success (${latency}ms)</strong>: Live remote ad-config is reachable and valid JSON (${Object.keys(json).length} keys). Mobile apps will auto-sync instantly!`;
+          }
+          appInstance.showToast(`Remote sync verified! (${latency}ms)`, "success");
+        } else {
+          throw new Error(`HTTP Status ${res.status} ${res.statusText}`);
+        }
+      } catch (err) {
+        if (remoteSyncStatus) {
+          remoteSyncStatus.style.color = "var(--accent-rose)";
+          remoteSyncStatus.innerHTML = `⚠️ <strong>Connection failed</strong>: ${escapeHtml(err.message)}. Check CORS headers or ensure the file is public.`;
+        }
+        appInstance.showToast(`Remote check failed: ${err.message}`, "error");
+      }
+    });
+
     let currentEditMode = "global";
 
     // Edit Page Override button action
@@ -1606,6 +1697,8 @@ export default {
         sponsorSlogan.value = appInstance.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
         sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
         sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
+        if (sponsorBadge) sponsorBadge.value = appInstance.getConfigValue("omnitool_sponsor_badge", "REFERRAL BONUS");
+        if (sponsorImageUrl) sponsorImageUrl.value = appInstance.getConfigValue("omnitool_sponsor_image", "");
       } else {
         currentEditMode = toolId;
         const toolName = overrideToolSelect.options[overrideToolSelect.selectedIndex].text;
@@ -1620,6 +1713,8 @@ export default {
         sponsorSlogan.value = localStorage.getItem("omnitool_sponsor_slogan_" + toolId) || "";
         sponsorUrl.value = localStorage.getItem("omnitool_sponsor_url_" + toolId) || "";
         sponsorBtnText.value = localStorage.getItem("omnitool_sponsor_btn_text_" + toolId) || "";
+        if (sponsorBadge) sponsorBadge.value = localStorage.getItem("omnitool_sponsor_badge_" + toolId) || "";
+        if (sponsorImageUrl) sponsorImageUrl.value = localStorage.getItem("omnitool_sponsor_image_" + toolId) || "";
       }
       
       updateSimulatorPreview();
@@ -1644,7 +1739,9 @@ export default {
         localStorage.removeItem("omnitool_sponsor_slogan_" + toolId);
         localStorage.removeItem("omnitool_sponsor_url_" + toolId);
         localStorage.removeItem("omnitool_sponsor_btn_text_" + toolId);
-        
+        localStorage.removeItem("omnitool_sponsor_badge_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_image_" + toolId);
+
         // Remove from list of overrides
         let overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
         let overrides = overridesStr.split(",").filter(Boolean);
@@ -1664,7 +1761,9 @@ export default {
         sponsorSlogan.value = appInstance.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
         sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
         sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
-        
+        if (sponsorBadge) sponsorBadge.value = appInstance.getConfigValue("omnitool_sponsor_badge", "REFERRAL BONUS");
+        if (sponsorImageUrl) sponsorImageUrl.value = appInstance.getConfigValue("omnitool_sponsor_image", "");
+
         updateSimulatorPreview();
         appInstance.showToast("Page overrides deleted! Global default sponsor restored.", "success");
         if (typeof appInstance.playSynthSound === 'function') {
@@ -1682,6 +1781,8 @@ export default {
       showTool.checked = appInstance.getConfigValue("omnitool_ad_show_tool", "true") !== "false";
       showSide.checked = appInstance.getConfigValue("omnitool_ad_show_side", "true") !== "false";
 
+      if (remoteConfigUrl) remoteConfigUrl.value = appInstance.getConfigValue("omnitool_remote_config_url", "https://omnitool.worldsneed.com/ad-config.json");
+
       adsensePub.value = appInstance.getConfigValue("omnitool_adsense_pub", "ca-pub-XXXXXXXXXX");
       adsenseDash.value = appInstance.getConfigValue("omnitool_adsense_slot_dash", "1111111111");
       adsenseTool.value = appInstance.getConfigValue("omnitool_adsense_slot_tool", "2222222222");
@@ -1692,6 +1793,8 @@ export default {
       admobTool.value = appInstance.getConfigValue("omnitool_admob_unit_tool", "ca-app-pub-XXXXXXXXXX/2222222222");
       admobSide.value = appInstance.getConfigValue("omnitool_admob_unit_side", "ca-app-pub-XXXXXXXXXX/3333333333");
 
+      if (amazonSlotId) amazonSlotId.value = appInstance.getConfigValue("omnitool_amazon_slot_id", "amzn-slot-12345");
+
       customCode.value = appInstance.getConfigValue("omnitool_custom_ad_html", `<!-- Custom Banner Mock -->\n<div class="custom-mock-banner" style="background: linear-gradient(135deg, #1e1b4b, #311042); border: 2px dashed #a21caf; padding: 20px; border-radius: 8px; text-align: center; color: #f472b6;">\n  <h3>Custom Premium Ad Space</h3>\n  <p>Your custom script or banner displays here.</p>\n</div>`);
       
       // Load developer sponsor config
@@ -1700,6 +1803,8 @@ export default {
       sponsorSlogan.value = appInstance.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
       sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
       sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
+      if (sponsorBadge) sponsorBadge.value = appInstance.getConfigValue("omnitool_sponsor_badge", "REFERRAL BONUS");
+      if (sponsorImageUrl) sponsorImageUrl.value = appInstance.getConfigValue("omnitool_sponsor_image", "");
       coffeeUrl.value = appInstance.getConfigValue("omnitool_coffee_url", "");
       kofiUrl.value = appInstance.getConfigValue("omnitool_kofi_url", "");
       if (gumroadLifetime) gumroadLifetime.value = appInstance.getConfigValue("omnitool_gumroad_lifetime_url", "https://worldsneed.gumroad.com/l/omnitool-lifetime");
@@ -1799,6 +1904,10 @@ export default {
       if (provider === "dev" || effectiveSide === "dev") {
         container.querySelector("#inputs-dev").style.display = "block";
       }
+      if (provider === "amazon" || effectiveSide === "amazon") {
+        const amz = container.querySelector("#inputs-amazon");
+        if (amz) amz.style.display = "block";
+      }
       if (provider === "adsense" || effectiveSide === "adsense") {
         container.querySelector("#inputs-adsense").style.display = "block";
       }
@@ -1829,36 +1938,73 @@ export default {
 
       const provider = adNetwork.value;
       if (provider === "dev") {
-        const brandVal = sponsorBrand.value || "HexaCloud Hosting";
+        const brandVal = sponsorBrand.value || "DigitalOcean Cloud";
         const sloganVal = sponsorSlogan.value || "Deploy lightweight web pipelines locally with absolute security.";
-        const btnVal = sponsorBtnText.value || "Deploy Now";
+        const btnVal = sponsorBtnText.value || "Claim Deal";
         const iconType = sponsorIcon.value || "cloud";
-        
-        let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
-        if (iconType === "database") {
-          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
-        } else if (iconType === "shield") {
-          iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+        const badgeVal = sponsorBadge && sponsorBadge.value ? sponsorBadge.value : "REFERRAL BONUS";
+        const imgVal = sponsorImageUrl ? sponsorImageUrl.value.trim() : "";
+
+        let visualPreview = "";
+        if (imgVal) {
+          visualPreview = `<img src="${escapeHtml(imgVal)}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;" onerror="this.style.display='none'" />`;
+        } else {
+          let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
+          if (iconType === "database") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
+          } else if (iconType === "shield") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+          } else if (iconType === "shopping") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
+          } else if (iconType === "tag") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`;
+          } else if (iconType === "gift") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`;
+          } else if (iconType === "zap") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+          } else if (iconType === "star") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+          }
+          visualPreview = iconSvg;
         }
 
-        previewBadge.innerText = "Local Sponsor";
+        previewBadge.innerText = "Referral / Partner Ad";
         previewBadge.style.color = "var(--accent-cyan)";
         previewBadge.style.background = "rgba(0, 242, 254, 0.15)";
         previewBox.innerHTML = `
           <div class="sponsor-ad-block" style="margin: 0; border-color: rgba(0, 242, 254, 0.25); width: 100%;">
             <div class="ad-horizontal-left">
               <div class="ad-image-placeholder" style="color: var(--accent-cyan); border-color: var(--accent-cyan); background: rgba(var(--accent-cyan-rgb), 0.12);">
-                ${iconSvg}
+                ${visualPreview}
               </div>
               <div class="ad-info">
                 <div class="ad-title-row">
                   <span class="ad-brand">${escapeHtml(brandVal)}</span>
-                  <span class="ad-horizontal-badge">SPONSOR</span>
+                  <span class="ad-horizontal-badge">${escapeHtml(badgeVal)}</span>
                 </div>
                 <span class="ad-slogan">${escapeHtml(sloganVal)}</span>
               </div>
             </div>
             <span class="ad-action-btn" style="background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.2);">${escapeHtml(btnVal)}</span>
+          </div>
+        `;
+      } else if (provider === "amazon") {
+        previewBadge.innerText = "Amazon Mobile Ads";
+        previewBadge.style.color = "#ff9900";
+        previewBadge.style.background = "rgba(255, 153, 0, 0.15)";
+        const slotVal = amazonSlotId ? amazonSlotId.value : "amzn-slot-12345";
+        previewBox.innerHTML = `
+          <div class="admob-adsense-mock admob" style="border-color: rgba(255, 153, 0, 0.4);">
+            <div class="mock-badge" style="background: rgba(255, 153, 0, 0.15); color: #ff9900;">AMAZON MOBILE ADS / APS</div>
+            <div class="mock-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ff9900" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              <span style="color: #ff9900;">Amazon Ads Simulation (Slot: ${escapeHtml(slotVal)})</span>
+            </div>
+            <div class="mock-details">
+              <span><strong>Slot ID:</strong> ${escapeHtml(slotVal)}</span>
+              <span>•</span>
+              <span>Target: Amazon Fire / Android / Web</span>
+            </div>
           </div>
         `;
       } else if (provider === "adsense") {
@@ -1920,6 +2066,8 @@ export default {
       localStorage.setItem("omnitool_ad_show_tool", showTool.checked ? "true" : "false");
       localStorage.setItem("omnitool_ad_show_side", showSide.checked ? "true" : "false");
 
+      if (remoteConfigUrl) localStorage.setItem("omnitool_remote_config_url", remoteConfigUrl.value.trim());
+
       localStorage.setItem("omnitool_adsense_pub", adsensePub.value.trim());
       localStorage.setItem("omnitool_adsense_slot_dash", adsenseDash.value.trim());
       localStorage.setItem("omnitool_adsense_slot_tool", adsenseTool.value.trim());
@@ -1930,6 +2078,8 @@ export default {
       localStorage.setItem("omnitool_admob_unit_tool", admobTool.value.trim());
       localStorage.setItem("omnitool_admob_unit_side", admobSide.value.trim());
 
+      if (amazonSlotId) localStorage.setItem("omnitool_amazon_slot_id", amazonSlotId.value.trim());
+
       localStorage.setItem("omnitool_custom_ad_html", customCode.value);
 
       // Save developer sponsor config
@@ -1939,13 +2089,17 @@ export default {
         localStorage.setItem("omnitool_sponsor_slogan", sponsorSlogan.value.trim());
         localStorage.setItem("omnitool_sponsor_url", sponsorUrl.value.trim());
         localStorage.setItem("omnitool_sponsor_btn_text", sponsorBtnText.value.trim());
+        if (sponsorBadge) localStorage.setItem("omnitool_sponsor_badge", sponsorBadge.value.trim());
+        if (sponsorImageUrl) localStorage.setItem("omnitool_sponsor_image", sponsorImageUrl.value.trim());
       } else {
         localStorage.setItem("omnitool_sponsor_brand_" + currentEditMode, sponsorBrand.value.trim());
         localStorage.setItem("omnitool_sponsor_icon_" + currentEditMode, sponsorIcon.value);
         localStorage.setItem("omnitool_sponsor_slogan_" + currentEditMode, sponsorSlogan.value.trim());
         localStorage.setItem("omnitool_sponsor_url_" + currentEditMode, sponsorUrl.value.trim());
         localStorage.setItem("omnitool_sponsor_btn_text_" + currentEditMode, sponsorBtnText.value.trim());
-        
+        if (sponsorBadge) localStorage.setItem("omnitool_sponsor_badge_" + currentEditMode, sponsorBadge.value.trim());
+        if (sponsorImageUrl) localStorage.setItem("omnitool_sponsor_image_" + currentEditMode, sponsorImageUrl.value.trim());
+
         let overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
         let overrides = overridesStr.split(",").filter(Boolean);
         if (!overrides.includes(currentEditMode)) {
@@ -2087,9 +2241,13 @@ export default {
 
       // Auto-persist directly to ad-config.json on disk so changes survive browser closes & offline reloads
       try {
+        const adminToken = sessionStorage.getItem("omnitool_admin_token") || "";
         fetch("/api/deploy-live", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + adminToken
+          },
           body: JSON.stringify({
             config: configData,
             pushToLive: false
@@ -2141,6 +2299,7 @@ export default {
         "omnitool_ad_show_dash": showDash ? (showDash.checked ? "true" : "false") : "true",
         "omnitool_ad_show_tool": showTool ? (showTool.checked ? "true" : "false") : "true",
         "omnitool_ad_show_side": showSide ? (showSide.checked ? "true" : "false") : "true",
+        "omnitool_remote_config_url": remoteConfigUrl ? remoteConfigUrl.value.trim() : "https://omnitool.worldsneed.com/ad-config.json",
         "omnitool_adsense_pub": adsensePub ? adsensePub.value.trim() : "ca-pub-XXXXXXXXXX",
         "omnitool_adsense_slot_dash": adsenseDash ? adsenseDash.value.trim() : "1111111111",
         "omnitool_adsense_slot_tool": adsenseTool ? adsenseTool.value.trim() : "2222222222",
@@ -2149,12 +2308,15 @@ export default {
         "omnitool_admob_unit_dash": admobDash ? admobDash.value.trim() : "ca-app-pub-XXXXXXXXXX/1111111111",
         "omnitool_admob_unit_tool": admobTool ? admobTool.value.trim() : "ca-app-pub-XXXXXXXXXX/2222222222",
         "omnitool_admob_unit_side": admobSide ? admobSide.value.trim() : "ca-app-pub-XXXXXXXXXX/3333333333",
+        "omnitool_amazon_slot_id": amazonSlotId ? amazonSlotId.value.trim() : "amzn-slot-12345",
         "omnitool_custom_ad_html": customCode ? customCode.value : "",
-        "omnitool_sponsor_brand": appInstance.getConfigValue("omnitool_sponsor_brand", sponsorBrand ? sponsorBrand.value.trim() : "HexaCloud Host"),
+        "omnitool_sponsor_brand": appInstance.getConfigValue("omnitool_sponsor_brand", sponsorBrand ? sponsorBrand.value.trim() : "DigitalOcean Cloud"),
         "omnitool_sponsor_icon": appInstance.getConfigValue("omnitool_sponsor_icon", sponsorIcon ? sponsorIcon.value : "cloud"),
-        "omnitool_sponsor_slogan": appInstance.getConfigValue("omnitool_sponsor_slogan", sponsorSlogan ? sponsorSlogan.value.trim() : "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit."),
+        "omnitool_sponsor_badge": appInstance.getConfigValue("omnitool_sponsor_badge", sponsorBadge ? sponsorBadge.value.trim() : "REFERRAL BONUS"),
+        "omnitool_sponsor_image": appInstance.getConfigValue("omnitool_sponsor_image", sponsorImageUrl ? sponsorImageUrl.value.trim() : ""),
+        "omnitool_sponsor_slogan": appInstance.getConfigValue("omnitool_sponsor_slogan", sponsorSlogan ? sponsorSlogan.value.trim() : "Deploy your Docker containers, web apps, and databases globally. Get $200 free developer credit."),
         "omnitool_sponsor_url": appInstance.getConfigValue("omnitool_sponsor_url", sponsorUrl ? sponsorUrl.value.trim() : "#"),
-        "omnitool_sponsor_btn_text": appInstance.getConfigValue("omnitool_sponsor_btn_text", sponsorBtnText ? sponsorBtnText.value.trim() : "Claim Now"),
+        "omnitool_sponsor_btn_text": appInstance.getConfigValue("omnitool_sponsor_btn_text", sponsorBtnText ? sponsorBtnText.value.trim() : "Claim $200 Credit"),
         "omnitool_coffee_url": coffeeUrl ? coffeeUrl.value.trim() : "",
         "omnitool_kofi_url": kofiUrl ? kofiUrl.value.trim() : "",
         "omnitool_gumroad_lifetime_url": gumroadLifetime ? gumroadLifetime.value.trim() : "https://worldsneed.gumroad.com/l/omnitool-lifetime",
@@ -2222,6 +2384,8 @@ export default {
         configData["omnitool_sponsor_slogan_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_slogan_" + toolId, "");
         configData["omnitool_sponsor_url_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_url_" + toolId, "");
         configData["omnitool_sponsor_btn_text_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_btn_text_" + toolId, "");
+        configData["omnitool_sponsor_badge_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_badge_" + toolId, "");
+        configData["omnitool_sponsor_image_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_image_" + toolId, "");
       });
 
       return configData;
@@ -2278,9 +2442,13 @@ export default {
       if (hookUrl) localStorage.setItem("omnitool_vercel_deploy_hook_url", hookUrl);
 
       try {
+        const adminToken = sessionStorage.getItem("omnitool_admin_token") || "";
         const res = await fetch("/api/deploy-live", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + adminToken
+          },
           body: JSON.stringify({
             config: configData,
             commitMessage: commitMsg,
@@ -2394,7 +2562,7 @@ export default {
       }
     });
     
-    [adsensePub, adsenseDash, adsenseTool, adsenseSide, admobApp, admobDash, admobTool, admobSide, customCode, sponsorBrand, sponsorSlogan, sponsorUrl, sponsorBtnText, coffeeUrl].forEach(inp => {
+    [adsensePub, adsenseDash, adsenseTool, adsenseSide, admobApp, admobDash, admobTool, admobSide, customCode, sponsorBrand, sponsorSlogan, sponsorUrl, sponsorBtnText, sponsorBadge, sponsorImageUrl, amazonSlotId, coffeeUrl].filter(Boolean).forEach(inp => {
       inp.addEventListener("input", updateSimulatorPreview);
     });
 

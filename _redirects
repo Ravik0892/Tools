@@ -3,6 +3,20 @@
 # Ensures clean tool URLs (/tool/*) and virtual views serve index.html with HTTP 200
 # ==============================================================================
 
+# Guides routing for Cloudflare Pages / Netlify
+/guides/es/:slug/index.html   /guides/es/:slug       301
+/guides/pt/:slug/index.html   /guides/pt/:slug       301
+/guides/:slug/index.html      /guides/:slug          301
+/guides/es       /guides/es/index.html  200
+/guides/es/      /guides/es/index.html  200
+/guides/pt       /guides/pt/index.html  200
+/guides/pt/      /guides/pt/index.html  200
+/guides          /guides/index.html     200
+/guides/         /guides/index.html     200
+/guides/es/:slug /guides/es/:slug.html  200
+/guides/pt/:slug /guides/pt/:slug.html  200
+/guides/:slug    /guides/:slug.html     200
+
 /tool/*        /index.html    200
 /category/*    /index.html    200
 /landing       /landing.html  200
@@ -26,5 +40,3 @@
 /cookies       /index.html    200
 /cookie-policy /index.html    200
 
-# Proxy serverless API endpoints to Vercel backend
-/api/*         https://omnitool-hub.vercel.app/api/:splat  200

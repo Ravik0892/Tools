@@ -34,7 +34,7 @@ export default {
   // Mockup & Canvas Configuration
   config: {
     mockupTheme: "macos-dark", // 'macos-dark' | 'macos-light' | 'windows11' | 'cyberpunk' | 'minimal' | 'phone' | 'none'
-    urlText: "https://omnitoolhub.com/dashboard",
+    urlText: "https://omnitool.worldsneed.com/dashboard",
     titleText: "OmniTool Hub — Cloud-Free Developer Workspace",
     showSslLock: true,
     shadowStyle: "elevated", // 'none' | 'subtle' | 'elevated' | 'glow'
@@ -264,7 +264,7 @@ export default {
             <div class="form-group">
               <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">Address Bar URL</label>
               <div style="display: flex; gap: 6px;">
-                <input type="text" id="sc-frame-url" class="tool-input" value="https://omnitoolhub.com/dashboard" style="flex: 1; padding: 6px 10px; font-size: 12px;">
+                <input type="text" id="sc-frame-url" class="tool-input" value="https://omnitool.worldsneed.com/dashboard" style="flex: 1; padding: 6px 10px; font-size: 12px;">
                 <button id="sc-ssl-toggle" class="tool-btn secondary" style="padding: 6px 10px; font-size: 12px;" title="Toggle SSL Padlock">
                   🔒 SSL
                 </button>
@@ -3260,7 +3260,7 @@ export default {
         "  const frame = await grabVideoFrame(stream);",
         "  const styled = applyWindowMockup(frame, {",
         "    theme: 'macos-dark',",
-        "    url: 'https://omnitoolhub.com/dashboard',",
+        "    url: 'https://omnitool.worldsneed.com/dashboard',",
         "    shadow: 'elevated',",
         "    padding: 44",
         "  });",

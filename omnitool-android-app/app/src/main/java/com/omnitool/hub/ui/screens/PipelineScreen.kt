@@ -2,6 +2,7 @@ package com.omnitool.hub.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,8 +11,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -21,8 +23,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.omnitool.hub.ui.theme.*
 
+data class PipelineStepItem(
+    val title: String,
+    val desc: String
+)
+
+private val AVAILABLE_PIPELINE_OPERATIONS = listOf(
+    PipelineStepItem("Base64 Decoder", "Decode Base64 input payload"),
+    PipelineStepItem("Base64 Encoder", "Encode payload to Base64"),
+    PipelineStepItem("URL Decode", "Unescape URL-encoded characters"),
+    PipelineStepItem("JSON Formatter", "Beautify & validate JSON structure"),
+    PipelineStepItem("Uppercase Transform", "Convert string output to UPPERCASE"),
+    PipelineStepItem("Word Counter", "Count words & characters in output"),
+    PipelineStepItem("SHA-256 Hash", "Generate cryptographic SHA-256 digest")
+)
+
 @Composable
-fun PipelineScreen() {
+fun PipelineScreen(
+    onOpenWebPipeline: () -> Unit = {}
+) {
+    val pipelineBlocks = remember {
+        mutableStateListOf(
+            PipelineStepItem("Base64 Decoder", "Decoding input payload"),
+            PipelineStepItem("JSON Formatter", "Beautify decoded payload"),
+            PipelineStepItem("Word Counter", "Count words in formatted JSON")
+        )
+    }
+    var showAddDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,43 +97,51 @@ fun PipelineScreen() {
             }
         }
 
-        // Hardcoded stack of blocks for layout showcase
-        val pipelineBlocks = listOf(
-            Triple("1", "Base64 Decoder", "Decoding input payload"),
-            Triple("2", "JSON Formatter", "Beautify decoded payload"),
-            Triple("3", "Word Counter", "Count words in formatted JSON")
-        )
+        if (pipelineBlocks.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(1.dp, BorderColor, RoundedCornerShape(14.dp))
+                    .padding(24.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No steps configured. Add an operation or open the full interactive builder below.",
+                    color = TextMuted,
+                    fontSize = 13.sp
+                )
+            }
+        } else {
+            pipelineBlocks.forEachIndexed { index, block ->
+                PipelineBlockNode(
+                    num = "${index + 1}",
+                    title = block.title,
+                    desc = block.desc,
+                    onDeleteClick = { pipelineBlocks.removeAt(index) }
+                )
 
-        pipelineBlocks.forEachIndexed { index, block ->
-            PipelineBlockNode(
-                num = block.first,
-                title = block.second,
-                desc = block.third
-            )
-
-            if (index < pipelineBlocks.size - 1) {
-                // Connection Arrow
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowDown,
-                        contentDescription = "Arrow down link",
-                        tint = AccentCyan,
-                        modifier = Modifier.size(28.dp)
-                    )
+                if (index < pipelineBlocks.size - 1) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowDown,
+                            contentDescription = "Arrow down link",
+                            tint = AccentCyan,
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
-        // Add block layout button
         Button(
-            onClick = { /* Simulated Palette overlay toggle */ },
+            onClick = { showAddDialog = true },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
@@ -127,11 +163,73 @@ fun PipelineScreen() {
                 Text("Add Chain Operation", color = Primary, fontSize = 14.sp)
             }
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Button(
+            onClick = onOpenWebPipeline,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Primary),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "Open interactive builder",
+                    tint = Color.White,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Launch Interactive Chain Runner", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+
+    if (showAddDialog) {
+        AlertDialog(
+            onDismissRequest = { showAddDialog = false },
+            containerColor = BgCard,
+            title = { Text("Add Chain Operation", color = Color.White, fontWeight = FontWeight.Bold) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    AVAILABLE_PIPELINE_OPERATIONS.forEach { op ->
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .border(1.dp, BorderColor, RoundedCornerShape(10.dp))
+                                .clickable {
+                                    pipelineBlocks.add(op)
+                                    showAddDialog = false
+                                }
+                                .padding(10.dp)
+                        ) {
+                            Text(op.title, color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                            Text(op.desc, color = TextMuted, fontSize = 11.sp)
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showAddDialog = false }) {
+                    Text("Cancel", color = AccentCyan)
+                }
+            }
+        )
     }
 }
 
 @Composable
-fun PipelineBlockNode(num: String, title: String, desc: String) {
+fun PipelineBlockNode(
+    num: String,
+    title: String,
+    desc: String,
+    onDeleteClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,8 +242,7 @@ fun PipelineBlockNode(num: String, title: String, desc: String) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                // Number Badge
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
                 Box(
                     modifier = Modifier
                         .size(24.dp)
@@ -159,9 +256,9 @@ fun PipelineBlockNode(num: String, title: String, desc: String) {
                         fontWeight = FontWeight.Bold
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.width(12.dp))
-                
+
                 Column {
                     Text(
                         text = title,
@@ -177,7 +274,7 @@ fun PipelineBlockNode(num: String, title: String, desc: String) {
                 }
             }
 
-            IconButton(onClick = { /* remove item layout click */ }) {
+            IconButton(onClick = onDeleteClick) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Delete operation Node",

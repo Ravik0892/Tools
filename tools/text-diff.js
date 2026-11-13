@@ -71,24 +71,9 @@ export default {
         <div class="tool-panel">
           <div class="panel-header">
             <h3 id="diff-output-title">Visual Comparison Result</h3>
-            <div style="display: flex; align-items: center; gap: 6px; margin-left: auto;">
-              <button class="tool-btn accent-emerald" id="diff-copy-btn">
-                <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy Output
-              </button>
-              <button class="reset-split-btn tool-btn secondary" id="diff-reset-split-btn" style="font-size: 11px; padding: 4px 8px; gap: 4px; display: inline-flex; align-items: center;" title="Reset sections to 50/50 layout">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11">
-                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                  <polyline points="3 3 3 8 8 8"></polyline>
-                </svg>
-                <span>Reset 50/50</span>
-              </button>
-              <button class="preview-fullscreen-btn tool-btn secondary" id="diff-fullscreen-btn" style="font-size: 11px; padding: 4px 8px; gap: 4px; display: inline-flex; align-items: center;" title="Toggle Full Screen view">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                </svg>
-                <span>Full Screen</span>
-              </button>
-            </div>
+            <button class="tool-btn accent-emerald" id="diff-copy-btn" style="margin-left: auto;">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy Output
+            </button>
           </div>
           <div class="markdown-preview diff-result-container" id="diff-output-result" style="flex: 1; min-height: 380px; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; background-color: var(--bg-input); border-radius: 8px; border: 1px solid var(--border-color); overflow-y: auto; padding: 14px;" aria-label="Diff Comparison Output">
             <span style="color: var(--text-muted);">Differences will show here...</span>
@@ -315,49 +300,6 @@ export default {
       }).catch(() => {
         appInstance.showToast("Failed to copy diff to clipboard", "error");
       });
-    });
-
-    const resetSplitBtn = container.querySelector("#diff-reset-split-btn");
-    const fsBtn = container.querySelector("#diff-fullscreen-btn");
-    const splitLayout = container.querySelector(".tool-content-layout.split-view");
-    const rightPanel = container.querySelectorAll(".tool-panel")[1];
-
-    resetSplitBtn?.addEventListener("click", () => {
-      appInstance.playSynthSound?.('click');
-      if (splitLayout) {
-        splitLayout.classList.add("is-animating");
-        splitLayout.style.removeProperty("--split-ratio");
-        localStorage.removeItem("omnitool_split_text-diff");
-        setTimeout(() => splitLayout.classList.remove("is-animating"), 300);
-      }
-      appInstance.showToast("Layout reset to default (50/50)", "info");
-    });
-
-    fsBtn?.addEventListener("click", () => {
-      appInstance.playSynthSound?.('click');
-      if (rightPanel && splitLayout) {
-        const isFS = rightPanel.classList.toggle("preview-fullscreen");
-        splitLayout.classList.toggle("has-fullscreen-preview", isFS);
-        if (isFS) {
-          fsBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-              <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
-            </svg>
-            <span>Exit Full Screen</span>
-          `;
-          fsBtn.classList.remove("secondary");
-          fsBtn.classList.add("accent-emerald");
-        } else {
-          fsBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-            </svg>
-            <span>Full Screen</span>
-          `;
-          fsBtn.classList.add("secondary");
-          fsBtn.classList.remove("accent-emerald");
-        }
-      }
     });
 
     const loadSampleData = () => {
