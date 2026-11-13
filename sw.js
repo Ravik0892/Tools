@@ -1,11 +1,12 @@
 // Service Worker for OmniTool Hub PWA (Network-First Core for Instant Updates)
-const CACHE_NAME = "omnitool-v87";
+const CACHE_NAME = "omnitool-v88";
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
   "landing.html",
   "style.css",
   "app.js",
+  "ga-guard.js",
   "favicon.ico",
   "manifest.json",
   "assets/icons/icon-192.png",
@@ -127,13 +128,19 @@ self.addEventListener("activate", (e) => {
   );
 });
 
-// Message listener for manual cache purge and skipWaiting
+// Developer Privacy State for Google Analytics blocking
+let gaTrackingBlocked = false;
+
+// Message listener for manual cache purge, skipWaiting, and developer privacy mode
 self.addEventListener("message", (e) => {
   if (e.data && e.data.action === "skipWaiting") {
     self.skipWaiting();
   }
   if (e.data && e.data.action === "clearCache") {
     caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
+  }
+  if (e.data && e.data.action === "setAnalyticsBlocked") {
+    gaTrackingBlocked = Boolean(e.data.blocked);
   }
 });
 
@@ -144,6 +151,17 @@ self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
 
   const url = new URL(e.request.url);
+
+  // Developer Privacy Guard: drop telemetry for opted-out developer devices, localhost, or LAN
+  const isAnalyticsHost = url.hostname.includes("google-analytics.com") ||
+                          url.hostname.includes("googletagmanager.com") ||
+                          url.hostname.includes("cloudflareinsights.com");
+
+  if (isAnalyticsHost && (gaTrackingBlocked || url.search.includes("no_track=1") || url.search.includes("optout=1"))) {
+    e.respondWith(new Response("", { status: 200, statusText: "OK", headers: { "Content-Type": "text/plain" } }));
+    return;
+  }
+
   const isLocal = url.origin === self.location.origin;
   const isCachableExternal = e.request.url.includes("fonts.googleapis.com") ||
     e.request.url.includes("fonts.gstatic.com") ||
