@@ -1,13 +1,18 @@
 import handler from '../api/deploy-live.js';
+import { createSignedToken } from '../api/_security.js';
 import fs from 'fs';
 
 // Mock request and response
 let statusCode = 200;
 let jsonResult = null;
 
+const adminToken = createSignedToken({ role: "admin", expiresAt: Date.now() + 3600000 });
+
 const req = {
   method: 'POST',
-  headers: {},
+  headers: {
+    authorization: `Bearer ${adminToken}`
+  },
   body: {
     config: {
       omnitool_upi_id: "test@okaxis",
@@ -24,19 +29,26 @@ const res = {
   json: (data) => { jsonResult = data; }
 };
 
-console.log("Testing api/deploy-live.js handler...");
-await handler(req, res);
+const originalAdConfig = fs.readFileSync('ad-config.json', 'utf8');
+const androidConfigPath = 'omnitool-android-app/app/src/main/assets/web/ad-config.json';
+const originalAndroidConfig = fs.existsSync(androidConfigPath) ? fs.readFileSync(androidConfigPath, 'utf8') : null;
 
-console.log("Response status:", statusCode);
-console.log("Response JSON:", jsonResult);
+try {
+  console.log("Testing api/deploy-live.js handler...");
+  await handler(req, res);
 
-if (statusCode === 200 && jsonResult && jsonResult.success && jsonResult.savedFile === "ad-config.json") {
-  console.log("SUCCESS: api/deploy-live.js wrote config and responded correctly!");
-  // Revert test key if needed
-  const config = JSON.parse(fs.readFileSync('ad-config.json', 'utf8'));
-  delete config.omnitool_test_key;
-  fs.writeFileSync('ad-config.json', JSON.stringify(config, null, 2), 'utf8');
-} else {
-  console.error("FAIL: deploy-live handler returned invalid response");
-  process.exit(1);
+  console.log("Response status:", statusCode);
+  console.log("Response JSON:", jsonResult);
+
+  if (statusCode === 200 && jsonResult && jsonResult.success && jsonResult.savedFile === "ad-config.json") {
+    console.log("SUCCESS: api/deploy-live.js wrote config and responded correctly!");
+  } else {
+    console.error("FAIL: deploy-live handler returned invalid response");
+    process.exit(1);
+  }
+} finally {
+  fs.writeFileSync('ad-config.json', originalAdConfig, 'utf8');
+  if (originalAndroidConfig !== null) {
+    fs.writeFileSync(androidConfigPath, originalAndroidConfig, 'utf8');
+  }
 }
