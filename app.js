@@ -6827,13 +6827,27 @@ const app = {
       if (provider === "inherit") {
         provider = this.getConfigValue("omnitool_ad_network", "dev");
       }
+    } else if (location === "tool" && this.activeTool) {
+      const toolProvider = this.getConfigValue("omnitool_ad_network_" + this.activeTool, "inherit");
+      if (toolProvider && toolProvider !== "inherit") {
+        provider = toolProvider;
+      }
+    } else if (location === "dashboard") {
+      const dashProvider = this.getConfigValue("omnitool_ad_network_dashboard", "inherit");
+      if (dashProvider && dashProvider !== "inherit") {
+        provider = dashProvider;
+      }
+    }
+
+    if (provider === "none" || provider === "disabled") {
+      return "";
     }
 
     // Developer Local Sponsors & Dynamic Referral Ads
     if (provider === "dev" || provider === "referral") {
       const escape = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
       const activeTool = this.activeTool;
-      const suffix = (activeTool && location !== "sidebar") ? "_" + activeTool : "";
+      const suffix = (activeTool && location !== "sidebar") ? "_" + activeTool : (location === "dashboard" ? "_dashboard" : "");
 
       // Check if multi-campaign referral pool exists
       let campaigns = null;
@@ -6993,7 +7007,9 @@ const app = {
 
     // Amazon Publisher Services (APS) / Amazon Mobile Ads
     if (provider === "amazon") {
-      const amazonSlotId = this.getConfigValue("omnitool_amazon_slot_id", "amzn-slot-12345");
+      const activeTool = this.activeTool;
+      const suffix = (activeTool && location !== "sidebar") ? "_" + activeTool : (location === "dashboard" ? "_dashboard" : "");
+      const amazonSlotId = this.getConfigValue("omnitool_amazon_slot_id" + suffix, this.getConfigValue("omnitool_amazon_slot_id", "amzn-slot-12345"));
       const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
       if (isLocal) {
         return `
@@ -7014,7 +7030,7 @@ const app = {
           </div>
         `;
       } else {
-        const customHtml = this.getConfigValue("omnitool_custom_ad_html", "");
+        const customHtml = this.getConfigValue("omnitool_custom_ad_html" + suffix, this.getConfigValue("omnitool_custom_ad_html", ""));
         if (customHtml) return `<div class="custom-ad-container">${customHtml}</div>`;
         return `
           <div class="amazon-ad-container" id="${amazonSlotId}" style="text-align: center; margin: 12px 0;"></div>
@@ -7024,7 +7040,9 @@ const app = {
 
     // Custom HTML block
     if (provider === "custom") {
-      const htmlBlock = this.getConfigValue("omnitool_custom_ad_html", "");
+      const activeTool = this.activeTool;
+      const suffix = (activeTool && location !== "sidebar") ? "_" + activeTool : (location === "dashboard" ? "_dashboard" : "");
+      const htmlBlock = this.getConfigValue("omnitool_custom_ad_html" + suffix, this.getConfigValue("omnitool_custom_ad_html", ""));
       return `<div class="custom-ad-container">${htmlBlock}</div>`;
     }
 

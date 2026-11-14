@@ -318,9 +318,19 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
 if __name__ == "__main__":
-    server = HTTPServer(("127.0.0.1", PORT), OmniToolServerHandler)
+    try:
+        server = HTTPServer(("127.0.0.1", PORT), OmniToolServerHandler)
+    except OSError as e:
+        print(f"\n[!] Error: Unable to bind to port {PORT}: {e}")
+        print(f"[*] Port {PORT} is likely already in use by another process (e.g., Node.js dev server or prior server instance).")
+        print(f"[*] Solutions:")
+        print(f"    1. Open the existing server already running at: http://127.0.0.1:{PORT}")
+        print(f"    2. Run on a different port: python scripts/local-server.py {PORT + 1} or 8080")
+        print(f"    3. Stop the process using port {PORT} using: netstat -ano | findstr :{PORT}\n")
+        sys.exit(1)
+
     print(f"Serving {ROOT} at http://127.0.0.1:{PORT}/ (Python Serverless-Ready Handler)")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        pass
+        print("\n[*] Server stopped.")
