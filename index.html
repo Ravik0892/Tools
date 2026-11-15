@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <style>
     html, body {
       background-color: #05060a;
@@ -55,6 +55,8 @@
                        (navigator.userAgent && navigator.userAgent.includes('OmniToolAndroid'));
       if (isEmbedded) {
         document.documentElement.classList.add('app-embedded');
+        var vpMeta = document.querySelector('meta[name="viewport"]');
+        if (vpMeta) vpMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
         var hideSplash = function() {
           if (document.body) document.body.classList.add('app-embedded');
           var s = document.getElementById('app-splash-screen');
@@ -92,7 +94,20 @@
   <meta name="google-site-verification" content="BVvuzzw4uiKQl1IbZ3c6dcBsHZo__C0VxV-8mxgne_0" />
 
   <!-- Google Analytics 4 Opt-Out & Developer Exclusion Guard -->
-  <script src="/ga-guard.js"></script>
+  <script>
+    try {
+      var h = window.location.hostname || '';
+      if (localStorage.getItem('omnitool_ga_optout') === 'true' ||
+          window.location.protocol === 'file:' || h === 'localhost' || h === '127.0.0.1' ||
+          h.startsWith('192.168.') || h.endsWith('.local') ||
+          (navigator.userAgent && (navigator.userAgent.includes('OmniToolAndroid') || navigator.userAgent.includes('wv'))) ||
+          window.location.search.includes('no_track=1') || window.location.search.includes('optout=1')) {
+        window['ga-disable-G-7FG02T8BFR'] = true;
+        window.__GA_DISABLED__ = true;
+      }
+    } catch (_) {}
+  </script>
+  <script src="/ga-guard.js" defer></script>
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FG02T8BFR"></script>
   <script>
@@ -1330,7 +1345,7 @@
 
             <!-- Prominent Language Selector Dropdown Menu -->
             <div class="lang-dropdown-container">
-              <button class="control-btn lang-dropdown-btn" id="header-lang-btn" title="Select Language / Idioma" aria-label="Select Language" aria-expanded="false" aria-haspopup="menu" aria-controls="header-lang-menu">
+              <button class="control-btn lang-dropdown-btn" id="header-lang-btn" title="Select Language / Idioma" aria-label="Select Language (EN)" aria-expanded="false" aria-haspopup="menu" aria-controls="header-lang-menu">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="2" y1="12" x2="22" y2="12"></line>
