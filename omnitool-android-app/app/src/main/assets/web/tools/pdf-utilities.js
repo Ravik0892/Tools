@@ -174,9 +174,9 @@ export default {
 
             <!-- TAB 2: MERGE MULTIPLE PDFS (EXTRA FEATURE) -->
             <div class="util-tab-content hidden" id="tab-merge-content">
-              <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">
-                Combine multiple PDF documents into a single consolidated file in your chosen order.
-              </p>
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 8px; padding: 8px 10px;">
+                💡 <strong>Arrange Files</strong>: Drag &amp; drop items or use <strong>▲</strong> / <strong>▼</strong> to arrange documents. Supports standard, encrypted &amp; certificate PDFs.
+              </div>
 
               <!-- Merge File Adder Dropzone -->
               <div class="pdf-merge-dropzone" id="pdf-merge-dropzone">
@@ -185,8 +185,17 @@ export default {
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
                 <span style="font-size: 12px; font-weight: 500;">Add PDFs to Merge Queue</span>
-                <span style="font-size: 10px; color: var(--text-muted);">Click or drag &amp; drop multiple PDFs</span>
+                <span style="font-size: 10px; color: var(--text-muted);">Click or drag &amp; drop multiple PDFs (including certificates)</span>
                 <input type="file" id="pdf-merge-file-input" multiple accept=".pdf" style="display: none;">
+              </div>
+
+              <!-- Merge Queue Toolbar / Stats -->
+              <div id="pdf-merge-header-bar" style="display: none; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span id="pdf-merge-stats" style="font-size: 11px; color: var(--accent-cyan); font-weight: 600;">0 Files • 0 Pages</span>
+                <div style="display: flex; gap: 6px;">
+                  <button class="tool-btn secondary" id="pdf-merge-sort-az" style="font-size: 10px; padding: 2px 7px;" title="Sort files alphabetically A-Z">🔤 A-Z</button>
+                  <button class="tool-btn secondary" id="pdf-merge-reverse" style="font-size: 10px; padding: 2px 7px;" title="Invert current file order">⇄ Invert</button>
+                </div>
               </div>
 
               <!-- Merge File List -->
@@ -201,15 +210,42 @@ export default {
                 <button class="tool-btn secondary" id="pdf-merge-clear-all" style="flex: 1; font-size: 11px;" disabled>Clear Queue</button>
                 <button class="tool-btn primary" id="pdf-merge-btn" style="flex: 2; font-size: 12px;" disabled>Merge &amp; Download PDF</button>
               </div>
+
+              <!-- Post-Merge Action Card: Open in Page Organizer -->
+              <div id="pdf-merge-post-action" style="display: none; margin-top: 12px; padding: 10px 12px; background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 8px; text-align: center;">
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4;">
+                  ✨ <strong>Merged Successfully!</strong> Want to arrange, rotate, or delete individual pages in the compiled PDF?
+                </div>
+                <button class="tool-btn secondary" id="pdf-merge-open-organizer-btn" style="width: 100%; font-size: 12px; color: var(--accent-cyan); border-color: rgba(0,242,254,0.4); justify-content: center; font-weight: 600;">
+                  📑 Open in Page Organizer &amp; Rotate
+                </button>
+              </div>
             </div>
 
             <!-- TAB 3: ROTATE & REORGANIZE (EXTRA FEATURE) -->
             <div class="util-tab-content hidden" id="tab-rotate-content">
-              <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">
-                Rotate pages orientation, delete unwanted pages, or reorganize layout.
-              </p>
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 8px; padding: 8px 10px;">
+                💡 <strong>Arrange &amp; Organize</strong>: Drag &amp; drop page cards on the right or use <strong>◀</strong> / <strong>▶</strong> buttons to reorder pages. Rotate or delete unwanted sheets, then save below.
+              </div>
 
-              <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+              <!-- Page Sequence & Order Controls -->
+              <div style="margin-bottom: 12px;">
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                  <button class="tool-btn secondary" id="pdf-reverse-order-btn" style="flex: 1; font-size: 11px;" disabled title="Reverse current page sequence">
+                    ⇄ Reverse Order
+                  </button>
+                  <button class="tool-btn secondary" id="pdf-reset-order-btn" style="flex: 1; font-size: 11px;" disabled title="Reset to original sequential page order">
+                    ↺ Reset Order
+                  </button>
+                </div>
+                <div id="pdf-order-status-box" style="font-size: 11px; padding: 6px 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: var(--text-muted); font-size: 11px;">Page Sequence: <strong id="pdf-current-order-badge" style="color: var(--accent-cyan); font-family: monospace;">-</strong></span>
+                  <span id="pdf-order-dirty-tag" style="display: none; font-size: 10px; background: rgba(0,242,254,0.15); color: var(--accent-cyan); padding: 1px 6px; border-radius: 10px; font-weight: 600;">Custom Order</span>
+                </div>
+              </div>
+
+              <!-- Orientation & Deletion Controls -->
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
                 <div style="display: flex; gap: 8px;">
                   <button class="tool-btn secondary" id="pdf-rotate-selected-cw" style="flex: 1; font-size: 11px;" disabled>
                     🔄 Rotate Selected 90° CW
@@ -307,11 +343,11 @@ export default {
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">2</div>
-              <div class="tool-guide-step-text"><strong>Select Output Format</strong>: Choose between combined PDF, individual PDFs in ZIP, PNG/JPG/WebP high-res images, or text/JSON data.</div>
+              <div class="tool-guide-step-text"><strong>Arrange, Rotate &amp; Delete</strong>: Drag and drop page cards or use ◀ / ▶ buttons to reorder pages. Rotate orientations or delete sheets as needed.</div>
             </div>
             <div class="tool-guide-step">
               <div class="tool-guide-step-num">3</div>
-              <div class="tool-guide-step-text"><strong>Inspect &amp; Export</strong>: Use the visual thumbnail actions to inspect full-screen or download individual pages with a single click.</div>
+              <div class="tool-guide-step-text"><strong>Inspect &amp; Export</strong>: Save your newly arranged PDF, or extract selected page ranges to PDF, ZIP, PNG, JPG, or WebP.</div>
             </div>
           </div>
         </div>
@@ -598,6 +634,70 @@ export default {
           font-size: 11px;
           font-weight: 500;
           padding-top: 2px;
+          gap: 6px;
+        }
+        .card-reorder-nav {
+          display: inline-flex;
+          align-items: center;
+          gap: 2px;
+          background: rgba(0, 0, 0, 0.45);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 5px;
+          padding: 1px 3px;
+        }
+        .thumb-reorder-btn {
+          background: transparent;
+          border: none;
+          color: var(--text-muted);
+          font-size: 10px;
+          padding: 2px 4px;
+          border-radius: 3px;
+          cursor: pointer;
+          line-height: 1;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.15s ease;
+        }
+        .thumb-reorder-btn:hover:not(:disabled) {
+          color: var(--accent-cyan);
+          background: rgba(0, 242, 254, 0.15);
+        }
+        .thumb-reorder-btn:disabled {
+          opacity: 0.25;
+          cursor: not-allowed;
+        }
+        .thumb-page-badge {
+          font-size: 10px;
+          color: var(--text-main);
+          padding: 0 3px;
+          white-space: nowrap;
+          user-select: none;
+          font-family: var(--font-mono, monospace);
+        }
+        .thumb-page-badge .pos-num {
+          color: var(--accent-cyan);
+          font-weight: 700;
+        }
+        .thumbnail-card[draggable="true"] {
+          cursor: grab;
+        }
+        .thumbnail-card[draggable="true"]:active {
+          cursor: grabbing;
+        }
+        .thumbnail-card.is-dragging {
+          opacity: 0.45;
+          transform: scale(0.96);
+          border-color: var(--accent-cyan) !important;
+          box-shadow: 0 0 16px rgba(0, 242, 254, 0.4);
+        }
+        .thumbnail-card.drag-target-left {
+          border-left: 3px solid var(--accent-cyan) !important;
+          box-shadow: -4px 0 12px rgba(0, 242, 254, 0.4);
+        }
+        .thumbnail-card.drag-target-right {
+          border-right: 3px solid var(--accent-cyan) !important;
+          box-shadow: 4px 0 12px rgba(0, 242, 254, 0.4);
         }
         .thumbnail-checkbox {
           width: 15px;
@@ -642,6 +742,40 @@ export default {
           padding: 8px 12px;
           font-size: 12px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          transition: background 0.15s ease, border-color 0.15s ease;
+          user-select: none;
+        }
+        .pdf-merge-item[draggable="true"] {
+          cursor: grab;
+        }
+        .pdf-merge-item[draggable="true"]:active {
+          cursor: grabbing;
+        }
+        .pdf-merge-item:hover {
+          background: rgba(255, 255, 255, 0.02);
+        }
+        .pdf-merge-item.is-dragging {
+          opacity: 0.35;
+          background: rgba(0, 242, 254, 0.08);
+          border-color: var(--accent-cyan) !important;
+        }
+        .pdf-merge-item.drag-target-top {
+          border-top: 2px solid var(--accent-cyan) !important;
+        }
+        .pdf-merge-item.drag-target-bottom {
+          border-bottom: 2px solid var(--accent-cyan) !important;
+        }
+        .merge-drag-handle {
+          color: var(--text-muted);
+          font-size: 13px;
+          margin-right: 8px;
+          cursor: grab;
+          opacity: 0.5;
+          transition: opacity 0.15s ease, color 0.15s ease;
+        }
+        .pdf-merge-item:hover .merge-drag-handle {
+          opacity: 1;
+          color: var(--accent-cyan);
         }
         .pdf-merge-item-info {
           display: flex;
@@ -842,8 +976,18 @@ export default {
     const emptyMergeMsg = container.querySelector("#empty-merge-msg");
     const mergeClearBtn = container.querySelector("#pdf-merge-clear-all");
     const mergeBtn = container.querySelector("#pdf-merge-btn");
+    const mergeHeaderBar = container.querySelector("#pdf-merge-header-bar");
+    const mergeStats = container.querySelector("#pdf-merge-stats");
+    const mergeSortAzBtn = container.querySelector("#pdf-merge-sort-az");
+    const mergeReverseBtn = container.querySelector("#pdf-merge-reverse");
+    const mergePostAction = container.querySelector("#pdf-merge-post-action");
+    const mergeOpenOrganizerBtn = container.querySelector("#pdf-merge-open-organizer-btn");
 
-    // Rotate elements
+    // Rotate & Arrange elements
+    const reverseOrderBtn = container.querySelector("#pdf-reverse-order-btn");
+    const resetOrderBtn = container.querySelector("#pdf-reset-order-btn");
+    const currentOrderBadge = container.querySelector("#pdf-current-order-badge");
+    const orderDirtyTag = container.querySelector("#pdf-order-dirty-tag");
     const rotateSelectedCwBtn = container.querySelector("#pdf-rotate-selected-cw");
     const rotateSelected180Btn = container.querySelector("#pdf-rotate-selected-180");
     const rotateAllCwBtn = container.querySelector("#pdf-rotate-all-cw");
@@ -1092,6 +1236,9 @@ export default {
       rotateAllCwBtn.disabled = true;
       deleteSelectedBtn.disabled = true;
       saveRotatedBtn.disabled = true;
+      reverseOrderBtn.disabled = true;
+      resetOrderBtn.disabled = true;
+      updateOrderStatusUI();
 
       compressProfileSelect.disabled = true;
       compressBtn.disabled = true;
@@ -1162,6 +1309,9 @@ export default {
         rotateAllCwBtn.disabled = false;
         deleteSelectedBtn.disabled = false;
         saveRotatedBtn.disabled = false;
+        reverseOrderBtn.disabled = (this.pageOrder.length < 2);
+        resetOrderBtn.disabled = (this.pageOrder.length < 2);
+        updateOrderStatusUI();
 
         compressProfileSelect.disabled = false;
         compressBtn.disabled = false;
@@ -1182,6 +1332,61 @@ export default {
         appInstance.showToast(`Failed to parse PDF: ${err.message}`, "error");
         previewStatus.innerText = `Error: ${err.message}`;
       }
+    };
+
+    // Reorder & Page Arrangement Engine
+    let draggedIndex = null;
+
+    const updateCardsIndexLabels = () => {
+      const cards = thumbnailGrid.querySelectorAll(".thumbnail-card");
+      cards.forEach((card, idx) => {
+        card.dataset.index = idx;
+        const posNum = card.querySelector(".pos-num");
+        if (posNum) posNum.innerText = idx + 1;
+        const prevBtn = card.querySelector(".move-prev-btn");
+        if (prevBtn) prevBtn.disabled = (idx === 0);
+        const nextBtn = card.querySelector(".move-next-btn");
+        if (nextBtn) nextBtn.disabled = (idx === cards.length - 1);
+      });
+    };
+
+    const updateOrderStatusUI = () => {
+      if (!currentOrderBadge) return;
+      if (this.pageOrder.length === 0) {
+        currentOrderBadge.innerText = "-";
+        if (orderDirtyTag) orderDirtyTag.style.display = "none";
+        return;
+      }
+      const isSequential = this.pageOrder.every((p, idx) => p === idx + 1);
+      if (isSequential) {
+        currentOrderBadge.innerText = `1 to ${this.pageOrder.length} (Sequential)`;
+        if (orderDirtyTag) orderDirtyTag.style.display = "none";
+      } else {
+        const displayOrder = this.pageOrder.length <= 8 
+          ? this.pageOrder.join(", ") 
+          : `${this.pageOrder.slice(0, 4).join(", ")} ... ${this.pageOrder.slice(-3).join(", ")}`;
+        currentOrderBadge.innerText = displayOrder;
+        if (orderDirtyTag) orderDirtyTag.style.display = "inline-block";
+      }
+    };
+
+    const reorderPages = (fromIdx, toIdx) => {
+      if (fromIdx === toIdx || fromIdx < 0 || toIdx < 0 || fromIdx >= this.pageOrder.length || toIdx >= this.pageOrder.length) return;
+      const [moved] = this.pageOrder.splice(fromIdx, 1);
+      this.pageOrder.splice(toIdx, 0, moved);
+
+      // Re-order DOM elements in thumbnailGrid to mirror this.pageOrder without re-rendering canvases
+      const cardsMap = new Map();
+      thumbnailGrid.querySelectorAll(".thumbnail-card").forEach(card => {
+        cardsMap.set(parseInt(card.dataset.page, 10), card);
+      });
+      this.pageOrder.forEach(pNum => {
+        const card = cardsMap.get(pNum);
+        if (card) thumbnailGrid.appendChild(card);
+      });
+
+      updateCardsIndexLabels();
+      updateOrderStatusUI();
     };
 
     // Render Page Thumbnails in Right Grid
@@ -1214,6 +1419,8 @@ export default {
         const card = document.createElement("div");
         card.className = "thumbnail-card" + (this.selectedPages.has(pageNum) ? " selected" : "");
         card.dataset.page = pageNum;
+        card.dataset.index = idx;
+        card.draggable = true;
 
         card.innerHTML = `
           <div class="thumbnail-card-actions">
@@ -1223,8 +1430,12 @@ export default {
           </div>
           <div class="thumbnail-canvas-wrapper"></div>
           <div class="thumbnail-card-footer">
-            <span>Page ${pageNum}</span>
-            <input type="checkbox" class="thumbnail-checkbox" data-page="${pageNum}" ${this.selectedPages.has(pageNum) ? 'checked' : ''}>
+            <div class="card-reorder-nav">
+              <button class="thumb-reorder-btn move-prev-btn" title="Move page earlier (Left)" ${idx === 0 ? 'disabled' : ''}>◀</button>
+              <span class="thumb-page-badge" title="Position ${idx + 1} (Source Page #${pageNum})">Pg <strong class="pos-num">${idx + 1}</strong></span>
+              <button class="thumb-reorder-btn move-next-btn" title="Move page later (Right)" ${idx === this.pageOrder.length - 1 ? 'disabled' : ''}>▶</button>
+            </div>
+            <input type="checkbox" class="thumbnail-checkbox" data-page="${pageNum}" ${this.selectedPages.has(pageNum) ? 'checked' : ''} title="Select page">
           </div>
         `;
 
@@ -1234,7 +1445,7 @@ export default {
         // Click on thumbnail card selects/deselects
         const checkbox = card.querySelector(".thumbnail-checkbox");
         card.addEventListener("click", (e) => {
-          if (e.target.closest(".thumb-action-btn")) return;
+          if (e.target.closest(".thumb-action-btn") || e.target.closest(".thumb-reorder-btn")) return;
           if (e.target !== checkbox) {
             checkbox.checked = !checkbox.checked;
           }
@@ -1274,9 +1485,87 @@ export default {
           e.stopPropagation();
           exportSinglePage(pageNum, "png");
         });
+
+        // Reorder buttons (Move Left / Move Right)
+        const prevBtn = card.querySelector(".move-prev-btn");
+        const nextBtn = card.querySelector(".move-next-btn");
+
+        prevBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const currentIdx = parseInt(card.dataset.index, 10);
+          if (currentIdx > 0) {
+            reorderPages(currentIdx, currentIdx - 1);
+            appInstance.showToast(`Moved Page to position ${currentIdx}`, "info");
+          }
+        });
+
+        nextBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const currentIdx = parseInt(card.dataset.index, 10);
+          if (currentIdx < this.pageOrder.length - 1) {
+            reorderPages(currentIdx, currentIdx + 1);
+            appInstance.showToast(`Moved Page to position ${currentIdx + 2}`, "info");
+          }
+        });
+
+        // Drag & Drop event handlers on card
+        card.addEventListener("dragstart", (e) => {
+          draggedIndex = parseInt(card.dataset.index, 10);
+          e.dataTransfer.effectAllowed = "move";
+          e.dataTransfer.setData("text/plain", String(draggedIndex));
+          card.classList.add("is-dragging");
+        });
+
+        card.addEventListener("dragend", () => {
+          card.classList.remove("is-dragging");
+          thumbnailGrid.querySelectorAll(".thumbnail-card").forEach(c => {
+            c.classList.remove("drag-target-left", "drag-target-right");
+          });
+          draggedIndex = null;
+        });
+
+        card.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+          if (draggedIndex === null) return;
+          const targetIdx = parseInt(card.dataset.index, 10);
+          if (targetIdx === draggedIndex) return;
+
+          const rect = card.getBoundingClientRect();
+          const isRight = (e.clientX - rect.left) > (rect.width / 2);
+          card.classList.toggle("drag-target-left", !isRight);
+          card.classList.toggle("drag-target-right", isRight);
+        });
+
+        card.addEventListener("dragleave", () => {
+          card.classList.remove("drag-target-left", "drag-target-right");
+        });
+
+        card.addEventListener("drop", (e) => {
+          e.preventDefault();
+          card.classList.remove("drag-target-left", "drag-target-right");
+          if (draggedIndex === null) return;
+          let targetIdx = parseInt(card.dataset.index, 10);
+          if (targetIdx === draggedIndex) return;
+
+          const rect = card.getBoundingClientRect();
+          const isRight = (e.clientX - rect.left) > (rect.width / 2);
+          if (isRight && targetIdx < draggedIndex) {
+            targetIdx++;
+          } else if (!isRight && targetIdx > draggedIndex) {
+            targetIdx--;
+          }
+          targetIdx = Math.max(0, Math.min(this.pageOrder.length - 1, targetIdx));
+
+          const pageNumMoved = this.pageOrder[draggedIndex];
+          reorderPages(draggedIndex, targetIdx);
+          appInstance.showToast(`Placed Page ${pageNumMoved} at position ${targetIdx + 1}`, "info");
+        });
       }
 
-      previewStatus.innerText = "Loaded successfully. Ready to split, convert, or compress.";
+      updateCardsIndexLabels();
+      updateOrderStatusUI();
+      previewStatus.innerText = "Loaded successfully. Ready to split, convert, arrange, or compress.";
     };
 
     // Range string formatting helper
@@ -1379,7 +1668,7 @@ export default {
       }
 
       const format = exportFormatSelect.value;
-      const sortedPages = Array.from(this.selectedPages).sort((a, b) => a - b);
+      const sortedPages = this.pageOrder.filter(p => this.selectedPages.has(p));
       const baseName = this.fileName.substring(0, this.fileName.lastIndexOf(".")) || "document";
 
       try {
@@ -1497,21 +1786,68 @@ export default {
     const exportIndividualPdfsZip = async (pages, baseName) => {
       this.jszip = await loadJsZip();
       const zip = new this.jszip();
-      const srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0));
+
+      let srcDoc = null;
+      let canVectorCopy = false;
+      try {
+        srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0), { ignoreEncryption: true });
+        canVectorCopy = true;
+      } catch (e) {
+        canVectorCopy = false;
+      }
+
+      let pdfjsInstance = null;
 
       for (let i = 0; i < pages.length; i++) {
         const pNum = pages[i];
         updateProgressBar(10 + Math.round((i / pages.length) * 80), `Packaging single PDF ${pNum} (${i + 1}/${pages.length})...`);
         const singleDoc = await this.pdfLib.PDFDocument.create();
-        const [copiedPage] = await singleDoc.copyPages(srcDoc, [pNum - 1]);
-        const rot = this.pageRotations[pNum] || 0;
-        if (rot !== 0) {
-          copiedPage.setRotation(this.pdfLib.degrees((copiedPage.getRotation().angle + rot) % 360));
+        let pageAppended = false;
+
+        if (canVectorCopy && srcDoc) {
+          try {
+            const [copiedPage] = await singleDoc.copyPages(srcDoc, [pNum - 1]);
+            const rot = (this.pageRotations[pNum] || 0) % 360;
+            if (rot !== 0) {
+              copiedPage.setRotation(this.pdfLib.degrees((copiedPage.getRotation().angle + rot) % 360));
+            }
+            singleDoc.addPage(copiedPage);
+            pageAppended = true;
+          } catch (copyErr) {
+            canVectorCopy = false;
+          }
         }
-        singleDoc.addPage(copiedPage);
+
+        if (!pageAppended) {
+          if (!pdfjsInstance) {
+            this.pdfjs = await loadPdfJs();
+            pdfjsInstance = await this.pdfjs.getDocument({ data: new Uint8Array(this.pdfDoc.slice(0)) }).promise;
+          }
+          const page = await pdfjsInstance.getPage(pNum);
+          const rot = (this.pageRotations[pNum] || 0) % 360;
+          const unscaled = page.getViewport({ scale: 1.0, rotation: rot });
+          const viewport = page.getViewport({ scale: 2.0, rotation: rot });
+
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          const imgData = canvas.toDataURL("image/jpeg", 0.94);
+          const imgBytes = dataURLtoUint8Array(imgData);
+          const img = await singleDoc.embedJpg(imgBytes);
+          const newPage = singleDoc.addPage([unscaled.width, unscaled.height]);
+          newPage.drawImage(img, { x: 0, y: 0, width: unscaled.width, height: unscaled.height });
+        }
+
         const singleBytes = await singleDoc.save();
         zip.file(`${baseName}_page_${pNum}.pdf`, singleBytes);
       }
+
+      if (pdfjsInstance) await pdfjsInstance.destroy().catch(() => {});
 
       updateProgressBar(95, "Generating ZIP archive...");
       const zipBlob = await zip.generateAsync({ type: "blob" });
@@ -1665,7 +2001,7 @@ export default {
         if (format === "pdf") {
           let savedBytes = null;
           try {
-            const srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0));
+            const srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0), { ignoreEncryption: true });
             const newDoc = await this.pdfLib.PDFDocument.create();
             const [copiedPage] = await newDoc.copyPages(srcDoc, [pageNum - 1]);
             const rot = this.pageRotations[pageNum] || 0;
@@ -1763,21 +2099,54 @@ export default {
       for (const file of pdfFiles) {
         try {
           const buffer = await file.arrayBuffer();
-          const doc = await this.pdfLib.PDFDocument.load(buffer.slice(0));
+          let numPages = 0;
+          let isEncrypted = false;
+
+          // 1. Try loading with pdf-lib ignoring standard/owner password restrictions
+          try {
+            const doc = await this.pdfLib.PDFDocument.load(buffer.slice(0), { ignoreEncryption: true });
+            numPages = doc.getPageCount();
+          } catch (pdfLibErr) {
+            isEncrypted = true;
+            // 2. If pdf-lib rejects, fallback to PDF.js (natively parses certificate & secured streams)
+            try {
+              this.pdfjs = await loadPdfJs();
+              const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(buffer.slice(0)) });
+              const pdfDoc = await loadingTask.promise;
+              numPages = pdfDoc.numPages;
+              if (pdfDoc.destroy) await pdfDoc.destroy().catch(() => {});
+            } catch (pdfjsErr) {
+              console.warn(`PDF.js fallback inspection failed for ${file.name}:`, pdfjsErr);
+            }
+          }
+
+          if (numPages === 0) {
+            this.pdfjs = await loadPdfJs();
+            const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(buffer.slice(0)) });
+            const pdfDoc = await loadingTask.promise;
+            numPages = pdfDoc.numPages;
+            if (pdfDoc.destroy) await pdfDoc.destroy().catch(() => {});
+          }
+
           this.mergeFiles.push({
             id: Date.now() + Math.random().toString(36).substr(2, 5),
             name: file.name,
             size: (file.size / (1024 * 1024)).toFixed(2) + " MB",
             buffer: buffer,
-            numPages: doc.getPageCount()
+            numPages: numPages || 1,
+            isEncrypted: isEncrypted
           });
         } catch (err) {
-          appInstance.showToast(`Failed to parse ${file.name}: ${err.message}`, "error");
+          console.error(`Failed to parse ${file.name}:`, err);
+          appInstance.showToast(`Could not read ${file.name}: ${err.message}`, "error");
         }
       }
 
       renderMergeList();
+      if (mergeFileInput) mergeFileInput.value = "";
     };
+
+    let mergeDraggedIdx = null;
 
     const renderMergeList = () => {
       if (this.mergeFiles.length === 0) {
@@ -1785,25 +2154,39 @@ export default {
         mergeItemsContainer.innerHTML = "";
         mergeClearBtn.disabled = true;
         mergeBtn.disabled = true;
+        if (mergeHeaderBar) mergeHeaderBar.style.display = "none";
+        if (mergePostAction) mergePostAction.style.display = "none";
         return;
       }
 
       emptyMergeMsg.style.display = "none";
       mergeClearBtn.disabled = false;
       mergeBtn.disabled = (this.mergeFiles.length < 2);
+      if (mergeHeaderBar) mergeHeaderBar.style.display = "flex";
+
+      const totalPages = this.mergeFiles.reduce((sum, item) => sum + (item.numPages || 0), 0);
+      if (mergeStats) {
+        mergeStats.innerText = `${this.mergeFiles.length} Document${this.mergeFiles.length === 1 ? '' : 's'} • ${totalPages} Pages Total`;
+      }
+
       mergeItemsContainer.innerHTML = "";
 
       this.mergeFiles.forEach((item, idx) => {
         const row = document.createElement("div");
         row.className = "pdf-merge-item";
+        row.draggable = true;
+        row.dataset.index = idx;
         row.innerHTML = `
-          <div class="pdf-merge-item-info">
-            <span class="pdf-merge-item-name" title="${escapeHtml(item.name)}">${idx + 1}. ${escapeHtml(item.name)}</span>
-            <span class="pdf-merge-item-meta">${item.numPages} pages • ${item.size}</span>
+          <div style="display: flex; align-items: center; overflow: hidden; max-width: 68%;">
+            <span class="merge-drag-handle" title="Drag to arrange file sequence">⋮⋮</span>
+            <div class="pdf-merge-item-info">
+              <span class="pdf-merge-item-name" title="${escapeHtml(item.name)}">${idx + 1}. ${escapeHtml(item.name)}</span>
+              <span class="pdf-merge-item-meta">${item.numPages} page${item.numPages === 1 ? '' : 's'} • ${item.size}${item.isEncrypted ? ' • <span style="color: #fbbf24; font-weight: 600;">Secured</span>' : ''}</span>
+            </div>
           </div>
           <div class="pdf-merge-item-actions">
-            <button class="merge-mini-btn move-up-btn" data-index="${idx}" ${idx === 0 ? 'disabled' : ''} title="Move Earlier">▲</button>
-            <button class="merge-mini-btn move-down-btn" data-index="${idx}" ${idx === this.mergeFiles.length - 1 ? 'disabled' : ''} title="Move Later">▼</button>
+            <button class="merge-mini-btn move-up-btn" data-index="${idx}" ${idx === 0 ? 'disabled' : ''} title="Move Earlier (Up)">▲</button>
+            <button class="merge-mini-btn move-down-btn" data-index="${idx}" ${idx === this.mergeFiles.length - 1 ? 'disabled' : ''} title="Move Later (Down)">▼</button>
             <button class="merge-mini-btn remove-btn" data-index="${idx}" style="color: #ff6b6b;" title="Remove">✕</button>
           </div>
         `;
@@ -1831,9 +2214,78 @@ export default {
           renderMergeList();
         });
 
+        // Drag & Drop reordering in Merge List
+        row.addEventListener("dragstart", (e) => {
+          mergeDraggedIdx = idx;
+          e.dataTransfer.effectAllowed = "move";
+          e.dataTransfer.setData("text/plain", String(idx));
+          row.classList.add("is-dragging");
+        });
+
+        row.addEventListener("dragend", () => {
+          row.classList.remove("is-dragging");
+          mergeItemsContainer.querySelectorAll(".pdf-merge-item").forEach(r => {
+            r.classList.remove("drag-target-top", "drag-target-bottom");
+          });
+          mergeDraggedIdx = null;
+        });
+
+        row.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+          if (mergeDraggedIdx === null || mergeDraggedIdx === idx) return;
+          const rect = row.getBoundingClientRect();
+          const isBottom = (e.clientY - rect.top) > (rect.height / 2);
+          row.classList.toggle("drag-target-top", !isBottom);
+          row.classList.toggle("drag-target-bottom", isBottom);
+        });
+
+        row.addEventListener("dragleave", () => {
+          row.classList.remove("drag-target-top", "drag-target-bottom");
+        });
+
+        row.addEventListener("drop", (e) => {
+          e.preventDefault();
+          row.classList.remove("drag-target-top", "drag-target-bottom");
+          if (mergeDraggedIdx === null || mergeDraggedIdx === idx) return;
+
+          const rect = row.getBoundingClientRect();
+          const isBottom = (e.clientY - rect.top) > (rect.height / 2);
+          let targetIndex = idx;
+          if (isBottom && targetIndex < mergeDraggedIdx) {
+            targetIndex++;
+          } else if (!isBottom && targetIndex > mergeDraggedIdx) {
+            targetIndex--;
+          }
+          targetIndex = Math.max(0, Math.min(this.mergeFiles.length - 1, targetIndex));
+
+          const [movedItem] = this.mergeFiles.splice(mergeDraggedIdx, 1);
+          this.mergeFiles.splice(targetIndex, 0, movedItem);
+          renderMergeList();
+          appInstance.showToast(`Arranged "${movedItem.name}" to position ${targetIndex + 1}`, "info");
+        });
+
         mergeItemsContainer.appendChild(row);
       });
     };
+
+    if (mergeSortAzBtn) {
+      mergeSortAzBtn.addEventListener("click", () => {
+        if (this.mergeFiles.length < 2) return;
+        this.mergeFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }));
+        renderMergeList();
+        appInstance.showToast("Sorted files alphabetically (A-Z)", "info");
+      });
+    }
+
+    if (mergeReverseBtn) {
+      mergeReverseBtn.addEventListener("click", () => {
+        if (this.mergeFiles.length < 2) return;
+        this.mergeFiles.reverse();
+        renderMergeList();
+        appInstance.showToast("Inverted file sequence", "info");
+      });
+    }
 
     mergeClearBtn.addEventListener("click", () => {
       this.mergeFiles = [];
@@ -1841,13 +2293,14 @@ export default {
       appInstance.showToast("Cleared merge queue.", "info");
     });
 
-    // Execute Merge
+    // Execute Merge with Robust Encryption & Certificate Fallback
     mergeBtn.addEventListener("click", async () => {
       if (this.mergeFiles.length < 2) {
         appInstance.showToast("Please add at least 2 PDF files to merge.", "warning");
         return;
       }
 
+      let lastMergedBytes = null;
       try {
         setProcessing(true, `Merging ${this.mergeFiles.length} PDF files...`);
         this.pdfLib = await loadPdfLib();
@@ -1855,17 +2308,71 @@ export default {
 
         for (let i = 0; i < this.mergeFiles.length; i++) {
           const item = this.mergeFiles[i];
-          updateProgressBar(15 + Math.round((i / this.mergeFiles.length) * 75), `Appending ${item.name} (${i + 1}/${this.mergeFiles.length})...`);
-          const sourceDoc = await this.pdfLib.PDFDocument.load(item.buffer.slice(0));
-          const pageIndices = Array.from({ length: item.numPages }, (_, k) => k);
-          const copiedPages = await mergedDoc.copyPages(sourceDoc, pageIndices);
-          copiedPages.forEach(p => mergedDoc.addPage(p));
+          updateProgressBar(10 + Math.round((i / this.mergeFiles.length) * 75), `Appending ${item.name} (${i + 1}/${this.mergeFiles.length})...`);
+          
+          let copied = false;
+          // 1. Try vector copy ignoring standard/owner restrictions
+          try {
+            const sourceDoc = await this.pdfLib.PDFDocument.load(item.buffer.slice(0), { ignoreEncryption: true });
+            const pageIndices = Array.from({ length: item.numPages }, (_, k) => k);
+            const copiedPages = await mergedDoc.copyPages(sourceDoc, pageIndices);
+            copiedPages.forEach(p => mergedDoc.addPage(p));
+            copied = true;
+          } catch (copyErr) {
+            console.warn(`Vector copy failed for ${item.name} (certificate or encrypted stream), falling back to high-res canvas rendering:`, copyErr);
+          }
+
+          // 2. High-res canvas rendering fallback for encrypted / certificate files
+          if (!copied) {
+            this.pdfjs = await loadPdfJs();
+            const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(item.buffer.slice(0)) });
+            const pdf = await loadingTask.promise;
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            for (let p = 1; p <= pdf.numPages; p++) {
+              updateProgressBar(10 + Math.round(((i + (p / pdf.numPages)) / this.mergeFiles.length) * 75), `Rendering page ${p}/${pdf.numPages} of ${item.name}...`);
+              const page = await pdf.getPage(p);
+              const unscaled = page.getViewport({ scale: 1.0 });
+              const viewport = page.getViewport({ scale: 2.0 });
+
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+              ctx.fillStyle = "#ffffff";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              await page.render({ canvasContext: ctx, viewport }).promise;
+
+              const imgData = canvas.toDataURL("image/jpeg", 0.94);
+              const imgBytes = dataURLtoUint8Array(imgData);
+              const img = await mergedDoc.embedJpg(imgBytes);
+              const newPage = mergedDoc.addPage([unscaled.width, unscaled.height]);
+              newPage.drawImage(img, {
+                x: 0,
+                y: 0,
+                width: unscaled.width,
+                height: unscaled.height
+              });
+            }
+            if (pdf.destroy) await pdf.destroy().catch(() => {});
+          }
         }
 
         updateProgressBar(95, "Compiling merged PDF...");
         const mergedBytes = await mergedDoc.save();
+        lastMergedBytes = mergedBytes;
         downloadBlob(new Blob([mergedBytes], { type: "application/pdf" }), "merged_document.pdf");
         appInstance.showToast(`Merged ${this.mergeFiles.length} files successfully!`, "success");
+
+        if (mergePostAction && mergeOpenOrganizerBtn) {
+          mergePostAction.style.display = "block";
+          mergeOpenOrganizerBtn.onclick = async () => {
+            if (!lastMergedBytes) return;
+            const syntheticFile = new File([lastMergedBytes], "merged_document.pdf", { type: "application/pdf" });
+            await handleFileSelection(syntheticFile);
+            switchTab("rotate", true);
+            appInstance.showToast("Loaded merged PDF into Page Organizer!", "success");
+          };
+        }
       } catch (err) {
         console.error(err);
         appInstance.showToast(`Merge failed: ${err.message}`, "error");
@@ -1920,6 +2427,39 @@ export default {
       });
     };
 
+    // Page Arrange Operations (Reverse & Reset Order)
+    reverseOrderBtn.addEventListener("click", () => {
+      if (this.pageOrder.length < 2) return;
+      this.pageOrder.reverse();
+      const cardsMap = new Map();
+      thumbnailGrid.querySelectorAll(".thumbnail-card").forEach(card => {
+        cardsMap.set(parseInt(card.dataset.page, 10), card);
+      });
+      this.pageOrder.forEach(pNum => {
+        const card = cardsMap.get(pNum);
+        if (card) thumbnailGrid.appendChild(card);
+      });
+      updateCardsIndexLabels();
+      updateOrderStatusUI();
+      appInstance.showToast("Reversed document page sequence", "info");
+    });
+
+    resetOrderBtn.addEventListener("click", () => {
+      if (this.pageOrder.length < 2) return;
+      this.pageOrder.sort((a, b) => a - b);
+      const cardsMap = new Map();
+      thumbnailGrid.querySelectorAll(".thumbnail-card").forEach(card => {
+        cardsMap.set(parseInt(card.dataset.page, 10), card);
+      });
+      this.pageOrder.forEach(pNum => {
+        const card = cardsMap.get(pNum);
+        if (card) thumbnailGrid.appendChild(card);
+      });
+      updateCardsIndexLabels();
+      updateOrderStatusUI();
+      appInstance.showToast("Reset pages to original sequential order", "info");
+    });
+
     deleteSelectedBtn.addEventListener("click", () => {
       if (this.selectedPages.size === 0) {
         appInstance.showToast("Select pages to delete.", "warning");
@@ -1940,6 +2480,10 @@ export default {
         const pNum = parseInt(card.dataset.page, 10);
         if (!this.pageOrder.includes(pNum)) card.remove();
       });
+      updateCardsIndexLabels();
+      updateOrderStatusUI();
+      reverseOrderBtn.disabled = (this.pageOrder.length < 2);
+      resetOrderBtn.disabled = (this.pageOrder.length < 2);
       appInstance.showToast(`Deleted ${count} pages from working set.`, "info");
     });
 
@@ -1948,19 +2492,57 @@ export default {
       try {
         setProcessing(true, "Saving updated PDF layout...");
         this.pdfLib = await loadPdfLib();
-        const srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0));
         const newDoc = await this.pdfLib.PDFDocument.create();
 
-        const indices = this.pageOrder.map(p => p - 1);
-        const copied = await newDoc.copyPages(srcDoc, indices);
-        copied.forEach((page, i) => {
-          const pNum = this.pageOrder[i];
-          const rot = this.pageRotations[pNum] || 0;
-          if (rot !== 0) {
-            page.setRotation(this.pdfLib.degrees((page.getRotation().angle + rot) % 360));
+        let copied = false;
+        // 1. Try vector copy with ignoreEncryption
+        try {
+          const srcDoc = await this.pdfLib.PDFDocument.load(this.pdfDoc.slice(0), { ignoreEncryption: true });
+          const indices = this.pageOrder.map(p => p - 1);
+          const copiedPages = await newDoc.copyPages(srcDoc, indices);
+          copiedPages.forEach((page, i) => {
+            const pNum = this.pageOrder[i];
+            const rot = (this.pageRotations[pNum] || 0) % 360;
+            if (rot !== 0) {
+              page.setRotation(this.pdfLib.degrees((page.getRotation().angle + rot) % 360));
+            }
+            newDoc.addPage(page);
+          });
+          copied = true;
+        } catch (copyErr) {
+          console.warn("Vector copy failed in organize & rotate, falling back to high-res canvas rendering:", copyErr);
+        }
+
+        // 2. High-res canvas rendering fallback for encrypted streams / certificates
+        if (!copied) {
+          this.pdfjs = await loadPdfJs();
+          const loadingTask = this.pdfjs.getDocument({ data: new Uint8Array(this.pdfDoc.slice(0)) });
+          const pdf = await loadingTask.promise;
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          for (let i = 0; i < this.pageOrder.length; i++) {
+            const pNum = this.pageOrder[i];
+            updateProgressBar(20 + Math.round((i / this.pageOrder.length) * 70), `Rendering page ${pNum} (${i + 1}/${this.pageOrder.length})...`);
+            const page = await pdf.getPage(pNum);
+            const rot = (this.pageRotations[pNum] || 0) % 360;
+            const unscaled = page.getViewport({ scale: 1.0, rotation: rot });
+            const viewport = page.getViewport({ scale: 2.0, rotation: rot });
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            await page.render({ canvasContext: ctx, viewport }).promise;
+
+            const imgData = canvas.toDataURL("image/jpeg", 0.94);
+            const imgBytes = dataURLtoUint8Array(imgData);
+            const img = await newDoc.embedJpg(imgBytes);
+            const newPage = newDoc.addPage([unscaled.width, unscaled.height]);
+            newPage.drawImage(img, { x: 0, y: 0, width: unscaled.width, height: unscaled.height });
           }
-          newDoc.addPage(page);
-        });
+          if (pdf.destroy) await pdf.destroy().catch(() => {});
+        }
 
         const bytes = await newDoc.save();
         const baseName = this.fileName.substring(0, this.fileName.lastIndexOf(".")) || "document";
@@ -2322,6 +2904,9 @@ export default {
         rotateAllCwBtn.disabled = false;
         deleteSelectedBtn.disabled = false;
         saveRotatedBtn.disabled = false;
+        reverseOrderBtn.disabled = (this.pageOrder.length < 2);
+        resetOrderBtn.disabled = (this.pageOrder.length < 2);
+        updateOrderStatusUI();
 
         compressProfileSelect.disabled = false;
         compressBtn.disabled = false;
