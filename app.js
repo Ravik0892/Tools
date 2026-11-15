@@ -12578,10 +12578,14 @@ const app = {
         cpSearchInput.placeholder = this.i18n[lang].searchCpPlaceholder;
       }
 
-      // Update header language button badge
+      // Update header language button badge and accessible name
       const headerLangBadge = document.getElementById("header-lang-badge");
       if (headerLangBadge) {
         headerLangBadge.textContent = lang.toUpperCase();
+      }
+      const headerLangBtn = document.getElementById("header-lang-btn");
+      if (headerLangBtn) {
+        headerLangBtn.setAttribute("aria-label", "Select Language (" + lang.toUpperCase() + ")");
       }
 
       // Update active state and ARIA attributes in pills and dropdown menu options
