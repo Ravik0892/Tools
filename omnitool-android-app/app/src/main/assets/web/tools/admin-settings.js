@@ -418,10 +418,6 @@ export default {
               <p style="font-size: 12px; color: var(--text-muted); margin-left: 26px;">Toggle all ad slots globally on or off with a single click.</p>
             </div>
 
-            <!-- Ad Network Selector -->
-            <div class="form-group" id="ad-network-group" style="margin-bottom: 16px;">
-              <label for="ad-network-select">Active Ad Provider (Dashboard &amp; Tools)</label>
-              <select class="form-select" id="ad-network-select">
             <!-- Remote Live Config Sync (Update Mobile App Without App Updates) -->
             <div class="form-group" style="background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 10px; padding: 14px; margin-bottom: 20px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
@@ -429,8 +425,8 @@ export default {
                 <span style="font-size: 11px; font-weight: 700; color: #10b981; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3);">NO APP UPDATE REQUIRED</span>
               </div>
               <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">When users install your app from Amazon Appstore or use your website, their app automatically syncs new ads, referral links, and pricing from this live URL on startup!</p>
-              <div style="display: flex; gap: 8px;">
-                <input type="text" class="form-input" id="remote-config-url" placeholder="https://omnitool.worldsneed.com/ad-config.json" style="flex: 1;">
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <input type="text" class="form-input" id="remote-config-url" placeholder="https://omnitool.worldsneed.com/ad-config.json" style="flex: 1; min-width: 220px;">
                 <button type="button" class="tool-btn secondary" id="btn-test-remote-sync" style="white-space: nowrap; font-size: 12px; padding: 0 14px; height: 38px;">Test Live Sync</button>
               </div>
               <div id="remote-sync-status" style="font-size: 11.5px; margin-top: 6px; display: none;"></div>
@@ -512,21 +508,6 @@ export default {
                     <input type="text" class="form-input" id="sponsor-btn-text" placeholder="e.g. Claim Deal, Shop Now">
                   </div>
                 </div>
-                
-                <!-- Page Overrides Section -->
-                <div style="margin-top: 14px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 14px;">
-                  <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px;">Page-Specific Custom Overrides</div>
-                  <div class="form-row" style="align-items: flex-end; gap: 8px; margin-bottom: 6px; grid-template-columns: 2fr 1fr 1fr;">
-                    <div class="form-group" style="margin-bottom: 0;">
-                      <select class="form-select" id="override-tool-select" style="height: 38px; font-size: 12px;">
-                        <option value="global">-- Global Default --</option>
-                      </select>
-                    </div>
-                    <button class="tool-btn secondary" id="btn-load-override" style="height: 38px; padding: 0 10px; font-size: 11px; justify-content: center;">Edit Page</button>
-                    <button class="tool-btn" id="btn-delete-override" style="height: 38px; padding: 0 8px; font-size: 11px; border-color: rgba(var(--accent-rose-rgb), 0.3); color: var(--accent-rose); background: rgba(var(--accent-rose-rgb), 0.02); justify-content: center;">Reset Page</button>
-                  </div>
-                  <p style="font-size: 11px; color: var(--text-muted);">Select a tool, click "Edit Page" to customize its sponsor ad. Click "Reset Page" to restore global default sponsor.</p>
-                </div>
               </div>
 
               <!-- Amazon Mobile Ads / APS Inputs -->
@@ -581,9 +562,6 @@ export default {
                   <input type="text" class="form-input" id="admob-unit-side" placeholder="e.g. ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX">
                 </div>
               </div>
-                  <input type="text" class="form-input" id="admob-unit-side" placeholder="e.g. ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX">
-                </div>
-              </div>
 
               <!-- Custom HTML Code -->
               <div id="inputs-custom" class="ad-network-fields" style="display: none;">
@@ -620,6 +598,212 @@ export default {
               <label for="adsterra-smart-link">Adsterra Smart Link URL</label>
               <input type="text" class="form-input" id="adsterra-smart-link" placeholder="e.g. https://www.example.com/smartlink">
               <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your Adsterra Smart Link URL. When users click "Watch Video Ad to Unlock" on locked tools, it will open this link in a new tab, then grant them access.</p>
+            </div>
+
+            <!-- CARD: Page-Specific Custom Ad Editor -->
+            <div class="adm-ad-card" id="adm-page-ad-customizer" style="margin-top: 20px; border-color: rgba(0, 242, 254, 0.25); background: rgba(0, 242, 254, 0.02);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                  <div style="font-size: 13.5px; font-weight: 800; color: var(--accent-cyan); letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+                    <span>🎯</span> PAGE-SPECIFIC AD CUSTOMIZER
+                  </div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+                    Assign unique ads, custom referral sponsors, dedicated slots, or ad-free status to individual pages and tools.
+                  </div>
+                </div>
+                <span id="page-custom-status-badge" style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); background: rgba(0, 242, 254, 0.12); padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(0, 242, 254, 0.25);">Select a page below</span>
+              </div>
+
+              <div class="form-row" style="grid-template-columns: 1.5fr 1fr; gap: 12px; margin-bottom: 12px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="override-tool-select" style="font-size: 12px; font-weight: 700; color: var(--text-main);">1. Select Target Page or Tool</label>
+                  <select class="form-select" id="override-tool-select" style="height: 38px; font-size: 12.5px;">
+                    <option value="">-- Choose a page or tool to customize --</option>
+                    <option value="dashboard">🏠 Main Dashboard Catalog</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="page-ad-network-select" style="font-size: 12px; font-weight: 700; color: var(--text-main);">2. Ad Provider for this Page</label>
+                  <select class="form-select" id="page-ad-network-select" style="height: 38px; font-size: 12.5px;" disabled>
+                    <option value="inherit">🌐 Inherit Global Default</option>
+                    <option value="dev">🟢 Developer / Referral Partner Sponsor</option>
+                    <option value="adsense">🟣 Google AdSense (Dedicated Slot)</option>
+                    <option value="amazon">🟠 Amazon Mobile Ads / APS</option>
+                    <option value="custom">🟡 Custom HTML / JS Script Block</option>
+                    <option value="none">⚪ Ad-Free (Disable All Ads on this Page)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Dynamic Page Fields Container -->
+              <div id="page-custom-fields-wrap" style="display: none; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.08); margin-top: 12px;">
+                <!-- Dev sponsor fields -->
+                <div id="page-fields-dev" style="display: none;">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="page-sponsor-brand">Partner / Brand Name</label>
+                      <input type="text" class="form-input" id="page-sponsor-brand" placeholder="e.g. DigitalOcean, AWS, NordVPN">
+                    </div>
+                    <div class="form-group">
+                      <label for="page-sponsor-icon-select">Sponsor Icon Style</label>
+                      <select class="form-select" id="page-sponsor-icon-select">
+                        <option value="cloud">Cloud Server</option>
+                        <option value="database">Database Server</option>
+                        <option value="shield">Security Shield</option>
+                        <option value="shopping">Shopping / Deals</option>
+                        <option value="tag">Discount Coupon</option>
+                        <option value="gift">Gift / Bonus</option>
+                        <option value="zap">Instant Lightning</option>
+                        <option value="star">Featured Partner</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="page-sponsor-badge">Badge Label Text</label>
+                      <input type="text" class="form-input" id="page-sponsor-badge" placeholder="e.g. EXCLUSIVE DEAL, PARTNER">
+                    </div>
+                    <div class="form-group">
+                      <label for="page-sponsor-image-url">Custom Logo / Image URL (Optional)</label>
+                      <input type="text" class="form-input" id="page-sponsor-image-url" placeholder="https://.../brand-logo.png">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="page-sponsor-slogan">Referral Slogan / Description</label>
+                    <input type="text" class="form-input" id="page-sponsor-slogan" placeholder="e.g. Claim $200 free cloud credit or exclusive discount...">
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="page-sponsor-url">Affiliate / Referral Link</label>
+                      <input type="text" class="form-input" id="page-sponsor-url" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                      <label for="page-sponsor-btn-text">Button Text</label>
+                      <input type="text" class="form-input" id="page-sponsor-btn-text" placeholder="e.g. Claim Deal, Start Free">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- AdSense fields -->
+                <div id="page-fields-adsense" style="display: none;">
+                  <div class="form-group">
+                    <label for="page-adsense-slot">Google AdSense Dedicated Slot ID for this Page</label>
+                    <input type="text" class="form-input" id="page-adsense-slot" placeholder="e.g. 9876543210">
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Uses the global Publisher ID (<code><span id="page-adsense-pub-display">ca-pub-...</span></code>) with this specific slot ID.</p>
+                  </div>
+                </div>
+
+                <!-- Amazon fields -->
+                <div id="page-fields-amazon" style="display: none;">
+                  <div class="form-group">
+                    <label for="page-amazon-slot">Amazon Mobile Ads Dedicated Slot / Placement ID</label>
+                    <input type="text" class="form-input" id="page-amazon-slot" placeholder="e.g. amzn-slot-page-555">
+                  </div>
+                </div>
+
+                <!-- Custom HTML fields -->
+                <div id="page-fields-custom" style="display: none;">
+                  <div class="form-group">
+                    <label for="page-custom-html">Custom HTML/JS Script Code for this Page</label>
+                    <textarea class="input-textarea" id="page-custom-html" placeholder="Paste custom ad snippet, widget, or banner HTML for this page..." style="min-height: 90px;"></textarea>
+                  </div>
+                </div>
+
+                <!-- Inherit notice -->
+                <div id="page-fields-inherit" style="display: none; padding: 12px; border-radius: 8px; background: rgba(0, 242, 254, 0.05); border: 1px solid rgba(0, 242, 254, 0.2); font-size: 12px; color: var(--text-muted);">
+                  ℹ️ This page currently inherits the <strong>Global Ad Provider</strong> (<span id="page-inherit-global-name" style="color: var(--accent-cyan); font-weight: 700;">Developer Partner Ads</span>). To assign a unique ad to this page, choose a specific provider above.
+                </div>
+
+                <!-- Ad-Free notice -->
+                <div id="page-fields-none" style="display: none; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); font-size: 12px; color: var(--text-muted);">
+                  🛡️ <strong>100% Ad-Free Tool:</strong> All banner advertisements and sponsor blocks will be completely suppressed when visitors view this specific tool.
+                </div>
+
+                <!-- Buttons row -->
+                <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; flex-wrap: wrap;">
+                  <button type="button" class="tool-btn secondary" id="btn-page-preview" style="height: 36px; font-size: 12px;">👁️ Preview in Simulator</button>
+                  <button type="button" class="tool-btn" id="btn-page-reset" style="height: 36px; font-size: 12px; border-color: rgba(var(--accent-rose-rgb), 0.3); color: var(--accent-rose); background: rgba(var(--accent-rose-rgb), 0.02);">🔄 Reset to Global</button>
+                  <button type="button" class="tool-btn primary" id="btn-page-save" style="height: 36px; font-size: 12px; font-weight: 700;">💾 Save Page Ad</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD: All Pages Ad Placements & Inventory Directory -->
+            <div class="adm-ad-card" id="adm-ad-inventory-section" style="margin-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                  <div style="font-size: 14px; font-weight: 800; color: var(--accent-cyan); letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+                    <span>📋</span> ALL PAGES AD PLACEMENTS &amp; INVENTORY DIRECTORY
+                  </div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 3px;">
+                    Live status and details of every page and route across OmniTool Hub. See what type of ad is active, where it shows, and customize any tool with 1-click.
+                  </div>
+                </div>
+                <button type="button" class="tool-btn secondary" id="btn-refresh-ad-matrix" style="height: 32px; font-size: 11.5px; padding: 0 10px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>
+                  <span>Refresh Directory</span>
+                </button>
+              </div>
+
+              <!-- KPI Metrics Grid -->
+              <div class="adm-ad-kpi-grid">
+                <div class="adm-ad-kpi-item">
+                  <span class="adm-ad-kpi-val" id="kpi-total-pages">0</span>
+                  <span class="adm-ad-kpi-label">Pages Monitored</span>
+                </div>
+                <div class="adm-ad-kpi-item">
+                  <span class="adm-ad-kpi-val" id="kpi-custom-overrides" style="color: var(--accent-purple);">0</span>
+                  <span class="adm-ad-kpi-label">Custom Overrides</span>
+                </div>
+                <div class="adm-ad-kpi-item">
+                  <span class="adm-ad-kpi-val" id="kpi-global-defaults" style="color: #10b981;">0</span>
+                  <span class="adm-ad-kpi-label">Global Defaults</span>
+                </div>
+                <div class="adm-ad-kpi-item">
+                  <span class="adm-ad-kpi-val" id="kpi-active-zones" style="font-size: 13px; color: var(--accent-cyan); font-weight: 700; line-height: 1.4;">3 Active</span>
+                  <span class="adm-ad-kpi-label">Active Placements</span>
+                </div>
+              </div>
+
+              <!-- Filter & Search Toolbar -->
+              <div class="adm-ad-toolbar">
+                <div style="flex: 1; min-width: 200px; position: relative;">
+                  <input type="text" class="form-input" id="adm-ad-search-input" placeholder="Search page name, tool ID, category, or ad details..." style="height: 36px; font-size: 12px; padding-left: 32px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="position: absolute; left: 10px; top: 11px; color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <select class="form-select" id="adm-ad-filter-type" style="height: 36px; font-size: 12px; width: 170px;">
+                  <option value="all">All Ad Types</option>
+                  <option value="dev">Developer Sponsor</option>
+                  <option value="adsense">Google AdSense</option>
+                  <option value="amazon">Amazon APS</option>
+                  <option value="custom">Custom HTML</option>
+                  <option value="none">Ad-Free Pages</option>
+                </select>
+                <select class="form-select" id="adm-ad-filter-status" style="height: 36px; font-size: 12px; width: 150px;">
+                  <option value="all">All Modes</option>
+                  <option value="override">Custom Overrides</option>
+                  <option value="global">Global Defaults</option>
+                </select>
+              </div>
+
+              <!-- Responsive Matrix Table -->
+              <div class="adm-ad-table-wrap">
+                <table class="adm-ad-table">
+                  <thead>
+                    <tr>
+                      <th>Page / Tool Route</th>
+                      <th>Placements &amp; Zones</th>
+                      <th>Active Ad Network</th>
+                      <th>Ad Details &amp; Payload</th>
+                      <th>Status</th>
+                      <th style="text-align: right;">Quick Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adm-ad-matrix-tbody">
+                    <!-- Rendered dynamically -->
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <!-- Cache Settings -->
@@ -907,13 +1091,19 @@ export default {
 
           <!-- 2. Live Ad Simulator (Shown when tab-ads is active) -->
           <div id="preview-section-ads" class="adm-preview-section" style="display: none;">
-            <div class="panel-header">
-              <h3>Live Ad Simulator</h3>
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <h3 style="margin: 0;">Live Ad Simulator</h3>
+                <div id="preview-sim-target" style="font-size: 11px; color: var(--accent-cyan); font-weight: 600; margin-top: 3px;">Simulating: Global Default Placements</div>
+              </div>
               <span class="theme-badge" style="background: rgba(var(--accent-cyan-rgb), 0.15); color: var(--accent-cyan);" id="preview-network-badge">Local Sponsor</span>
             </div>
             <div class="ad-simulator-container">
-              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Simulated ad render based on active network settings:</p>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Simulated ad render based on active settings:</p>
               <div id="ad-preview-box" class="ad-preview-panel"></div>
+            </div>
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+              <button type="button" class="tool-btn secondary" id="btn-reset-sim-global" style="font-size: 11px; padding: 4px 10px; height: 28px;">Reset Preview to Global</button>
             </div>
           </div>
 
@@ -1048,6 +1238,7 @@ export default {
           const s = container.querySelector("#preview-section-ads");
           if (s) s.style.display = "block";
           if (typeof updateSimulatorPreview === "function") updateSimulatorPreview();
+          if (typeof renderAdInventoryDirectory === "function") renderAdInventoryDirectory();
         } else if (tabId === "tab-aesthetics") {
           const s = container.querySelector("#preview-section-aesthetics");
           if (s) s.style.display = "block";
@@ -1158,9 +1349,37 @@ export default {
     const adsterraSmartLink = container.querySelector("#adsterra-smart-link");
     const preserveSettingsReset = container.querySelector("#preserve-settings-reset");
     const overrideToolSelect = container.querySelector("#override-tool-select");
-    const sponsorEditStatus = container.querySelector("#sponsor-edit-status");
-    const btnLoadOverride = container.querySelector("#btn-load-override");
-    const btnDeleteOverride = container.querySelector("#btn-delete-override");
+    const pageAdNetworkSelect = container.querySelector("#page-ad-network-select");
+    const pageCustomFieldsWrap = container.querySelector("#page-custom-fields-wrap");
+    const pageCustomStatusBadge = container.querySelector("#page-custom-status-badge");
+    const pageSponsorBrand = container.querySelector("#page-sponsor-brand");
+    const pageSponsorIcon = container.querySelector("#page-sponsor-icon-select");
+    const pageSponsorBadge = container.querySelector("#page-sponsor-badge");
+    const pageSponsorImageUrl = container.querySelector("#page-sponsor-image-url");
+    const pageSponsorSlogan = container.querySelector("#page-sponsor-slogan");
+    const pageSponsorUrl = container.querySelector("#page-sponsor-url");
+    const pageSponsorBtnText = container.querySelector("#page-sponsor-btn-text");
+    const pageAdsenseSlot = container.querySelector("#page-adsense-slot");
+    const pageAdsensePubDisplay = container.querySelector("#page-adsense-pub-display");
+    const pageAmazonSlot = container.querySelector("#page-amazon-slot");
+    const pageCustomHtml = container.querySelector("#page-custom-html");
+    const pageInheritGlobalName = container.querySelector("#page-inherit-global-name");
+    const btnPageSave = container.querySelector("#btn-page-save");
+    const btnPageReset = container.querySelector("#btn-page-reset");
+    const btnPagePreview = container.querySelector("#btn-page-preview");
+
+    // All Pages Ad Inventory Directory selectors
+    const btnRefreshAdMatrix = container.querySelector("#btn-refresh-ad-matrix");
+    const adSearchInput = container.querySelector("#adm-ad-search-input");
+    const adFilterType = container.querySelector("#adm-ad-filter-type");
+    const adFilterStatus = container.querySelector("#adm-ad-filter-status");
+    const adMatrixTbody = container.querySelector("#adm-ad-matrix-tbody");
+    const kpiTotalPages = container.querySelector("#kpi-total-pages");
+    const kpiCustomOverrides = container.querySelector("#kpi-custom-overrides");
+    const kpiGlobalDefaults = container.querySelector("#kpi-global-defaults");
+    const kpiActiveZones = container.querySelector("#kpi-active-zones");
+    const previewSimTarget = container.querySelector("#preview-sim-target");
+    const btnResetSimGlobal = container.querySelector("#btn-reset-sim-global");
 
     // Master Gateway Toggles selectors
     const gwToggleUpi = container.querySelector("#gw-toggle-upi");
@@ -1629,17 +1848,834 @@ export default {
     });
 
     // Populate overrides dropdown
-    if (overrideToolSelect) {
-      overrideToolSelect.innerHTML = '<option value="global">-- Global Default --</option>';
-      appInstance.tools.forEach(tool => {
-        if (tool.id !== "admin-settings") {
-          const opt = document.createElement("option");
-          opt.value = tool.id;
-          opt.innerText = tool.name;
-          overrideToolSelect.appendChild(opt);
-        }
+    const populateOverrideDropdown = () => {
+      if (!overrideToolSelect) return;
+      const currentVal = overrideToolSelect.value;
+      overrideToolSelect.innerHTML = `
+        <option value="">-- Choose a page or tool to customize --</option>
+        <option value="dashboard">🏠 Main Dashboard Catalog</option>
+      `;
+      const sortedTools = [...appInstance.tools].filter(t => t.id !== "admin-settings").sort((a, b) => a.name.localeCompare(b.name));
+      sortedTools.forEach(tool => {
+        const opt = document.createElement("option");
+        opt.value = tool.id;
+        opt.innerText = `${tool.name} (${tool.subLabel || tool.category})`;
+        overrideToolSelect.appendChild(opt);
       });
-    }
+      if (currentVal) overrideToolSelect.value = currentVal;
+    };
+
+    let activeSimulatedToolId = null;
+
+    // Update Simulator display
+    const updateSimulatorPreview = (simToolId = null) => {
+      const targetId = simToolId !== null ? simToolId : activeSimulatedToolId;
+
+      if (!previewBox || !previewBadge) return;
+
+      if (!adGlobal || !adGlobal.checked) {
+        previewBadge.innerText = "Disabled";
+        previewBadge.style.color = "var(--accent-rose)";
+        previewBadge.style.background = "rgba(244, 63, 94, 0.15)";
+        if (previewSimTarget) previewSimTarget.innerText = "All Advertisements are Disabled globally";
+        previewBox.innerHTML = `
+          <div class="ad-mock-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24">
+              <circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+            </svg>
+            <span>All Advertisements are Disabled globally.</span>
+          </div>
+        `;
+        return;
+      }
+
+      // Check if placement zone is toggled on
+      const isDashPlacementActive = showDash ? showDash.checked : true;
+      const isToolPlacementActive = showTool ? showTool.checked : true;
+
+      if (targetId === "dashboard" && !isDashPlacementActive) {
+        previewBadge.innerText = "Placement Inactive";
+        previewBadge.style.color = "var(--accent-rose)";
+        previewBadge.style.background = "rgba(244, 63, 94, 0.15)";
+        if (previewSimTarget) previewSimTarget.innerText = "Simulating: Main Dashboard (Placement Unchecked)";
+        previewBox.innerHTML = `
+          <div class="ad-mock-empty">
+            <div style="font-size: 20px; margin-bottom: 6px;">⏸️</div>
+            <div style="font-size: 13px; font-weight: 700; color: var(--text-main);">Dashboard Ads Disabled</div>
+            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Dashboard ad display is unchecked under "Active Display Locations" above. Check "Dashboard" to display ads here.</span>
+          </div>
+        `;
+        return;
+      }
+
+      if (targetId && targetId !== "dashboard" && targetId !== "global" && !isToolPlacementActive) {
+        const toolObj = appInstance.tools ? appInstance.tools.find(t => t.id === targetId) : null;
+        const targetName = toolObj ? toolObj.name : targetId;
+        previewBadge.innerText = "Placement Inactive";
+        previewBadge.style.color = "var(--accent-rose)";
+        previewBadge.style.background = "rgba(244, 63, 94, 0.15)";
+        if (previewSimTarget) previewSimTarget.innerText = `Simulating: ${targetName} (Tool Placement Unchecked)`;
+        previewBox.innerHTML = `
+          <div class="ad-mock-empty">
+            <div style="font-size: 20px; margin-bottom: 6px;">⏸️</div>
+            <div style="font-size: 13px; font-weight: 700; color: var(--text-main);">Tool Footer Ads Disabled</div>
+            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Tool Footer ad display is unchecked under "Active Display Locations" above. Check "Tool Footer" to display ads here.</span>
+          </div>
+        `;
+        return;
+      }
+
+      // Check if simulating a specific tool or global
+      let provider = adNetwork ? adNetwork.value : "dev";
+      let targetName = "Global Default Placements";
+      const isEditingThisTool = !!(targetId && overrideToolSelect && targetId === overrideToolSelect.value);
+
+      if (targetId && targetId !== "global") {
+        if (targetId === "dashboard") {
+          targetName = "Main Dashboard";
+          if (isEditingThisTool && pageAdNetworkSelect) {
+            const pageNet = pageAdNetworkSelect.value;
+            provider = (pageNet === "inherit") ? (adNetwork ? adNetwork.value : "dev") : pageNet;
+          } else {
+            const savedNet = localStorage.getItem("omnitool_ad_network_dashboard");
+            if (savedNet && savedNet !== "inherit") provider = savedNet;
+          }
+        } else {
+          const toolObj = appInstance.tools ? appInstance.tools.find(t => t.id === targetId) : null;
+          targetName = toolObj ? toolObj.name : targetId;
+          if (isEditingThisTool && pageAdNetworkSelect) {
+            const pageNet = pageAdNetworkSelect.value;
+            provider = (pageNet === "inherit") ? (adNetwork ? adNetwork.value : "dev") : pageNet;
+          } else {
+            const savedNet = localStorage.getItem("omnitool_ad_network_" + targetId);
+            if (savedNet && savedNet !== "inherit") provider = savedNet;
+          }
+        }
+      }
+
+      if (previewSimTarget) {
+        previewSimTarget.innerText = `Simulating: ${targetName}`;
+      }
+
+      if (provider === "none") {
+        previewBadge.innerText = "Ad-Free Mode";
+        previewBadge.style.color = "var(--text-muted)";
+        previewBadge.style.background = "rgba(255, 255, 255, 0.08)";
+        previewBox.innerHTML = `
+          <div class="ad-mock-empty" style="border-color: rgba(255,255,255,0.1);">
+            <div style="font-size: 24px; margin-bottom: 6px;">🛡️</div>
+            <div style="font-size: 13px; font-weight: 700; color: var(--text-main);">Ad-Free Experience</div>
+            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Zero banner ads will be rendered for visitors viewing this page.</span>
+          </div>
+        `;
+        return;
+      }
+
+      if (provider === "dev") {
+        const brandVal = (isEditingThisTool && pageSponsorBrand?.value.trim()) ||
+                         (targetId && localStorage.getItem("omnitool_sponsor_brand_" + targetId)) ||
+                         (sponsorBrand ? sponsorBrand.value.trim() : "") || "DigitalOcean Cloud";
+        const sloganVal = (isEditingThisTool && pageSponsorSlogan?.value.trim()) ||
+                          (targetId && localStorage.getItem("omnitool_sponsor_slogan_" + targetId)) ||
+                          (sponsorSlogan ? sponsorSlogan.value.trim() : "") || "Deploy lightweight web pipelines locally with absolute security.";
+        const btnVal = (isEditingThisTool && pageSponsorBtnText?.value.trim()) ||
+                       (targetId && localStorage.getItem("omnitool_sponsor_btn_text_" + targetId)) ||
+                       (sponsorBtnText ? sponsorBtnText.value.trim() : "") || "Claim Deal";
+        const iconType = (isEditingThisTool && pageSponsorIcon?.value) ||
+                         (targetId && localStorage.getItem("omnitool_sponsor_icon_" + targetId)) ||
+                         (sponsorIcon ? sponsorIcon.value : "cloud");
+        const badgeVal = (isEditingThisTool && pageSponsorBadge?.value.trim()) ||
+                         (targetId && localStorage.getItem("omnitool_sponsor_badge_" + targetId)) ||
+                         (sponsorBadge && sponsorBadge.value.trim() ? sponsorBadge.value.trim() : "REFERRAL BONUS");
+        const imgVal = (isEditingThisTool && pageSponsorImageUrl?.value.trim()) ||
+                       (targetId && localStorage.getItem("omnitool_sponsor_image_" + targetId)) ||
+                       (sponsorImageUrl ? sponsorImageUrl.value.trim() : "");
+
+        let visualPreview = "";
+        if (imgVal) {
+          visualPreview = `<img src="${escapeHtml(imgVal)}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;" onerror="this.style.display='none'" />`;
+        } else {
+          let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
+          if (iconType === "database") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
+          } else if (iconType === "shield") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+          } else if (iconType === "shopping") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
+          } else if (iconType === "tag") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`;
+          } else if (iconType === "gift") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`;
+          } else if (iconType === "zap") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+          } else if (iconType === "star") {
+            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+          }
+          visualPreview = iconSvg;
+        }
+
+        previewBadge.innerText = targetId ? `Sponsor: ${brandVal}` : "Referral / Partner Ad";
+        previewBadge.style.color = "var(--accent-cyan)";
+        previewBadge.style.background = "rgba(0, 242, 254, 0.15)";
+        previewBox.innerHTML = `
+          <div class="sponsor-ad-block" style="margin: 0; border-color: rgba(0, 242, 254, 0.25); width: 100%;">
+            <div class="ad-horizontal-left">
+              <div class="ad-image-placeholder" style="color: var(--accent-cyan); border-color: var(--accent-cyan); background: rgba(var(--accent-cyan-rgb), 0.12);">
+                ${visualPreview}
+              </div>
+              <div class="ad-info">
+                <div class="ad-title-row">
+                  <span class="ad-brand">${escapeHtml(brandVal)}</span>
+                  <span class="ad-horizontal-badge">${escapeHtml(badgeVal)}</span>
+                </div>
+                <span class="ad-slogan">${escapeHtml(sloganVal)}</span>
+              </div>
+            </div>
+            <span class="ad-action-btn" style="background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.2);">${escapeHtml(btnVal)}</span>
+          </div>
+        `;
+      } else if (provider === "amazon") {
+        previewBadge.innerText = "Amazon Mobile Ads";
+        previewBadge.style.color = "#ff9900";
+        previewBadge.style.background = "rgba(255, 153, 0, 0.15)";
+        const slotVal = (isEditingThisTool && pageAmazonSlot?.value.trim()) ||
+                        (targetId && localStorage.getItem("omnitool_amazon_slot_id_" + targetId)) ||
+                        (amazonSlotId ? amazonSlotId.value : "amzn-slot-12345");
+        previewBox.innerHTML = `
+          <div class="admob-adsense-mock admob" style="border-color: rgba(255, 153, 0, 0.4);">
+            <div class="mock-badge" style="background: rgba(255, 153, 0, 0.15); color: #ff9900;">AMAZON MOBILE ADS / APS</div>
+            <div class="mock-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ff9900" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              <span style="color: #ff9900;">Amazon Ads Simulation (Slot: ${escapeHtml(slotVal)})</span>
+            </div>
+            <div class="mock-details">
+              <span><strong>Slot ID:</strong> ${escapeHtml(slotVal)}</span>
+              <span>•</span>
+              <span>Target: Amazon Fire / Android / Web</span>
+            </div>
+          </div>
+        `;
+      } else if (provider === "adsense") {
+        previewBadge.innerText = "Google AdSense";
+        previewBadge.style.color = "var(--accent-purple)";
+        previewBadge.style.background = "rgba(157, 78, 221, 0.15)";
+        const slotVal = (isEditingThisTool && pageAdsenseSlot?.value.trim()) ||
+          ((targetId === "dashboard")
+            ? (localStorage.getItem("omnitool_adsense_slot_dash") || (adsenseDash ? adsenseDash.value : "1111111111"))
+            : ((targetId && localStorage.getItem("omnitool_adsense_slot_tool_" + targetId)) || (adsenseTool ? adsenseTool.value : "2222222222")));
+        const pubVal = adsensePub ? adsensePub.value : "ca-pub-XXXXXXXXXX";
+        previewBox.innerHTML = `
+          <div class="admob-adsense-mock adsense">
+            <div class="mock-badge">GOOGLE ADSENSE BANNER</div>
+            <div class="mock-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <span>AdSense Mock Display</span>
+            </div>
+            <div class="mock-details">
+              <span><strong>Client ID:</strong> ${escapeHtml(pubVal)}</span>
+              <span>•</span>
+              <span><strong>Active Slot ID:</strong> ${escapeHtml(slotVal)}</span>
+            </div>
+          </div>
+        `;
+      } else if (provider === "admob") {
+        previewBadge.innerText = "AdMob Banner";
+        previewBadge.style.color = "var(--accent-emerald)";
+        previewBadge.style.background = "rgba(16, 185, 129, 0.15)";
+        const appIdVal = admobApp ? admobApp.value : "";
+        const dashUnitVal = admobDash ? admobDash.value : "";
+        previewBox.innerHTML = `
+          <div class="admob-adsense-mock admob">
+            <div class="mock-badge">ADMOB SMART BANNER</div>
+            <div class="mock-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>AdMob Banner Simulation</span>
+            </div>
+            <div class="mock-details">
+              <span><strong>App ID:</strong> ${escapeHtml(appIdVal.substring(0, 15))}...</span>
+              <span>•</span>
+              <span><strong>Unit ID:</strong> ${escapeHtml(dashUnitVal.substring(dashUnitVal.lastIndexOf('/') + 1))}</span>
+            </div>
+          </div>
+        `;
+      } else if (provider === "custom") {
+        previewBadge.innerText = "Custom HTML Block";
+        previewBadge.style.color = "var(--accent-orange)";
+        previewBadge.style.background = "rgba(245, 158, 11, 0.15)";
+        const rawCode = (isEditingThisTool && pageCustomHtml?.value) ||
+                        (targetId && localStorage.getItem("omnitool_custom_ad_html_" + targetId)) ||
+                        (customCode ? customCode.value : "");
+        previewBox.innerHTML = `
+          <div style="width: 100%; border: 1px dashed rgba(245, 158, 11, 0.3); border-radius: 8px; overflow: hidden; padding: 12px; background: rgba(0,0,0,0.2);">
+            <div style="font-size: 10px; font-family: var(--font-mono); color: var(--accent-orange); margin-bottom: 8px; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 4px;">RAW HTML PREVIEW (${escapeHtml(targetName)})</div>
+            ${rawCode.trim() ? rawCode.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, '<div style="font-size: 11px; color: var(--text-muted); font-style: italic;">[Custom script execution sandboxed for preview]</div>') : '<div style="font-size: 11.5px; color: var(--text-muted); font-style: italic;">No custom HTML/JS code entered yet. Paste code in the Custom Ad Script block.</div>'}
+          </div>
+        `;
+      }
+    };
+
+    const togglePageFields = (network) => {
+      const devFields = container.querySelector("#page-fields-dev");
+      const adsenseFields = container.querySelector("#page-fields-adsense");
+      const amazonFields = container.querySelector("#page-fields-amazon");
+      const customFields = container.querySelector("#page-fields-custom");
+      const inheritNotice = container.querySelector("#page-fields-inherit");
+      const noneNotice = container.querySelector("#page-fields-none");
+
+      if (devFields) devFields.style.display = network === "dev" ? "block" : "none";
+      if (adsenseFields) adsenseFields.style.display = network === "adsense" ? "block" : "none";
+      if (amazonFields) amazonFields.style.display = network === "amazon" ? "block" : "none";
+      if (customFields) customFields.style.display = network === "custom" ? "block" : "none";
+      if (inheritNotice) inheritNotice.style.display = network === "inherit" ? "block" : "none";
+      if (noneNotice) noneNotice.style.display = network === "none" ? "block" : "none";
+    };
+
+    const syncPageCustomizerFields = (toolId) => {
+      if (!pageCustomFieldsWrap || !pageAdNetworkSelect) return;
+
+      if (!toolId) {
+        pageCustomFieldsWrap.style.display = "none";
+        pageAdNetworkSelect.disabled = true;
+        pageAdNetworkSelect.value = "inherit";
+        if (pageCustomStatusBadge) {
+          pageCustomStatusBadge.innerText = "Select a page below";
+          pageCustomStatusBadge.style.color = "var(--accent-cyan)";
+          pageCustomStatusBadge.style.borderColor = "rgba(0, 242, 254, 0.25)";
+          pageCustomStatusBadge.style.background = "rgba(0, 242, 254, 0.12)";
+        }
+        activeSimulatedToolId = null;
+        updateSimulatorPreview();
+        return;
+      }
+
+      pageCustomFieldsWrap.style.display = "block";
+      pageAdNetworkSelect.disabled = false;
+      activeSimulatedToolId = toolId;
+
+      const overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
+      const overrides = overridesStr.split(",").filter(Boolean);
+      const hasOverride = overrides.includes(toolId) ||
+        !!localStorage.getItem("omnitool_ad_network_" + toolId) ||
+        !!localStorage.getItem("omnitool_sponsor_brand_" + toolId) ||
+        !!localStorage.getItem("omnitool_adsense_slot_tool_" + toolId) ||
+        !!localStorage.getItem("omnitool_amazon_slot_id_" + toolId) ||
+        !!localStorage.getItem("omnitool_custom_ad_html_" + toolId);
+
+      if (pageCustomStatusBadge) {
+        if (hasOverride) {
+          pageCustomStatusBadge.innerText = "Custom Override Active";
+          pageCustomStatusBadge.style.color = "var(--accent-purple)";
+          pageCustomStatusBadge.style.borderColor = "rgba(157, 78, 221, 0.35)";
+          pageCustomStatusBadge.style.background = "rgba(157, 78, 221, 0.15)";
+        } else {
+          pageCustomStatusBadge.innerText = "Currently Inheriting Global Defaults";
+          pageCustomStatusBadge.style.color = "var(--accent-cyan)";
+          pageCustomStatusBadge.style.borderColor = "rgba(0, 242, 254, 0.25)";
+          pageCustomStatusBadge.style.background = "rgba(0, 242, 254, 0.12)";
+        }
+      }
+
+      const savedNet = localStorage.getItem("omnitool_ad_network_" + toolId);
+      pageAdNetworkSelect.value = savedNet || (hasOverride ? "dev" : "inherit");
+
+      // Load sponsor values (use saved override, or fallback to global as helpful starting point)
+      if (pageSponsorBrand) pageSponsorBrand.value = localStorage.getItem("omnitool_sponsor_brand_" + toolId) || sponsorBrand.value || "DigitalOcean Cloud";
+      if (pageSponsorIcon) pageSponsorIcon.value = localStorage.getItem("omnitool_sponsor_icon_" + toolId) || sponsorIcon.value || "cloud";
+      if (pageSponsorBadge) pageSponsorBadge.value = localStorage.getItem("omnitool_sponsor_badge_" + toolId) || (sponsorBadge ? sponsorBadge.value : "REFERRAL BONUS");
+      if (pageSponsorImageUrl) pageSponsorImageUrl.value = localStorage.getItem("omnitool_sponsor_image_" + toolId) || (sponsorImageUrl ? sponsorImageUrl.value : "");
+      if (pageSponsorSlogan) pageSponsorSlogan.value = localStorage.getItem("omnitool_sponsor_slogan_" + toolId) || sponsorSlogan.value || "Deploy your Docker containers, web apps, and databases globally. Get $200 free developer credit.";
+      if (pageSponsorUrl) pageSponsorUrl.value = localStorage.getItem("omnitool_sponsor_url_" + toolId) || sponsorUrl.value || "#";
+      if (pageSponsorBtnText) pageSponsorBtnText.value = localStorage.getItem("omnitool_sponsor_btn_text_" + toolId) || sponsorBtnText.value || "Claim $200 Credit";
+
+      // Load AdSense values
+      const slotVal = (toolId === "dashboard")
+        ? (localStorage.getItem("omnitool_adsense_slot_dash") || adsenseDash.value)
+        : (localStorage.getItem("omnitool_adsense_slot_tool_" + toolId) || adsenseTool.value);
+      if (pageAdsenseSlot) pageAdsenseSlot.value = slotVal || "";
+      if (pageAdsensePubDisplay) pageAdsensePubDisplay.innerText = adsensePub.value || "ca-pub-XXXXXXXXXX";
+
+      // Load Amazon values
+      if (pageAmazonSlot) pageAmazonSlot.value = localStorage.getItem("omnitool_amazon_slot_id_" + toolId) || (amazonSlotId ? amazonSlotId.value : "amzn-slot-12345");
+
+      // Load Custom HTML values
+      if (pageCustomHtml) pageCustomHtml.value = localStorage.getItem("omnitool_custom_ad_html_" + toolId) || customCode.value || "";
+
+      // Update inherit global provider name
+      if (pageInheritGlobalName) {
+        const globalOpt = (adNetwork && adNetwork.options && adNetwork.selectedIndex >= 0)
+          ? adNetwork.options[adNetwork.selectedIndex]
+          : null;
+        pageInheritGlobalName.innerText = globalOpt ? (globalOpt.text || globalOpt.innerText || globalOpt.value) : (adNetwork ? adNetwork.value : "Developer Partner Ads");
+      }
+
+      togglePageFields(pageAdNetworkSelect.value);
+      updateSimulatorPreview(toolId);
+    };
+
+    // Render All Pages Ad Placements & Inventory Directory
+    const renderAdInventoryDirectory = () => {
+      if (!adMatrixTbody) return;
+
+      const globalNet = adNetwork ? adNetwork.value : "dev";
+      const isDashActive = showDash ? showDash.checked : true;
+      const isToolActive = showTool ? showTool.checked : true;
+      const isSideActive = showSide ? showSide.checked : true;
+      const isGlobalAdActive = adGlobal ? adGlobal.checked : true;
+
+      const overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
+      const overrides = overridesStr.split(",").filter(Boolean);
+
+      let tierOverrides = {};
+      try {
+        tierOverrides = JSON.parse(appInstance.getConfigValue("omnitool_monetization_overrides", "{}"));
+      } catch (_) {}
+
+      // Build items collection: Dashboard + All tools
+      const items = [];
+
+      // 1. Main Dashboard
+      const dashNet = localStorage.getItem("omnitool_ad_network_dashboard");
+      const hasDashOverride = !!dashNet || !!localStorage.getItem("omnitool_sponsor_brand_dashboard") || !!localStorage.getItem("omnitool_custom_ad_html_dashboard");
+      const effectiveDashNet = (hasDashOverride && dashNet && dashNet !== "inherit") ? dashNet : globalNet;
+
+      items.push({
+        id: "dashboard",
+        name: "Main Dashboard Catalog",
+        subLabel: "Core Hub",
+        category: "core",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
+        route: "#dashboard",
+        placementType: "dashboard",
+        isAdLocked: false,
+        hasOverride: hasDashOverride,
+        effectiveNet: effectiveDashNet,
+        isPlacementActive: isGlobalAdActive && isDashActive
+      });
+
+      // 2. All registered tools
+      const sortedTools = [...appInstance.tools].filter(t => t.id !== "admin-settings").sort((a, b) => a.name.localeCompare(b.name));
+      sortedTools.forEach(tool => {
+        const specificNet = localStorage.getItem("omnitool_ad_network_" + tool.id);
+        const hasToolOverride = overrides.includes(tool.id) ||
+          !!specificNet ||
+          !!localStorage.getItem("omnitool_sponsor_brand_" + tool.id) ||
+          !!localStorage.getItem("omnitool_adsense_slot_tool_" + tool.id) ||
+          !!localStorage.getItem("omnitool_amazon_slot_id_" + tool.id) ||
+          !!localStorage.getItem("omnitool_custom_ad_html_" + tool.id);
+
+        const effectiveNet = (hasToolOverride && specificNet && specificNet !== "inherit") ? specificNet : globalNet;
+        const currentTier = tierOverrides[tool.id] || tool.monetization || "free";
+        const isAdLocked = currentTier === "ad-lock";
+
+        items.push({
+          id: tool.id,
+          name: tool.name,
+          subLabel: tool.subLabel || tool.category,
+          category: tool.category,
+          icon: tool.icon || `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg>`,
+          route: "#tool/" + tool.id,
+          placementType: "tool",
+          isAdLocked,
+          hasOverride: hasToolOverride,
+          effectiveNet,
+          isPlacementActive: isGlobalAdActive && isToolActive
+        });
+      });
+
+      // Update KPI counters
+      const totalPages = items.length;
+      const customOverridesCount = items.filter(i => i.hasOverride).length;
+      const globalDefaultsCount = totalPages - customOverridesCount;
+
+      let activeZonesSummary = [];
+      if (isGlobalAdActive) {
+        if (isDashActive) activeZonesSummary.push("Dash");
+        if (isToolActive) activeZonesSummary.push("Tools");
+        if (isSideActive) activeZonesSummary.push("Sidebar");
+      }
+      const zonesText = isGlobalAdActive ? (activeZonesSummary.length > 0 ? activeZonesSummary.join(" + ") : "Paused") : "Global Off";
+
+      if (kpiTotalPages) kpiTotalPages.innerText = totalPages;
+      if (kpiCustomOverrides) kpiCustomOverrides.innerText = customOverridesCount;
+      if (kpiGlobalDefaults) kpiGlobalDefaults.innerText = globalDefaultsCount;
+      if (kpiActiveZones) kpiActiveZones.innerText = zonesText;
+
+      // Filter handling
+      const q = (adSearchInput?.value || "").toLowerCase().trim();
+      const filterNet = adFilterType?.value || "all";
+      const filterMode = adFilterStatus?.value || "all";
+
+      const filtered = items.filter(item => {
+        if (filterNet !== "all" && item.effectiveNet !== filterNet) return false;
+        if (filterMode === "override" && !item.hasOverride) return false;
+        if (filterMode === "global" && item.hasOverride) return false;
+
+        if (q) {
+          const matchName = item.name.toLowerCase().includes(q);
+          const matchId = item.id.toLowerCase().includes(q);
+          const matchSub = (item.subLabel || "").toLowerCase().includes(q);
+          const brand = (localStorage.getItem("omnitool_sponsor_brand_" + item.id) || "").toLowerCase();
+          const slogan = (localStorage.getItem("omnitool_sponsor_slogan_" + item.id) || "").toLowerCase();
+          const slot = (localStorage.getItem("omnitool_adsense_slot_tool_" + item.id) || "").toLowerCase();
+          return matchName || matchId || matchSub || brand.includes(q) || slogan.includes(q) || slot.includes(q);
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        adMatrixTbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 32px 16px; color: var(--text-muted);">
+              <div style="font-size: 24px; margin-bottom: 6px;">🔍</div>
+              <div style="font-size: 13px; font-weight: 600; color: var(--text-main);">No matching pages or tools found</div>
+              <div style="font-size: 11px; margin-top: 4px;">Try searching for a different keyword or resetting filters.</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      const getNetworkBadge = (net) => {
+        if (net === "none") {
+          return `<span class="adm-badge-net net-none">⚪ Ad-Free</span>`;
+        } else if (net === "dev") {
+          return `<span class="adm-badge-net net-dev">🟢 Dev Sponsor</span>`;
+        } else if (net === "adsense") {
+          return `<span class="adm-badge-net net-adsense">🟣 Google AdSense</span>`;
+        } else if (net === "amazon") {
+          return `<span class="adm-badge-net net-amazon">🟠 Amazon APS</span>`;
+        } else if (net === "custom") {
+          return `<span class="adm-badge-net net-custom">🟡 Custom HTML</span>`;
+        }
+        return `<span class="adm-badge-net net-inherit">🔵 Inherited Global</span>`;
+      };
+
+      const getDetailsHtml = (item) => {
+        const net = item.effectiveNet;
+        const toolId = item.id;
+
+        if (net === "none") {
+          return `<span style="color: var(--text-muted); font-size: 11px; font-style: italic;">🛡️ 100% Ad-Free (Zero ads rendered)</span>`;
+        }
+        if (net === "dev") {
+          const brand = (item.hasOverride && localStorage.getItem("omnitool_sponsor_brand_" + toolId)) || sponsorBrand?.value || "DigitalOcean Cloud";
+          const badge = (item.hasOverride && localStorage.getItem("omnitool_sponsor_badge_" + toolId)) || (sponsorBadge ? sponsorBadge.value : "SPONSOR");
+          const slogan = (item.hasOverride && localStorage.getItem("omnitool_sponsor_slogan_" + toolId)) || sponsorSlogan?.value || "Deploy web apps globally...";
+          const url = (item.hasOverride && localStorage.getItem("omnitool_sponsor_url_" + toolId)) || sponsorUrl?.value || "#";
+          return `
+            <div style="line-height: 1.35;">
+              <div style="font-weight: 700; color: var(--text-main); font-size: 12px; display: flex; align-items: center; gap: 6px;">
+                <span>${escapeHtml(brand)}</span>
+                <span style="font-size: 9px; font-weight: 700; background: rgba(0,242,254,0.1); color: var(--accent-cyan); padding: 1px 5px; border-radius: 3px;">${escapeHtml(badge)}</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(slogan)}</div>
+              <div style="font-size: 10px; color: var(--accent-cyan); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(url)}</div>
+            </div>
+          `;
+        }
+        if (net === "adsense") {
+          const slot = (toolId === "dashboard")
+            ? (localStorage.getItem("omnitool_adsense_slot_dash") || adsenseDash?.value || "1111111111")
+            : ((item.hasOverride && localStorage.getItem("omnitool_adsense_slot_tool_" + toolId)) || adsenseTool?.value || "2222222222");
+          const pub = adsensePub?.value || "ca-pub-XXXXXXXXXX";
+          return `
+            <div style="line-height: 1.35;">
+              <div style="font-weight: 700; color: var(--accent-purple); font-size: 11.5px;">Slot ID: <code style="font-family: monospace;">${escapeHtml(slot)}</code></div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">Pub: ${escapeHtml(pub)}</div>
+            </div>
+          `;
+        }
+        if (net === "amazon") {
+          const slot = (item.hasOverride && localStorage.getItem("omnitool_amazon_slot_id_" + toolId)) || (amazonSlotId ? amazonSlotId.value : "amzn-slot-12345");
+          return `
+            <div style="line-height: 1.35;">
+              <div style="font-weight: 700; color: #ff9900; font-size: 11.5px;">Amazon APS Slot: <code style="font-family: monospace;">${escapeHtml(slot)}</code></div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">Target: Mobile &amp; Web</div>
+            </div>
+          `;
+        }
+        if (net === "custom") {
+          const code = (item.hasOverride && localStorage.getItem("omnitool_custom_ad_html_" + toolId)) || customCode?.value || "";
+          const previewSnippet = code.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().substring(0, 45);
+          return `
+            <div style="line-height: 1.35;">
+              <div style="font-weight: 700; color: #f59e0b; font-size: 11.5px;">Custom HTML Snippet</div>
+              <div style="font-size: 10.5px; font-family: monospace; color: var(--text-muted); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(previewSnippet || code.substring(0, 45))}...</div>
+            </div>
+          `;
+        }
+        return `<span style="font-size: 11px; color: var(--text-muted);">Inheriting Global Default</span>`;
+      };
+
+      adMatrixTbody.innerHTML = filtered.map(item => {
+        const iconSvg = item.icon && item.icon.includes("<svg") ? item.icon : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"></circle></svg>`;
+
+        let placementBadgesHtml = "";
+        if (item.placementType === "dashboard") {
+          const activeStyle = item.isPlacementActive ? "background: rgba(0, 242, 254, 0.12); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.25);" : "background: rgba(255, 255, 255, 0.04); color: var(--text-muted); border-color: rgba(255, 255, 255, 0.08); text-decoration: line-through;";
+          placementBadgesHtml += `<span class="tool-badge" style="${activeStyle} font-size: 10.5px; padding: 2px 7px; margin-right: 4px;">Dashboard Top Banner</span>`;
+        } else {
+          const activeStyle = item.isPlacementActive ? "background: rgba(0, 242, 254, 0.12); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.25);" : "background: rgba(255, 255, 255, 0.04); color: var(--text-muted); border-color: rgba(255, 255, 255, 0.08); text-decoration: line-through;";
+          placementBadgesHtml += `<span class="tool-badge" style="${activeStyle} font-size: 10.5px; padding: 2px 7px; margin-right: 4px;">Tool Footer</span>`;
+          if (item.isAdLocked) {
+            placementBadgesHtml += `<span class="tool-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); font-size: 10px; padding: 2px 6px;">Video Unlock (Adsterra)</span>`;
+          }
+        }
+
+        const statusBadgeHtml = item.hasOverride
+          ? `<span class="adm-badge-status-override">🎯 Custom Override</span>`
+          : `<span class="adm-badge-status-global">🌐 Global Default</span>`;
+
+        return `
+          <tr data-tool-id="${item.id}">
+            <td>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 26px; height: 26px; border-radius: 6px; background: rgba(0, 242, 254, 0.08); display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); flex-shrink: 0;">
+                  ${iconSvg}
+                </div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text-main); font-size: 12.5px;">${escapeHtml(item.name)}</div>
+                  <div style="display: flex; gap: 6px; align-items: center; margin-top: 2px;">
+                    <span style="font-size: 10px; color: var(--text-muted); font-family: monospace;">${escapeHtml(item.route)}</span>
+                    <span style="font-size: 9.5px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); background: rgba(255,255,255,0.04); padding: 1px 5px; border-radius: 3px;">${escapeHtml(item.subLabel)}</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>${placementBadgesHtml}</td>
+            <td>${getNetworkBadge(item.effectiveNet)}</td>
+            <td>${getDetailsHtml(item)}</td>
+            <td>${statusBadgeHtml}</td>
+            <td style="text-align: right;">
+              <div class="adm-table-actions" style="justify-content: flex-end;">
+                <button type="button" class="adm-tbl-btn tbl-btn-edit" data-tool-id="${item.id}" title="Edit custom ad settings for this page">
+                  ✏️ Edit
+                </button>
+                <button type="button" class="adm-tbl-btn tbl-btn-preview" data-tool-id="${item.id}" title="Simulate this page ad in live right panel">
+                  👁️ Preview
+                </button>
+                ${item.hasOverride ? `
+                  <button type="button" class="adm-tbl-btn tbl-btn-reset" data-tool-id="${item.id}" title="Reset to global default ad">
+                    🔄 Reset
+                  </button>
+                ` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      // Attach row action listeners
+      adMatrixTbody.querySelectorAll(".tbl-btn-edit").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const toolId = btn.getAttribute("data-tool-id");
+          if (overrideToolSelect) {
+            overrideToolSelect.value = toolId;
+            syncPageCustomizerFields(toolId);
+            const customizerCard = container.querySelector("#adm-page-ad-customizer");
+            if (customizerCard) {
+              customizerCard.scrollIntoView({ behavior: "smooth", block: "center" });
+              customizerCard.classList.remove("highlight-pulse");
+              void customizerCard.offsetWidth;
+              customizerCard.classList.add("highlight-pulse");
+            }
+            appInstance.showToast(`Loaded ${toolId} into Page Customizer above.`, "info");
+            if (typeof appInstance.playSynthSound === 'function') {
+              appInstance.playSynthSound('click');
+            }
+          }
+        });
+      });
+
+      adMatrixTbody.querySelectorAll(".tbl-btn-preview").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const toolId = btn.getAttribute("data-tool-id");
+          updateSimulatorPreview(toolId);
+          appInstance.showToast(`Simulating ad for ${toolId} in right panel.`, "info");
+          if (typeof appInstance.playSynthSound === 'function') {
+            appInstance.playSynthSound('click');
+          }
+        });
+      });
+
+      adMatrixTbody.querySelectorAll(".tbl-btn-reset").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const toolId = btn.getAttribute("data-tool-id");
+          if (confirm(`Reset custom ad for "${toolId}" back to Global Defaults?`)) {
+            localStorage.removeItem("omnitool_ad_network_" + toolId);
+            localStorage.removeItem("omnitool_sponsor_brand_" + toolId);
+            localStorage.removeItem("omnitool_sponsor_icon_" + toolId);
+            localStorage.removeItem("omnitool_sponsor_slogan_" + toolId);
+            localStorage.removeItem("omnitool_sponsor_url_" + toolId);
+            localStorage.removeItem("omnitool_sponsor_btn_text_" + toolId);
+            localStorage.removeItem("omnitool_sponsor_badge_" + toolId);
+            localStorage.removeItem("omnitool_sponsor_image_" + toolId);
+            localStorage.removeItem("omnitool_adsense_slot_tool_" + toolId);
+            localStorage.removeItem("omnitool_amazon_slot_id_" + toolId);
+            localStorage.removeItem("omnitool_custom_ad_html_" + toolId);
+
+            if (toolId === "dashboard") {
+              localStorage.removeItem("omnitool_ad_network_dashboard");
+              localStorage.removeItem("omnitool_sponsor_brand_dashboard");
+              localStorage.removeItem("omnitool_sponsor_icon_dashboard");
+              localStorage.removeItem("omnitool_sponsor_slogan_dashboard");
+              localStorage.removeItem("omnitool_sponsor_url_dashboard");
+              localStorage.removeItem("omnitool_sponsor_btn_text_dashboard");
+              localStorage.removeItem("omnitool_sponsor_badge_dashboard");
+              localStorage.removeItem("omnitool_sponsor_image_dashboard");
+              localStorage.removeItem("omnitool_custom_ad_html_dashboard");
+            }
+
+            let ovList = (localStorage.getItem("omnitool_sponsor_overrides") || "").split(",").filter(Boolean);
+            ovList = ovList.filter(id => id !== toolId);
+            localStorage.setItem("omnitool_sponsor_overrides", ovList.join(","));
+
+            if (overrideToolSelect && overrideToolSelect.value === toolId) {
+              syncPageCustomizerFields(toolId);
+            }
+            renderAdInventoryDirectory();
+            updateSimulatorPreview(toolId);
+            saveSettings(true);
+            appInstance.showToast(`Reset ${toolId} to global default!`, "success");
+            if (typeof appInstance.playSynthSound === 'function') {
+              appInstance.playSynthSound('success');
+            }
+          }
+        });
+      });
+    };
+
+    // Page Customizer actions
+    overrideToolSelect?.addEventListener("change", (e) => {
+      syncPageCustomizerFields(e.target.value);
+    });
+
+    pageAdNetworkSelect?.addEventListener("change", (e) => {
+      togglePageFields(e.target.value);
+      updateSimulatorPreview(overrideToolSelect ? overrideToolSelect.value : "");
+    });
+
+    btnPageSave?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const toolId = overrideToolSelect ? overrideToolSelect.value : "";
+      if (!toolId) {
+        appInstance.showToast("Please choose a target page or tool first.", "error");
+        return;
+      }
+
+      const chosenNet = pageAdNetworkSelect ? pageAdNetworkSelect.value : "inherit";
+      localStorage.setItem("omnitool_ad_network_" + toolId, chosenNet);
+
+      if (chosenNet === "dev") {
+        if (pageSponsorBrand) localStorage.setItem("omnitool_sponsor_brand_" + toolId, pageSponsorBrand.value.trim());
+        if (pageSponsorIcon) localStorage.setItem("omnitool_sponsor_icon_" + toolId, pageSponsorIcon.value);
+        if (pageSponsorBadge) localStorage.setItem("omnitool_sponsor_badge_" + toolId, pageSponsorBadge.value.trim());
+        if (pageSponsorImageUrl) localStorage.setItem("omnitool_sponsor_image_" + toolId, pageSponsorImageUrl.value.trim());
+        if (pageSponsorSlogan) localStorage.setItem("omnitool_sponsor_slogan_" + toolId, pageSponsorSlogan.value.trim());
+        if (pageSponsorUrl) localStorage.setItem("omnitool_sponsor_url_" + toolId, pageSponsorUrl.value.trim());
+        if (pageSponsorBtnText) localStorage.setItem("omnitool_sponsor_btn_text_" + toolId, pageSponsorBtnText.value.trim());
+      } else if (chosenNet === "adsense") {
+        if (pageAdsenseSlot) {
+          if (toolId === "dashboard") {
+            localStorage.setItem("omnitool_adsense_slot_dash", pageAdsenseSlot.value.trim());
+          } else {
+            localStorage.setItem("omnitool_adsense_slot_tool_" + toolId, pageAdsenseSlot.value.trim());
+          }
+        }
+      } else if (chosenNet === "amazon") {
+        if (pageAmazonSlot) localStorage.setItem("omnitool_amazon_slot_id_" + toolId, pageAmazonSlot.value.trim());
+      } else if (chosenNet === "custom") {
+        if (pageCustomHtml) localStorage.setItem("omnitool_custom_ad_html_" + toolId, pageCustomHtml.value);
+      }
+
+      // Update overrides list
+      let ovList = (localStorage.getItem("omnitool_sponsor_overrides") || "").split(",").filter(Boolean);
+      if (chosenNet !== "inherit") {
+        if (!ovList.includes(toolId) && toolId !== "dashboard") {
+          ovList.push(toolId);
+          localStorage.setItem("omnitool_sponsor_overrides", ovList.join(","));
+        }
+      } else {
+        ovList = ovList.filter(id => id !== toolId);
+        localStorage.setItem("omnitool_sponsor_overrides", ovList.join(","));
+      }
+
+      syncPageCustomizerFields(toolId);
+      renderAdInventoryDirectory();
+      updateSimulatorPreview(toolId);
+      saveSettings(true);
+      appInstance.showToast(`Saved custom ad settings for ${toolId}!`, "success");
+      if (typeof appInstance.playSynthSound === 'function') {
+        appInstance.playSynthSound('save');
+      }
+    });
+
+    btnPageReset?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const toolId = overrideToolSelect ? overrideToolSelect.value : "";
+      if (!toolId) return;
+
+      if (confirm(`Reset custom ad configuration for "${toolId}" to global defaults?`)) {
+        localStorage.removeItem("omnitool_ad_network_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_brand_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_icon_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_slogan_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_url_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_btn_text_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_badge_" + toolId);
+        localStorage.removeItem("omnitool_sponsor_image_" + toolId);
+        localStorage.removeItem("omnitool_adsense_slot_tool_" + toolId);
+        localStorage.removeItem("omnitool_amazon_slot_id_" + toolId);
+        localStorage.removeItem("omnitool_custom_ad_html_" + toolId);
+
+        if (toolId === "dashboard") {
+          localStorage.removeItem("omnitool_ad_network_dashboard");
+          localStorage.removeItem("omnitool_sponsor_brand_dashboard");
+          localStorage.removeItem("omnitool_sponsor_icon_dashboard");
+          localStorage.removeItem("omnitool_sponsor_slogan_dashboard");
+          localStorage.removeItem("omnitool_sponsor_url_dashboard");
+          localStorage.removeItem("omnitool_sponsor_btn_text_dashboard");
+          localStorage.removeItem("omnitool_sponsor_badge_dashboard");
+          localStorage.removeItem("omnitool_sponsor_image_dashboard");
+          localStorage.removeItem("omnitool_custom_ad_html_dashboard");
+        }
+
+        let ovList = (localStorage.getItem("omnitool_sponsor_overrides") || "").split(",").filter(Boolean);
+        ovList = ovList.filter(id => id !== toolId);
+        localStorage.setItem("omnitool_sponsor_overrides", ovList.join(","));
+
+        syncPageCustomizerFields(toolId);
+        renderAdInventoryDirectory();
+        updateSimulatorPreview(toolId);
+        saveSettings(true);
+        appInstance.showToast(`Reset ${toolId} to global default!`, "success");
+        if (typeof appInstance.playSynthSound === 'function') {
+          appInstance.playSynthSound('success');
+        }
+      }
+    });
+
+    btnPagePreview?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const toolId = overrideToolSelect ? overrideToolSelect.value : "";
+      updateSimulatorPreview(toolId);
+      appInstance.showToast(`Simulating ad for ${toolId || 'global'} in right panel.`, "info");
+    });
+
+    // Directory toolbar filters
+    adSearchInput?.addEventListener("input", renderAdInventoryDirectory);
+    adFilterType?.addEventListener("change", renderAdInventoryDirectory);
+    adFilterStatus?.addEventListener("change", renderAdInventoryDirectory);
+    btnRefreshAdMatrix?.addEventListener("click", () => {
+      renderAdInventoryDirectory();
+      appInstance.showToast("Ad placements directory refreshed.", "info");
+    });
+
+    btnResetSimGlobal?.addEventListener("click", () => {
+      activeSimulatedToolId = null;
+      updateSimulatorPreview();
+      appInstance.showToast("Simulator reset to global default view.", "info");
+    });
 
     // Test Live Remote Sync connection
     btnTestRemoteSync?.addEventListener("click", async () => {
@@ -1674,101 +2710,6 @@ export default {
           remoteSyncStatus.innerHTML = `⚠️ <strong>Connection failed</strong>: ${escapeHtml(err.message)}. Check CORS headers or ensure the file is public.`;
         }
         appInstance.showToast(`Remote check failed: ${err.message}`, "error");
-      }
-    });
-
-    let currentEditMode = "global";
-
-    // Edit Page Override button action
-    btnLoadOverride?.addEventListener("click", (e) => {
-      e.preventDefault();
-      const toolId = overrideToolSelect.value;
-      
-      if (toolId === "global") {
-        currentEditMode = "global";
-        sponsorEditStatus.innerText = "Global Defaults";
-        sponsorEditStatus.style.color = "var(--accent-cyan)";
-        sponsorEditStatus.style.borderColor = "rgba(0, 242, 254, 0.2)";
-        sponsorEditStatus.style.background = "rgba(0, 242, 254, 0.1)";
-        
-        // Load global settings
-        sponsorBrand.value = appInstance.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host");
-        sponsorIcon.value = appInstance.getConfigValue("omnitool_sponsor_icon", "cloud");
-        sponsorSlogan.value = appInstance.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
-        sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
-        sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
-        if (sponsorBadge) sponsorBadge.value = appInstance.getConfigValue("omnitool_sponsor_badge", "REFERRAL BONUS");
-        if (sponsorImageUrl) sponsorImageUrl.value = appInstance.getConfigValue("omnitool_sponsor_image", "");
-      } else {
-        currentEditMode = toolId;
-        const toolName = overrideToolSelect.options[overrideToolSelect.selectedIndex].text;
-        sponsorEditStatus.innerText = `Override: ${toolName}`;
-        sponsorEditStatus.style.color = "var(--accent-purple)";
-        sponsorEditStatus.style.borderColor = "rgba(157, 78, 221, 0.2)";
-        sponsorEditStatus.style.background = "rgba(157, 78, 221, 0.1)";
-        
-        // Load specific override or fall back to empty inputs to show they are unset
-        sponsorBrand.value = localStorage.getItem("omnitool_sponsor_brand_" + toolId) || "";
-        sponsorIcon.value = localStorage.getItem("omnitool_sponsor_icon_" + toolId) || "cloud";
-        sponsorSlogan.value = localStorage.getItem("omnitool_sponsor_slogan_" + toolId) || "";
-        sponsorUrl.value = localStorage.getItem("omnitool_sponsor_url_" + toolId) || "";
-        sponsorBtnText.value = localStorage.getItem("omnitool_sponsor_btn_text_" + toolId) || "";
-        if (sponsorBadge) sponsorBadge.value = localStorage.getItem("omnitool_sponsor_badge_" + toolId) || "";
-        if (sponsorImageUrl) sponsorImageUrl.value = localStorage.getItem("omnitool_sponsor_image_" + toolId) || "";
-      }
-      
-      updateSimulatorPreview();
-      appInstance.showToast(`Switched editor to: ${sponsorEditStatus.innerText}`, "info");
-      if (typeof appInstance.playSynthSound === 'function') {
-        appInstance.playSynthSound('click');
-      }
-    });
-
-    // Delete Override button action
-    btnDeleteOverride?.addEventListener("click", (e) => {
-      e.preventDefault();
-      const toolId = overrideToolSelect.value;
-      if (toolId === "global") {
-        appInstance.showToast("Cannot delete global defaults. Just edit them instead.", "error");
-        return;
-      }
-      
-      if (confirm(`Reset overrides for this page? It will restore the global defaults.`)) {
-        localStorage.removeItem("omnitool_sponsor_brand_" + toolId);
-        localStorage.removeItem("omnitool_sponsor_icon_" + toolId);
-        localStorage.removeItem("omnitool_sponsor_slogan_" + toolId);
-        localStorage.removeItem("omnitool_sponsor_url_" + toolId);
-        localStorage.removeItem("omnitool_sponsor_btn_text_" + toolId);
-        localStorage.removeItem("omnitool_sponsor_badge_" + toolId);
-        localStorage.removeItem("omnitool_sponsor_image_" + toolId);
-
-        // Remove from list of overrides
-        let overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
-        let overrides = overridesStr.split(",").filter(Boolean);
-        overrides = overrides.filter(id => id !== toolId);
-        localStorage.setItem("omnitool_sponsor_overrides", overrides.join(","));
-
-        // Reset inputs
-        overrideToolSelect.value = "global";
-        currentEditMode = "global";
-        sponsorEditStatus.innerText = "Global Defaults";
-        sponsorEditStatus.style.color = "var(--accent-cyan)";
-        sponsorEditStatus.style.borderColor = "rgba(0, 242, 254, 0.2)";
-        sponsorEditStatus.style.background = "rgba(0, 242, 254, 0.1)";
-        
-        sponsorBrand.value = appInstance.getConfigValue("omnitool_sponsor_brand", "HexaCloud Host");
-        sponsorIcon.value = appInstance.getConfigValue("omnitool_sponsor_icon", "cloud");
-        sponsorSlogan.value = appInstance.getConfigValue("omnitool_sponsor_slogan", "Secure, lightning-fast PWA hosting and serverless deployments globally. Claim $5 credit.");
-        sponsorUrl.value = appInstance.getConfigValue("omnitool_sponsor_url", "#");
-        sponsorBtnText.value = appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim Now");
-        if (sponsorBadge) sponsorBadge.value = appInstance.getConfigValue("omnitool_sponsor_badge", "REFERRAL BONUS");
-        if (sponsorImageUrl) sponsorImageUrl.value = appInstance.getConfigValue("omnitool_sponsor_image", "");
-
-        updateSimulatorPreview();
-        appInstance.showToast("Page overrides deleted! Global default sponsor restored.", "success");
-        if (typeof appInstance.playSynthSound === 'function') {
-          appInstance.playSynthSound('success');
-        }
       }
     });
 
@@ -1893,6 +2834,9 @@ export default {
       syncPaymentCardsVisibility();
       populateToolsVisibility();
       populateToolsTiers();
+      populateOverrideDropdown();
+      renderAdInventoryDirectory();
+      syncPageCustomizerFields(overrideToolSelect ? overrideToolSelect.value : "");
     };
 
     // Toggle fields depending on provider
@@ -1916,143 +2860,6 @@ export default {
       }
       if (provider === "custom" || effectiveSide === "custom") {
         container.querySelector("#inputs-custom").style.display = "block";
-      }
-    };
-
-    // Update Simulator display
-    const updateSimulatorPreview = () => {
-      if (!adGlobal.checked) {
-        previewBadge.innerText = "Disabled";
-        previewBadge.style.color = "var(--accent-rose)";
-        previewBadge.style.background = "rgba(244, 63, 94, 0.15)";
-        previewBox.innerHTML = `
-          <div class="ad-mock-empty">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24">
-              <circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
-            </svg>
-            <span>All Advertisements are Disabled globally.</span>
-          </div>
-        `;
-        return;
-      }
-
-      const provider = adNetwork.value;
-      if (provider === "dev") {
-        const brandVal = sponsorBrand.value || "DigitalOcean Cloud";
-        const sloganVal = sponsorSlogan.value || "Deploy lightweight web pipelines locally with absolute security.";
-        const btnVal = sponsorBtnText.value || "Claim Deal";
-        const iconType = sponsorIcon.value || "cloud";
-        const badgeVal = sponsorBadge && sponsorBadge.value ? sponsorBadge.value : "REFERRAL BONUS";
-        const imgVal = sponsorImageUrl ? sponsorImageUrl.value.trim() : "";
-
-        let visualPreview = "";
-        if (imgVal) {
-          visualPreview = `<img src="${escapeHtml(imgVal)}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;" onerror="this.style.display='none'" />`;
-        } else {
-          let iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>`;
-          if (iconType === "database") {
-            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
-          } else if (iconType === "shield") {
-            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
-          } else if (iconType === "shopping") {
-            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
-          } else if (iconType === "tag") {
-            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`;
-          } else if (iconType === "gift") {
-            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`;
-          } else if (iconType === "zap") {
-            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
-          } else if (iconType === "star") {
-            iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
-          }
-          visualPreview = iconSvg;
-        }
-
-        previewBadge.innerText = "Referral / Partner Ad";
-        previewBadge.style.color = "var(--accent-cyan)";
-        previewBadge.style.background = "rgba(0, 242, 254, 0.15)";
-        previewBox.innerHTML = `
-          <div class="sponsor-ad-block" style="margin: 0; border-color: rgba(0, 242, 254, 0.25); width: 100%;">
-            <div class="ad-horizontal-left">
-              <div class="ad-image-placeholder" style="color: var(--accent-cyan); border-color: var(--accent-cyan); background: rgba(var(--accent-cyan-rgb), 0.12);">
-                ${visualPreview}
-              </div>
-              <div class="ad-info">
-                <div class="ad-title-row">
-                  <span class="ad-brand">${escapeHtml(brandVal)}</span>
-                  <span class="ad-horizontal-badge">${escapeHtml(badgeVal)}</span>
-                </div>
-                <span class="ad-slogan">${escapeHtml(sloganVal)}</span>
-              </div>
-            </div>
-            <span class="ad-action-btn" style="background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.2);">${escapeHtml(btnVal)}</span>
-          </div>
-        `;
-      } else if (provider === "amazon") {
-        previewBadge.innerText = "Amazon Mobile Ads";
-        previewBadge.style.color = "#ff9900";
-        previewBadge.style.background = "rgba(255, 153, 0, 0.15)";
-        const slotVal = amazonSlotId ? amazonSlotId.value : "amzn-slot-12345";
-        previewBox.innerHTML = `
-          <div class="admob-adsense-mock admob" style="border-color: rgba(255, 153, 0, 0.4);">
-            <div class="mock-badge" style="background: rgba(255, 153, 0, 0.15); color: #ff9900;">AMAZON MOBILE ADS / APS</div>
-            <div class="mock-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#ff9900" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-              <span style="color: #ff9900;">Amazon Ads Simulation (Slot: ${escapeHtml(slotVal)})</span>
-            </div>
-            <div class="mock-details">
-              <span><strong>Slot ID:</strong> ${escapeHtml(slotVal)}</span>
-              <span>•</span>
-              <span>Target: Amazon Fire / Android / Web</span>
-            </div>
-          </div>
-        `;
-      } else if (provider === "adsense") {
-        previewBadge.innerText = "Google AdSense";
-        previewBadge.style.color = "var(--accent-purple)";
-        previewBadge.style.background = "rgba(157, 78, 221, 0.15)";
-        previewBox.innerHTML = `
-          <div class="admob-adsense-mock adsense">
-            <div class="mock-badge">GOOGLE ADSENSE BANNER</div>
-            <div class="mock-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-              <span>AdSense Mock Display</span>
-            </div>
-            <div class="mock-details">
-              <span><strong>Client ID:</strong> ${adsensePub.value}</span>
-              <span>•</span>
-              <span><strong>Dashboard Slot ID:</strong> ${adsenseDash.value}</span>
-            </div>
-          </div>
-        `;
-      } else if (provider === "admob") {
-        previewBadge.innerText = "AdMob Banner";
-        previewBadge.style.color = "var(--accent-emerald)";
-        previewBadge.style.background = "rgba(16, 185, 129, 0.15)";
-        previewBox.innerHTML = `
-          <div class="admob-adsense-mock admob">
-            <div class="mock-badge">ADMOB SMART BANNER</div>
-            <div class="mock-logo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>AdMob Banner Simulation</span>
-            </div>
-            <div class="mock-details">
-              <span><strong>App ID:</strong> ${admobApp.value.substring(0, 15)}...</span>
-              <span>•</span>
-              <span><strong>Unit ID:</strong> ${admobDash.value.substring(admobDash.value.lastIndexOf('/') + 1)}</span>
-            </div>
-          </div>
-        `;
-      } else if (provider === "custom") {
-        previewBadge.innerText = "Custom HTML Block";
-        previewBadge.style.color = "var(--accent-orange)";
-        previewBadge.style.background = "rgba(245, 158, 11, 0.15)";
-        previewBox.innerHTML = `
-          <div style="width: 100%; border: 1px dashed rgba(245, 158, 11, 0.3); border-radius: 8px; overflow: hidden; padding: 12px; background: rgba(0,0,0,0.2);">
-            <div style="font-size: 10px; font-family: var(--font-mono); color: var(--accent-orange); margin-bottom: 8px; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 4px;">RAW HTML PREVIEW</div>
-            ${customCode.value.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, '<div style="font-size: 11px; color: var(--text-muted); font-style: italic;">[Custom script execution sandboxed for preview]</div>')}
-          </div>
-        `;
       }
     };
 
@@ -2082,29 +2889,51 @@ export default {
 
       localStorage.setItem("omnitool_custom_ad_html", customCode.value);
 
-      // Save developer sponsor config
-      if (currentEditMode === "global") {
-        localStorage.setItem("omnitool_sponsor_brand", sponsorBrand.value.trim());
-        localStorage.setItem("omnitool_sponsor_icon", sponsorIcon.value);
-        localStorage.setItem("omnitool_sponsor_slogan", sponsorSlogan.value.trim());
-        localStorage.setItem("omnitool_sponsor_url", sponsorUrl.value.trim());
-        localStorage.setItem("omnitool_sponsor_btn_text", sponsorBtnText.value.trim());
-        if (sponsorBadge) localStorage.setItem("omnitool_sponsor_badge", sponsorBadge.value.trim());
-        if (sponsorImageUrl) localStorage.setItem("omnitool_sponsor_image", sponsorImageUrl.value.trim());
-      } else {
-        localStorage.setItem("omnitool_sponsor_brand_" + currentEditMode, sponsorBrand.value.trim());
-        localStorage.setItem("omnitool_sponsor_icon_" + currentEditMode, sponsorIcon.value);
-        localStorage.setItem("omnitool_sponsor_slogan_" + currentEditMode, sponsorSlogan.value.trim());
-        localStorage.setItem("omnitool_sponsor_url_" + currentEditMode, sponsorUrl.value.trim());
-        localStorage.setItem("omnitool_sponsor_btn_text_" + currentEditMode, sponsorBtnText.value.trim());
-        if (sponsorBadge) localStorage.setItem("omnitool_sponsor_badge_" + currentEditMode, sponsorBadge.value.trim());
-        if (sponsorImageUrl) localStorage.setItem("omnitool_sponsor_image_" + currentEditMode, sponsorImageUrl.value.trim());
+      // Save developer sponsor config (Global defaults)
+      if (sponsorBrand) localStorage.setItem("omnitool_sponsor_brand", sponsorBrand.value.trim());
+      if (sponsorIcon) localStorage.setItem("omnitool_sponsor_icon", sponsorIcon.value);
+      if (sponsorSlogan) localStorage.setItem("omnitool_sponsor_slogan", sponsorSlogan.value.trim());
+      if (sponsorUrl) localStorage.setItem("omnitool_sponsor_url", sponsorUrl.value.trim());
+      if (sponsorBtnText) localStorage.setItem("omnitool_sponsor_btn_text", sponsorBtnText.value.trim());
+      if (sponsorBadge) localStorage.setItem("omnitool_sponsor_badge", sponsorBadge.value.trim());
+      if (sponsorImageUrl) localStorage.setItem("omnitool_sponsor_image", sponsorImageUrl.value.trim());
 
-        let overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || "";
-        let overrides = overridesStr.split(",").filter(Boolean);
-        if (!overrides.includes(currentEditMode)) {
-          overrides.push(currentEditMode);
-          localStorage.setItem("omnitool_sponsor_overrides", overrides.join(","));
+      // If a specific page/tool is currently active in Page Customizer, ensure its fields are saved
+      const currentSelectedToolId = overrideToolSelect ? overrideToolSelect.value : "";
+      if (currentSelectedToolId && pageAdNetworkSelect) {
+        const chosenNet = pageAdNetworkSelect.value;
+        localStorage.setItem("omnitool_ad_network_" + currentSelectedToolId, chosenNet);
+        if (chosenNet === "dev") {
+          if (pageSponsorBrand) localStorage.setItem("omnitool_sponsor_brand_" + currentSelectedToolId, pageSponsorBrand.value.trim());
+          if (pageSponsorIcon) localStorage.setItem("omnitool_sponsor_icon_" + currentSelectedToolId, pageSponsorIcon.value);
+          if (pageSponsorBadge) localStorage.setItem("omnitool_sponsor_badge_" + currentSelectedToolId, pageSponsorBadge.value.trim());
+          if (pageSponsorImageUrl) localStorage.setItem("omnitool_sponsor_image_" + currentSelectedToolId, pageSponsorImageUrl.value.trim());
+          if (pageSponsorSlogan) localStorage.setItem("omnitool_sponsor_slogan_" + currentSelectedToolId, pageSponsorSlogan.value.trim());
+          if (pageSponsorUrl) localStorage.setItem("omnitool_sponsor_url_" + currentSelectedToolId, pageSponsorUrl.value.trim());
+          if (pageSponsorBtnText) localStorage.setItem("omnitool_sponsor_btn_text_" + currentSelectedToolId, pageSponsorBtnText.value.trim());
+        } else if (chosenNet === "adsense") {
+          if (pageAdsenseSlot) {
+            if (currentSelectedToolId === "dashboard") {
+              localStorage.setItem("omnitool_adsense_slot_dash", pageAdsenseSlot.value.trim());
+            } else {
+              localStorage.setItem("omnitool_adsense_slot_tool_" + currentSelectedToolId, pageAdsenseSlot.value.trim());
+            }
+          }
+        } else if (chosenNet === "amazon") {
+          if (pageAmazonSlot) localStorage.setItem("omnitool_amazon_slot_id_" + currentSelectedToolId, pageAmazonSlot.value.trim());
+        } else if (chosenNet === "custom") {
+          if (pageCustomHtml) localStorage.setItem("omnitool_custom_ad_html_" + currentSelectedToolId, pageCustomHtml.value);
+        }
+
+        let ovList = (localStorage.getItem("omnitool_sponsor_overrides") || "").split(",").filter(Boolean);
+        if (chosenNet !== "inherit") {
+          if (!ovList.includes(currentSelectedToolId) && currentSelectedToolId !== "dashboard") {
+            ovList.push(currentSelectedToolId);
+            localStorage.setItem("omnitool_sponsor_overrides", ovList.join(","));
+          }
+        } else {
+          ovList = ovList.filter(id => id !== currentSelectedToolId);
+          localStorage.setItem("omnitool_sponsor_overrides", ovList.join(","));
         }
       }
       if (coffeeUrl) localStorage.setItem("omnitool_coffee_url", coffeeUrl.value.trim());
@@ -2310,13 +3139,13 @@ export default {
         "omnitool_admob_unit_side": admobSide ? admobSide.value.trim() : "ca-app-pub-XXXXXXXXXX/3333333333",
         "omnitool_amazon_slot_id": amazonSlotId ? amazonSlotId.value.trim() : "amzn-slot-12345",
         "omnitool_custom_ad_html": customCode ? customCode.value : "",
-        "omnitool_sponsor_brand": appInstance.getConfigValue("omnitool_sponsor_brand", sponsorBrand ? sponsorBrand.value.trim() : "DigitalOcean Cloud"),
-        "omnitool_sponsor_icon": appInstance.getConfigValue("omnitool_sponsor_icon", sponsorIcon ? sponsorIcon.value : "cloud"),
-        "omnitool_sponsor_badge": appInstance.getConfigValue("omnitool_sponsor_badge", sponsorBadge ? sponsorBadge.value.trim() : "REFERRAL BONUS"),
-        "omnitool_sponsor_image": appInstance.getConfigValue("omnitool_sponsor_image", sponsorImageUrl ? sponsorImageUrl.value.trim() : ""),
-        "omnitool_sponsor_slogan": appInstance.getConfigValue("omnitool_sponsor_slogan", sponsorSlogan ? sponsorSlogan.value.trim() : "Deploy your Docker containers, web apps, and databases globally. Get $200 free developer credit."),
-        "omnitool_sponsor_url": appInstance.getConfigValue("omnitool_sponsor_url", sponsorUrl ? sponsorUrl.value.trim() : "#"),
-        "omnitool_sponsor_btn_text": appInstance.getConfigValue("omnitool_sponsor_btn_text", sponsorBtnText ? sponsorBtnText.value.trim() : "Claim $200 Credit"),
+        "omnitool_sponsor_brand": sponsorBrand ? sponsorBrand.value.trim() : appInstance.getConfigValue("omnitool_sponsor_brand", "DigitalOcean Cloud"),
+        "omnitool_sponsor_icon": sponsorIcon ? sponsorIcon.value : appInstance.getConfigValue("omnitool_sponsor_icon", "cloud"),
+        "omnitool_sponsor_badge": sponsorBadge ? sponsorBadge.value.trim() : appInstance.getConfigValue("omnitool_sponsor_badge", "REFERRAL BONUS"),
+        "omnitool_sponsor_image": sponsorImageUrl ? sponsorImageUrl.value.trim() : appInstance.getConfigValue("omnitool_sponsor_image", ""),
+        "omnitool_sponsor_slogan": sponsorSlogan ? sponsorSlogan.value.trim() : appInstance.getConfigValue("omnitool_sponsor_slogan", "Deploy your Docker containers, web apps, and databases globally. Get $200 free developer credit."),
+        "omnitool_sponsor_url": sponsorUrl ? sponsorUrl.value.trim() : appInstance.getConfigValue("omnitool_sponsor_url", "#"),
+        "omnitool_sponsor_btn_text": sponsorBtnText ? sponsorBtnText.value.trim() : appInstance.getConfigValue("omnitool_sponsor_btn_text", "Claim $200 Credit"),
         "omnitool_coffee_url": coffeeUrl ? coffeeUrl.value.trim() : "",
         "omnitool_kofi_url": kofiUrl ? kofiUrl.value.trim() : "",
         "omnitool_gumroad_lifetime_url": gumroadLifetime ? gumroadLifetime.value.trim() : "https://worldsneed.gumroad.com/l/omnitool-lifetime",
@@ -2376,9 +3205,10 @@ export default {
         "omnitool_monetization_overrides": appInstance.getConfigValue("omnitool_monetization_overrides", "{}")
       };
 
-      const overridesStr = appInstance.getConfigValue("omnitool_sponsor_overrides", "");
+      const overridesStr = localStorage.getItem("omnitool_sponsor_overrides") || appInstance.getConfigValue("omnitool_sponsor_overrides", "");
       configData["omnitool_sponsor_overrides"] = overridesStr;
       overridesStr.split(",").filter(Boolean).forEach(toolId => {
+        configData["omnitool_ad_network_" + toolId] = appInstance.getConfigValue("omnitool_ad_network_" + toolId, "inherit");
         configData["omnitool_sponsor_brand_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_brand_" + toolId, "");
         configData["omnitool_sponsor_icon_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_icon_" + toolId, "cloud");
         configData["omnitool_sponsor_slogan_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_slogan_" + toolId, "");
@@ -2386,7 +3216,21 @@ export default {
         configData["omnitool_sponsor_btn_text_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_btn_text_" + toolId, "");
         configData["omnitool_sponsor_badge_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_badge_" + toolId, "");
         configData["omnitool_sponsor_image_" + toolId] = appInstance.getConfigValue("omnitool_sponsor_image_" + toolId, "");
+        configData["omnitool_adsense_slot_tool_" + toolId] = appInstance.getConfigValue("omnitool_adsense_slot_tool_" + toolId, "");
+        configData["omnitool_amazon_slot_id_" + toolId] = appInstance.getConfigValue("omnitool_amazon_slot_id_" + toolId, "");
+        configData["omnitool_custom_ad_html_" + toolId] = appInstance.getConfigValue("omnitool_custom_ad_html_" + toolId, "");
       });
+
+      // Dashboard custom overrides
+      configData["omnitool_ad_network_dashboard"] = appInstance.getConfigValue("omnitool_ad_network_dashboard", "inherit");
+      configData["omnitool_sponsor_brand_dashboard"] = appInstance.getConfigValue("omnitool_sponsor_brand_dashboard", "");
+      configData["omnitool_sponsor_icon_dashboard"] = appInstance.getConfigValue("omnitool_sponsor_icon_dashboard", "cloud");
+      configData["omnitool_sponsor_slogan_dashboard"] = appInstance.getConfigValue("omnitool_sponsor_slogan_dashboard", "");
+      configData["omnitool_sponsor_url_dashboard"] = appInstance.getConfigValue("omnitool_sponsor_url_dashboard", "");
+      configData["omnitool_sponsor_btn_text_dashboard"] = appInstance.getConfigValue("omnitool_sponsor_btn_text_dashboard", "");
+      configData["omnitool_sponsor_badge_dashboard"] = appInstance.getConfigValue("omnitool_sponsor_badge_dashboard", "");
+      configData["omnitool_sponsor_image_dashboard"] = appInstance.getConfigValue("omnitool_sponsor_image_dashboard", "");
+      configData["omnitool_custom_ad_html_dashboard"] = appInstance.getConfigValue("omnitool_custom_ad_html_dashboard", "");
 
       return configData;
     };
@@ -2542,14 +3386,20 @@ export default {
     adNetwork.addEventListener("change", (e) => {
       toggleFormFields(e.target.value);
       updateSimulatorPreview();
+      renderAdInventoryDirectory();
+      if (pageInheritGlobalName) {
+        const globalOpt = adNetwork.options[adNetwork.selectedIndex];
+        pageInheritGlobalName.innerText = globalOpt ? (globalOpt.text || globalOpt.innerText) : e.target.value;
+      }
       if (typeof appInstance.playSynthSound === 'function') {
         appInstance.playSynthSound('click');
       }
     });
 
-    sidebarAdNetwork.addEventListener("change", (e) => {
+    sidebarAdNetwork.addEventListener("change", () => {
       toggleFormFields(adNetwork.value);
       updateSimulatorPreview();
+      renderAdInventoryDirectory();
       if (typeof appInstance.playSynthSound === 'function') {
         appInstance.playSynthSound('click');
       }
@@ -2557,13 +3407,29 @@ export default {
 
     adGlobal.addEventListener("change", () => {
       updateSimulatorPreview();
+      renderAdInventoryDirectory();
       if (typeof appInstance.playSynthSound === 'function') {
         appInstance.playSynthSound('click');
       }
     });
+
+    [showDash, showTool, showSide].forEach(cb => {
+      cb?.addEventListener("change", () => {
+        updateSimulatorPreview();
+        renderAdInventoryDirectory();
+        if (typeof appInstance.playSynthSound === 'function') {
+          appInstance.playSynthSound('click');
+        }
+      });
+    });
     
     [adsensePub, adsenseDash, adsenseTool, adsenseSide, admobApp, admobDash, admobTool, admobSide, customCode, sponsorBrand, sponsorSlogan, sponsorUrl, sponsorBtnText, sponsorBadge, sponsorImageUrl, amazonSlotId, coffeeUrl].filter(Boolean).forEach(inp => {
-      inp.addEventListener("input", updateSimulatorPreview);
+      inp.addEventListener("input", () => {
+        updateSimulatorPreview();
+        if (inp === adsensePub && pageAdsensePubDisplay) {
+          pageAdsensePubDisplay.innerText = adsensePub.value.trim() || "ca-pub-XXXXXXXXXX";
+        }
+      });
     });
 
     sponsorIcon.addEventListener("change", () => {
@@ -2571,6 +3437,17 @@ export default {
       if (typeof appInstance.playSynthSound === 'function') {
         appInstance.playSynthSound('click');
       }
+    });
+
+    // Real-time reactive preview for Page Customizer fields
+    [pageSponsorBrand, pageSponsorSlogan, pageSponsorUrl, pageSponsorBtnText, pageSponsorBadge, pageSponsorImageUrl, pageAdsenseSlot, pageAmazonSlot, pageCustomHtml].filter(Boolean).forEach(inp => {
+      inp.addEventListener("input", () => {
+        updateSimulatorPreview(overrideToolSelect ? overrideToolSelect.value : null);
+      });
+    });
+
+    pageSponsorIcon?.addEventListener("change", () => {
+      updateSimulatorPreview(overrideToolSelect ? overrideToolSelect.value : null);
     });
 
     [appDensity, appStartup, appClock].forEach(sel => {
@@ -2613,7 +3490,8 @@ export default {
             key.startsWith("omnitool_ad_") ||
             key.startsWith("omnitool_adsense_") ||
             key.startsWith("omnitool_admob_") ||
-            key === "omnitool_custom_ad_html" ||
+            key.startsWith("omnitool_amazon_") ||
+            key.startsWith("omnitool_custom_ad_html") ||
             key.startsWith("omnitool_sponsor_")
           ) {
             keysToRemove.push(key);

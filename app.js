@@ -5159,10 +5159,15 @@ const app = {
           (err) => console.error("[PWA] Service Worker registration failed: ", err)
         );
 
-        // When new service worker takes control, reload to show fresh code
+        // When new service worker takes control, reload only if idle (no unsaved work)
         let refreshing = false;
         navigator.serviceWorker.addEventListener("controllerchange", () => {
           if (!refreshing) {
+            if (typeof this.hasUnsavedWork === "function" && this.hasUnsavedWork()) {
+              console.log("[PWA] Service worker updated, but user has unsaved work. Deferring reload.");
+              this.showToast("🚀 OmniTool Hub updated in background! Reload when you finish to use the latest version.", "info", 8000);
+              return;
+            }
             refreshing = true;
             console.log("[PWA] Controller changed, refreshing to load newest version...");
             window.location.reload();
@@ -5301,7 +5306,67 @@ const app = {
     });
   },
 
+  // Accidental Reload & Data Loss Protection Engine
+  hasUnsavedWork() {
+    // If user is on dashboard, plans, legal pages, or has no active tool open, there is no in-progress work
+    if (!this.activeTool) return false;
+
+    // 1. Check custom tool dirty checker if registered by active tool module
+    if (typeof window !== "undefined" && typeof window.__OMNITOOL_DIRTY_CHECK__ === "function") {
+      try {
+        if (window.__OMNITOOL_DIRTY_CHECK__()) return true;
+      } catch (_) {}
+    }
+
+    if (typeof document === "undefined") return false;
+    const viewport = document.getElementById("content-area");
+    if (!viewport) return false;
+
+    // 2. Check for uploaded files in any file input in the active tool
+    const fileInputs = viewport.querySelectorAll('input[type="file"]');
+    for (const fi of fileInputs) {
+      if (fi.files && fi.files.length > 0) return true;
+    }
+
+    // 3. Check for active document signals (e.g. PDF loaded, pages rendered, canvas active)
+    if (viewport.querySelector(".pdf-page-card, #pdf-canvas, #pdf-editor-workspace, .annotation-layer")) {
+      return true;
+    }
+    const pdfClearBtn = viewport.querySelector("#pdf-util-clear, #pdf-merge-clear-all");
+    if (pdfClearBtn && !pdfClearBtn.disabled) {
+      return true;
+    }
+
+    // 4. Check for active audio/video or ongoing recording
+    if (typeof window !== "undefined" && window.__OMNITOOL_IS_RECORDING__) return true;
+    const mediaElements = viewport.querySelectorAll("audio, video");
+    for (const m of mediaElements) {
+      if (m.src && !m.src.endsWith("#") && m.duration > 0) return true;
+    }
+
+    // 5. Check textareas and code editors with substantive unsaved content (> 30 characters)
+    const textareas = viewport.querySelectorAll("textarea, [contenteditable='true']");
+    for (const ta of textareas) {
+      if (ta.classList.contains("search-input") || ta.id === "search-input") continue;
+      const val = ta.value || ta.innerText || "";
+      if (val.trim().length > 30) return true;
+    }
+
+    return false;
+  },
+
   bindEvents() {
+    // Accidental Reload & Tab Close Protection Guard
+    if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+      window.addEventListener("beforeunload", (e) => {
+        if (this.hasUnsavedWork()) {
+          e.preventDefault();
+          e.returnValue = "You have an active file or unsaved work in progress. If you leave or reload now, your active changes will be lost.";
+          return e.returnValue;
+        }
+      });
+    }
+
     // Hash routing change handler
     window.addEventListener("hashchange", () => this.handleRouting());
 
@@ -9814,70 +9879,32 @@ const app = {
   },
 
   async clearAppCache() {
+    if (typeof this.hasUnsavedWork === "function" && this.hasUnsavedWork()) {
+      const discardConfirmed = await this.showConfirm(
+        "Unsaved Work in Progress",
+        "⚠️ You currently have an active file or unsaved changes in your tool session. Flushing the cache and reloading will reset this active work. Are you sure you want to proceed?"
+      );
+      if (!discardConfirmed) return;
+    }
+
     const confirmed = await this.showConfirm(
       "Flush Offline Cache",
-      "Are you sure you want to flush the offline service worker cache and reload? Your saved configurations and admin preferences will be preserved."
+      "Are you sure you want to flush the offline service worker cache and reload? Your saved configurations, lifetime licenses, and preferences will remain 100% intact."
     );
     if (!confirmed) {
       return;
     }
 
     this.playSynthSound('click');
-    this.showToast("Clearing local storage & session state...", "info");
+    this.showToast("Flushing offline cache & service workers...", "info");
 
     const cleanupPromises = [];
 
-    // Capture preserved settings if marked (defaults to true so flush cache does not wipe configurations)
-    const preserveSettings = localStorage.getItem("omnitool_preserve_settings_on_reset") !== "false";
-    let preservedData = {};
-    if (preserveSettings) {
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith("omnitool_")) {
-          preservedData[key] = localStorage.getItem(key);
-        }
-      }
-    }
+    // Note: LocalStorage and SessionStorage are intentionally NOT cleared here,
+    // guaranteeing user settings, lifetime plans, and preferences stay 100% intact.
 
-    // 1. Clear LocalStorage and SessionStorage
-    try {
-      localStorage.clear();
-      sessionStorage.clear();
-
-      if (preserveSettings) {
-        Object.keys(preservedData).forEach(key => {
-          localStorage.setItem(key, preservedData[key]);
-        });
-      }
-    } catch (e) {
-      console.error("Failed to clear local/session storage:", e);
-    }
-
-    // 2. Clear all IndexedDB databases
-    if (window.indexedDB && window.indexedDB.databases) {
-      const dbPromise = window.indexedDB.databases()
-        .then(dbs => {
-          const deletePromises = dbs.map(db => {
-            return new Promise((resolve) => {
-              try {
-                const req = window.indexedDB.deleteDatabase(db.name);
-                req.onsuccess = () => resolve();
-                req.onerror = () => resolve();
-                req.onblocked = () => resolve();
-              } catch (e) {
-                console.error(`Error deleting database ${db.name}:`, e);
-                resolve();
-              }
-            });
-          });
-          return Promise.all(deletePromises);
-        })
-        .catch(err => console.error("Error listing databases:", err));
-      cleanupPromises.push(dbPromise);
-    }
-
-    // 3. Clear Service Worker Cache Storage
-    if (window.caches) {
+    // 1. Clear Service Worker Cache Storage
+    if (typeof window !== "undefined" && window.caches) {
       const cachePromise = caches.keys()
         .then(keys => {
           return Promise.all(keys.map(key => caches.delete(key)));
@@ -9886,8 +9913,8 @@ const app = {
       cleanupPromises.push(cachePromise);
     }
 
-    // 4. Unregister Service Workers
-    if (navigator.serviceWorker) {
+    // 2. Unregister Service Workers
+    if (typeof navigator !== "undefined" && navigator.serviceWorker) {
       const swPromise = navigator.serviceWorker.getRegistrations()
         .then(registrations => {
           return Promise.all(registrations.map(r => r.unregister()));
@@ -9905,7 +9932,7 @@ const app = {
       console.error("Error during cache cleanup:", err);
     }
 
-    this.showToast("Cache cleared! Reloading application...", "success");
+    this.showToast("Offline cache purged! Reloading application...", "success");
 
     // Reload after a brief delay so toast can be read
     setTimeout(() => {
