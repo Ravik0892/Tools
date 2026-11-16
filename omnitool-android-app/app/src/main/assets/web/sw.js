@@ -129,7 +129,7 @@ self.addEventListener("activate", (e) => {
 });
 
 // Developer Privacy State for Google Analytics blocking
-let gaTrackingBlocked = true; // Always true inside Android assets!
+let gaTrackingBlocked = false;
 
 // Message listener for manual cache purge, skipWaiting, and developer privacy mode
 self.addEventListener("message", (e) => {
