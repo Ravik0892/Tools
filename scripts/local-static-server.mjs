@@ -80,6 +80,15 @@ createServer(async (req, res) => {
     pathname = "/landing.html";
   }
 
+  // Handle language guide hub aliases (e.g. /guides/de.html or /guides/de -> /guides/de/)
+  const langHubMatch = pathname.match(/^\/guides\/(es|pt|de|fr)(\.html)?$/);
+  if (langHubMatch) {
+    const lang = langHubMatch[1];
+    res.writeHead(301, { "Location": `/guides/${lang}/` + (url.search || "") });
+    res.end();
+    return;
+  }
+
   let targetPath = normalize(join(root, pathname));
   if (!targetPath.startsWith(root)) {
     res.writeHead(403).end("Forbidden");
@@ -111,7 +120,17 @@ createServer(async (req, res) => {
     }
   }
 
-  const filePath = existsSync(targetPath) && statSync(targetPath).isFile() ? targetPath : join(root, "index.html");
+  let defaultFallback = join(root, "index.html");
+  if (pathname.startsWith("/guides/")) {
+    const langSub = pathname.match(/^\/guides\/(es|pt|de|fr)\//);
+    if (langSub && existsSync(join(root, "guides", langSub[1], "index.html"))) {
+      defaultFallback = join(root, "guides", langSub[1], "index.html");
+    } else {
+      defaultFallback = join(root, "guides", "index.html");
+    }
+  }
+
+  const filePath = existsSync(targetPath) && statSync(targetPath).isFile() ? targetPath : defaultFallback;
   res.writeHead(200, {
     "Content-Type": types[extname(filePath).toLowerCase()] || "application/octet-stream",
     "Cache-Control": "no-store"

@@ -63,6 +63,16 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
         if raw_path.startswith("/api/"):
             return True
 
+        # 0. Language hub normalizations (e.g. /guides/de.html or /guides/de -> /guides/de/)
+        for lang_code in ["es", "pt", "de", "fr"]:
+            if raw_path in [f"/guides/{lang_code}.html", f"/guides/{lang_code}"]:
+                self.send_response(301)
+                target = f"/guides/{lang_code}/" + (("?" + query) if query else "")
+                self.send_header("Location", target)
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                return False
+
         local_path = self.translate_path(raw_path)
 
         # 1. Exact file or directory on disk
@@ -107,7 +117,18 @@ class OmniToolServerHandler(SimpleHTTPRequestHandler):
             self.path = "/index.html"
             return True
 
-        # 7. SPA Fallback
+        # 7. Guides section fallback: keep user in guides hub instead of throwing to app dashboard
+        if raw_path.startswith("/guides/"):
+            parts = [p for p in raw_path.strip("/").split("/") if p]
+            if len(parts) >= 2 and parts[1] in ["es", "pt", "de", "fr"]:
+                lang_dir = self.translate_path(f"/guides/{parts[1]}")
+                if os.path.exists(os.path.join(lang_dir, "index.html")):
+                    self.path = f"/guides/{parts[1]}/index.html"
+                    return True
+            self.path = "/guides/index.html"
+            return True
+
+        # 8. SPA Fallback
         self.path = "/index.html"
         return True
 

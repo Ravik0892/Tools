@@ -993,6 +993,82 @@
     <priority>0.80</priority>
   </url>
 
+  <!-- Multilingual International SEO Guides (German / Deutsch) -->
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/de/</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/de/compress-pdf</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/de/pdf-utilities</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/de/qr-studio</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/de/json-formatter</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/de/password-generator</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Multilingual International SEO Guides (French / Français) -->
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/fr/</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/fr/compress-pdf</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/fr/pdf-utilities</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/fr/qr-studio</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/fr/json-formatter</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/fr/password-generator</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
   <!-- Direct Clean Primary Tool URLs for Maximum Google Search Indexing -->
   <url>
     <loc>https://omnitool.worldsneed.com/tool/pipeline-builder</loc>

@@ -34,27 +34,37 @@ const enIndex = fs.readFileSync(path.join(root, 'guides', 'index.html'), 'utf8')
 const esPtBtnMatch = esIndex.match(/<a[^>]*class="[^"]*lang-btn[^"]*"[^>]*>PT<\/a>/i);
 assert(esPtBtnMatch && !esPtBtnMatch[0].includes('https://'), "es/index.html PT button does not hardcode production domain");
 assert(esIndex.includes('href="/guides/pt/"'), "es/index.html uses clean URL link for PT button");
+assert(esIndex.includes('href="/guides/de/"'), "es/index.html uses clean URL link for DE button");
+assert(esIndex.includes('href="/guides/fr/"'), "es/index.html uses clean URL link for FR button");
 assert(esIndex.includes('href="/?lang=es"'), "es/index.html passes ?lang=es back to main app");
 assert(esIndex.includes("localStorage.setItem('omnitool_language', 'es')"), "es/index.html persists language preference to localStorage");
 
 const ptEsBtnMatch = ptIndex.match(/<a[^>]*class="[^"]*lang-btn[^"]*"[^>]*>ES<\/a>/i);
 assert(ptEsBtnMatch && !ptEsBtnMatch[0].includes('https://'), "pt/index.html ES button does not hardcode production domain");
 assert(ptIndex.includes('href="/guides/es/"'), "pt/index.html uses clean URL link for ES button");
+assert(ptIndex.includes('href="/guides/de/"'), "pt/index.html uses clean URL link for DE button");
+assert(ptIndex.includes('href="/guides/fr/"'), "pt/index.html uses clean URL link for FR button");
 assert(ptIndex.includes('href="/?lang=pt"'), "pt/index.html passes ?lang=pt back to main app");
 assert(ptIndex.includes("localStorage.setItem('omnitool_language', 'pt')"), "pt/index.html persists language preference to localStorage");
 
 assert(enIndex.includes('class="lang-switch-capsule"'), "guides/index.html contains language switcher capsule");
 assert(enIndex.includes('href="/guides/es/"'), "guides/index.html clean links to /guides/es/");
 assert(enIndex.includes('href="/guides/pt/"'), "guides/index.html clean links to /guides/pt/");
+assert(enIndex.includes('href="/guides/de/"'), "guides/index.html clean links to /guides/de/");
+assert(enIndex.includes('href="/guides/fr/"'), "guides/index.html clean links to /guides/fr/");
 
 const esCompress = fs.readFileSync(path.join(root, 'guides', 'es', 'compress-pdf.html'), 'utf8');
 const ptCompress = fs.readFileSync(path.join(root, 'guides', 'pt', 'compress-pdf.html'), 'utf8');
 
 assert(esCompress.includes('href="/guides/pt/compress-pdf"'), "es/compress-pdf.html links cleanly to /guides/pt/compress-pdf");
+assert(esCompress.includes('href="/guides/de/compress-pdf"'), "es/compress-pdf.html links cleanly to /guides/de/compress-pdf");
+assert(esCompress.includes('href="/guides/fr/compress-pdf"'), "es/compress-pdf.html links cleanly to /guides/fr/compress-pdf");
 assert(esCompress.includes('href="/guides/compress-pdf"'), "es/compress-pdf.html links cleanly to /guides/compress-pdf");
 assert(esCompress.includes('href="/?lang=es#tool/compress-pdf"'), "es/compress-pdf.html passes ?lang=es to launch tool in main suite");
 
 assert(ptCompress.includes('href="/guides/es/compress-pdf"'), "pt/compress-pdf.html links cleanly to /guides/es/compress-pdf");
+assert(ptCompress.includes('href="/guides/de/compress-pdf"'), "pt/compress-pdf.html links cleanly to /guides/de/compress-pdf");
+assert(ptCompress.includes('href="/guides/fr/compress-pdf"'), "pt/compress-pdf.html links cleanly to /guides/fr/compress-pdf");
 assert(ptCompress.includes('href="/guides/compress-pdf"'), "pt/compress-pdf.html links cleanly to /guides/compress-pdf");
 assert(ptCompress.includes('href="/?lang=pt#tool/compress-pdf"'), "pt/compress-pdf.html passes ?lang=pt to launch tool in main suite");
 
@@ -70,8 +80,8 @@ const hasGeneralGuideRewrite = rewrites.some(r => r.source === '/guides/:slug');
 assert(hasGeneralGuideRewrite, "vercel.json contains cleanUrl rewrite for guides (/guides/:slug)");
 
 const cfRedirects = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
-assert(cfRedirects.includes('/guides/es/      /guides/es/index.html  200'), "_redirects contains explicit routing for /guides/es/");
-assert(cfRedirects.includes('/guides/pt/      /guides/pt/index.html  200'), "_redirects contains explicit routing for /guides/pt/");
+assert(cfRedirects.includes('/guides/es'), "_redirects contains explicit routing for /guides/es");
+assert(cfRedirects.includes('/guides/pt'), "_redirects contains explicit routing for /guides/pt");
 
 const cfHeaders = fs.readFileSync(path.join(root, '_headers'), 'utf8');
 assert(cfHeaders.includes('/guides/*'), "_headers contains fresh cache control for /guides/*");

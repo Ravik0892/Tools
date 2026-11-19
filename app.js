@@ -12369,16 +12369,21 @@ const app = {
     const currentLang = this.currentLanguage || "en";
     const localizedGuides = {
       es: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"],
-      pt: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"]
+      pt: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"],
+      de: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"],
+      fr: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"]
     };
     const cleanBase = (guideFileName || "")
-      .replace(/^\/?guides\/(es|pt)\//, "")
+      .replace(/^\/?guides\/(es|pt|de|fr)\//, "")
       .replace(/^\/?guides\//, "")
       .replace(/^\//, "")
       .replace(/\.html$/, "");
 
-    if (!cleanBase || cleanBase === "index") {
-      return currentLang === "en" ? "/guides/" : `/guides/${currentLang}/`;
+    if (!cleanBase || cleanBase === "index" || cleanBase === "de" || cleanBase === "es" || cleanBase === "pt" || cleanBase === "fr") {
+      const targetLang = (cleanBase === "de" || cleanBase === "es" || cleanBase === "pt" || cleanBase === "fr") ? cleanBase : currentLang;
+      return (localizedGuides[targetLang] && localizedGuides[targetLang].includes("index"))
+        ? `/guides/${targetLang}/`
+        : "/guides/";
     }
     if (localizedGuides[currentLang] && localizedGuides[currentLang].includes(cleanBase)) {
       return `/guides/${currentLang}/${cleanBase}`;
