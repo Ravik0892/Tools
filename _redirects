@@ -2,34 +2,32 @@
 # Cloudflare Pages Routing Rules (_redirects)
 # Clean URLs (without .html) are handled natively by Cloudflare Pages Pretty URLs.
 # Static HTML files (/landing.html, /guides/*.html) are automatically served at /landing, /guides/*
+# SPA fallback for clean tool URLs, categories & virtual views is handled natively via 200.html.
 # ==============================================================================
 
-# Directory index normalizations
+# Static 301 Aliases (placed first to eliminate placeholder evaluation overhead)
+/welcome          /landing       301
+/showcase         /landing       301
+/privacy-policy   /privacy       301
+/about-us         /about         301
+/contact-us       /contact       301
+/terms-of-service /terms         301
+/refund-policy    /refund        301
+/cookie-policy    /cookies       301
+
+# Language guides hub normalizations
+/guides/es.html   /guides/es/    301
+/guides/pt.html   /guides/pt/    301
+/guides/de.html   /guides/de/    301
+/guides/fr.html   /guides/fr/    301
+/guides/es        /guides/es/    301
+/guides/pt        /guides/pt/    301
+/guides/de        /guides/de/    301
+/guides/fr        /guides/fr/    301
+
+# Directory index normalizations (rules with placeholders)
 /guides/es/:slug/index.html   /guides/es/:slug       301
 /guides/pt/:slug/index.html   /guides/pt/:slug       301
+/guides/de/:slug/index.html   /guides/de/:slug       301
+/guides/fr/:slug/index.html   /guides/fr/:slug       301
 /guides/:slug/index.html      /guides/:slug          301
-
-# Aliases
-/welcome       /landing       301
-/showcase      /landing       301
-/privacy-policy /privacy      301
-/about-us       /about        301
-/contact-us     /contact      301
-/terms-of-service /terms      301
-/refund-policy  /refund       301
-/cookie-policy  /cookies      301
-
-# SPA fallback for clean tool URLs and virtual views
-/tool/*        /index.html    200
-/category/*    /index.html    200
-/plans         /index.html    200
-/payment-success /index.html  200
-/payment-guide /index.html    200
-/favorites     /index.html    200
-/dashboard     /index.html    200
-/privacy       /index.html    200
-/about         /index.html    200
-/contact       /index.html    200
-/terms         /index.html    200
-/refund        /index.html    200
-/cookies       /index.html    200

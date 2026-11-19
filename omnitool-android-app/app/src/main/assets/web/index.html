@@ -68,6 +68,17 @@
           hideSplash();
         }
       }
+
+      // Early Canonical URL Resolution for Dynamic SPA Routes (Googlebot & Pre-rendering)
+      try {
+        var path = window.location.pathname;
+        if (path && path !== '/' && path !== '/index.html' && path !== '/200.html') {
+          var canonicalLink = document.querySelector('link[rel="canonical"]');
+          if (canonicalLink) {
+            canonicalLink.setAttribute('href', 'https://omnitool.worldsneed.com' + path.replace(/\/$/, ''));
+          }
+        }
+      } catch (e) {}
     })();
 
     // Ensure base href is set for clean URL routing when running over HTTP/HTTPS
@@ -240,7 +251,7 @@
       </div>
       <!-- Quick Category Filter Tabs in Command Palette -->
       <div class="cp-filters-row" id="cp-filters-row">
-        <button type="button" class="cp-filter-tab active" data-cp-filter="all" title="Show all 46 tools and utilities">All</button>
+        <button type="button" class="cp-filter-tab active" data-cp-filter="all" title="Show all 47 powerhouse suites (70+ tools)">All</button>
         <button type="button" class="cp-filter-tab" data-cp-filter="tools" title="Focused, fast single-purpose utilities">⚡ Single Tools</button>
         <button type="button" class="cp-filter-tab" data-cp-filter="suites" title="All-in-one multi-utility studios & hubs">📦 Tool Suites</button>
         <button type="button" class="cp-filter-tab" data-cp-filter="features" title="Visual builders, playgrounds & workflows">✨ Interactive Apps</button>
@@ -582,8 +593,8 @@
 
             <div class="bank-details-card">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
-                <span style="font-size: 12px; font-weight: 700; color: var(--text-main);">Official Beneficiary Bank Account</span>
-                <span style="font-size: 10.5px; font-weight: 700; color: #10b981; background: rgba(16, 185, 129, 0.12); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.25);">IMPS 24x7 / NEFT</span>
+                <span style="font-size: 12px; font-weight: 700; color: var(--text-main);">Official Beneficiary Bank Details</span>
+                <span style="font-size: 10.5px; font-weight: 700; color: #10b981; background: rgba(16, 185, 129, 0.12); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.25);">IMPS 24x7 / NEFT / UPI</span>
               </div>
               <div class="bank-info-grid">
                 <div>
@@ -594,29 +605,30 @@
                   </div>
                 </div>
                 <div>
-                  <span style="color: var(--text-muted); font-size: 10.5px;">Bank Name:</span>
+                  <span style="color: var(--text-muted); font-size: 10.5px;">Direct Bank UPI VPA:</span>
                   <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
-                    <strong style="color: var(--text-main); font-size: 12.5px;" id="chk-bank-name-display">State Bank of India</strong>
-                    <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-name-display', 'Bank Name')">Copy</button>
+                    <strong style="color: var(--accent-cyan); font-size: 12.5px; font-family: var(--font-mono);" id="chk-bank-vpa-display">ravik0892@okaxis</strong>
+                    <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-vpa-display', 'UPI VPA')">Copy</button>
                   </div>
                 </div>
                 <div>
                   <span style="color: var(--text-muted); font-size: 10.5px;">Account Number:</span>
                   <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
-                    <strong style="font-family: var(--font-mono); color: var(--text-main); font-size: 13px; letter-spacing: 0.5px;" id="chk-bank-acc-display">123456789012</strong>
+                    <strong style="font-family: var(--font-mono); color: var(--text-main); font-size: 12px; letter-spacing: 0.3px;" id="chk-bank-acc-display">Available on Invoice Request</strong>
                     <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-acc-display', 'Account Number')">Copy</button>
                   </div>
                 </div>
                 <div>
-                  <span style="color: var(--text-muted); font-size: 10.5px;">IFSC Code:</span>
+                  <span style="color: var(--text-muted); font-size: 10.5px;">Corporate Wire / RTGS:</span>
                   <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
-                    <strong style="font-family: var(--font-mono); color: var(--accent-cyan); font-size: 13px; letter-spacing: 0.5px;" id="chk-bank-ifsc-display">SBIN0001234</strong>
-                    <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-ifsc-display', 'IFSC Code')">Copy</button>
+                    <strong style="font-family: var(--font-mono); color: var(--accent-cyan); font-size: 12px; letter-spacing: 0.3px;" id="chk-bank-ifsc-display">support@worldsneed.com</strong>
+                    <button type="button" class="tool-btn secondary" style="height: 22px; padding: 0 6px; font-size: 10px;" onclick="app.copyBankDetail('chk-bank-ifsc-display', 'Support Email')">Copy</button>
                   </div>
                 </div>
               </div>
-              <div style="margin-top: 14px;">
-                <button type="button" class="tool-btn primary" style="width: 100%; justify-content: center; height: 38px; font-weight: 700;" onclick="app.focusActivationInput()">I Have Completed Transfer ➔ Enter 12-Digit UTR</button>
+              <div style="margin-top: 14px; display: flex; gap: 10px;">
+                <button type="button" class="tool-btn primary" style="flex: 1; justify-content: center; height: 38px; font-weight: 700;" onclick="app.focusActivationInput()">I Have Completed Transfer ➔ Enter 12-Digit UTR</button>
+                <a href="mailto:support@worldsneed.com?subject=OmniTool%20PRO%20Corporate%20Invoice%20Request" class="tool-btn secondary" style="height: 38px; padding: 0 12px; font-size: 11.5px; text-decoration: none; display: inline-flex; align-items: center;" title="Request corporate invoice or custom bank transfer details">Request Invoice</a>
               </div>
             </div>
           </div>
@@ -820,10 +832,11 @@
 
         <!-- 9. NO GATEWAYS ACTIVE FALLBACK PANEL -->
         <div class="checkout-panel" id="chk-panel-none" style="display: none; text-align: center; padding: 36px 20px;">
-          <div style="font-size: 32px; margin-bottom: 12px;">🔒</div>
-          <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Online Checkout Temporarily Paused</h3>
-          <p style="font-size: 13px; color: var(--text-muted); max-width: 440px; margin: 0 auto 16px auto;">All payment gateways are currently undergoing scheduled maintenance or have been disabled by the administrator. Please check back soon or contact support for manual activation.</p>
+          <div style="font-size: 32px; margin-bottom: 12px;">🛡️</div>
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">PRO Activation &amp; Direct Support</h3>
+          <p style="font-size: 13px; color: var(--text-muted); max-width: 440px; margin: 0 auto 16px auto;">Enter your activation key or UPI UTR reference below for instant unlock. For corporate licenses or direct bank transfers, contact our support team at <a href="mailto:support@worldsneed.com" style="color: var(--accent-cyan); text-decoration: underline;">support@worldsneed.com</a>.</p>
           <div style="display: flex; gap: 10px; justify-content: center;">
+            <button type="button" class="tool-btn primary" onclick="app.focusActivationInput()">Enter License Key</button>
             <button type="button" class="tool-btn secondary" onclick="app.closeCheckout()">Close Window</button>
           </div>
         </div>
@@ -1582,11 +1595,11 @@
             <!-- Search Quick Filter Chips (All, Single Tools, Tool Suites, Interactive Apps, PRO, Free, Guides) -->
             <div class="search-filters-bar" id="search-filters-bar" role="toolbar" aria-label="Tool classification filters">
               <button type="button" class="search-filter-chip active" data-filter="all" id="sfc-all"
-                aria-label="Show all 46 tools"
-                data-tooltip="Show all 46 privacy-first offline utilities">
+                aria-label="Show all 47 powerhouse suites (70+ tools)"
+                data-tooltip="Show all 47 privacy-first offline powerhouse suites">
                 <span class="sfc-icon">🌐</span>
                 <span class="sfc-label" data-i18n="filterAll">All</span>
-                <span class="sfc-count" id="sfc-count-all">46</span>
+                <span class="sfc-count" id="sfc-count-all">47</span>
               </button>
               <button type="button" class="search-filter-chip" data-filter="tools" id="sfc-tools"
                 aria-label="Filter by single tools (26 items)"
@@ -1628,7 +1641,7 @@
                 data-tooltip="Step-by-step developer tutorials, architecture guides, and offline recipes">
                 <span class="sfc-icon">📚</span>
                 <span class="sfc-label" data-i18n="filterGuides">Guides</span>
-                <span class="sfc-count" id="sfc-count-guides">28</span>
+                <span class="sfc-count" id="sfc-count-guides">92</span>
               </button>
             </div>
           </div>
@@ -2462,6 +2475,74 @@
 
         <!-- PREMIUM CYBER-AESTHETIC FOOTER -->
         <footer class="app-footer">
+          <!-- WORLDSNEED DIGITAL ECOSYSTEM NETWORK -->
+          <div class="footer-ecosystem-band">
+            <div class="feb-header">
+              <div class="feb-title-wrap">
+                <span class="feb-badge">Connected Network</span>
+                <h4 class="feb-title">WorldsNeed Digital Ecosystem</h4>
+              </div>
+              <p class="feb-desc">Explore our suite of privacy-first developer tools, interactive games, and knowledge platforms.</p>
+            </div>
+            <div class="feb-grid">
+              <a href="https://omnitool.worldsneed.com" class="feb-card active" title="OmniTool Hub — 47 Powerhouse Client-Side Utility Suites">
+                <div class="feb-card-header">
+                  <div class="feb-icon-wrap" style="background: rgba(0, 242, 254, 0.12); color: var(--accent-cyan);">⚡</div>
+                  <span class="feb-status-pill live">Current App</span>
+                </div>
+                <div class="feb-card-body">
+                  <strong class="feb-card-title">OmniTool Hub</strong>
+                  <span class="feb-card-desc">47 consolidated powerhouse suites &amp; 70+ client-side offline utilities.</span>
+                </div>
+                <div class="feb-card-footer">
+                  <span class="feb-action-text">Explore Hub &rarr;</span>
+                </div>
+              </a>
+
+              <a href="https://worldsneed.itch.io/cyber-bird-neon-flight" target="_blank" rel="noopener" class="feb-card" title="Cyber Bird: Neon Flight — Cyberpunk Retro Arcade Runner on Itch.io">
+                <div class="feb-card-header">
+                  <div class="feb-icon-wrap" style="background: rgba(236, 72, 153, 0.12); color: #ec4899;">🎮</div>
+                  <span class="feb-status-pill game">Play Free</span>
+                </div>
+                <div class="feb-card-body">
+                  <strong class="feb-card-title">Cyber Bird: Neon Flight</strong>
+                  <span class="feb-card-desc">Fast-paced cyberpunk arcade runner on Itch.io. Dodge obstacles in neon skies.</span>
+                </div>
+                <div class="feb-card-footer">
+                  <span class="feb-action-text">Play on Itch.io &nearr;</span>
+                </div>
+              </a>
+
+              <a href="https://words.worldsneed.com" target="_blank" rel="noopener" class="feb-card" title="WordsNeed Dictionary — Multilingual Vocabulary Explorer">
+                <div class="feb-card-header">
+                  <div class="feb-icon-wrap" style="background: rgba(168, 85, 247, 0.12); color: #a855f7;">📖</div>
+                  <span class="feb-status-pill nextjs">Web App</span>
+                </div>
+                <div class="feb-card-body">
+                  <strong class="feb-card-title">WordsNeed Dictionary</strong>
+                  <span class="feb-card-desc">Multilingual word explorer, vocabulary builder, and etymology platform.</span>
+                </div>
+                <div class="feb-card-footer">
+                  <span class="feb-action-text">Open Dictionary &nearr;</span>
+                </div>
+              </a>
+
+              <a href="https://worldsneed.com" target="_blank" rel="noopener" class="feb-card" title="WorldsNeed Portal — Main Organization Showcase">
+                <div class="feb-card-header">
+                  <div class="feb-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">🌐</div>
+                  <span class="feb-status-pill portal">Brand Hub</span>
+                </div>
+                <div class="feb-card-body">
+                  <strong class="feb-card-title">WorldsNeed Portal</strong>
+                  <span class="feb-card-desc">Our central brand showcase of live and upcoming digital creative products.</span>
+                </div>
+                <div class="feb-card-footer">
+                  <span class="feb-action-text">Visit Portal &nearr;</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
           <div class="footer-content">
             <div class="footer-left">
               <div class="footer-logo header-logo-clickable" onclick="app.backToDashboard()" title="OmniTool Hub Home" style="cursor: pointer;">

@@ -31,3 +31,31 @@ for (const f of files) {
 }
 
 console.log(`Finished syntax validation. Total files: ${files.length}, Errors: ${errCount}`);
+
+// Verify 200.html matches index.html for Cloudflare Pages SPA fallback
+if (fs.existsSync('index.html')) {
+  const indexContent = fs.readFileSync('index.html', 'utf8');
+  const fallbackPath = '200.html';
+  if (!fs.existsSync(fallbackPath) || fs.readFileSync(fallbackPath, 'utf8') !== indexContent) {
+    fs.writeFileSync(fallbackPath, indexContent, 'utf8');
+    console.log('✓ Synchronized 200.html with index.html for Cloudflare Pages SPA fallback.');
+  } else {
+    console.log('✓ 200.html is synchronized with index.html.');
+  }
+}
+
+// Validate _redirects for Cloudflare Pages loop pitfalls
+if (fs.existsSync('_redirects')) {
+  const redirects = fs.readFileSync('_redirects', 'utf8');
+  if (redirects.includes('/index.html 200')) {
+    console.error('⚠️ [WARNING] _redirects contains /index.html 200 which triggers Cloudflare Pages 308 redirect loops or infinite loop rejections!');
+    errCount++;
+  } else {
+    console.log('✓ _redirects validated (no recursive /index.html 200 rules).');
+  }
+}
+
+if (errCount > 0) {
+  process.exit(1);
+}
+

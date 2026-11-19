@@ -274,6 +274,18 @@ app.handleRouting();
 assert.strictEqual(dashView.style.display, 'block', 'Dashboard should be rendered');
 console.log("PASS: Direct visit to /dashboard renders dashboard");
 
-console.log("\n========================================================");
-console.log("🎉 ALL 9 ROUTING & NAVIGATION TESTS PASSED PERFECTLY! 🎉");
-console.log("========================================================");
+console.log("\n=== TEST 10: Direct clean URL access to legal routes (/privacy, /about, /terms, /contact, /refund, /cookies) ===");
+const legalRoutes = ['privacy', 'about', 'terms', 'contact', 'refund', 'cookies'];
+for (const route of legalRoutes) {
+  window.location.pathname = '/' + route;
+  window.location.hash = '';
+  app.handleRouting();
+  assert.strictEqual(viewport.style.display, 'block', `Viewport should be visible for /${route}`);
+  assert.strictEqual(dashView.style.display, 'none', `Dashboard should be hidden for /${route}`);
+  assert.ok(viewport.innerHTML.includes('legal-page-wrapper'), `Legal page wrapper should be rendered for /${route}`);
+}
+console.log("PASS: Direct visits to all 6 legal clean URLs (/privacy, /about, /terms, etc.) render legal pages");
+
+console.log("\n=========================================================");
+console.log("🎉 ALL 10 ROUTING & NAVIGATION TESTS PASSED PERFECTLY! 🎉");
+console.log("=========================================================");

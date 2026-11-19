@@ -7684,7 +7684,7 @@ const app = {
       features: 0,
       pro: 0,
       free: 0,
-      guides: this.guidesList ? this.guidesList.length : 53
+      guides: this.guidesList ? this.guidesList.length : 92
     };
 
     visibleTools.forEach(tool => {
@@ -12369,16 +12369,21 @@ const app = {
     const currentLang = this.currentLanguage || "en";
     const localizedGuides = {
       es: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"],
-      pt: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"]
+      pt: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"],
+      de: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"],
+      fr: ["compress-pdf", "index", "json-formatter", "password-generator", "pdf-utilities", "qr-studio"]
     };
     const cleanBase = (guideFileName || "")
-      .replace(/^\/?guides\/(es|pt)\//, "")
+      .replace(/^\/?guides\/(es|pt|de|fr)\//, "")
       .replace(/^\/?guides\//, "")
       .replace(/^\//, "")
       .replace(/\.html$/, "");
 
-    if (!cleanBase || cleanBase === "index") {
-      return currentLang === "en" ? "/guides/" : `/guides/${currentLang}/`;
+    if (!cleanBase || cleanBase === "index" || cleanBase === "de" || cleanBase === "es" || cleanBase === "pt" || cleanBase === "fr") {
+      const targetLang = (cleanBase === "de" || cleanBase === "es" || cleanBase === "pt" || cleanBase === "fr") ? cleanBase : currentLang;
+      return (localizedGuides[targetLang] && localizedGuides[targetLang].includes("index"))
+        ? `/guides/${targetLang}/`
+        : "/guides/";
     }
     if (localizedGuides[currentLang] && localizedGuides[currentLang].includes(cleanBase)) {
       return `/guides/${currentLang}/${cleanBase}`;
@@ -14067,8 +14072,8 @@ const app = {
     // Populate Bank Transfer details
     const bankName = this.getConfigValue("omnitool_bank_name", "State Bank of India");
     const bankHolder = this.getConfigValue("omnitool_bank_holder", "OmniTool Hub");
-    const bankAcc = this.getConfigValue("omnitool_bank_acc", "123456789012");
-    const bankIfsc = this.getConfigValue("omnitool_bank_ifsc", "SBIN0001234");
+    const bankAcc = this.getConfigValue("omnitool_bank_acc", "Available on Invoice Request");
+    const bankIfsc = this.getConfigValue("omnitool_bank_ifsc", "support@worldsneed.com");
 
     const elBankName = document.getElementById("chk-bank-name-display");
     if (elBankName) elBankName.innerText = bankName;
