@@ -3986,6 +3986,197 @@ select optgroup,
   }
 }
 
+/* WorldsNeed Digital Ecosystem Showcase Band */
+.footer-ecosystem-band {
+  width: 100%;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-sizing: border-box;
+}
+
+.feb-header {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.feb-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.feb-badge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(var(--accent-cyan-rgb), 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(var(--accent-cyan-rgb), 0.25);
+}
+
+.feb-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.feb-desc {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.45;
+  max-width: 620px;
+}
+
+.feb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.feb-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(14, 19, 32, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.feb-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(var(--accent-cyan-rgb), 0.35);
+  background: rgba(18, 24, 40, 0.75);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.feb-card.active {
+  border-color: rgba(var(--accent-cyan-rgb), 0.25);
+  background: linear-gradient(145deg, rgba(var(--accent-cyan-rgb), 0.04), rgba(14, 19, 32, 0.6));
+}
+
+.feb-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.feb-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.feb-status-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.feb-status-pill.live {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.feb-status-pill.game {
+  background: rgba(236, 72, 153, 0.12);
+  color: #f472b6;
+  border: 1px solid rgba(236, 72, 153, 0.25);
+}
+
+.feb-status-pill.nextjs {
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+.feb-status-pill.portal {
+  background: rgba(0, 242, 254, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+}
+
+.feb-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.feb-card-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  transition: color 0.15s ease;
+}
+
+.feb-card:hover .feb-card-title {
+  color: var(--accent-cyan);
+}
+
+.feb-card-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+.feb-card-footer {
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.feb-action-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s ease;
+}
+
+.feb-card:hover .feb-action-text {
+  gap: 7px;
+}
+
+@media (max-width: 768px) {
+  .feb-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+body.app-embedded .footer-ecosystem-band {
+  display: none !important;
+}
+
 /* Color Palette Presets */
 .palette-presets-grid {
   display: flex;

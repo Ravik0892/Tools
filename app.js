@@ -7684,7 +7684,7 @@ const app = {
       features: 0,
       pro: 0,
       free: 0,
-      guides: this.guidesList ? this.guidesList.length : 53
+      guides: this.guidesList ? this.guidesList.length : 92
     };
 
     visibleTools.forEach(tool => {
@@ -14072,8 +14072,8 @@ const app = {
     // Populate Bank Transfer details
     const bankName = this.getConfigValue("omnitool_bank_name", "State Bank of India");
     const bankHolder = this.getConfigValue("omnitool_bank_holder", "OmniTool Hub");
-    const bankAcc = this.getConfigValue("omnitool_bank_acc", "123456789012");
-    const bankIfsc = this.getConfigValue("omnitool_bank_ifsc", "SBIN0001234");
+    const bankAcc = this.getConfigValue("omnitool_bank_acc", "Available on Invoice Request");
+    const bankIfsc = this.getConfigValue("omnitool_bank_ifsc", "support@worldsneed.com");
 
     const elBankName = document.getElementById("chk-bank-name-display");
     if (elBankName) elBankName.innerText = bankName;

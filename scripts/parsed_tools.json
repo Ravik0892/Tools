@@ -21,6 +21,13 @@
     "type": "Transformations"
   },
   {
+    "id": "fancy-font-generator",
+    "name": "Fancy Font & Bio Text Generator",
+    "desc": "Transform standard text into 60+ aesthetic Unicode fonts, Gothic Fraktur, cursive calligraphy, small caps, bio templates, and glitch text for Instagram, Discord, and TikTok.",
+    "category": "text-case",
+    "type": "Transformations"
+  },
+  {
     "id": "jwt-decoder",
     "name": "JWT Decoder",
     "desc": "Decode JSON Web Tokens instantly to view their header parameters, claim payload and validity.",
@@ -122,6 +129,13 @@
     "id": "calculator",
     "name": "Scientific Calculator",
     "desc": "Perform advanced arithmetic, trigonometric, logarithmic, and factorial calculations with a live history log, constants library, and keyboard shortcuts.",
+    "category": "math-calc",
+    "type": "Calculator"
+  },
+  {
+    "id": "finance-calculator",
+    "name": "Financial Growth & Loan Calculator Suite",
+    "desc": "Calculate SIP mutual fund returns, future compound interest growth, and complete loan EMI / mortgage amortization schedules with interactive SVG charts.",
     "category": "math-calc",
     "type": "Calculator"
   },
