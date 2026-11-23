@@ -17,6 +17,7 @@
 | **AlternativeTo** | Software Directory | 🔴 **Denied (Anti-Collection Policy)** | Nov 2026 | Rejection by moderator `POX` | Rejection reason: Policy bans "collections of tools". Strategy: Re-submit as single dedicated tools (e.g. *OmniTool PDF Studio*). |
 | **GitHub: `awesome-pwa`** | Open Source Directory | 🟡 **Pending PR Review** | Nov 2026 | [PR #619](https://github.com/hemanth/awesome-pwa/pull/619) | Opened by `Ravik0892`: *"Add OmniTool Hub to Utilities"*. Awaiting maintainer merge into `hemanth/awesome-pwa`. |
 | **findPWA** | PWA Directory | 🟢 **App Successfully Sent** | Nov 23, 2026 | [findpwa.com](https://findpwa.com/) | findPWA verified PWA manifest & service worker ("App successfully sent"). Screenshots formatted to exact 1439x2881px Pixel 2 XL standard. |
+| **SaaSHub** | Software Directory | 🟢 **Verified & Live** | Nov 23, 2026 | [saashub.com](https://www.saashub.com/) | OmniTool Hub successfully verified! Profile 100% complete with 5 competitors (Smallpdf, CyberChef, DevToys, iLovePDF, PDF24), GitHub repo, and screenshots. Creator unlocked SaaSHub Experts nomination privileges. |
 | **AppScope** | PWA Directory | ⚪ **Paused (Their Server Down)** | Nov 2026 | `appsco.pe/submit` | AppScope's third-party backend is currently down (Heroku 503 Application Error). Revisit once their server recovers. |
 | **Google Search Console** | Search Indexing | 🟢 **Active / Crawling** | Oct-Nov 2026 | `worldsneed.com` & `omnitool.worldsneed.com` | Both Domain & URL-prefix properties configured. 268 Discovered (queued), 122 Crawled, 291 Redirects, 169 Canonicals. |
 | **Google Analytics (GA4)** | Web Analytics | 🟢 **Active & Tracking** | Oct-Nov 2026 | ID: `G-7FG02T8BFR` | Embedded across `index.html`, `200.html`, `worldsneed.com`, and all 97 guide HTML pages with IP anonymization. |
@@ -165,13 +166,7 @@ The following platforms **specifically welcome and feature** web apps, PWAs, dev
 * **Submission Link**: `https://appsco.pe/submit`
 * **Current Status**: ⚠️ *Temporarily Paused*: AppScope's third-party backend is experiencing an internal Heroku 503 Service Unavailable crash on their server (`appsco.pe/submit`). Check back later when their server recovers.
 
-### Platform 3: SaaSHub
-* **Website**: `https://www.saashub.com/`
-* **Submission Link**: `https://www.saashub.com/submit`
-* **Registration Requirement**: SaaSHub requires a business email matching the root domain (e.g. `support@worldsneed.com` or `contact@worldsneed.com`), NOT a 4-level subdomain (`@omnitool.worldsneed.com`) or `@gmail.com`.
-* **Email Forwarding**: Configured via Cloudflare Email Routing on `worldsneed.com` to forward directly to personal Gmail.
-* **Why it works**: SaaSHub welcomes both SaaS products and free open developer alternatives.
-* **Position as**: *Free, in-browser alternative to SmallPDF, CyberChef, and DevToys*.
+| **SaaSHub** | Software Directory | 🟢 **Verified & Live** | Nov 23, 2026 | [saashub.com](https://www.saashub.com/) | OmniTool Hub successfully verified! Profile 100% complete with 5 competitors (Smallpdf, CyberChef, DevToys, iLovePDF, PDF24), GitHub repo, and screenshots. Creator unlocked SaaSHub Experts nomination privileges. |
 
 ### Platform 4: Toolify.ai & TheresAnAIForThat
 * **Submission**: Submit your AI PDF Summarizer & Translator tool (`https://omnitool.worldsneed.com/tool/pdf-ai`).
