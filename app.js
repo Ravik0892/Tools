@@ -10064,6 +10064,117 @@ const app = {
     const scales = ["0.5", "0.7", "0.85", "1.0", "1.15", "1.3", "1.5"];
     const currentScale = localStorage.getItem("omnitool_layout_scale") || "1.0";
 
+    let currentIndex = scales.indexOf(currentScale);
+    if (currentIndex === -1) {
+      // Find closest
+      let minDiff = Infinity;
+      currentIndex = 3; // Default fallback to 1.0
+      scales.forEach((s, idx) => {
+        const diff = Math.abs(parseFloat(s) - parseFloat(currentScale));
+        if (diff < minDiff) {
+          minDiff = diff;
+          currentIndex = idx;
+        }
+      });
+    }
+
+    let newIndex = currentIndex + direction;
+    if (newIndex >= 0 && newIndex < scales.length) {
+      const nextScale = scales[newIndex];
+      this.applyLayoutScale(nextScale);
+      this.showToast(`Layout scale set to ${Math.round(parseFloat(nextScale) * 100)}%`, "info");
+    }
+  },
+
+  applyLayoutScale(scale) {
+    localStorage.setItem("omnitool_layout_scale", scale);
+    document.documentElement.style.setProperty("--font-scale", scale);
+    document.body.style.zoom = scale;
+
+    const optionBtns = document.querySelectorAll(".sizer-option-btn[data-scale]");
+    optionBtns.forEach(btn => {
+      const btnScale = btn.getAttribute("data-scale");
+      if (parseFloat(btnScale) === parseFloat(scale)) {
+        btn.classList.add("active");
+        btn.style.fontWeight = "bold";
+      } else {
+        btn.classList.remove("active");
+        btn.style.fontWeight = "normal";
+      }
+    });
+  },
+
+  // Multilingual UI i18n Dictionary
+  i18n: {
+    "en": {
+      "connectedWorkflows": "Connected Workflows",
+      "frequentlyCombined": "Frequently Combined Next Steps",
+      "workflowBridgeDesc": "Keep your momentum going — chain this output directly into complementary developer utilities.",
+      "dashboard": "Dashboard",
+      "tools": "Tools",
+      "guides": "Guides",
+      "tour": "Tour",
+      "favorites": "Favorites",
+      "plans": "Plans",
+      "search": "Search",
+      "everyday": "Everyday",
+      "developer": "Developer",
+      "heroTitle": "All-in-One <span>OmniTool Hub</span>",
+      "heroDesc": "Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.",
+      "offlineTools": "Offline Tools",
+      "serverDelay": "Server Delay",
+      "clientPrivacy": "Client Privacy",
+      "surpriseMe": "Surprise Me",
+      "zeroServer": "100% Client-Side Sandbox • Zero Server Uploads",
+      "devTools": "Developer Tools",
+      "textWriting": "Text & Writing",
+      "designStyling": "Design & Styling",
+      "mathConverter": "Math & Converter",
+      "preferences": "Preferences",
+      "aestheticsStudio": "Aesthetics Studio",
+      "interfaceZoom": "Interface Zoom Scale",
+      "languageLabel": "Language / Idioma",
+      "flushCache": "Flush Offline Cache",
+      "installApp": "Install OmniTool Hub on Desktop & Mobile",
+      "filterAll": "All",
+      "filterSingle": "Single Tools",
+      "filterSuites": "Tool Suites",
+      "filterInteractive": "Interactive Apps",
+      "filterPro": "PRO",
+      "filterFree": "Free",
+      "filterGuides": "Guides",
+      "launchTool": "Launch Tool",
+      "openUtility": "Open Utility",
+      "searchPlaceholder": "Search utilities... (e.g. JSON, encoder, base64)",
+      "searchCpPlaceholder": "Type a tool name, command or value... (Esc to close)",
+      "allTools": "All Tools",
+      "allEveryday": "All Everyday",
+      "catDocs": "PDF & Docs",
+      "catMedia": "Audio & Video",
+      "catQr": "QR & Snip",
+      "catImages": "Photos & Colors",
+      "catMath": "Math & Calc",
+      "catSecurity": "Passwords",
+      "catFavorites": "Favorites",
+      "catDev": "Developer",
+      "catText": "Text",
+      "catDesign": "Design",
+      "langName": "English",
+      "recentlyUsed": "Recently Used:",
+      "noToolsVisited": "No tools visited yet",
+      "back": "Back",
+      "clientSideOnly": "100% Client-Side",
+      "zeroServerUploads": "Zero Server Uploads",
+      "instantExecution": "Instant Execution",
+      "howItBenefits": "💡 How it Benefits You:",
+      "readCompleteGuide": "📖 Read Complete Step-by-Step Guide & Tutorial",
+      "offlineSandbox": "Offline Sandbox",
+      "aestheticsDesc": "Themes, fonts & synth sounds",
+      "flushCacheDesc": "Clear service worker cache & reload",
+      "themeTitle": "Theme & Aesthetics",
+      "paletteTheme": "Accent Palette Theme",
+      "layoutDensity": "Layout Spacing Density",
+      "densityComfortable": "Comfortable",
       "densityCompact": "Compact (Dense)",
       "densitySpacious": "Spacious",
       "clockFormat": "Clock Display Format",
