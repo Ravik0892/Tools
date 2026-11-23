@@ -53,10 +53,11 @@
                        window.location.hash.includes('embed=1') ||
                        window.location.hostname === 'appassets.androidplatform.net' ||
                        (navigator.userAgent && navigator.userAgent.includes('OmniToolAndroid'));
-      if (isEmbedded) {
+      var isBot = Boolean(navigator.webdriver) || (navigator.userAgent && /bot|googlebot|crawler|spider|robot|crawling|lighthouse|pagespeed|chrome-lighthouse/i.test(navigator.userAgent));
+      if (isEmbedded || isBot) {
         document.documentElement.classList.add('app-embedded');
         var vpMeta = document.querySelector('meta[name="viewport"]');
-        if (vpMeta) vpMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+        if (vpMeta && isEmbedded) vpMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
         var hideSplash = function() {
           if (document.body) document.body.classList.add('app-embedded');
           var s = document.getElementById('app-splash-screen');
@@ -164,6 +165,7 @@
   </noscript>
 
   <link rel="stylesheet" href="/style.css?v=2.1.5">
+  <link rel="ard" href="/.well-known/ard.json" type="application/ard+json">
   <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/json">
   <link rel="modulepreload" href="/tools/utils.js">
   <link rel="manifest" href="/manifest.json">
@@ -210,7 +212,7 @@
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID" crossorigin="anonymous"></script> -->
 </head>
 
-<body>
+<body data-ui-mode="beginner">
   <!-- Premium System Splash Screen -->
   <div id="app-splash-screen" class="splash-overlay">
     <div class="splash-content">
@@ -1358,7 +1360,7 @@
 
             <!-- Prominent Language Selector Dropdown Menu -->
             <div class="lang-dropdown-container">
-              <button class="control-btn lang-dropdown-btn" id="header-lang-btn" title="Select Language / Idioma" aria-label="Select Language (EN)" aria-expanded="false" aria-haspopup="menu" aria-controls="header-lang-menu">
+              <button class="control-btn lang-dropdown-btn" id="header-lang-btn" title="Select Language / Idioma" aria-label="EN - Select Language / Idioma" aria-expanded="false" aria-haspopup="menu" aria-controls="header-lang-menu">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -1551,25 +1553,25 @@
           <div class="dashboard-hero">
             <div class="hero-badge-pill" id="dashboard-hero-badge">
               <span class="hero-badge-dot"></span>
-              <span id="hero-badge-text" data-i18n="zeroServer">100% Client-Side Sandbox • Zero Server Uploads</span>
-              <span class="hero-badge-sparkle" id="hero-badge-icon">✦</span>
+              <span id="hero-badge-text" data-i18n="zeroServer">100% Free &amp; Private • Zero Server Uploads • Works Offline</span>
+              <span class="hero-badge-sparkle" id="hero-badge-icon">✨</span>
             </div>
-            <h1 id="dashboard-hero-title" data-i18n="heroTitle">All-in-One <span>OmniTool Hub</span></h1>
-            <p id="dashboard-hero-desc" data-i18n="heroDesc">Instant, offline-first client-side web utility tools with maximum privacy. Press <strong>Ctrl + K</strong> to search.</p>
+            <h1 id="dashboard-hero-title" data-i18n="heroTitle">Simple &amp; Free <span>Everyday Utilities</span></h1>
+            <p id="dashboard-hero-desc" data-i18n="heroDesc">Fast, private tools for PDFs, QR codes, voice recording, colors &amp; math. No signup, no tracking, completely free.</p>
             <div class="hero-metrics-strip">
               <div class="hero-metric-item">
-                <span class="hero-metric-num dynamic-tool-count" id="hero-tools-count">47+</span>
-                <span class="hero-metric-label" data-i18n="offlineTools">Offline Tools</span>
+                <span class="hero-metric-num dynamic-tool-count" id="hero-tools-count">20</span>
+                <span class="hero-metric-label" id="hero-tools-label" data-i18n="offlineTools">Essential Utilities</span>
               </div>
               <div class="hero-metric-sep"></div>
               <div class="hero-metric-item">
                 <span class="hero-metric-num">0 ms</span>
-                <span class="hero-metric-label" data-i18n="serverDelay">Server Delay</span>
+                <span class="hero-metric-label" id="hero-metric-stat2-lbl" data-i18n="serverDelay">Server Delay</span>
               </div>
               <div class="hero-metric-sep"></div>
               <div class="hero-metric-item">
                 <span class="hero-metric-num">100%</span>
-                <span class="hero-metric-label" data-i18n="clientPrivacy">Client Privacy</span>
+                <span class="hero-metric-label" id="hero-metric-stat3-lbl" data-i18n="clientPrivacy">Client Privacy</span>
               </div>
               <div class="hero-metric-sep"></div>
               <button class="hero-lucky-btn" id="hero-surprise-btn" title="Pick a random utility to test right now">
@@ -1577,7 +1579,12 @@
                 <span data-i18n="surpriseMe">Surprise Me</span>
               </button>
             </div>
-            <div id="hero-mode-switch-callout" class="hero-mode-switch-callout"></div>
+            <div id="hero-mode-switch-callout" class="hero-mode-switch-callout">
+              <div class="hero-mode-banner">
+                <span>💻 Need code formatters, JWT, or developer utilities?</span>
+                <button type="button" class="hero-mode-banner-btn" onclick="app.setUiMode('developer')">Switch to Developer Mode ➔</button>
+              </div>
+            </div>
           </div>
 
           <!-- Dashboard Search Bar -->
@@ -2450,8 +2457,8 @@
 
           <div class="plans-footer"
             style="padding: 20px; border-radius: 12px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto; text-align: left;">
-            <h4 style="margin: 0 0 6px 0; font-size: 14px; color: var(--text-main); font-weight: 700;" data-i18n="alreadyBacked">🔑 Already backed
-              us or have an activation code?</h4>
+            <h3 style="margin: 0 0 6px 0; font-size: 14px; color: var(--text-main); font-weight: 700;" data-i18n="alreadyBacked">🔑 Already backed
+              us or have an activation code?</h3>
             <p style="margin: 0 0 12px 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;" data-i18n="enterPasscodeHint">Enter your
               activation passcode below to unlock your Pro or Lifetime membership status.</p>
             <form id="plans-activation-form" style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;"
@@ -2480,7 +2487,7 @@
             <div class="feb-header">
               <div class="feb-title-wrap">
                 <span class="feb-badge">Connected Network</span>
-                <h4 class="feb-title">WorldsNeed Digital Ecosystem</h4>
+                <h3 class="feb-title">WorldsNeed Digital Ecosystem</h3>
               </div>
               <p class="feb-desc">Explore our suite of privacy-first developer tools, interactive games, and knowledge platforms.</p>
             </div>

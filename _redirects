@@ -14,6 +14,7 @@
 /terms-of-service /terms         301
 /refund-policy    /refund        301
 /cookie-policy    /cookies       301
+/guides/index     /guides/       301
 
 # Language guides hub normalizations
 /guides/es.html   /guides/es/    301

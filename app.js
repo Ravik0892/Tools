@@ -4502,7 +4502,7 @@ const app = {
 
   syncToolCounts() {
     const isBeginner = this.uiMode === "beginner";
-    const beginnerCount = Object.keys(this.beginnerToolsConfig || {}).length || 18;
+    const beginnerCount = Object.keys(this.beginnerToolsConfig || {}).length || 20;
     const devToolsCount = this.tools.filter((t) => t.id !== "admin-settings" && !t.hidden).length;
     const count = isBeginner ? beginnerCount : devToolsCount;
     const countDisplay = isBeginner ? `${count}` : `${devToolsCount}+`;

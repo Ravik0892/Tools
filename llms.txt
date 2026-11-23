@@ -1,39 +1,84 @@
 # OmniTool Hub
 
-> OmniTool Hub is a high-performance, privacy-first developer & creator workbench featuring 47 powerhouse suites (70+ client-side utilities), Smart Chain Pipelines, 95 interactive tool guides, and offline PWA capability with zero user payload logging.
+> OmniTool Hub is a high-performance, privacy-first developer and creator workbench featuring **47 powerhouse suites (consolidating 70+ client-side utilities)**, 20 curated Everyday Utilities, Smart Chain Pipelines, 120 interactive documentation guides, and offline PWA capability with zero user payload logging.
 
-## Core Documentation & AI Context
+## Core System Architecture & AI Hierarchy
+
+- **47 Powerhouse Suites**: Modular client-side studio hubs running 100% locally in browser WebAssembly and JavaScript.
+- **70+ Consolidated Utilities**: Individual specialized micro-tools housed inside the 47 suites (e.g. PDF Merge/Split/Compress, AES-GCM Encrypt, Base64, Regex Extractor, Contrast Checker).
+- **20 Everyday Utilities**: A distraction-free curated subset active in Everyday Mode for general tasks.
+- **120 Interactive Guides**: Complete offline tutorials and specifications hosted under `/guides/`.
+- **Zero Server Uploads**: 100% private, client-side execution — files and data never touch a remote server.
+
+## Core Documentation & Metadata
 
 - [Master Project Knowledge Base](https://omnitool.worldsneed.com/PROJECT_KNOWLEDGE_BASE.md): Comprehensive system architecture, privacy reality, monetization, and AI specification guide.
 - [Home & Tool Hub](https://omnitool.worldsneed.com/): Instant access to all client-side tools and utilities.
-- [Sitemap](https://omnitool.worldsneed.com/sitemap.xml): Machine-readable XML sitemap of all active routes and tool suites.
-- [AI Catalog (ARD)](https://omnitool.worldsneed.com/.well-known/ai-catalog.json): Machine-readable Agent Resource Discovery catalog for AI agents and WebMCP.
+- [Sitemap](https://omnitool.worldsneed.com/sitemap.xml): Machine-readable XML sitemap of all 236 active routes, tool suites, and guides.
+- [Agentic Resource Discovery (ARD)](https://omnitool.worldsneed.com/.well-known/ard.json): Machine-readable ARD manifest for AI agents and WebMCP.
+- [AI Catalog (Legacy)](https://omnitool.worldsneed.com/.well-known/ai-catalog.json): Machine-readable tool catalog for AI agents.
 - [Tool Documentation & Guides](https://omnitool.worldsneed.com/guides/): Comprehensive offline tutorials, usage guides, and data flow specifications.
 - [Privacy Architecture](https://omnitool.worldsneed.com/about): Complete technical overview of OmniTool Hub's sandboxed client-side processing.
 
-## Developer & Data Pipeline Tools
+---
 
-- [JSON Formatter & Validator](https://omnitool.worldsneed.com/tool/json-formatter): Format, validate, lint, minify, and inspect JSON documents offline.
-- [Base64 Encoder & Decoder](https://omnitool.worldsneed.com/tool/base64): Encode and decode UTF-8 text, binary files, and data URIs client-side.
-- [JWT Token Debugger](https://omnitool.worldsneed.com/tool/jwt-decoder): Decode, inspect header/claims, and verify HMAC SHA-256 signatures securely without network calls.
-- [Regex Tester & Explainer](https://omnitool.worldsneed.com/tool/regex-tester): Interactive Regular Expression testing engine with real-time match highlighting and flag toggles.
-- [Hash Generator](https://omnitool.worldsneed.com/tool/hash-generator): Compute cryptographic MD5, SHA-1, SHA-256, and SHA-512 hashes using native Web Crypto API.
-- [UUID & GUID Generator](https://omnitool.worldsneed.com/tool/uuid-generator): Cryptographically secure RFC4122 v4 and timestamp-based v7 UUID generation in bulk.
-- [Markdown Live Editor](https://omnitool.worldsneed.com/tool/markdown-preview): Real-time GitHub-flavored markdown editor, HTML exporter, and word counter.
-- [URL Encoder / Decoder](https://omnitool.worldsneed.com/tool/url-encoder): Encode and decode query strings, full URI components, and special characters.
-- [CSS Minifier](https://omnitool.worldsneed.com/tool/css-studio): Clean, minify, and remove duplicate whitespace from CSS stylesheets.
-- [HTML Entity Encoder](https://omnitool.worldsneed.com/tool/text-encoder-suite): Convert characters to HTML entities and decode special characters.
+## Complete Directory of All 47 Powerhouse Suites
 
-## Productivity & Utility Tools
+### 💻 Developer Tools (14 Suites)
 
-- [Color Studio & Converter](https://omnitool.worldsneed.com/tool/color-lab): Convert between HEX, RGB, HSL, HSV, CMYK with harmonic palette generation.
-- [Unit Converter](https://omnitool.worldsneed.com/tool/unit-converter): Multi-dimensional unit conversions across length, weight, temperature, data size, and time.
-- [Smart Calculator](https://omnitool.worldsneed.com/tool/calculator): Scientific calculation suite with history and keyboard-first workflow.
-- [Text Difference Checker](https://omnitool.worldsneed.com/tool/text-diff): Visual side-by-side line and character diff comparison.
-- [QR Code Studio](https://omnitool.worldsneed.com/tool/qr-studio): Generate customizable SVG/PNG QR codes with instant local download.
-- [Smart Password Generator](https://omnitool.worldsneed.com/tool/password-generator): Entropy-driven client-side password and passphrase generator.
-- [PDF Utilities Studio](https://omnitool.worldsneed.com/tool/pdf-utilities): Merge, split, crop, compress, and organize PDF pages offline in browser memory.
-- [AI PDF Summarizer & Q&A](https://omnitool.worldsneed.com/tool/pdf-ai): Extract text, summarize documents, and run Q&A over PDFs via local NLP or user-supplied Gemini API keys.
-- [Temp Mail Generator](https://omnitool.worldsneed.com/tool/temp-mail): Disposable temporary inbox with live message polling for signup & QA testing.
-- [Finance & Loan Calculator](https://omnitool.worldsneed.com/tool/finance-calculator): SIP, compound interest, EMI loan amortization, and ROI financial planning suite.
-- [Fancy Font & Unicode Bio Generator](https://omnitool.worldsneed.com/tool/fancy-font-generator): Convert plain text into 50+ Unicode decorative font styles for social profiles.
+- [Smart Chain Pipeline Builder](https://omnitool.worldsneed.com/tool/pipeline-builder): Connect multiple operations in series (e.g. Decode Base64 ➔ Format JSON ➔ Convert to Uppercase) to process text sequentially.
+- [Data Formatter & Converter Suite](https://omnitool.worldsneed.com/tool/formatter-suite): Beautify and validate JSON, format messy SQL database queries, and convert data bi-directionally between JSON, YAML, and CSV.
+- [JWT Decoder](https://omnitool.worldsneed.com/tool/jwt-decoder): Decode JSON Web Tokens instantly to view their header parameters, claim payload and validity.
+- [Cryptography Suite](https://omnitool.worldsneed.com/tool/crypto-suite): Generate MD5, SHA-1, SHA-256, SHA-512 hashes, encrypt/decrypt using AES-256 GCM symmetric cipher, and generate asymmetric RSA private/public keys.
+- [Client-Side PII Masker & Anonymizer](https://omnitool.worldsneed.com/tool/pii-anonymizer): Scan and mask sensitive personal identifiable information (PII) like emails, phone numbers, IP addresses, and credit cards from logs or text files client-side.
+- [Dynamic QR & Barcode Studio](https://omnitool.worldsneed.com/tool/qr-studio): Generate highly customized art QR codes with linear gradients, custom dot patterns, and logos, or scan QR codes and barcodes live via camera or upload.
+- [Meta Tag & SEO Previewer](https://omnitool.worldsneed.com/tool/seo-previewer): Design and preview page meta tags with live Google, Facebook, Twitter, and Discord mockup cards.
+- [Private CSV/JSON Mock Data Generator](https://omnitool.worldsneed.com/tool/mock-data-generator): Design custom schemas, configure column types (names, emails, dates, numbers), and bulk-generate up to 50,000 rows of mock data entirely client-side.
+- [HTML/CSS/JS Live Playground](https://omnitool.worldsneed.com/tool/code-playground): Write front-end HTML, CSS, and JavaScript in real-time, see live rendering in a sandbox iframe, and catch output logs in a simulated console.
+- [cURL to Code Converter](https://omnitool.worldsneed.com/tool/curl-converter): Convert cURL commands directly into modern Fetch (ES6 async/await), Axios, Python Requests, and Go HTTP client code.
+- [Visual Cron Expression Builder & Explainer](https://omnitool.worldsneed.com/tool/cron-builder): Build 5-field cron schedules visually, translate complex expressions into plain English sentences, and preview upcoming execution times.
+- [JSON-to-Code Interface Converter](https://omnitool.worldsneed.com/tool/json-to-types): Convert JSON payloads into strongly-typed interfaces and models for TypeScript, Python Pydantic, Go structs, and Rust Serde.
+- [Robots.txt Visual Builder](https://omnitool.worldsneed.com/tool/robots-generator): Create crawl directive rules, block AI web scrapers (GPTBot, CCBot), declare XML sitemaps, configure crawl delays, and validate syntax.
+- [Disposable Temp Mail Client](https://omnitool.worldsneed.com/tool/temp-mail): Generate instant throwaway email addresses to verify accounts and avoid spam with 10s auto-refresh, notifications, and reader.
+
+### 📝 Text & Document Tools (15 Suites)
+
+- [Text Cases & Encoder Suite](https://omnitool.worldsneed.com/tool/text-encoder-suite): Convert text case representations (UPPER, lower, camel, snake, kebab) and run Base64 or URL encoding and decoding operations.
+- [Fancy Font & Bio Text Generator](https://omnitool.worldsneed.com/tool/fancy-font-generator): Transform standard text into 60+ aesthetic Unicode fonts, Gothic Fraktur, cursive calligraphy, small caps, bio templates, and glitch text for social platforms.
+- [Live Markdown Previewer](https://omnitool.worldsneed.com/tool/markdown-preview): Write standard markdown syntax and preview output immediately as formatted HTML.
+- [Text Diff Comparison](https://omnitool.worldsneed.com/tool/text-diff): Compare two strings side-by-side or line-by-line and visually highlight differences.
+- [Multi-PDF Searcher & OCR](https://omnitool.worldsneed.com/tool/pdf-searcher): Import multiple PDF files, search for words, sentences or data, and run client-side OCR on scanned pages.
+- [PDF Page Studio & Organizer](https://omnitool.worldsneed.com/tool/pdf-utilities): Split into PDF/Images/Text, merge multiple PDFs, rearrange pages visually, crop margins, and compress documents 100% client-side.
+- [Visual Regex & Extractor Suite](https://omnitool.worldsneed.com/tool/regex-tester): Test regular expressions visually, capture match groups, and batch-extract or replace phone numbers, emails, IPs, and URLs.
+- [URL Query Parser & Builder](https://omnitool.worldsneed.com/tool/url-parser): Parse web addresses, extract parameters into a key-value grid, edit variables, and build clean query strings.
+- [Text Readability & Analyzer](https://omnitool.worldsneed.com/tool/text-analyzer): Calculate real-time word, character, sentence, and paragraph counts, estimate reading and speaking time, and measure readability scores.
+- [Lorem Ipsum Dummy Text Generator](https://omnitool.worldsneed.com/tool/lorem-generator): Generate customizable placeholder text in paragraphs, sentences, words, or lists with optional HTML wrappers.
+- [PDF Format Converter Hub](https://omnitool.worldsneed.com/tool/pdf-converter-hub): Convert Word (.docx), Excel (.xlsx), PowerPoint (.pptx), images (PNG/JPG), and web pages into PDF, or export PDFs to Markdown and plain text.
+- [PDF Page Editor & Annotation Suite](https://omnitool.worldsneed.com/tool/pdf-editor-suite): E-sign documents with cursive signatures, fill AcroForms, draw vector annotations, stamp watermarks, and permanently redact PII.
+- [PDF Security, Repair & Archival Suite](https://omnitool.worldsneed.com/tool/pdf-security-suite): Protect PDFs with AES encryption, remove passwords, repair corrupted xref tables & headers, and export ISO 19005 PDF/A archives.
+- [AI PDF Summarizer & Translator](https://omnitool.worldsneed.com/tool/pdf-ai): Generate executive summaries, extract actionable commitments, chat with documents in Q&A mode, or translate PDFs into 15+ languages via Gemini & offline NLP.
+- [Compare PDF Documents](https://omnitool.worldsneed.com/tool/compare-pdf): Compare two revisions of a PDF side-by-side, highlight layout differences with a pixel difference heatmap, wipe slider, or text clause diff.
+
+### 🎨 Design & Media Tools (12 Suites)
+
+- [CSS Studio Suite](https://omnitool.worldsneed.com/tool/css-studio): Visually build linear & radial CSS gradients, complex box shadows with offset layers, and modern frosted glassmorphism cards.
+- [Color Lab & Contrast Suite](https://omnitool.worldsneed.com/tool/color-lab): Create WCAG-compliant color palettes, check contrast accessibility ratios, and generate shades, tints, and opacities.
+- [Graphics Designer & Screenshot Studio](https://omnitool.worldsneed.com/tool/graphics-studio): Capture webcam snapshots, crop screen captures, design banners, overlay text, apply vintage cyberpunk filters, and download or copy images to clipboard without AI.
+- [Image Optimizer & Converter](https://omnitool.worldsneed.com/tool/image-converter): Optimize dimensions, adjust quality, and convert image formats (PNG, JPG, WebP) client-side in seconds.
+- [SVG Animation Studio](https://omnitool.worldsneed.com/tool/svg-animator): Import SVG vectors, visualize paths, apply keyframe presets (self-drawing, spin, float, neon pulse), and export animated SVGs client-side.
+- [Favicon & App Icon Suite](https://omnitool.worldsneed.com/tool/favicon-generator): Generate complete icon packages (multi-res 16/32 .ico, Apple Touch 180px, Android 192/512px) with shape customizer, tab preview, and ZIP export.
+- [Browser Screen & Window Screenshot Studio](https://omnitool.worldsneed.com/tool/screenshot-capture): Capture full screen, tabs, or app windows with countdown timer, wrap with macOS/Windows/Cyberpunk browser frames, redact PII passwords, and add step-by-step annotation callouts.
+- [Browser Screen & Tab Recorder](https://omnitool.worldsneed.com/tool/screen-recorder): Capture your full screen, window, or browser tab with microphone audio commentary, real-time timer, and instant WebM/MP4 download.
+- [Voice Recorder & Audio Waveform Studio](https://omnitool.worldsneed.com/tool/voice-recorder): Record mic memos or inspect audio files with live spectrum & radial visualizers, range trimming, peak normalization, EQ filters, speech-to-text, and lossless WAV export.
+- [Video Playback Speed Controller](https://omnitool.worldsneed.com/tool/video-speed): Adjust playback rate from 0.1x to 4.0x, step frame-by-frame, preserve audio pitch, and create continuous A-B section repeat loops.
+- [Audio Studio & Extractor](https://omnitool.worldsneed.com/tool/audio-suite): Cross-convert sound files between MP3, WAV, and OGG formats with bitrates up to 320k, or extract audio tracks from video files with visual waveform trimming.
+- [Video to Animated GIF Converter](https://omnitool.worldsneed.com/tool/video-to-gif): Convert video clips into animated GIFs client-side with custom resolution, frame rate, duration clipping, and live progress monitor.
+
+### 🔢 Math, Converters & Security Tools (6 Suites)
+
+- [Security & Passwords Suite](https://omnitool.worldsneed.com/tool/security-suite): Generate highly secure random passwords with entropy strength analysis and create bulk RFC 4122 v4 UUID keys client-side.
+- [Date & Time Suite](https://omnitool.worldsneed.com/tool/datetime-suite): Convert Unix epoch timestamps to human dates, compute durations between two times, and add/subtract time fields dynamically.
+- [Unit Converter](https://omnitool.worldsneed.com/tool/unit-converter): Instantly convert storage sizes, lengths, weights, and temperatures across global units.
+- [Scientific Calculator](https://omnitool.worldsneed.com/tool/calculator): Perform advanced arithmetic, trigonometric, logarithmic, and factorial calculations with a live history log, constants library, and keyboard shortcuts.
+- [Financial Growth & Loan Calculator Suite](https://omnitool.worldsneed.com/tool/finance-calculator): Calculate SIP mutual fund returns, future compound interest growth, and complete loan EMI / mortgage amortization schedules with interactive SVG charts.
+- [IP Subnet & MAC Address Suite](https://omnitool.worldsneed.com/tool/ip-subnet-calculator): Calculate subnet CIDR parameters, inspect host ranges, format MAC addresses, and perform local manufacturer OUI lookups.
