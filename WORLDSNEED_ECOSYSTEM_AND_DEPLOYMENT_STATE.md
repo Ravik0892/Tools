@@ -98,6 +98,7 @@ To eliminate **HTTP 404 on page refresh** and ensure maximum Google Search ranki
 ## 🔍 4. Search Engine Optimization & Webmaster Setup
 
 ### A. Google Search Console (GSC)
+* **Master Marketing & Distribution Ledger:** See [DISTRIBUTION_AND_MARKETING_LEDGER.md](file:///f:/Tools%20website/DISTRIBUTION_AND_MARKETING_LEDGER.md) for full audit history, AlternativeTo denial details, Product Hunt review URLs, and one-by-one submission targets.
 * **Property Type:** **Domain Property** (`worldsneed.com`)
 * **Why Domain Property:** Automatically covers `worldsneed.com`, `www.worldsneed.com`, `omnitool.worldsneed.com`, `words.worldsneed.com`, and all future subdomains under one account.
 * **Verification:** Cloudflare DNS ➔ Add `TXT` record with Name `@` and Value `google-site-verification=...`.

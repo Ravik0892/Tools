@@ -131,6 +131,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/guides/aspect-ratio-calculator</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/guides/base64</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
@@ -152,6 +158,12 @@
       <image:title>Calculator Technical Reference Poster</image:title>
       <image:caption>Scientific Computing &amp; Calculator Algorithms: Shunting-Yard parsing, IEEE-754 floating-point standards, trigonometry, and combinatorics.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/guides/chmod-calculator</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://omnitool.worldsneed.com/guides/clip-path-generator</loc>
@@ -1037,6 +1049,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://omnitool.worldsneed.com/tool/chmod-calculator</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://omnitool.worldsneed.com/tool/markdown-preview</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -1099,6 +1117,12 @@
   <url>
     <loc>https://omnitool.worldsneed.com/tool/graphics-studio</loc>
     <lastmod>2026-11-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://omnitool.worldsneed.com/tool/aspect-ratio-calculator</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>

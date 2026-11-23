@@ -1,8 +1,10 @@
 # OmniTool Hub v2 (Masterpiece Edition) - Complete Project Manual
 
-OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **47 consolidated powerhouse master suites (housing 70+ specialized client-side utilities)** organized in smart tabbed suites and standalone engines. By executing all logic directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
+OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub containing **50 consolidated powerhouse master suites (housing 85+ specialized client-side utilities)** organized in smart tabbed suites and standalone engines. By executing all logic directly inside the user's browser, the application runs with absolute privacy, zero latency, and $0 hosting or API costs.
 
-> 📖 **Master Directory**: For an exhaustive, in-depth technical manual of all 47 core powerhouse suites, sub-tool tabs, operational inputs/outputs, and backward-compatible route aliases, see [TOOLS_CATALOG.md](file:///f:/Tools%20website/TOOLS_CATALOG.md).
+> 📖 **Master Directory**: For an exhaustive, in-depth technical manual of all 50 core powerhouse suites, sub-tool tabs, operational inputs/outputs, and backward-compatible route aliases, see [TOOLS_CATALOG.md](file:///f:/Tools%20website/TOOLS_CATALOG.md).
+> 📅 **Release Timeline**: Track newly added tools and launch dates in [TOOL_RELEASE_TIMELINE.md](file:///f:/Tools%20website/TOOL_RELEASE_TIMELINE.md) or in-app via the **"What's New"** modal.
+> 📊 **Distribution & Platforms Ledger**: Track all directory submissions, Product Hunt status, AlternativeTo notes, and GSC states in [DISTRIBUTION_AND_MARKETING_LEDGER.md](file:///f:/Tools%20website/DISTRIBUTION_AND_MARKETING_LEDGER.md).
 > 🚀 **Roadmap**: For competitor audit comparison and planned feature rollouts, see [EXPANSION_PLAN.md](file:///f:/Tools%20website/EXPANSION_PLAN.md).
 
 ---
@@ -89,6 +91,10 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 
 #### 11. Settings & Ad Control Panel (`admin-settings`)
 *   **Description**: Toggles banner ad placements, saves global options, and handles application cache purging (available on local hosts).
+
+#### 12. Linux Chmod Permissions Calculator (`chmod-calculator`)
+*   **Description**: Interactive 3x3 permission matrix, real-time octal (0755, 0644), symbolic notation (`-rwxr-xr-x`), security risk analysis, and recursive bash chmod command generator.
+*   **Guide Page**: [chmod-calculator.html](file:///f:/Tools%20website/guides/chmod-calculator.html)
 
 ---
 
@@ -216,6 +222,10 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 *   **Description**: Convert documents to ISO 19005 standards (PDF/A-1b, PDF/A-2b, PDF/A-3b) for long-term legal preservation with sRGB OutputIntents and XMP metadata.
 *   **Sub-tabs**: ISO Profile Selector, sRGB Color Intent, XMP Conformance Packet.
 
+#### 39. Fancy Font & Aesthetic Text Studio (`fancy-font-generator`)
+*   **Description**: Generate 30+ Unicode typography styles, Gothic Fraktur, cursive calligraphy, small caps, inverted bubbles, and chaotic Zalgo glitch text with instant 1-click clipboard copy.
+*   **Guide Page**: [fancy-font-generator.html](file:///f:/Tools%20website/guides/fancy-font-generator.html)
+
 ---
 
 ### 🎨 Design & Styling Tools
@@ -245,7 +255,7 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 *   **Hash Routes**: `#tool/screenshot-capture`, `#tool/browser-capture`, `#tool/screenshot`
 
 #### 21. Image Optimizer & Converter (`image-converter`)
-*   **Description**: Adjust dimensions, manage quality ratios, and convert image formats (WebP, PNG, JPEG) client-side.
+*   **Description**: Adjust dimensions, manage quality ratios, and convert image formats (WebP, PNG, JPEG, plus Apple iPhone HEIC/HEIF) 100% client-side with zero server latency.
 *   **Guide Page**: [image-converter.html](file:///f:/Tools%20website/guides/image-converter.html)
 
 #### 22. SVG Animation Studio (`svg-animator`)
@@ -259,6 +269,10 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 #### 24. Favicon & App Icon Suite (`favicon-generator`)
 *   **Description**: Generate complete multi-resolution .ico (16/32), iOS Apple Touch, Android PWA icons, and HTML meta tags.
 *   **Sub-tabs**: Icon Generator, Tab & Device Previews, ZIP Archive Download.
+
+#### 25. Aspect Ratio & Social Media Studio (`aspect-ratio-calculator`)
+*   **Description**: Calculate aspect ratios, scale dimensions proportionally, solve missing width/height values, generate CSS `aspect-ratio` rules, and access 1-click social media presets for YouTube, Instagram, and TikTok.
+*   **Guide Page**: [aspect-ratio-calculator.html](file:///f:/Tools%20website/guides/aspect-ratio-calculator.html)
 
 ---
 
@@ -290,6 +304,11 @@ OmniTool Hub is a premium, privacy-focused, 100% client-side web utility hub con
 #### 27. Unit Converter (`unit-converter`)
 *   **Description**: Convert metrics, weights, temperature indexes, and digital bytes storage dimensions.
 *   **Guide Page**: [unit-converter.html](file:///f:/Tools%20website/guides/unit-converter.html)
+
+#### 28. Financial Growth & Loan Calculator Suite (`finance-calculator`)
+*   **Description**: Calculate SIP wealth growth, compound interest APY, and loan mortgage EMI amortization with interactive SVG curves, year-by-year schedules, and CSV export.
+*   **Guide Page**: [finance-calculator.html](file:///f:/Tools%20website/guides/finance-calculator.html)
+*   **Sub-tabs**: SIP Mutual Fund Calculator, Compound Interest APY, Loan EMI & Mortgage Calculator.
 
 ---
 
