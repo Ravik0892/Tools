@@ -1,0 +1,162 @@
+[
+  {
+    "date": "2026-11-23",
+    "displayDate": "Nov 23, 2026",
+    "badge": "NEW",
+    "badgeColor": "var(--accent-cyan)",
+    "items": [
+      {
+        "id": "aspect-ratio-calculator",
+        "name": "Aspect Ratio & Social Media Studio",
+        "category": "design",
+        "categoryLabel": "Design & Graphics",
+        "desc": "Calculate missing dimensions (16:9, 4:3, 9:16), social media presets (YouTube, Instagram, TikTok), and responsive CSS code.",
+        "icon": "📐"
+      },
+      {
+        "id": "chmod-calculator",
+        "name": "Linux Chmod Permissions Calculator",
+        "category": "dev",
+        "categoryLabel": "Developer Tools",
+        "desc": "Interactive 3x3 permission matrix, real-time octal (0755, 0644), symbolic (-rwxr-xr-x), and terminal command generator.",
+        "icon": "🛡️"
+      },
+      {
+        "id": "image-converter",
+        "name": "Apple iPhone HEIC Support Upgrade",
+        "category": "design",
+        "categoryLabel": "Design & Graphics",
+        "desc": "Transcode Apple iPhone .heic and .heif photos directly into JPG, PNG, and WebP 100% client-side.",
+        "icon": "📱"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-08",
+    "displayDate": "Nov 08, 2026",
+    "badge": "FEATURED",
+    "badgeColor": "var(--accent-emerald)",
+    "items": [
+      {
+        "id": "finance-calculator",
+        "name": "Financial Growth & Loan Calculator Suite",
+        "category": "math",
+        "categoryLabel": "Math & Numbers",
+        "desc": "SIP wealth accumulator, compound interest APY, and loan mortgage EMI amortization with interactive SVG charts and CSV export.",
+        "icon": "💰"
+      },
+      {
+        "id": "fancy-font-generator",
+        "name": "Fancy Font & Aesthetic Text Studio",
+        "category": "text",
+        "categoryLabel": "Text & Writing",
+        "desc": "30+ Unicode typography fonts, Gothic Fraktur, cursive calligraphy, small caps, and Zalgo glitch generator with 1-click copy.",
+        "icon": "✨"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-01",
+    "displayDate": "Nov 01, 2026",
+    "badge": "SUITE",
+    "badgeColor": "var(--accent-purple)",
+    "items": [
+      {
+        "id": "pdf-converter-hub",
+        "name": "Universal Document & PDF Converter Hub",
+        "category": "text",
+        "categoryLabel": "Text & Writing",
+        "desc": "Convert Word (.docx), Excel (.xlsx), PowerPoint (.pptx), Images, and HTML to high-fidelity PDF client-side.",
+        "icon": "📄"
+      },
+      {
+        "id": "pdf-editor-suite",
+        "name": "PDF Editor, Sign & Vector Markup Studio",
+        "category": "text",
+        "categoryLabel": "Text & Writing",
+        "desc": "Draw cursive e-signatures, fill AcroForms, annotate with vector shapes, stamp watermarks, and redact PII.",
+        "icon": "✍️"
+      },
+      {
+        "id": "pdf-security-suite",
+        "name": "PDF Security, Repair & ISO Archival Suite",
+        "category": "text",
+        "categoryLabel": "Text & Writing",
+        "desc": "AES-256 encryption, granular permissions, corrupted xref table repair, and ISO 19005 PDF/A format.",
+        "icon": "🔒"
+      },
+      {
+        "id": "pdf-ai",
+        "name": "Client-Side AI PDF Summarizer & Translator",
+        "category": "text",
+        "categoryLabel": "Text & Writing",
+        "desc": "Extract briefs, action items, and translate dense PDF documents into 15+ languages client-side.",
+        "icon": "🤖"
+      },
+      {
+        "id": "compare-pdf",
+        "name": "PDF Document Diff Tool",
+        "category": "text",
+        "categoryLabel": "Text & Writing",
+        "desc": "Side-by-side pixel diff heatmaps, swipe-wipe inspection slider, and inline text comparison.",
+        "icon": "🔍"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-25",
+    "displayDate": "Oct 25, 2026",
+    "badge": "MEDIA",
+    "badgeColor": "var(--accent-amber)",
+    "items": [
+      {
+        "id": "screen-recorder",
+        "name": "Browser Screen & Tab Recorder",
+        "category": "design",
+        "categoryLabel": "Media & Audio",
+        "desc": "Record desktop screens, windows, or tabs with mic audio mixing and WebM/MP4 export.",
+        "icon": "🎥"
+      },
+      {
+        "id": "voice-recorder",
+        "name": "Voice Recorder & Audio Waveform Studio",
+        "category": "design",
+        "categoryLabel": "Media & Audio",
+        "desc": "Studio-grade mic recording, live FFT spectrum analyzer, and uncompressed WAV export.",
+        "icon": "🎙️"
+      },
+      {
+        "id": "audio-suite",
+        "name": "Audio Studio & Waveform Trimmer",
+        "category": "design",
+        "categoryLabel": "Media & Audio",
+        "desc": "Transcode audio between MP3, WAV, AAC, and OGG with visual waveform trimming.",
+        "icon": "🎵"
+      },
+      {
+        "id": "video-speed",
+        "name": "Video Speed & Pitch Controller",
+        "category": "design",
+        "categoryLabel": "Media & Audio",
+        "desc": "Control playback speed from 0.1x to 4.0x with pitch preservation and A-B looping.",
+        "icon": "⏩"
+      },
+      {
+        "id": "video-to-gif",
+        "name": "Video to Animated GIF Transcoder",
+        "category": "design",
+        "categoryLabel": "Media & Audio",
+        "desc": "Convert video clips to animated GIFs with NeuQuant 256-color palette quantization.",
+        "icon": "🎞️"
+      },
+      {
+        "id": "favicon-generator",
+        "name": "Favicon & PWA App Icon Suite",
+        "category": "design",
+        "categoryLabel": "Design & Graphics",
+        "desc": "Multi-resolution .ICO bundle generation, Apple Touch icons, and Android PWA manifest assets.",
+        "icon": "⭐"
+      }
+    ]
+  }
+]

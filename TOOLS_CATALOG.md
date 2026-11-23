@@ -1,7 +1,7 @@
 # OmniTool Hub — Master Tools, Tabs & Features Catalog
 > **Comprehensive Reference Manual for Users & AI Agents**  
-> **Master Suite Hubs**: 47 High-Performance Powerhouse Suites (Consolidating 70+ Specialized Client-Side Utilities)  
-> **Consolidated Sub-Tool Engines**: 70+ Specialized Tools across 47 Suites  
+> **Master Suite Hubs**: 50 High-Performance Powerhouse Suites (Consolidating 85+ Specialized Client-Side Utilities)  
+> **Consolidated Sub-Tool Engines**: 85+ Specialized Tools across 50 Suites  
 > **Architecture**: 100% Client-Side Sandbox • Offline-First PWA • Zero Data Transmission • Seamless Route Aliases
 
 ---
@@ -23,6 +23,10 @@
 | `crypto-suite` | **Cryptography & Security Suite** | Developer | #️⃣ Hashes (MD5/SHA) • 🔐 AES-256-GCM • 🗝️ Asymmetric RSA Keypairs | `#tool/hash-generator`, `#tool/aes-crypto`, `#tool/rsa-generator` |
 | `security-suite` | **Security & Passwords Suite** | Math | 🔑 Password Generator • 🎲 RFC 4122 UUID v4 Bulk Generator | `#tool/password-generator`, `#tool/uuid-generator` |
 | `css-studio` | **CSS Studio Suite** | Design | 🌈 Gradients • 🔳 Box Shadows • 🪟 Glassmorphism • ✂️ Clip Path | `#tool/gradient-generator`, `#tool/box-shadow`, `#tool/glassmorphism-generator` |
+| `finance-calculator` | **Financial Growth & Loan Calculator Suite** | Math | 📈 SIP Growth • 💹 Compound Interest APY • 🏠 Loan EMI Amortization Schedule • 📊 SVG Curves & CSV Export | `#tool/sip-calculator`, `#tool/compound-interest-calculator`, `#tool/emi-calculator` |
+| `fancy-font-generator` | **Fancy Font & Aesthetic Text Studio** | Text | ✨ 30+ Unicode Typography Styles • 🔠 Gothic Fraktur • 🖋️ Cursive Calligraphy • 👾 Zalgo Chaos Glitch Slider | `#tool/font-generator`, `#tool/instagram-fonts`, `#tool/zalgo-text-generator` |
+| `aspect-ratio-calculator` | **Aspect Ratio & Social Media Studio** | Design | 📐 Ratio Solver (16:9, 4:3, 9:16) • 📱 YouTube, Instagram & TikTok Presets • 💻 CSS aspect-ratio Code & Live Canvas Box | `#tool/aspect-ratio`, `#tool/social-media-resizer`, `#tool/ratio-calculator` |
+| `chmod-calculator` | **Linux Chmod Permissions Calculator** | Developer | 🛡️ Interactive 3x3 Checkbox Matrix • 🔢 Real-Time Octal (0755, 0644) • 🔤 Symbolic Notation • 💻 Bash Terminal Command Generator | `#tool/chmod`, `#tool/permissions-calculator` |
 | `pipeline-builder` | Smart Chain Pipeline Builder | Developer | Sequential Multi-Stage Transformer | Active |
 | `jwt-decoder` | JWT Token Decoder & Inspector | Developer | Claims, Header, Expiry Stamps | Active |
 | `pii-anonymizer` | Client-Side PII Masker & Anonymizer | Developer | Redact, Hash, Mask | Active |

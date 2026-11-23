@@ -18,8 +18,8 @@ export default {
                 <polyline points="21 15 16 10 5 21"></polyline>
               </svg>
               <span style="font-size: 13px; font-weight: 700; color: var(--text-main);">Drag & Drop Image or Click to Browse</span>
-              <span style="font-size: 11px; color: var(--text-muted);">Supports PNG, JPEG, WEBP, SVG</span>
-              <input type="file" id="img-file-input" accept="image/*" style="display: none;">
+              <span style="font-size: 11px; color: var(--text-muted);">Supports PNG, JPEG, WEBP, SVG, and Apple iPhone HEIC/HEIF</span>
+              <input type="file" id="img-file-input" accept="image/*,.heic,.heif" style="display: none;">
             </div>
             <button class="tool-btn secondary" id="img-load-sample" style="width: 100%; margin-top: 8px; font-size: 11px; padding: 6px 10px;">Load Sample Image</button>
           </div>
@@ -244,10 +244,35 @@ export default {
     });
 
     // Process file uploads
-    const handleFile = (file) => {
-      if (!file || !file.type.startsWith("image/")) {
+    const handleFile = async (file) => {
+      if (!file) return;
+      const isHeic = file.name.toLowerCase().endsWith(".heic") || file.name.toLowerCase().endsWith(".heif") || file.type === "image/heic" || file.type === "image/heif";
+      if (!file.type.startsWith("image/") && !isHeic) {
         appInstance.showToast("Unsupported file type!", "error");
         return;
+      }
+
+      if (isHeic) {
+        if (appInstance && typeof appInstance.showToast === "function") {
+          appInstance.showToast("Transcoding Apple HEIC image client-side...", "info");
+        }
+        try {
+          if (!window.heic2any) {
+            const script = document.createElement("script");
+            script.src = "https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+            document.head.appendChild(script);
+            await new Promise((resolve, reject) => {
+              script.onload = resolve;
+              script.onerror = () => reject(new Error("HEIC decoder failed to load"));
+            });
+          }
+          if (window.heic2any) {
+            const blob = await window.heic2any({ blob: file, toType: "image/jpeg", quality: 0.92 });
+            file = new File([blob], file.name.replace(/\.heic$/i, ".jpg").replace(/\.heif$/i, ".jpg"), { type: "image/jpeg" });
+          }
+        } catch (err) {
+          console.warn("HEIC decoding fallback error:", err);
+        }
       }
 
       fileMetadata.name = file.name;

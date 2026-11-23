@@ -119,6 +119,18 @@ const app = {
       icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM12 8v4M12 16h.01"/></svg>`
     },
     {
+      id: "chmod-calculator",
+      name: "Linux Chmod Permissions Calculator",
+      desc: "Convert Linux file permissions between interactive 3x3 checkboxes, octal numbers (0755, 0644), symbolic strings, and terminal bash chmod commands.",
+      category: "dev",
+      subcategory: "dev-crypto",
+      subLabel: "Crypto & Security",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
+    },
+    {
       id: "markdown-preview",
       name: "Live Markdown Previewer",
       desc: "Write standard markdown syntax and preview output immediately as formatted HTML.",
@@ -249,6 +261,18 @@ const app = {
       accentRgb: "0, 242, 254",
       monetization: "premium",
       icon: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`
+    },
+    {
+      id: "aspect-ratio-calculator",
+      name: "Aspect Ratio & Social Media Studio",
+      desc: "Calculate aspect ratios, solve missing dimensions, and generate CSS aspect-ratio code with 1-click social media presets for YouTube, Instagram, and TikTok.",
+      category: "design",
+      subcategory: "design-graphics",
+      subLabel: "Graphics & Screen Studio",
+      accent: "#00f2fe",
+      accentRgb: "0, 242, 254",
+      monetization: "free",
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`
     },
     {
       id: "calculator",
@@ -1999,6 +2023,11 @@ const app = {
       { targetId: "regex-tester", hint: "Create custom regex rules to catch niche identifier patterns" },
       { targetId: "formatter-suite", hint: "Format and sanitize anonymized JSON/CSV logs" }
     ],
+    "chmod-calculator": [
+      { targetId: "crypto-suite", hint: "Generate cryptographic keypairs with secure 600 permissions" },
+      { targetId: "ip-subnet-calculator", hint: "Calculate server subnet CIDRs and firewall rules" },
+      { targetId: "code-playground", hint: "Test scripts and frontend code in a live sandbox" }
+    ],
     "text-encoder-suite": [
       { targetId: "fancy-font-generator", hint: "Transform text into 60+ aesthetic Unicode fonts and bio styles" },
       { targetId: "url-parser", hint: "Inspect and edit encoded query parameters" },
@@ -2052,8 +2081,14 @@ const app = {
       { targetId: "ip-subnet-calculator", hint: "Calculate network bandwidth and storage capacities" }
     ],
     "graphics-studio": [
+      { targetId: "aspect-ratio-calculator", hint: "Calculate aspect ratios and dimensions for YouTube and Instagram" },
       { targetId: "image-converter", hint: "Compress or convert captured graphics to WebP / PNG" },
       { targetId: "css-studio", hint: "Design glassmorphism cards and borders around graphics" }
+    ],
+    "aspect-ratio-calculator": [
+      { targetId: "graphics-studio", hint: "Capture, crop, and overlay graphics at calculated dimensions" },
+      { targetId: "image-converter", hint: "Optimize and resize images to match aspect ratio dimensions" },
+      { targetId: "css-studio", hint: "Generate CSS gradients and card styling for your media container" }
     ],
     "calculator": [
       { targetId: "finance-calculator", hint: "Calculate SIP returns, compound growth, and loan amortizations" },
@@ -2307,7 +2342,9 @@ const app = {
     { id: "glassmorphism-generator", fileName: "glassmorphism-generator.html", title: "Glassmorphism CSS Generator Guide", description: "Generate frosted glass effects with custom blur, border sheen, and transparency for modern web cards." },
     { id: "gradient-generator", fileName: "gradient-generator.html", title: "CSS Gradient Generator Guide", description: "Build linear, radial, and conic CSS gradients with multi-stop color controls and one-click CSS copy." },
     { id: "finance-calculator", fileName: "finance-calculator.html", title: "Financial Growth & Loan Calculator Suite Guide", description: "Learn how to calculate SIP mutual fund returns, compound interest, and loan EMI mortgage amortization schedules with interactive visual charts." },
-    { id: "fancy-font-generator", fileName: "fancy-font-generator.html", title: "Fancy Font & Bio Text Generator Guide", description: "Learn how to generate 60+ aesthetic Unicode fonts, Gothic Fraktur, cursive calligraphy, and social media bio styles with 100% client-side speed." }
+    { id: "fancy-font-generator", fileName: "fancy-font-generator.html", title: "Fancy Font & Bio Text Generator Guide", description: "Learn how to generate 60+ aesthetic Unicode fonts, Gothic Fraktur, cursive calligraphy, and social media bio styles with 100% client-side speed." },
+    { id: "aspect-ratio-calculator", fileName: "aspect-ratio-calculator.html", title: "Aspect Ratio & Social Media Studio Guide", description: "Calculate aspect ratios, solve missing image and video dimensions, and design responsive CSS aspect-ratio layouts for all social media platforms." },
+    { id: "chmod-calculator", fileName: "chmod-calculator.html", title: "Linux Chmod Permissions Calculator Guide", description: "Master Linux file permissions, calculate octal 755/644 values, decode symbolic notation, and generate recursive terminal commands securely." }
   ],
 
   // Utility classification helper: sorts items into Suites, Features, Standalone Tools, Pro, and Free
@@ -2939,7 +2976,16 @@ const app = {
     // Fancy Font & Text Generator Aliases
     "font-generator": { suiteId: "fancy-font-generator" },
     "instagram-fonts": { suiteId: "fancy-font-generator" },
-    "zalgo-text-generator": { suiteId: "fancy-font-generator" }
+    "zalgo-text-generator": { suiteId: "fancy-font-generator" },
+
+    // Aspect Ratio & Social Media Studio Aliases
+    "aspect-ratio": { suiteId: "aspect-ratio-calculator" },
+    "social-media-resizer": { suiteId: "aspect-ratio-calculator" },
+    "ratio-calculator": { suiteId: "aspect-ratio-calculator" },
+
+    // Linux Chmod Permissions Calculator Aliases
+    "chmod": { suiteId: "chmod-calculator" },
+    "permissions-calculator": { suiteId: "chmod-calculator" }
   },
 
   
@@ -3651,6 +3697,26 @@ const app = {
       category: "text",
       subLabel: "PDF Page Studio",
       guideUrl: "guides/crop-pdf.html"
+    },
+    "aspect-ratio": {
+      suiteId: "aspect-ratio-calculator",
+      name: "Aspect Ratio Calculator",
+      title: "Aspect Ratio Calculator & Social Media Dimension Studio | OmniTool Hub",
+      desc: "Calculate aspect ratios, scale dimensions proportionally, and get exact social media sizes for YouTube, Instagram, TikTok, and Twitter.",
+      keywords: "aspect ratio calculator, 16:9 ratio, 4:3 ratio, image dimension calculator, video aspect ratio, social media dimensions",
+      category: "design",
+      subLabel: "Graphics & Screen Studio",
+      guideUrl: "guides/aspect-ratio-calculator.html"
+    },
+    "chmod": {
+      suiteId: "chmod-calculator",
+      name: "Linux Chmod Permissions Calculator",
+      title: "Linux Chmod Permissions Calculator & Generator | OmniTool Hub",
+      desc: "Convert Linux file permissions between interactive checkboxes, octal numbers (0755, 0644), symbolic strings, and terminal bash commands.",
+      keywords: "chmod calculator, linux permissions calculator, chmod 755, chmod 644, octal permissions, chmod command generator",
+      category: "dev",
+      subLabel: "Crypto & Security",
+      guideUrl: "guides/chmod-calculator.html"
     }
   },
 
@@ -3945,6 +4011,7 @@ const app = {
     this.initSearchFilters();
     this.checkFileProtocolWarning();
     this.initCheckoutModal();
+    this.initTimelineModal();
     this.syncToolCounts();
 
     // Pre-load utilities for pipeline builder integration and global helpers
@@ -14754,6 +14821,324 @@ const app = {
       };
       img.src = `https://api.qrserver.com/v1/create-qr-code/?size=${w}x${h}&data=${encodeURIComponent(upiUri)}&margin=8&format=png`;
     });
+  },
+
+  timelineData: null,
+  activeTimelineFilter: "all",
+
+  initTimelineModal() {
+    const modal = document.getElementById("timeline-modal");
+    if (!modal) return;
+
+    const closeBtn = document.getElementById("timeline-modal-close");
+    if (closeBtn) {
+      closeBtn.onclick = () => this.closeTimelineModal();
+    }
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        this.closeTimelineModal();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.style.display !== "none") {
+        this.closeTimelineModal();
+      }
+    });
+
+    // Desktop and mobile trigger links
+    const desktopLink = document.getElementById("desktop-whats-new-link");
+    if (desktopLink) {
+      desktopLink.onclick = (e) => {
+        e.preventDefault();
+        this.openTimelineModal();
+      };
+    }
+
+    const sidebarLink = document.getElementById("sidebar-whats-new-btn");
+    if (sidebarLink) {
+      sidebarLink.onclick = (e) => {
+        e.preventDefault();
+        const sidebar = document.querySelector(".sidebar");
+        if (sidebar) sidebar.classList.remove("show");
+        this.openTimelineModal();
+      };
+    }
+
+    // Filter pills
+    const filterContainer = document.getElementById("timeline-filter-pills");
+    if (filterContainer) {
+      filterContainer.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-filter]");
+        if (!btn) return;
+        filterContainer.querySelectorAll(".keyboard-tab").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        this.activeTimelineFilter = btn.getAttribute("data-filter") || "all";
+        this.renderTimelineContent();
+      });
+    }
+  },
+
+  async openTimelineModal() {
+    const modal = document.getElementById("timeline-modal");
+    if (!modal) return;
+
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    // Load data if not already cached
+    if (!this.timelineData) {
+      try {
+        const res = await fetch("tools-timeline.json");
+        if (res.ok) {
+          this.timelineData = await res.json();
+        }
+      } catch (err) {
+        console.warn("Could not load tools-timeline.json, using fallback data:", err);
+      }
+      if (!this.timelineData || !Array.isArray(this.timelineData)) {
+        this.timelineData = this.getTimelineFallbackData();
+      }
+    }
+
+    this.renderTimelineContent();
+  },
+
+  closeTimelineModal() {
+    const modal = document.getElementById("timeline-modal");
+    if (modal) {
+      modal.style.display = "none";
+      document.body.style.overflow = "";
+    }
+  },
+
+  renderTimelineContent() {
+    const container = document.getElementById("timeline-content-list");
+    if (!container || !this.timelineData) return;
+
+    const filter = this.activeTimelineFilter || "all";
+    let filtered = [];
+
+    this.timelineData.forEach(group => {
+      let matchingItems = group.items;
+      if (filter === "2026") {
+        if (!group.date.startsWith("2026")) return;
+      } else if (filter !== "all") {
+        matchingItems = group.items.filter(item => item.category === filter);
+        if (matchingItems.length === 0) return;
+      }
+
+      filtered.push({
+        ...group,
+        items: matchingItems
+      });
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 32px 16px; color: var(--text-muted); font-size: 13px;">
+          No releases found matching the selected filter.
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(group => `
+      <div class="timeline-date-group" style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 13px; font-weight: 700; color: var(--text-main);">${group.displayDate}</span>
+            <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; background: rgba(0, 242, 254, 0.15); color: ${group.badgeColor || 'var(--accent-cyan)'}; letter-spacing: 0.5px;">${group.badge || 'UPDATE'}</span>
+          </div>
+          <span style="font-size: 11px; color: var(--text-muted);">${group.items.length} ${group.items.length === 1 ? 'tool' : 'tools'}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+          ${group.items.map(item => `
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; transition: border-color 0.2s ease;">
+              <div style="display: flex; align-items: flex-start; gap: 10px; min-width: 0; flex: 1;">
+                <span style="font-size: 20px; line-height: 1; flex-shrink: 0; margin-top: 2px;">${item.icon || '🛠️'}</span>
+                <div style="min-width: 0; flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span style="font-weight: 700; font-size: 13px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</span>
+                    <span style="font-size: 10px; color: var(--text-muted); background: var(--bg-primary); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border-color);">${item.categoryLabel || item.category}</span>
+                  </div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px; line-height: 1.35;">${item.desc}</div>
+                </div>
+              </div>
+              <button type="button" class="btn-primary" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; white-space: nowrap; flex-shrink: 0;" onclick="app.navigateToTool('${item.id}'); app.closeTimelineModal();">
+                Open Tool
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  },
+
+  getTimelineFallbackData() {
+    return [
+      {
+        date: "2026-11-23",
+        displayDate: "Nov 23, 2026",
+        badge: "NEW",
+        badgeColor: "var(--accent-cyan)",
+        items: [
+          {
+            id: "aspect-ratio-calculator",
+            name: "Aspect Ratio & Social Media Studio",
+            category: "design",
+            categoryLabel: "Design & Graphics",
+            desc: "Calculate missing dimensions (16:9, 4:3, 9:16), social media presets (YouTube, Instagram, TikTok), and responsive CSS code.",
+            icon: "📐"
+          },
+          {
+            id: "chmod-calculator",
+            name: "Linux Chmod Permissions Calculator",
+            category: "dev",
+            categoryLabel: "Developer Tools",
+            desc: "Interactive 3x3 permission matrix, real-time octal (0755, 0644), symbolic (-rwxr-xr-x), and terminal command generator.",
+            icon: "🛡️"
+          },
+          {
+            id: "image-converter",
+            name: "Apple iPhone HEIC Support Upgrade",
+            category: "design",
+            categoryLabel: "Design & Graphics",
+            desc: "Transcode Apple iPhone .heic and .heif photos directly into JPG, PNG, and WebP 100% client-side.",
+            icon: "📱"
+          }
+        ]
+      },
+      {
+        date: "2026-11-08",
+        displayDate: "Nov 08, 2026",
+        badge: "FEATURED",
+        badgeColor: "var(--accent-emerald)",
+        items: [
+          {
+            id: "finance-calculator",
+            name: "Financial Growth & Loan Calculator Suite",
+            category: "math",
+            categoryLabel: "Math & Numbers",
+            desc: "SIP wealth accumulator, compound interest APY, and loan mortgage EMI amortization with interactive SVG charts and CSV export.",
+            icon: "💰"
+          },
+          {
+            id: "fancy-font-generator",
+            name: "Fancy Font & Aesthetic Text Studio",
+            category: "text",
+            categoryLabel: "Text & Writing",
+            desc: "30+ Unicode typography fonts, Gothic Fraktur, cursive calligraphy, small caps, and Zalgo glitch generator with 1-click copy.",
+            icon: "✨"
+          }
+        ]
+      },
+      {
+        date: "2026-11-01",
+        displayDate: "Nov 01, 2026",
+        badge: "SUITE",
+        badgeColor: "var(--accent-purple)",
+        items: [
+          {
+            id: "pdf-converter-hub",
+            name: "Universal Document & PDF Converter Hub",
+            category: "text",
+            categoryLabel: "Text & Writing",
+            desc: "Convert Word (.docx), Excel (.xlsx), PowerPoint (.pptx), Images, and HTML to high-fidelity PDF client-side.",
+            icon: "📄"
+          },
+          {
+            id: "pdf-editor-suite",
+            name: "PDF Editor, Sign & Vector Markup Studio",
+            category: "text",
+            categoryLabel: "Text & Writing",
+            desc: "Draw cursive e-signatures, fill AcroForms, annotate with vector shapes, stamp watermarks, and redact PII.",
+            icon: "✍️"
+          },
+          {
+            id: "pdf-security-suite",
+            name: "PDF Security, Repair & ISO Archival Suite",
+            category: "text",
+            categoryLabel: "Text & Writing",
+            desc: "AES-256 encryption, granular permissions, corrupted xref table repair, and ISO 19005 PDF/A format.",
+            icon: "🔒"
+          },
+          {
+            id: "pdf-ai",
+            name: "Client-Side AI PDF Summarizer & Translator",
+            category: "text",
+            categoryLabel: "Text & Writing",
+            desc: "Extract briefs, action items, and translate dense PDF documents into 15+ languages client-side.",
+            icon: "🤖"
+          },
+          {
+            id: "compare-pdf",
+            name: "PDF Document Diff Tool",
+            category: "text",
+            categoryLabel: "Text & Writing",
+            desc: "Side-by-side pixel diff heatmaps, swipe-wipe inspection slider, and inline text comparison.",
+            icon: "🔍"
+          }
+        ]
+      },
+      {
+        date: "2026-10-25",
+        displayDate: "Oct 25, 2026",
+        badge: "MEDIA",
+        badgeColor: "var(--accent-amber)",
+        items: [
+          {
+            id: "screen-recorder",
+            name: "Browser Screen & Tab Recorder",
+            category: "design",
+            categoryLabel: "Media & Audio",
+            desc: "Record desktop screens, windows, or tabs with mic audio mixing and WebM/MP4 export.",
+            icon: "🎥"
+          },
+          {
+            id: "voice-recorder",
+            name: "Voice Recorder & Audio Waveform Studio",
+            category: "design",
+            categoryLabel: "Media & Audio",
+            desc: "Studio-grade mic recording, live FFT spectrum analyzer, and uncompressed WAV export.",
+            icon: "🎙️"
+          },
+          {
+            id: "audio-suite",
+            name: "Audio Studio & Waveform Trimmer",
+            category: "design",
+            categoryLabel: "Media & Audio",
+            desc: "Transcode audio between MP3, WAV, AAC, and OGG with visual waveform trimming.",
+            icon: "🎵"
+          },
+          {
+            id: "video-speed",
+            name: "Video Speed & Pitch Controller",
+            category: "design",
+            categoryLabel: "Media & Audio",
+            desc: "Control playback speed from 0.1x to 4.0x with pitch preservation and A-B looping.",
+            icon: "⏩"
+          },
+          {
+            id: "video-to-gif",
+            name: "Video to Animated GIF Transcoder",
+            category: "design",
+            categoryLabel: "Media & Audio",
+            desc: "Convert video clips to animated GIFs with NeuQuant 256-color palette quantization.",
+            icon: "🎞️"
+          },
+          {
+            id: "favicon-generator",
+            name: "Favicon & PWA App Icon Suite",
+            category: "design",
+            categoryLabel: "Design & Graphics",
+            desc: "Multi-resolution .ICO bundle generation, Apple Touch icons, and Android PWA manifest assets.",
+            icon: "⭐"
+          }
+        ]
+      }
+    ];
   }
 };
 
