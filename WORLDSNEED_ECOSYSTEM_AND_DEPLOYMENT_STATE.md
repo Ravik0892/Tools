@@ -22,8 +22,8 @@ All websites and services are unified under the single parent domain **`worldsne
 │     Cloudflare Pages (#1)     │            │     Cloudflare Pages (#2)     │            │         Vercel Cloud          │
 │       worldsneed.com          │            │   omnitool.worldsneed.com     │            │      words.worldsneed.com     │
 ├───────────────────────────────┤            ├───────────────────────────────┤            ├───────────────────────────────┤
-│ Source Folder:                │            │ Source Folder:                │            │ Project:                      │
-│ /worldsneed-landing-page      │            │ / (Repository Root)           │            │ WordsNeed App (Next.js)       │
+│ Standalone Repository:        │            │ Source Folder:                │            │ Project:                      │
+│ Ravik0892/worldsneed.com      │            │ Ravik0892/Tools (Root `/`)    │            │ WordsNeed App (Next.js)       │
 │                               │            │                               │            │                               │
 │ Purpose:                      │            │ Purpose:                      │            │ Purpose:                      │
 │ Main Brand Hub, Showcase of   │            │ 50+ Client-Side Developer &   │            │ Multilingual Word Explorer,   │
@@ -33,27 +33,25 @@ All websites and services are unified under the single parent domain **`worldsne
 
 ---
 
-## 📦 2. Monorepo & Cloudflare Deployment Configuration
+## 📦 2. GitHub & Cloudflare Deployment Configuration
 
-A single GitHub repository (**`https://github.com/Ravik0892/Tools`**) powers multiple independent Cloudflare Pages projects using Cloudflare's **"Root directory"** feature:
+Independent GitHub repositories power each platform cleanly and modularly:
 
 ### Project 1: Main Brand Portal (`worldsneed.com`)
 * **Project Name in Cloudflare:** `worldsneed-portal` (or `worldsneed-home`)
-* **Repository:** `Ravik0892/Tools`
+* **Repository:** `Ravik0892/worldsneed.com` *(Standalone Repository)*
 * **Production Branch:** `main`
 * **Framework Preset:** `None`
 * **Build Command:** *(empty)*
 * **Build Output Directory:** *(empty)*
-* **Root Directory (Advanced):**
-  ```text
-  worldsneed-landing-page
-  ```
+* **Root Directory (Advanced):** *(empty / root)*
 * **Custom Domains Assigned:** `worldsneed.com`, `www.worldsneed.com`
-* **Files inside `worldsneed-landing-page/`:**
+* **Files inside `worldsneed.com` repo:**
   * `index.html` (Semantic HTML5, ambient aurora, interactive showcase, timeline, Schema.org)
   * `styles.css` (Glassmorphism design system, dark palette `#070c18`, responsive grid)
   * `script.js` (Canvas star particle system, category filter tabs, 3D card tilt)
   * `_redirects` & `_headers` (Cloudflare Pages SPA routing & security headers)
+  * `favicon.ico` & `og-image.png` (Brand assets)
 
 ### Project 2: OmniTool Hub (`omnitool.worldsneed.com`)
 * **Project Name in Cloudflare:** `omnitool-hub`
