@@ -48,7 +48,7 @@ OmniTool Hub operates on a **Freemium + Affiliate Sponsor** model:
 | Feature / Tier | Free Plan | Sponsor Free Pass | Lifetime Developer Pass | Monthly Pass |
 | :--- | :--- | :--- | :--- | :--- |
 | **Price** | Free ($0) | Free ($0) | **₹799 INR / $24.99 USD** (One-Time) | **₹399 INR / $4.99 USD** (Monthly) |
-| **Core Utilities (45+)** | Unlimited Free | Unlimited Free | Unlimited Free | Unlimited Free |
+| **Core Utilities (47 Suites / 70+ Tools)** | Unlimited Free | Unlimited Free | Unlimited Free | Unlimited Free |
 | **Ads / Banners** | Non-intrusive Banners | Bypassed for session | **100% Ad-Free (Zero Ads)** | **100% Ad-Free (Zero Ads)** |
 | **Locked Utilities** | Require Pass | Unlocked immediately | Unlocked permanently | Unlocked for 30 days |
 | **Smart Chain Pipelines**| Basic 3-step chains | Full chains | Unlimited unmetered chains | Unlimited unmetered chains |
@@ -112,7 +112,7 @@ The application features an automated **Dual-UI Architecture**:
 │
 ├── guides/                         # High-SEO Static Tutorial Pages
 │   ├── index.html                  # Central guides hub
-│   └── [48 individual tool guides]
+│   └── [120 individual tool guides and language variants]
 │
 ├── tests/                          # Automated Verification & Test Suites (Node.js)
 │   ├── test_all_tools_runtime.mjs  # Verifies import, renderUI(), and init() across all tools
@@ -153,7 +153,7 @@ When creating or modifying tools in OmniTool Hub, adhere strictly to these rules
    * Tools are addressed via clean URLs (`/tool/<tool-id>`) and hash fragments (`/#tool/<tool-id>`).
    * Returning to the main workspace is handled by calling `app.selectCategory('all')` or `app.backToDashboard()`.
 4. **Testing Prerequisite:**
-   * Always verify all 48 tools and payment engines before pushing code:
+   * Always verify all 47 public tools (and admin panel) and payment engines before pushing code:
    ```bash
    node tests/test_all_tools_runtime.mjs
    node tests/test_payment_system.mjs
